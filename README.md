@@ -17,8 +17,8 @@ php artisan key:generate
 3 - create a vhost in your local server for the domaine 
 
 ```sh
-BabCasa.com
-www.BabCasa.com
+babcasa.com
+www.babcasa.com
 ```
 
 4 - if you can't find the public storage execute the next commandes
