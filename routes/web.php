@@ -45,21 +45,27 @@ Route::domain('partner.babcasa.com')->group(function (){
 // POST DOMAINs
 Route::domain('www.babcasa.com')->group(function (){
 
-    Route::post('/','');
+    Route::get('/', function () {
+        return view('welcome');
+    });
    
 
 });
 
 Route::domain('partner.babcasa.com')->group(function (){
 
-    Route::post('/','');
+    Route::get('/', function () {
+        return view('welcome');
+    });
    
 
 });
 
 Route::domain('staff.babcasa.com')->group(function (){
 
-    Route::post('/','');
+   Route::get('/', function () {
+        return view('welcome');
+    });
    
 
 });
