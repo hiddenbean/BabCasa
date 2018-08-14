@@ -23,8 +23,8 @@ class CreateAddressesTable extends Migration
             $table->Integer('zip_code');
             $table->double('latitude');
             $table->double('longitude');     
-            $table->Integer('adresseable_id')->unsigned();
-            $table->string('adresseable_type');
+            $table->Integer('addressable_id')->unsigned();
+            $table->string('addressable_type');
             $table->softDeletes();
             $table->timestamps();
         });
