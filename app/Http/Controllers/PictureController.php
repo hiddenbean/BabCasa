@@ -2,31 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Partner;
+use App\Picture;
 use Illuminate\Http\Request;
 
-class PartnerController extends Controller
+class PictureController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->middleware('auth:partner');
-    }
-    
-    protected function validateRequest(Request $request)
+     /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  \Illuminate\Http\Request.
+     * @return void.
+     */
+    public function validateRequest(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:partner,email',
-            'password' => 'required|min:6|confirmed',
+            'path' => 'required',
         ]);
     }
-
-    public function dashboard()
-    {
-        return view('system.backoffice.partner.dashboard');
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -55,22 +47,16 @@ class PartnerController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validateRequest($request);
-        $password = bcrypt($request->password);
-        $name = str_before($request->email, '@');
-        while(PartnerAccount::where('name', $name)->first()){
-            $name = $name.'_'.rand(0,9);
-        }
         //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Partner  $partner
+     * @param  \App\Picture  $picture
      * @return \Illuminate\Http\Response
      */
-    public function show(Partner $partner)
+    public function show(Picture $picture)
     {
         //
     }
@@ -78,10 +64,10 @@ class PartnerController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Partner  $partner
+     * @param  \App\Picture  $picture
      * @return \Illuminate\Http\Response
      */
-    public function edit(Partner $partner)
+    public function edit(Picture $picture)
     {
         //
     }
@@ -90,10 +76,10 @@ class PartnerController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Partner  $partner
+     * @param  \App\Picture  $picture
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Partner $partner)
+    public function update(Request $request, Picture $picture)
     {
         //
     }
@@ -101,10 +87,10 @@ class PartnerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Partner  $partner
+     * @param  \App\Picture  $picture
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Partner $partner)
+    public function destroy(Picture $picture)
     {
         //
     }

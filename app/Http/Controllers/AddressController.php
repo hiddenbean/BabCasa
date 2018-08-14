@@ -7,6 +7,25 @@ use Illuminate\Http\Request;
 
 class AddressController extends Controller
 {
+      /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  \Illuminate\Http\Request.
+     * @return void.
+     */
+    public function validateRequest(Request $request)
+    {
+        $request->validate([
+            'address' => 'required',
+            'address_two' => 'sometimes',
+            'full_name' => 'required',
+            'country' => 'required',
+            'city' => 'required',
+            'zip_code' => 'required',
+            'longitude' => 'sometimes',
+            'latitude' => 'sometimes',
+        ]);
+    }
     /**
      * Display a listing of the resource.
      *
