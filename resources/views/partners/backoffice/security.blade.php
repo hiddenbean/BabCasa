@@ -26,6 +26,7 @@
             <div class="card-header ">
                 <div class="card-title">Information sur vote appareils</div>
             </div>
+            @foreach($guests as $guest)
             <div class="card-block">
                 <div class="row">
                     <div class="col-md-7 b-r b-dashed b-grey">
@@ -43,13 +44,13 @@
                                                 
                                                 <div class="row">
                                                     <div class="col-md-12">
-                                                        Computer 
+                                                        {{ $guest->device }} 
                                                     </div>
                                                 </div>
                                                
                                                 <div class="row">
                                                     <div class="col-md-12">
-                                                        windows 10 
+                                                            {{ $guest->os }}
                                                     </div>
                                                 </div>
                                             </div>
@@ -60,7 +61,7 @@
                                                 <strong>Navigateur</strong>   
                                             </div>
                                             <div class="col-md-8">
-                                                Chrome
+                                                    {{ $guest->browser }}
                                             </div>
                                         </div>
                                         <div class="row">
@@ -68,15 +69,15 @@
                                                 <strong>Adresse IP</strong>
                                             </div>
                                             <div class="col-md-8">
-                                                27.0.0.1
+                                                    {{ $guest->ipAddress }}
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <strong>Deriere activeite</strong> 
+                                                <strong>Derniere activeite</strong> 
                                             </div>
                                             <div class="col-md-8">
-                                                2018-8-14 10:35:25
+                                                    {{ $guest->lastActivity }}
                                             </div>
                                         </div>
                                         <div class="row">
@@ -92,7 +93,7 @@
                                             <div class="col-md-4 m-t-5">
                                                 <strong>Acces au compte</strong>  
                                             </div>
-                                            <form action="" method="post">
+                                            <form action="{{ url($partner->name.'/security/'.$guest->id) }}" method="post">
                                                     {{ csrf_field() }}
                                                     {{ method_field('DELETE') }}
                                                 <div class="col-md-8">
@@ -130,6 +131,7 @@
                     </div>
                 </div> <br>
             </div>
+            @endforeach
         </div>
     </div>
     <!-- security end-->

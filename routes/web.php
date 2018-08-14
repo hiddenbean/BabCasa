@@ -33,11 +33,12 @@ Route::domain('staff.babcasa.com')->group(function (){
 Route::domain('partner.babcasa.com')->group(function (){
     
     Route::get('/register', 'auth\PartnerRegisterController@showRegisterForm'); 
-    Route::get('/seconnecter', 'Auth\PartnerLoginController@showLoginForm');
+    Route::get('/sign-in', 'Auth\PartnerLoginController@showLoginForm');
     Route::get('/', 'PartnerController@dashboard');
-    Route::get('/deconnecter', 'Auth\PartnerLoginController@logout');
+    Route::get('/log-out', 'Auth\PartnerLoginController@logout');
     Route::get('/password', 'Auth\PartnerForgotPasswordController@showLinkRequestForm');
     Route::get('{partner}/password/reset/{token}', 'auth\PartnerResetPasswordController@showResetForm');
+    Route::get('security', 'PartnerController@security');
    
 
 });
@@ -58,9 +59,10 @@ Route::domain('www.babcasa.com')->group(function (){
 Route::domain('partner.babcasa.com')->group(function (){
 
     Route::post('register', 'auth\PartnerRegisterController@store')->name('pqrtner.register.submit'); 
-    Route::post('/seconnecter', 'Auth\PartnerLoginController@login');
+    Route::post('/sign-in', 'Auth\PartnerLoginController@login');
     Route::post('password/email', 'auth\PartnerForgotPasswordController@sendResetLinkEmail');
     Route::post('password/reset', 'auth\PartnerResetPasswordController@reset');
+    Route::delete('{partner}/security/{session}', 'PartnerController@sessionDestroy');
 
 });
 
@@ -91,7 +93,7 @@ Route::domain('partner.babcasa.com')->group(function (){
         return view('system.backoffice.partner.login');
     }); 
 
-    Route::get('/security', function () {
+    Route::get('/security1', function () {
         return view('partners.backoffice.security');
     }); 
 

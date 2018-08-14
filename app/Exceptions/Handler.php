@@ -72,7 +72,7 @@ class Handler extends ExceptionHandler
         switch($guard)
         {
             case 'partner' :
-                $this->authenticationCheck($guard) ? $login = "system.404" : $login = '/seconnecter';
+                $this->authenticationCheck($guard) ? $login = "system.404" : $login = '/sign-in';
                 break;
         }
         return redirect()->guest(url($login));
