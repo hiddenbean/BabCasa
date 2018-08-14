@@ -82,7 +82,9 @@ Route::domain('partner.babcasa.com')->group(function (){
 
     Route::get('/register', function () {
         return view('system.backoffice.partner.register');
-    });
-   
+    }); 
 
-});
+    Route::get('/login', function () {
+        return view('system.backoffice.partner.login');
+    }); 
+}); 
