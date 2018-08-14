@@ -32,9 +32,9 @@ Route::domain('staff.babcasa.com')->group(function (){
 
 Route::domain('partner.babcasa.com')->group(function (){
 
-    Route::get('/', function () {
-        return view('welcome');
-    });
+    Route::get('/seconnecter', 'Auth\PartnerLoginController@showLoginForm');
+    Route::get('/', 'PartnerController@dashboard');
+    Route::get('/deconnecter', 'Auth\PartnerLoginController@logout');
    
 
 });
@@ -54,10 +54,7 @@ Route::domain('www.babcasa.com')->group(function (){
 
 Route::domain('partner.babcasa.com')->group(function (){
 
-    Route::get('/', function () {
-        return view('welcome');
-    });
-   
+    Route::post('/seconnecter', 'Auth\PartnerLoginController@login');
 
 });
 
@@ -69,3 +66,7 @@ Route::domain('staff.babcasa.com')->group(function (){
    
 
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

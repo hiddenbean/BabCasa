@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class PartnerController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:partner');
+    }
     
     protected function validateRequest(Request $request)
     {
@@ -16,6 +21,12 @@ class PartnerController extends Controller
             'password' => 'required|min:6|confirmed',
         ]);
     }
+
+    public function dashboard()
+    {
+        return view('system.backoffice.partner.dashboard');
+    }
+
     /**
      * Display a listing of the resource.
      *

@@ -46,10 +46,10 @@ return [
             'provider' => 'users',
         ],
         
-        // 'partner' => [
-        //     'driver' => 'session',
-        //     'provider' => 'partners',
-        // ],
+        'partner' => [
+            'driver' => 'session',
+            'provider' => 'partners',
+        ],
 
     ],
 
@@ -76,10 +76,10 @@ return [
             'model' => App\User::class,
         ],
         
-        // 'partners' => [
-        //     'driver' => 'eloquent',
-        //     'model' => App\Partner::class,
-        // ],
+        'partners' => [
+            'driver' => 'eloquent',
+            'model' => App\Partner::class,
+        ],
 
         // 'users' => [
         //     'driver' => 'database',
@@ -109,11 +109,11 @@ return [
             'expire' => 60,
         ],
         
-        // 'partners' => [
-        //     'provider' => 'partners',
-        //     'table' => 'password_resets',
-        //     'expire' => 60,
-        // ],
+        'partners' => [
+            'provider' => 'partners',
+            'table' => 'password_resets',
+            'expire' => 60,
+        ],
     ],
 
 ];
