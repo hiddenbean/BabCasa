@@ -36,6 +36,9 @@ Route::domain('partner.babcasa.com')->group(function (){
     Route::get('/seconnecter', 'Auth\PartnerLoginController@showLoginForm');
     Route::get('/', 'PartnerController@dashboard');
     Route::get('/deconnecter', 'Auth\PartnerLoginController@logout');
+    Route::get('partner/{partner}', 'PartnerController@show');
+    Route::get('partner/{partner}/deactivate', 'PartnerController@destroy');
+
    
 
 });
@@ -57,6 +60,8 @@ Route::domain('partner.babcasa.com')->group(function (){
 
     Route::post('register', 'auth\PartnerRegisterController@store')->name('pqrtner.register.submit'); 
     Route::post('/seconnecter', 'Auth\PartnerLoginController@login');
+    Route::post('partner/{partner}/deactivate', 'PartnerController@destroy');
+
 
 });
 

@@ -90,8 +90,9 @@ class PictureController extends Controller
      * @param  \App\Picture  $picture
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Picture $picture)
+    public function destroy($picture)
     {
-        //
+        $picture = Picture::findOrfail($picture);
+        $picture->delete();
     }
 }
