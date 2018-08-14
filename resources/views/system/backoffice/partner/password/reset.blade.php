@@ -1,65 +1,50 @@
-@extends('layouts.app')
+@extends('layouts.app') 
+@section('css') @stop 
 
 @section('body')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Reset Partner Password</div>
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('password.request') }}" aria-label="{{ __('Reset Password') }}">
-                        @csrf
-                        
-                        <input type="hidden" name="token" value="{{ $token }}">
-
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ $email ?? old('email') }}" required autofocus>
-
-                                @if ($errors->has('email'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
+<div class="register-container full-height sm-p-t-30">
+    <div class="d-flex justify-content-center flex-column full-height ">
+        <div class="logo_text"> {{ config('app.name', 'BAB CASA' ) }}</div> 
+        <h3>Réinitialiser le mot de passe </h3> 
+        <form id="form-register" class="p-t-15" role="form" action="{{ route('password.request') }}" method="post">
+            @csrf
+             
+            <div class="form-group-attached"> 
+                <div class="row clearfix">
+                    <div class="col-sm-12">
+                        <div class="form-group form-group-default required">
+                            <label for="email">Email</label>
+                            <input type="text" id="email" name="email" class="form-control">
+                            <label class='error' for='email'></label>
                         </div>
-
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
+                    </div>  
+                </div>
+                <div class="row clearfix">
+                    <div class="col-sm-6">
+                        <div class="form-group form-group-default required">
+                            <label for="password">Nouveaux mot de passe</label>
+                            <input type="text" id="password" name="password" class="form-control">
+                            <label class='error' for='password'>@if($errors->has('password')){{ $errors->first('password') }}@endif</label>
                         </div>
-
-                        <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-                            </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group form-group-default required">
+                            <label for="password_confirmation">Mot de passe confirmation</label>
+                            <input type="text" id="password_confirmation" name="password_confirmation" class="form-control"> 
                         </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Reset Password') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
-        </div>
+            <button class="btn btn-primary btn-cons m-t-10" type="submit"> 
+                Réinitialiser le mot de passe
+            </button>
+      
+        </form>
     </div>
 </div>
-@endsection
+ 
+
+@stop 
+
+@section('script') @stop

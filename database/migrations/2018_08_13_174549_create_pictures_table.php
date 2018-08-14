@@ -15,6 +15,13 @@ class CreatePicturesTable extends Migration
     {
         Schema::create('pictures', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name');
+            $table->string('path');
+            $table->string('extension');
+            $table->string('tag');
+            $table->integer('pictureable_id');
+            $table->string('pictureable_type');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

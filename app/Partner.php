@@ -11,6 +11,9 @@ class Partner extends Authenticatable
 {
     use Notifiable;
 
+    //
+    
+    protected $fillable = ['company_name', 'email','password', 'name', 'about', 'trade_registry', 'ice', 'taxe_id'];
     protected $guard = 'partner';
 
     /**

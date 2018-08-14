@@ -21,7 +21,7 @@ class AddressController extends Controller
             'full_name' => 'required',
             'country' => 'required',
             'city' => 'required',
-            'zip_code' => 'required',
+            'zip_code' => 'required|numeric',
             'longitude' => 'sometimes',
             'latitude' => 'sometimes',
         ]);

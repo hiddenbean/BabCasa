@@ -48,7 +48,7 @@ class PartnerRegisterController extends Controller
      */
     public function __construct()
     {
-        // $this->middleware('guest:partner');
+        $this->middleware('guest:partner');
     }
 
     /**
@@ -61,11 +61,14 @@ class PartnerRegisterController extends Controller
     {
         $request->validate([
             'name' => 'required|unique:partners,name',
+            'email' => 'required|unique:partners,email',
+            'password' => 'required|min:6|confirmed',
             'company_name' => 'required',
             'trade_registry' => 'required',
             'ice' => 'required',
             'taxe_id' => 'required',
             'about' => 'required',
+            'agreement' => 'required',
         ]);
     }
 
@@ -82,7 +85,7 @@ class PartnerRegisterController extends Controller
      */
     protected function store(Request $request)
     {
-        $this->validateRequest($request);
+       $this->validateRequest($request);
         
         $AddressController = new AddressController();
         $AddressController->validateRequest($request);
@@ -91,22 +94,22 @@ class PartnerRegisterController extends Controller
         $PictureController->validateRequest($request);
         
         $PhoneController = new PhoneController();
-        $PhoneController->validateRequest($request);
-
-        
+        $PhoneController->validateRequest($request);        
 
         $password = bcrypt($request->password);
         $name = $request->company_name;
-        while(Partner::where('name', $company_name)->first()){
+        while(Partner::where('name', $request->company_name)->first()){
             $name = $name.'_'.rand(0,9);
         }
         $partner = Partner::create([
             'company_name' => $request->company_name,
             'name' => $name,
+            'email' =>  $request->email,
+            'password' => $password,
             'about' => $request->about,
             'trade_registry' => $request->trade_registry,
             'ice' => $request->ice,
-            'tax_id' => $request->tax_id,
+            'taxe_id' => $request->tax_id,
             ]);
 
         $address = Address::create([
@@ -181,7 +184,7 @@ class PartnerRegisterController extends Controller
      */
     public function showRegisterForm()
     {
-        return view('system.backoffic.partner.register');
+        return view('system.backoffice.partner.register');
     }
 }
 
