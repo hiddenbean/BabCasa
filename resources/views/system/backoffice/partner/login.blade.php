@@ -1,71 +1,110 @@
-@extends('layouts.app')
+@extends('layouts.backoffice.partner.app') 
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Partner login</div>
+@section('css') 
 
-                <div class="card-body">
-                    <form method="POST" action="{{ url('/seconnecter') }}" aria-label="{{ __('Login') }}">
-                        @csrf
+@stop 
 
-                        <div class="form-group row">
-                            <label for="email" class="col-sm-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+@section('body')
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus>
+<div class="login-wrapper ">
+    <!-- START Login Background Pic Wrapper-->
+    <div class="bg-pic">
+        <!-- START Background Pic-->
+        <img src="{{ asset('img/demo/bg_login_partner.jpg') }}" data-src="{{ asset('img/demo/bg_login_partner.jpg') }}" data-src-retina="{{ asset('img/demo/bg_login_partner.jpg') }}"
+            alt="" class="lazy">
+        <!-- END Background Pic-->
+        <!-- START Background Caption-->
+        <div class="bg-caption pull-bottom sm-pull-bottom text-white p-l-20 m-b-20">
+            <h2 class="semi-bold text-white">
+                Pages make it easy to enjoy what matters the most in the life</h2>
+            <p class="small">
+                images Displayed are solely for representation purposes only, All work copyright of respective owner, otherwise © 2013-2014
+                REVOX.
+            </p>
+        </div>
+        <!-- END Background Caption-->
+    </div>
+    <!-- END Login Background Pic Wrapper-->
+    <!-- START Login Right Container-->
+    <div class="login-container bg-white">
+        <div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-50 m-t-30 sm-p-l-15 sm-p-r-15 sm-p-t-40">
+            <div class="logo_text"> {{ config('app.name', 'KHBAR MDINTy') }} </div>
+            <p>Connectez-vous à votre espace
+                <strong> babcasa.com</strong>
+            </p>
+            <!-- START Login Form -->
+            <form class="p-t-15" role="form" action="" method="POST">
+                <!--  Generate hidden input for token -->
+                {{ csrf_field() }}
 
-                                @if ($errors->has('email'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
+                <!-- START Form Control-->
+                <div class="form-group form-group-default">
+                    <label> E-mail </label>
+                    <div class="controls">
+                        <input type="text" name="email" placeholder="Saisissez votre e-mail" class="form-control">
+                    </div>
+                    <label class='error' for='email'></label> 
+                </div>
+                <!-- END Form Control-->
+
+                <!-- START Form Control-->
+                <div class="form-group form-group-default">
+                    <label> Mot de passe </label>
+                    <div class="controls">
+                        <input type="password" class="form-control" name="password" placeholder="Saisissez votre mot de passe">
+                        <label class='error' for='password'></label> 
+                    </div>
+                </div> 
+
+                <!-- START Form Control-->
+                <div class="row">
+                    <div class="col-md-6 no-padding sm-p-l-10">
+                        <div class="checkbox ">
+                            <input type="checkbox" value="1" id="checkbox1" name="remember">
+                            <label for="checkbox1">Me tenir connecté</label>
                         </div>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <a href="#" class="small float-right">Aidez-moi?</a>
+                        <br>
+                        <a href="#" class="small">Contacter l&apos;assistance</a>
+                    </div>
+                </div>
+                <!-- END Form Control-->
+                <button class="btn btn-primary btn-cons m-t-10" type="submit">Se connecter</button>
+            </form>
+            <!--END Login Form-->
 
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
-                                    <label class="form-check-label" for="remember">
-                                        {{ __('Remember Me') }}
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
-
-                                <a class="btn btn-link" href="{{ route('password.request') }}">
-                                    {{ __('Forgot Your Password?') }}
+            <!--END Login Form-->
+            <div class="pull-bottom sm-pull-bottom">
+                <div class="m-b-30 p-r-80 sm-m-t-20 sm-p-r-15 sm-p-b-20 clearfix">
+                    <div class="col-sm-12 text-center">
+                        <p>
+                            <small class="border-right m-r-5 text-primary">
+                                  © Hiddenbean 2018.  
+                            </small>
+                            <small class="border-right m-r-5">
+                                <a href="#"> Confidentialité </a>
+                            </small>
+                            <small class="border-right m-r-5">
+                                <a href="#">
+                                    Conditions générales
                                 </a>
-                            </div>
-                        </div>
-                    </form>
+                            </small>
+
+                        </p>
+                    </div>
                 </div>
             </div>
+
+
         </div>
     </div>
+    <!-- END Login Right Container-->
 </div>
-@endsection
+
+@stop 
+
+@section('script') 
+
+@stop
