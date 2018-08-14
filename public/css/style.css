@@ -1,0 +1,241 @@
+.logo_text {
+    color: #252525;
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 0.25em;
+}
+.register-container {
+    width: 950px;
+}
+.register-staff-width{
+    width: 640px;
+}
+@media (max-width: 768px) {
+    .register-container {
+        width: 100%;
+    }
+    .register-staff-width{
+        width: 100%;
+    }
+}
+.pointer-e-n {
+    pointer-events: none;
+}
+
+.choose_photo {
+    position: absolute;
+    top: 9px;
+    right: 10px;
+    bottom: 10px;
+    left: 10px;
+}
+
+.choose_photo span {
+    padding: 5px;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.choose_photo:hover {
+    color: rgb(59, 59, 59);
+    cursor: pointer;
+}
+
+.login-wrapper .bg-pic>img {
+    height: auto;
+    width: auto; 
+    min-height: 100%;
+    min-width: 100%;
+}
+
+.form-group-default textarea.form-control{
+    height: 100%;
+}
+
+/* 
+*  primaryColor: #558B2F
+*  secondaryColor: #33691E
+* 
+a {
+    color: #558B2F;
+}
+
+a:active,
+a:focus,
+a:hover {
+    color: #33691E;
+}
+
+.btn-primary,
+.btn-primary:focus {
+    color: #fff;
+    background-color: #558B2F;
+    border-color: #558B2F;
+}
+
+.btn-primary.active,
+.btn-primary:not(:disabled):not(.disabled):active,
+.btn-primary.active:focus,
+.btn-primary:not(:disabled):not(.disabled):active:focus,
+.btn-primary:not(:disabled):not(.disabled):active:hover,
+.show .dropdown-toggle.btn-primary {
+    background-color: #558B2F;
+    border-color: #558B2F;
+    color: #fff;
+    box-shadow: none;
+}
+
+.btn-primary.hover,
+.btn-primary:hover,
+.show .dropdown-toggle.btn-primary {
+    background-color: #33691E;
+    border-color: #33691E;
+    color: #fff;
+}
+
+.btn-primary.active:hover {
+    background: #33691E;
+    border-color: #33691E;
+}
+
+.btn-primary.disabled,
+.btn-primary[disabled],
+fieldset[disabled] .btn-primary,
+.btn-primary.disabled:hover,
+.btn-primary[disabled]:hover,
+fieldset[disabled] .btn-primary:hover,
+.btn-primary.disabled:focus,
+.btn-primary[disabled]:focus,
+fieldset[disabled] .btn-primary:focus,
+.btn-primary.disabled:active,
+.btn-primary[disabled]:active,
+fieldset[disabled] .btn-primary:active,
+.btn-primary.disabled.active,
+.btn-primary[disabled].active,
+fieldset[disabled] .btn-primary.active {
+    background-color: #33691E;
+    border-color: #33691E;
+}
+
+.btn-primary .badge {
+    color: #558B2F;
+    background-color: #fff;
+}
+.btn-transparent{
+    border: none
+}
+.btn-transparent:hover{
+    border: none
+}
+
+
+.bg-primary {
+    background-color: #558B2F !important;
+}
+.label-success {
+    background-color: #558B2F;
+}
+
+.badge-primary {
+    background: #558B2F;
+    color: #fff;
+}
+.text-primary {
+    color: #558B2F !important;
+}
+.text-black {
+    color: #252525 !important;
+}
+
+.login-wrapper {
+    background-color: #558B2F;
+}
+
+.login-wrapper .bg-pic>img {
+    opacity: 0.9;
+}
+
+
+
+
+
+.checkbox.check-success input[type=checkbox]:checked+label:before {
+    border-color: #558B2F;
+}
+
+.form-group-default textarea.form-control {
+    min-height: 150px;
+}
+
+.pg-close {
+    color: red;
+}
+
+
+
+.choose_photo {
+    position: absolute;
+    top: 9px;
+    right: 10px;
+    bottom: 10px;
+    left: 10px;
+}
+
+.choose_photo span {
+    padding: 5px;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.choose_photo:hover {
+    color: #558B2F;
+    cursor: pointer;
+}
+
+.login-wrapper .bg-pic>img {
+    height: auto;
+    width: auto; 
+    min-height: 100%;
+    min-width: 100%;
+}
+
+ 
+.sidebar-logo-black{
+    color: #252525;
+    font-size: 1.15rem;  
+    font-weight: 700;
+    margin-left: 50px;
+}
+.sidebar-logo-white{
+    color: #ffffff;
+    font-size: 1.15rem;  
+    font-weight: 700;
+}
+.card-scrollable{
+    height: 600px;
+} 
+
+.card-control-map{
+    position: absolute;
+    top: 150px;
+    bottom: 150px;
+    right: 50px;
+    width: 350px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.13);
+}
+.padding-y-7{
+    padding-right: 7px;
+    padding-left: 7px;
+}
+
+.table-left{
+    width: 90%;
+    margin-left: 20px;
+}
+
+.card .card-body {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.13); 
+}
+.comment-up{
+    position: relative;
+    background: rgba(204, 204, 204, 0.1);
+    padding: 5px 15px;
+}
