@@ -83,6 +83,7 @@ class PartnerRegisterController extends Controller
     protected function store(Request $request)
     {
         $this->validateRequest($request);
+        return dd($request);
         
         $AddressController = new AddressController();
         $AddressController->validateRequest($request);
@@ -181,7 +182,7 @@ class PartnerRegisterController extends Controller
      */
     public function showRegisterForm()
     {
-        return view('system.backoffic.partner.register');
+        return view('system.backoffice.partner.register');
     }
 }
 

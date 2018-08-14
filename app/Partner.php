@@ -3,8 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
-class Partner extends Model
+use Illuminate\Foundation\Auth\User as Authenticatable;
+class Partner extends Authenticatable
 {
     //
+    protected $guard = 'partner';
 }

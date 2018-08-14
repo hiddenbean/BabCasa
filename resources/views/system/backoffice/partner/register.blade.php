@@ -13,6 +13,9 @@
         <div class="row">
             <div class="col-md-12">
                 <div id="rootwizard" class="m-t-5">
+                   <form  action="{{route('pqrtner.register.submit')}}" method="POST" enctype="multipart/form-data" >
+                    {{ csrf_field() }}
+
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs nav-tabs-linetriangle nav-tabs-separator nav-stack-sm" role="tablist" data-init-reponsive-tabs="dropdownfx">
                         <li class="nav-item">
@@ -394,7 +397,7 @@
                                     </button>
                                 </li>
                                 <li class="next finish hidden">
-                                    <button class="btn btn-primary btn-cons btn-animated from-left fa fa-cog pull-right" type="button">
+                                    <button class="btn btn-primary btn-cons btn-animated from-left fa fa-cog pull-right" type="submit">
                                         <span>Terminer</span>
                                     </button>
                                 </li>
@@ -411,6 +414,7 @@
                             </ul>
                         </div>
                     </div>
+                </form>
                 </div>
             </div>
         </div>
