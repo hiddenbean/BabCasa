@@ -94,8 +94,9 @@ class PhoneController extends Controller
      * @param  \App\Phone  $phone
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Phone $phone)
+    public function destroy($phone)
     {
-        //
+        $phone = Phone::findOrfail($phone);
+        $phone->delete();
     }
 }

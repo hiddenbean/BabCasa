@@ -6,6 +6,7 @@ use App\Partner;
 use App\Guest;
 use DB;
 use Illuminate\Http\Request;
+use Auth;
 
 class PartnerController extends Controller
 {
@@ -72,9 +73,10 @@ class PartnerController extends Controller
      * @param  \App\Partner  $partner
      * @return \Illuminate\Http\Response
      */
-    public function show(Partner $partner)
+    public function show($partner)
     {
-        //
+        $data['partner'] = Partner::findOrfail($partner);
+        return $data;
     }
 
     /**
@@ -106,9 +108,12 @@ class PartnerController extends Controller
      * @param  \App\Partner  $partner
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Partner $partner)
+    public function destroy($partner)
     {
-        //
+        if(Auth::guard('partner')->user()->id != $partner) return;
+        $partner = Partner::findOrfail($partner);
+        $partner->delete();
+        return redirect()->back();
     }
 
     // show the security
