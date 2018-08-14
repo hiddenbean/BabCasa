@@ -51,6 +51,24 @@
     height: 100%;
 }
 
+.sidebar-logo-black{
+    color: #252525;
+    font-size: 1.15rem;  
+    font-weight: 700;
+    margin-left: 50px;
+}
+.sidebar-logo-white{
+    color: #ffffff;
+    font-size: 1.15rem;  
+    font-weight: 700;
+}
+.btn-transparent{
+    border: none
+}
+.btn-transparent:hover{
+    border: none
+}
+
 /* 
 *  primaryColor: #558B2F
 *  secondaryColor: #33691E
