@@ -1,4 +1,4 @@
-@extends('layouts.backoffice.partner.app') 
+@extends('layouts.app') 
 
 @section('css')
     <link href="{{ asset('plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" media="screen" /> 

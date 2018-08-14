@@ -1,4 +1,4 @@
-@extends('layouts.backoffice.partner.app') 
+@extends('layouts.app') 
 
 @section('css') 
 
@@ -28,7 +28,7 @@
     <!-- START Login Right Container-->
     <div class="login-container bg-white">
         <div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-50 m-t-30 sm-p-l-15 sm-p-r-15 sm-p-t-40">
-            <div class="logo_text"> {{ config('app.name', 'KHBAR MDINTy') }} </div>
+            <div class="logo_text"> {{ config('app.name', 'BB CASA') }} </div>
             <p>Connectez-vous à votre espace
                 <strong> babcasa.com</strong>
             </p>
@@ -65,7 +65,7 @@
                         </div>
                     </div>
                     <div class="col-md-6 text-right">
-                        <a href="#" class="small float-right">Aidez-moi?</a>
+                        <a href="#" class="small float-right">Mot de passe oublié</a>
                         <br>
                         <a href="#" class="small">Contacter l&apos;assistance</a>
                     </div>
@@ -77,27 +77,23 @@
 
             <!--END Login Form-->
             <div class="pull-bottom sm-pull-bottom">
-                <div class="m-b-30 p-r-80 sm-m-t-20 sm-p-r-15 sm-p-b-20 clearfix">
-                    <div class="col-sm-12 text-center">
+                <div class="m-b-30 p-r-80 sm-m-t-20 sm-p-r-15 sm-p-b-20 clearfix"> 
                         <p>
-                            <small class="border-right m-r-5 text-primary">
+                            <small class=" text-primary">
                                   © Hiddenbean 2018.  
                             </small>
-                            <small class="border-right m-r-5">
-                                <a href="#"> Confidentialité </a>
+                            <small class="">
+                                <a href="#">Confidentialité.</a>
                             </small>
-                            <small class="border-right m-r-5">
-                                <a href="#">
-                                    Conditions générales
-                                </a>
+                            <small class="">
+                                <a href="#">Conditions générales.</a>
                             </small>
-
-                        </p>
-                    </div>
+                            <small class="">
+                                <a href="#">Aidez-moi?</a>
+                            </small> 
+                        </p> 
                 </div>
-            </div>
-
-
+            </div> 
         </div>
     </div>
     <!-- END Login Right Container-->
