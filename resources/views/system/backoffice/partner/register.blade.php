@@ -116,8 +116,7 @@
                                                 <div class="col-sm-6">
                                                     <div class="form-group form-group-default required">
                                                         <label for="password_confirmation">Mot de passe confirmation</label>
-                                                        <input type="text" id="password_confirmation" name="password_confirmation" class="form-control">
-                                                        <label class='error' for='password_confirmation'></label>
+                                                        <input type="text" id="password_confirmation" name="password_confirmation" class="form-control"> 
                                                     </div>
                                                 </div>
                                             </div>
