@@ -37,8 +37,8 @@ Route::domain('partner.babcasa.com')->group(function (){
     Route::get('/', 'PartnerController@dashboard');
     Route::get('/deconnecter', 'Auth\PartnerLoginController@logout');
     Route::get('partner/{partner}', 'PartnerController@show');
-    Route::get('partner/{partner}/deactivate', 'PartnerController@destroy');
-
+    Route::get('/password', 'Auth\PartnerForgotPasswordController@showLinkRequestForm');
+    Route::get('{partner}/password/reset/{token}', 'auth\PartnerResetPasswordController@showResetForm');
    
 
 });
@@ -61,7 +61,8 @@ Route::domain('partner.babcasa.com')->group(function (){
     Route::post('register', 'auth\PartnerRegisterController@store')->name('pqrtner.register.submit'); 
     Route::post('/seconnecter', 'Auth\PartnerLoginController@login');
     Route::post('partner/{partner}/deactivate', 'PartnerController@destroy');
-
+    Route::post('password/email', 'auth\PartnerForgotPasswordController@sendResetLinkEmail');
+    Route::post('password/reset', 'auth\PartnerResetPasswordController@reset');
 
 });
 
@@ -99,7 +100,12 @@ Route::domain('partner.babcasa.com')->group(function (){
     Route::get('/password/email', function () { 
         return view('system.backoffice.partner.password.email');
     }); 
+
     Route::get('/reset', function () { 
         return view('system.backoffice.partner.password.reset');
+    }); 
+
+    Route::get('/log', function () { 
+        return view('system.backoffice.partner.log');
     }); 
 }); 
