@@ -12,8 +12,8 @@
 */
 
 // GET DOMAINs
-Route::domain('www.babcasa.com')->group(function (){
 
+Route::domain('www.babcasa.com')->group(function (){
     Route::get('/', function () {
         return view('welcome');
     });
@@ -47,7 +47,7 @@ Route::domain('partner.babcasa.com')->group(function (){
 // POST DOMAINs
 Route::domain('www.babcasa.com')->group(function (){
 
-    Route::get('/', function () {
+    Route::post('/', function () {
         return view('welcome');
     });
    
@@ -56,7 +56,7 @@ Route::domain('www.babcasa.com')->group(function (){
 
 Route::domain('partner.babcasa.com')->group(function (){
 
-    Route::get('/', function () {
+    Route::post('/', function () {
         return view('welcome');
     });
    
@@ -65,9 +65,28 @@ Route::domain('partner.babcasa.com')->group(function (){
 
 Route::domain('staff.babcasa.com')->group(function (){
 
-   Route::get('/', function () {
+    Route::post('/', function () {
         return view('welcome');
     });
    
 
 });
+
+
+
+
+
+
+
+// UI
+
+Route::domain('partner.babcasa.com')->group(function (){
+
+    Route::get('/register', function () {
+        return view('system.backoffice.partner.register');
+    }); 
+
+    Route::get('/login', function () {
+        return view('system.backoffice.partner.login');
+    }); 
+}); 
