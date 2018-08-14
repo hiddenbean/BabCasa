@@ -21,8 +21,8 @@ class CreateAddressesTable extends Migration
             $table->string('address_two')->nullable();
             $table->string('full_name');
             $table->Integer('zip_code');
-            $table->double('lat');
-            $table->double('long');     
+            $table->double('latitude');
+            $table->double('longitude');     
             $table->Integer('adresseable_id')->unsigned();
             $table->string('adresseable_type');
             $table->softDeletes();

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Address;
+use App\Picture;
 use Illuminate\Http\Request;
 
-class AddressController extends Controller
+class PictureController extends Controller
 {
-      /**
+     /**
      * Get a validator for an incoming registration request.
      *
      * @param  \Illuminate\Http\Request.
@@ -16,14 +16,7 @@ class AddressController extends Controller
     public function validateRequest(Request $request)
     {
         $request->validate([
-            'address' => 'required',
-            'address_two' => 'sometimes',
-            'full_name' => 'required',
-            'country' => 'required',
-            'city' => 'required',
-            'zip_code' => 'required',
-            'longitude' => 'sometimes',
-            'latitude' => 'sometimes',
+            'path' => 'required',
         ]);
     }
     /**
@@ -60,10 +53,10 @@ class AddressController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Address  $address
+     * @param  \App\Picture  $picture
      * @return \Illuminate\Http\Response
      */
-    public function show(Address $address)
+    public function show(Picture $picture)
     {
         //
     }
@@ -71,10 +64,10 @@ class AddressController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Address  $address
+     * @param  \App\Picture  $picture
      * @return \Illuminate\Http\Response
      */
-    public function edit(Address $address)
+    public function edit(Picture $picture)
     {
         //
     }
@@ -83,10 +76,10 @@ class AddressController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Address  $address
+     * @param  \App\Picture  $picture
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Address $address)
+    public function update(Request $request, Picture $picture)
     {
         //
     }
@@ -94,10 +87,10 @@ class AddressController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Address  $address
+     * @param  \App\Picture  $picture
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Address $address)
+    public function destroy(Picture $picture)
     {
         //
     }
