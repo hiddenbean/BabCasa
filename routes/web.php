@@ -37,6 +37,8 @@ Route::domain('partner.babcasa.com')->group(function (){
     Route::get('/seconnecter', 'Auth\PartnerLoginController@showLoginForm');
     Route::get('/', 'PartnerController@dashboard');
     Route::get('/deconnecter', 'Auth\PartnerLoginController@logout');
+    Route::get('/password', 'Auth\PartnerForgotPasswordController@showLinkRequestForm');
+    Route::get('{partner}/password/reset/{token}', 'auth\PartnerResetPasswordController@showResetForm');
    
 
 });
@@ -57,6 +59,8 @@ Route::domain('www.babcasa.com')->group(function (){
 Route::domain('partner.babcasa.com')->group(function (){
 
     Route::post('/seconnecter', 'Auth\PartnerLoginController@login');
+    Route::post('password/email', 'auth\PartnerForgotPasswordController@sendResetLinkEmail');
+    Route::post('password/reset', 'auth\PartnerResetPasswordController@reset');
 
 });
 

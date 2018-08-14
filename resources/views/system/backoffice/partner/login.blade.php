@@ -28,7 +28,7 @@
     <!-- START Login Right Container-->
     <div class="login-container bg-white">
         <div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-50 m-t-30 sm-p-l-15 sm-p-r-15 sm-p-t-40">
-            <div class="logo_text"> {{ config('app.name', 'KHBAR MDINTy') }} </div>
+            <div class="logo_text"> {{ config('app.name', 'BAB Caca') }} </div>
             <p>Connectez-vous à votre espace
                 <strong> babcasa.com</strong>
             </p>
@@ -36,15 +36,16 @@
             <form class="p-t-15" role="form" action="" method="POST">
                 <!--  Generate hidden input for token -->
                 {{ csrf_field() }}
-
+                
                 <!-- START Form Control-->
                 <div class="form-group form-group-default">
                     <label> E-mail </label>
                     <div class="controls">
                         <input type="text" name="email" placeholder="Saisissez votre e-mail" class="form-control">
                     </div>
-                    <label class='error' for='email'></label> 
+                    <label class='error' for='email'>@if ($errors->has('email')){{ $errors->first('email') }}@endif</label> 
                 </div>
+                
                 <!-- END Form Control-->
 
                 <!-- START Form Control-->
@@ -52,7 +53,7 @@
                     <label> Mot de passe </label>
                     <div class="controls">
                         <input type="password" class="form-control" name="password" placeholder="Saisissez votre mot de passe">
-                        <label class='error' for='password'></label> 
+                        <label class='error' for='password'>@if ($errors->has('password')){{ $errors->first('password') }}@endif</label> 
                     </div>
                 </div> 
 
