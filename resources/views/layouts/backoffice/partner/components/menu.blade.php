@@ -15,6 +15,10 @@
                     <a href="">Sécurité</a>
                     <span class="icon-thumbnail">SE</span>
                 </li>  
+                <li>
+                    <a href="">Historique</a>
+                    <span class="icon-thumbnail">SE</span>
+                </li>  
             </ul>
         </li>
     </ul>
