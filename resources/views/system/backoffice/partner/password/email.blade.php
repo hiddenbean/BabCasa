@@ -7,7 +7,12 @@
     <div class="d-flex justify-content-center flex-column full-height ">
         <div class="logo_text"> {{ config('app.name', 'BAB CASA' ) }}</div> 
         <h3>Réinitialiser le mot de passe </h3> 
-        <form id="form-register" class="p-t-15" role="form" action="" method="post">
+        @if (session('status'))
+            <div class="alert alert-success" role="alert">
+                {{ session('status') }}
+            </div>
+        @endif
+        <form id="form-register" class="p-t-15" role="form" action="{{ route('password.email') }}" method="post">
             @csrf
             <div class="row">
                 <div class="col-md-12">
@@ -17,7 +22,7 @@
                             <input id="email" type="email" class="form-control " name="email" value="">
                         </div> 
                     </div>
-                    <label class='error' for='email'></label>
+                    <label class='error' for='email'>@if ($errors->has('email')){{ $errors->first('email') }}@endif</label>
                 </div> 
             </div>
             <button class="btn btn-primary btn-cons m-t-10" type="submit"> 

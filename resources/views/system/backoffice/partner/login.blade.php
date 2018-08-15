@@ -36,15 +36,16 @@
             <form class="p-t-15" role="form" action="" method="POST">
                 <!--  Generate hidden input for token -->
                 {{ csrf_field() }}
-
+                
                 <!-- START Form Control-->
                 <div class="form-group form-group-default">
                     <label> E-mail </label>
                     <div class="controls">
                         <input type="text" name="email" placeholder="Saisissez votre e-mail" class="form-control">
                     </div>
-                    <label class='error' for='email'></label> 
+                    <label class='error' for='email'>@if ($errors->has('email')){{ $errors->first('email') }}@endif</label> 
                 </div>
+                
                 <!-- END Form Control-->
 
                 <!-- START Form Control-->
@@ -52,7 +53,7 @@
                     <label> Mot de passe </label>
                     <div class="controls">
                         <input type="password" class="form-control" name="password" placeholder="Saisissez votre mot de passe">
-                        <label class='error' for='password'></label> 
+                        <label class='error' for='password'>@if ($errors->has('password')){{ $errors->first('password') }}@endif</label> 
                     </div>
                 </div> 
 
