@@ -39,6 +39,17 @@ Route::domain('partner.babcasa.com')->group(function (){
     Route::get('/password', 'Auth\PartnerForgotPasswordController@showLinkRequestForm');
     Route::get('{partner}/password/reset/{token}', 'auth\PartnerResetPasswordController@showResetForm');
     Route::get('security', 'PartnerController@security');
+
+     //client finale gestion support routes start 
+     Route::prefix('support')->group(function() {
+        Route::get('/','SubjectController@index');
+        Route::prefix('{subject}')->group(function() {
+            Route::prefix('ticket')->group(function() {
+                Route::get('/','ClaimController@index');
+                Route::get('create','ClaimController@create');
+            });
+        });
+    });
    
 
 });
@@ -64,6 +75,15 @@ Route::domain('partner.babcasa.com')->group(function (){
     Route::post('password/email', 'auth\PartnerForgotPasswordController@sendResetLinkEmail');
     Route::post('password/reset', 'auth\PartnerResetPasswordController@reset');
     Route::delete('{partner}/security/{session}', 'PartnerController@sessionDestroy');
+
+      //client finale gestion support routes start 
+      Route::prefix('support')->group(function() {
+        Route::prefix('{subject}')->group(function() {
+            Route::prefix('ticket')->group(function() {
+                Route::post('create','ClaimController@store');
+            });
+        });
+    });
 
 });
 

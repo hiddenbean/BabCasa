@@ -53,8 +53,8 @@ class ClaimController extends Controller
         isset($request->partner) ? $partner = $request->partner : $partner = Auth::guard('partner')->user()->name;
         $data['partner'] = Partner::where('name',$partner)->firstOrFail();
         $data['subjects']=Subject::all();
-        $data['subject']=Subject::where('name',$subject)->firstOrFail();
-        return $data;   
+        $data['Subject']=Subject::where('name',$subject)->firstOrFail();
+        return view('create',$data); 
     }
 
     /**
@@ -69,15 +69,28 @@ class ClaimController extends Controller
 
         $user = $this->userType();
         $complainer=auth()->guard($user)->user();
-        $subject=Subject::where('name', $request->input('subject'))->firstOrFail();
-        $claim = Claim::create([
-            'title' => $request->input('title'),
-            'status' => true,
-            'subject_id'=> $subject->id,
-            'staff_id' => '',
-            'claimable_type' => $user,
-            'claimable_id' => $complainer->id,
-        ]);
+        
+        $claim = new Claim();
+        
+        $claim->title = $request->title;
+        $claim->status = true;
+        $claim->subject_id = $request->subject_id;
+        $claim->staff_id = 1;
+        $claim->claimable_type = $user;
+        $claim->claimable_id = $complainer->id;
+        
+        $claim->save();
+        
+        $message = new ClaimMessage();
+        
+        $message->message = $request->message;
+        $message->status = true;
+        $message->claim_id = $claim->id;
+        $message->claim_messageable_type = $user;
+        $message->claim_messageable_id = $complainer->id;
+
+        $message->save();
+        return $message;
          
     }
 

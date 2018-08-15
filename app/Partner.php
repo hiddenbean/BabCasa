@@ -28,6 +28,10 @@ class Partner extends Authenticatable
     {
         return $this->morphOne('App\Picture', 'pictureable');
     }
+    public function claims()
+    {
+        return $this->morphMany('App\Claim', 'claimable');
+    }
 
     public function phones()
     {
@@ -53,7 +57,7 @@ class Partner extends Authenticatable
             $partner->phones()->withTrashed()->restore();
         });
     }
-    
+
     /**
      * Send the password reset notification.
      *
