@@ -25,7 +25,11 @@
                         <div class="form-group form-group-default required">
                             <label for="password">Nouveaux mot de passe</label>
                             <input type="text" id="password" name="password" class="form-control">
-                            <label class='error' for='password'>@if($errors->has('password')){{ $errors->first('password') }}@endif</label>
+                            <label class='error' for='password'>
+                                @if($errors->has('password'))
+                                    {{ $errors->first('password') }}
+                                @endif
+                            </label>
                         </div>
                     </div>
                     <div class="col-sm-6">

@@ -106,4 +106,8 @@ Route::domain('partner.babcasa.com')->group(function (){
     Route::get('/log', function () { 
         return view('system.backoffice.partner.log');
     }); 
+
+    Route::get('/settings', function () { 
+        return view('partners.backoffice.settings');
+    }); 
 }); 

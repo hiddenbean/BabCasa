@@ -43,7 +43,11 @@
                     <div class="controls">
                         <input type="text" name="email" placeholder="Saisissez votre e-mail" class="form-control">
                     </div>
-                    <label class='error' for='email'>@if ($errors->has('email')){{ $errors->first('email') }}@endif</label> 
+                    <label class='error' for='email'>
+                        @if ($errors->has('email'))
+                            {{ $errors->first('email') }}
+                        @endif
+                    </label> 
                 </div>
                 
                 <!-- END Form Control-->
@@ -53,7 +57,11 @@
                     <label> Mot de passe </label>
                     <div class="controls">
                         <input type="password" class="form-control" name="password" placeholder="Saisissez votre mot de passe">
-                        <label class='error' for='password'>@if ($errors->has('password')){{ $errors->first('password') }}@endif</label> 
+                        <label class='error' for='password'>
+                            @if ($errors->has('password'))
+                                {{ $errors->first('password') }}
+                            @endif
+                        </label> 
                     </div>
                 </div> 
 
