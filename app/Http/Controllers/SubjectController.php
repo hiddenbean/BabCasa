@@ -15,16 +15,11 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        isset($request->partner) ? $partner = $request->partner : $partner = auth()->guard('partner')->user()->name;
-        $partner = Partner::where('name', $partner)->firstOrFail();
-        // la liste des sujets
         isset($request->partner) ? $partner = $request->partner : $partner = Auth::guard('partner')->user()->name;
-        $partner = Partner::where('name', $partner)->firstOrFail();
-        $listSubject =Subject::all();
-        return view('subjects.backoffice.partner.index',[
-            'partner' => $partner,
-            'listSubjects' => $listSubject
-            ]);
+        $data['partner'] = Partner::where('name', $partner)->firstOrFail();
+        $data['subjects'] =Subject::all();
+
+        return view('support',$data);
     }
 
     /**
