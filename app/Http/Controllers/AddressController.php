@@ -97,8 +97,9 @@ class AddressController extends Controller
      * @param  \App\Address  $address
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Address $address)
+    public function destroy($address)
     {
-        //
+        $address = Address::findOrfail($address);
+        $address->delete();
     }
 }

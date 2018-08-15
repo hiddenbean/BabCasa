@@ -91,7 +91,7 @@ class PartnerLoginController extends Controller
    {
        Auth::guard('partner')->logout();
        $request->session()->invalidate();
-       return redirect('/seconnecter');
+       return redirect('/sign-in');
    }
 
    public function redirecTo()

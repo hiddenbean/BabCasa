@@ -33,7 +33,7 @@
                 <strong> babcasa.com</strong>
             </p>
             <!-- START Login Form -->
-            <form class="p-t-15" role="form" action="" method="POST">
+            <form class="p-t-15" role="form" action="{{ url('/sign-in') }}" method="POST">
                 <!--  Generate hidden input for token -->
                 {{ csrf_field() }}
                 

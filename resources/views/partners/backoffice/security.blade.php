@@ -32,53 +32,82 @@
             <div class="row">
                 <div class="col-md-7 b-r b-dashed b-grey">
 
-                    <div class="row">
-                        <div class="col-md-11">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <i class="fa fa-laptop" style="font-size:50px"></i>
-                                        </div>
-
-                                        <div class="col-md-8">
-
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    Computer
+    <!-- content start -->
+    <!-- security block -->
+    <div class="container container-fixed-lg bg-white">
+        <div class="card card-transparent">
+            <div class="card-header ">
+                <div class="card-title">Information sur vote appareils</div>
+            </div>
+            @foreach($guests as $guest)
+            <div class="card-block">
+                <div class="row">
+                    <div class="col-md-7 b-r b-dashed b-grey">
+                       
+                        <div class="row">
+                            <div class="col-md-11">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <i class="fa fa-laptop" style="font-size:50px"></i>
+                                            </div>
+                                            
+                                            <div class="col-md-8">
+                                                
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        {{ $guest->device }} 
+                                                    </div>
+                                                </div>
+                                               
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                            {{ $guest->os }}
+                                                    </div>
                                                 </div>
                                             </div>
-
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    windows 10
-                                                </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <strong>Navigateur</strong>   
+                                            </div>
+                                            <div class="col-md-8">
+                                                    {{ $guest->browser }}
                                             </div>
                                         </div>
-                                    </div>
-                                    <br>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <strong>Navigateur</strong>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <strong>Adresse IP</strong>
+                                            </div>
+                                            <div class="col-md-8">
+                                                    {{ $guest->ipAddress }}
+                                            </div>
                                         </div>
-                                        <div class="col-md-8">
-                                            Chrome
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <strong>Adresse IP</strong>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <strong>Derniere activeite</strong> 
+                                            </div>
+                                            <div class="col-md-8">
+                                                    {{ $guest->lastActivity }}
+                                            </div>
                                         </div>
                                         <div class="col-md-8">
                                             27.0.0.1
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <strong>Deriere activeite</strong>
-                                        </div>
-                                        <div class="col-md-8">
-                                            2018-8-14 10:35:25
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-md-4 m-t-5">
+                                                <strong>Acces au compte</strong>  
+                                            </div>
+                                            <form action="{{ url($partner->name.'/security/'.$guest->id) }}" method="post">
+                                                    {{ csrf_field() }}
+                                                    {{ method_field('DELETE') }}
+                                                <div class="col-md-8">
+                                                    <button class="btn btn-transparent text-danger"><strong>Supprimer</strong></button>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -136,6 +165,7 @@
                 </div>
             </div>
             <br>
+            @endforeach
         </div>
     </div>
 </div> 

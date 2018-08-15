@@ -5,6 +5,8 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 //Schema DB connection
 use Illuminate\Support\Facades\Schema;
+//Add a mapping for the polymorphic relationships
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -17,6 +19,12 @@ class AppServiceProvider extends ServiceProvider
     {
          //Fixing "SQLSTATE[42000] - key was too long"
          Schema::defaultStringLength(191);
+         Relation::morphMap([
+            'partner' => 'App\Partner',
+            'picture' => 'App\Picture',
+            'address' => 'App\Address',
+            'phone' => 'App\Phone',
+         ]);
     }
 
     /**
