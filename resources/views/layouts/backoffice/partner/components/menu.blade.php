@@ -1,7 +1,6 @@
 <div class="sidebar-menu">
     <!-- BEGIN SIDEBAR MENU ITEMS-->
-    <ul class="menu-items">
-         
+    <ul class="menu-items"> 
         <li class="m-t-30">
             <a href="javascript:;">
                 <span class="title">Paramètres</span>
@@ -14,11 +13,15 @@
                 <li>
                     <a href="">Sécurité</a>
                     <span class="icon-thumbnail">SE</span>
-                </li>  
+                </li>
                 <li>
                     <a href="">Historique</a>
-                    <span class="icon-thumbnail">SE</span>
-                </li>  
+                    <span class="icon-thumbnail">HI</span>
+                </li>
+                <li>
+                    <a href="">Gérer mon compte</a>
+                    <span class="icon-thumbnail">GC</span>
+                </li>
             </ul>
         </li>
     </ul>

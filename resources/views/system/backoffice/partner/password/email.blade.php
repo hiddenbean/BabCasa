@@ -22,7 +22,11 @@
                             <input id="email" type="email" class="form-control " name="email" value="">
                         </div> 
                     </div>
-                    <label class='error' for='email'>@if ($errors->has('email')){{ $errors->first('email') }}@endif</label>
+                    <label class='error' for='email'>
+                        @if ($errors->has('email'))
+                            {{ $errors->first('email') }}
+                        @endif
+                    </label>
                 </div> 
             </div>
             <button class="btn btn-primary btn-cons m-t-10" type="submit"> 
