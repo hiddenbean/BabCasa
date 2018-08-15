@@ -103,8 +103,7 @@
     <!-- content end --> 
 @endsection
 
-@section('script')
-
+@section('script') 
     <script type="text/javascript" src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('plugins/summernote/js/summernote.min.js') }}"></script>
     <script>
@@ -117,7 +116,7 @@
             });
             $('#onReste').on('click', function(){ 
                 $('#summernote').summernote().code('');  
-            });
+            }); 
         });
     </script>
 @endsection
