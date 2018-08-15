@@ -60,7 +60,7 @@ Route::domain('partner.babcasa.com')->group(function (){
 
     Route::post('register', 'auth\PartnerRegisterController@store')->name('pqrtner.register.submit'); 
     Route::post('/sign-in', 'Auth\PartnerLoginController@login');
-    Route::post('partner/{partner}/deactivate', 'PartnerController@destroy');
+    Route::delete('partner/{partner}/deactivate', 'PartnerController@destroy');
     Route::post('password/email', 'auth\PartnerForgotPasswordController@sendResetLinkEmail');
     Route::post('password/reset', 'auth\PartnerResetPasswordController@reset');
     Route::delete('{partner}/security/{session}', 'PartnerController@sessionDestroy');
