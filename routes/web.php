@@ -114,7 +114,7 @@ Route::domain('partner.babcasa.com')->group(function (){
         return view('system.backoffice.partner.login');
     }); 
 
-    Route::get('/security1', function () {
+    Route::get('/security', function () {
         return view('partners.backoffice.security');
     }); 
 
@@ -133,4 +133,19 @@ Route::domain('partner.babcasa.com')->group(function (){
     Route::get('/settings', function () { 
         return view('partners.backoffice.settings');
     }); 
+
+    Route::get('/claims', function () { 
+        return view('claims.backoffice.partner.index');
+    }); 
+    Route::get('/claims/create', function () { 
+        return view('claims.backoffice.partner.create');
+    }); 
+    Route::get('/claims/show', function () { 
+        return view('claims.backoffice.partner.show');
+    }); 
+    Route::get('/subjects', function () { 
+        return view('subjects.backoffice.partner.index');
+    }); 
+
+
 }); 

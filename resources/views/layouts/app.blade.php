@@ -16,12 +16,13 @@
 
     <link href="{{ asset('plugins/font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('plugins/jquery-scrollbar/jquery.scrollbar.css') }}" rel="stylesheet" type="text/css" media="screen"/>
-    <link href="{{ asset('pages/css/pages-icons.css') }} " rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="{{ asset('pages/css/pages.min.css') }}">
-
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}"> 
-    
-    @yield('css')
+    <link href="{{ asset('pages/css/pages-icons.css') }}" rel="stylesheet" type="text/css">
+     @yield('css_before')
+     <link rel="stylesheet" href="{{ asset('pages/css/pages.css') }}"> 
+     <link rel="stylesheet" href="{{ asset('css/style.css') }}"> 
+     
+     @yield('css')
+ 
 
 </head>
 

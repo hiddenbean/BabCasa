@@ -429,7 +429,7 @@
                         <div class="padding-20 sm-padding-5 sm-m-b-20 sm-m-t-20 bg-white clearfix">
                             <ul class="pager wizard no-style">
                                 <li class="next">
-                                    <button class="btn btn-primary btn-cons btn-animated from-left fa fa-building pull-right" type="button">
+                                    <button class="btn btn-primary btn-cons btn-animated from-left fa fa-building pull-right" type="button" id="btn_next" disabled>
                                         <span>Suivant</span>
                                     </button>
                                 </li>
@@ -494,7 +494,19 @@
             }
         }
 
-
+        
+        $('#btn_next').css("cursor", "not-allowed"); 
+        $("#agreement").on("change", function () { 
+            var check = $(this).prop('checked');
+            if(check){ 
+                $('#btn_next').prop('disabled', false);
+                $('#btn_next').css("cursor", "pointer");
+            }else{
+                $('#btn_next').prop('disabled', true); 
+                $('#btn_next').css("cursor", "not-allowed");
+            }
+        });
+         
     });
 
 </script>
