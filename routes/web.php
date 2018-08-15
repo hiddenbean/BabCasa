@@ -42,10 +42,10 @@ Route::domain('partner.babcasa.com')->group(function (){
 
      //client finale gestion support routes start 
      Route::prefix('support')->group(function() {
+         Route::get('ticket','ClaimController@index');
         Route::get('/','SubjectController@index');
         Route::prefix('{subject}')->group(function() {
             Route::prefix('ticket')->group(function() {
-                Route::get('/','ClaimController@index');
                 Route::get('create','ClaimController@create');
             });
         });

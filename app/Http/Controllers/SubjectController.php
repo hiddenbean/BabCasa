@@ -19,7 +19,7 @@ class SubjectController extends Controller
         $data['partner'] = Partner::where('name', $partner)->firstOrFail();
         $data['subjects'] =Subject::all();
 
-        return view('support',$data);
+        return view('subjects.backoffice.partner.index',$data);
     }
 
     /**

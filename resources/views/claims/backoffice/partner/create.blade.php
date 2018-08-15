@@ -18,7 +18,7 @@
                         <a href="/">Tableau de borad</a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="{{ url('support') }}">Support</a>
+                        <a href="{{ url('support/ticket') }}">Support</a>
                     </li> 
                     <li class="breadcrumb-item">
                         <a href="#">sujets</a>
@@ -44,7 +44,7 @@
                         <p> Nihil illum? Placeat quod doloribus tenetur reprehenderit nulla, beatae ea in maiores, temporibus delectus repellat quis.</p>
                         <br>
                         <p class="small hint-text">quod doloribus tenetur reprehenderit nulla, beatae ea in maiores, temporibus delectus repellat ipsum dolor sit amet consectetur adipisicing elit</p>
-                        <form action="" method="POST" id="form-work" class="form-horizontal" role="form" autocomplete="on" novalidate="novalidate">
+                        <form action="{{url('support/'.$Subject->name.'/ticket/create')}}" method="POST" id="form-work" class="form-horizontal" role="form" autocomplete="on" novalidate="novalidate">
                             {{ csrf_field() }}
                             
                             <div class="form-group row">
@@ -63,8 +63,10 @@
                                 <label for="subject" class="col-md-3 control-label">Subject</label>
                                 <div class="col-md-9">
                                     <div class="form-group required no-padding" required>
-                                        <select name="subject" class="full-width" data-placeholder="Choisissez un sujet" data-init-plugin="select2" id="subject"> 
-                                           <option value=""> title </option> 
+                                            <select name="subject_id" class="full-width" data-placeholder="Choisissez un sujet" data-init-plugin="select2" id="subject"> 
+                                                    @foreach($subjects as $subject)
+                                                <option value="{{$subject->id}}"  @if($subject->id == $Subject->id) selected @endif>{{$subject->title}}</option>
+                                                    @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -88,7 +90,7 @@
                                     <p>nouvelles </p>
                                 </div>
                                 <div class="col-md-9">
-                                    <button class="btn btn-success" type="button" id="onClick">Créer</button>
+                                    <button class="btn btn-success" type="submit" id="onClick">Créer</button>
                                     <button class="btn btn-default" type="button" id="onReste" ><i class="pg-close"></i>Effacer</button>
                                 </div>
                             </div>
@@ -101,23 +103,20 @@
     <!-- content end --> 
 @endsection
 
-@section('javascript')
+@section('script')
 
-    <script type="text/javascript" src="{{ asset('backoffice/assets/plugins/select2/js/select2.full.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('backoffice/assets/plugins/summernote/js/summernote.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('plugins/summernote/js/summernote.min.js') }}"></script>
     <script>
         $(document).ready(function() {
             $('#summernote').summernote();
             $('#onClick').on('click', function(){ 
                 ($('#message').val($('#summernote').summernote().code()));
+    
                 this.form.submit();
             });
             $('#onReste').on('click', function(){ 
                 $('#summernote').summernote().code('');  
-            });
-            $('#subject').on('change', function() {
-                var selectedSubject = $('#subject option:selected').val();
-                window.location.href ="/support/sujets/"+selectedSubject+"/ticket"
             });
         });
     </script>

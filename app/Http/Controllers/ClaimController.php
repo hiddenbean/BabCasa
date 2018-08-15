@@ -39,8 +39,8 @@ class ClaimController extends Controller
     {
         isset($request->partner) ? $partner = $request->partner : $partner = Auth::guard('partner')->user()->name;
         $data['partner'] = Partner::where('name',$partner)->firstOrFail();
-        $data['claims']=$partner->claims;
-        return $data;  
+        $data['claims']=$data['partner']->claims;
+        return view('claims.backoffice.partner.index',$data);  
     }
 
     /**
@@ -54,7 +54,7 @@ class ClaimController extends Controller
         $data['partner'] = Partner::where('name',$partner)->firstOrFail();
         $data['subjects']=Subject::all();
         $data['Subject']=Subject::where('name',$subject)->firstOrFail();
-        return view('create',$data); 
+        return view('claims.backoffice.partner.create',$data); 
     }
 
     /**
@@ -78,7 +78,6 @@ class ClaimController extends Controller
         $claim->staff_id = 1;
         $claim->claimable_type = $user;
         $claim->claimable_id = $complainer->id;
-        
         $claim->save();
         
         $message = new ClaimMessage();
@@ -90,7 +89,7 @@ class ClaimController extends Controller
         $message->claim_messageable_id = $complainer->id;
 
         $message->save();
-        return $message;
+        return redirect('support/ticket');
          
     }
 

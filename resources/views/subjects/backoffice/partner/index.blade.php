@@ -16,7 +16,7 @@
                         <a href="/">Tableau de borad</a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="/support">Support</a>
+                        <a href="{{url('support/ticket')}}">Support</a>
                     </li>
                     <li class="breadcrumb-item active">
                         Tickets titre
@@ -36,18 +36,20 @@
             </div>
             <div class="card-body">
                 <div class="row">
-
+                        @foreach($subjects as $subject)
                     <div class="col-md-2"> 
-                        <div class="card">
-                            <div class="card-body"> 
-                                <h2>
-                                    Titre 
-                                </h1>
-                                <strong> <a href="">Sit consectetur provident</a></strong> 
+                        <a href="{{url('support/'.$subject->name.'/ticket/create')}}">
+                            <div class="card">
+                                <div class="card-body"> 
+                                    <h2>
+                                        {{$subject->title}}
+                                    </h1>
+                                    <strong>  {{$subject->description}}</strong> 
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     </div> 
-                    
+                      @endforeach
                 </div>
             </div>
         </div>
