@@ -26,11 +26,10 @@
             <div class="card-header ">
                 <div class="card-title">Information sur vote appareils</div>
             </div>
-            @foreach($guests as $guest)
             <div class="card-block">
                 <div class="row">
                     <div class="col-md-7 b-r b-dashed b-grey">
-                       
+                        @foreach($guests as $guest)
                         <div class="row">
                             <div class="col-md-11">
                                 <div class="card">
@@ -105,6 +104,7 @@
                                 </div>
                             </div>
                         </div> 
+                        @endforeach
                     </div> 
                     <div class="col-md-5">
                         <div class="row">
@@ -131,7 +131,6 @@
                     </div>
                 </div> <br>
             </div>
-            @endforeach
         </div>
     </div>
     <!-- security end-->

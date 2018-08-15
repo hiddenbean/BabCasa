@@ -17,8 +17,7 @@
 </div>
 <!-- breadcrumb end -->
 
-<!-- content start -->
-<!-- security block -->
+<!-- content start --> 
 <div class="container container-fixed-lg">
     <div class="card">
         <div class="card-header">
@@ -89,6 +88,5 @@
             </div>  
         </div>
     </div>  
-</div>
-<!-- security end-->
+</div> 
 @endsection
