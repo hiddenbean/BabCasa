@@ -101,10 +101,9 @@
     <!-- content end --> 
 @endsection
 
-@section('javascript')
-
-    <script type="text/javascript" src="{{ asset('backoffice/assets/plugins/select2/js/select2.full.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('backoffice/assets/plugins/summernote/js/summernote.min.js') }}"></script>
+@section('script') 
+    <script type="text/javascript" src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('plugins/summernote/js/summernote.min.js') }}"></script>
     <script>
         $(document).ready(function() {
             $('#summernote').summernote();
@@ -114,11 +113,7 @@
             });
             $('#onReste').on('click', function(){ 
                 $('#summernote').summernote().code('');  
-            });
-            $('#subject').on('change', function() {
-                var selectedSubject = $('#subject option:selected').val();
-                window.location.href ="/support/sujets/"+selectedSubject+"/ticket"
-            });
+            }); 
         });
     </script>
 @endsection
