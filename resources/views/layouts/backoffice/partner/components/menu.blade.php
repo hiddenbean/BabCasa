@@ -1,7 +1,13 @@
 <div class="sidebar-menu">
     <!-- BEGIN SIDEBAR MENU ITEMS-->
     <ul class="menu-items"> 
-        <li class="m-t-30">
+        <li class="m-t-30 ">
+            <a href="{{ url('/') }}" class="detailed">
+                <span class="title">Dashboard</span> 
+            </a>
+            <span class="bg-primary icon-thumbnail"><i class="pg-home"></i></span>
+        </li>
+        <li>
             <a href="javascript:;">
                 <span class="title">Paramètres</span>
                 <span class="arrow"></span>

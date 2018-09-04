@@ -8,7 +8,9 @@
 
 <div class="register-container full-height sm-p-t-30">
     <div class="d-flex justify-content-center flex-column full-height ">
-        <div class="logo_text">{{ config('app.name', 'BAB Casa') }}</div>
+        <div class="logo_text">
+            <img src="{{ asset('img/logo.png') }}" alt="{{ config('app.name', 'BAB Casa') }}" height="80">
+        </div>
         <h3>Créer un compte de partenaire</h3> 
         <div class="row">
             <div class="col-md-12">
