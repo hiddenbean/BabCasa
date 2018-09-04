@@ -114,10 +114,6 @@ Route::domain('partner.babcasa.com')->group(function (){
         return view('system.backoffice.partner.login');
     }); 
 
-    Route::get('/security', function () {
-        return view('partners.backoffice.security');
-    }); 
-
     Route::get('/password/email', function () { 
         return view('system.backoffice.partner.password.email');
     }); 
