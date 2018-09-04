@@ -7,7 +7,7 @@
         <input type="text" name="title"><br>
         <select name="subject_id" id=""><br>
             @foreach($subjects as $subject)
-        <option value="{{$subject->id}}"  @if($subject->id == $Subject->id) selected @endif>{{$subject->title}}</option>
+                <option value="{{$subject->id}}"  @if($subject->id == $Subject->id) selected @endif>{{$subject->title}}</option>
             @endforeach
         </select><br>
         <textarea name="message" id="" cols="30" rows="10"></textarea><br>
