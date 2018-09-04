@@ -28,7 +28,7 @@
     <!-- START Login Right Container-->
     <div class="login-container bg-white">
         <div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-50 m-t-30 sm-p-l-15 sm-p-r-15 sm-p-t-40">
-            <div class="logo_text"> {{ config('app.name', 'BAB CASA') }} </div>
+            <div class="logo_text"><img src="{{ asset('img/logo.png') }}" alt="{{ config('app.name', 'BAB Casa') }}" height="60">  </div>
             <p>Connectez-vous à votre espace
                 <strong> babcasa.com</strong>
             </p>

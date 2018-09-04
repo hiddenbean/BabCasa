@@ -15,7 +15,6 @@ class CreateAddressesTable extends Migration
     {
         Schema::create('addresses', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('country');
             $table->string('city');
             $table->string('address');
             $table->string('address_two')->nullable();
@@ -25,6 +24,7 @@ class CreateAddressesTable extends Migration
             $table->double('longitude')->nullable();     
             $table->Integer('addressable_id')->unsigned();
             $table->string('addressable_type');
+            $table->Integer('country_id');
             $table->softDeletes();
             $table->timestamps();
         });

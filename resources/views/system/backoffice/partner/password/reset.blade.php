@@ -5,7 +5,7 @@
 
 <div class="register-container full-height sm-p-t-30">
     <div class="d-flex justify-content-center flex-column full-height ">
-        <div class="logo_text"> {{ config('app.name', 'BAB CASA' ) }}</div> 
+        <div class="logo_text"><img src="{{ asset('img/logo.png') }}" alt="{{ config('app.name', 'BAB Casa') }}" height="60">  </div> 
         <h3>Réinitialiser le mot de passe </h3> 
         <form id="form-register" class="p-t-15" role="form" action="{{ url('password/reset') }}" method="post">
             @csrf

@@ -8,7 +8,9 @@
 
 <div class="register-container full-height sm-p-t-30">
     <div class="d-flex justify-content-center flex-column full-height ">
-        <div class="logo_text">{{ config('app.name', 'BAB Casa') }}</div>
+        <div class="logo_text">
+            <img src="{{ asset('img/logo.png') }}" alt="{{ config('app.name', 'BAB Casa') }}" height="80">
+        </div>
         <h3>Créer un compte de partenaire</h3> 
         <div class="row">
             <div class="col-md-12">
@@ -429,7 +431,7 @@
                         <div class="padding-20 sm-padding-5 sm-m-b-20 sm-m-t-20 bg-white clearfix">
                             <ul class="pager wizard no-style">
                                 <li class="next">
-                                    <button class="btn btn-primary btn-cons btn-animated from-left fa fa-building pull-right" type="button">
+                                    <button class="btn btn-primary btn-cons btn-animated from-left fa fa-building pull-right" type="button" id="btn_next" disabled>
                                         <span>Suivant</span>
                                     </button>
                                 </li>
@@ -494,7 +496,19 @@
             }
         }
 
-
+        
+        $('#btn_next').css("cursor", "not-allowed"); 
+        $("#agreement").on("change", function () { 
+            var check = $(this).prop('checked');
+            if(check){ 
+                $('#btn_next').prop('disabled', false);
+                $('#btn_next').css("cursor", "pointer");
+            }else{
+                $('#btn_next').prop('disabled', true); 
+                $('#btn_next').css("cursor", "not-allowed");
+            }
+        });
+         
     });
 
 </script>

@@ -5,7 +5,7 @@
   <!-- END MOBILE SIDEBAR TOGGLE -->
   <div class="">
     <div class="brand inline">
-      <span class="sidebar-logo-black">{{ config('app.name', 'BAB CASA') }}</span>
+      <span class="sidebar-logo-black"><img src="{{ asset('img/logo.png') }}" alt="{{ config('app.name', 'BAB Casa') }}" height="30"></span>
     </div>
     <!-- START NOTIFICATION LIST -->
     <ul class="d-lg-inline-block d-none notification-list no-margin d-lg-inline-block b-grey b-l b-r no-style p-l-30 p-r-20">
