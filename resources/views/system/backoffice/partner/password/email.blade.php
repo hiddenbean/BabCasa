@@ -12,7 +12,7 @@
                 {{ session('status') }}
             </div>
         @endif
-        <form id="form-register" class="p-t-15" role="form" action="{{ route('password.email') }}" method="post">
+        <form id="form-register" class="p-t-15" role="form" action="{{ url('/password/email') }}" method="post">
             @csrf
             <div class="row">
                 <div class="col-md-12">

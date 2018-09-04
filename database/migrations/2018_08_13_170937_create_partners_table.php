@@ -23,6 +23,7 @@ class CreatePartnersTable extends Migration
             $table->string('trade_registry')->nullable();
             $table->string('ice')->nullable();
             $table->string('taxe_id')->nullable();
+            $table->boolean('is_register_to_newsletter')->nullable();
             $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();

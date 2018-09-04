@@ -35,11 +35,11 @@ Route::domain('partner.babcasa.com')->group(function (){
     Route::get('/register', 'auth\PartnerRegisterController@showRegisterForm'); 
     Route::get('/sign-in', 'Auth\PartnerLoginController@showLoginForm');
     Route::get('/', 'PartnerController@dashboard');
-    Route::get('/log-out', 'Auth\PartnerLoginController@logout');
+    Route::get('/logout', 'Auth\PartnerLoginController@logout');
     Route::get('/password', 'Auth\PartnerForgotPasswordController@showLinkRequestForm');
     Route::get('{partner}/password/reset/{token}', 'auth\PartnerResetPasswordController@showResetForm');
     Route::get('security', 'PartnerController@security');
-   
+    Route::get('settings', 'PartnerController@edit');
 
 });
 
@@ -64,6 +64,7 @@ Route::domain('partner.babcasa.com')->group(function (){
     Route::post('password/email', 'auth\PartnerForgotPasswordController@sendResetLinkEmail');
     Route::post('password/reset', 'auth\PartnerResetPasswordController@reset');
     Route::delete('{partner}/security/{session}', 'PartnerController@sessionDestroy');
+    Route::post('{partner}/settings/update', 'PartnerController@update');
 
 });
 
@@ -110,7 +111,4 @@ Route::domain('partner.babcasa.com')->group(function (){
         return view('system.backoffice.partner.log');
     }); 
 
-    Route::get('/settings', function () { 
-        return view('partners.backoffice.settings');
-    }); 
 }); 

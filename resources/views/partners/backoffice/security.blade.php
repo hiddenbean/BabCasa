@@ -111,7 +111,7 @@
                             <div class="col-md-12">
                                 <h3>Changer le mot de passe</h3>
                                 Nous vous conseillons d&apos;utiliser un mot de passe sur que vous n&apos;utilisez nulle part alleurs.<br>
-                                <a href="#"><strong>Changer le mot de passe</strong></a>
+                                <a href="{{url('/password')}}"><strong>Changer le mot de passe</strong></a>
                             </div>
                         </div>
                         <br>
