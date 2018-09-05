@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Attribute_value extends Model
+class AttributeValue extends Model
 {
 
     public function attribute()
@@ -18,27 +18,27 @@ class Attribute_value extends Model
     }
     public function child()
     {
-        return $this->hasOne('App\Attribute_value');
+        return $this->hasOne('App\AttributeValue');
     }
     
     public function parent()
     {
-        return $this->belongsTo('App\Attribute_value');
+        return $this->belongsTo('App\AttributeValue');
     }
 
     
     
     public function attributeVarcharValue()
     {
-        return $this->hasOne('App\Attribute_varchar_value');
+        return $this->hasOne('App\AttributeVarcharValue');
     }
     public function attributeDateValue()
     {
-        return $this->hasOne('App\Attribute_date_value');
+        return $this->hasOne('App\Attribute_dateValue');
     }
     public function attributeDoubleValue()
     {
-        return $this->hasOne('App\Attribute_double_value');
+        return $this->hasOne('App\Attribute_doubleValue');
     }
 
 

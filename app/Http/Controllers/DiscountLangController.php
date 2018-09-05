@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\discount_lang;
+use App\DiscountLang;
 use Illuminate\Http\Request;
 
 class DiscountLangController extends Controller

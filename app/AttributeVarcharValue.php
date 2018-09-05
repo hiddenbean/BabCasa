@@ -4,15 +4,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Attribute_varchar_value extends Model
+class AttributeVarcharValue extends Model
 {
     public function attributeVarcharValueLang()
     {
-            return $this->hasMany('App\Attribute_varchar_value_lang');
+            return $this->hasMany('App\AttributeVarcharValueLang');
     }
 
     public function attributeValue()
     {
-        return $this->belongsTo('App\Attribute_value');
+        return $this->belongsTo('App\AttributeValue');
     }
 }

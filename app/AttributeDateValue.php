@@ -4,10 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Attribute_double_value extends Model
+class AttributeDateValue extends Model
 {
     public function attributeValue()
     {
-        return $this->belongsTo('App\Attribute_value');
+        return $this->belongsTo('App\AttributeValue');
     }
 }

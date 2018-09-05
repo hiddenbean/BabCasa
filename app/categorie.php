@@ -8,7 +8,7 @@ class Categorie extends Model
 {
     public function categorieLang()
     {
-            return $this->hasMany('App\Categorie_lang');
+            return $this->hasMany('App\CategorieLang');
     }
 
     public function subCategories()

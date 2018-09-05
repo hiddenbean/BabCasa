@@ -2,11 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\product_lang;
+use App\productlang;
 use Illuminate\Http\Request;
 
 class ProductLangController extends Controller
 {
+
+     /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  \Illuminate\Http\Request.
+     * @return void.
+     */
+    protected function validateRequest(Request $request)
+    {
+        $request->validate([
+            'reference' => 'required|unique:categorie_langs,reference',
+            'description' => 'required',
+            'short_description' => 'required',
+            'product_id' => 'required',
+            'lang_id' => 'required',
+        ]);
+    }
     /**
      * Display a listing of the resource.
      *

@@ -4,13 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Attribute_lang extends Model
+class AttributeLang extends Model
 {
     public function attribute()
     {
         return $this->belongsTo('App\Attribute');
     }
-    public function language()
+    public function lang()
     {
         return $this->belongsTo('App\Language');
     }

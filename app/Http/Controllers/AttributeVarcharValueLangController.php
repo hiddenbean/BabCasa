@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\attribute_varchar_value_lang;
+use App\AttributeVarcharValueLang;
 use Illuminate\Http\Request;
 
 class AttributeVarcharValueLangController extends Controller

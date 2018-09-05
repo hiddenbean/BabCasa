@@ -4,13 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Detail_lang extends Model
+class DetailLang extends Model
 {
     public function detail()
     {
         return $this->belongsTo('App\Detail');
     }
-    public function language()
+    public function lang()
     {
         return $this->belongsTo('App\Language');
     }

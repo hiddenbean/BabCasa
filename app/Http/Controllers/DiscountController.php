@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\discount;
+use App\Discount;
 use Illuminate\Http\Request;
 
 class DiscountController extends Controller

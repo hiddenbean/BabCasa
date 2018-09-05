@@ -4,11 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class detail_value extends Model
+class DetailValue extends Model
 {
     public function detailValueLangs()
     {
-            return $this->hasMany('App\Detail_value_lang');
+            return $this->hasMany('App\DetailValueLang');
     }
 
     public function prodcut()

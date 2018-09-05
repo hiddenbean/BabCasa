@@ -31,6 +31,7 @@ Route::domain('staff.babcasa.com')->group(function (){
 });
 
 Route::domain('partner.babcasa.com')->group(function (){
+    Route::get('/test', 'ProductController@index'); 
     
     Route::get('/register', 'auth\PartnerRegisterController@showRegisterForm'); 
     Route::get('/sign-in', 'Auth\PartnerLoginController@showLoginForm');

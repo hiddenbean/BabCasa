@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\attribute_varchar_value;
+use App\AttributeVarcharValue;
 use Illuminate\Http\Request;
 
 class AttributeVarcharValueController extends Controller

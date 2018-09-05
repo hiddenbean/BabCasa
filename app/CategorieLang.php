@@ -3,18 +3,18 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+// use Illuminate\Database\Eloquent\SoftDeletes;
 
 
-class Categorie_lang extends Model
+class CategorieLang extends Model
 {
-    use SoftDeletes;  
+    // use SoftDeletes;  
 
     public function categories()
     {
         return $this->belongsTo('App\Categorie');
     }
-    public function language()
+    public function lang()
     {
         return $this->belongsTo('App\Language');
     }

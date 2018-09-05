@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\attribute_value;
+use App\AttributeValue;
 use Illuminate\Http\Request;
 
 class AttributeValueController extends Controller

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\attribute_double_value;
+use App\AttributeDoubleValue;
 use Illuminate\Http\Request;
 
 class AttributeDoubleValueController extends Controller

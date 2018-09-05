@@ -3,11 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Product;
-use App\Product_lang;
+use App\Productlang;
+use App\Categorie;
 use Illuminate\Http\Request;
+use App\Http\Controllers\ProductLangController;
 
 class ProductController extends Controller
 {
+
+    
+    /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  \Illuminate\Http\Request.
+     * @return void.
+     */
+    protected function validateRequest(Request $request)
+    {
+        $request->validate([
+            // 'name' => 'required|unique:partners,name',
+        ]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +31,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $p = Categorie::find(1);
+        return $p->categorieLang->first()->lang; 
     }
 
     /**
@@ -25,7 +42,10 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        $this->validateRequest($request);
+
+        $productLangController = new ProductLangController();
+        $productLangController->validateRequest($request);
     }
 
     /**

@@ -4,13 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Bundle_lang extends Model
+class ProductLang extends Model
 {
-    public function Bundle()
+    public function product()
     {
-        return $this->belongsTo('App\Bundle');
+        return $this->belongsTo('App\Product');
     }
-    public function language()
+    public function lang()
     {
         return $this->belongsTo('App\Language');
     }

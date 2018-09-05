@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\bundle;
+use App\Bundle;
 use Illuminate\Http\Request;
 
 class BundleController extends Controller

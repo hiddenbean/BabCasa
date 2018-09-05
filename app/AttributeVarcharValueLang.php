@@ -4,13 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Attribute_varchar_value_lang extends Model
+class AttributeVarcharValueLang extends Model
 {
     public function attributeVarcharValue()
     {
-        return $this->belongsTo('App\Attribute_varchar_value');
+        return $this->belongsTo('App\AttributeVarcharValue');
     }
-    public function language()
+    public function lang()
     {
         return $this->belongsTo('App\Language');
     }
