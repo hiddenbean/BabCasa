@@ -4,7 +4,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class tag extends Model
+class Tag extends Model
 {
-    //
+    public function products()
+    {
+        return $this->belongsToMany('App\Product');
+    }
+    public function tagLang()
+    {
+        return $this->hasMany('App\Tag_lang');
+    } 
+    
 }

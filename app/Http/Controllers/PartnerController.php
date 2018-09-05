@@ -134,3 +134,6 @@ class PartnerController extends Controller
         return redirect(str_before(url()->current(), '.com').'.com/security');
     }
 }
+
+
+

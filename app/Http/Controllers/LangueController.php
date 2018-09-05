@@ -1,12 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Product;
-use App\Product_lang;
+    
+use App\Langue;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class LangueController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -42,10 +41,10 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\product  $product
+     * @param  \App\Langue  $langue
      * @return \Illuminate\Http\Response
      */
-    public function show(product $product)
+    public function show(Langue $langue)
     {
         //
     }
@@ -53,10 +52,10 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\product  $product
+     * @param  \App\Langue  $langue
      * @return \Illuminate\Http\Response
      */
-    public function edit(product $product)
+    public function edit(Langue $langue)
     {
         //
     }
@@ -65,10 +64,10 @@ class ProductController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\product  $product
+     * @param  \App\Langue  $langue
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, product $product)
+    public function update(Request $request, Langue $langue)
     {
         //
     }
@@ -76,10 +75,10 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\product  $product
+     * @param  \App\Langue  $langue
      * @return \Illuminate\Http\Response
      */
-    public function destroy(product $product)
+    public function destroy(Langue $langue)
     {
         //
     }
