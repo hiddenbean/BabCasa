@@ -24,6 +24,7 @@ class CreatePartnersTable extends Migration
             $table->boolean('is_register_to_newsletter');
             $table->string('ice')->nullable();
             $table->string('taxe_id')->nullable();
+            $table->boolean('is_register_to_newsletter')->nullable();
             $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();

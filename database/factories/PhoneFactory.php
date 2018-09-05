@@ -8,6 +8,6 @@ $factory->define(App\Phone::class, function (Faker $faker) {
         'type' => 'fix',
         'phoneable_id' => 1,
         'phoneable_type' => 'partner',
-        'code_country' => 1,
+        'code_country_id' => 1,
     ];
 });
