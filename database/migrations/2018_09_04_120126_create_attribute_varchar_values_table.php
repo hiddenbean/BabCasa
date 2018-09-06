@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePhonesTable extends Migration
+class CreateAttributeVarcharValuesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,9 @@ class CreatePhonesTable extends Migration
      */
     public function up()
     {
-        Schema::create('phones', function (Blueprint $table) {
+        Schema::create('attribute_varchar_values', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('number')->unique();
-            $table->string('type');
-            $table->integer('phoneable_id');
-            $table->string('phoneable_type');
-            $table->integer('phone_code_id');
-            $table->softDeletes();
+            $table->integer('attribute_value_id');
             $table->timestamps();
         });
     }
@@ -32,6 +27,6 @@ class CreatePhonesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('phones');
+        Schema::dropIfExists('attribute_varchar_values');
     }
 }
