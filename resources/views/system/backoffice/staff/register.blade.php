@@ -73,7 +73,7 @@
                                         <label for="agreement">J&apos;accepte</label>
                                         @if ($errors->has('agreement'))
                                         <small class='error' for='agreement'>{{ $errors->first('agreement') }}</small>
-                                        @endif
+                                         @endif
                                     </div>
                                 </div>
                             </div>
@@ -91,16 +91,16 @@
                                                         <input type="text" id="company_name" name="company_name" value="{{ old('company_name') }}" class="form-control">
                                                         @if ($errors->has('company_name'))
                                                         <label class='error' for='company_name'>{{ $errors->first('company_name') }}</label>
-                                                        @endif
+                                                         @endif
                                                     </div>
                                                 </div> 
                                                 <div class="col-sm-6">
                                                     <div class="form-group form-group-default required">
                                                         <label for="name">Nom</label>
                                                         <input type="text" id="name" name="name" value="{{ old('name') }}" class="form-control">
-                                                        @if ($errors->has('name'))
+                                                         @if ($errors->has('name'))
                                                         <label class='error' for='name'>{{ $errors->first('name') }}</label>
-                                                        @endif
+                                                         @endif
                                                     </div>
                                                 </div>
                                             </div>
@@ -111,7 +111,7 @@
                                                         <input type="email" id="email" name="email" value="{{ old('email') }}" class="form-control">
                                                         @if ($errors->has('email'))
                                                         <label class='error' for='email'>{{ $errors->first('email') }}</label>
-                                                        @endif
+                                                         @endif
                                                     </div>
                                                 </div>  
                                             </div>
@@ -122,16 +122,16 @@
                                                         <input type="password" id="password" name="password" class="form-control">
                                                         @if ($errors->has('password'))
                                                         <label class='error' for='password'>{{ $errors->first('password') }}</label>
-                                                        @endif
+                                                         @endif
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <div class="form-group form-group-default required">
                                                         <label for="password_confirmation">Mot de passe confirmation</label>
                                                         <input type="password" id="password_confirmation" name="password_confirmation" class="form-control">
-                                                        @if ($errors->has('password_confirmation'))
+                                                         @if ($errors->has('password_confirmation'))
                                                         <label class='error' for='password_confirmation'>{{ $errors->first('password_confirmation') }}</label>
-                                                        @endif
+                                                         @endif
                                                     </div>
                                                 </div>
                                             </div>
@@ -143,9 +143,9 @@
                                                     <div class="form-group form-group-default required">
                                                         <label for="about">À propos</label>
                                                         <textarea type="text" id="about" name="about"  class="form-control" rows="15">{{ old('about') }}</textarea>
-                                                        @if ($errors->has('about'))
+                                                         @if ($errors->has('about'))
                                                         <label class='error' for='about'>{{ $errors->first('about') }}</label>
-                                                        @endif
+                                                         @endif
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4">
@@ -164,9 +164,9 @@
                                                     <div class="form-group form-group-default required">
                                                         <label for="trade_registry">Registre du commerce</label>
                                                         <input type="text" id="trade_registry" name="trade_registry" value="{{ old('trade_registry') }}" class="form-control">
-                                                        @if ($errors->has('trade_registry'))
+                                                         @if ($errors->has('trade_registry'))
                                                         <label class='error' for='trade_registry'>{{ $errors->first('trade_registry') }}</label>
-                                                        @endif
+                                                         @endif
                                                     </div>
                                                 </div>  
                                             </div>
@@ -175,18 +175,18 @@
                                                     <div class="form-group form-group-default required">
                                                         <label for="ice">ICE</label>
                                                         <input type="text" id="ice" name="ice" value="{{ old('ice') }}" class="form-control">
-                                                        @if ($errors->has('ice'))
+                                                         @if ($errors->has('ice'))
                                                         <label class='error' for='ice'>{{ $errors->first('ice') }}</label>
-                                                        @endif
+                                                         @endif
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <div class="form-group form-group-default required">
                                                         <label for="taxe_id">Taxe id</label>
                                                         <input type="text" id="taxe_id" name="taxe_id" value="{{ old('taxe_id') }}" class="form-control">
-                                                        @if ($errors->has('taxe_id'))
+                                                         @if ($errors->has('taxe_id'))
                                                         <label class='error' for='taxe_id'>{{ $errors->first('taxe_id') }}</label>
-                                                        @endif
+                                                         @endif
                                                     </div>
                                                 </div>
                                             </div>
@@ -200,7 +200,7 @@
                                                 <input type="text" id="address" name="address" value="{{ old('address') }}" class="form-control" placeholder="">
                                                 @if ($errors->has('address'))
                                                         <label class='error' for='address'>{{ $errors->first('address') }}</label>
-                                                        @endif
+                                                         @endif
                                             </div>
                                             <div class="form-group form-group-default">
                                                 <label for="address2">Deuxième ligne</label>
@@ -211,18 +211,18 @@
                                                     <div class="form-group form-group-default">
                                                         <label for="country">Pays</label>
                                                         <input type="text" id="country" name="country" value="{{ old('country') }}" class="form-control" placeholder="">
-                                                        @if ($errors->has('country'))
+                                                         @if ($errors->has('country'))
                                                         <label class='error' for='country'>{{ $errors->first('country') }}</label>
-                                                        @endif
+                                                         @endif
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <div class="form-group form-group-default">
                                                         <label for="city">Ville</label>
                                                         <input type="text" id="city" name="city" value="{{ old('city') }}" class="form-control">
-                                                        @if ($errors->has('city'))
+                                                         @if ($errors->has('city'))
                                                         <label class='error' for='city'>{{ $errors->first('city') }}</label>
-                                                        @endif
+                                                         @endif
                                                     </div>
                                                 </div>
                                             </div>
@@ -233,7 +233,7 @@
                                                         <input type="text" id="full_name" name="full_name" value="{{ old('full_name') }}" class="form-control" placeholder="">
                                                         @if ($errors->has('full_name'))
                                                         <label class='error' for='full_name'>{{ $errors->first('full_name') }}</label>
-                                                        @endif
+                                                         @endif
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3">
@@ -242,7 +242,7 @@
                                                         <input type="text" id="zip_code" name="zip_code" value="{{ old('zip_code') }}" class="form-control">
                                                         @if ($errors->has('zip_code'))
                                                         <label class='error' for='zip_code'>{{ $errors->first('zip_code') }}</label>
-                                                        @endif
+                                                         @endif
                                                     </div>
                                                 </div>
                                             </div>

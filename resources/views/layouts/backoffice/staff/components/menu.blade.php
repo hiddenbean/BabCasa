@@ -6,27 +6,35 @@
                 <span class="title">Dashboard</span> 
             </a>
             <span class="bg-primary icon-thumbnail"><i class="pg-home"></i></span>
+        </li> 
+        <li>
+            <a href="{{ url('/profile') }}">
+                <span class="title">Account</span>
+            </a>
+            <span class="icon-thumbnail">
+                <i class="fa fa-user"></i>
+            </span> 
         </li>
         <li>
             <a href="javascript:;">
-                <span class="title">Paramètres</span>
+                <span class="title">Settings</span>
                 <span class="arrow"></span>
             </a>
             <span class="icon-thumbnail">
-                <i class="pg-menu_lv"></i>
+                <i class="fa fa-cogs"></i>
             </span>
             <ul class="sub-menu">
                 <li>
-                    <a href="{{ url('/security') }}">Sécurité</a>
+                    <a href="{{ url('/') }}">Newsletter suscription</a>
+                    <span class="icon-thumbnail">NS</span>
+                </li>
+                <li>
+                    <a href="{{ url('/security') }}">Security</a>
                     <span class="icon-thumbnail">Se</span>
                 </li>
                 <li>
-                    <a href="{{ url('/log') }}">Historique</a>
-                    <span class="icon-thumbnail">Hi</span>
-                </li>
-                <li>
-                    <a href="{{ url('/settings') }}">Gérer mon compte</a>
-                    <span class="icon-thumbnail">GC</span>
+                    <a href="{{ url('/log') }}">Log</a>
+                    <span class="icon-thumbnail">Lo</span>
                 </li>
             </ul>
         </li>

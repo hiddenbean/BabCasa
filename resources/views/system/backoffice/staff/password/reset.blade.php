@@ -8,8 +8,7 @@
         <div class="logo_text"><img src="{{ asset('img/logo.png') }}" alt="{{ config('app.name', 'BAB Casa') }}" height="60">  </div> 
         <h3>Réinitialiser le mot de passe </h3> 
         <form id="form-register" class="p-t-15" role="form" action="{{ route('password.request') }}" method="post">
-            @csrf
-             
+            @csrf 
             <div class="form-group-attached"> 
                 <div class="row clearfix">
                     <div class="col-sm-12">
@@ -42,8 +41,7 @@
             </div>
             <button class="btn btn-primary btn-cons m-t-10" type="submit"> 
                 Réinitialiser le mot de passe
-            </button>
-      
+            </button> 
         </form>
     </div>
 </div>

@@ -1,8 +1,7 @@
 @extends('layouts.backoffice.app') 
-@section('css') 
+@section('css')  
 
-@stop 
-
+@stop  
 @section('body')
 <!-- BEGIN SIDEBPANEL-->
 <nav class="page-sidebar" data-pages="sidebar">
@@ -17,7 +16,7 @@
   </div>
   <!-- END SIDEBAR MENU HEADER-->
   <!-- START SIDEBAR MENU -->
-  @include('layouts.backoffice.partner.components.menu')
+  @include('layouts.backoffice.staff.components.menu')
   <!-- END SIDEBAR MENU -->
 </nav>
 <!-- END SIDEBAR -->
@@ -25,7 +24,7 @@
 <!-- START PAGE-CONTAINER -->
 <div class="page-container ">
   <!-- START HEADER -->
-  @include('layouts.backoffice.partner.components.header')
+  @include('layouts.backoffice.staff.components.header')
   <!-- END HEADER -->
   <!-- START PAGE CONTENT WRAPPER -->
   <div class="page-content-wrapper ">
@@ -37,7 +36,7 @@
     <!-- END PAGE CONTENT -->
 
     <!-- START FOOTER -->
-    @include('layouts.backoffice.partner.components.footer')
+    @include('layouts.backoffice.staff.components.footer')
     <!-- END FOOTER -->
 
   </div>

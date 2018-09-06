@@ -31,7 +31,7 @@
                     <div class="col-xs-12">
                         <div class="row">
                             <div class="col-md-6 text-right no-padding">
-                            <a href="{{url('support')}}" class="btn btn-success btn-cons">Nouveau ticket</a>
+                            <a href="{{url('support')}}" class="btn btn-primary btn-cons">Nouveau ticket</a>
                             </div>
                             <div class="col-md-6">
                                 <input type="text" id="search-table" class="form-control pull-right" placeholder="Rechercher">
@@ -53,15 +53,17 @@
                     </thead>
             
                     <tbody> 
-                        @foreach($claims as $claim)
-                        <tr class="order-progress"  >
-                            <td class="v-align-middle"><a href=""><strong>{{ $claim->title}} </strong></a></td>
-                            <td class="v-align-middle text-center"><strong> {{ $claim->subject->title}}  </strong></td>                
-                            <td class="v-align-middle text-center">{{ $claim->created_at}} </td>              
-                            <td class="v-align-middle text-center">{{ $claim->claimMessages()->count()}}</td> 
-                            <td class="v-align-middle text-center"><strong>@if($claim->status==1)Open @else Close @endif</strong></td> 
-                        </tr>
-                        @endforeach
+                        @if (isset($claims))
+                            @foreach($claims as $claim)
+                            <tr class="order-progress"  >
+                                <td class="v-align-middle"><a href=""><strong>{{ $claim->title}} </strong></a></td>
+                                <td class="v-align-middle text-center"><strong> {{ $claim->subject->title}}  </strong></td>                
+                                <td class="v-align-middle text-center">{{ $claim->created_at}} </td>              
+                                <td class="v-align-middle text-center">{{ $claim->claimMessages()->count()}}</td> 
+                                <td class="v-align-middle text-center"><strong>@if($claim->status==1)Open @else Close @endif</strong></td> 
+                            </tr>
+                            @endforeach
+                        @endif
                        
                     </tbody>
                 </table>

@@ -19,10 +19,10 @@
     </div>
 </div>
 <!-- breadcrumb end -->
- 
+
 <div class="container-fluid container-fixed-lg ">
     <div class="row justify-content-lg-center">
-        <div class="col-lg-8">
+        <div class="col-lg-12">
             <div class="card">
                 <div class="card-header  ">
                     <h4 class="m-t-0 m-b-0">
@@ -40,7 +40,7 @@
                                             <label for="company_name">Nom de la compagnie</label>
                                             <input type="text" id="company_name" name="company_name" value="{{ old('company_name') }}" class="form-control"> 
                                             @if ($errors->has('company_name'))
-                                              <label class='error' for='company_name'>{{ $errors->first('company_name') }}</label>
+                                                <label class='error' for='company_name'>{{ $errors->first('company_name') }}</label>
                                             @endif
                                         </div>
                                     </div>
@@ -71,7 +71,7 @@
                                             <label for="password">Mot de passe</label>
                                             <input type="password" id="password" name="password" class="form-control"> 
                                             @if ($errors->has('password'))
-                                              <label class='error' for='password'>{{ $errors->first('password') }}</label>
+                                                <label class='error' for='password'>{{ $errors->first('password') }}</label>
                                             @endif
                                         </div>
                                     </div>

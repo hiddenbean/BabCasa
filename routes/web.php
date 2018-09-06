@@ -22,7 +22,6 @@ Route::domain('www.babcasa.com')->group(function (){
 });
 
 Route::domain('staff.babcasa.com')->group(function (){
-
     Route::get('/', function () {
         return view('welcome');
     });
@@ -62,9 +61,9 @@ Route::domain('www.babcasa.com')->group(function (){
 
     Route::post('/', function () {
         return view('welcome');
-    });
-   
+    }); 
 
+    
 });
 
 Route::domain('partner.babcasa.com')->group(function (){
@@ -77,7 +76,7 @@ Route::domain('partner.babcasa.com')->group(function (){
     Route::delete('{partner}/security/{session}', 'PartnerController@sessionDestroy');
 
       //client finale gestion support routes start 
-      Route::prefix('support')->group(function() {
+    Route::prefix('support')->group(function() {
         Route::prefix('{subject}')->group(function() {
             Route::prefix('ticket')->group(function() {
                 Route::post('create','ClaimController@store');
@@ -88,11 +87,11 @@ Route::domain('partner.babcasa.com')->group(function (){
 });
 
 Route::domain('staff.babcasa.com')->group(function (){
-    
+
     Route::post('/', function () {
         return view('welcome');
     });
-   
+
 
 });
 
@@ -110,7 +109,11 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::domain('partner.babcasa.com')->group(function (){
 
 
-    Route::get('/login', function () {
+    Route::get('/', function () {
+        return view('partners.backoffice.dashboard');
+    }); 
+
+    Route::get('/login', function () { 
         return view('system.backoffice.partner.login');
     }); 
 
@@ -127,7 +130,7 @@ Route::domain('partner.babcasa.com')->group(function (){
     }); 
 
     Route::get('/log', function () { 
-        return view('system.backoffice.partner.log');
+        return view('partners.backoffice.log');
     }); 
 
     Route::get('/settings', function () { 
@@ -149,3 +152,42 @@ Route::domain('partner.babcasa.com')->group(function (){
 
 
 }); 
+
+Route::domain('staff.babcasa.com')->group(function (){
+
+    Route::get('/', function () {
+        return view('system.backoffice.staff.dashboard');
+    }); 
+
+    Route::get('/login', function () { 
+        return view('system.backoffice.staff.login');
+    });  
+
+    Route::get('/security', function () {
+        return view('system.backoffice.staff.security');
+    }); 
+
+    Route::get('/password/email', function () { 
+        return view('system.backoffice.staff.password.email');
+    }); 
+
+    Route::get('/reset', function () { 
+        return view('system.backoffice.staff.password.reset');
+    }); 
+
+    Route::get('/log', function () { 
+        return view('system.backoffice.staff.log');
+    }); 
+
+    Route::get('/settings', function () { 
+        return view('system.backoffice.staff.settings');
+    });
+    Route::get('/profile', function () { 
+        return view('system.backoffice.staff.profile');
+    }); 
+}); 
+
+
+
+
+
