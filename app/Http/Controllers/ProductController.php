@@ -7,6 +7,7 @@ use App\Productlang;
 use App\Categorie;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ProductLangController;
+use App\Http\Controllers\AttributeValueController;
 
 class ProductController extends Controller
 {
@@ -31,8 +32,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $p = Categorie::find(1);
-        return $p->categorieLang->first()->lang; 
+       
     }
 
     /**
@@ -42,12 +42,11 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $this->validateRequest($request);
+        $data['categorie'] = Categorie::all();
 
-        $productLangController = new ProductLangController();
-        $productLangController->validateRequest($request);
+        return view();
     }
-
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -56,6 +55,13 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validateRequest($request);
+    
+        $productLangController = new ProductLangController();
+        $productLangController->validateRequest($request);
+    
+        $pictureController = new PictureController();
+        $pictureController->validateRequest($request);
         //
     }
 

@@ -7,6 +7,19 @@ use Illuminate\Http\Request;
 
 class AttributeValueController extends Controller
 {
+
+        /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  \Illuminate\Http\Request.
+     * @return void.
+     */
+    protected function validateRequest(Request $request)
+    {
+        $request->validate([
+            // 'name' => 'required|unique:partners,name',
+        ]);
+    }
     /**
      * Display a listing of the resource.
      *

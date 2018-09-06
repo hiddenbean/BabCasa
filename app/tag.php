@@ -12,7 +12,7 @@ class Tag extends Model
     }
     public function tagLang()
     {
-        return $this->hasMany('App\Tag_lang');
+        return $this->hasMany('App\TagLang');
     } 
     
 }

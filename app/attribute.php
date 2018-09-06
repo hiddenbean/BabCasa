@@ -9,12 +9,12 @@ class Attribute extends Model
     
     public function attributeLang()
     {
-            return $this->hasMany('App\Attribute_lang');
+            return $this->hasMany('App\AttributeLang');
     }
     
     public function attributeValue()
     {
-        return $this->hasOne('App\Attribute_value');
+        return $this->hasOne('App\AttributeValue');
     }
 
     public function categories()

@@ -18,6 +18,7 @@ class CreateAttributeValuesTable extends Migration
             $table->integer('quantity');
             $table->integer('currency_id');
             $table->double('price');
+            $table->integer('attribute_id');
             $table->integer('attribute_value_id');
             $table->timestamps();
         });

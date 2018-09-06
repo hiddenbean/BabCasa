@@ -34,11 +34,11 @@ class AttributeValue extends Model
     }
     public function attributeDateValue()
     {
-        return $this->hasOne('App\Attribute_dateValue');
+        return $this->hasOne('App\AttributeDateValue');
     }
     public function attributeDoubleValue()
     {
-        return $this->hasOne('App\Attribute_doubleValue');
+        return $this->hasOne('App\AttributeDoubleValue');
     }
 
 
