@@ -215,7 +215,7 @@ Route::domain('staff.babcasa.com')->group(function (){
     Route::get('/clients/business/show', function () { 
         return view('clients_business.backoffice.show');
     }); 
-    
+
     Route::get('/clients/particular', function () { 
         return view('clients_particular.backoffice.index');
     }); 
@@ -224,6 +224,26 @@ Route::domain('staff.babcasa.com')->group(function (){
     }); 
     Route::get('/clients/particular/show', function () { 
         return view('clients_particular.backoffice.show');
+    }); 
+
+    Route::get('/categories', function () { 
+        return view('categories.backoffice.index');
+    }); 
+    Route::get('/categories/create', function () { 
+        return view('categories.backoffice.create');
+    }); 
+    Route::get('/categories/show', function () { 
+        return view('categories.backoffice.show');
+    }); 
+
+    Route::get('/claims', function () { 
+        return view('claims.backoffice.staff.index');
+    }); 
+    Route::get('/claims/create', function () { 
+        return view('claims.backoffice.staff.create');
+    }); 
+    Route::get('/claims/show', function () { 
+        return view('claims.backoffice.staff.show');
     }); 
 
 

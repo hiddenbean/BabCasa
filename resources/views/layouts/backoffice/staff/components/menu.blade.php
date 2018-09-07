@@ -30,7 +30,7 @@
             <span class="icon-thumbnail">
                 <i class="fa fa-users"></i>
             </span> 
-        </li>
+        </li> 
         <li>
             <a href="javascript:;">
                 <span class="title">Clients</span>
@@ -49,6 +49,22 @@
                     <span class="icon-thumbnail">CP</span>
                 </li> 
             </ul>
+        </li>
+        <li>
+            <a href="{{ url('/categories') }}">
+                <span class="title">Categories</span>
+            </a>
+            <span class="icon-thumbnail">
+                <i class="fa fa-users"></i>
+            </span> 
+        </li>
+        <li>
+            <a href="{{ url('/claims') }}">
+                <span class="title">Claims</span>
+            </a>
+            <span class="icon-thumbnail">
+                <i class="fa fa-file"></i>
+            </span> 
         </li>
         <li>
             <a href="javascript:;">
@@ -72,26 +88,7 @@
                     <span class="icon-thumbnail">Lo</span>
                 </li>
             </ul>
-        </li>
-        <li>
-            <a href="javascript:;">
-                <span class="title">Support</span>
-                <span class="arrow"></span>
-            </a>
-            <span class="icon-thumbnail">
-                <i class="fa fa-exclamation-circle"></i>
-            </span>
-            <ul class="sub-menu">
-                <li>
-                    <a href="{{ url('/') }}">Mes tickets</a>
-                    <span class="icon-thumbnail">MT</span>
-                </li> 
-                <li>
-                    <a href="{{ url('/') }}">Créer</a>
-                    <span class="icon-thumbnail">Cr</span>
-                </li> 
-            </ul>
-        </li>
+        </li> 
     </ul>
     <div class="clearfix"></div>
 </div>
