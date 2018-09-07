@@ -123,36 +123,71 @@
                             <div class="tab-pane" id="address">
                                 <form id="form-personal" role="form" autocomplete="off" novalidate="novalidate">
                                     <div class="row">
-                                      <div class="col-md-12">
-                                        <div class="form-group form-group-default">
-                                          <label>Address</label>
-                                          <input type="text" class="form-control" name="address" placeholder="Name">
+                                        <div class="col-md-12">
+                                            <div class="form-group form-group-default">
+                                                <label>Address</label>
+                                                <input type="text" class="form-control" name="address" placeholder="Name">
+                                            </div>
                                         </div>
-                                      </div>
                                     </div>
                                     <div class="row">
-                                      <div class="col-md-12">
-                                        <div class="form-group form-group-default">
-                                          <label>Address tow</label>
-                                          <input type="text" class="form-control" name="address_tow" placeholder="Name">
+                                        <div class="col-md-12">
+                                            <div class="form-group form-group-default">
+                                                <label>Address tow</label>
+                                                <input type="text" class="form-control" name="address_tow" placeholder="Name">
+                                            </div>
                                         </div>
-                                      </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group form-group-default">
+                                                <label>Full name</label>
+                                                <input type="text" class="form-control" name="ful_name" placeholder="Full name">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group form-group-default">
+                                                <label>Zip code</label>
+                                                <input type="text" class="form-control" name="zip_code" placeholder="Zip code">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3"> 
+                                            <div class="form-group form-group-default">
+                                                <label>Country</label>
+                                                <select class="cs-select cs-skin-slide cs-transparent" name="country_id[]" data-init-plugin="cs-select">
+                                                    <option Selected>County</option>
+                                                    <option>USA (+1)</option>
+                                                    <option>Uzbekistan (+7)</option> 
+                                                </select> 
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group form-group-default">
+                                                <label>City</label>
+                                                <input type="text" class="form-control" name="city" placeholder="City">
+                                            </div>
+                                        </div> 
+                                    </div> 
                                     <div class="row clearfix">
-                                      <div class="col-md-6">
-                                        <div class="form-group form-group-default required has-error" >
-                                          <label>Phone one </label>
-                                          <input type="text" class="form-control error" name="first_name">
-                                        </div><label  class="error" for="first_name">This field is required.</label>
-                                      </div>
-                                      <div class="col-md-6">
-                                        <div class="form-group form-group-default">
-                                          <label>Phone tow </label>
-                                          <input type="text" class="form-control" name="last_name">
+                                        <div class="col-md-4">
+                                            <div class="form-group form-group-default required has-error">
+                                                <label>Phone one </label>
+                                                <input type="text" class="form-control error" name="first_name">
+                                            </div><label class="error" for="first_name">This field is required.</label>
                                         </div>
-                                      </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group form-group-default">
+                                                <label>Phone tow </label>
+                                                <input type="text" class="form-control" name="last_name">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group form-group-default">
+                                                <label>Fax </label>
+                                                <input type="text" class="form-control" name="fax">
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="clearfix"></div>
                                     <button class="btn btn-primary" type="submit">Change</button>
                                   </form> 
                             </div>   <!-- END FIRST TAB CONTENT ADDRESS -->
@@ -165,6 +200,7 @@
 @endsection
 
 @section('script') 
+<script type="text/javascript" src="{{ asset('plugins/classie/classie.js') }}"></script>
   <script src="{{ asset('plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
   <script>
     $(document).ready(function(){ 

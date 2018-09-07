@@ -71,13 +71,6 @@
     font-weight: 700;
 }
 
-.btn-transparent {
-    border: none
-}
-
-.btn-transparent:hover {
-    border: none
-}
 
 a {
     color: #5d5d5d;
@@ -310,4 +303,10 @@ fieldset[disabled] .btn-warning.active {
 
 .nav-tabs-simple > li > a:after{
     background-color: #e47f0d;
+}
+.table-hover tbody tr:hover{
+    background-color: rgba(247, 247, 247, 0.2) !important;
+}
+.table.table-hover tbody tr:hover td{
+    background-color: rgba(247, 247, 247, 0.2) !important;
 }

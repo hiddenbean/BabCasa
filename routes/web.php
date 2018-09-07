@@ -113,7 +113,7 @@ Route::domain('partner.babcasa.com')->group(function (){
 
 
     Route::get('/', function () {
-        return view('partners.backoffice.dashboard');
+        return view('system.backoffice.partner.dashboard');
     }); 
 
     Route::get('/login', function () { 
@@ -129,11 +129,11 @@ Route::domain('partner.babcasa.com')->group(function (){
     }); 
 
     Route::get('/log', function () { 
-        return view('partners.backoffice.log');
+        return view('system.backoffice.partner.log');
     }); 
 
     Route::get('/settings', function () { 
-        return view('partners.backoffice.settings');
+        return view('system.backoffice.partner.settings');
     }); 
 
     Route::get('/claims', function () { 
@@ -184,6 +184,19 @@ Route::domain('staff.babcasa.com')->group(function (){
     Route::get('/profile', function () { 
         return view('system.backoffice.staff.profile');
     }); 
+
+
+    Route::get('/staff', function () { 
+        return view('staff.backoffice.index');
+    }); 
+    Route::get('/staff/create', function () { 
+        return view('staff.backoffice.create');
+    }); 
+    Route::get('/staff/show', function () { 
+        return view('staff.backoffice.show');
+    }); 
+
+
 }); 
 
 
