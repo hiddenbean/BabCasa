@@ -12,7 +12,7 @@
                     <a href="{{ url('/') }}">Tableau de borad</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a href="{{ url('/staff') }}">Staff</a>
+                    <a href="{{ url('/partner') }}">Partner</a>
                 </li>
                 <li class="breadcrumb-item active">
                     Show
@@ -26,7 +26,7 @@
 <div class="container-fluid container-fixed-lg">
     <div class="card ">
         <div class="card-header">
-            <h4 class="m-t-0 m-b-0"> <strong>Staff Information</strong> </h4>
+            <h4 class="m-t-0 m-b-0"> <strong>Partner Information</strong> </h4>
         </div>
         <div class="card-body">
             <div class="row">
@@ -37,11 +37,11 @@
                                 <p>Lorem ipsum </p>
 
                                 <h5 class="p-t-15">First name</h5>
-                                <p>Staff</p>
+                                <p>partner</p>
                             </div>
                             <div class="col-md-4">
                                 <h5>Email</h5>
-                                <p>staff@admin.com</p>
+                                <p>partner@admin.com</p>
 
                                 <h5 class="p-t-15"> last Name</h5>
                                 <p>Lorem ipsum</p> 
@@ -57,6 +57,16 @@
                             </div>
                             <div class="col-md-4">
                                 <h5>Country:</h5>
+                                <p>France</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h5>Trade registry:</h5>
+                                <p>2514 882 06698</p>
+                            </div>
+                            <div class="col-md-4">
+                                <h5>Ice:</h5>
                                 <p>France</p>
                             </div>
                         </div>

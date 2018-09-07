@@ -24,8 +24,8 @@
             </span> 
         </li>
         <li>
-            <a href="{{ url('/staff') }}">
-                <span class="title">Staff</span>
+            <a href="{{ url('/partner') }}">
+                <span class="title">Partner</span>
             </a>
             <span class="icon-thumbnail">
                 <i class="fa fa-users"></i>

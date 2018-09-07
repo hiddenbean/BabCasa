@@ -196,6 +196,16 @@ Route::domain('staff.babcasa.com')->group(function (){
         return view('staff.backoffice.show');
     }); 
 
+    Route::get('/partner', function () { 
+        return view('partners.backoffice.index');
+    }); 
+    Route::get('/partner/create', function () { 
+        return view('partners.backoffice.create');
+    }); 
+    Route::get('/partner/show', function () { 
+        return view('partners.backoffice.show');
+    }); 
+
 
 }); 
 
