@@ -246,6 +246,26 @@ Route::domain('staff.babcasa.com')->group(function (){
         return view('claims.backoffice.staff.show');
     }); 
 
+    Route::get('/tags', function () { 
+        return view('tags.backoffice.staff.index');
+    }); 
+    Route::get('/tags/create', function () { 
+        return view('tags.backoffice.staff.create');
+    }); 
+    Route::get('/tags/show', function () { 
+        return view('tags.backoffice.staff.show');
+    }); 
+    
+    Route::get('/details', function () { 
+        return view('details.backoffice.staff.index');
+    }); 
+    Route::get('/details/create', function () { 
+        return view('details.backoffice.staff.create');
+    }); 
+    Route::get('/details/show', function () { 
+        return view('details.backoffice.staff.show');
+    }); 
+
 
 }); 
 
