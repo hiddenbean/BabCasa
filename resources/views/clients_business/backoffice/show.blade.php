@@ -1,6 +1,7 @@
 @extends('layouts.backoffice.staff.app')
 @section('css_before')
-<link href="{{ asset('plugins/bootstrap-datepicker/css/datepicker3.css') }}" rel="stylesheet" type="text/css" media="screen">
+    <link href="{{ asset('plugins/bootstrap-datepicker/css/datepicker3.css') }}" rel="stylesheet" type="text/css" media="screen">
+    <link href="{{ asset('plugins/switchery/css/switchery.min.css') }}" rel="stylesheet" type="text/css" media="screen" />
 @stop
 @section('content')
 <!-- breadcrumb start -->
@@ -12,7 +13,7 @@
                     <a href="{{ url('/') }}">Tableau de borad</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a href="{{ url('/partner') }}">Partner</a>
+                    <a href="{{ url('/clients/business') }}">Clients business</a>
                 </li>
                 <li class="breadcrumb-item active">
                     Show
@@ -26,7 +27,7 @@
 <div class="container-fluid container-fixed-lg">
     <div class="card ">
         <div class="card-header">
-            <h4 class="m-t-0 m-b-0"> <strong>Partner Information</strong> </h4>
+            <h4 class="m-t-0 m-b-0"> <strong>Clients business Information</strong> </h4>
         </div>
         <div class="card-body">
             <div class="row">
@@ -37,11 +38,11 @@
                                 <p>Lorem ipsum </p>
 
                                 <h5 class="p-t-15">First name</h5>
-                                <p>partner</p>
+                                <p>Clients business</p>
                             </div>
                             <div class="col-md-4">
                                 <h5>Email</h5>
-                                <p>partner@admin.com</p>
+                                <p>clientsbusiness@admin.com</p>
 
                                 <h5 class="p-t-15"> last Name</h5>
                                 <p>Lorem ipsum</p> 
@@ -131,5 +132,5 @@
 @endsection
 
 @section('script')
-
+    <script src="{{ asset('plugins/switchery/js/switchery.min.js') }}" type="text/javascript"></script>
 @stop

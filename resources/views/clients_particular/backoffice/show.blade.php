@@ -1,6 +1,7 @@
 @extends('layouts.backoffice.staff.app')
 @section('css_before')
-<link href="{{ asset('plugins/bootstrap-datepicker/css/datepicker3.css') }}" rel="stylesheet" type="text/css" media="screen">
+    <link href="{{ asset('plugins/bootstrap-datepicker/css/datepicker3.css') }}" rel="stylesheet" type="text/css" media="screen">
+    <link href="{{ asset('plugins/switchery/css/switchery.min.css') }}" rel="stylesheet" type="text/css" media="screen" />
 @stop
 @section('content')
 <!-- breadcrumb start -->
@@ -12,7 +13,7 @@
                     <a href="{{ url('/') }}">Tableau de borad</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a href="{{ url('/partner') }}">Partner</a>
+                    <a href="{{ url('/clients/particular') }}">Clients particular</a>
                 </li>
                 <li class="breadcrumb-item active">
                     Show
@@ -26,7 +27,7 @@
 <div class="container-fluid container-fixed-lg">
     <div class="card ">
         <div class="card-header">
-            <h4 class="m-t-0 m-b-0"> <strong>Partner Information</strong> </h4>
+            <h4 class="m-t-0 m-b-0"> <strong>Clients particular Information</strong> </h4>
         </div>
         <div class="card-body">
             <div class="row">
@@ -37,11 +38,11 @@
                                 <p>Lorem ipsum </p>
 
                                 <h5 class="p-t-15">First name</h5>
-                                <p>partner</p>
+                                <p>Clients particular</p>
                             </div>
                             <div class="col-md-4">
                                 <h5>Email</h5>
-                                <p>partner@admin.com</p>
+                                <p>clientsparticular@admin.com</p>
 
                                 <h5 class="p-t-15"> last Name</h5>
                                 <p>Lorem ipsum</p> 
@@ -59,17 +60,7 @@
                                 <h5>Country:</h5>
                                 <p>France</p>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h5>Trade registry:</h5>
-                                <p>2514 882 06698</p>
-                            </div>
-                            <div class="col-md-4">
-                                <h5>Ice:</h5>
-                                <p>France</p>
-                            </div>
-                        </div>
+                        </div> 
                         <div class="row">
                             <div class="col-md-4">
                                 <h5>City:</h5>
@@ -100,16 +91,7 @@
                         </div> 
                 </div>
                 <div class="col-md-3">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h3> Approve this account</h3>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. corrupti atque laboriosam consectetur debitis vitae architecto .
-                            <form action="" method="post" class="mt-2">
-                                <input type="checkbox" data-init-plugin="switchery" data-size="small" data-color="primary" checked="checked" /> 
-                                <label for="">Approve</label>
-                                <textarea name="" id="" cols="30" rows="5" class="form-control"></textarea>
-                            </form>
-                        </div>
+                    <div class="row"> 
                         <div class="col-md-12">
                             <h3>Changer le mot de passe</h3>
                             Nous vous conseillons d&apos;utiliser un mot de passe sur que vous n&apos;utilisez nulle part alleurs.<br>
@@ -131,5 +113,5 @@
 @endsection
 
 @section('script')
-
+    <script src="{{ asset('plugins/switchery/js/switchery.min.js') }}" type="text/javascript"></script>
 @stop

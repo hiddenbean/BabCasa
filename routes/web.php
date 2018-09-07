@@ -206,6 +206,26 @@ Route::domain('staff.babcasa.com')->group(function (){
         return view('partners.backoffice.show');
     }); 
 
+    Route::get('/clients/business', function () { 
+        return view('clients_business.backoffice.index');
+    }); 
+    Route::get('/clients/business/create', function () { 
+        return view('clients_business.backoffice.create');
+    }); 
+    Route::get('/clients/business/show', function () { 
+        return view('clients_business.backoffice.show');
+    }); 
+    
+    Route::get('/clients/particular', function () { 
+        return view('clients_particular.backoffice.index');
+    }); 
+    Route::get('/clients/particular/create', function () { 
+        return view('clients_particular.backoffice.create');
+    }); 
+    Route::get('/clients/particular/show', function () { 
+        return view('clients_particular.backoffice.show');
+    }); 
+
 
 }); 
 

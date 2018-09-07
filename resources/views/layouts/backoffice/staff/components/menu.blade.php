@@ -33,6 +33,25 @@
         </li>
         <li>
             <a href="javascript:;">
+                <span class="title">Clients</span>
+                <span class="arrow"></span>
+            </a>
+            <span class="icon-thumbnail">
+                <i class="fa fa-user-circle"></i>
+            </span>
+            <ul class="sub-menu">
+                <li>
+                    <a href="{{ url('/clients/business') }}">Clients business</a>
+                    <span class="icon-thumbnail">CB</span>
+                </li>
+                <li>
+                    <a href="{{ url('/clients/particular') }}">Clients particular</a>
+                    <span class="icon-thumbnail">CP</span>
+                </li> 
+            </ul>
+        </li>
+        <li>
+            <a href="javascript:;">
                 <span class="title">Settings</span>
                 <span class="arrow"></span>
             </a>
