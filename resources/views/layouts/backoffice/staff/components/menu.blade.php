@@ -83,6 +83,30 @@
             </span> 
         </li>
         <li>
+            <a href="{{ url('/currencies') }}">
+                <span class="title">Currencies</span>
+            </a>
+            <span class="icon-thumbnail">
+                <i class="fa fa-align-justify"></i>
+            </span> 
+        </li>
+        <li>
+            <a href="{{ url('/reasons') }}">
+                <span class="title">reasons</span>
+            </a>
+            <span class="icon-thumbnail">
+                <i class="fa fa-align-justify"></i>
+            </span> 
+        </li>
+        <li>
+            <a href="{{ url('/countries') }}">
+                <span class="title">Countries</span>
+            </a>
+            <span class="icon-thumbnail">
+                <i class="fa fa-align-justify"></i>
+            </span> 
+        </li>
+        <li>
             <a href="javascript:;">
                 <span class="title">Settings</span>
                 <span class="arrow"></span>
