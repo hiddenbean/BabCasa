@@ -2,23 +2,7 @@
 @section('css')
     <link href="{{ asset('plugins/switchery/css/switchery.min.css') }}" rel="stylesheet" type="text/css" media="screen" />
 @stop
-@section('content')
-<!-- breadcrumb start 
-<div class="container-fluid container-fixed-lg ">
-    <div class="row">
-        <div class="col-md-12">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                    <a href="{{ url('/') }}">Tableau de borad</a>
-                </li>
-                <li class="breadcrumb-item active">
-                    settings
-                </li>
-            </ol>
-        </div>
-    </div>
-</div>
-<!-- breadcrumb end -->
+@section('content') 
 
 <!-- START SECONDARY SIDEBAR -->
 <nav class="secondary-sidebar"> 
