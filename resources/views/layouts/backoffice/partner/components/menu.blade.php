@@ -17,15 +17,15 @@
             </span>
             <ul class="sub-menu">
                 <li>
-                    <a href="">Sécurité</a>
+                    <a href="{{ url('/security') }}">Sécurité</a>
                     <span class="icon-thumbnail">Se</span>
                 </li>
                 <li>
-                    <a href="">Historique</a>
+                    <a href="{{ url('/log') }}">Historique</a>
                     <span class="icon-thumbnail">Hi</span>
                 </li>
                 <li>
-                    <a href="">Gérer mon compte</a>
+                    <a href="{{ url('/settings') }}">Gérer mon compte</a>
                     <span class="icon-thumbnail">GC</span>
                 </li>
             </ul>
@@ -40,11 +40,11 @@
             </span>
             <ul class="sub-menu">
                 <li>
-                    <a href="">Mes tickets</a>
+                    <a href="{{ url('/') }}">Mes tickets</a>
                     <span class="icon-thumbnail">MT</span>
                 </li> 
                 <li>
-                    <a href="">Créer</a>
+                    <a href="{{ url('/') }}">Créer</a>
                     <span class="icon-thumbnail">Cr</span>
                 </li> 
             </ul>

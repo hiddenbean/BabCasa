@@ -1,4 +1,6 @@
-@extends('layouts.backoffice.partner.app') @section('content')
+@extends('layouts.backoffice.partner.app') 
+
+@section('content')
 
 <!-- breadcrumb start -->
 <div class="container-fluid container-fixed-lg ">
