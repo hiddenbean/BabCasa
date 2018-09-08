@@ -25,6 +25,10 @@ class Categorie extends Model
     {
         return $this->belongsToMany('App\Attribute');
     }
+    public function products()
+    {
+        return $this->belongsToMany('App\Product');
+    }
     public function details()
     {
         return $this->belongsToMany('App\Detail');

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\productlang;
+use App\Productlang;
 use Illuminate\Http\Request;
 
 class ProductLangController extends Controller
@@ -17,10 +17,9 @@ class ProductLangController extends Controller
     protected function validateRequest(Request $request)
     {
         $request->validate([
-            'reference' => 'required|unique:categorie_langs,reference',
-            'description' => 'required',
-            'short_description' => 'required',
-            'product_id' => 'required',
+            'reference' => 'required|unique:product_langs,reference',
+            'short_description' => 'required|required|max:306',
+            'description' => 'required|required|max:3000',
             'lang_id' => 'required',
         ]);
     }
