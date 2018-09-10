@@ -6,25 +6,25 @@
 
 <!-- START SECONDARY SIDEBAR -->
 <nav class="secondary-sidebar"> 
-    <p class="menu-title">Sttings</p>
-    <ul class="main-menu">
-        <li class="active">
-            <a href="#">
-            <span class="title"><i class="fa fa-envelope"></i> Newsletter suscription</span> 
-            </a>
-        </li>
-        <li class="">
-            <a href="#">
-            <span class="title"><i class="pg-folder"></i>Security</span>
-            </a> 
-        </li>
-        <li>
-            <a href="#">
-                <span class="title"><i class="pg-sent"></i>Log</span>
-            </a>
-        </li> 
-    </ul> 
-</nav>
+        <p class="menu-title">Sttings</p>
+        <ul class="main-menu">
+            <li class="">
+                <a href="{{ url('/settigs') }}">
+                <span class="title"><i class="fa fa-envelope"></i> Newsletter suscription</span> 
+                </a>
+            </li>
+            <li >
+                <a href="{{ url('/security') }}">
+                <span class="title"><i class="pg-folder"></i>Security</span>
+                </a> 
+            </li>
+            <li class="active">
+                <a href="{{ url('/log') }}">
+                    <span class="title"><i class="pg-sent"></i>Log</span>
+                </a>
+            </li> 
+        </ul> 
+    </nav>
 <!-- END SECONDARY SIDEBAR  -->
 <div class="inner-content full-height padding-20"> 
     <div class="card ">

@@ -149,6 +149,25 @@ Route::domain('partner.babcasa.com')->group(function (){
         return view('subjects.backoffice.partner.index');
     }); 
 
+    Route::get('/tags', function () { 
+        return view('tags.backoffice.partner.index');
+    }); 
+    Route::get('/tags/create', function () { 
+        return view('tags.backoffice.partner.create');
+    }); 
+    Route::get('/tags/show', function () { 
+        return view('tags.backoffice.partner.show');
+    }); 
+
+    Route::get('/products', function () { 
+        return view('products.backoffice.partner.index');
+    }); 
+    Route::get('/products/create', function () { 
+        return view('products.backoffice.partner.create');
+    }); 
+    Route::get('/products/show', function () { 
+        return view('products.backoffice.partner.show');
+    }); 
 
 }); 
 
@@ -245,16 +264,7 @@ Route::domain('staff.babcasa.com')->group(function (){
     Route::get('/claims/show', function () { 
         return view('claims.backoffice.staff.show');
     }); 
-
-    Route::get('/tags', function () { 
-        return view('tags.backoffice.staff.index');
-    }); 
-    Route::get('/tags/create', function () { 
-        return view('tags.backoffice.staff.create');
-    }); 
-    Route::get('/tags/show', function () { 
-        return view('tags.backoffice.staff.show');
-    }); 
+ 
 
     Route::get('/details', function () { 
         return view('details.backoffice.staff.index');
