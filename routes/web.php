@@ -30,7 +30,7 @@ Route::domain('staff.babcasa.com')->group(function (){
 });
 
 Route::domain('partner.babcasa.com')->group(function (){
-    Route::get('/test', 'ProductController@index'); 
+    Route::get('/test', 'ProductController@create'); 
     
     Route::get('/register', 'auth\PartnerRegisterController@showRegisterForm'); 
     Route::get('/sign-in', 'Auth\PartnerLoginController@showLoginForm');
@@ -70,7 +70,8 @@ Route::domain('www.babcasa.com')->group(function (){
 
 Route::domain('partner.babcasa.com')->group(function (){
 
-    Route::post('register', 'auth\PartnerRegisterController@store')->name('pqrtner.register.submit'); 
+    Route::post('/store', 'ProductController@store');
+    Route::post('register', 'auth\PartnerRegisterController@store')->name('partner.register.submit'); 
     Route::post('/sign-in', 'Auth\PartnerLoginController@login');
     Route::delete('partner/{partner}/deactivate', 'PartnerController@destroy');
     Route::post('password/email', 'auth\PartnerForgotPasswordController@sendResetLinkEmail');

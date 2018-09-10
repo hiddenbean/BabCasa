@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Attribute extends Model
 {
     
-    public function attributeLang()
+    public function attributeLangs()
     {
             return $this->hasMany('App\AttributeLang');
     }

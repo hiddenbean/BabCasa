@@ -40,4 +40,9 @@ class Product extends Model
     {
         return $this->morphOne('App\Picture', 'pictureable');
     }
+
+    public function categories()
+    {
+        return $this->belongsToMany('App\Categorie');
+    }
 }
