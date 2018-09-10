@@ -3,12 +3,18 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\Language;
+use App;
 class Categorie extends Model
 {
-    public function categorieLang()
+    public function categorieLangs()
     {
             return $this->hasMany('App\CategorieLang');
+    }
+    public function categorieLang()
+    {
+        $langId = Language::where('symbol',App::getLocale())->first()->id; 
+        return $this->categorieLangs()->where('lang_id',$langId);
     }
 
     public function subCategories()

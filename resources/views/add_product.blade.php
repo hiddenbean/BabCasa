@@ -16,14 +16,6 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="form-group col-2 ">
-                    <label for="staticEmail2">Language : </label>
-                    <select class="form-control" name="lang_id" id="staticEmail2">
-                        @foreach($languages as $language)
-                        <option value="{{$language->id}}">{{$language->name}}</option>
-                        @endforeach
-                    </select>
-                </div>
                 
             </div>
             {{$errors}}
@@ -73,6 +65,52 @@
             </div>
            
             <div id="attribute_values">
+            </div>
+            <br>
+            <h1>Add Details</h1>
+            <br>
+            <div class="detail">
+                    <div class="form-inline">
+                            <div class="form-group mx-sm-3 mb-2">
+                                <label for="staticEmail2" class="sr-only">Email</label>
+                                <select class="form-control" id="detail_id">
+                                        @foreach($categories->first()->details as $detail)
+                                        <option value="{{$detail->id}}">{{$detail->DetailLang->first()->value}}</option>
+                                        @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group mx-sm-3 mb-2">
+                                <label for="inputPassword2" class="sr-only">value</label>
+                                <input type="text" class="form-control" id="detail_val" placeholder="Value">
+                            </div>
+                            <button type="button" id="add_detail" class="btn btn-primary mb-2">Add</button>
+                        </div>
+                <div class="row" id="details">
+                    <div class="col-6">
+
+                    </div>
+                </div>
+            </div>
+             <br>
+            <h1>Add Tags</h1>
+            <br>
+            <div class="tags">
+                    <div class="form-inline">
+                            <div class="form-group mx-sm-3 mb-2">
+                                <label for="staticEmail2" class="sr-only">Email</label>
+                                <select class="form-control" id="tag_id">
+                                        @foreach($tags as $tag)
+                                        <option value="{{$tag->id}}">{{$tag->tagLang->first()->tag}}</option>
+                                        @endforeach
+                                </select>
+                            </div>
+                            <button type="button" id="add_tag" class="btn btn-primary mb-2">Add</button>
+                        </div>
+                <div class="row" id="tags">
+                    <div class="col-6">
+
+                    </div>
+                </div>
             </div>
           </form><br>
    
@@ -132,22 +170,33 @@ console.log(tree);
 //       $('#addAttr').modal('toggle');
 //     })
     
-//     $('#add_value').on('click', function(){
-//         var id_pere = 0;
-//         var dev_id = 'attribute_'+id_pere;
-//       var value = $('#val').val();
-//       var att_id = $('#attribute_id').val();
-//       console.log(value);
-//       var html = ' <div class="card"><h5 class="card-header" >'+value+'</h5><div class="card-body"><h5 class="card-title">Special title treatment</h5> <input type="hidden" name="attribute_id[]" value="'+att_id+'">';
-//         html += '<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>';
-//         html += '<a href="#" class="btn btn-primary" id="more_options">add option</a> or <a href="#" class="btn btn-primary">make variant</a></div>';
-//         html += '<div id="value_'+id_pere+'" > </div>';
-//         html += '</div>';
-//         $('#attribute_values').append(html);
-//         $('#addAttr').modal('hide');
+    $('#add_detail').on('click', function(){
+      var detail_id = $('#detail_id').val();
+      var detail = $('#detail_id option:selected').text();
+      console.log(detail);
+        if($('#detail_val').val()){
+
+            var html = '<div class="col-6"><div class="form-inline"><div class="form-group mb-2"><label for="staticEmail2" class="sr-only"></label><input type="text" readonly class="form-control-plaintext" value="'+detail+'"><input type="hidden" name="detail_id[]" value="'+detail_id+'"></div>';
+            html += '<div class="form-group mx-sm-3 mb-2"><label for="inputPassword2" class="sr-only"></label><input type="text" class="form-control" name="detail_val[]" value="'+$('#detail_val').val()+'"> </div><button type="button">Delete</button></div></div>';
+            $('#details').append(html);
+
+        }
 
     
-//   })
+  })
+    
+    $('#add_tag').on('click', function(){
+      var tag_id = $('#tag_id').val();
+      var tag = $('#tag_id option:selected').text();
+      console.log(tag);
+
+            var html = '<div class="col-6"><div class="form-inline"><div class="form-group mb-2"><label for="staticEmail2" class="sr-only"></label><input type="text" readonly class="form-control-plaintext" value="'+tag+'"><input type="hidden" name="tag_id[]" value="'+tag_id+'"></div>';
+            html += '<button type="button">Delete</button></div></div>';
+            $('#tags').append(html);
+
+    
+  })
+  
 //     $('#add_attribute').on('click', function(){
 //         var id_pere = $(this).data('idpere');
 //         var dev_id = 'attribute_'+id_pere;
@@ -182,7 +231,7 @@ console.log(tree);
                                 <label for="staticEmail2" class="sr-only">Email</label>
                                 <select class="form-control" id="attribute_id">
                                         @foreach($categories->first()->attributes as $attribute)
-                                        <option value="{{$attribute->id}}">{{$attribute->attributeLangs->first()->reference}}</option>
+                                        <option value="{{$attribute->id}}">{{$attribute->attributeLang->first()->reference}}</option>
                                         @endforeach
                                 </select>
                             </div>

@@ -16,6 +16,7 @@ class CreateAttributeVarcharValueLangsTable extends Migration
         Schema::create('attribute_varchar_value_langs', function (Blueprint $table) {
             $table->increments('id');
             $table->string('value');
+            $table->integer('lang_id');
             $table->integer('attribute_varchar_value_id');
             $table->timestamps();
         });

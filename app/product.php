@@ -1,14 +1,15 @@
 <?php
 
 namespace App;
-
+use App\Language;
+use App;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
     public function productLangs()
     {
-            return $this->hasMany('App\Product_lang');
+            return $this->hasMany('App\ProductLang');  
     }
 
     public function tags()
@@ -45,4 +46,14 @@ class Product extends Model
     {
         return $this->belongsToMany('App\Categorie');
     }
+
+    public function productLang()
+    {
+        $langId = Language::where('symbol',App::getLocale())->first()->id; 
+        return $this->productLangs()->where('lang_id',$langId);
+
+    }
+
+
+
 }

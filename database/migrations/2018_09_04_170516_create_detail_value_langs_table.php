@@ -17,6 +17,7 @@ class CreateDetailValueLangsTable extends Migration
             $table->increments('id');
             $table->string('value');
             $table->integer('detail_value_id');
+            $table->integer('lang_id');
             $table->timestamps();
         });
     }

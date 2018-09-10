@@ -2,18 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App;
+use App\Tag;
 use App\Product;
-use App\Productlang;
-use App\Categorie;
-use App\Language;
 use App\Picture;
+use App\Language;
 use App\Attribute;
 use App\Currencie;
+use App\Categorie;
+use App\DetailValue;
+use App\Productlang;
 use App\AttributeValue;
+use App\DetailValueLang;
 use App\AttributeDateValue;
 use App\AttributeDoubleValue;
 use App\AttributeVarcharValue;
 use App\AttributeVarcharValueLang;
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\ProductLangController;
 use App\Http\Controllers\AttributeValueController;
@@ -54,7 +59,10 @@ class ProductController extends Controller
      */
     public function create()
     {
+        
         $data['categories'] = Categorie::all();
+        $data['tags'] = Tag::all();
+        // return $data['tags']->first()->tagLang->first()->tag; 
         $data['languages'] = Language::all();
         $data['currencies'] = Currencie::all();
         return view('add_product',$data);
@@ -68,11 +76,14 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+
+        
+        return $request->detail_val;
         $attributes = [];
         $attributes = json_decode($request->attribures);
-        // $this->attributeValueContent(1,'64' , 2 );
+
         $this->validateRequest($request);
-        // dd($attributes);
+
         $product = new Product();
         
         $product->price = $request->price;
@@ -81,18 +92,40 @@ class ProductController extends Controller
         $product->for_business = ($request->for_business=='on') ? 1 : 0;
         $product->save();
 
-        // $product->categories()->attach($request->categorie_id);
-
+        $product->categories()->attach($request->categorie_id);
+        
         $productlang = new Productlang();
         $productlang->reference = $request->reference;
         $productlang->short_description = $request->short_description;
         $productlang->description = $request->description;
         $productlang->product_id = $product->id;
-        $productlang->lang_id = $request->lang_id;
+        $productlang->lang_id = Language::where('symbol',App::getLocale())->first()->id;
         $productlang->save();
         // $pictureController = new PictureController();
         // $pictureController->validateRequest($request);
-        //
+        
+        
+        ///////// ADD DETAILS
+        foreach($request->detail_val as $k => $value) {
+            
+            $detailValue = new DetailValue();
+            $detailValue->detail_id = $request->detail_id[$k];
+            $detailValue->product_id = $product->id;
+            $detailValue->save();
+            
+            $detailValueLang = new DetailValueLang();
+            $detailValueLang->value = $value;
+            $detailValueLang->detail_value_id = $detailValue->id;
+            $detailValueLang->lang_id = Language::where('symbol',App::getLocale())->first()->id;
+            $detailValueLang->save();
+            
+        }
+        ///////// ADD TAGS
+        foreach($request->tag_id as $tag) {
+            
+            $product->tags()->attach($tag);
+
+        }
       $pictures = $request->picture;
 
       
@@ -163,6 +196,7 @@ class ProductController extends Controller
                 $attributeVarcharValueLang = new AttributeVarcharValueLang();
                 $attributeVarcharValueLang->value = $value;
                 $attributeVarcharValueLang->attribute_varchar_value_id = $attributeVarcharValue->id;
+                $attributeVarcharValueLang->lang_id = Language::where('symbol',App::getLocale())->first()->id;
                 $attributeVarcharValueLang->save();
                 
                  break;
