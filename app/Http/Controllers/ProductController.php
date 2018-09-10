@@ -98,7 +98,7 @@ class ProductController extends Controller
       
        $this->getGenerations($attributes, $product->id, $pictures);
     }
-   public function getGenerations($attributes, $productId, $pictures, $currGeneration = 0, &$result = array(), $parentId = null)
+   public function getGenerations($attributes, $productId, $pictures, $currGeneration = 0, $result = array(), $parentId = null)
     {
         $currGeneration++;
         //    dd($attributes[0]->picture);
