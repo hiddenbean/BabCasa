@@ -65,15 +65,7 @@
             <span class="icon-thumbnail">
                 <i class="fa fa-file"></i>
             </span> 
-        </li>
-        <li>
-            <a href="{{ url('/tags') }}">
-                <span class="title">Tags</span>
-            </a>
-            <span class="icon-thumbnail">
-                <i class="fa fa-tags"></i>
-            </span> 
-        </li>
+        </li> 
         <li>
             <a href="{{ url('/details') }}">
                 <span class="title">Details</span>
@@ -92,7 +84,7 @@
         </li>
         <li>
             <a href="{{ url('/reasons') }}">
-                <span class="title">reasons</span>
+                <span class="title">Reasons</span>
             </a>
             <span class="icon-thumbnail">
                 <i class="fa fa-align-justify"></i>
