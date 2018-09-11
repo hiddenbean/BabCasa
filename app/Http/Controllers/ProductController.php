@@ -105,6 +105,19 @@ class ProductController extends Controller
         // $pictureController->validateRequest($request);
         
         
+        ///////// ADD PICTURES
+        foreach($request->product_pictures as $product_picture) {
+            
+            $picture = Picture::create([
+                'name' => time().'.'.$product_picture->getClientOriginalExtension(),
+                'tag' => "attributes_value",
+                'path' => $product_picture->store('images/products', 'public'),
+                'extension' => $product_picture->extension(),
+                'pictureable_type' => 'Product',
+                'pictureable_id' => $product->id,
+            ]);
+            
+        }
         ///////// ADD DETAILS
         foreach($request->detail_val as $k => $value) {
             
@@ -126,12 +139,12 @@ class ProductController extends Controller
             $product->tags()->attach($tag);
 
         }
-      $pictures = $request->picture;
+      $variantPictures = $request->variant_pictures;
 
       
-       $this->getGenerations($attributes, $product->id, $pictures);
+       $this->getGenerations($attributes, $product->id, $variantPictures);
     }
-   public function getGenerations($attributes, $productId, $pictures, $currGeneration = 0, $result = array(), $parentId = null)
+   public function getGenerations($attributes, $productId, $variantPictures, $currGeneration = 0, $result = array(), $parentId = null)
     {
         $currGeneration++;
         //    dd($attributes[0]->picture);
@@ -150,7 +163,7 @@ class ProductController extends Controller
                 // unset($attribute->children);
                 // dd($attribute);
                 $result[$currGeneration][$k] = $attribute;
-                    $this->getGenerations($v->children,$productId, $pictures, $currGeneration, $result,$attributeValue->id);
+                    $this->getGenerations($v->children,$productId, $variantPictures, $currGeneration, $result,$attributeValue->id);
                   
             //     return;
             }
@@ -167,7 +180,7 @@ class ProductController extends Controller
                 $attributeValue->save();
                 if(isset($attribute->picture))
                 {
-                    $this->picture($pictures[$attribute->picture],$attributeValue->id);
+                    $this->picture($variantPictures[$attribute->picture],$attributeValue->id);
                 }
                 // echo $attribute->attr.'<br>';
                 $this->attributeValueContent($attributeValue->id,$attribute->value , $attribute->attr );

@@ -34,11 +34,17 @@
               <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="8"></textarea>
             </div>
             <div class="form-group">
-                    <label for="exampleFormControlFile1">Picture</label>
-                    <input type="file" class="form-control-file" name="picture[]" id="exampleFormControlFile1">
-                    <input type="file" class="form-control-file" name="picture[]" id="exampleFormControlFile1">
-                    <input type="file" class="form-control-file" name="picture[]" id="exampleFormControlFile1">
-                  </div>
+                    <label for="exampleFormControlFile1">Product Pictures</label>
+                    <input type="file" class="form-control-file" name="product_pictures[]" id="exampleFormControlFile1">
+                    <input type="file" class="form-control-file" name="product_pictures[]" id="exampleFormControlFile1">
+                    <input type="file" class="form-control-file" name="product_pictures[]" id="exampleFormControlFile1">
+            </div>
+            <div class="form-group">
+                    <label for="exampleFormControlFile1">Variant Pictures</label>
+                    <input type="file" class="form-control-file" name="variant_pictures[]" id="exampleFormControlFile1">
+                    <input type="file" class="form-control-file" name="variant_pictures[]" id="exampleFormControlFile1">
+                    <input type="file" class="form-control-file" name="variant_pictures[]" id="exampleFormControlFile1">
+            </div>
             <div class="form-group form-check">
               <input type="checkbox" name="for_business" class="form-check-input" id="exampleCheck1">
               <label class="form-check-label" for="exampleCheck1">For Business</label>
