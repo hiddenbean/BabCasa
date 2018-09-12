@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAttributeLangsTable extends Migration
+class CreateBundleDiscountsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateAttributeLangsTable extends Migration
      */
     public function up()
     {
-        Schema::create('attribute_langs', function (Blueprint $table) {
+        Schema::create('bundle_discounts', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('reference');
-            $table->text('description');
-            $table->integer('category_id');
-            $table->integer('attribute_id');
-            $table->integer('lang_id');
+            $table->integer('discount_id');
+            $table->integer('bundle_id');
+            $table->integer('quantity');
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ class CreateAttributeLangsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('attribute_langs');
+        Schema::dropIfExists('bundle_discounts');
     }
 }

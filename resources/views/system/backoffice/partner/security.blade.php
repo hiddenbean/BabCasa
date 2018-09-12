@@ -121,7 +121,7 @@
                                 En desactivant votre compte, vous desactiver votre profil  et supprimez votre nom et otre photo de la plupart des  contenus que vous avez partages sur Babcasa.
                                  <a href="#">En savoir plus</a>. 
                               
-                                 <form action="{{url('partner/'.$partner->id.'/deactivate')}}" method="POST" class="m-t-5">
+                                 <form action="{{url('partner/'.$partner->id.'/desactivate')}}" method="POST" class="m-t-5">
                                     {{ csrf_field() }}
                                     {{ method_field('DELETE') }}
                                     <input type="submit" class="btn btn-danger" value="Desactiver">

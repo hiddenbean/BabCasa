@@ -48,11 +48,11 @@
             </span>
             <ul class="sub-menu">
                 <li>
-                    <a href="{{ url('/') }}">Mes tickets</a>
+                    <a href="{{ url('/support/ticket') }}">Mes tickets</a>
                     <span class="icon-thumbnail">MT</span>
                 </li> 
                 <li>
-                    <a href="{{ url('/') }}">Créer</a>
+                    <a href="{{ url('/support') }}">Créer</a>
                     <span class="icon-thumbnail">Cr</span>
                 </li> 
             </ul>

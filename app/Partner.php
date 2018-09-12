@@ -37,6 +37,7 @@ class Partner extends Authenticatable
     {
         return $this->morphMany('App\Phone', 'phoneable');
     }
+    
     public static function boot()
     {
         parent::boot();    

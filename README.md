@@ -1,5 +1,5 @@
 # BabCasa
-Web platform for the purpese of finding and reserving food and other related services
+Web platform for the purpese of finding and reserving products and other related services
 <a href="http://www.babcasa.com">http://www.babcasa.com</a> 
 
 # How to deploy for developpers 

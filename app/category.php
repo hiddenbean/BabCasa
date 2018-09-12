@@ -3,13 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Language;
-use App;
-class Categorie extends Model
+
+class Category extends Model
 {
-    public function categorieLangs()
+    public function categoryLang()
     {
-            return $this->hasMany('App\CategorieLang');
+            return $this->hasMany('App\CategoryLang');
     }
     public function categorieLang()
     {
@@ -19,12 +18,12 @@ class Categorie extends Model
 
     public function subCategories()
     {
-            return $this->hasMany('App\Categorie');
+            return $this->hasMany('App\Category');
     }
 
-    public function categorie()
+    public function category()
     {
-        return $this->belongsTo('App\Categorie');
+        return $this->belongsTo('App\Category');
     }
     
     public function attributes()

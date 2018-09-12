@@ -7,6 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class AttributeValue extends Model
 {
 
+    // Relationship with discount table
+    public function discount()
+    {
+        return $this->belongsToMany('App/Discount');
+    }
+
     public function attribute()
     {
         return $this->belongsTo('App\Attribute');
@@ -25,8 +31,6 @@ class AttributeValue extends Model
     {
         return $this->belongsTo('App\AttributeValue');
     }
-
-    
     
     public function attributeVarcharValue()
     {

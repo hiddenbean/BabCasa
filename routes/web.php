@@ -57,10 +57,15 @@ Route::domain('partner.babcasa.com')->group(function (){
     Route::get('{partner}/password/reset/{token}', 'auth\PartnerResetPasswordController@showResetForm');
     Route::get('security', 'PartnerController@security');
     Route::get('settings', 'PartnerController@edit');
+    Route::get('discount/create', function(){return view('discounts.backoffice.create');});
 
      //client finale gestion support routes start 
      Route::prefix('support')->group(function() {
-         Route::get('ticket','ClaimController@index');
+        Route::prefix('ticket')->group(function() {
+            Route::get('/','ClaimController@index');
+            Route::get('{id}','ClaimController@show');
+        });
+         
         Route::get('/','SubjectController@index');
         Route::prefix('{subject}')->group(function() {
             Route::prefix('ticket')->group(function() {
@@ -88,20 +93,44 @@ Route::domain('www.babcasa.com')->group(function (){
 Route::domain('partner.babcasa.com')->group(function (){
 
     Route::post('/store', 'ProductController@store');
-    Route::post('register', 'auth\PartnerRegisterController@store')->name('partner.register.submit'); 
-    Route::post('/sign-in', 'Auth\PartnerLoginController@login');
-    Route::delete('partner/{partner}/deactivate', 'PartnerController@destroy');
-    Route::post('password/email', 'auth\PartnerForgotPasswordController@sendResetLinkEmail');
-    Route::post('password/reset', 'auth\PartnerResetPasswordController@reset');
-    Route::delete('{partner}/security/{session}', 'PartnerController@sessionDestroy');
-    Route::post('{partner}/settings/update', 'PartnerController@update');
 
-      //client finale gestion support routes start 
+    // Partner register route
+    Route::post('register', 'auth\PartnerRegisterController@store')->name('partner.register.submit'); 
+    // Partner auth route, sign in    
+    Route::post('/sign-in', 'Auth\PartnerLoginController@login');
+
+    // Desactivate partner account
+    Route::delete('partner/{partner}/desactivate', 'PartnerController@destroy');
+
+    // Partner change password start
+    Route::prefix('password')->group(function() {
+        Route::post('email', 'auth\PartnerForgotPasswordController@sendResetLinkEmail');
+        Route::post('reset', 'auth\PartnerResetPasswordController@reset');
+    });
+    // Partner change password end
+
+    Route::prefix('{partner}')->group(function() {
+        // Partner secutiry
+        Route::delete('security/{session}', 'PartnerController@sessionDestroy');
+
+        // Partner update
+        Route::post('settings/update', 'PartnerController@update');
+    });
+    
+
+    //Discount routes start
+    Route::post('discount/create', 'DiscountController@store');
+    //Discount routes end
+
+    //client finale gestion support routes start 
     Route::prefix('support')->group(function() {
         Route::prefix('{subject}')->group(function() {
             Route::prefix('ticket')->group(function() {
                 Route::post('create','ClaimController@store');
             });
+        });
+        Route::prefix('ticket')->group(function() {
+            Route::post('{id}/close','ClaimController@changeStatus');
         });
     });
 
@@ -162,10 +191,6 @@ Route::domain('partner.babcasa.com')->group(function (){
 
     Route::get('/log', function () { 
         return view('system.backoffice.partner.log');
-    }); 
-
-    Route::get('/settings', function () { 
-        return view('system.backoffice.partner.settings');
     }); 
 
     Route::get('/claims', function () { 
@@ -229,9 +254,9 @@ Route::domain('staff.babcasa.com')->group(function (){
         return view('system.backoffice.staff.log');
     }); 
 
-    Route::get('/settings', function () { 
-        return view('system.backoffice.staff.settings');
-    });
+    // Route::get('/settings', function () { 
+    //     return view('system.backoffice.staff.settings');
+    // });
     Route::get('/profile', function () { 
         return view('system.backoffice.staff.profile');
     }); 

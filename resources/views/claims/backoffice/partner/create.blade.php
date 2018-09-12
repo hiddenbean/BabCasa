@@ -19,11 +19,8 @@
                     </li>
                     <li class="breadcrumb-item">
                         <a href="{{ url('support/ticket') }}">Support</a>
-                    </li> 
-                    <li class="breadcrumb-item">
-                        <a href="#">sujets</a>
                     </li>
-                    <li class="breadcrumb-item active">Ticket</li>
+                    <li class="breadcrumb-item active">{{$Subject->name}} ticket</li>
                 </ol>
             </div>
         </div>
@@ -81,7 +78,7 @@
                                         <div id="summernote" class=""></div>
                                         <input type="hidden" value="" id="message" name="message">
                                     </div>
-                                    <!-- content start -->
+                                    <!-- content end -->
                                 </div>
                             </div>
                             <br>

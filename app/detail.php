@@ -13,17 +13,17 @@ class Detail extends Model
     {
             return $this->hasMany('App\DetailLang');
     }
+    
     public function detailLang()
     {
         $langId = Language::where('symbol',App::getLocale())->first()->id; 
         return $this->detailLangs()->where('lang_id',$langId);
-        
     }
     public function categories()
     {
-        return $this->belongsToMany('App\Categorie');
+        return $this->belongsToMany('App\Category');
     }
-    public function detaiValue()
+    public function detailValue()
     {
             return $this->hasOne('App\DetaiValue');
     }

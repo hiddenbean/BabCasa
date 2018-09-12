@@ -15,5 +15,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CodeCountrySeeder::class);
         $this->call(PhoneSeeder::class);
         $this->call(AddressSeeder::class);
+        $this->call(DiscountSeeder::class);
+        $this->call(DiscountLangSeeder::class);
     }
 }
