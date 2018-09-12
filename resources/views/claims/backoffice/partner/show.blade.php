@@ -19,7 +19,7 @@
                         <a href="/support">Support</a>
                     </li>
                     <li class="breadcrumb-item active">
-                        Tickets titre
+                        <strong> {{$claim->title}}</strong>
                     </li>
                 </ol>
             </div>
@@ -39,13 +39,13 @@
                     <div class="col-md-8 b-r b-dashed b-grey">
                         <div class="row">
                             <div class="col-md-12">
-                               Titre
+                                Titre
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <h1>
-                                    <strong> Titre</strong>
+                                    <strong> {{$claim->title}}</strong>
                                 </h1>
                             </div>
                         </div>
@@ -54,7 +54,7 @@
                                 Sujet
                             </div>
                             <div class="col-md-8">
-                                <strong>Sujet</strong>
+                                <strong>{{$claim->subject->title}}</strong>
                             </div>
                         </div>
                         <div class="row">
@@ -62,7 +62,7 @@
                                 Date de création
                             </div>
                             <div class="col-md-8">
-                            <strong>15/08/2018 10:25:53</strong>
+                            <strong>{{$claim->created_at}}</strong>
                             </div>
                         </div>
                     </div>
@@ -74,14 +74,25 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12"> 
-                                <h3>
-                                    <strong>Ouvert</strong>
-                                </h3> 
+                                @if($claim->status == true)
+                                    <h3>
+                                        <strong>Open</strong>
+                                    </h3>
+                                    @else
+                                    <h3>
+                                        <strong>Closed</strong>
+                                    </h3>
+                                @endif
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12"> 
-                               <a class="btn btn-danger" href=" ">Fermer</a> 
+                                    @if($claim->status == true)
+                                        <form action="{{url('/support/ticket/'.$claim->id.'/close')}}" method="post">
+                                            @csrf
+                                            <button type="submit" class="btn btn-danger">Close</button>
+                                        </form>
+                                    @endif
                             </div>
                         </div>
                     </div>
@@ -91,79 +102,97 @@
     </div>
     <div id="div_message"> <input type="hidden" class="new_message" id="new_message" onchange="change()"></div>
     <!-- Messages start -->
-  
+    @foreach($claim->claimMessages as $message )
+    @if($message->claim_messageable_type == 'partner')
     <!-- Partner message start -->
     <div class="container-fluid container-fixed-lg bg-white">
         <div class="row p-t-20 p-b-20">
             <div class="col-md-2 b-r b-dashed b-grey">
                 <span class="thumbnail-wrapper d32 circular inline">
-                    <img  src="" alt="" data-src="" data-src-retina="" width="32" height="32"> 
+                    <img  src="{{ Storage::url($claim->claimable->picture->where('tag','partner_avatar')->first()->path)}}" alt="{{$claim->claimable->company_name}}" data-src="{{ Storage::url($claim->claimable->picture->where('tag','partner_avatar')->first()->path)}}" data-src-retina="{{ Storage::url($claim->claimable->picture->where('tag','partner_avatar')->first()->path)}}" width="32" height="32">
                 </span>
                 <div class="m-l-40 p-t-5">      
-                    <strong>Company name</strong>
-                    <br>Le 15/08/2018 10:25:53      
+                    <strong>{{$claim->claimable->company_name}}</strong>
+                    @if( strtotime(date('y-m-d H:i:s')) - strtotime($message->created_at) < 60)
+                        <br> à l'instant
+                    @elseif( strtotime(date('y-m-d H:i:s')) - strtotime($message->created_at) < 3600)
+                        <br>Il y a {{  round((strtotime(date('y-m-d H:i:s')) - strtotime($message->created_at))/60) }} min
+                    @elseif( strtotime(date('y-m-d H:i:s')) - strtotime($message->created_at) > 3600 && strtotime(date('y-m-d H:i:s')) - strtotime($message->created_at) < 86400 )
+                        <br>Il y a {{  round((strtotime(date('y-m-d H:i:s')) - strtotime($message->created_at))/60/60) }} heurs
+                    @else
+                        <br>Le {{  date('y-m-d H:i:s', strtotime($message->created_at)) }}                    
+                    @endif      
                 </div>
             </div>
             <div class="col-md-10">
-                  Message   
+                    {!!$message->message!!}   
             </div>
         </div>
     </div> 
+    @endif
     <br>
     <!-- Partner message end -->
 
     <!-- Staff message start -->
-     
+    @if($message->claim_messageable_type == 'staff')
     <div class="container-fluid container-fixed-lg" style="background-color:#daeffd">
         <div class="row p-t-20 p-b-20">
             <div class="col-md-10 b-r b-dashed b-grey">
-                  Message 
+                    {!!$message->message!!}  
             </div>
             <div class="col-md-2">
                 <span class="thumbnail-wrapper d32 circular inline">
-                    <img src="" alt="" data-src="" width="32" height="32">
+                    <img src="{{ Storage::url($message->claimMessageable->picture->where('tag','staff')->first()->path)}}" alt="{{$message->claimMessageable->first_name}} {{$message->claimMessageable->last_name}}" data-src="{{ Storage::url($message->claimMessageable->picture->where('tag','staff')->first()->path)}}" width="32" height="32">
                 </span>
                 <div class="m-l-40 p-t-5">
-                    <strong>first_name last_name</strong><br>
-                     <br>Le 15/08/2018 10:25:53      
+                    <strong>{{$message->claimMessageable->first_name}}  {{$message->claimMessageable->last_name}} </strong><br>
+                    @if( strtotime(date('y-m-d H:i:s')) - strtotime($message->created_at) < 3600)
+                        <br>Il y a {{  round((strtotime(date('y-m-d H:i:s')) - strtotime($message->created_at))/60) }} min
+                    @elseif( strtotime(date('y-m-d H:i:s')) - strtotime($message->created_at) > 3600 && strtotime(date('y-m-d H:i:s')) - strtotime($message->created_at) < 86400 )
+                        <br>Il y a {{  round((strtotime(date('y-m-d H:i:s')) - strtotime($message->created_at))/60/60) }} heurs
+                    @else
+                        <br>Le {{  date('y-m-d H:i:s', strtotime($message->created_at)) }}                    
+                    @endif      
                 </div>
             </div>
         </div>
     </div> 
+    @endif
     <br>
     <!-- Staff message end -->   
- 
-   
+    @endforeach
+    @if($claim->status == true)
     <div class="container-fluid container-fixed-lg bg-white">
         <div class="row p-t-20 p-b-20">
             <div class="col-md-2 b-r b-dashed b-grey">
                 <span class="thumbnail-wrapper d32 circular inline">
-                    <img src="" alt="" data-src="" data-src-retina="" width="32" height="32">
+                    <img src="{{ Storage::url($claim->claimable->picture->where('tag','partner_avatar')->first()->path)}}" alt="{{$claim->claimable->company_name}}" data-src="{{ Storage::url($claim->claimable->picture->where('tag','partner_avatar')->first()->path)}}" data-src-retina="{{ Storage::url($claim->claimable->picture->where('tag','partner_avatar')->first()->path)}}" width="32" height="32">
                 </span>
                 <div class="m-l-40 p-t-5">
-                <strong>Company name </strong><br>
+                    <strong>{{$claim->claimable->company_name}}</strong><br>
                 </div>
             </div>
             <div class="col-md-10">
                 <div class="summernote-wrapper bg-white">
                     <div id="summernote"></div>
-                   
-                    <small class="p-l-10 text-danger" role="alert">
-                       Error 
-                    </small>
-                  
+                        @if ($errors->has('message'))
+                        <small class="p-l-10 text-danger" role="alert">
+                            {{ $errors->first('message') }}
+                        </small>
+                        @endif
                 </div>
                 <br>   
-                <form action="" id="myform" method="POST">
+                <form action="{{url('/support/ticket/'.$claim->id)}}" id="myform" method="POST">
                     {{ csrf_field() }}
                     <input type="hidden" name="message" id="message">
                     <input type="hidden" name="claim_id" value="">
                     <button class="btn btn-success" id="onclick" value="">Send</button>
-                    <button class="btn btn-default" id="onReste" type="button">Cancel</button>
+                    <a class="btn btn-default" id="onReste" href="{{ url()->current()}}">Cancel</a>
                 </form>
             </div>
         </div>
-    </div> 
+    </div>
+    @endif
     <br>
      
 

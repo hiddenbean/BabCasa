@@ -56,7 +56,7 @@
                         @if (isset($claims))
                             @foreach($claims as $claim)
                             <tr class="order-progress"  >
-                                <td class="v-align-middle"><a href=""><strong>{{ $claim->title}} </strong></a></td>
+                                <td class="v-align-middle"><a href="{{ url('support/ticket/'.$claim->id) }}"><strong>{{ $claim->title}} </strong></a></td>
                                 <td class="v-align-middle text-center"><strong> {{ $claim->subject->title}}  </strong></td>                
                                 <td class="v-align-middle text-center">{{ $claim->created_at}} </td>              
                                 <td class="v-align-middle text-center">{{ $claim->claimMessages()->count()}}</td> 

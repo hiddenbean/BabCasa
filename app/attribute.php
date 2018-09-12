@@ -19,6 +19,6 @@ class Attribute extends Model
 
     public function categories()
     {
-        return $this->belongsToMany('App\Categorie');
+        return $this->belongsToMany('App\Category');
     }
 }

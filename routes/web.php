@@ -44,7 +44,11 @@ Route::domain('partner.babcasa.com')->group(function (){
 
      //client finale gestion support routes start 
      Route::prefix('support')->group(function() {
-         Route::get('ticket','ClaimController@index');
+        Route::prefix('ticket')->group(function() {
+            Route::get('/','ClaimController@index');
+            Route::get('{id}','ClaimController@show');
+        });
+         
         Route::get('/','SubjectController@index');
         Route::prefix('{subject}')->group(function() {
             Route::prefix('ticket')->group(function() {
@@ -107,6 +111,9 @@ Route::domain('partner.babcasa.com')->group(function (){
             Route::prefix('ticket')->group(function() {
                 Route::post('create','ClaimController@store');
             });
+        });
+        Route::prefix('ticket')->group(function() {
+            Route::post('{id}/close','ClaimController@changeStatus');
         });
     });
 

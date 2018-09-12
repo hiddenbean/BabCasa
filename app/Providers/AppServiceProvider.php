@@ -25,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
             'address' => 'App\Address',
             'phone' => 'App\Phone',
             'claim' => 'App\Claim',
+            'staff' => 'App\Staff',
          ]);
     }
 

@@ -14,7 +14,7 @@ class Product extends Model
         
         public function productLangs()
         {
-                return $this->hasMany('App\Product_lang');
+                return $this->hasMany('App\ProductLang');
         }
 
         public function tags()
@@ -37,9 +37,9 @@ class Product extends Model
                 return $this->hasOne('App\Currencie');
         }
 
-        public function detail_values()
+        public function detailValues()
         {
-                return $this->hasMany('App\Detail_value');
+                return $this->hasMany('App\DetailValue');
         }
 
         public function picture()
@@ -49,6 +49,6 @@ class Product extends Model
 
         public function categories()
         {
-                return $this->belongsToMany('App\Categorie');
+                return $this->belongsToMany('App\Category');
         }
 }

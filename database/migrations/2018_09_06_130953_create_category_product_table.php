@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAttributeCategorieTable extends Migration
+class CreateCategoryProductTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateAttributeCategorieTable extends Migration
      */
     public function up()
     {
-        Schema::create('attribute_categorie', function (Blueprint $table) {
+        Schema::create('category_product', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('categorie_id');
-            $table->integer('attribute_id');
+            $table->integer('category_id');
+            $table->integer('product_id');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateAttributeCategorieTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('attribute_categorie');
+        Schema::dropIfExists('category_product');
     }
 }

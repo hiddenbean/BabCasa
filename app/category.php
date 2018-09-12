@@ -4,21 +4,21 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Categorie extends Model
+class Category extends Model
 {
-    public function categorieLang()
+    public function categoryLang()
     {
-            return $this->hasMany('App\CategorieLang');
+            return $this->hasMany('App\CategoryLang');
     }
 
     public function subCategories()
     {
-            return $this->hasMany('App\Categorie');
+            return $this->hasMany('App\Category');
     }
 
-    public function categorie()
+    public function category()
     {
-        return $this->belongsTo('App\Categorie');
+        return $this->belongsTo('App\Category');
     }
     
     public function attributes()

@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 // use Illuminate\Database\Eloquent\SoftDeletes;
 
 
-class CategorieLang extends Model
+class CategoryLang extends Model
 {
     // use SoftDeletes;  
 
     public function categories()
     {
-        return $this->belongsTo('App\Categorie');
+        return $this->belongsTo('App\Category');
     }
     public function lang()
     {

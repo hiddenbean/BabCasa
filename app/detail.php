@@ -8,11 +8,11 @@ class Detail extends Model
 {
     public function detailLangs()
     {
-            return $this->hasMany('App\Detail_lang');
+            return $this->hasMany('App\DetailLang');
     }
 
     public function categories()
     {
-        return $this->belongsToMany('App\Categorie');
+        return $this->belongsToMany('App\Category');
     }
 }

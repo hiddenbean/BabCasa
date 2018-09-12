@@ -14,7 +14,7 @@ class Bundle extends Model
     
     public function bundleLangs()
     {
-            return $this->hasMany('App\Bundle_lang');
+            return $this->hasMany('App\BundleLang');
     }
 
     public function products()

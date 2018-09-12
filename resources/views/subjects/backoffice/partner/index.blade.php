@@ -18,9 +18,6 @@
                     <li class="breadcrumb-item">
                         <a href="{{url('support/ticket')}}">Support</a>
                     </li>
-                    <li class="breadcrumb-item active">
-                        Tickets titre
-                    </li>
                 </ol>
             </div>
         </div>
