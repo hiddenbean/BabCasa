@@ -4,7 +4,7 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Address::class, function (Faker $faker) {
     return [
-        'country' => 'Morocco',
+        'country_id' => '1',
         'city' => 'Témara',
         'address' => str_random(10),
         'address_two' => str_random(10),

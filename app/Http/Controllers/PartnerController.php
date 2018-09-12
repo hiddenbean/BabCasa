@@ -201,7 +201,7 @@ class PartnerController extends Controller
         $address->country = $request->input('country');
         $address->city = $request->input('city');
         $address->address = $request->input('address');
-        $address->address_two = $request->input('addresse_two');
+        $address->address_two = $request->input('address_two');
         $address->full_name = $request->input('full_name');
         $address->zip_code = $request->input('zip_code');
         $partner->address->save();
