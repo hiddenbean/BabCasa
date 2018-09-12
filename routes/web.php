@@ -216,9 +216,9 @@ Route::domain('staff.babcasa.com')->group(function (){
         return view('system.backoffice.staff.log');
     }); 
 
-    Route::get('/settings', function () { 
-        return view('system.backoffice.staff.settings');
-    });
+    // Route::get('/settings', function () { 
+    //     return view('system.backoffice.staff.settings');
+    // });
     Route::get('/profile', function () { 
         return view('system.backoffice.staff.profile');
     }); 
