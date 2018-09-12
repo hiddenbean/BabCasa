@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\categorie_lang;
+use App\CategorieLang;
 use Illuminate\Http\Request;
 
 class CategorieLangController extends Controller

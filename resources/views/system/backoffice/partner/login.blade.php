@@ -1,4 +1,4 @@
-@extends('layouts.app') 
+@extends('layouts.backoffice.app') 
 
 @section('css') 
 
@@ -43,12 +43,12 @@
                     <div class="controls">
                         <input type="text" name="email" placeholder="Saisissez votre e-mail" class="form-control">
                     </div>
-                    <label class='error' for='email'>
-                        @if ($errors->has('email'))
-                            {{ $errors->first('email') }}
-                        @endif
-                    </label> 
                 </div>
+                <label class='error' for='email'>
+                    @if ($errors->has('email'))
+                        {{ $errors->first('email') }}
+                    @endif
+                </label> 
                 
                 <!-- END Form Control-->
 
@@ -57,13 +57,13 @@
                     <label> Mot de passe </label>
                     <div class="controls">
                         <input type="password" class="form-control" name="password" placeholder="Saisissez votre mot de passe">
-                        <label class='error' for='password'>
-                            @if ($errors->has('password'))
-                                {{ $errors->first('password') }}
-                            @endif
-                        </label> 
                     </div>
                 </div> 
+                <label class='error' for='password'>
+                    @if ($errors->has('password'))
+                        {{ $errors->first('password') }}
+                    @endif
+                </label> 
 
                 <!-- START Form Control-->
                 <div class="row">
@@ -89,7 +89,7 @@
                 <div class="m-b-30 p-r-80 sm-m-t-20 sm-p-r-15 sm-p-b-20 clearfix"> 
                         <p>
                             <small class=" text-primary">
-                                  © Hiddenbean 2018.  
+                                © Hiddenbean 2018.  
                             </small>
                             <small class="">
                                 <a href="#">Confidentialité.</a>

@@ -31,10 +31,10 @@
                     <div class="col-xs-12">
                         <div class="row">
                             <div class="col-md-6 text-right no-padding">
-                            <a href="{{url('support')}}" class="btn btn-success btn-cons">Nouveau ticket</a>
+                            <a href="{{url('support')}}" class="btn btn-primary btn-cons">Nouveau ticket</a>
                             </div>
                             <div class="col-md-6">
-                                <input type="text" id="search-table" class="form-control pull-right" placeholder="Rechercher">
+                                <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
                             </div>
                         </div>
                     </div>
@@ -53,15 +53,17 @@
                     </thead>
             
                     <tbody> 
-                        @foreach($claims as $claim)
-                        <tr class="order-progress"  >
-                            <td class="v-align-middle"><a href=""><strong>{{ $claim->title}} </strong></a></td>
-                            <td class="v-align-middle text-center"><strong> {{ $claim->subject->title}}  </strong></td>                
-                            <td class="v-align-middle text-center">{{ $claim->created_at}} </td>              
-                            <td class="v-align-middle text-center">{{ $claim->claimMessages()->count()}}</td> 
-                            <td class="v-align-middle text-center"><strong>@if($claim->status==1)Open @else Close @endif</strong></td> 
-                        </tr>
-                        @endforeach
+                        @if (isset($claims))
+                            @foreach($claims as $claim)
+                            <tr class="order-progress"  >
+                                <td class="v-align-middle"><a href=""><strong>{{ $claim->title}} </strong></a></td>
+                                <td class="v-align-middle text-center"><strong> {{ $claim->subject->title}}  </strong></td>                
+                                <td class="v-align-middle text-center">{{ $claim->created_at}} </td>              
+                                <td class="v-align-middle text-center">{{ $claim->claimMessages()->count()}}</td> 
+                                <td class="v-align-middle text-center"><strong>@if($claim->status==1)Open @else Close @endif</strong></td> 
+                            </tr>
+                            @endforeach
+                        @endif
                        
                     </tbody>
                 </table>
@@ -80,8 +82,7 @@
         <script type="text/javascript" src="{{asset('plugins/datatables-responsive/js/lodash.min.js')}}"></script>
 
         <script>
-        $(document).ready(function () {
-            $('.order-progress td').css('background-color', '#cff5f2');
+        $(document).ready(function () { 
 
             var table = $('#tableWithSearch');
 
@@ -92,28 +93,6 @@
                 "order": [
                     [0, "desc"]
                 ],
-                "oLanguage": {
-                    "sProcessing":     "Traitement en cours...",
-                    "sSearch":         "Rechercher&nbsp;:",
-                    "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
-                    "sInfo":           "Affichage de l'&eacute;l&eacute;ment <b>_START_ &agrave; _END_</b> sur <b>_TOTAL_ &eacute;l&eacute;ments</b>",
-                    "sInfoEmpty":      "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
-                    "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
-                    "sInfoPostFix":    "",
-                    "sLoadingRecords": "Chargement en cours...",
-                    "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
-                    "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
-                    "oPaginate": {
-                        "sFirst":      "Premier",
-                        "sPrevious":   "Pr&eacute;c&eacute;dent",
-                        "sNext":       "Suivant",
-                        "sLast":       "Dernier"
-                    },
-                    "oAria": {
-                        "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
-                        "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
-                    }
-                },
                 "iDisplayLength": 10
             };
 

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\phone_code;
+use App\PhoneCode;
 use Illuminate\Http\Request;
 
 class PhoneCodeController extends Controller

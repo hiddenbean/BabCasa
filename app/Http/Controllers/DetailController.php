@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\detail;
+use App\Detail;
 use Illuminate\Http\Request;
 
 class DetailController extends Controller

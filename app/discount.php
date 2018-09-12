@@ -4,29 +4,34 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class discount extends Model
+class Discount extends Model
 {
     // Relationship with discount langs table
-    public function DiscountLangs()
+    public function discountLangs()
     {
         return $this->hasMany('App/DiscountLang');
     }
 
     // Relationship with product table
-    public function Products()
+    public function products()
     {
         return $this->belongsToMany('App/Product');
     }
 
     // Relationship with bundle table
-    public function Bundles()
+    public function bundles()
     {
         return $this->belongsToMany('App/Bundle');
     }
 
     // Relationship with attribute value table
-    public function AttributeValues()
+    public function attributeValues()
     {
         return $this->belongsToMany('App/AttributeValue');
+    }
+
+    public function picture()
+    {
+        return $this->morphOne('App\Picture', 'pictureable');
     }
 }

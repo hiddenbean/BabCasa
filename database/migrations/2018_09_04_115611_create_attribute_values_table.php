@@ -15,10 +15,12 @@ class CreateAttributeValuesTable extends Migration
     {
         Schema::create('attribute_values', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('quantity');
-            $table->integer('currency_id');
-            $table->double('price');
-            $table->integer('attribute_value_id');
+            $table->integer('quantity')->nullable();
+            $table->integer('currency_id')->nullable();
+            $table->double('price')->nullable();
+            $table->integer('product_id');
+            $table->integer('attribute_id');
+            $table->integer('attribute_value_id')->nullable();;
             $table->timestamps();
         });
     }

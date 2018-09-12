@@ -6,6 +6,14 @@
                 <span class="title">Dashboard</span> 
             </a>
             <span class="bg-primary icon-thumbnail"><i class="pg-home"></i></span>
+        </li> 
+        <li>
+            <a href="{{ url('/products') }}">
+                <span class="title">Products</span>
+            </a>
+            <span class="icon-thumbnail">
+                <i class="fa fa-align-justify"></i>
+            </span> 
         </li>
         <li>
             <a href="javascript:;">
@@ -17,15 +25,15 @@
             </span>
             <ul class="sub-menu">
                 <li>
-                    <a href="">Sécurité</a>
+                    <a href="{{ url('/security') }}">Sécurité</a>
                     <span class="icon-thumbnail">Se</span>
                 </li>
                 <li>
-                    <a href="">Historique</a>
+                    <a href="{{ url('/log') }}">Historique</a>
                     <span class="icon-thumbnail">Hi</span>
                 </li>
                 <li>
-                    <a href="">Gérer mon compte</a>
+                    <a href="{{ url('/settings') }}">Gérer mon compte</a>
                     <span class="icon-thumbnail">GC</span>
                 </li>
             </ul>
@@ -40,11 +48,11 @@
             </span>
             <ul class="sub-menu">
                 <li>
-                    <a href="">Mes tickets</a>
+                    <a href="{{ url('/') }}">Mes tickets</a>
                     <span class="icon-thumbnail">MT</span>
                 </li> 
                 <li>
-                    <a href="">Créer</a>
+                    <a href="{{ url('/') }}">Créer</a>
                     <span class="icon-thumbnail">Cr</span>
                 </li> 
             </ul>

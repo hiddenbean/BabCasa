@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\attribute_date_value;
+use App\AttributeDateValue;
 use Illuminate\Http\Request;
 
 class AttributeDateValueController extends Controller

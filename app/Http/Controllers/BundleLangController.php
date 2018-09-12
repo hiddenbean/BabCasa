@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\bundle_lang;
+use App\BundleLang;
 use Illuminate\Http\Request;
 
 class BundleLangController extends Controller

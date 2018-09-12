@@ -15,6 +15,7 @@ class CreateAttributeVarcharValuesTable extends Migration
     {
         Schema::create('attribute_varchar_values', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('attribute_value_id');
             $table->timestamps();
         });
     }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\detail_lang;
+use App\DetailLang;
 use Illuminate\Http\Request;
 
 class DetailLangController extends Controller

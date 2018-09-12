@@ -22,7 +22,6 @@ Route::domain('www.babcasa.com')->group(function (){
 });
 
 Route::domain('staff.babcasa.com')->group(function (){
-
     Route::get('/', function () {
         return view('welcome');
     });
@@ -31,6 +30,7 @@ Route::domain('staff.babcasa.com')->group(function (){
 });
 
 Route::domain('partner.babcasa.com')->group(function (){
+    Route::get('/test', 'ProductController@create'); 
     
     Route::get('/register', 'auth\PartnerRegisterController@showRegisterForm'); 
     Route::get('/sign-in', 'Auth\PartnerLoginController@showLoginForm');
@@ -64,17 +64,18 @@ Route::domain('www.babcasa.com')->group(function (){
 
     Route::post('/', function () {
         return view('welcome');
-    });
-   
+    }); 
 
+    
 });
 
 Route::domain('partner.babcasa.com')->group(function (){
 
-    // Partner register route
-    Route::post('register', 'auth\PartnerRegisterController@store')->name('pqrtner.register.submit');
+    Route::post('/store', 'ProductController@store');
 
-    // Partner auth route, sign in
+    // Partner register route
+    Route::post('register', 'auth\PartnerRegisterController@store')->name('partner.register.submit'); 
+    // Partner auth route, sign in    
     Route::post('/sign-in', 'Auth\PartnerLoginController@login');
 
     // Desactivate partner account
@@ -100,8 +101,8 @@ Route::domain('partner.babcasa.com')->group(function (){
     Route::post('discount/create', 'DiscountController@store');
     //Discount routes end
 
-      //client finale gestion support routes start 
-      Route::prefix('support')->group(function() {
+    //client finale gestion support routes start 
+    Route::prefix('support')->group(function() {
         Route::prefix('{subject}')->group(function() {
             Route::prefix('ticket')->group(function() {
                 Route::post('create','ClaimController@store');
@@ -112,11 +113,11 @@ Route::domain('partner.babcasa.com')->group(function (){
 });
 
 Route::domain('staff.babcasa.com')->group(function (){
-    
+
     Route::post('/', function () {
         return view('welcome');
     });
-   
+
 
 });
 
@@ -134,7 +135,11 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::domain('partner.babcasa.com')->group(function (){
 
 
-    Route::get('/login', function () {
+    Route::get('/', function () {
+        return view('system.backoffice.partner.dashboard');
+    }); 
+
+    Route::get('/login', function () { 
         return view('system.backoffice.partner.login');
     }); 
 
@@ -150,10 +155,6 @@ Route::domain('partner.babcasa.com')->group(function (){
         return view('system.backoffice.partner.log');
     }); 
 
-    // Route::get('/settings', function () { 
-    //     return view('partners.backoffice.settings');
-    // }); 
-
     Route::get('/claims', function () { 
         return view('claims.backoffice.partner.index');
     }); 
@@ -167,5 +168,177 @@ Route::domain('partner.babcasa.com')->group(function (){
         return view('subjects.backoffice.partner.index');
     }); 
 
+    Route::get('/tags', function () { 
+        return view('tags.backoffice.partner.index');
+    }); 
+    Route::get('/tags/create', function () { 
+        return view('tags.backoffice.partner.create');
+    }); 
+    Route::get('/tags/show', function () { 
+        return view('tags.backoffice.partner.show');
+    }); 
+
+    Route::get('/products', function () { 
+        return view('products.backoffice.partner.index');
+    }); 
+    Route::get('/products/create', function () { 
+        return view('products.backoffice.partner.create');
+    }); 
+    Route::get('/products/show', function () { 
+        return view('products.backoffice.partner.show');
+    }); 
 
 }); 
+
+Route::domain('staff.babcasa.com')->group(function (){
+
+    Route::get('/', function () {
+        return view('system.backoffice.staff.dashboard');
+    }); 
+
+    Route::get('/login', function () { 
+        return view('system.backoffice.staff.login');
+    });  
+
+    Route::get('/security', function () {
+        return view('system.backoffice.staff.security');
+    }); 
+
+    Route::get('/password/email', function () { 
+        return view('system.backoffice.staff.password.email');
+    }); 
+
+    Route::get('/reset', function () { 
+        return view('system.backoffice.staff.password.reset');
+    }); 
+
+    Route::get('/log', function () { 
+        return view('system.backoffice.staff.log');
+    }); 
+
+    Route::get('/settings', function () { 
+        return view('system.backoffice.staff.settings');
+    });
+    Route::get('/profile', function () { 
+        return view('system.backoffice.staff.profile');
+    }); 
+
+
+    Route::get('/staff', function () { 
+        return view('staff.backoffice.index');
+    }); 
+    Route::get('/staff/create', function () { 
+        return view('staff.backoffice.create');
+    }); 
+    Route::get('/staff/show', function () { 
+        return view('staff.backoffice.show');
+    }); 
+
+    Route::get('/partner', function () { 
+        return view('partners.backoffice.staff.index');
+    }); 
+    Route::get('/partner/create', function () { 
+        return view('partners.backoffice.staff.create');
+    }); 
+    Route::get('/partner/show', function () { 
+        return view('partners.backoffice.staff.show');
+    }); 
+
+    Route::get('/clients/business', function () { 
+        return view('clients_business.backoffice.staff.index');
+    }); 
+    Route::get('/clients/business/create', function () { 
+        return view('clients_business.backoffice.staff.create');
+    }); 
+    Route::get('/clients/business/show', function () { 
+        return view('clients_business.backoffice.staff.show');
+    }); 
+
+    Route::get('/clients/particular', function () { 
+        return view('clients_particular.backoffice.staff.index');
+    }); 
+    Route::get('/clients/particular/create', function () { 
+        return view('clients_particular.backoffice.staff.create');
+    }); 
+    Route::get('/clients/particular/show', function () { 
+        return view('clients_particular.backoffice.staff.show');
+    }); 
+
+    Route::get('/categories', function () { 
+        return view('categories.backoffice.staff.index');
+    }); 
+    Route::get('/categories/create', function () { 
+        return view('categories.backoffice.staff.create');
+    }); 
+    Route::get('/categories/show', function () { 
+        return view('categories.backoffice.staff.show');
+    }); 
+
+    Route::get('/claims', function () { 
+        return view('claims.backoffice.staff.index');
+    }); 
+    Route::get('/claims/create', function () { 
+        return view('claims.backoffice.staff.create');
+    }); 
+    Route::get('/claims/show', function () { 
+        return view('claims.backoffice.staff.show');
+    }); 
+ 
+
+    Route::get('/details', function () { 
+        return view('details.backoffice.staff.index');
+    }); 
+    Route::get('/details/create', function () { 
+        return view('details.backoffice.staff.create');
+    }); 
+    Route::get('/details/show', function () { 
+        return view('details.backoffice.staff.show');
+    }); 
+
+    Route::get('/currencies', function () { 
+        return view('currencies.backoffice.staff.index');
+    }); 
+    Route::get('/currencies/create', function () { 
+        return view('currencies.backoffice.staff.create');
+    }); 
+    Route::get('/currencies/show', function () { 
+        return view('currencies.backoffice.staff.show');
+    }); 
+
+    Route::get('/reasons', function () { 
+        return view('reasons.backoffice.staff.index');
+    }); 
+    Route::get('/reasons/create', function () { 
+        return view('reasons.backoffice.staff.create');
+    }); 
+    Route::get('/reasons/show', function () { 
+        return view('reasons.backoffice.staff.show');
+    }); 
+
+    Route::get('/countries', function () { 
+        return view('countries.backoffice.staff.index');
+    }); 
+    Route::get('/countries/create', function () { 
+        return view('countries.backoffice.staff.create');
+    }); 
+    Route::get('/countries/show', function () { 
+        return view('countries.backoffice.staff.show');
+    }); 
+
+    Route::get('/code_countries', function () { 
+        return view('code_countries.backoffice.staff.index');
+    }); 
+    Route::get('/code_countries/create', function () { 
+        return view('code_countries.backoffice.staff.create');
+    }); 
+    Route::get('/code_countries/show', function () { 
+        return view('code_countries.backoffice.staff.show');
+    }); 
+
+
+}); 
+
+
+
+
+

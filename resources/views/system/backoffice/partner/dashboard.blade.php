@@ -1,23 +1,23 @@
-@extends('layouts.app')
+@extends('layouts.backoffice.partner.app') 
 
-@section('body')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Partner Dashboard</div>
+@section('content')
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    You are logged in as partner!
-                </div>
-            </div>
+<!-- breadcrumb start -->
+<div class="container-fluid container-fixed-lg ">
+    <div class="row">
+        <div class="col-md-12">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active">
+                    Tableau de borad
+                </li> 
+            </ol>
         </div>
     </div>
+</div>
+<!-- breadcrumb end -->
+
+<!-- content start --> 
+<div class=" container-fluid  container-fixed-lg bg-white">
+
 </div>
 @endsection

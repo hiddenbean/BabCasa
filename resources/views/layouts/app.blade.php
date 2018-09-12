@@ -11,18 +11,9 @@
 
     <title> {{ config('app.name', 'BAB CASA') }} </title>
 
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <link href="{{ asset('plugins/pace/pace-theme-flash.css') }}" rel="stylesheet" type="text/css" />
+    
+    @yield('css')
 
-    <link href="{{ asset('plugins/font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('plugins/jquery-scrollbar/jquery.scrollbar.css') }}" rel="stylesheet" type="text/css" media="screen"/>
-    <link href="{{ asset('pages/css/pages-icons.css') }}" rel="stylesheet" type="text/css">
-     @yield('css_before')
-     <link rel="stylesheet" href="{{ asset('pages/css/pages.css') }}"> 
-     <link rel="stylesheet" href="{{ asset('css/style.css') }}"> 
-     
-     @yield('css')
- 
 
 </head>
 
@@ -31,19 +22,7 @@
     @yield('body')
 
 
-    <!-- Javascript section -->
-    <script src="{{ asset('js/app.js') }}"></script>
-    <!-- BEGIN VENDOR JS -->
-    <script src="{{ asset('plugins/pace/pace.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('plugins/modernizr.custom.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('plugins/jquery/jquery-easy.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('plugins/jquery-unveil/jquery.unveil.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('plugins/jquery-scrollbar/jquery.scrollbar.min.js') }}"></script>
-    <!-- END VENDOR JS -->
-    <script src="{{ asset('plugins/select2/js/select2.full.min.js') }} " type="text/javascript"></script>
-    <script src="{{ asset('pages/js/pages.min.js') }}"></script>
-    <script src="{{ asset('js/laravel.ajax.js') }}"></script>
+
     @yield('script')
 
     <!-- Laravel ajax header  -->

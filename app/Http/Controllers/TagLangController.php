@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\tag_lang;
+use App\TagLang;
 use Illuminate\Http\Request;
 
 class TagLangController extends Controller

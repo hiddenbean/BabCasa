@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\attribute_lang;
+use App\AttributeLang;
 use Illuminate\Http\Request;
 
 class AttributeLangController extends Controller
