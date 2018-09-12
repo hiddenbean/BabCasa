@@ -4,9 +4,11 @@ namespace App;
 use App\Language;
 use App;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
+    use sofeDeletes;
     public function productLangs()
     {
             return $this->hasMany('App\ProductLang');  
@@ -32,12 +34,12 @@ class Product extends Model
         return $this->hasOne('App\Currencie');
     }
 
-    public function detail_values()
+    public function detailValues()
     {
-            return $this->hasMany('App\Detail_value');
+            return $this->hasMany('App\DetailValue');
     }
 
-    public function picture()
+    public function pictures()
     {
         return $this->morphOne('App\Picture', 'pictureable');
     }

@@ -3,8 +3,10 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Language;
 use App;
+use App\Language;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class Detail extends Model
 {
     public function detailLangs()
@@ -15,10 +17,14 @@ class Detail extends Model
     {
         $langId = Language::where('symbol',App::getLocale())->first()->id; 
         return $this->detailLangs()->where('lang_id',$langId);
-
+        
     }
     public function categories()
     {
         return $this->belongsToMany('App\Categorie');
+    }
+    public function detaiValue()
+    {
+            return $this->hasOne('App\DetaiValue');
     }
 }

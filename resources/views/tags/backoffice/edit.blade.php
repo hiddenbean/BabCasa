@@ -32,12 +32,18 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-xl-12">
-                    <form id="form-personal">
+                    <form id="form-personal" method="POST" action="{{url('tags/'.$tag->id)}}">
+                        {{ csrf_field() }}
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group form-group-default">
                                     <label>Tags name</label>
-                                    <input type="text" class="form-control" name="name" placeholder="Tags name">
+                                <input type="text" class="form-control" name="tag" value="{{$tag->tagLang->first()->tag}}" placeholder="Tags name">
+                                    <label class='error' for='tag'>
+                                            @if ($errors->has('tag'))
+                                                {{ $errors->first('tag') }}
+                                            @endif
+                                        </label> 
                                 </div>
                             </div>
                         </div>

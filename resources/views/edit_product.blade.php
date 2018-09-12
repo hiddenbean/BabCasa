@@ -26,17 +26,17 @@
             {{$errors}}
             <div class="form-group">
               <label for="exampleInputEmail1">reference</label>
-              <input type="text" name="reference" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" >
+            <input type="text" name="reference" class="form-control" id="exampleInputEmail1" value="{{$product->productLang->first()->reference}}" aria-describedby="emailHelp" >
               {{-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> --}}
             </div>
             <div class="form-group">
               <label for="exampleInputPassword1">Short description </label>
-              <textarea class="form-control" name="short_description" id="exampleFormControlTextarea1" rows="3"></textarea>
+              <textarea class="form-control" name="short_description" id="exampleFormControlTextarea1" rows="3">{{$product->productLang->first()->short_description}}</textarea>
             </div>
 
             <div class="form-group">
               <label for="exampleInputPassword1"> description </label>
-              <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="8"></textarea>
+              <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="8">{{$product->productLang->first()->description}}</textarea>
             </div>
             <div class="form-group">
                     <label for="exampleFormControlFile1">Product Pictures</label>
@@ -51,22 +51,16 @@
                     <input type="file" class="form-control-file" name="variant_pictures[]" id="exampleFormControlFile1">
             </div>
             <div class="form-group form-check">
-              <input type="checkbox" name="for_business" class="form-check-input" id="exampleCheck1">
+                @if($product->for_business==1)
+            <input type="checkbox" name="for_business" class="form-check-input" checked id="exampleCheck1">
+                @else
+            <input type="checkbox" name="for_business" class="form-check-input" id="exampleCheck1">
+                @endif
               <label class="form-check-label" for="exampleCheck1">For Business</label>
             </div>
-            <input id="#tagsinput" type="text" value="Amsterdam,Washington" data-role="tagsinput" />
             <div id="no_variant">
               <a  class="btn btn-secondary btn-lg"  data-idpere="0" id="more_options">Add Options</a><br> OR <br> 
               <div class="form-inline">
-                  <div class="form-group mx-sm-3 mb-2">
-                      <select class="form-control" name="currency_id" id="staticEmail2">
-                          @foreach($currencies as $currencie)
-                          <option value="{{$currencie->id}}">{{$currencie->code}}</option>
-                          @endforeach
-                      </select>
-                      <label for="staticEmail2" class="sr-only">Email</label>
-                      <input type="text" name="price" id="price" class="form-control" placeholder="price" >
-                  </div>
                   <div class="form-group mx-sm-3 mb-2">
                       <label for="inputPassword2" class="sr-only">quantity</label>
                       <input type="text" name="quantity" class="form-control" id="quantity" placeholder="quantity">
@@ -79,7 +73,7 @@
             <div id="attribute_values">
             </div>
             <br>
-            <h1>Add Details</h1>
+        <h1>Add Details </h1>
             <br>
             <div class="detail">
                     <div class="form-inline">
@@ -87,7 +81,7 @@
                                 <label for="staticEmail2" class="sr-only">Email</label>
                                 <select class="form-control" id="detail_id">
                                         @foreach($categories->first()->details as $detail)
-                                        <option value="{{$detail->id}}">{{$detail->DetailLang->first()->value}}</option>
+                                        <option value="{{$detail->id}}">{{$detail->detailLang->first()->value}}</option>
                                         @endforeach
                                 </select>
                             </div>
@@ -98,9 +92,16 @@
                             <button type="button" id="add_detail" class="btn btn-primary mb-2">Add</button>
                         </div>
                 <div class="row" id="details">
-                    <div class="col-6">
-
-                    </div>
+                    
+                        
+                        @foreach($detail_values as $detail_value)
+                        <div class="col-6"><div class="form-inline"><div class="form-group mb-2"><label for="staticEmail2" class="sr-only"></label>
+                            <input type="text" readonly class="form-control-plaintext" value="{{$detail_value->detail->detailLang->first()->value}}"><input type="hidden" name="detail_id[]" value="{{$detail_value->id}}"></div>
+                            <div class="form-group mx-sm-3 mb-2"><label for="inputPassword2" class="sr-only"></label>
+                                <input type="text" class="form-control" name="detail_val[]" value="{{$detail_value->detailValueLang->first()->value}}"> </div>
+                                <button type="button">Delete</button></div></div>
+                        @endforeach
+            
                 </div>
             </div>
              <br>
@@ -119,9 +120,13 @@
                             <button type="button" id="add_tag" class="btn btn-primary mb-2">Add</button>
                         </div>
                 <div class="row" id="tags">
-                    <div class="col-6">
-
-                    </div>
+                    @foreach($tags as $tag)
+                    <div class="col-6"><div class="form-inline"><div class="form-group mb-2">
+                    <label for="staticEmail2" class="sr-only"></label><input type="text" readonly class="form-control-plaintext" value="{{$tag->tagLang->first()->tag}}">
+                        <input type="hidden" name="tag_id[]" value="{{$tag->id}}"></div>';
+                        <button type="button">Delete</button></div></div>
+                    @endforeach
+           
                 </div>
             </div>
           </form><br>

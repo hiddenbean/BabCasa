@@ -17,20 +17,37 @@ Route::domain('www.babcasa.com')->group(function (){
     Route::get('/', function () {
         return view('welcome');
     });
-   
-
+    
+    
 });
 
 Route::domain('staff.babcasa.com')->group(function (){
+    
     Route::get('/', function () {
         return view('welcome');
     });
+    //////////TAGS
+    Route::prefix('tags')->group(function() {
+        Route::get('/', 'TagController@index'); 
+        Route::get('create', 'TagController@create'); 
+        Route::get('{tag}', 'TagController@show'); 
+        Route::get('{tag}/edit', 'TagController@edit'); 
+    });
+
+    //////////TAGS
+    Route::prefix('categories')->group(function() {
+        Route::get('/', 'CategorieController@index'); 
+        Route::get('create', 'CategorieController@create'); 
+        Route::get('{categorie}', 'CategorieController@show'); 
+        Route::get('{categorie}/edit', 'CategorieController@edit'); 
+    }); 
    
     
 });
 
 Route::domain('partner.babcasa.com')->group(function (){
-    Route::get('/test', 'ProductController@create'); 
+
+    Route::get('{product}/edit', 'ProductController@edit'); 
     
     Route::get('/register', 'auth\PartnerRegisterController@showRegisterForm'); 
     Route::get('/sign-in', 'Auth\PartnerLoginController@showLoginForm');
@@ -95,7 +112,21 @@ Route::domain('staff.babcasa.com')->group(function (){
     Route::post('/', function () {
         return view('welcome');
     });
+      //////////TAGS
+      Route::prefix('tags')->group(function() {
 
+        Route::post('/', 'TagController@store'); 
+        Route::post('{tag}', 'TagController@update'); 
+        Route::delete('/{tag}', 'TagController@destroy')->name('delete.tag');
+    }); 
+
+      //////////Categories
+      Route::prefix('categories')->group(function() {
+
+        Route::post('/', 'CategorieController@store'); 
+        Route::post('{categorie}', 'CategorieController@update'); 
+        Route::delete('/{categorie}', 'CategorieController@destroy')->name('delete.categorie');
+    }); 
 
 });
 
@@ -150,9 +181,9 @@ Route::domain('partner.babcasa.com')->group(function (){
         return view('subjects.backoffice.partner.index');
     }); 
 
-    Route::get('/tags', function () { 
-        return view('tags.backoffice.partner.index');
-    }); 
+    // Route::get('/tags', function () { 
+    //     return view('tags.backoffice.partner.index');
+    // }); 
     Route::get('/tags/create', function () { 
         return view('tags.backoffice.partner.create');
     }); 

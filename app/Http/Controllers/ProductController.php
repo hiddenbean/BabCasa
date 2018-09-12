@@ -256,9 +256,16 @@ class ProductController extends Controller
      * @param  \App\product  $product
      * @return \Illuminate\Http\Response
      */
-    public function edit(product $product)
+    public function edit($product)
     {
-        //
+        $data['product'] = Product::find($product);
+        $data['categories'] = $data['product']->categories;
+        $data['pictures'] = $data['product']->pictures;
+        $data['tags'] = $data['product']->tags;
+        $data['detail_values'] = $data['product']->detailValues;
+
+        // return $data['categories']->first()->details->first()->detailLang->first()->value;
+        return view('edit_product',$data);
     }
 
     /**
