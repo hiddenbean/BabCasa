@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Categorie;
+use App\CategorieLang;
 use Illuminate\Http\Request;
 
-class CategorieController extends Controller
+class CategoryLangController extends Controller
 {
-     /**
+    /**
      * Get a validator for an incoming registration request.
      *
      * @param  \Illuminate\Http\Request.
@@ -16,10 +16,10 @@ class CategorieController extends Controller
     protected function validateRequest(Request $request)
     {
         $request->validate([
-            'reference' => 'required|unique:categorie_langs,reference',
-            'description' => 'required|required|max:3000',
+            'reference' => 'required|unique:Category_langs,Category',
         ]);
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -27,7 +27,7 @@ class CategorieController extends Controller
      */
     public function index()
     {
-        $data['categories'] = Categorie::all();
+        $data['categories'] = Category::all();
 
         return view('categories.backoffice.index',$data);
     }
@@ -52,15 +52,14 @@ class CategorieController extends Controller
     {
         $this->validateRequest($request);
 
-        $Categorie = new Categorie();
-        $Categorie->save(); 
+        $Category = new Category();
+        $Category->save(); 
 
-        $CategorieLang = new CategorieLang();
-        $CategorieLang->reference = $request->reference; 
-        $CategorieLang->description = $request->description; 
-        $CategorieLang->Categorie_id = $Categorie->id; 
-        $CategorieLang->lang_id = Language::where('symbol',App::getLocale())->first()->id;
-        $CategorieLang->save();
+        $CategoryLang = new CategoryLang();
+        $CategoryLang->Category = $request->Category; 
+        $CategoryLang->Category_id = $Category->id; 
+        $CategoryLang->lang_id = Language::where('symbol',App::getLocale())->first()->id;
+        $CategoryLang->save();
         
         return redirect('categories');
     }
@@ -68,26 +67,26 @@ class CategorieController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Categorie  $Categorie
+     * @param  \App\Category  $Category
      * @return \Illuminate\Http\Response
      */
-    public function show($Categorie)
+    public function show($Category)
     {
         
-        $data['Categorie'] = Categorie::find($Categorie);
+        $data['Category'] = Category::find($Category);
         return 1;
     }
     
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Categorie  $Categorie
+     * @param  \App\Category  $Category
      * @return \Illuminate\Http\Response
      */
-    public function edit($Categorie)
+    public function edit($Category)
     {
 
-        $data['Categorie'] = Categorie::find($Categorie);
+        $data['Category'] = Category::find($Category);
         return view('categories.backoffice.edit',$data);
     }
 
@@ -95,22 +94,20 @@ class CategorieController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Categorie  $Categorie
+     * @param  \App\Category  $Category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $Categorie)
+    public function update(Request $request, $Category)
     {
         $this->validateRequest($request);
         
-        $Categorie = Categorie::find($Categorie);
-        $CategorieLangId = $Categorie->CategorieLang->first()->id;
+        $Category = Category::find($Category);
+        $CategoryLangId = $Category->CategoryLang->first()->id;
 
-        $CategorieLang = CategorieLang::find($CategorieLangId);
-        $CategorieLang->reference = $request->reference; 
-        $CategorieLang->description = $request->description; 
-        $CategorieLang->Categorie_id = $Categorie->id;
-        $CategorieLang->lang_id = Language::where('symbol',App::getLocale())->first()->id;
-        $CategorieLang->save(); 
+        $CategoryLang = CategoryLang::find($CategoryLangId);
+        $CategoryLang->Category = $request->Category; 
+        $CategoryLang->lang_id = Language::where('symbol',App::getLocale())->first()->id;
+        $CategoryLang->save(); 
         
         return redirect('categories');
     }
@@ -118,14 +115,14 @@ class CategorieController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Categorie  $Categorie
+     * @param  \App\Category  $Category
      * @return \Illuminate\Http\Response
      */
-    public function destroy($Categorie)
+    public function destroy($Category)
     {
         // récupérer photo
-        $Categorie = Categorie::findOrFail($Categorie);
-       $Categorie->delete();
+        $Category = Category::findOrFail($Category);
+       $Category->delete();
        return redirect('categories');
 
     }

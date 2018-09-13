@@ -15,9 +15,9 @@
             <div class="form-inline">
                 <div class="form-group col-2">
                     <label for="staticEmail2">Categorie :</label>
-                    <select class="form-control" name="categorie_id" id="staticEmail2">
-                        @foreach($categories as $categorie)
-                        <option value="{{$categorie->id}}">{{$categorie->categorieLang->first()->reference}}</option>
+                    <select class="form-control" name="category_id" id="staticEmail2">
+                        @foreach($categories as $category)
+                        <option value="{{$category->id}}">{{$category->categoryLang->first()->reference}}</option>
                         @endforeach
                     </select>
                 </div>

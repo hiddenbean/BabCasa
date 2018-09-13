@@ -34,12 +34,19 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::get('{tag}/edit', 'TagController@edit'); 
     });
 
-    //////////TAGS
+    //////////CATEGORIES
     Route::prefix('categories')->group(function() {
-        Route::get('/', 'CategorieController@index'); 
-        Route::get('create', 'CategorieController@create'); 
-        Route::get('{categorie}', 'CategorieController@show'); 
-        Route::get('{categorie}/edit', 'CategorieController@edit'); 
+        Route::get('/', 'CategoryController@index'); 
+        Route::get('create', 'CategoryController@create'); 
+        Route::get('{Category}', 'CategoryController@show'); 
+        Route::get('{Category}/edit', 'CategoryController@edit'); 
+    }); 
+    //////////DETAILS
+    Route::prefix('details')->group(function() {
+        Route::get('/', 'DetailController@index'); 
+        Route::get('create', 'DetailController@create'); 
+        Route::get('{detail}', 'DetailController@show'); 
+        Route::get('{detail}/edit', 'DetailController@edit'); 
     }); 
    
     
@@ -152,9 +159,16 @@ Route::domain('staff.babcasa.com')->group(function (){
       //////////Categories
       Route::prefix('categories')->group(function() {
 
-        Route::post('/', 'CategorieController@store'); 
-        Route::post('{categorie}', 'CategorieController@update'); 
-        Route::delete('/{categorie}', 'CategorieController@destroy')->name('delete.categorie');
+        Route::post('/','CategoryController@store'); 
+        Route::post('{category}', 'CategoryController@update'); 
+        Route::delete('{category}', 'CategoryController@destroy')->name('delete.category');
+    }); 
+      //////////details
+      Route::prefix('details')->group(function() {
+
+        Route::post('/', 'DetailController@store'); 
+        Route::post('{detail}', 'DetailController@update'); 
+        Route::delete('{detail}', 'DetailController@destroy')->name('delete.detail');
     }); 
 
 });
@@ -302,14 +316,14 @@ Route::domain('staff.babcasa.com')->group(function (){
         return view('clients_particular.backoffice.staff.show');
     }); 
 
-    Route::get('/categories', function () { 
-        return view('categories.backoffice.staff.index');
+    // Route::get('/Categories', function () { 
+    //     return view('Categories.backoffice.staff.index');
+    // }); 
+    Route::get('/Categories/create', function () { 
+        return view('Categories.backoffice.staff.create');
     }); 
-    Route::get('/categories/create', function () { 
-        return view('categories.backoffice.staff.create');
-    }); 
-    Route::get('/categories/show', function () { 
-        return view('categories.backoffice.staff.show');
+    Route::get('/Categories/show', function () { 
+        return view('Categories.backoffice.staff.show');
     }); 
 
     Route::get('/claims', function () { 
@@ -322,16 +336,6 @@ Route::domain('staff.babcasa.com')->group(function (){
         return view('claims.backoffice.staff.show');
     }); 
  
-
-    Route::get('/details', function () { 
-        return view('details.backoffice.staff.index');
-    }); 
-    Route::get('/details/create', function () { 
-        return view('details.backoffice.staff.create');
-    }); 
-    Route::get('/details/show', function () { 
-        return view('details.backoffice.staff.show');
-    }); 
 
     Route::get('/currencies', function () { 
         return view('currencies.backoffice.staff.index');

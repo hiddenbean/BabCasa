@@ -15,7 +15,7 @@ class CreateAttributeCategoryTable extends Migration
     {
         Schema::create('attribute_category', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('categorie_id');
+            $table->integer('category_id');
             $table->integer('attribute_id');
             $table->timestamps();
         });

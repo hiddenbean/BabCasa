@@ -52,7 +52,7 @@
                     <tbody>
                         @foreach($tags as $tag)  
                             <tr class="order-progress"  >
-                                <td class="v-align-middle"><a href="{{url('tags/show')}}"><strong> {{$tag->tagLang->first()->tag}} </strong></a></td>            
+                                <td class="v-align-middle"><strong> {{$tag->tagLang->first()->tag}} </strong></td>            
                                 <td class="v-align-middle text-center">
                                     <a href="{{url('tags/'.$tag->id.'/edit')}}" class="btn btn-transparent"><i class="fa fa-pencil"></i></a>
                                      <a href="{{route('delete.tag',['tag'=>$tag->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></a>

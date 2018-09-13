@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Detail extends Model
 {
+    use SoftDeletes;
+
     public function detailLangs()
     {
             return $this->hasMany('App\DetailLang');
@@ -26,5 +28,21 @@ class Detail extends Model
     public function detailValue()
     {
             return $this->hasOne('App\DetaiValue');
+    }
+    public static function boot()
+    {
+        parent::boot();    
+    
+        // cause a delete of a detail to cascade to children so they are also deleted
+        static::deleting(function($detail)
+        {
+            $detail->detailLangs()->delete();
+            
+        });
+
+        static::restoring(function($detail)
+        {
+            $detail->detailLangs()->withTrashed()->restore();
+        });
     }
 }

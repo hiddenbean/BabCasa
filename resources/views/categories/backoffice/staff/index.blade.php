@@ -45,22 +45,24 @@
             <div class="card-body">
                 <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
                     <thead>
-                        <th style="width:20%" class="text-center">Nom de categorie</th>
+                        <th style="width:20%" class="text-center">Nom de category</th>
                         <th style="width:10%" class="text-center">Description</th> 
                         <th style="width:10%" class="text-center">Chemin</th>                   
                         <th style="width:10%" class="text-center"></th>           
                     </thead>
             
-                    <tbody>  
+                    <tbody> 
+                        @foreach($categories as $category)  
                             <tr class="order-progress"  >
-                                <td class="v-align-middle"><a href="{{url('categories/show')}}"><strong> Nom de categorie </strong></a></td>
-                                <td class="v-align-middle text-center"><strong> Description</strong></td>                
+                                <td class="v-align-middle"><a href="{{url('categories/'.$category->id)}}"><strong> {{$category->categoryLang->first()->reference}} </strong></a></td>
+                                <td class="v-align-middle text-center"><strong>{{$category->categoryLang->first()->description}} </strong></td>                
                                 <td class="v-align-middle text-center"> Chemin </td>             
                                 <td class="v-align-middle text-center">
-                                    <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
+                                        <a href="{{url('categories/'.$category->id.'/edit')}}" class="btn btn-transparent"><i class="fa fa-pencil"></i></a>
+                                        <a href="{{route('delete.category',['category'=>$category->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></a>
                                 </td> 
                             </tr> 
+                            @endforeach 
                     </tbody>
                 </table>
             </div>

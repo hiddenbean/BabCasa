@@ -23,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
             'partner' => 'App\Partner',
             'product' => 'App\Product',
             'picture' => 'App\Picture',
+            'category' => 'App\Category',
             'address' => 'App\Address',
             'phone' => 'App\Phone',
             'claim' => 'App\Claim',

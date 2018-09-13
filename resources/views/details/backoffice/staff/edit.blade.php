@@ -16,7 +16,7 @@
                     <a href="{{ url('/details') }}">details</a>
                 </li>
                 <li class="breadcrumb-item active">
-                    Create
+                    update
                 </li>
             </ol>
         </div>
@@ -27,18 +27,18 @@
 <div class="container-fluid container-fixed-lg">
     <div class="card ">
         <div class="card-header">
-            <h4 class="m-t-0 m-b-0"> <strong>Create new detail</strong> </h4>
+            <h4 class="m-t-0 m-b-0"> <strong>update detail</strong> </h4>
         </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-xl-12">
-                    <form id="form-personal"  method="POST" action="{{url('details')}}" >
-                            {{ csrf_field() }}
+                    <form id="form-personal"  method="POST" action="{{url('details/'.$detail->id)}}" >
+                        {{ csrf_field() }}
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group form-group-default">
                                     <label>details name</label>
-                                    <input type="text" class="form-control" name="value" placeholder="details name">
+                                    <input type="text" class="form-control" name="value" value="{{$detail->detailLang->first()->value}} " placeholder="details name">
                                     <label class='error' for='value'>
                                             @if ($errors->has('value'))
                                                 {{ $errors->first('value') }}

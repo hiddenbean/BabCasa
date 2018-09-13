@@ -1,8 +1,8 @@
 <?php
 
 namespace App;
-use App\Language;
 use App;
+use App\Language;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 

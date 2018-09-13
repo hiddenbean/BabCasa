@@ -27,23 +27,23 @@
 <div class="container-fluid container-fixed-lg">
     <div class="card ">
         <div class="card-header">
-            <h4 class="m-t-0 m-b-0"> <strong>Create new category</strong> </h4>
+            <h4 class="m-t-0 m-b-0"> <strong>Update category</strong> </h4>
         </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-xl-12">
-                    <form id="form-personal"  method="POST" action="{{url('categories')}}"  enctype="multipart/form-data">
+                    <form id="form-personal"  method="POST" action="{{url('categories/'.$category->id)}}"  enctype="multipart/form-data">
                             {{ csrf_field() }}
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group form-group-default">
                                     <label>Category reference</label>
-                                    <input type="text" class="form-control" name="reference" placeholder="Category reference">
-                                        <label class='error' for='reference'>
-                                                @if ($errors->has('reference'))
-                                                    {{ $errors->first('reference') }}
-                                                @endif
-                                            </label> 
+                                <input type="text" class="form-control" name="reference" value="{{$category->categoryLang->first()->reference}}" placeholder="Category reference">
+                                    <label class='error' for='reference'>
+                                            @if ($errors->has('reference'))
+                                                {{ $errors->first('reference') }}
+                                            @endif
+                                        </label> 
                                 </div>
                             </div>
                         </div> 
@@ -53,8 +53,13 @@
                                     <label>Categories parent</label>
                                     <select class="cs-select cs-skin-slide cs-transparent" name="parent_id" data-init-plugin="cs-select">
                                         <option value="0">No category parent</option> 
-                                        @foreach($categories as $category)
-                                    <option value="{{$category->id}}">{{$category->categoryLang->first()->reference}}</option> 
+                                        @foreach($categories->where('id','!=',$category->id) as $category_parent)
+                                        <option value="{{$category_parent->id}}"
+                                                    @if($category_parent->id == $category->parent_id){ selected } @endif
+                                            
+                                            >
+                                            {{$category_parent->categoryLang->first()->reference}}
+                                        </option> 
                                         @endforeach
                                     </select> 
                                 </div>
@@ -64,7 +69,7 @@
                             <div class="col-md-12">
                                 <div class="form-group form-group-default">
                                     <label>Description</label>
-                                    <textarea name="description" class="form-control"></textarea>
+                                    <textarea name="description" class="form-control">{{$category->categoryLang->first()->description}}</textarea>
                                     <label class='error' for='description'>
                                             @if ($errors->has('description'))
                                                 {{ $errors->first('description') }}
@@ -76,7 +81,7 @@
                         <div class="row">
                             <div class="col-sm-2">
                                 <div class="form-group form-group-default">
-                                    <img src="{{ asset('img/img_placeholder.png') }}" id="image_preview_staff"
+                                    <img src="{{ Storage::url($category->picture->path) }}" id="image_preview_staff"
                                         alt="" srcset="" width="100">
                                     <label for="path_staff" class="choose_photo">
                                         <span>
