@@ -13,13 +13,15 @@
 </div>
 
 <form id="form" action="{{ url('products/add_attr?block='.$block) }}" method="post" class="ajax">
-    <input type="hidden" name="id" class="id">
+    <input type="hidden" name="id">
+    <input type="hidden" name="parent" id="parent" value="{{ $parent }}">
+    <input type="hidden" name="value" value="{{(isset($value))? $value : ''}}">
 </form>
 
 <script>
     $('.attr').on('change', function() {
         var id = $(this).children('option:selected').val();  
-        $('.id').val(id);  
+        $('input[name=id]').val(id);  
         $('#form').submit();
     })
 </script>

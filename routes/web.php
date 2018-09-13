@@ -241,11 +241,20 @@ Route::domain('partner.babcasa.com')->group(function (){
         return view('products.backoffice.show');
     }); 
 
-    Route::get('/products/select_attr', function (Ajax $ajax, Request $request) { 
+    Route::get('/products/select_attr', function (Ajax $ajax, Request $request) {
+        // $request->validate([
+        //     "value_text" => "required"
+        // ]);
+
+        $parent = (isset($request->parent)) ? $request->parent : "" ;
+        $value = (isset($request->value_text) ? $request->value_text : "");
+
         $ajax->redrawView($request->block);
         return $ajax->view('attributes.backoffice.shows.index', 
         [
+            'parent' => $parent,
             "block" => $request->block,
+            "value" => $value
         ]);
     });
 
@@ -261,8 +270,16 @@ Route::domain('partner.babcasa.com')->group(function (){
                 $name = 'Dispaly';
                 break;
         }
+        $parent = (isset($request->parent) ? $request->parent : "") . " " .$request->value_text; 
+        $value = (isset($request->value_text) ? $request->value_text : "");
         $ajax->redrawView($request->block);
-        return $ajax->view('values.backoffice.create', ['name' => $name, "block" => $request->block]);
+        return $ajax->view('values.backoffice.create', 
+        [
+            'parent' => $parent,
+            'name' => $name,
+            'block' => $request->block,
+            "value" => $value
+        ]);
     });
     
     Route::get('/products/add_value', function (Ajax $ajax, Request $request) {
