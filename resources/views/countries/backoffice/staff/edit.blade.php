@@ -15,7 +15,7 @@
                     <a href="{{ url('/countries') }}">Countries</a>
                 </li>
                 <li class="breadcrumb-item active">
-                    Create
+                    update
                 </li>
             </ol>
         </div>
@@ -26,18 +26,18 @@
 <div class="container-fluid container-fixed-lg">
     <div class="card ">
         <div class="card-header">
-            <h4 class="m-t-0 m-b-0"> <strong>Create new country</strong> </h4>
+            <h4 class="m-t-0 m-b-0"> <strong>update country</strong> </h4>
         </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-xl-12">
-                    <form id="form-personal" method="POST" action="{{url('countries')}}">
+                    <form id="form-personal" method="POST" action="{{url('countries/'.$country->id)}}">
                             {{ csrf_field() }}
-                         <div class="row">
+                        <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group form-group-default">
                                     <label>Name</label>
-                                    <input type="text" class="form-control" name="name" placeholder="Name">
+                                    <input type="text" class="form-control" name="name" value="{{$country->name}}" placeholder="Name">
                                         <label class='error' for='name'>
                                             @if ($errors->has('name'))
                                                 {{ $errors->first('name') }}
@@ -50,7 +50,7 @@
                             <div class="col-md-12">
                                 <div class="form-group form-group-default">
                                     <label>Alpha Code</label>
-                                    <input type="text" class="form-control" name="code_alpha" placeholder="Exemple MA">
+                                    <input type="text" class="form-control" name="code_alpha" value="{{$country->code_alpha}}" placeholder="Exemple MA">
                                      <label class='error' for='code_alpha'>
                                             @if ($errors->has('code_alpha'))
                                                 {{ $errors->first('code_alpha') }}
@@ -63,7 +63,7 @@
                             <div class="col-md-12">
                                 <div class="form-group form-group-default">
                                     <label>Code</label>
-                                    <input type="text" class="form-control" name="code" placeholder="Exemple +212">
+                                    <input type="text" class="form-control" name="code" value="{{$country->code}}" placeholder="Exemple +212">
                                      <label class='error' for='code'>
                                             @if ($errors->has('code'))
                                                 {{ $errors->first('code') }}
@@ -72,7 +72,6 @@
                                 </div>
                             </div>
                         </div> 
-                      
                         <button class="btn btn-primary" type="submit">Save</button>
                     </form>
                 </div>

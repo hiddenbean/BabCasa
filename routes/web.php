@@ -48,6 +48,13 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::get('{detail}', 'DetailController@show'); 
         Route::get('{detail}/edit', 'DetailController@edit'); 
     }); 
+    //////////countries
+    Route::prefix('countries')->group(function() {
+        Route::get('/', 'CountryController@index'); 
+        Route::get('create', 'CountryController@create'); 
+        Route::get('{country}', 'CountryController@show'); 
+        Route::get('{country}/edit', 'CountryController@edit'); 
+    }); 
    
     
 });
@@ -169,6 +176,13 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::post('/', 'DetailController@store'); 
         Route::post('{detail}', 'DetailController@update'); 
         Route::delete('{detail}', 'DetailController@destroy')->name('delete.detail');
+    }); 
+      //////////COUNTRIES
+      Route::prefix('countries')->group(function() {
+
+        Route::post('/', 'CountryController@store'); 
+        Route::post('{country}', 'CountryController@update'); 
+        Route::delete('{country}', 'CountryController@destroy')->name('delete.country');
     }); 
 
 });
@@ -355,26 +369,6 @@ Route::domain('staff.babcasa.com')->group(function (){
     }); 
     Route::get('/reasons/show', function () { 
         return view('reasons.backoffice.staff.show');
-    }); 
-
-    Route::get('/countries', function () { 
-        return view('countries.backoffice.staff.index');
-    }); 
-    Route::get('/countries/create', function () { 
-        return view('countries.backoffice.staff.create');
-    }); 
-    Route::get('/countries/show', function () { 
-        return view('countries.backoffice.staff.show');
-    }); 
-
-    Route::get('/code_countries', function () { 
-        return view('code_countries.backoffice.staff.index');
-    }); 
-    Route::get('/code_countries/create', function () { 
-        return view('code_countries.backoffice.staff.create');
-    }); 
-    Route::get('/code_countries/show', function () { 
-        return view('code_countries.backoffice.staff.show');
     }); 
 
 
