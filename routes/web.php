@@ -197,7 +197,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 // UI
-
+use App\Services\Ajax\Ajax;
+use Illuminate\Http\Request;
 Route::domain('partner.babcasa.com')->group(function (){
 
 
@@ -245,14 +246,46 @@ Route::domain('partner.babcasa.com')->group(function (){
     }); 
 
     Route::get('/products', function () { 
-        return view('products.backoffice.partner.index');
+        return view('products.backoffice.index');
     }); 
     Route::get('/products/create', function () { 
-        return view('products.backoffice.partner.create');
+        return view('products.backoffice.create');
     }); 
     Route::get('/products/show', function () { 
-        return view('products.backoffice.partner.show');
+        return view('products.backoffice.show');
     }); 
+
+    Route::get('/products/select_attr', function (Ajax $ajax, Request $request) { 
+        $ajax->redrawView($request->block);
+        return $ajax->view('attributes.backoffice.shows.index', 
+        [
+            "block" => $request->block,
+        ]);
+    });
+
+    Route::post('/products/add_attr', function (Ajax $ajax, Request $request) {   
+        switch ($request->input('id')) {
+            case 1:
+                $name = 'Color';
+                break;
+            case 2:
+                $name = 'Storage';
+                break;
+            case 3:
+                $name = 'Dispaly';
+                break;
+        }
+        $ajax->redrawView($request->block);
+        return $ajax->view('values.backoffice.create', ['name' => $name, "block" => $request->block]);
+    });
+    
+    Route::get('/products/add_value', function (Ajax $ajax, Request $request) {
+        $ajax->appendView($request->block);
+        return $ajax->view('values.backoffice.create_without_head', [
+            'name' => $request->name,
+            "block" => $request->block,
+        ]);
+    });   
 
 }); 
 
