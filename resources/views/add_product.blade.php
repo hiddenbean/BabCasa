@@ -11,9 +11,10 @@
                 <div class="form-group col-2">
                     <label for="staticEmail2">Categorie :</label>
                     <select class="form-control" name="categorie_id" id="staticEmail2">
-                        @foreach($categories as $categorie)
-                        <option value="{{$categorie->id}}">{{$categorie->categorieLang->first()->reference}}</option>
-                        @endforeach
+                     
+                        <option value="1">cat 1</option>
+                        <option value="2">cat 2</option>
+                       
                     </select>
                 </div>
                 
@@ -54,9 +55,10 @@
               <div class="form-inline">
                   <div class="form-group mx-sm-3 mb-2">
                       <select class="form-control" name="currency_id" id="staticEmail2">
-                          @foreach($currencies as $currencie)
-                          <option value="{{$currencie->id}}">{{$currencie->code}}</option>
-                          @endforeach
+                           
+                          <option value="1">erue</option>
+                          <option value="2">dolar</option>
+                      
                       </select>
                       <label for="staticEmail2" class="sr-only">Email</label>
                       <input type="text" name="price" id="price" class="form-control" placeholder="price" >
@@ -80,9 +82,11 @@
                             <div class="form-group mx-sm-3 mb-2">
                                 <label for="staticEmail2" class="sr-only">Email</label>
                                 <select class="form-control" id="detail_id">
-                                        @foreach($categories->first()->details as $detail)
-                                        <option value="{{$detail->id}}">{{$detail->DetailLang->first()->value}}</option>
-                                        @endforeach
+                                      
+                                        <option value="1">test 1</option>
+                                        <option value="2">test 1</option>
+                                        <option value="3">test 1</option>
+                                      
                                 </select>
                             </div>
                             <div class="form-group mx-sm-3 mb-2">
@@ -104,11 +108,7 @@
                     <div class="form-inline">
                             <div class="form-group mx-sm-3 mb-2">
                                 <label for="staticEmail2" class="sr-only">Email</label>
-                                <select class="form-control" id="tag_id">
-                                        @foreach($tags as $tag)
-                                        <option value="{{$tag->id}}">{{$tag->tagLang->first()->tag}}</option>
-                                        @endforeach
-                                </select>
+                                
                             </div>
                             <button type="button" id="add_tag" class="btn btn-primary mb-2">Add</button>
                         </div>
@@ -135,17 +135,17 @@
                     {attr:'2', value: "16" }, 
                         {attr:'1',value: "- Gray" },
                             { attr:'3', value: "- - 4.7", currency_id: '1', price: '10', quantity: '10',picture: '1' }, 
-                            {  attr:'3',value: "- - 5.5", currency_id: '1', price: '10',quantity: '15',picture: '2' },
+                            { attr:'3',value: "- - 5.5", currency_id: '1', price: '10',quantity: '15',picture: '2' },
                         {attr:'1', value: "- Silver" }, 
                             { attr:'3', value: "- - 4.7" ,currency_id: '1', price: '10',quantity: '6',picture: '3' }, 
                             {  attr:'3',value: "- - 5.5" ,currency_id: '1', price: '11.5',quantity: '20',picture: '4' },
                     {attr:'2', value: "32" },
                         {attr:'1',value: "- Gray" },
                             { attr:'3', value: "- - 4.7" ,currency_id: '1', price: '10.5',quantity: '27',picture: '5' }, 
-                            {  attr:'3',value: "- - 5.5"  ,currency_id: '1', price: '9.5',quantity: '34',picture: '6'},
+                            { attr:'3',value: "- - 5.5"  ,currency_id: '1', price: '9.5',quantity: '34',picture: '6'},
                         {attr:'1', value: "- Silver" }, 
                             { attr:'3', value: "- - 4.7" ,currency_id: '1', price: '12',quantity: '74',picture: '7' }, 
-                            {  attr:'3',value: "- - 5.5"  ,currency_id: '1', price: '8.5',quantity: '32',picture: '8'},
+                            { attr:'3',value: "- - 5.5"  ,currency_id: '1', price: '8.5',quantity: '32',picture: '8'},
                     {attr:'2', value: "64"  ,currency_id: '1', price: '7',quantity: '56',picture: '9'},
                 ],
     tree = function (array) {
@@ -236,9 +236,10 @@ console.log(tree);
                             <div class="form-group mx-sm-3 mb-2">
                                 <label for="staticEmail2" class="sr-only">Email</label>
                                 <select class="form-control" id="attribute_id">
-                                        @foreach($categories->first()->attributes as $attribute)
-                                        <option value="{{$attribute->id}}">{{$attribute->attributeLang->first()->reference}}</option>
-                                        @endforeach
+                                      
+                                        <option value="1">attribute 1</option>
+                                        <option value="2">attribute 2</option>
+                                        
                                 </select>
                             </div>
                             <div class="form-group mx-sm-3 mb-2">
