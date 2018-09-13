@@ -9,5 +9,10 @@ class country extends Model
 {
     use SoftDeletes;
 
+    public function currency()
+    {
+        return $this->hasOne('App\Currency');
+    }
+
  
 }

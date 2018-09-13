@@ -31,26 +31,26 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-xl-12">
-                    <form id="form-personal" method="POST" action="{{url('currencies')}}" >
-                        {{ csrf_field() }}>
+                    <form id="form-personal" method="POST" action="{{url('currencies/'.$currency->id)}}" >
+                        {{ csrf_field() }}
                         <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group form-group-default">
-                                    <label>Name</label>
-                                    <input type="text" class="form-control" name="name" placeholder="name">
-                                    <label class='error' for='name'>
-                                            @if ($errors->has('name'))
-                                                {{ $errors->first('name') }}
-                                            @endif
-                                    </label> 
+                                <div class="col-md-12">
+                                    <div class="form-group form-group-default">
+                                        <label>Name</label>
+                                        <input type="text" class="form-control" name="name" value="{{$currency->name}}" placeholder="name">
+                                        <label class='error' for='name'>
+                                                @if ($errors->has('name'))
+                                                    {{ $errors->first('name') }}
+                                                @endif
+                                        </label> 
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group form-group-default">
                                     <label>Symbole</label>
-                                    <input type="text" class="form-control" name="symbole" placeholder="symbole">
+                                <input type="text" class="form-control" name="symbole" value="{{$currency->symbole}}" placeholder="symbole">
                                     <label class='error' for='symbole'>
                                             @if ($errors->has('symbole'))
                                                 {{ $errors->first('symbole') }}
@@ -65,7 +65,9 @@
                                     <label>Country</label>
                                     <select class="cs-select cs-skin-slide cs-transparent" name="country_id" data-init-plugin="cs-select">
                                             @foreach($countries as $country)
-                                            <option value="{{$country->id}}">{{$country->name}}</option> 
+
+                                            <option value="{{$country->id}}"   @if($country->id == $currency->country_id){ selected } @endif
+                                                >{{$country->name}}</option> 
                                             @endforeach
                                     </select> 
                                 </div>

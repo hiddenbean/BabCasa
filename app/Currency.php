@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Currencie extends Model
+class Currency extends Model
 {
     public function attributeValue()
     {
@@ -17,5 +17,9 @@ class Currencie extends Model
     public function bundle()
     {
         return $this->belongsTo('App\Bundles');
+    }
+    public function country()
+    {
+        return $this->belongsTo('App\Country');
     }
 }
