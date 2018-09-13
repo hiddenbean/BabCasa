@@ -18,6 +18,7 @@ class CreateDetailLangsTable extends Migration
             $table->string('value');
             $table->integer('lang_id');
             $table->integer('detail_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

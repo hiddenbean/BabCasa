@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Categorie;
+use App\Order;
 use Illuminate\Http\Request;
 
-class CategorieController extends Controller
+class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class CategorieController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\categorie  $categorie
+     * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function show(categorie $categorie)
+    public function show(Order $order)
     {
         //
     }
@@ -52,10 +52,10 @@ class CategorieController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\categorie  $categorie
+     * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function edit(categorie $categorie)
+    public function edit(Order $order)
     {
         //
     }
@@ -64,10 +64,10 @@ class CategorieController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\categorie  $categorie
+     * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, categorie $categorie)
+    public function update(Request $request, Order $order)
     {
         //
     }
@@ -75,10 +75,10 @@ class CategorieController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\categorie  $categorie
+     * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function destroy(categorie $categorie)
+    public function destroy(Order $order)
     {
         //
     }

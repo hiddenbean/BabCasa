@@ -17,20 +17,44 @@ Route::domain('www.babcasa.com')->group(function (){
     Route::get('/', function () {
         return view('welcome');
     });
-   
-
+    
+    
 });
 
 Route::domain('staff.babcasa.com')->group(function (){
+    
     Route::get('/', function () {
         return view('welcome');
     });
+    //////////TAGS
+    Route::prefix('tags')->group(function() {
+        Route::get('/', 'TagController@index'); 
+        Route::get('create', 'TagController@create'); 
+        Route::get('{tag}', 'TagController@show'); 
+        Route::get('{tag}/edit', 'TagController@edit'); 
+    });
+
+    //////////CATEGORIES
+    Route::prefix('categories')->group(function() {
+        Route::get('/', 'CategoryController@index'); 
+        Route::get('create', 'CategoryController@create'); 
+        Route::get('{Category}', 'CategoryController@show'); 
+        Route::get('{Category}/edit', 'CategoryController@edit'); 
+    }); 
+    //////////DETAILS
+    Route::prefix('details')->group(function() {
+        Route::get('/', 'DetailController@index'); 
+        Route::get('create', 'DetailController@create'); 
+        Route::get('{detail}', 'DetailController@show'); 
+        Route::get('{detail}/edit', 'DetailController@edit'); 
+    }); 
    
     
 });
 
 Route::domain('partner.babcasa.com')->group(function (){
-    Route::get('/test', 'ProductController@create'); 
+
+    Route::get('{product}/edit', 'ProductController@edit'); 
     
     Route::get('/register', 'auth\PartnerRegisterController@showRegisterForm'); 
     Route::get('/sign-in', 'Auth\PartnerLoginController@showLoginForm');
@@ -40,10 +64,15 @@ Route::domain('partner.babcasa.com')->group(function (){
     Route::get('{partner}/password/reset/{token}', 'auth\PartnerResetPasswordController@showResetForm');
     Route::get('security', 'PartnerController@security');
     Route::get('settings', 'PartnerController@edit');
+    Route::get('discount/create', function(){return view('discounts.backoffice.create');});
 
      //client finale gestion support routes start 
      Route::prefix('support')->group(function() {
-         Route::get('ticket','ClaimController@index');
+        Route::prefix('ticket')->group(function() {
+            Route::get('/','ClaimController@index');
+            Route::get('{id}','ClaimController@show');
+        });
+         
         Route::get('/','SubjectController@index');
         Route::prefix('{subject}')->group(function() {
             Route::prefix('ticket')->group(function() {
@@ -71,20 +100,44 @@ Route::domain('www.babcasa.com')->group(function (){
 Route::domain('partner.babcasa.com')->group(function (){
 
     Route::post('/store', 'ProductController@store');
-    Route::post('register', 'auth\PartnerRegisterController@store')->name('partner.register.submit'); 
-    Route::post('/sign-in', 'Auth\PartnerLoginController@login');
-    Route::delete('partner/{partner}/deactivate', 'PartnerController@destroy');
-    Route::post('password/email', 'auth\PartnerForgotPasswordController@sendResetLinkEmail');
-    Route::post('password/reset', 'auth\PartnerResetPasswordController@reset');
-    Route::delete('{partner}/security/{session}', 'PartnerController@sessionDestroy');
-    Route::post('{partner}/settings/update', 'PartnerController@update');
 
-      //client finale gestion support routes start 
+    // Partner register route
+    Route::post('register', 'auth\PartnerRegisterController@store')->name('partner.register.submit'); 
+    // Partner auth route, sign in    
+    Route::post('/sign-in', 'Auth\PartnerLoginController@login');
+
+    // Desactivate partner account
+    Route::delete('partner/{partner}/desactivate', 'PartnerController@destroy');
+
+    // Partner change password start
+    Route::prefix('password')->group(function() {
+        Route::post('email', 'auth\PartnerForgotPasswordController@sendResetLinkEmail');
+        Route::post('reset', 'auth\PartnerResetPasswordController@reset');
+    });
+    // Partner change password end
+
+    Route::prefix('{partner}')->group(function() {
+        // Partner secutiry
+        Route::delete('security/{session}', 'PartnerController@sessionDestroy');
+
+        // Partner update
+        Route::post('settings/update', 'PartnerController@update');
+    });
+    
+
+    //Discount routes start
+    Route::post('discount/create', 'DiscountController@store');
+    //Discount routes end
+
+    //client finale gestion support routes start 
     Route::prefix('support')->group(function() {
         Route::prefix('{subject}')->group(function() {
             Route::prefix('ticket')->group(function() {
                 Route::post('create','ClaimController@store');
             });
+        });
+        Route::prefix('ticket')->group(function() {
+            Route::post('{id}/close','ClaimController@changeStatus');
         });
     });
 
@@ -95,7 +148,28 @@ Route::domain('staff.babcasa.com')->group(function (){
     Route::post('/', function () {
         return view('welcome');
     });
+      //////////TAGS
+      Route::prefix('tags')->group(function() {
 
+        Route::post('/', 'TagController@store'); 
+        Route::post('{tag}', 'TagController@update'); 
+        Route::delete('/{tag}', 'TagController@destroy')->name('delete.tag');
+    }); 
+
+      //////////Categories
+      Route::prefix('categories')->group(function() {
+
+        Route::post('/','CategoryController@store'); 
+        Route::post('{category}', 'CategoryController@update'); 
+        Route::delete('{category}', 'CategoryController@destroy')->name('delete.category');
+    }); 
+      //////////details
+      Route::prefix('details')->group(function() {
+
+        Route::post('/', 'DetailController@store'); 
+        Route::post('{detail}', 'DetailController@update'); 
+        Route::delete('{detail}', 'DetailController@destroy')->name('delete.detail');
+    }); 
 
 });
 
@@ -134,10 +208,6 @@ Route::domain('partner.babcasa.com')->group(function (){
         return view('system.backoffice.partner.log');
     }); 
 
-    Route::get('/settings', function () { 
-        return view('system.backoffice.partner.settings');
-    }); 
-
     Route::get('/claims', function () { 
         return view('claims.backoffice.partner.index');
     }); 
@@ -151,9 +221,9 @@ Route::domain('partner.babcasa.com')->group(function (){
         return view('subjects.backoffice.partner.index');
     }); 
 
-    Route::get('/tags', function () { 
-        return view('tags.backoffice.partner.index');
-    }); 
+    // Route::get('/tags', function () { 
+    //     return view('tags.backoffice.partner.index');
+    // }); 
     Route::get('/tags/create', function () { 
         return view('tags.backoffice.partner.create');
     }); 
@@ -231,9 +301,9 @@ Route::domain('staff.babcasa.com')->group(function (){
         return view('system.backoffice.staff.log');
     }); 
 
-    Route::get('/settings', function () { 
-        return view('system.backoffice.staff.settings');
-    });
+    // Route::get('/settings', function () { 
+    //     return view('system.backoffice.staff.settings');
+    // });
     Route::get('/profile', function () { 
         return view('system.backoffice.staff.profile');
     }); 
@@ -279,14 +349,14 @@ Route::domain('staff.babcasa.com')->group(function (){
         return view('clients_particular.backoffice.staff.show');
     }); 
 
-    Route::get('/categories', function () { 
-        return view('categories.backoffice.staff.index');
+    // Route::get('/Categories', function () { 
+    //     return view('Categories.backoffice.staff.index');
+    // }); 
+    Route::get('/Categories/create', function () { 
+        return view('Categories.backoffice.staff.create');
     }); 
-    Route::get('/categories/create', function () { 
-        return view('categories.backoffice.staff.create');
-    }); 
-    Route::get('/categories/show', function () { 
-        return view('categories.backoffice.staff.show');
+    Route::get('/Categories/show', function () { 
+        return view('Categories.backoffice.staff.show');
     }); 
 
     Route::get('/claims', function () { 
@@ -299,16 +369,6 @@ Route::domain('staff.babcasa.com')->group(function (){
         return view('claims.backoffice.staff.show');
     }); 
  
-
-    Route::get('/details', function () { 
-        return view('details.backoffice.staff.index');
-    }); 
-    Route::get('/details/create', function () { 
-        return view('details.backoffice.staff.create');
-    }); 
-    Route::get('/details/show', function () { 
-        return view('details.backoffice.staff.show');
-    }); 
 
     Route::get('/currencies', function () { 
         return view('currencies.backoffice.staff.index');

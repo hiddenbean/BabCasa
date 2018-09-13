@@ -32,20 +32,18 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-xl-12">
-                    <form id="form-personal">
+                    <form id="form-personal"  method="POST" action="{{url('details')}}" >
+                            {{ csrf_field() }}
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group form-group-default">
                                     <label>details name</label>
-                                    <input type="text" class="form-control" name="name" placeholder="details name">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group form-group-default">
-                                    <label>details value</label>
-                                    <input type="text" class="form-control" name="details_value" placeholder="details value">
+                                    <input type="text" class="form-control" name="value" placeholder="details name">
+                                    <label class='error' for='value'>
+                                            @if ($errors->has('value'))
+                                                {{ $errors->first('value') }}
+                                            @endif
+                                        </label> 
                                 </div>
                             </div>
                         </div>

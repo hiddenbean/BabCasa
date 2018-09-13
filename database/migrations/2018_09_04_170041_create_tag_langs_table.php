@@ -18,6 +18,7 @@ class CreateTagLangsTable extends Migration
             $table->string('tag');
             $table->integer('tag_id');
             $table->integer('lang_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

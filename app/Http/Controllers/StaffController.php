@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\CategorieLang;
+use App\Staff;
 use Illuminate\Http\Request;
 
-class CategorieLangController extends Controller
+class StaffController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class CategorieLangController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\categorie_lang  $categorie_lang
+     * @param  \App\Staff  $staff
      * @return \Illuminate\Http\Response
      */
-    public function show(categorie_lang $categorie_lang)
+    public function show(Staff $staff)
     {
         //
     }
@@ -52,10 +52,10 @@ class CategorieLangController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\categorie_lang  $categorie_lang
+     * @param  \App\Staff  $staff
      * @return \Illuminate\Http\Response
      */
-    public function edit(categorie_lang $categorie_lang)
+    public function edit(Staff $staff)
     {
         //
     }
@@ -64,10 +64,10 @@ class CategorieLangController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\categorie_lang  $categorie_lang
+     * @param  \App\Staff  $staff
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, categorie_lang $categorie_lang)
+    public function update(Request $request, Staff $staff)
     {
         //
     }
@@ -75,10 +75,10 @@ class CategorieLangController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\categorie_lang  $categorie_lang
+     * @param  \App\Staff  $staff
      * @return \Illuminate\Http\Response
      */
-    public function destroy(categorie_lang $categorie_lang)
+    public function destroy(Staff $staff)
     {
         //
     }

@@ -20,7 +20,6 @@ class ProductLangController extends Controller
             'reference' => 'required|unique:product_langs,reference',
             'short_description' => 'required|required|max:306',
             'description' => 'required|required|max:3000',
-            'lang_id' => 'required',
         ]);
     }
     /**

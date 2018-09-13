@@ -45,20 +45,20 @@
             <div class="card-body">
                 <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
                     <thead>
-                        <th style="width:40%" class="text-center">Nom de details</th>                    
-                        <th style="width:40%" class="text-center">Value</th>                    
+                        <th style="width:90%" class="text-center">Nom de details</th>                    
                         <th style="width:10%" class="text-center"></th>           
                     </thead>
             
-                    <tbody>  
+                    <tbody>
+                        @foreach($details as $detail )  
                             <tr class="order-progress"  >
-                                <td class="v-align-middle"><a href="{{url('details/show')}}"><strong> Nom de details </strong></a></td>            
-                                <td class="v-align-middle">value</td>            
+                                <td class="v-align-middle"><strong> {{$detail->detailLang->first()->value}} </strong></td>    
                                 <td class="v-align-middle text-center">
-                                    <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
-                                </td> 
+                                        <a href="{{url('details/'.$detail->id.'/edit')}}" class="btn btn-transparent"><i class="fa fa-pencil"></i></a>
+                                        <a href="{{route('delete.detail',['detail'=>$detail->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></a>
+                               </td> 
                             </tr> 
+                        @endforeach
                     </tbody>
                 </table>
             </div>

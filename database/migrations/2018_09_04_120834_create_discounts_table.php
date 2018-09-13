@@ -18,6 +18,7 @@ class CreateDiscountsTable extends Migration
             $table->integer('redaction_percentage');
             $table->dateTime('start_at');
             $table->dateTime('end_at');
+            $table->integer('partner_id');
             $table->timestamps();
         });
     }

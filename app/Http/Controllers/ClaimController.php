@@ -98,7 +98,7 @@ class ClaimController extends Controller
     public function userType()
     {
         $profiles= [ 'partner', 'staff'];
-        for($i=0; $i<4; $i++)
+        for($i=0; $i<2; $i++)
         {
             if(auth()->guard($profiles[$i])->check())
             {
@@ -119,10 +119,34 @@ class ClaimController extends Controller
         isset($request->partner) ? $partner = $request->partner : $partner = Auth::guard('partner')->user()->name;
         $partner = Partner::where('name', $partner)->firstOrFail();
         $claim=Claim::where('id', $id)->first();
-        return  $claim;
+        return  view('claims.backoffice.partner.show', [
+            'claim' => $claim,
+        ]);
     }
 
-  
+    /**
+     * Save the message and attache it to the claim.
+     * Return the claim page along with it messages.
+     *
+     * @param  \App\Experience  $experience
+     * @return \Illuminate\Http\Response
+     */
+    public function saveReply(Request $request)
+    {
+        $this->validateMessage($request);
+        $userType = $this->userType();
+        $user = auth()->guard($user)->user();
+        $claim_id = $request->input('claim_id');
+        $message = $request->input('message');
+        $claim_message=ClaimMessage::create([
+            'message' => $message,
+            'status' => true,
+            'claim_messageable_type' => $userType,
+            'claim_messageable_id' => $user->id,
+            'claim_id' => $claim_id,
+        ]);
+        return redirect('/support/ticket/'.$claim_id);   
+    }
 
     public function validateMessage(Request $request)
     {
@@ -135,6 +159,7 @@ class ClaimController extends Controller
     {
         $claim = Claim::findOrFail($id);
         $claim->delete();
+        return redirect('support/ticket');
     }
 
     public function changeStatus($id)
@@ -142,6 +167,7 @@ class ClaimController extends Controller
         $claim=Claim::where('id', $id)->firstOrFail();
         $claim->status=false;
         $claim->update();
+        return back()->with('claim', $claim);
     }
 
 }

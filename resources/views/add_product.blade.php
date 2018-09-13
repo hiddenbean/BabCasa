@@ -1,6 +1,12 @@
 @extends('layouts.backoffice.app') 
+@section('css')
+<link type="text/css" rel="stylesheet" href="{{ asset('plugins/bootstrap-tag/bootstrap-tagsinput.css')}}">
+@endsection
 @section('body')
 
+@section('script')
+<script src="{{asset('plugins/bootstrap-tag/bootstrap-tagsinput.min.js')}}" type="text/javascript"></script>
+@endsection
 <div class="container">
 
     <h1> Create New Product</h1> <br>
@@ -9,12 +15,11 @@
     {{ csrf_field() }}
             <div class="form-inline">
                 <div class="form-group col-2">
-                    <label for="staticEmail2">Categorie :</label>
-                    <select class="form-control" name="categorie_id" id="staticEmail2">
-                     
-                        <option value="1">cat 1</option>
-                        <option value="2">cat 2</option>
-                       
+                    <label for="staticEmail2">Category :</label>
+                    <select class="form-control" name="category_id" id="staticEmail2">
+                        @foreach($categories as $category)
+                        <option value="{{$category->id}}">{{$category->categoryLang->first()->reference}}</option>
+                        @endforeach
                     </select>
                 </div>
                 
@@ -50,6 +55,7 @@
               <input type="checkbox" name="for_business" class="form-check-input" id="exampleCheck1">
               <label class="form-check-label" for="exampleCheck1">For Business</label>
             </div>
+            <input id="#tagsinput" type="text" value="Amsterdam,Washington" data-role="tagsinput" />
             <div id="no_variant">
               <a  class="btn btn-secondary btn-lg"  data-idpere="0" id="more_options">Add Options</a><br> OR <br> 
               <div class="form-inline">
@@ -128,8 +134,15 @@
 @endsection
 
 @section('script')
-<script>
 
+<script>
+$(document).ready(function() {
+    $('#tagsinput').tagsinput({
+        typeahead: {
+            source: ['Amsterdam', 'Washington', 'Sydney', 'Beijing', 'Cairo']
+        }
+    });
+});
 
     var data = [
                     {attr:'2', value: "16" }, 

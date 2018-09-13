@@ -27,17 +27,23 @@
 <div class="container-fluid container-fixed-lg">
     <div class="card ">
         <div class="card-header">
-            <h4 class="m-t-0 m-b-0"> <strong>Create new categories</strong> </h4>
+            <h4 class="m-t-0 m-b-0"> <strong>Create new category</strong> </h4>
         </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-xl-12">
-                    <form id="form-personal">
+                    <form id="form-personal"  method="POST" action="{{url('categories')}}"  enctype="multipart/form-data">
+                            {{ csrf_field() }}
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group form-group-default">
-                                    <label>Categories reference</label>
-                                    <input type="text" class="form-control" name="reference" placeholder="Categories reference">
+                                    <label>Category reference</label>
+                                    <input type="text" class="form-control" name="reference" placeholder="Category reference">
+                                        <label class='error' for='reference'>
+                                                @if ($errors->has('reference'))
+                                                    {{ $errors->first('reference') }}
+                                                @endif
+                                            </label> 
                                 </div>
                             </div>
                         </div> 
@@ -45,10 +51,11 @@
                             <div class="col-md-12">
                                 <div class="form-group form-group-default">
                                     <label>Categories parent</label>
-                                    <select class="cs-select cs-skin-slide cs-transparent" name="parent_id[]" data-init-plugin="cs-select">
-                                        <option Selected>Categories 1</option>
-                                        <option>Categories 2</option>
-                                        <option>Categories 3</option> 
+                                    <select class="cs-select cs-skin-slide cs-transparent" name="parent_id" data-init-plugin="cs-select">
+                                        <option value="0">No category parent</option> 
+                                        @foreach($categories as $category)
+                                    <option value="{{$category->id}}">{{$category->categoryLang->first()->reference}}</option> 
+                                        @endforeach
                                     </select> 
                                 </div>
                             </div>
@@ -58,6 +65,11 @@
                                 <div class="form-group form-group-default">
                                     <label>Description</label>
                                     <textarea name="description" class="form-control"></textarea>
+                                    <label class='error' for='description'>
+                                            @if ($errors->has('description'))
+                                                {{ $errors->first('description') }}
+                                            @endif
+                                        </label> 
                                 </div>
                             </div>
                         </div>   

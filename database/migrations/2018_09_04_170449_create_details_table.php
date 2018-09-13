@@ -15,7 +15,7 @@ class CreateDetailsTable extends Migration
     {
         Schema::create('details', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('category_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

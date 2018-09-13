@@ -9,7 +9,7 @@ use App\Picture;
 use App\Language;
 use App\Attribute;
 use App\Currencie;
-use App\Categorie;
+use App\Category;
 use App\DetailValue;
 use App\Productlang;
 use App\AttributeValue;
@@ -60,7 +60,7 @@ class ProductController extends Controller
     public function create()
     {
         
-        $data['categories'] = Categorie::all();
+        $data['Categories'] = Category::all();
         $data['tags'] = Tag::all();
         // return $data['tags']->first()->tagLang->first()->tag; 
         $data['languages'] = Language::all();
@@ -92,7 +92,7 @@ class ProductController extends Controller
         $product->for_business = ($request->for_business=='on') ? 1 : 0;
         $product->save();
 
-        $product->categories()->attach($request->categorie_id);
+        $product->Categories()->attach($request->Category_id);
         
         $productlang = new Productlang();
         $productlang->reference = $request->reference;
@@ -256,9 +256,16 @@ class ProductController extends Controller
      * @param  \App\product  $product
      * @return \Illuminate\Http\Response
      */
-    public function edit(product $product)
+    public function edit($product)
     {
-        //
+        $data['product'] = Product::find($product);
+        $data['Categorys'] = $data['product']->Categorys;
+        $data['pictures'] = $data['product']->pictures;
+        $data['tags'] = $data['product']->tags;
+        $data['detail_values'] = $data['product']->detailValues;
+
+        // return $data['Categorys']->first()->details->first()->detailLang->first()->value;
+        return view('edit_product',$data);
     }
 
     /**

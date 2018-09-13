@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use Auth;
 use App\Partner;
+use App\Country;
 use App\Address;
 use App\Picture;
 use App\Phone;
@@ -112,11 +113,13 @@ class PartnerRegisterController extends Controller
             'taxe_id' => $request->tax_id,
             ]);
 
+        $country = Country::where('name', $request->country)->firstOrFail();
+
         $address = Address::create([
             'address' => $request->address,
             'address_two' => $request->address_two,
             'full_name' => $request->full_name,
-            'country' => $request->country,
+            'country_id' => $country->id,
             'city' => $request->city,
             'zip_code' => $request->zip_code,
             'longitude' => $request->longitude,
@@ -145,7 +148,7 @@ class PartnerRegisterController extends Controller
                 $phone = Phone::create([
                     'number' => $number,
                     'type' => 'fix',
-                    'code_country_id' => $request->code_country[$key],
+                    'phone_code_id' => $request->code_country[$key],
                     'phoneable_type' => 'partner',
                     'phoneable_id' => $partner->id,
                 ]);
@@ -157,7 +160,7 @@ class PartnerRegisterController extends Controller
                 $phone = Phone::create([
                     'number' => $request->fax_number,
                     'type' => 'fax',
-                    'code_country_id' => $request->code_country[2],
+                    'phone_code_id' => $request->code_country[2],
                     'phoneable_type' => 'partner',
                     'phoneable_id' => $partner->id,
                 ]);
