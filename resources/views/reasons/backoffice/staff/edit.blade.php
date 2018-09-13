@@ -31,13 +31,13 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-xl-12">
-                    <form id="form-personal" method="POST" action="{{url('reasons')}}" >
+                    <form id="form-personal" method="POST" action="{{url('reasons/'.$reason->id)}}" >
                             {{ csrf_field() }}
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group form-group-default">
                                     <label>Reference</label>
-                                    <input type="text" class="form-control" name="reference" placeholder="Reference">
+                                    <input type="text" class="form-control" name="reference" value="{{$reason->reference}}" placeholder="Reference">
                                     <label class='error' for='reference'>
                                             @if ($errors->has('reference'))
                                                 {{ $errors->first('reference') }}
@@ -50,7 +50,7 @@
                             <div class="col-md-12">
                                 <div class="form-group form-group-default">
                                     <label>Short description</label>
-                                    <textarea name="short_description" id=""class="form-control"></textarea>
+                                    <textarea name="short_description" id=""class="form-control"> {{$reason->reasonLang->first()->short_description}}</textarea>
                                     <label class='error' for='short_description'>
                                             @if ($errors->has('short_description'))
                                                 {{ $errors->first('short_description') }}
@@ -63,7 +63,7 @@
                             <div class="col-md-12">
                                 <div class="form-group form-group-default">
                                     <label>Description</label>
-                                    <textarea name="description" id="" cols="30" rows="15" class="form-control"></textarea>
+                                    <textarea name="description" id="" cols="30" rows="15" class="form-control"> {{$reason->reasonLang->first()->description}}</textarea>
                                     <label class='error' for='description'>
                                             @if ($errors->has('description'))
                                                 {{ $errors->first('description') }}

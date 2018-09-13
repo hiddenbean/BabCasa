@@ -62,6 +62,13 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::get('{currency}', 'CurrencyController@show'); 
         Route::get('{currency}/edit', 'CurrencyController@edit'); 
     }); 
+    //////////reasons
+    Route::prefix('reasons')->group(function() {
+        Route::get('/', 'ReasonController@index'); 
+        Route::get('create', 'ReasonController@create'); 
+        Route::get('{reason}', 'ReasonController@show'); 
+        Route::get('{reason}/edit', 'ReasonController@edit'); 
+    }); 
    
     
 });
@@ -197,6 +204,13 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::post('/', 'CurrencyController@store'); 
         Route::post('{currency}', 'CurrencyController@update'); 
         Route::delete('{currency}', 'CurrencyController@destroy')->name('delete.currency');
+    }); 
+      //////////REASONS
+      Route::prefix('reasons')->group(function() {
+
+        Route::post('/', 'ReasonController@store'); 
+        Route::post('{reason}', 'ReasonController@update'); 
+        Route::delete('{reason}', 'ReasonController@destroy')->name('delete.reason');
     }); 
 
 });
@@ -396,17 +410,6 @@ Route::domain('staff.babcasa.com')->group(function (){
     Route::get('/claims/show', function () { 
         return view('claims.backoffice.staff.show');
     }); 
-
-    Route::get('/reasons', function () { 
-        return view('reasons.backoffice.staff.index');
-    }); 
-    Route::get('/reasons/create', function () { 
-        return view('reasons.backoffice.staff.create');
-    }); 
-    Route::get('/reasons/show', function () { 
-        return view('reasons.backoffice.staff.show');
-    }); 
-
 
 }); 
 
