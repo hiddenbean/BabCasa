@@ -105,12 +105,12 @@
                                   <div class="row"> 
                                       <div class="col-sm-2">
                                           <div class="form-group form-group-default">
-                                              <img src="{{ asset('img/img_placeholder.png') }}" id="image_preview_staff" alt="" srcset="" width="100">
-                                              <label for="path_staff" class="choose_photo">
+                                              <img src="{{ asset('img/img_placeholder.png') }}" id="image_preview_photo" alt="" srcset="" width="100">
+                                              <label for="path_photo" class="choose_photo">
                                                   <span>
                                                       <i class="fa fa-image"></i> Choisir une photo</span>
                                               </label>
-                                              <input type="file" id="path_staff" name="path" class="form-control hide">
+                                              <input type="file" id="path_photo" name="path" class="form-control hide">
                                           </div>
                                       </div> 
                                   </div> 
@@ -205,6 +205,28 @@
   <script>
     $(document).ready(function(){ 
       $('#birthday').datepicker();
+
+        /* Image preview */
+        $("#path_photo").on("change", function () {
+        var _this = this;
+        var image_preview = $("#image_preview_photo");
+        showImage(_this, image_preview);
+    });
+
+    function showImage(_this, image_preview) {
+        var files = !!_this.files ? _this.files : [];
+        if (!files.length || !window.FileReader) return;
+
+        if (/^image/.test(files[0].type)) {
+            var ReaderObj = new FileReader();
+            ReaderObj.readAsDataURL(files[0]);
+            ReaderObj.onloadend = function () {
+                image_preview.attr('src', this.result);
+            }
+        } else {
+            alert("Upload an image");
+        }
+    }
     });
   </script>
 @stop
