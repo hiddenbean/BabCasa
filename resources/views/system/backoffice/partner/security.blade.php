@@ -8,7 +8,7 @@
             <div class="col-md-12">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="{{ url('/') }}">Tableau de borad</a>
+                        <a href="{{ url('/') }}">DASHBOARD</a>
                     </li> 
                     <li class="breadcrumb-item active">
                         Sécurité 
@@ -109,16 +109,16 @@
                     <div class="col-md-5">
                         <div class="row">
                             <div class="col-md-12">
-                                <h3>Changer le mot de passe</h3>
-                                Nous vous conseillons d&apos;utiliser un mot de passe sur que vous n&apos;utilisez nulle part alleurs.<br>
-                                <a href="{{url('/password')}}"><strong>Changer le mot de passe</strong></a>
+                                <h3>Update password</h3>
+                                We advise you to use a password you do not use anywhere else.<br>
+                                <a href="{{url('/password')}}"><strong>Update password</strong></a>
                             </div>
                         </div>
                         <br>
                         <div class="row">
                             <div class="col-md-12">
-                                <h3>Désactiver votre compte</h3>
-                                En desactivant votre compte, vous desactiver votre profil  et supprimez votre nom et otre photo de la plupart des  contenus que vous avez partages sur Babcasa.
+                                <h3>Deactivate your account</h3>
+                                By deactivating your account, you deactivate your profile and delete your name and photo from most of the content you have shared on Babcasa.
                                  <a href="#">En savoir plus</a>. 
                               
                                  <form action="{{url('partner/'.$partner->id.'/desactivate')}}" method="POST" class="m-t-5">

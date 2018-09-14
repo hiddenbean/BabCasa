@@ -56,6 +56,11 @@ return [
             'provider' => 'staff',
         ],
 
+        'staff' => [
+            'driver' => 'session',
+            'provider' => 'staff',
+        ],
+
     ],
 
     /*
@@ -91,6 +96,15 @@ return [
             'model' => App\Staff::class,
         ],
 
+        'staff' => [
+            'driver' => 'eloquent',
+            'model' => App\Staff::class,
+        ],
+
+        // 'users' => [
+        //     'driver' => 'database',
+        //     'table' => 'users',
+        // ],
     ],
 
     /*

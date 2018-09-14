@@ -17,8 +17,6 @@ Route::domain('www.babcasa.com')->group(function (){
     Route::get('/', function () {
         return view('welcome');
     });
-    
-    
 });
 
 Route::domain('staff.babcasa.com')->group(function (){
@@ -85,6 +83,13 @@ Route::domain('partner.babcasa.com')->group(function (){
 
     Route::get('{product}/edit', 'ProductController@edit'); 
     
+
+    Route::get('/register', 'auth\StaffRegisterController@showRegisterForm');
+});
+
+Route::domain('partner.babcasa.com')->group(function (){
+    Route::get('/test', 'ProductController@create'); 
+
     Route::get('/register', 'auth\PartnerRegisterController@showRegisterForm'); 
     Route::get('/sign-in', 'Auth\PartnerLoginController@showLoginForm');
     Route::get('/', 'PartnerController@dashboard');
@@ -95,13 +100,13 @@ Route::domain('partner.babcasa.com')->group(function (){
     Route::get('settings', 'PartnerController@edit');
     Route::get('discount/create', function(){return view('discounts.backoffice.create');});
 
-     //client finale gestion support routes start 
-     Route::prefix('support')->group(function() {
+    //client finale gestion support routes start 
+    Route::prefix('support')->group(function() {
         Route::prefix('ticket')->group(function() {
             Route::get('/','ClaimController@index');
             Route::get('{id}','ClaimController@show');
         });
-         
+
         Route::get('/','SubjectController@index');
         Route::prefix('{subject}')->group(function() {
             Route::prefix('ticket')->group(function() {
@@ -109,12 +114,8 @@ Route::domain('partner.babcasa.com')->group(function (){
             });
         });
     });
-   
-
+    
 });
-
-
-
 
 // POST DOMAINs
 Route::domain('www.babcasa.com')->group(function (){
@@ -227,12 +228,15 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::post('{staff}', 'StaffController@update'); 
         Route::delete('{staff}', 'StaffController@destroy')->name('delete.staff');
     }); 
+    // Staff register route
+    Route::post('register', 'auth\StaffRegisterController@store')->name('staff.register.submit'); 
+
 
 });
 
-Auth::routes();
+// Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/home', 'HomeController@index')->name('home');
 
 
 
@@ -321,11 +325,25 @@ Route::domain('partner.babcasa.com')->group(function (){
         return view('products.backoffice.show');
     }); 
 
-    Route::get('/products/select_attr', function (Ajax $ajax, Request $request) { 
-        $ajax->redrawView($request->block);
+    Route::get('/products/select_attr', function (Ajax $ajax, Request $request) {
+        // $request->validate([
+        //     "value_text" => "required"
+        // ]);
+
+        $parent = (isset($request->parent)) ? $request->parent : "" ;
+        $value = (isset($request->value_text) ? $request->value_text : "");
+        if ($parent) {
+            $block = strtolower($request->block.str_replace(' ', '_', trim($parent)));
+        }
+        else{
+            $block = $request->block;
+        }
+        $ajax->redrawView($block);
         return $ajax->view('attributes.backoffice.shows.index', 
         [
-            "block" => $request->block,
+            "block" => $block,
+            'parent' => $parent,
+            "value" => $value
         ]);
     });
 
@@ -341,15 +359,35 @@ Route::domain('partner.babcasa.com')->group(function (){
                 $name = 'Dispaly';
                 break;
         }
-        $ajax->redrawView($request->block);
-        return $ajax->view('values.backoffice.create', ['name' => $name, "block" => $request->block]);
+        $parent = (isset($request->parent) ? $request->parent : "") . " " .$request->value_text; 
+        $value = (isset($request->value_text) ? $request->value_text : "");
+        if ($parent) { 
+            $block = strtolower($request->block.str_replace(' ', '_', trim($parent)));
+        }
+        else{
+            $block = $request->block;
+        } 
+        
+        $ajax->redrawView($block);
+        return $ajax->view('values.backoffice.create', 
+        [
+            'name' => $name,
+            'block' => $block,
+            'parent' => $parent,
+            "value" => $value
+        ]);
     });
     
     Route::get('/products/add_value', function (Ajax $ajax, Request $request) {
+        $parent = (isset($request->parent) ? $request->parent : "") . " " .$request->value_text; 
+        $value = (isset($request->value_text) ? $request->value_text : "");
+
         $ajax->appendView($request->block);
         return $ajax->view('values.backoffice.create_without_head', [
             'name' => $request->name,
             "block" => $request->block,
+            'parent' => $parent,
+            "value" => $value
         ]);
     });   
 
@@ -363,6 +401,10 @@ Route::domain('staff.babcasa.com')->group(function (){
 
     Route::get('/login', function () { 
         return view('system.backoffice.staff.login');
+    });  
+
+    Route::get('/register', function () { 
+        return view('system.backoffice.staff.register');
     });  
 
     Route::get('/security', function () {

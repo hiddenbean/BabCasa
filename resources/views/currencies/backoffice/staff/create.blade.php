@@ -9,7 +9,7 @@
         <div class="col-md-12">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="{{ url('/') }}">Tableau de borad</a>
+                    <a href="{{ url('/') }}">DASHBOARD</a>
                 </li>
                 <li class="breadcrumb-item">
                     <a href="{{ url('/currencies') }}">Currencies</a>
@@ -32,7 +32,7 @@
             <div class="row">
                 <div class="col-xl-12">
                     <form id="form-personal" method="POST" action="{{url('currencies')}}" >
-                        {{ csrf_field() }}>
+                        {{ csrf_field() }}
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group form-group-default">

@@ -9,7 +9,7 @@
         <div class="col-md-12">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="{{ url('/') }}">Tableau de borad</a>
+                    <a href="{{ url('/') }}">DASHBOARD</a>
                 </li>
                 <li class="breadcrumb-item">
                     <a href="{{ url('/staff') }}">Staff</a>
@@ -202,8 +202,8 @@
                                             <label>Country</label>
                                             <select class="cs-select cs-skin-slide cs-transparent" name="country_id[]" data-init-plugin="cs-select">
                                                 <option Selected>County</option>
-                                                <option>USA (+1)</option>
-                                                <option>Uzbekistan (+7)</option> 
+                                                <option>USA</option>
+                                                <option>Maroc</option> 
                                             </select> 
                                         </div>
                                     </div>
@@ -251,6 +251,29 @@
     <script>
         $(document).ready(function () {
             $('#birthday').datepicker();
+
+            /* Image preview */
+            $("#path_staff").on("change", function () {
+                var _this = this;
+                var image_preview = $("#image_preview_staff");
+                showImage(_this, image_preview);
+            });
+
+            function showImage(_this, image_preview) {
+                var files = !!_this.files ? _this.files : [];
+                if (!files.length || !window.FileReader) return;
+
+                if (/^image/.test(files[0].type)) {
+                    var ReaderObj = new FileReader();
+                    ReaderObj.readAsDataURL(files[0]);
+                    ReaderObj.onloadend = function () {
+                        image_preview.attr('src', this.result);
+                    }
+                } else {
+                    alert("Upload an image");
+                }
+            } 
+
         });
     </script>
 @stop

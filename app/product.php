@@ -58,6 +58,10 @@ class Product extends Model
         {
             $langId = Language::where('symbol',App::getLocale())->first()->id; 
             return $this->productLangs()->where('lang_id',$langId);
+        }
     
+        public function orders()
+        {
+                return $this->morphToMany('App\Order', 'orderable');
         }
 }

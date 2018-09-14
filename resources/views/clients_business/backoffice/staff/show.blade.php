@@ -10,7 +10,7 @@
         <div class="col-md-12">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="{{ url('/') }}">Tableau de borad</a>
+                    <a href="{{ url('/') }}">DASHBOARD</a>
                 </li>
                 <li class="breadcrumb-item">
                     <a href="{{ url('/clients/business') }}">Clients business</a>
@@ -35,20 +35,20 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <h5>Name</h5>
-                                <p>Lorem ipsum </p>
+                                <p>Country Club Markets </p>
 
                                 <h5 class="p-t-15">First name</h5>
-                                <p>Clients business</p>
+                                <p>Zahid</p>
                             </div>
                             <div class="col-md-4">
                                 <h5>Email</h5>
-                                <p>clientsbusiness@admin.com</p>
+                                <p>zahid_sufyan@gmail.com</p>
 
                                 <h5 class="p-t-15"> last Name</h5>
-                                <p>Lorem ipsum</p> 
+                                <p>Sufyan</p> 
                             </div>
                             <div class="col-md-4">
-                                <img src="{{ asset('img/profiles/6x.jpg') }}" alt="" srcset="">
+                                <img src="{{ asset('img/img_placeholder.png') }}" class="img-thumbnail" alt="" srcset="">
                             </div>
                         </div>  
                         <div class="row">
@@ -104,7 +104,8 @@
                     <div class="row">
                         <div class="col-md-12">
                             <h3> Approve this account</h3>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. corrupti atque laboriosam consectetur debitis vitae architecto .
+                            When a user submits a self-registration form, it can be reviewed and approved.
+
                             <form action="" method="post" class="mt-2">
                                 <input type="checkbox" data-init-plugin="switchery" data-size="small" data-color="primary" checked="checked" /> 
                                 <label for="">Approve</label>
@@ -112,13 +113,13 @@
                             </form>
                         </div>
                         <div class="col-md-12">
-                            <h3>Changer le mot de passe</h3>
-                            Nous vous conseillons d&apos;utiliser un mot de passe sur que vous n&apos;utilisez nulle part alleurs.<br>
-                            <a href="#"><strong>Changer le mot de passe</strong></a>
+                            <h3>Update password</h3>
+                            We advise you to use a password you do not use anywhere else<br>
+                            <a href="#"><strong>Update password</strong></a>
                         </div> 
                         <div class="col-md-12">
                             <h3> Deactivate this account</h3>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod nostrum id neque, veniam qui minus saepe eum sapiente in omnis a, unde quaerat quis corrupti atque laboriosam consectetur debitis vitae architecto .
+                            Deactivating your account will disable your profile and remove your name and photo from most things you've shared on Babcasa. Some information may still be visible to others.
                             <form action="" method="post" class="mt-2">
                                 <button type="submit" class="btn btn-danger" >Deactivate</button>
                             </form>
@@ -133,4 +134,27 @@
 
 @section('script')
     <script src="{{ asset('plugins/switchery/js/switchery.min.js') }}" type="text/javascript"></script>
+
+
+    /* Image preview */
+            $("#path_staff").on("change", function () {
+                var _this = this;
+                var image_preview = $("#image_preview_staff");
+                showImage(_this, image_preview);
+            });
+
+            function showImage(_this, image_preview) {
+                var files = !!_this.files ? _this.files : [];
+                if (!files.length || !window.FileReader) return;
+
+                if (/^image/.test(files[0].type)) {
+                    var ReaderObj = new FileReader();
+                    ReaderObj.readAsDataURL(files[0]);
+                    ReaderObj.onloadend = function () {
+                        image_preview.attr('src', this.result);
+                    }
+                } else {
+                    alert("Upload an image");
+                }
+            } 
 @stop

@@ -27,6 +27,12 @@
                 <li>
                     <a href="{{ url('/orders') }}">All</a>
                     <span class="icon-thumbnail">Al</span>
+                    <a href="{{ url('/') }}">Newsletter suscription</a>
+                    <span class="icon-thumbnail">NS</span>
+                </li>
+                <li>
+                    <a href="{{ url('/security') }}">Sécurité</a>
+                    <span class="icon-thumbnail">Se</span>
                 </li>
                 <li>
                     <a href="{{ url('/orders') }}">Waiting</a>

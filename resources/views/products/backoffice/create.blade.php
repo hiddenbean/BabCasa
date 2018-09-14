@@ -10,7 +10,7 @@
         <div class="col-md-12">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="{{ url('/') }}">Tableau de borad</a>
+                    <a href="{{ url('/') }}">DASHBOARD</a>
                 </li>
                 <li class="breadcrumb-item">
                     <a href="{{ url('/products') }}">products</a>
@@ -89,7 +89,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="root_attributes">
+                            <div id="root">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group form-group-default input-group">
@@ -111,7 +111,7 @@
                                 </div>
                                 <div class="row m-b-15">
                                     <div class="col-md-12"> 
-                                        <a class="ajax m-b-5" href="{{ url('products/select_attr?block=root_attributes') }}">It have option</a>  
+                                        <a class="ajax m-b-5" href="{{ url('products/select_attr?block=root') }}">It have option</a>  
                                     </div>
                                 </div>
                             </div>

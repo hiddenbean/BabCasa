@@ -9,7 +9,7 @@
         <div class="col-md-12">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="{{ url('/') }}">Tableau de borad</a>
+                    <a href="{{ url('/') }}">DASHBOARD</a>
                 </li>
                 <li class="breadcrumb-item">
                     <a href="{{ url('/staff') }}">Staff</a>
@@ -34,40 +34,41 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <h5>Name</h5>
-                                <p>Lorem ipsum </p>
+                                <p>Naturohair</p>
 
                                 <h5 class="p-t-15">First name</h5>
-                                <p>Staff</p>
+                                <p>Abdellatif</p>
                             </div>
                             <div class="col-md-4">
                                 <h5>Email</h5>
-                                <p>staff@admin.com</p>
+                                <p>abde-latif@gmail.com</p>
 
                                 <h5 class="p-t-15"> last Name</h5>
-                                <p>Lorem ipsum</p> 
+                                <p>Haytham</p> 
                             </div>
                             <div class="col-md-4">
-                                <img src="{{ asset('img/profiles/6x.jpg') }}" alt="" srcset="">
+                                <img src="{{ asset('img/profiles/8x.jpg') }}" alt="" srcset="">
                             </div>
                         </div>  
                         <div class="row">
                             <div class="col-md-4">
                                 <h5>Adresse:</h5>
-                                <p>77 Rue de Verdun</p>
+                                <p>119 Rue Hedi Nooman
+                                    <br>5140 SOUASSI</p>
                             </div>
                             <div class="col-md-4">
                                 <h5>Country:</h5>
-                                <p>France</p>
+                                <p>Maroc</p>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-4">
                                 <h5>City:</h5>
-                                <p>MONTÉLIMAR</p>
+                                <p>Rabat</p>
                             </div>
                             <div class="col-md-4">
                                 <h5>Full name:</h5>
-                                <p>Ila A Courcelle</p>
+                                <p>Abdellatif Haytham , 119 Rue Hedi Nooman</p>
                             </div>
                             <div class="col-md-4">
                                 <h5>Zip code:</h5>
@@ -92,13 +93,13 @@
                 <div class="col-md-3">
                     <div class="row">
                         <div class="col-md-12">
-                            <h3>Changer le mot de passe</h3>
-                            Nous vous conseillons d&apos;utiliser un mot de passe sur que vous n&apos;utilisez nulle part alleurs.<br>
-                            <a href="#"><strong>Changer le mot de passe</strong></a>
+                            <h3>Update password</h3>
+                            We advise you to use a password you do not use anywhere else.<br>
+                            <a href="#"><strong>Update password</strong></a>
                         </div>
                         <div class="col-md-12">
                             <h3> Deactivate this account</h3>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod nostrum id neque, veniam qui minus saepe eum sapiente in omnis a, unde quaerat quis corrupti atque laboriosam consectetur debitis vitae architecto .
+                            Deactivating your account will disable your profile and remove your name and photo from most things you've shared on Babcasa. Some information may still be visible to others.
                             <form action="" method="post" class="mt-2">
                                 <button type="submit" class="btn btn-danger" >Deactivate</button>
                             </form>
