@@ -43,7 +43,7 @@
                                             @if ($errors->has('value'))
                                                 {{ $errors->first('value') }}
                                             @endif
-                                        </label> 
+                                    </label> 
                                 </div>
                             </div>
                         </div>

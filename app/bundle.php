@@ -22,9 +22,9 @@ class Bundle extends Model
         return $this->belongsToMany('App\Product');
     }
 
-    public function currencie()
+    public function currency()
     {
-        return $this->hasOne('App\Currencie');
+        return $this->hasOne('App\Currency');
     }
     public function picture()
     {

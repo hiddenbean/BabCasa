@@ -12,7 +12,7 @@
                     <a href="{{ url('/') }}">Tableau de borad</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a href="{{ url('/countries') }}">Countries</a>
+                    <a href="{{ url('/reasons') }}">reasons</a>
                 </li>
                 <li class="breadcrumb-item active">
                     Create
@@ -26,53 +26,52 @@
 <div class="container-fluid container-fixed-lg">
     <div class="card ">
         <div class="card-header">
-            <h4 class="m-t-0 m-b-0"> <strong>Create new country</strong> </h4>
+            <h4 class="m-t-0 m-b-0"> <strong>Create new reason</strong> </h4>
         </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-xl-12">
-                    <form id="form-personal" method="POST" action="{{url('countries')}}">
+                    <form id="form-personal" method="POST" action="{{url('reasons/'.$reason->id)}}" >
                             {{ csrf_field() }}
-                         <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group form-group-default">
-                                    <label>Name</label>
-                                    <input type="text" class="form-control" name="name" placeholder="Name">
-                                        <label class='error' for='name'>
-                                            @if ($errors->has('name'))
-                                                {{ $errors->first('name') }}
-                                            @endif
-                                        </label>
-                                </div>
-                            </div>
-                        </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group form-group-default">
-                                    <label>Alpha Code</label>
-                                    <input type="text" class="form-control" name="code_alpha" placeholder="Exemple MA">
-                                     <label class='error' for='code_alpha'>
-                                            @if ($errors->has('code_alpha'))
-                                                {{ $errors->first('code_alpha') }}
+                                    <label>Reference</label>
+                                    <input type="text" class="form-control" name="reference" value="{{$reason->reference}}" placeholder="Reference">
+                                    <label class='error' for='reference'>
+                                            @if ($errors->has('reference'))
+                                                {{ $errors->first('reference') }}
                                             @endif
-                                        </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group form-group-default">
-                                    <label>Code</label>
-                                    <input type="text" class="form-control" name="code" placeholder="Exemple +212">
-                                     <label class='error' for='code'>
-                                            @if ($errors->has('code'))
-                                                {{ $errors->first('code') }}
-                                            @endif
-                                        </label>
+                                    </label>
                                 </div>
                             </div>
                         </div> 
-                      
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group form-group-default">
+                                    <label>Short description</label>
+                                    <textarea name="short_description" id=""class="form-control"> {{$reason->reasonLang->first()->short_description}}</textarea>
+                                    <label class='error' for='short_description'>
+                                            @if ($errors->has('short_description'))
+                                                {{ $errors->first('short_description') }}
+                                            @endif
+                                    </label>
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group form-group-default">
+                                    <label>Description</label>
+                                    <textarea name="description" id="" cols="30" rows="15" class="form-control"> {{$reason->reasonLang->first()->description}}</textarea>
+                                    <label class='error' for='description'>
+                                            @if ($errors->has('description'))
+                                                {{ $errors->first('description') }}
+                                            @endif
+                                    </label>
+                                </div>
+                            </div>
+                        </div> 
                         <button class="btn btn-primary" type="submit">Save</button>
                     </form>
                 </div>

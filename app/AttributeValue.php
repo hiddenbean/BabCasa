@@ -18,9 +18,9 @@ class AttributeValue extends Model
         return $this->belongsTo('App\Attribute');
     }
 
-    public function currencie()
+    public function currency()
     {
-        return $this->hasOne('App\Currencie');
+        return $this->hasOne('App\Currency');
     }
     public function child()
     {

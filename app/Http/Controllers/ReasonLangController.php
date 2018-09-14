@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\CodeCountry;
+use App\ReasonLang;
 use Illuminate\Http\Request;
 
-class CodeCountryController extends Controller
+class ReasonLangController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class CodeCountryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\CodeCountry  $codeCountry
+     * @param  \App\ReasonLang  $reasonLang
      * @return \Illuminate\Http\Response
      */
-    public function show(CodeCountry $codeCountry)
+    public function show(ReasonLang $reasonLang)
     {
         //
     }
@@ -52,10 +52,10 @@ class CodeCountryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\CodeCountry  $codeCountry
+     * @param  \App\ReasonLang  $reasonLang
      * @return \Illuminate\Http\Response
      */
-    public function edit(CodeCountry $codeCountry)
+    public function edit(ReasonLang $reasonLang)
     {
         //
     }
@@ -64,10 +64,10 @@ class CodeCountryController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\CodeCountry  $codeCountry
+     * @param  \App\ReasonLang  $reasonLang
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CodeCountry $codeCountry)
+    public function update(Request $request, ReasonLang $reasonLang)
     {
         //
     }
@@ -75,10 +75,10 @@ class CodeCountryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\CodeCountry  $codeCountry
+     * @param  \App\ReasonLang  $reasonLang
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CodeCountry $codeCountry)
+    public function destroy(ReasonLang $reasonLang)
     {
         //
     }

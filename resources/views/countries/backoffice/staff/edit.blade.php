@@ -1,6 +1,6 @@
 @extends('layouts.backoffice.staff.app')
 @section('css_before')
-    <link href="{{ asset('plugins/switchery/css/switchery.min.css') }}" rel="stylesheet" type="text/css" media="screen" />
+    <link href="{{ asset('plugins/switchery/css/switchery.min.css') }}" rel="stylesheet" type="text/css" media="screen" /> 
 @stop
 @section('content')
 <!-- breadcrumb start -->
@@ -12,10 +12,10 @@
                     <a href="{{ url('/') }}">Tableau de borad</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a href="{{ url('/currencies') }}">Currencies</a>
+                    <a href="{{ url('/countries') }}">Countries</a>
                 </li>
                 <li class="breadcrumb-item active">
-                    Create
+                    update
                 </li>
             </ol>
         </div>
@@ -26,51 +26,52 @@
 <div class="container-fluid container-fixed-lg">
     <div class="card ">
         <div class="card-header">
-            <h4 class="m-t-0 m-b-0"> <strong>Create new currency</strong> </h4>
+            <h4 class="m-t-0 m-b-0"> <strong>update country</strong> </h4>
         </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-xl-12">
-                    <form id="form-personal" method="POST" action="{{url('currencies')}}" >
-                        {{ csrf_field() }}>
+                    <form id="form-personal" method="POST" action="{{url('countries/'.$country->id)}}">
+                            {{ csrf_field() }}
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group form-group-default">
                                     <label>Name</label>
-                                    <input type="text" class="form-control" name="name" placeholder="name">
-                                    <label class='error' for='name'>
+                                    <input type="text" class="form-control" name="name" value="{{$country->name}}" placeholder="Name">
+                                        <label class='error' for='name'>
                                             @if ($errors->has('name'))
                                                 {{ $errors->first('name') }}
                                             @endif
-                                    </label> 
+                                        </label>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group form-group-default">
-                                    <label>Symbole</label>
-                                    <input type="text" class="form-control" name="symbole" placeholder="symbole">
-                                    <label class='error' for='symbole'>
-                                            @if ($errors->has('symbole'))
-                                                {{ $errors->first('symbole') }}
+                                    <label>Alpha Code</label>
+                                    <input type="text" class="form-control" name="code_alpha" value="{{$country->code_alpha}}" placeholder="Exemple MA">
+                                     <label class='error' for='code_alpha'>
+                                            @if ($errors->has('code_alpha'))
+                                                {{ $errors->first('code_alpha') }}
                                             @endif
-                                    </label> 
+                                        </label>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12"> 
+                            <div class="col-md-12">
                                 <div class="form-group form-group-default">
-                                    <label>Country</label>
-                                    <select class="cs-select cs-skin-slide cs-transparent" name="country_id" data-init-plugin="cs-select">
-                                            @foreach($countries as $country)
-                                            <option value="{{$country->id}}">{{$country->name}}</option> 
-                                            @endforeach
-                                    </select> 
+                                    <label>Code</label>
+                                    <input type="text" class="form-control" name="code" value="{{$country->code}}" placeholder="Exemple +212">
+                                     <label class='error' for='code'>
+                                            @if ($errors->has('code'))
+                                                {{ $errors->first('code') }}
+                                            @endif
+                                        </label>
                                 </div>
                             </div>
-                        </div>
+                        </div> 
                         <button class="btn btn-primary" type="submit">Save</button>
                     </form>
                 </div>
@@ -81,5 +82,6 @@
 @endsection
 
 @section('script') 
+    <script src="{{ asset('plugins/switchery/js/switchery.min.js') }}" type="text/javascript"></script>
     <script type="text/javascript" src="{{ asset('plugins/classie/classie.js') }}"></script> 
 @stop

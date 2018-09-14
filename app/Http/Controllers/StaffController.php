@@ -2,11 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App;
 use App\Staff;
 use Illuminate\Http\Request;
 
 class StaffController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:staff');
+    }
+
+    protected function validateRequest(Request $request)
+    {
+        $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required|email|unique:partner_accounts,email',
+            'gender' => 'required',
+            'birthday' => 'required|date',
+        ]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +30,7 @@ class StaffController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**
@@ -44,9 +60,9 @@ class StaffController extends Controller
      * @param  \App\Staff  $staff
      * @return \Illuminate\Http\Response
      */
-    public function show(Staff $staff)
+    public function show()
     {
-        //
+        
     }
 
     /**
@@ -55,9 +71,13 @@ class StaffController extends Controller
      * @param  \App\Staff  $staff
      * @return \Illuminate\Http\Response
      */
-    public function edit(Staff $staff)
+    public function edit()
     {
-        //
+
+        $data['staff'] = Staff::find(Auth::guard('staff')->user()->id);
+
+        return $data;
+      
     }
 
     /**
@@ -67,9 +87,17 @@ class StaffController extends Controller
      * @param  \App\Staff  $staff
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Staff $staff)
+    public function update(Request $request)
     {
-        //
+        $this->validateRequest($request);
+
+        $staff = Staff::find(Auth::guard('staff')->user()->id);
+        $staff->first_name = $request->first_name;
+        $staff->last_name = $request->last_name;
+        $staff->email = $request->email;
+        $staff->gender = $request->gender;
+        $staff->birthday = $request->birthday;
+        $staff->save();
     }
 
     /**
