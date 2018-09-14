@@ -22,7 +22,7 @@ class CategoryController extends Controller
         $request->validate([
             'reference' => 'required|unique:Category_langs,reference',
             'description' => 'required|required|max:3000',
-            'parent_id' => 'sometimes',
+            'category_id' => 'sometimes',
         ]);
     }
     /**
@@ -59,7 +59,7 @@ class CategoryController extends Controller
         $this->validateRequest($request);
         $category = new Category();
         if($request->category_id>0)
-        $category->category_id = $request->parent_id; 
+        $category->category_id = $request->category_id; 
 
         $category->save(); 
         
@@ -124,21 +124,38 @@ class CategoryController extends Controller
         $request->validate([
             'reference' => 'required|unique:Category_langs,reference,'.$category.',category_id',
             'description' => 'required|required|max:3000',
-            'parent_id' => 'sometimes',
+            'category_id' => 'sometimes',
         ]);
         
         $category = Category::find($category);
-        $category->category_id = $request->parent_id; 
+        $category->category_id = $request->category_id; 
         $category->save();
         
-        $picture = $category->picture;
-        if($request->hasFile('path')) {
-            $picture->name =time().'.'.$request->file('path')->extension();
-            $picture->tag = "category";
-            $picture->path = $request->file('path')->store('images/categories', 'public');
-            $picture->extension = $request->file('path')->extension();
+        if(isset($category->picture))
+        {
+            $picture = $category->picture;
+            if($request->hasFile('path')) {
+                $picture->name =time().'.'.$request->file('path')->extension();
+                $picture->tag = "category";
+                $picture->path = $request->file('path')->store('images/categories', 'public');
+                $picture->extension = $request->file('path')->extension();
+                $picture->save(); 
+    
+            }
+        }else{
+            if($request->path)
+            {
+                $picture = Picture::create([
+                    'name' => time().'.'.$request->file('path')->extension(),
+                    'tag' => "category",
+                    'path' => $request->path->store('images/categories', 'public'),
+                    'extension' => $request->path->extension(),
+                    'pictureable_type' => 'category',
+                    'pictureable_id' => $category->id,
+                ]);
+    
+            }
         }
-        $picture->save(); 
         $categoryLangId = $category->categoryLang->first()->id;
 
         $categoryLang = CategoryLang::find($categoryLangId);

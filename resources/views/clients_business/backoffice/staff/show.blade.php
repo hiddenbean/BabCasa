@@ -10,7 +10,7 @@
         <div class="col-md-12">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="{{ url('/') }}">Tableau de borad</a>
+                    <a href="{{ url('/') }}">DASHBOARD</a>
                 </li>
                 <li class="breadcrumb-item">
                     <a href="{{ url('/clients/business') }}">Clients business</a>
@@ -35,20 +35,20 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <h5>Name</h5>
-                                <p>Lorem ipsum </p>
+                                <p>Country Club Markets </p>
 
                                 <h5 class="p-t-15">First name</h5>
-                                <p>Clients business</p>
+                                <p>Zahid</p>
                             </div>
                             <div class="col-md-4">
                                 <h5>Email</h5>
-                                <p>clientsbusiness@admin.com</p>
+                                <p>zahid_sufyan@gmail.com</p>
 
                                 <h5 class="p-t-15"> last Name</h5>
-                                <p>Lorem ipsum</p> 
+                                <p>Sufyan</p> 
                             </div>
                             <div class="col-md-4">
-                                <img src="{{ asset('img/profiles/6x.jpg') }}" alt="" srcset="">
+                                <img src="{{ asset('img/img_placeholder.png') }}" class="img-thumbnail" alt="" srcset="">
                             </div>
                         </div>  
                         <div class="row">
@@ -134,4 +134,27 @@
 
 @section('script')
     <script src="{{ asset('plugins/switchery/js/switchery.min.js') }}" type="text/javascript"></script>
+
+
+    /* Image preview */
+            $("#path_staff").on("change", function () {
+                var _this = this;
+                var image_preview = $("#image_preview_staff");
+                showImage(_this, image_preview);
+            });
+
+            function showImage(_this, image_preview) {
+                var files = !!_this.files ? _this.files : [];
+                if (!files.length || !window.FileReader) return;
+
+                if (/^image/.test(files[0].type)) {
+                    var ReaderObj = new FileReader();
+                    ReaderObj.readAsDataURL(files[0]);
+                    ReaderObj.onloadend = function () {
+                        image_preview.attr('src', this.result);
+                    }
+                } else {
+                    alert("Upload an image");
+                }
+            } 
 @stop

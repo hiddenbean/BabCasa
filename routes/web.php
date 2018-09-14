@@ -215,9 +215,9 @@ Route::domain('staff.babcasa.com')->group(function (){
 
 });
 
-Auth::routes();
+// Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/home', 'HomeController@index')->name('home');
 
 
 
@@ -359,6 +359,10 @@ Route::domain('staff.babcasa.com')->group(function (){
 
     Route::get('/login', function () { 
         return view('system.backoffice.staff.login');
+    });  
+
+    Route::get('/register', function () { 
+        return view('system.backoffice.staff.register');
     });  
 
     Route::get('/security', function () {

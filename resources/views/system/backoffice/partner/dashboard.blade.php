@@ -8,7 +8,7 @@
         <div class="col-md-12">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item active">
-                    Tableau de borad
+                    DASHBOARD
                 </li> 
             </ol>
         </div>

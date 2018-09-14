@@ -9,7 +9,7 @@
         <div class="col-md-12">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="{{ url('/') }}">Tableau de borad</a>
+                    <a href="{{ url('/') }}">DASHBOARD</a>
                 </li>
                 <li class="breadcrumb-item">
                     <a href="{{ url('/staff') }}">Staff</a>
@@ -34,40 +34,41 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <h5>Name</h5>
-                                <p>Lorem ipsum </p>
+                                <p>Naturohair</p>
 
                                 <h5 class="p-t-15">First name</h5>
-                                <p>Staff</p>
+                                <p>Abdellatif</p>
                             </div>
                             <div class="col-md-4">
                                 <h5>Email</h5>
-                                <p>staff@admin.com</p>
+                                <p>abde-latif@gmail.com</p>
 
                                 <h5 class="p-t-15"> last Name</h5>
-                                <p>Lorem ipsum</p> 
+                                <p>Haytham</p> 
                             </div>
                             <div class="col-md-4">
-                                <img src="{{ asset('img/profiles/6x.jpg') }}" alt="" srcset="">
+                                <img src="{{ asset('img/profiles/8x.jpg') }}" alt="" srcset="">
                             </div>
                         </div>  
                         <div class="row">
                             <div class="col-md-4">
                                 <h5>Adresse:</h5>
-                                <p>77 Rue de Verdun</p>
+                                <p>119 Rue Hedi Nooman
+                                    <br>5140 SOUASSI</p>
                             </div>
                             <div class="col-md-4">
                                 <h5>Country:</h5>
-                                <p>France</p>
+                                <p>Maroc</p>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-4">
                                 <h5>City:</h5>
-                                <p>MONTÉLIMAR</p>
+                                <p>Rabat</p>
                             </div>
                             <div class="col-md-4">
                                 <h5>Full name:</h5>
-                                <p>Ila A Courcelle</p>
+                                <p>Abdellatif Haytham , 119 Rue Hedi Nooman</p>
                             </div>
                             <div class="col-md-4">
                                 <h5>Zip code:</h5>

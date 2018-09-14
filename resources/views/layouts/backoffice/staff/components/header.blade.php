@@ -5,11 +5,11 @@
   <!-- END MOBILE SIDEBAR TOGGLE -->
   <div class="">
     <div class="brand inline">
-     <a href="{{ url('/') }}">
+      <a href="{{ url('/') }}">
         <span class="sidebar-logo-black">
-            <img src="{{ asset('img/logo.png') }}" alt="{{ config('app.name', 'BAB Casa') }}" height="30">
-          </span>
-     </a>
+          <img src="{{ asset('img/logo.png') }}" alt="{{ config('app.name', 'BAB Casa') }}" height="30">
+        </span>
+      </a>
     </div>
     <!-- START NOTIFICATION LIST -->
     <ul class="d-lg-inline-block d-none notification-list no-margin d-lg-inline-block b-grey b-l b-r no-style p-l-30 p-r-20">
@@ -25,14 +25,14 @@
               <!-- START Notification Body-->
               <div class="notification-body scrollable">
                 <!-- START Notification Item-->
-                <div class="notification-item unread clearfix"> 
+                <div class="notification-item unread clearfix">
                   <!-- START Notification Item Right Side-->
                   <div class="option" data-toggle="tooltip" data-placement="left" title="mark as read">
                     <a href="#" class="mark"></a>
                   </div>
                   <!-- END Notification Item Right Side-->
                 </div>
-                <!-- START Notification Body--> 
+                <!-- START Notification Body-->
                 <!-- START Notification Item-->
                 <div class="notification-item  clearfix">
                   <div class="heading">
@@ -93,23 +93,19 @@
   <div class="d-flex align-items-center">
     <!-- START User Info-->
     <div class="pull-left p-r-10 fs-14 font-heading d-lg-block d-none">
-      <span class="semi-bold">Youssef Shadid</span> 
+      <span class="semi-bold">Youssef Shadid</span>
     </div>
     <div class="dropdown pull-right d-lg-block d-none">
       <button class="profile-dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span class="thumbnail-wrapper d32 circular inline">
-          <img src="{{ asset('img/profiles/avatar.jpg') }}" alt="" data-src="{{ asset('img/profiles/avatar.jpg') }}" data-src-retina="{{ asset('img/profiles/avatar_small2x.jpg') }}"
-            width="32" height="32">
+          <img src="{{ asset('img/profiles/avatar.jpg') }}" alt="" data-src="{{ asset('img/profiles/avatar.jpg') }}"
+            data-src-retina="{{ asset('img/profiles/avatar_small2x.jpg') }}" width="32" height="32">
         </span>
       </button>
       <div class="dropdown-menu dropdown-menu-right profile-dropdown" role="menu">
-        <a href="#" class="dropdown-item">
-          <i class="pg-settings_small"></i> Settings</a>
-        <a href="#" class="dropdown-item">
-          <i class="pg-outdent"></i> Feedback</a>
-        <a href="#" class="dropdown-item">
-          <i class="pg-signals"></i> Help</a>
-        <a href="#" class="clearfix bg-master-lighter dropdown-item">
+        <a href="{{ url('/profile')}}" class="dropdown-item">
+          <i class="pg-settings_small"></i> Settings</a>  
+        <a href="{{ url('/login')}}" class="clearfix bg-master-lighter dropdown-item">
           <span class="pull-left">Logout</span>
           <span class="pull-right">
             <i class="pg-power"></i>

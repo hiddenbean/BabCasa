@@ -9,7 +9,7 @@
         <div class="col-md-12">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="{{ url('/') }}">Tableau de borad</a>
+                    <a href="{{ url('/') }}">DASHBOARD</a>
                 </li>
                 <li class="breadcrumb-item">
                     <a href="{{ url('/partner') }}">Partner</a>
@@ -34,30 +34,30 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <h5>Name</h5>
-                                <p>Lorem ipsum </p>
+                                <p>Rogers Stores </p>
 
                                 <h5 class="p-t-15">First name</h5>
-                                <p>partner</p>
+                                <p>Wahid</p>
                             </div>
                             <div class="col-md-4">
                                 <h5>Email</h5>
-                                <p>partner@admin.com</p>
+                                <p>wahid.haddad@admin.com</p>
 
                                 <h5 class="p-t-15"> last Name</h5>
-                                <p>Lorem ipsum</p> 
+                                <p>Haddad</p> 
                             </div>
                             <div class="col-md-4">
-                                <img src="{{ asset('img/profiles/6x.jpg') }}" alt="" srcset="">
+                                <img src="{{ asset('img/profiles/9x.jpg') }}" alt="" srcset="">
                             </div>
                         </div>  
                         <div class="row">
                             <div class="col-md-4">
                                 <h5>Adresse:</h5>
-                                <p>77 Rue de Verdun</p>
+                                <p>Jiu Xian Qiao Tuo Fang Ying Nan Li 15hao Lou 1608</p>
                             </div>
                             <div class="col-md-4">
                                 <h5>Country:</h5>
-                                <p>France</p>
+                                <p>Chine</p>
                             </div>
                         </div>
                         <div class="row">
@@ -67,17 +67,17 @@
                             </div>
                             <div class="col-md-4">
                                 <h5>Ice:</h5>
-                                <p>France</p>
+                                <p>882 06698</p>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-4">
                                 <h5>City:</h5>
-                                <p>MONTÉLIMAR</p>
+                                <p>Hong Kong</p>
                             </div>
                             <div class="col-md-4">
                                 <h5>Full name:</h5>
-                                <p>Ila A Courcelle</p>
+                                <p>Wahid Haddad ,Jiu Xian Qiao Tuo Fang Ying Nan Li 15hao Lou 1608</p>
                             </div>
                             <div class="col-md-4">
                                 <h5>Zip code:</h5>

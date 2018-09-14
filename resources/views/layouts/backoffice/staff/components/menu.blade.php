@@ -91,14 +91,6 @@
             </span> 
         </li>
         <li>
-            <a href="{{ url('/code_countries') }}">
-                <span class="title">Code countries</span>
-            </a>
-            <span class="icon-thumbnail">
-                <i class="fa fa-align-justify"></i>
-            </span> 
-        </li>
-        <li>
             <a href="{{ url('/profile') }}">
                 <span class="title">Account</span>
             </a>

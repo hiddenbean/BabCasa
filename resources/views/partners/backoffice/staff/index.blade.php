@@ -13,7 +13,7 @@
             <div class="col-md-12">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="{{ url('/') }}">Tableau de borad</a>
+                        <a href="{{ url('/') }}">DASHBOARD</a>
                     </li>
                     <li class="breadcrumb-item active">
                         Partner
@@ -53,9 +53,45 @@
             
                     <tbody>  
                             <tr class="order-progress"  >
-                                <td class="v-align-middle"><a href="{{url('partner/show')}}"><strong> Lorem ipsum dolor sit amet. </strong></a></td>
-                                <td class="v-align-middle text-center"><strong> partner@admin.com.</strong></td>                
-                                <td class="v-align-middle text-center"> 01/02/2018 </td>       
+                                <td class="v-align-middle"><a href="{{url('partner/show')}}"><strong> Kalil Wakil </strong></a></td>
+                                <td class="v-align-middle text-center"><strong> kalil-wakil@admin.com</strong></td>                
+                                <td class="v-align-middle text-center"> February 2, 1985 </td>       
+                                <td class="v-align-middle text-center">
+                                    <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
+                                    <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
+                                </td> 
+                            </tr> 
+                            <tr class="order-progress"  >
+                                <td class="v-align-middle"><a href="{{url('partner/show')}}"><strong> Abde Lkhabir Tareef </strong></a></td>
+                                <td class="v-align-middle text-center"><strong>  lkhabir-tareef@admin.com</strong></td>                
+                                <td class="v-align-middle text-center"> March 26, 1977 </td>       
+                                <td class="v-align-middle text-center">
+                                    <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
+                                    <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
+                                </td> 
+                            </tr> 
+                            <tr class="order-progress"  >
+                                <td class="v-align-middle"><a href="{{url('partner/show')}}"><strong> Amjad Mazin </strong></a></td>
+                                <td class="v-align-middle text-center"><strong> amjad-mazin@admin.com</strong></td>                
+                                <td class="v-align-middle text-center"> April 8, 1969 </td>       
+                                <td class="v-align-middle text-center">
+                                    <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
+                                    <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
+                                </td> 
+                            </tr> 
+                            <tr class="order-progress"  >
+                                <td class="v-align-middle"><a href="{{url('partner/show')}}"><strong> Wahid Haddad </strong></a></td>
+                                <td class="v-align-middle text-center"><strong> wahid.haddad@admin.com</strong></td>                
+                                <td class="v-align-middle text-center"> August 5, 1961 </td>       
+                                <td class="v-align-middle text-center">
+                                    <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
+                                    <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
+                                </td> 
+                            </tr> 
+                            <tr class="order-progress"  >
+                                <td class="v-align-middle"><a href="{{url('partner/show')}}"><strong> Naila Shamoun </strong></a></td>
+                                <td class="v-align-middle text-center"><strong> naila.shamoun@admin.com</strong></td>                
+                                <td class="v-align-middle text-center"> June 2, 1964 </td>       
                                 <td class="v-align-middle text-center">
                                     <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
                                     <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>

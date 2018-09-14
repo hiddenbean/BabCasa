@@ -99,19 +99,15 @@
           </span>
         </button>
         <div class="dropdown-menu dropdown-menu-right profile-dropdown" role="menu">
-          <a href="#" class="dropdown-item">
-            <i class="pg-settings_small"></i> Settings</a>
-          <a href="#" class="dropdown-item">
-            <i class="pg-outdent"></i> Feedback</a>
-          <a href="#" class="dropdown-item">
-            <i class="pg-signals"></i> Help</a>
-          <a href="#" class="clearfix bg-master-lighter dropdown-item">
-            <span class="pull-left">Logout</span>
-            <span class="pull-right">
-              <i class="pg-power"></i>
-            </span>
-          </a>
-        </div>
+            <a href="{{ url('/profile')}}" class="dropdown-item">
+              <i class="pg-settings_small"></i> Settings</a>  
+            <a href="{{ url('/login')}}" class="clearfix bg-master-lighter dropdown-item">
+              <span class="pull-left">Logout</span>
+              <span class="pull-right">
+                <i class="pg-power"></i>
+              </span>
+            </a>
+          </div>
       </div>
       <!-- END User Info-->
     </div>

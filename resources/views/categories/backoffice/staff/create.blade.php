@@ -10,7 +10,7 @@
         <div class="col-md-12">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="{{ url('/') }}">Tableau de borad</a>
+                    <a href="{{ url('/') }}">DASHBOARD</a>
                 </li>
                 <li class="breadcrumb-item">
                     <a href="{{ url('/categories') }}">categories</a>
@@ -51,7 +51,7 @@
                             <div class="col-md-12">
                                 <div class="form-group form-group-default">
                                     <label>Categories parent</label>
-                                    <select class="cs-select cs-skin-slide cs-transparent" name="parent_id" data-init-plugin="cs-select">
+                                    <select class="cs-select cs-skin-slide cs-transparent" name="category_id" data-init-plugin="cs-select">
                                         <option value="0">No category parent</option> 
                                         @foreach($categories as $category)
                                     <option value="{{$category->id}}">{{$category->categoryLang->first()->reference}}</option> 

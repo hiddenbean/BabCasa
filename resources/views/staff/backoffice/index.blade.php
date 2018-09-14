@@ -64,8 +64,8 @@
                                 </td> 
                             </tr> 
                             <tr class="order-progress"  >
-                                <td class="v-align-middle"><a href="{{url('staff/show')}}"><strong> Abdul-Latif Haytham  </strong></a></td>
-                                <td class="v-align-middle text-center"><strong> abdul-latif@gmail.com</strong></td>                
+                                <td class="v-align-middle"><a href="{{url('staff/show')}}"><strong> Abdellatif Haytham  </strong></a></td>
+                                <td class="v-align-middle text-center"><strong> abde-latif@gmail.com</strong></td>                
                                 <td class="v-align-middle text-center"> May 8, 1994 </td>      
                                 <td class="v-align-middle text-center"><strong>Commerciale</strong></td> 
                                 <td class="v-align-middle text-center">
@@ -139,7 +139,7 @@
                 "destroy": true,  
                 "scrollCollapse": true,
                 "order": [
-                    [0, "desc"]
+                    [0, "asc"]
                 ],
                 "iDisplayLength": 10
             };

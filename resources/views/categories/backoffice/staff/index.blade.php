@@ -13,7 +13,7 @@
             <div class="col-md-12">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="{{ url('/') }}">Tableau de borad</a>
+                        <a href="{{ url('/') }}">DASHBOARD</a>
                     </li>
                     <li class="breadcrumb-item active">
                         categories
@@ -47,7 +47,7 @@
                     <thead>
                         <th style="width:20%" class="text-center">Nom de category</th>
                         <th style="width:10%" class="text-center">Description</th> 
-                        <th style="width:10%" class="text-center">Chemin</th>                   
+                        <th style="width:10%" class="text-center">Parent</th>                   
                         <th style="width:10%" class="text-center"></th>           
                     </thead>
             
@@ -56,7 +56,7 @@
                             <tr class="order-progress"  >
                                 <td class="v-align-middle"><a href="{{url('categories/'.$category->id)}}"><strong> {{$category->categoryLang->first()->reference}} </strong></a></td>
                                 <td class="v-align-middle text-center"><strong>{{$category->categoryLang->first()->description}} </strong></td>                
-                                <td class="v-align-middle text-center"> Chemin </td>             
+                                <td class="v-align-middle text-center"> @if(isset($category->category_id)){{$category->category->categoryLang->first()->reference}} @endif </td>             
                                 <td class="v-align-middle text-center">
                                         <a href="{{url('categories/'.$category->id.'/edit')}}" class="btn btn-transparent"><i class="fa fa-pencil"></i></a>
                                         <a href="{{route('delete.category',['category'=>$category->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></a>

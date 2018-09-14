@@ -10,7 +10,7 @@
         <div class="col-md-12">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="{{ url('/') }}">Tableau de borad</a>
+                    <a href="{{ url('/') }}">DASHBOARD</a>
                 </li>
                 <li class="breadcrumb-item">
                     <a href="{{ url('/categories') }}">categories</a>
@@ -51,11 +51,11 @@
                             <div class="col-md-12">
                                 <div class="form-group form-group-default">
                                     <label>Categories parent</label>
-                                    <select class="cs-select cs-skin-slide cs-transparent" name="parent_id" data-init-plugin="cs-select">
+                                    <select class="cs-select cs-skin-slide cs-transparent" name="category_id" data-init-plugin="cs-select">
                                         <option value="0">No category parent</option> 
                                         @foreach($categories->where('id','!=',$category->id) as $category_parent)
                                         <option value="{{$category_parent->id}}"
-                                                    @if($category_parent->id == $category->parent_id){ selected } @endif
+                                                    @if($category_parent->id == $category->category_id){ selected } @endif
                                             
                                             >
                                             {{$category_parent->categoryLang->first()->reference}}
@@ -81,7 +81,7 @@
                         <div class="row">
                             <div class="col-sm-2">
                                 <div class="form-group form-group-default">
-                                    <img src="{{ Storage::url($category->picture->path) }}" id="image_preview_staff"
+                                         <img src="@if(isset($category->picture)) {{ Storage::url($category->picture->path) }}@endif" id="image_preview_staff"
                                         alt="" srcset="" width="100">
                                     <label for="path_staff" class="choose_photo">
                                         <span>
