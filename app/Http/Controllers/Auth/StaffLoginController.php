@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
 
-class PartnerLoginController extends Controller
+class StaffLoginController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
@@ -24,7 +24,7 @@ class PartnerLoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -33,24 +33,24 @@ class PartnerLoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest:partner')->except('logout');
+        $this->middleware('guest:staff')->except('logout');
     }
 
     /**
-     * Show the application's login form for the partner.
+     * Show the application's login form for the staff.
      *
      * @return \Illuminate\Http\Response
      */
     public function showLoginForm()
     {
-        return view('system.backoffice.partner.login');
+        return view('system.backoffice.staff.login');
     }
 
     /**
      * Validate a registration request.
-     * Check which login the partner used to log in.
-     * attempt to log in the partner.
-     * If true redirect to the partner's home page.
+     * Check which login the staff used to log in.
+     * attempt to log in the staff.
+     * If true redirect to the staff's home page.
      * If false Redirect to the previous page.
      * 
      * @param  \Illuminate\Http\Request.
@@ -60,7 +60,7 @@ class PartnerLoginController extends Controller
     {
         $this->validateReqeust($request);
         
-        if(Auth::guard('partner')->attempt($request->only('email', 'password'), $request->remember))
+        if(Auth::guard('staff')->attempt($request->only('email', 'password'), $request->remember))
         {
             return redirect()->intended('/');
         }
@@ -68,7 +68,7 @@ class PartnerLoginController extends Controller
     }
 
     /**
-     * Validate the partner's login request.
+     * Validate the staff's login request.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return void
@@ -76,20 +76,20 @@ class PartnerLoginController extends Controller
     public function validateReqeust(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|exists:partners,email',
+            'email' => 'required|email|exists:staff,email',
             'password' => 'required|min:6',
         ]);
     }
 
     /**
-     * Log the partner out of the application.
+     * Log the staff out of the application.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
    public function logout(Request $request)
    {
-       Auth::guard('partner')->logout();
+       Auth::guard('staff')->logout();
        $request->session()->invalidate();
        return redirect('/sign-in');
    }

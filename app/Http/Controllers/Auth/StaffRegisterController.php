@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use Auth;
-use App\Partner;
+use App\Staff;
 use App\Country;
 use App\Address;
 use App\Picture;
@@ -16,7 +16,7 @@ use App\Http\Controllers\Controller;
 // use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
-class PartnerRegisterController extends Controller
+class StaffRegisterController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
@@ -39,14 +39,14 @@ class PartnerRegisterController extends Controller
     protected $redirectTo = '/';
 
     /**
-     * Create a new partner register controller instance.
-     * Call te auth middleware and specify the partner guard.
+     * Create a new staff register controller instance.
+     * Call te auth middleware and specify the staff guard.
      *
      * @return void
      */
     public function __construct()
     {
-        $this->middleware('guest:partner');
+        $this->middleware('guest:staff');
     }
 
     /**
@@ -58,31 +58,30 @@ class PartnerRegisterController extends Controller
     protected function validateRequest(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:partners,name',
-            'email' => 'required|unique:partners,email',
+            'name' => 'required|unique:staff,name',
+            'email' => 'required|unique:staff,email',
             'password' => 'required|min:6|confirmed',
-            'company_name' => 'required',
-            'trade_registry' => 'required',
-            'ice' => 'required',
-            'taxe_id' => 'required',
-            'about' => 'required',
-            'agreement' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'birthday' => 'required',
+            'gender' => 'required',
+            'profile_id' => 'required',
         ]);
     }
 
     /**
      * log out the authenticated users with different guard from the application.
      * Valid a registration request.
-     * Create a new partner.
-     * Attempt to log in the the created partner.
-     * If true redirect to the partner's add details form.
+     * Create a new staff.
+     * Attempt to log in the the created staff.
+     * If true redirect to the staff's add details form.
      * If false Redirect to the previous page.
      * 
      * @param  \Illuminate\Http\Request.
      * @return \Illuminate\Http\Response.
      */
     protected function store(Request $request)
-    {
+    {return dd($request);
        $this->validateRequest($request);
         
         $AddressController = new AddressController();
@@ -96,18 +95,18 @@ class PartnerRegisterController extends Controller
 
         $password = bcrypt($request->password);
         $name = $request->company_name;
-        while(Partner::where('name', $request->company_name)->first()){
+        while(Staff::where('name', $request->name)->first()){
             $name = $name.'_'.rand(0,9);
         }
-        $partner = Partner::create([
-            'company_name' => $request->company_name,
+        $staff = Staff::create([
             'name' => $name,
             'email' =>  $request->email,
             'password' => $password,
-            'about' => $request->about,
-            'trade_registry' => $request->trade_registry,
-            'ice' => $request->ice,
-            'taxe_id' => $request->tax_id,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'birthday' => $request->birthday,
+            'gender' => $request->gender,
+            'profile_id' => $request->profile,
             ]);
 
         $country = Country::where('name', $request->country)->firstOrFail();
@@ -121,19 +120,19 @@ class PartnerRegisterController extends Controller
             'zip_code' => $request->zip_code,
             'longitude' => $request->longitude,
             'latitude' => $request->latitude,
-            'addressable_type' => 'partner',
-            'addressable_id' => $partner->id,
+            'addressable_type' => 'staff',
+            'addressable_id' => $staff->id,
         ]);
 
         if($request->hasFile('path')) 
         {
             $picture = Picture::create([
                 'name' => $request->company_name,
-                'tag' => "partner_avatar",
-                'path' => $request->file('path')->store('images/partners', 'public'),
+                'tag' => "staff_avatar",
+                'path' => $request->file('path')->store('images/staffs', 'public'),
                 'extension' => $request->file('path')->extension(),
-                'pictureable_type' => 'partner',
-                'pictureable_id' => $partner->id,
+                'pictureable_type' => 'staff',
+                'pictureable_id' => $staff->id,
             ]);
         }
         
@@ -146,8 +145,8 @@ class PartnerRegisterController extends Controller
                     'number' => $number,
                     'type' => 'fix',
                     'phone_code_id' => $request->code_country[$key],
-                    'phoneable_type' => 'partner',
-                    'phoneable_id' => $partner->id,
+                    'phoneable_type' => 'staff',
+                    'phoneable_id' => $staff->id,
                 ]);
             }
         }
@@ -158,12 +157,12 @@ class PartnerRegisterController extends Controller
                     'number' => $request->fax_number,
                     'type' => 'fax',
                     'phone_code_id' => $request->code_country[2],
-                    'phoneable_type' => 'partner',
-                    'phoneable_id' => $partner->id,
+                    'phoneable_type' => 'staff',
+                    'phoneable_id' => $staff->id,
                 ]);
             }
         $this->guardsLogout();
-        auth()->guard('partner')->login($partner);
+        auth()->guard('staff')->login($staff);
         return redirect('/');
     }
 
@@ -174,17 +173,17 @@ class PartnerRegisterController extends Controller
      */
     public function guardsLogout()
     {
-        Auth::guard('partner')->logout();
+        Auth::guard('staff')->logout();
     }
 
     /**
-     * Return the partner's registration form
+     * Return the staff's registration form
      * 
      * @return \Illuminate\Http\Response.
      */
     public function showRegisterForm()
     {
-        return view('system.backoffice.partner.register');
+        return view('system.backoffice.staff.register');
     }
 }
 
