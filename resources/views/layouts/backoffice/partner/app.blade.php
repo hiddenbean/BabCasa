@@ -10,7 +10,7 @@
   <div class="sidebar-header">
       <a href="{{ url('/') }}">
         <span class="sidebar-logo-white">
-            <img src="{{ asset('img/logo.png') }}" alt="{{ config('app.name', 'BAB Casa') }}" height="30">
+            <img src="{{ asset('img/logo_white.png') }}" alt="{{ config('app.name', 'BAB Casa') }}" height="30">
           </span>
      </a> 
     <div class="sidebar-header-controls">
