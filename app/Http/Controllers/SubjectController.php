@@ -15,8 +15,9 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        isset($request->partner) ? $partner = $request->partner : $partner = Auth::guard('partner')->user()->name;
-        $data['partner'] = Partner::where('name', $partner)->firstOrFail();
+        // isset($request->partner) ? $partner = $request->partner : $partner = Auth::guard('partner')->user()->name;
+        // $data['partner'] = Partner::where('name', $partner)->firstOrFail();
+        $data['partner'] = Partner::all()->first();
         $data['subjects'] =Subject::all();
 
         return view('subjects.backoffice.partner.index',$data);

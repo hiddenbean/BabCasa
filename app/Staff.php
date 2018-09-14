@@ -2,10 +2,13 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Staff extends Authenticatable
 {
+    use SoftDeletes;
     protected $guard = 'staff';
 
     protected $fillable = [
@@ -47,5 +50,9 @@ class Staff extends Authenticatable
     public function phones()
     {
         return $this->morphOne('App\Phone', 'phoneable');
+    }
+    public function profile()
+    {
+        return $this->belongsTo('App\Profile');
     }
 }

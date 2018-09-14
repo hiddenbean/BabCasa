@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class CodeCountrySeeder extends Seeder
+class ProfileSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class CodeCountrySeeder extends Seeder
      */
     public function run()
     {
-        factory('App\CodeCountry', 1)->create();
+        factory('App\Profile', 2)->create();
     }
 }

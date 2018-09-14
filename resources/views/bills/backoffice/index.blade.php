@@ -13,10 +13,10 @@
             <div class="col-md-12">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="{{ url('/') }}">DASHBOARD</a>
+                        <a href="{{ url('/') }}">Tableau de borad</a>
                     </li>
                     <li class="breadcrumb-item active">
-                        Products
+                        Bills
                     </li>
                 </ol>
             </div>
@@ -26,13 +26,13 @@
     <div class="container-fluid container-fixed-lg bg-white">
         <div class="card card-transparent">
             <div class="card-header">
-                <div class="card-title">List of products</div>
+                <div class="card-title">List of bills</div>
                 <div class="pull-right">
                     <div class="col-xs-12">
                         <div class="row">
-                            <div class="col-md-6 text-right no-padding">
+                            {{-- <div class="col-md-6 text-right no-padding">
                             <a href="{{url('products/create')}}" class="btn btn-primary btn-cons">New Product</a>
-                            </div>
+                            </div> --}}
                             <div class="col-md-6">
                                 <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
                             </div>
@@ -45,43 +45,49 @@
             <div class="card-body">
                 <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
                     <thead>
-                        <th style="width:5%" class="text-center">Image</th>
-                        <th style="width:10%" class="text-center">Reference</th> 
-                        <th style="width:10%" class="text-center">Price</th> 
-                        <th style="width:10%" class="text-center">Quantity</th>                
+                        <th style="width:15%" class="text-center">Id</th> 
                         <th style="width:10%" class="text-center">Creation date</th> 
+                        <th style="width:10%" class="text-center">Amount</th>                
+                        <th style="width:10%" class="text-center">Etat</th> 
                         <th style="width:10%" class="text-center"></th>                
                     </thead>
             
                     <tbody>  
                             <tr class="order-progress"  >
-                                <td class="v-align-middle text-center"> <img src="{{ asset('img/profiles/product.jpg') }}" alt="" srcset="" height="30"></td>                
-                                <td class="v-align-middle"><a href="{{url('products/show')}}"><strong> Lorem ipsum dolor sit amet. </strong></a></td>
+                                <td class="v-align-middle"><strong> 1 </strong></td>
+                                <td class="v-align-middle text-center"> 01/02/2018 </td>      
                                 <td class="v-align-middle text-center"><strong> 1032.00 </strong></td>      
-                                <td class="v-align-middle text-center"><strong>17</strong></td> 
-                                <td class="v-align-middle text-center"> 01/02/2018 </td>      
+                                <td class="v-align-middle text-center">payed</td> 
                                 <td class="v-align-middle text-center">
                                     <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
                                     <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
                                 </td> 
                             </tr> 
                             <tr class="order-progress"  >
-                                <td class="v-align-middle text-center"> <img src="{{ asset('img/profiles/p1.jpeg') }}" alt="" srcset="" height="30"></td>                
-                                <td class="v-align-middle"><a href="{{url('products/show')}}"><strong> Baby Car Seat. </strong></a></td>
-                                <td class="v-align-middle text-center"><strong> 150 </strong></td>      
-                                <td class="v-align-middle text-center"><strong>50</strong></td> 
-                                <td class="v-align-middle text-center"> 01/02/2018 </td>      
+                                <td class="v-align-middle"><strong> 2 </strong></td>
+                                <td class="v-align-middle text-center"> 10/02/2018 </td>      
+                                <td class="v-align-middle text-center"><strong> 500 </strong></td>      
+                                <td class="v-align-middle text-center">not paid</td> 
                                 <td class="v-align-middle text-center">
                                     <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
                                     <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
                                 </td> 
                             </tr> 
                             <tr class="order-progress"  >
-                                <td class="v-align-middle text-center"> <img src="{{ asset('img/profiles/p2.jpg') }}" alt="" srcset="" height="30"></td>                
-                                <td class="v-align-middle"><a href="{{url('products/show')}}"><strong> Wolfe Design. </strong></a></td>
-                                <td class="v-align-middle text-center"><strong> 320 </strong></td>      
-                                <td class="v-align-middle text-center"><strong>150</strong></td> 
-                                <td class="v-align-middle text-center"> 01/02/2018 </td>      
+                                <td class="v-align-middle"><strong> 3 </strong></td>
+                                <td class="v-align-middle text-center"> 05/04/2018 </td>      
+                                <td class="v-align-middle text-center"><strong> 250 </strong></td>      
+                                <td class="v-align-middle text-center">payed</td> 
+                                <td class="v-align-middle text-center">
+                                    <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
+                                    <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
+                                </td> 
+                            </tr> 
+                            <tr class="order-progress"  >
+                                <td class="v-align-middle"><strong> 4 </strong></td>
+                                <td class="v-align-middle text-center"> 07/03/2018 </td>      
+                                <td class="v-align-middle text-center"><strong> 750 </strong></td>      
+                                <td class="v-align-middle text-center">not paid</td> 
                                 <td class="v-align-middle text-center">
                                     <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
                                     <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>

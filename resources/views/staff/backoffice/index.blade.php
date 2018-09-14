@@ -31,7 +31,7 @@
                     <div class="col-xs-12">
                         <div class="row">
                             <div class="col-md-6 text-right no-padding">
-                            <a href="{{url('staff/create')}}" class="btn btn-primary btn-cons">New staff</a>
+                            <a href="{{url('staffs/create')}}" class="btn btn-primary btn-cons">New staff</a>
                             </div>
                             <div class="col-md-6">
                                 <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
@@ -52,67 +52,75 @@
                         <th style="width:10%" class="text-center"></th>                
                     </thead>
             
-                    <tbody>  
+                    <tbody> 
+                        {{-- @foreach($staffs as $staff) 
                             <tr class="order-progress"  >
+                                <td class="v-align-middle"><a href="{{url('staffs/'.$staff->name)}}"><strong> {{$staff->first_name.' '.$staff->last_name}}. </strong></a></td>
+                                <td class="v-align-middle text-center"><strong> {{$staff->email}}</strong></td>                
+                                <td class="v-align-middle text-center">{{date('d-m-Y', strtotime($staff->created_at))}}</td>      
+                                <td class="v-align-middle text-center"><strong>{{$staff->profile->profileLang->first()->reference}}</strong></td> 
                                 <td class="v-align-middle"><a href="{{url('staff/show')}}"><strong> Mazhar Zaid  </strong></a></td>
                                 <td class="v-align-middle text-center"><strong> mazhar.zaid@gmail.com</strong></td>                
                                 <td class="v-align-middle text-center"> June 7, 1982 </td>      
                                 <td class="v-align-middle text-center"><strong>Admin</strong></td> 
                                 <td class="v-align-middle text-center">
+                                        <a href="{{url('staffs/'.$staff->id.'/edit')}}" class="btn btn-transparent"><i class="fa fa-pencil"></i></a>
+                                        <a href="{{route('delete.staff',['staff'=>$staff->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></a>
                                     <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
                                     <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
                                 </td> 
                             </tr> 
-                            <tr class="order-progress"  >
-                                <td class="v-align-middle"><a href="{{url('staff/show')}}"><strong> Abdellatif Haytham  </strong></a></td>
-                                <td class="v-align-middle text-center"><strong> abde-latif@gmail.com</strong></td>                
-                                <td class="v-align-middle text-center"> May 8, 1994 </td>      
-                                <td class="v-align-middle text-center"><strong>Commerciale</strong></td> 
-                                <td class="v-align-middle text-center">
-                                    <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
-                                </td> 
-                            </tr> 
-                            <tr class="order-progress"  >
-                                <td class="v-align-middle"><a href="{{url('staff/show')}}"><strong> Wasim Mukarram  </strong></a></td>
-                                <td class="v-align-middle text-center"><strong> wasim.mukarram@gmail.com</strong></td>                
-                                <td class="v-align-middle text-center"> December 20, 1975 </td>      
-                                <td class="v-align-middle text-center"><strong>Commerciale</strong></td> 
-                                <td class="v-align-middle text-center">
-                                    <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
-                                </td> 
-                            </tr> 
-                            <tr class="order-progress"  >
-                                <td class="v-align-middle"><a href="{{url('staff/show')}}"><strong> Yazan Bishara  </strong></a></td>
-                                <td class="v-align-middle text-center"><strong> yazan.bishara@gmail.com</strong></td>                
-                                <td class="v-align-middle text-center"> June 7, 1982 </td>      
-                                <td class="v-align-middle text-center"><strong>Admin</strong></td> 
-                                <td class="v-align-middle text-center">
-                                    <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
-                                </td> 
-                            </tr> 
-                            <tr class="order-progress"  >
-                                <td class="v-align-middle"><a href="{{url('staff/show')}}"><strong> Hajjaj Maroun  </strong></a></td>
-                                <td class="v-align-middle text-center"><strong> hajjaj-maroun@gmail.com</strong></td>                
-                                <td class="v-align-middle text-center"> September 2, 1985 </td>      
-                                <td class="v-align-middle text-center"><strong>Commerciale</strong></td> 
-                                <td class="v-align-middle text-center">
-                                    <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
-                                </td> 
-                            </tr> 
-                            <tr class="order-progress"  >
-                                <td class="v-align-middle"><a href="{{url('staff/show')}}"><strong> Hamid Idrissi  </strong></a></td>
-                                <td class="v-align-middle text-center"><strong> hamid-idrissi@gmail.com</strong></td>                
-                                <td class="v-align-middle text-center"> November 16, 1990 </td>      
-                                <td class="v-align-middle text-center"><strong>Admin</strong></td> 
-                                <td class="v-align-middle text-center">
-                                    <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
-                                </td> 
-                            </tr> 
+                            @endforeach --}}
+                                <tr class="order-progress"  >
+                                    <td class="v-align-middle"><a href="{{url('staff/show')}}"><strong> Abdellatif Haytham  </strong></a></td>
+                                    <td class="v-align-middle text-center"><strong> abde-latif@gmail.com</strong></td>                
+                                    <td class="v-align-middle text-center"> May 8, 1994 </td>      
+                                    <td class="v-align-middle text-center"><strong>Commerciale</strong></td> 
+                                    <td class="v-align-middle text-center">
+                                        <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
+                                        <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
+                                    </td> 
+                                </tr> 
+                                <tr class="order-progress"  >
+                                    <td class="v-align-middle"><a href="{{url('staff/show')}}"><strong> Wasim Mukarram  </strong></a></td>
+                                    <td class="v-align-middle text-center"><strong> wasim.mukarram@gmail.com</strong></td>                
+                                    <td class="v-align-middle text-center"> December 20, 1975 </td>      
+                                    <td class="v-align-middle text-center"><strong>Commerciale</strong></td> 
+                                    <td class="v-align-middle text-center">
+                                        <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
+                                        <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
+                                    </td> 
+                                </tr> 
+                                <tr class="order-progress"  >
+                                    <td class="v-align-middle"><a href="{{url('staff/show')}}"><strong> Yazan Bishara  </strong></a></td>
+                                    <td class="v-align-middle text-center"><strong> yazan.bishara@gmail.com</strong></td>                
+                                    <td class="v-align-middle text-center"> June 7, 1982 </td>      
+                                    <td class="v-align-middle text-center"><strong>Admin</strong></td> 
+                                    <td class="v-align-middle text-center">
+                                        <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
+                                        <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
+                                    </td> 
+                                </tr> 
+                                <tr class="order-progress"  >
+                                    <td class="v-align-middle"><a href="{{url('staff/show')}}"><strong> Hajjaj Maroun  </strong></a></td>
+                                    <td class="v-align-middle text-center"><strong> hajjaj-maroun@gmail.com</strong></td>                
+                                    <td class="v-align-middle text-center"> September 2, 1985 </td>      
+                                    <td class="v-align-middle text-center"><strong>Commerciale</strong></td> 
+                                    <td class="v-align-middle text-center">
+                                        <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
+                                        <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
+                                    </td> 
+                                </tr> 
+                                <tr class="order-progress"  >
+                                    <td class="v-align-middle"><a href="{{url('staff/show')}}"><strong> Hamid Idrissi  </strong></a></td>
+                                    <td class="v-align-middle text-center"><strong> hamid-idrissi@gmail.com</strong></td>                
+                                    <td class="v-align-middle text-center"> November 16, 1990 </td>      
+                                    <td class="v-align-middle text-center"><strong>Admin</strong></td> 
+                                    <td class="v-align-middle text-center">
+                                            <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
+                                            <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
+                                   </td> 
+                                </tr> 
                     </tbody>
                 </table>
             </div>
