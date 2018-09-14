@@ -45,46 +45,47 @@
             <div class="card-body">
                 <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
                     <thead>
-                        <th style="width:5%" class="text-center">Image</th>
                         <th style="width:10%" class="text-center">Reference</th> 
                         <th style="width:10%" class="text-center">Start At</th> 
                         <th style="width:10%" class="text-center">End At</th>                
+                        <th style="width:5%" class="text-center">Products Count</th>
+                        <th style="width:5%" class="text-center">percentage</th>
                         <th style="width:10%" class="text-center">Creation date</th> 
-                        <th style="width:10%" class="text-center"></th>                
+                        <th style="width:5%" class="text-center"></th>                
                     </thead>
             
                     <tbody>  
                             <tr class="order-progress"  >
-                                <td class="v-align-middle text-center"> <img src="{{ asset('img/profiles/product.jpg') }}" alt="" srcset="" height="30"></td>                
                                 <td class="v-align-middle"><strong> Lorem ipsum dolor sit amet. </strong></td>
                                 <td class="v-align-middle text-center"><strong> 07/02/2018 </strong></td>      
                                 <td class="v-align-middle text-center"><strong>01/03/2018</strong></td> 
+                                <td class="v-align-middle text-center"> 10 </td>      
+                                <td class="v-align-middle text-center"><strong> 50% </strong></td>      
                                 <td class="v-align-middle text-center"> 01/02/2018 </td>      
                                 <td class="v-align-middle text-center">
                                     <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
                                 </td> 
                             </tr> 
                             <tr class="order-progress"  >
-                                <td class="v-align-middle text-center"> <img src="{{ asset('img/profiles/p1.jpeg') }}" alt="" srcset="" height="30"></td>                
                                 <td class="v-align-middle"><strong> Baby Car Seat. </strong></td>
                                 <td class="v-align-middle text-center"><strong> 21/05/2018 </strong></td>      
                                 <td class="v-align-middle text-center"><strong>15/06/2018</strong></td> 
+                                <td class="v-align-middle text-center"> 5 </td>      
+                                <td class="v-align-middle text-center"><strong> 30%</strong> </td>   
                                 <td class="v-align-middle text-center"> 01/05/2018 </td>      
                                 <td class="v-align-middle text-center">
                                     <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
                                 </td> 
                             </tr> 
                             <tr class="order-progress"  >
-                                <td class="v-align-middle text-center"> <img src="{{ asset('img/profiles/p2.jpg') }}" alt="" srcset="" height="30"></td>                
                                 <td class="v-align-middle"><strong> Wolfe Design. </strong></td>
                                 <td class="v-align-middle text-center"><strong> 07/04/2018 </strong></td>      
-                                <td class="v-align-middle text-center"><strong>30/05/2018</strong></td> 
+                                <td class="v-align-middle text-center"><strong>30/05/2018</strong></td>
+                                <td class="v-align-middle text-center"> 7 </td>      
+                                <td class="v-align-middle text-center"> <strong><strong>25%</strong> </td>    
                                 <td class="v-align-middle text-center"> 01/04/2018 </td>      
                                 <td class="v-align-middle text-center">
                                     <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
                                 </td> 
                             </tr> 
                     </tbody>
