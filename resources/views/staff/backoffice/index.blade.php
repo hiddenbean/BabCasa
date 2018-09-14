@@ -31,7 +31,7 @@
                     <div class="col-xs-12">
                         <div class="row">
                             <div class="col-md-6 text-right no-padding">
-                            <a href="{{url('staff/create')}}" class="btn btn-primary btn-cons">New staff</a>
+                            <a href="{{url('staffs/create')}}" class="btn btn-primary btn-cons">New staff</a>
                             </div>
                             <div class="col-md-6">
                                 <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
@@ -52,17 +52,19 @@
                         <th style="width:10%" class="text-center"></th>                
                     </thead>
             
-                    <tbody>  
+                    <tbody> 
+                        @foreach($staffs as $staff) 
                             <tr class="order-progress"  >
-                                <td class="v-align-middle"><a href="{{url('staff/show')}}"><strong> Lorem ipsum dolor sit amet. </strong></a></td>
-                                <td class="v-align-middle text-center"><strong> staff@admin.com.</strong></td>                
-                                <td class="v-align-middle text-center"> 01/02/2018 </td>      
-                                <td class="v-align-middle text-center"><strong>Admin</strong></td> 
+                                <td class="v-align-middle"><a href="{{url('staffs/'.$staff->name)}}"><strong> {{$staff->first_name.' '.$staff->last_name}}. </strong></a></td>
+                                <td class="v-align-middle text-center"><strong> {{$staff->email}}</strong></td>                
+                                <td class="v-align-middle text-center">{{date('d-m-Y', strtotime($staff->created_at))}}</td>      
+                                <td class="v-align-middle text-center"><strong>{{$staff->profile->profileLang->first()->reference}}</strong></td> 
                                 <td class="v-align-middle text-center">
-                                    <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
-                                </td> 
+                                        <a href="{{url('staffs/'.$staff->id.'/edit')}}" class="btn btn-transparent"><i class="fa fa-pencil"></i></a>
+                                        <a href="{{route('delete.staff',['staff'=>$staff->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></a>
+                               </td> 
                             </tr> 
+                        @endforeach
                     </tbody>
                 </table>
             </div>

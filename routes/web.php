@@ -68,6 +68,14 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::get('create', 'ReasonController@create'); 
         Route::get('{reason}', 'ReasonController@show'); 
         Route::get('{reason}/edit', 'ReasonController@edit'); 
+    });
+
+    //////////reasons
+    Route::prefix('staffs')->group(function() {
+        Route::get('/', 'StaffController@index'); 
+        Route::get('create', 'StaffController@create'); 
+        Route::get('{staff}', 'StaffController@show'); 
+        Route::get('{staff}/edit', 'StaffController@edit'); 
     }); 
    
     
@@ -212,6 +220,13 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::post('{reason}', 'ReasonController@update'); 
         Route::delete('{reason}', 'ReasonController@destroy')->name('delete.reason');
     }); 
+      //////////STAFF
+      Route::prefix('staffs')->group(function() {
+
+        Route::post('/', 'StaffController@store'); 
+        Route::post('{staff}', 'StaffController@update'); 
+        Route::delete('{staff}', 'StaffController@destroy')->name('delete.staff');
+    }); 
 
 });
 
@@ -266,6 +281,29 @@ Route::domain('partner.babcasa.com')->group(function (){
     // Route::get('/tags', function () { 
     //     return view('tags.backoffice.partner.index');
     // }); 
+    Route::get('/discounts', function () { 
+        return view('discounts.backoffice.index');
+    }); 
+    Route::get('/bills', function () { 
+        return view('bills.backoffice.index');
+    }); 
+    Route::get('/orders', function () { 
+        return view('orders.backoffice.partner.all');
+    }); 
+    Route::get('/orders/hold', function () { 
+        return view('orders.backoffice.partner.hold');
+    }); 
+    Route::get('/orders/finish', function () { 
+        return view('orders.backoffice.partner.finish');
+    }); 
+    Route::get('/orders/progress', function () { 
+        return view('orders.backoffice.partner.progress');
+    }); 
+    Route::get('/orders/cancle', function () { 
+        return view('orders.backoffice.partner.aboard');
+    }); 
+
+
     Route::get('/tags/create', function () { 
         return view('tags.backoffice.partner.create');
     }); 
@@ -351,15 +389,15 @@ Route::domain('staff.babcasa.com')->group(function (){
     }); 
 
 
-    Route::get('/staff', function () { 
-        return view('staff.backoffice.index');
-    }); 
-    Route::get('/staff/create', function () { 
-        return view('staff.backoffice.create');
-    }); 
-    Route::get('/staff/show', function () { 
-        return view('staff.backoffice.show');
-    }); 
+    // Route::get('/staff', function () { 
+    //     return view('staff.backoffice.index');
+    // }); 
+    // Route::get('/staff/create', function () { 
+    //     return view('staff.backoffice.create');
+    // }); 
+    // Route::get('/staff/show', function () { 
+    //     return view('staff.backoffice.show');
+    // }); 
 
     Route::get('/partner', function () { 
         return view('partners.backoffice.staff.index');

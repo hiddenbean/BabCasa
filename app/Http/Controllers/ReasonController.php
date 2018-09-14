@@ -133,7 +133,6 @@ class ReasonController extends Controller
      */
     public function destroy($Reason)
     {
-        // récupérer photo
         $Reason = Reason::findOrFail($Reason);
        $Reason->delete();
        return redirect('reasons');

@@ -13,7 +13,7 @@
                     <a href="{{ url('/') }}">Tableau de borad</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a href="{{ url('/products') }}">products</a>
+                    <a href="{{ url('/products') }}">billings</a>
                 </li>
                 <li class="breadcrumb-item active">
                     Create

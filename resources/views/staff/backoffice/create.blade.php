@@ -31,8 +31,9 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-xl-12">
-                    <form id="form-personal">
-                        <!-- START TABS -->
+                    <form id="form-personal"  method="POST" action="{{url('staffs')}}"  enctype="multipart/form-data">
+                        {{ csrf_field() }}
+
                         <ul class="nav nav-tabs nav-tabs-simple nav-tabs-left bg-white" id="tab-3">
                             <li class="nav-item">
                                 <a href="#" class="active show" data-toggle="tab" data-target="#general">General
@@ -46,41 +47,67 @@
                             <!-- START FIRST TAB CONTENT GENRAL -->
                             <div class="tab-pane active show" id="general">
                                 <div class="row">
+                                    {{$errors}}
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Name</label>
-                                            <input type="text" class="form-control" name="name" placeholder="Name">
+                                            <input type="text" class="form-control"  value="{{ old('name') }}" name="name" placeholder="Name">
                                         </div>
+                                        <label class='error' for='name'>
+                                                @if ($errors->has('name'))
+                                                    {{ $errors->first('name') }}
+                                                @endif
+                                        </label> 
                                     </div>
                                 </div>
                                 <div class="row clearfix">
                                     <div class="col-md-6">
-                                        <div class="form-group form-group-default required has-error">
+                                        <div class="form-group form-group-default">
                                             <label>First name</label>
-                                            <input type="text" class="form-control error" name="first_name">
-                                        </div><label class="error" for="first_name">This field is required.</label>
+                                            <input type="text" class="form-control" value="{{ old('first_name') }}"  name="first_name">
+                                        </div>
+                                        <label class='error' for='first_name'>
+                                                @if ($errors->has('first_name'))
+                                                    {{ $errors->first('first_name') }}
+                                                @endif
+                                        </label> 
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="form-group form-group-default">
+                                        <div class="form-group form-group-default ">
                                             <label>Last name</label>
-                                            <input type="text" class="form-control" name="last_name">
+                                            <input type="text" class="form-control" value="{{ old('last_name') }}"  name="last_name">
                                         </div>
+                                        <label class='error' for='last_name'>
+                                                @if ($errors->has('last_name'))
+                                                    {{ $errors->first('last_name') }}
+                                                @endif
+                                        </label> 
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Email</label>
-                                            <input type="email" class="form-control" name="email" placeholder="Email">
+                                            <input type="email" class="form-control" value="{{ old('email') }}"  name="email" placeholder="Email">
                                         </div>
+                                        <label class='error' for='email'>
+                                                @if ($errors->has('email'))
+                                                    {{ $errors->first('email') }}
+                                                @endif
+                                        </label> 
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Password</label>
-                                            <input type="passwod" class="form-control" name="password" placeholder="Password">
+                                            <input type="password" class="form-control" name="password" placeholder="Password">
                                         </div>
+                                        <label class='error' for='password'>
+                                                @if ($errors->has('password'))
+                                                    {{ $errors->first('password') }}
+                                                @endif
+                                        </label> 
                                     </div>
                                 </div>
                                 <div class="row">
@@ -88,9 +115,14 @@
                                         <div class="form-group form-group-default input-group">
                                             <div class="form-input-group">
                                                 <label>Birthday</label>
-                                                <input type="text" name="birthday" class="form-control" placeholder="Birthday"
+                                                <input type="text" name="birthday" value="{{ old('birthday') }}"  class="form-control" placeholder="Birthday"
                                                     id="birthday">
                                             </div>
+                                            <label class='error' for='birthday'>
+                                                    @if ($errors->has('birthday'))
+                                                        {{ $errors->first('birthday') }}
+                                                    @endif
+                                            </label> 
                                             <div class="input-group-append ">
                                                 <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                                             </div>
@@ -101,12 +133,13 @@
                                         <div class="col-md-12">
                                             <div class="form-group form-group-default">
                                                 <label for="">Profile Type</label> 
-                                                <select class="cs-select cs-skin-slide cs-transparent" name="profile_id[]" data-init-plugin="cs-select">
-                                                    <option Selected>ADMIN</option>
-                                                    <option>USA (+1)</option>
-                                                    <option>Uzbekistan (+7)</option> 
+                                                <select class="cs-select cs-skin-slide cs-transparent" value="{{ old('profile_id') }}"  name="profile_id" data-init-plugin="cs-select">
+                                                   @foreach($profiles as $profile)
+                                                <option value="{{$profile->id}}" >{{$profile->profileLang->first()->reference}}</option>
+                                                    @endforeach
                                                 </select> 
                                             </div>
+                                            
                                         </div>
                                     </div>
                                 <div class="row">
@@ -185,13 +218,13 @@
                                     <div class="col-md-4">
                                         <div class="form-group form-group-default required has-error">
                                             <label>Phone one </label>
-                                            <input type="text" class="form-control error" name="first_name">
-                                        </div><label class="error" for="first_name">This field is required.</label>
+                                            <input type="text" class="form-control error" name="phone">
+                                        </div><label class="error" for="phone">This field is required.</label>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group form-group-default">
                                             <label>Phone tow </label>
-                                            <input type="text" class="form-control" name="last_name">
+                                            <input type="text" class="form-control" name="phone_tow">
                                         </div>
                                     </div>
                                     <div class="col-md-4">

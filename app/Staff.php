@@ -3,9 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Staff extends Model
 {
+    use SoftDeletes;
 
     protected $fillable = [
         'email',
@@ -46,5 +48,9 @@ class Staff extends Model
     public function phones()
     {
         return $this->morphOne('App\Phone', 'phoneable');
+    }
+    public function profile()
+    {
+        return $this->belongsTo('App\Profile');
     }
 }

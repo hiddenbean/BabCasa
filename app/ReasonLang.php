@@ -10,4 +10,8 @@ class ReasonLang extends Model
     {
         return $this->belingsTo('App\Reason');
     }
+    public function lang()
+    {
+        return $this->belongsTo('App\Language');
+    }
 }
