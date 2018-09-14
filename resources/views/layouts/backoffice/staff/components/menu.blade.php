@@ -92,7 +92,7 @@
                 </span>
                 <ul class="sub-menu">
                     <li>
-                        <a href="{{ url('/claims') }}">Claims</a>
+                        <a href="{{ url('/claims') }}">My tickets</a>
                         <span class="icon-thumbnail">Cl</span>
                     </li> 
                 </ul>

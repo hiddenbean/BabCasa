@@ -31,7 +31,7 @@
                     <div class="col-xs-12">
                         <div class="row">
                             <div class="col-md-6 text-right no-padding">
-                            <a href="{{url('staffs/create')}}" class="btn btn-primary btn-cons">New staff</a>
+                            <a href="{{url('staff/create')}}" class="btn btn-primary btn-cons">New staff</a>
                             </div>
                             <div class="col-md-6">
                                 <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">

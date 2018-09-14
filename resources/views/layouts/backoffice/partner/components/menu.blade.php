@@ -26,14 +26,8 @@
             <ul class="sub-menu">
                 <li>
                     <a href="{{ url('/orders') }}">All</a>
-                    <span class="icon-thumbnail">Al</span>
-                    <a href="{{ url('/') }}">Newsletter suscription</a>
-                    <span class="icon-thumbnail">NS</span>
-                </li>
-                <li>
-                    <a href="{{ url('/security') }}">Sécurité</a>
-                    <span class="icon-thumbnail">Se</span>
-                </li>
+                    <span class="icon-thumbnail">Al</span> 
+                </li> 
                 <li>
                     <a href="{{ url('/orders') }}">Waiting</a>
                     <span class="icon-thumbnail">Wa</span>
@@ -120,13 +114,9 @@
             </span>
             <ul class="sub-menu">
                 <li>
-                    <a href="{{ url('/support/ticket') }}">My tickets</a>
+                    <a href="{{ url('/claims') }}">My tickets</a>
                     <span class="icon-thumbnail">MT</span>
-                </li> 
-                <li>
-                    <a href="{{ url('/support') }}">Create</a>
-                    <span class="icon-thumbnail">Cr</span>
-                </li> 
+                </li>  
             </ul>
         </li>
         <li>
@@ -143,11 +133,11 @@
                         <span class="icon-thumbnail">Se</span>
                     </li>
                     <li>
-                        <a href="{{ url('/log') }}">Historical</a>
-                        <span class="icon-thumbnail">Hi</span>
+                        <a href="{{ url('/log') }}">Log</a>
+                        <span class="icon-thumbnail">Lo</span>
                     </li>
                     <li>
-                        <a href="{{ url('/settings') }}">Manage my account</a>
+                        <a href="{{ url('/profile') }}">Manage my account</a>
                         <span class="icon-thumbnail">Ma</span>
                     </li>
                 </ul>

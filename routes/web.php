@@ -389,7 +389,23 @@ Route::domain('partner.babcasa.com')->group(function (){
             'parent' => $parent,
             "value" => $value
         ]);
-    });   
+    });  
+    
+    Route::get('/claims', function () { 
+        return view('claims.backoffice.partner.index');
+    }); 
+    Route::get('/claims/create', function () { 
+        return view('claims.backoffice.partner.create');
+    }); 
+    Route::get('/claims/show', function () { 
+        return view('claims.backoffice.partner.show');
+    });
+    Route::get('/security', function () { 
+        return view('system.backoffice.partner.security');
+    });
+    Route::get('/profile', function () { 
+        return view('system.backoffice.partner.profile1');
+    });
 
 }); 
 
@@ -431,15 +447,15 @@ Route::domain('staff.babcasa.com')->group(function (){
     }); 
 
 
-    // Route::get('/staff', function () { 
-    //     return view('staff.backoffice.index');
-    // }); 
-    // Route::get('/staff/create', function () { 
-    //     return view('staff.backoffice.create');
-    // }); 
-    // Route::get('/staff/show', function () { 
-    //     return view('staff.backoffice.show');
-    // }); 
+    Route::get('/staff', function () { 
+        return view('staff.backoffice.index');
+    }); 
+    Route::get('/staff/create', function () { 
+        return view('staff.backoffice.create');
+    }); 
+    Route::get('/staff/show', function () { 
+        return view('staff.backoffice.show');
+    }); 
 
     Route::get('/partner', function () { 
         return view('partners.backoffice.staff.index');
