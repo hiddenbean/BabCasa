@@ -6,15 +6,7 @@
                 <span class="title">Dashboard</span> 
             </a>
             <span class="bg-primary icon-thumbnail"><i class="pg-home"></i></span>
-        </li> 
-        <li>
-            <a href="{{ url('/profile') }}">
-                <span class="title">Account</span>
-            </a>
-            <span class="icon-thumbnail">
-                <i class="fa fa-user"></i>
-            </span> 
-        </li>
+        </li>  
         <li>
             <a href="{{ url('/staff') }}">
                 <span class="title">Staff</span>
@@ -107,6 +99,14 @@
             </span> 
         </li>
         <li>
+            <a href="{{ url('/profile') }}">
+                <span class="title">Account</span>
+            </a>
+            <span class="icon-thumbnail">
+                <i class="fa fa-user"></i>
+            </span> 
+        </li>
+        <li>
             <a href="javascript:;">
                 <span class="title">Settings</span>
                 <span class="arrow"></span>
@@ -114,11 +114,7 @@
             <span class="icon-thumbnail">
                 <i class="fa fa-cogs"></i>
             </span>
-            <ul class="sub-menu">
-                <li>
-                    <a href="{{ url('/') }}">Newsletter suscription</a>
-                    <span class="icon-thumbnail">NS</span>
-                </li>
+            <ul class="sub-menu"> 
                 <li>
                     <a href="{{ url('/security') }}">Security</a>
                     <span class="icon-thumbnail">Se</span>

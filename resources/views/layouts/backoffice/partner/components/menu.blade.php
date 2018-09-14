@@ -25,6 +25,10 @@
             </span>
             <ul class="sub-menu">
                 <li>
+                    <a href="{{ url('/') }}">Newsletter suscription</a>
+                    <span class="icon-thumbnail">NS</span>
+                </li>
+                <li>
                     <a href="{{ url('/security') }}">Sécurité</a>
                     <span class="icon-thumbnail">Se</span>
                 </li>

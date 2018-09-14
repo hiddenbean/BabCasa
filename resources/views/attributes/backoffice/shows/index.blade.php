@@ -15,7 +15,7 @@
 <form id="form" action="{{ url('products/add_attr?block='.$block) }}" method="post" class="ajax">
     <input type="hidden" name="id">
     <input type="hidden" name="parent" id="parent" value="{{ $parent }}">
-    <input type="hidden" name="value" value="{{(isset($value))? $value : ''}}">
+    <input type="hidden" name="value_text" value="{{ $value }}">
 </form>
 
 <script>

@@ -1,5 +1,5 @@
-@if($block != "root_attributes") <div class="p-l-15 b-l b-dashed m-t-2"> @endif 
-<div class='row'>
+@if($block != "root") <div class="p-l-15 b-l b-dashed"> @endif 
+<div class='row m-t-2'>
     <div class="col-md-12">
         <div class="form-group form-group-default">
             <label>{{ $name }} value</label>
@@ -34,5 +34,5 @@
         </div>
     </div>
 </div> 
-@if($block != "root_attributes")</div>@endif
+@if($block != "root")</div>@endif
     

@@ -248,12 +248,17 @@ Route::domain('partner.babcasa.com')->group(function (){
 
         $parent = (isset($request->parent)) ? $request->parent : "" ;
         $value = (isset($request->value_text) ? $request->value_text : "");
-
-        $ajax->redrawView($request->block);
+        if ($parent) {
+            $block = strtolower($request->block.str_replace(' ', '_', trim($parent)));
+        }
+        else{
+            $block = $request->block;
+        }
+        $ajax->redrawView($block);
         return $ajax->view('attributes.backoffice.shows.index', 
         [
+            "block" => $block,
             'parent' => $parent,
-            "block" => $request->block,
             "value" => $value
         ]);
     });
@@ -272,21 +277,33 @@ Route::domain('partner.babcasa.com')->group(function (){
         }
         $parent = (isset($request->parent) ? $request->parent : "") . " " .$request->value_text; 
         $value = (isset($request->value_text) ? $request->value_text : "");
-        $ajax->redrawView($request->block);
+        if ($parent) { 
+            $block = strtolower($request->block.str_replace(' ', '_', trim($parent)));
+        }
+        else{
+            $block = $request->block;
+        } 
+        
+        $ajax->redrawView($block);
         return $ajax->view('values.backoffice.create', 
         [
-            'parent' => $parent,
             'name' => $name,
-            'block' => $request->block,
+            'block' => $block,
+            'parent' => $parent,
             "value" => $value
         ]);
     });
     
     Route::get('/products/add_value', function (Ajax $ajax, Request $request) {
+        $parent = (isset($request->parent) ? $request->parent : "") . " " .$request->value_text; 
+        $value = (isset($request->value_text) ? $request->value_text : "");
+
         $ajax->appendView($request->block);
         return $ajax->view('values.backoffice.create_without_head', [
             'name' => $request->name,
             "block" => $request->block,
+            'parent' => $parent,
+            "value" => $value
         ]);
     });   
 

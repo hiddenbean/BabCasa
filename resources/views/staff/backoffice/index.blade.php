@@ -13,7 +13,7 @@
             <div class="col-md-12">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="{{ url('/') }}">Tableau de borad</a>
+                        <a href="{{ url('/') }}">Dashboard</a>
                     </li>
                     <li class="breadcrumb-item active">
                         Staff
@@ -54,9 +54,59 @@
             
                     <tbody>  
                             <tr class="order-progress"  >
-                                <td class="v-align-middle"><a href="{{url('staff/show')}}"><strong> Lorem ipsum dolor sit amet. </strong></a></td>
-                                <td class="v-align-middle text-center"><strong> staff@admin.com.</strong></td>                
-                                <td class="v-align-middle text-center"> 01/02/2018 </td>      
+                                <td class="v-align-middle"><a href="{{url('staff/show')}}"><strong> Mazhar Zaid  </strong></a></td>
+                                <td class="v-align-middle text-center"><strong> mazhar.zaid@gmail.com</strong></td>                
+                                <td class="v-align-middle text-center"> June 7, 1982 </td>      
+                                <td class="v-align-middle text-center"><strong>Admin</strong></td> 
+                                <td class="v-align-middle text-center">
+                                    <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
+                                    <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
+                                </td> 
+                            </tr> 
+                            <tr class="order-progress"  >
+                                <td class="v-align-middle"><a href="{{url('staff/show')}}"><strong> Abdul-Latif Haytham  </strong></a></td>
+                                <td class="v-align-middle text-center"><strong> abdul-latif@gmail.com</strong></td>                
+                                <td class="v-align-middle text-center"> May 8, 1994 </td>      
+                                <td class="v-align-middle text-center"><strong>Commerciale</strong></td> 
+                                <td class="v-align-middle text-center">
+                                    <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
+                                    <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
+                                </td> 
+                            </tr> 
+                            <tr class="order-progress"  >
+                                <td class="v-align-middle"><a href="{{url('staff/show')}}"><strong> Wasim Mukarram  </strong></a></td>
+                                <td class="v-align-middle text-center"><strong> wasim.mukarram@gmail.com</strong></td>                
+                                <td class="v-align-middle text-center"> December 20, 1975 </td>      
+                                <td class="v-align-middle text-center"><strong>Commerciale</strong></td> 
+                                <td class="v-align-middle text-center">
+                                    <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
+                                    <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
+                                </td> 
+                            </tr> 
+                            <tr class="order-progress"  >
+                                <td class="v-align-middle"><a href="{{url('staff/show')}}"><strong> Yazan Bishara  </strong></a></td>
+                                <td class="v-align-middle text-center"><strong> yazan.bishara@gmail.com</strong></td>                
+                                <td class="v-align-middle text-center"> June 7, 1982 </td>      
+                                <td class="v-align-middle text-center"><strong>Admin</strong></td> 
+                                <td class="v-align-middle text-center">
+                                    <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
+                                    <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
+                                </td> 
+                            </tr> 
+                            <tr class="order-progress"  >
+                                <td class="v-align-middle"><a href="{{url('staff/show')}}"><strong> Hajjaj Maroun  </strong></a></td>
+                                <td class="v-align-middle text-center"><strong> hajjaj-maroun@gmail.com</strong></td>                
+                                <td class="v-align-middle text-center"> September 2, 1985 </td>      
+                                <td class="v-align-middle text-center"><strong>Commerciale</strong></td> 
+                                <td class="v-align-middle text-center">
+                                    <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
+                                    <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
+                                </td> 
+                            </tr> 
+                            <tr class="order-progress"  >
+                                <td class="v-align-middle"><a href="{{url('staff/show')}}"><strong> Hamid Idrissi  </strong></a></td>
+                                <td class="v-align-middle text-center"><strong> hamid-idrissi@gmail.com</strong></td>                
+                                <td class="v-align-middle text-center"> November 16, 1990 </td>      
                                 <td class="v-align-middle text-center"><strong>Admin</strong></td> 
                                 <td class="v-align-middle text-center">
                                     <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
