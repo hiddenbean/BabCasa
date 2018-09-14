@@ -17,7 +17,7 @@ Route::domain('www.babcasa.com')->group(function (){
     Route::get('/', function () {
         return view('welcome');
     });
-   
+    
 
 });
 
@@ -25,13 +25,13 @@ Route::domain('staff.babcasa.com')->group(function (){
     Route::get('/', function () {
         return view('welcome');
     });
-   
-    
+
+    Route::get('/register', 'auth\StaffRegisterController@showRegisterForm');
 });
 
 Route::domain('partner.babcasa.com')->group(function (){
     Route::get('/test', 'ProductController@create'); 
-    
+
     Route::get('/register', 'auth\PartnerRegisterController@showRegisterForm'); 
     Route::get('/sign-in', 'Auth\PartnerLoginController@showLoginForm');
     Route::get('/', 'PartnerController@dashboard');
@@ -42,13 +42,13 @@ Route::domain('partner.babcasa.com')->group(function (){
     Route::get('settings', 'PartnerController@edit');
     Route::get('discount/create', function(){return view('discounts.backoffice.create');});
 
-     //client finale gestion support routes start 
-     Route::prefix('support')->group(function() {
+    //client finale gestion support routes start 
+    Route::prefix('support')->group(function() {
         Route::prefix('ticket')->group(function() {
             Route::get('/','ClaimController@index');
             Route::get('{id}','ClaimController@show');
         });
-         
+
         Route::get('/','SubjectController@index');
         Route::prefix('{subject}')->group(function() {
             Route::prefix('ticket')->group(function() {
@@ -56,12 +56,8 @@ Route::domain('partner.babcasa.com')->group(function (){
             });
         });
     });
-   
-
+    
 });
-
-
-
 
 // POST DOMAINs
 Route::domain('www.babcasa.com')->group(function (){
@@ -124,6 +120,9 @@ Route::domain('staff.babcasa.com')->group(function (){
     Route::post('/', function () {
         return view('welcome');
     });
+
+    // Staff register route
+    Route::post('register', 'auth\StaffRegisterController@store')->name('staff.register.submit'); 
 
 
 });

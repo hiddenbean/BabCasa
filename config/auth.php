@@ -51,6 +51,11 @@ return [
             'provider' => 'partners',
         ],
 
+        'staff' => [
+            'driver' => 'session',
+            'provider' => 'staff',
+        ],
+
     ],
 
     /*
@@ -79,6 +84,11 @@ return [
         'partners' => [
             'driver' => 'eloquent',
             'model' => App\Partner::class,
+        ],
+
+        'staff' => [
+            'driver' => 'eloquent',
+            'model' => App\Staff::class,
         ],
 
         // 'users' => [
@@ -111,6 +121,12 @@ return [
         
         'partners' => [
             'provider' => 'partners',
+            'table' => 'password_resets',
+            'expire' => 60,
+        ],
+
+        'staff' => [
+            'provider' => 'staff',
             'table' => 'password_resets',
             'expire' => 60,
         ],

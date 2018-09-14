@@ -51,4 +51,9 @@ class Product extends Model
         {
                 return $this->belongsToMany('App\Category');
         }
+
+        public function orders()
+        {
+                return $this->morphToMany('App\Order', 'orderable');
+        }
 }
