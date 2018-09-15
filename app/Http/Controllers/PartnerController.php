@@ -91,7 +91,7 @@ class PartnerController extends Controller
     {
         isset($request->partner) ? $partner = $request->partner : $partner = auth()->guard('partner')->user()->name;
         $partner = Partner::where('name', $partner)->firstOrFail();
-        return view('partners.backoffice.settings',[
+        return view('system.backoffice.partner.settings',[
             'partner' => $partner,
         ]);
     }
@@ -202,7 +202,7 @@ class PartnerController extends Controller
         $address->country = $request->input('country');
         $address->city = $request->input('city');
         $address->address = $request->input('address');
-        $address->address_two = $request->input('addresse_two');
+        $address->address_two = $request->input('address_two');
         $address->full_name = $request->input('full_name');
         $address->zip_code = $request->input('zip_code');
         $partner->address->save();
@@ -223,18 +223,31 @@ class PartnerController extends Controller
         return redirect()->back();
     }
 
-    // show the security
+    /**
+     * Show all open sessions for the account.
+     * Option to change password and to desable the account.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function security()
     {
         isset($request->partner) ? $partner = $request->partner : $partner = auth()->guard('partner')->user()->name;
         $partner = Partner::where('name', $partner)->firstOrFail();
         $guests = Guest::some($partner->id);
-        return view('partners.backoffice.security',[
+        return view('system.backoffice.partner.security',[
             'partner' => $partner,
             'guests' => $guests,
         ]);
     }
 
+    /**
+     * Desable partners account.
+     *
+     * @param  \Iluminate\Http\Request $request
+     * @param  \App\Partner  $partner
+     * @param  \App\Guest  $session_id
+     * @return \Illuminate\Http\Response
+     */
     public function sessionDestroy(Request $request,$partner, $session_id)
     {
         DB::table('sessions')->where('id', $session_id)->delete();

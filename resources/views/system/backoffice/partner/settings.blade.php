@@ -73,26 +73,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row clearfix">
-                                    <div class="col-sm-6">
-                                        <div class="form-group form-group-default required">
-                                            <label for="password">Mot de passe</label>
-                                            <input type="password" id="password" placeholder="Insert your password" name="password" class="form-control"> 
-                                            @if ($errors->has('password'))
-                                                <label class='error' for='password'>{{ $errors->first('password') }}</label>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group form-group-default required">
-                                            <label for="password_confirmation">Mot de passe confirmation</label>
-                                            <input type="password" id="password_confirmation" placeholder="Confirm your password" name="password_confirmation" class="form-control"> 
-                                            @if ($errors->has('password_confirmation'))
-                                                <label class='error' for='password_confirmation'>{{ $errors->first('password_confirmation') }}</label>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                             <br>
                             <div class="form-group-attached">

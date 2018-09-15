@@ -44,6 +44,7 @@ Route::domain('partner.babcasa.com')->group(function (){
     Route::get('{partner}/password/reset/{token}', 'auth\PartnerResetPasswordController@showResetForm');
     Route::get('security', 'PartnerController@security');
     Route::get('settings', 'PartnerController@edit');
+    Route::get('discount/create', function(){return view('discounts.backoffice.create');});
 
     //client finale gestion support routes start 
     Route::prefix('support')->group(function() {
@@ -71,13 +72,34 @@ Route::domain('www.babcasa.com')->group(function (){
 Route::domain('partner.babcasa.com')->group(function (){
 
     Route::post('/store', 'ProductController@store');
+
+    // Partner register route
     Route::post('register', 'auth\PartnerRegisterController@store')->name('partner.register.submit'); 
+    // Partner auth route, sign in    
     Route::post('/sign-in', 'Auth\PartnerLoginController@login');
-    Route::delete('partner/{partner}/deactivate', 'PartnerController@destroy');
-    Route::post('password/email', 'auth\PartnerForgotPasswordController@sendResetLinkEmail');
-    Route::post('password/reset', 'auth\PartnerResetPasswordController@reset');
-    Route::delete('{partner}/security/{session}', 'PartnerController@sessionDestroy');
-    Route::post('{partner}/settings/update', 'PartnerController@update');
+
+    // Desactivate partner account
+    Route::delete('partner/{partner}/desactivate', 'PartnerController@destroy');
+
+    // Partner change password start
+    Route::prefix('password')->group(function() {
+        Route::post('email', 'auth\PartnerForgotPasswordController@sendResetLinkEmail');
+        Route::post('reset', 'auth\PartnerResetPasswordController@reset');
+    });
+    // Partner change password end
+
+    Route::prefix('{partner}')->group(function() {
+        // Partner secutiry
+        Route::delete('security/{session}', 'PartnerController@sessionDestroy');
+
+        // Partner update
+        Route::post('settings/update', 'PartnerController@update');
+    });
+    
+
+    //Discount routes start
+    Route::post('discount/create', 'DiscountController@store');
+    //Discount routes end
 
     //client finale gestion support routes start 
     Route::prefix('support')->group(function() {
@@ -131,10 +153,6 @@ Route::domain('partner.babcasa.com')->group(function (){
         return view('system.backoffice.partner.log');
     }); 
 
-    Route::get('/settings', function () { 
-        return view('system.backoffice.partner.settings');
-    }); 
-
     Route::get('/claims', function () { 
         return view('claims.backoffice.partner.index');
     }); 
@@ -148,6 +166,25 @@ Route::domain('partner.babcasa.com')->group(function (){
         return view('subjects.backoffice.partner.index');
     }); 
 
+    Route::get('/tags', function () { 
+        return view('tags.backoffice.partner.index');
+    }); 
+    Route::get('/tags/create', function () { 
+        return view('tags.backoffice.partner.create');
+    }); 
+    Route::get('/tags/show', function () { 
+        return view('tags.backoffice.partner.show');
+    }); 
+
+    Route::get('/products', function () { 
+        return view('products.backoffice.partner.index');
+    }); 
+    Route::get('/products/create', function () { 
+        return view('products.backoffice.partner.create');
+    }); 
+    Route::get('/products/show', function () { 
+        return view('products.backoffice.partner.show');
+    }); 
 
 }); 
 
@@ -177,9 +214,9 @@ Route::domain('staff.babcasa.com')->group(function (){
         return view('system.backoffice.staff.log');
     }); 
 
-    Route::get('/settings', function () { 
-        return view('system.backoffice.staff.settings');
-    });
+    // Route::get('/settings', function () { 
+    //     return view('system.backoffice.staff.settings');
+    // });
     Route::get('/profile', function () { 
         return view('system.backoffice.staff.profile');
     }); 
@@ -244,16 +281,7 @@ Route::domain('staff.babcasa.com')->group(function (){
     Route::get('/claims/show', function () { 
         return view('claims.backoffice.staff.show');
     }); 
-
-    Route::get('/tags', function () { 
-        return view('tags.backoffice.staff.index');
-    }); 
-    Route::get('/tags/create', function () { 
-        return view('tags.backoffice.staff.create');
-    }); 
-    Route::get('/tags/show', function () { 
-        return view('tags.backoffice.staff.show');
-    }); 
+ 
 
     Route::get('/details', function () { 
         return view('details.backoffice.staff.index');

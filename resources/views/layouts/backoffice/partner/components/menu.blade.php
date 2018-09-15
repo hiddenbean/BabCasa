@@ -6,6 +6,14 @@
                 <span class="title">Dashboard</span> 
             </a>
             <span class="bg-primary icon-thumbnail"><i class="pg-home"></i></span>
+        </li> 
+        <li>
+            <a href="{{ url('/products') }}">
+                <span class="title">Products</span>
+            </a>
+            <span class="icon-thumbnail">
+                <i class="fa fa-align-justify"></i>
+            </span> 
         </li>
         <li>
             <a href="javascript:;">

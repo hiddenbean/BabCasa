@@ -9,17 +9,17 @@
     <p class="menu-title">Sttings</p>
     <ul class="main-menu">
         <li class="">
-            <a href="#">
+            <a href="{{ url('/settigs') }}">
             <span class="title"><i class="fa fa-envelope"></i> Newsletter suscription</span> 
             </a>
         </li>
         <li >
-            <a href="#">
+            <a href="{{ url('/security') }}">
             <span class="title"><i class="pg-folder"></i>Security</span>
             </a> 
         </li>
         <li class="active">
-            <a href="#">
+            <a href="{{ url('/log') }}">
                 <span class="title"><i class="pg-sent"></i>Log</span>
             </a>
         </li> 

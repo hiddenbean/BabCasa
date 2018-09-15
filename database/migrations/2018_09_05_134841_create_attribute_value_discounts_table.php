@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDiscountsTable extends Migration
+class CreateAttributeValueDiscountsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateDiscountsTable extends Migration
      */
     public function up()
     {
-        Schema::create('discounts', function (Blueprint $table) {
+        Schema::create('attribute_value_discounts', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('redaction_percentage');
-            $table->dateTime('start_at');
-            $table->dateTime('end_at');
-            $table->integer('partner_id');
+            $table->integer('discount_id');
+            $table->integer('attribute_value_id');
+            $table->integer('quantity');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateDiscountsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('discounts');
+        Schema::dropIfExists('attribute_value_discounts');
     }
 }

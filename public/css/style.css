@@ -310,3 +310,9 @@ fieldset[disabled] .btn-warning.active {
 .table.table-hover tbody tr:hover td{
     background-color: rgba(247, 247, 247, 0.2) !important;
 }
+@media (min-width: 768px) {
+    .tree-right{
+        position: fixed;
+        right: 0
+    }
+}
