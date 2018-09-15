@@ -17,7 +17,7 @@ class CreateAttributeLangsTable extends Migration
             $table->increments('id');
             $table->string('reference');
             $table->text('description');
-            $table->integer('categorie_id');
+            $table->integer('category_id');
             $table->integer('attribute_id');
             $table->integer('lang_id');
             $table->timestamps();

@@ -1,7 +1,8 @@
 <?php
 
 namespace App;
-
+use App\Language;
+use App;
 use Illuminate\Database\Eloquent\Model;
 
 class Attribute extends Model
@@ -11,6 +12,11 @@ class Attribute extends Model
     {
             return $this->hasMany('App\AttributeLang');
     }
+    public function attributeLang()
+    {
+        $langId = Language::where('symbol',App::getLocale())->first()->id; 
+        return $this->attributeLangs()->where('lang_id',$langId);
+    }
     
     public function attributeValue()
     {
@@ -19,6 +25,6 @@ class Attribute extends Model
 
     public function categories()
     {
-        return $this->belongsToMany('App\Categorie');
+        return $this->belongsToMany('App\Category');
     }
 }

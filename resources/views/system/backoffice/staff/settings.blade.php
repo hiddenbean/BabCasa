@@ -7,12 +7,7 @@
 <!-- START SECONDARY SIDEBAR -->
 <nav class="secondary-sidebar"> 
         <p class="menu-title">Sttings</p>
-        <ul class="main-menu">
-            <li class="">
-                <a href="{{ url('/settigs') }}">
-                <span class="title"><i class="fa fa-envelope"></i> Newsletter suscription</span> 
-                </a>
-            </li>
+        <ul class="main-menu"> 
             <li >
                 <a href="{{ url('/security') }}">
                 <span class="title"><i class="pg-folder"></i>Security</span>

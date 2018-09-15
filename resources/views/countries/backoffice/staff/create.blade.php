@@ -9,7 +9,7 @@
         <div class="col-md-12">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="{{ url('/') }}">Tableau de borad</a>
+                    <a href="{{ url('/') }}">DASHBOARD</a>
                 </li>
                 <li class="breadcrumb-item">
                     <a href="{{ url('/countries') }}">Countries</a>
@@ -31,23 +31,48 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-xl-12">
-                    <form id="form-personal">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group form-group-default">
-                                    <label>Code</label>
-                                    <input type="text" class="form-control" name="code" placeholder="Code">
-                                </div>
-                            </div>
-                        </div> 
-                        <div class="row">
+                    <form id="form-personal" method="POST" action="{{url('countries')}}">
+                            {{ csrf_field() }}
+                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group form-group-default">
                                     <label>Name</label>
                                     <input type="text" class="form-control" name="name" placeholder="Name">
+                                        <label class='error' for='name'>
+                                            @if ($errors->has('name'))
+                                                {{ $errors->first('name') }}
+                                            @endif
+                                        </label>
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group form-group-default">
+                                    <label>Alpha Code</label>
+                                    <input type="text" class="form-control" name="code_alpha" placeholder="Exemple MA">
+                                     <label class='error' for='code_alpha'>
+                                            @if ($errors->has('code_alpha'))
+                                                {{ $errors->first('code_alpha') }}
+                                            @endif
+                                        </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group form-group-default">
+                                    <label>Code</label>
+                                    <input type="text" class="form-control" name="code" placeholder="Exemple +212">
+                                     <label class='error' for='code'>
+                                            @if ($errors->has('code'))
+                                                {{ $errors->first('code') }}
+                                            @endif
+                                        </label>
+                                </div>
+                            </div>
+                        </div> 
+                      
                         <button class="btn btn-primary" type="submit">Save</button>
                     </form>
                 </div>

@@ -14,7 +14,7 @@ class Bundle extends Model
     
     public function bundleLangs()
     {
-            return $this->hasMany('App\Bundle_lang');
+            return $this->hasMany('App\BundleLang');
     }
 
     public function products()
@@ -22,9 +22,9 @@ class Bundle extends Model
         return $this->belongsToMany('App\Product');
     }
 
-    public function currencie()
+    public function currency()
     {
-        return $this->hasOne('App\Currencie');
+        return $this->hasOne('App\Currency');
     }
     public function picture()
     {

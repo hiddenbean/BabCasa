@@ -28,14 +28,76 @@ Route::domain('www.babcasa.com')->group(function (){
 });
 
 Route::domain('staff.babcasa.com')->group(function (){
+    
     Route::get('/', function () {
         return view('welcome');
     });
+    //////////TAGS
+    Route::prefix('tags')->group(function() {
+        Route::get('/', 'TagController@index'); 
+        Route::get('create', 'TagController@create'); 
+        Route::get('{tag}', 'TagController@show'); 
+        Route::get('{tag}/edit', 'TagController@edit'); 
+    });
+
+    //////////CATEGORIES
+    Route::prefix('categories')->group(function() {
+        Route::get('/', 'CategoryController@index'); 
+        Route::get('create', 'CategoryController@create'); 
+        Route::get('{Category}', 'CategoryController@show'); 
+        Route::get('{Category}/edit', 'CategoryController@edit'); 
+    }); 
+    //////////DETAILS
+    Route::prefix('details')->group(function() {
+        Route::get('/', 'DetailController@index'); 
+        Route::get('create', 'DetailController@create'); 
+        Route::get('{detail}', 'DetailController@show'); 
+        Route::get('{detail}/edit', 'DetailController@edit'); 
+    }); 
+    //////////countries
+    Route::prefix('countries')->group(function() {
+        Route::get('/', 'CountryController@index'); 
+        Route::get('create', 'CountryController@create'); 
+        Route::get('{country}', 'CountryController@show'); 
+        Route::get('{country}/edit', 'CountryController@edit'); 
+    }); 
+    //////////countries
+    Route::prefix('currencies')->group(function() {
+        Route::get('/', 'CurrencyController@index'); 
+        Route::get('create', 'CurrencyController@create'); 
+        Route::get('{currency}', 'CurrencyController@show'); 
+        Route::get('{currency}/edit', 'CurrencyController@edit'); 
+    }); 
+    //////////reasons
+    Route::prefix('reasons')->group(function() {
+        Route::get('/', 'ReasonController@index'); 
+        Route::get('create', 'ReasonController@create'); 
+        Route::get('{reason}', 'ReasonController@show'); 
+        Route::get('{reason}/edit', 'ReasonController@edit'); 
+    });
+
+    //////////reasons
+    Route::prefix('staffs')->group(function() {
+        Route::get('/', 'StaffController@index'); 
+        Route::get('create', 'StaffController@create'); 
+        Route::get('{staff}', 'StaffController@show'); 
+        Route::get('{staff}/edit', 'StaffController@edit'); 
+    }); 
+   
+    
+});
+
+Route::domain('partner.babcasa.com')->group(function (){
+
+    Route::get('{product}/edit', 'ProductController@edit'); 
+    
+
+    Route::get('/register', 'auth\StaffRegisterController@showRegisterForm');
 });
 
 Route::domain('partner.babcasa.com')->group(function (){
     Route::get('/test', 'ProductController@create'); 
-    
+
     Route::get('/register', 'auth\PartnerRegisterController@showRegisterForm'); 
     Route::get('/sign-in', 'Auth\PartnerLoginController@showLoginForm');
     Route::get('/', 'PartnerController@dashboard');
@@ -48,7 +110,11 @@ Route::domain('partner.babcasa.com')->group(function (){
 
     //client finale gestion support routes start 
     Route::prefix('support')->group(function() {
-        Route::get('ticket','ClaimController@index');
+        Route::prefix('ticket')->group(function() {
+            Route::get('/','ClaimController@index');
+            Route::get('{id}','ClaimController@show');
+        });
+
         Route::get('/','SubjectController@index');
         Route::prefix('{subject}')->group(function() {
             Route::prefix('ticket')->group(function() {
@@ -56,10 +122,8 @@ Route::domain('partner.babcasa.com')->group(function (){
             });
         });
     });
+    
 });
-
-
-
 
 // POST DOMAINs
 Route::domain('www.babcasa.com')->group(function (){
@@ -108,6 +172,9 @@ Route::domain('partner.babcasa.com')->group(function (){
                 Route::post('create','ClaimController@store');
             });
         });
+        Route::prefix('ticket')->group(function() {
+            Route::post('{id}/close','ClaimController@changeStatus');
+        });
     });
 
 });
@@ -117,11 +184,65 @@ Route::domain('staff.babcasa.com')->group(function (){
     Route::post('/', function () {
         return view('welcome');
     });
+      //////////TAGS
+      Route::prefix('tags')->group(function() {
+
+        Route::post('/', 'TagController@store'); 
+        Route::post('{tag}', 'TagController@update'); 
+        Route::delete('/{tag}', 'TagController@destroy')->name('delete.tag');
+    }); 
+
+      //////////Categories
+      Route::prefix('categories')->group(function() {
+
+        Route::post('/','CategoryController@store'); 
+        Route::post('{category}', 'CategoryController@update'); 
+        Route::delete('{category}', 'CategoryController@destroy')->name('delete.category');
+    }); 
+      //////////details
+      Route::prefix('details')->group(function() {
+
+        Route::post('/', 'DetailController@store'); 
+        Route::post('{detail}', 'DetailController@update'); 
+        Route::delete('{detail}', 'DetailController@destroy')->name('delete.detail');
+    }); 
+      //////////COUNTRIES
+      Route::prefix('countries')->group(function() {
+
+        Route::post('/', 'CountryController@store'); 
+        Route::post('{country}', 'CountryController@update'); 
+        Route::delete('{country}', 'CountryController@destroy')->name('delete.country');
+    }); 
+      //////////CURRENCIES
+      Route::prefix('currencies')->group(function() {
+
+        Route::post('/', 'CurrencyController@store'); 
+        Route::post('{currency}', 'CurrencyController@update'); 
+        Route::delete('{currency}', 'CurrencyController@destroy')->name('delete.currency');
+    }); 
+      //////////REASONS
+      Route::prefix('reasons')->group(function() {
+
+        Route::post('/', 'ReasonController@store'); 
+        Route::post('{reason}', 'ReasonController@update'); 
+        Route::delete('{reason}', 'ReasonController@destroy')->name('delete.reason');
+    }); 
+      //////////STAFF
+      Route::prefix('staffs')->group(function() {
+
+        Route::post('/', 'StaffController@store'); 
+        Route::post('{staff}', 'StaffController@update'); 
+        Route::delete('{staff}', 'StaffController@destroy')->name('delete.staff');
+    }); 
+    // Staff register route
+    Route::post('register', 'auth\StaffRegisterController@store')->name('staff.register.submit'); 
+
+
 });
 
-Auth::routes();
+// Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/home', 'HomeController@index')->name('home');
 
 
 
@@ -129,7 +250,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 // UI
-
+use App\Services\Ajax\Ajax;
+use Illuminate\Http\Request;
 Route::domain('partner.babcasa.com')->group(function (){
 
 
@@ -166,9 +288,32 @@ Route::domain('partner.babcasa.com')->group(function (){
         return view('subjects.backoffice.partner.index');
     }); 
 
-    Route::get('/tags', function () { 
-        return view('tags.backoffice.partner.index');
+    // Route::get('/tags', function () { 
+    //     return view('tags.backoffice.partner.index');
+    // }); 
+    Route::get('/discounts', function () { 
+        return view('discounts.backoffice.index');
     }); 
+    Route::get('/bills', function () { 
+        return view('bills.backoffice.index');
+    }); 
+    Route::get('/orders', function () { 
+        return view('orders.backoffice.partner.all');
+    }); 
+    Route::get('/orders/hold', function () { 
+        return view('orders.backoffice.partner.hold');
+    }); 
+    Route::get('/orders/finish', function () { 
+        return view('orders.backoffice.partner.finish');
+    }); 
+    Route::get('/orders/progress', function () { 
+        return view('orders.backoffice.partner.progress');
+    }); 
+    Route::get('/orders/cancle', function () { 
+        return view('orders.backoffice.partner.aboard');
+    }); 
+
+
     Route::get('/tags/create', function () { 
         return view('tags.backoffice.partner.create');
     }); 
@@ -177,14 +322,96 @@ Route::domain('partner.babcasa.com')->group(function (){
     }); 
 
     Route::get('/products', function () { 
-        return view('products.backoffice.partner.index');
+        return view('products.backoffice.index');
     }); 
     Route::get('/products/create', function () { 
-        return view('products.backoffice.partner.create');
+        return view('products.backoffice.create');
     }); 
     Route::get('/products/show', function () { 
-        return view('products.backoffice.partner.show');
+        return view('products.backoffice.show');
     }); 
+
+    Route::get('/products/select_attr', function (Ajax $ajax, Request $request) {
+        // $request->validate([
+        //     "value_text" => "required"
+        // ]);
+
+        $parent = (isset($request->parent)) ? $request->parent : "" ;
+        $value = (isset($request->value_text) ? $request->value_text : "");
+        if ($parent) {
+            $block = strtolower($request->block.str_replace(' ', '_', trim($parent)));
+        }
+        else{
+            $block = $request->block;
+        }
+        $ajax->redrawView($block);
+        return $ajax->view('attributes.backoffice.shows.index', 
+        [
+            "block" => $block,
+            'parent' => $parent,
+            "value" => $value
+        ]);
+    });
+
+    Route::post('/products/add_attr', function (Ajax $ajax, Request $request) {   
+        switch ($request->input('id')) {
+            case 1:
+                $name = 'Color';
+                break;
+            case 2:
+                $name = 'Storage';
+                break;
+            case 3:
+                $name = 'Dispaly';
+                break;
+        }
+        $parent = (isset($request->parent) ? $request->parent : "") . " " .$request->value_text; 
+        $value = (isset($request->value_text) ? $request->value_text : "");
+        if ($parent) { 
+            $block = strtolower($request->block.str_replace(' ', '_', trim($parent)));
+        }
+        else{
+            $block = $request->block;
+        } 
+        
+        $ajax->redrawView($block);
+        return $ajax->view('values.backoffice.create', 
+        [
+            'name' => $name,
+            'block' => $block,
+            'parent' => $parent,
+            "value" => $value
+        ]);
+    });
+    
+    Route::get('/products/add_value', function (Ajax $ajax, Request $request) {
+        $parent = (isset($request->parent) ? $request->parent : "") . " " .$request->value_text; 
+        $value = (isset($request->value_text) ? $request->value_text : "");
+
+        $ajax->appendView($request->block);
+        return $ajax->view('values.backoffice.create_without_head', [
+            'name' => $request->name,
+            "block" => $request->block,
+            'parent' => $parent,
+            "value" => $value
+        ]);
+    });  
+    
+    Route::get('/claims', function () { 
+        return view('claims.backoffice.partner.index');
+    }); 
+    Route::get('/claims/create', function () { 
+        return view('claims.backoffice.partner.create');
+    }); 
+    Route::get('/claims/show', function () { 
+        return view('claims.backoffice.partner.show');
+    });
+    Route::get('/security', function () { 
+        return view('system.backoffice.partner.security');
+    });
+    Route::get('/profile', function () { 
+        return view('system.backoffice.partner.profile1');
+    });
 
 }); 
 
@@ -196,6 +423,10 @@ Route::domain('staff.babcasa.com')->group(function (){
 
     Route::get('/login', function () { 
         return view('system.backoffice.staff.login');
+    });  
+
+    Route::get('/register', function () { 
+        return view('system.backoffice.staff.register');
     });  
 
     Route::get('/security', function () {
@@ -262,14 +493,14 @@ Route::domain('staff.babcasa.com')->group(function (){
         return view('clients_particular.backoffice.staff.show');
     }); 
 
-    Route::get('/categories', function () { 
-        return view('categories.backoffice.staff.index');
+    // Route::get('/Categories', function () { 
+    //     return view('Categories.backoffice.staff.index');
+    // }); 
+    Route::get('/Categories/create', function () { 
+        return view('Categories.backoffice.staff.create');
     }); 
-    Route::get('/categories/create', function () { 
-        return view('categories.backoffice.staff.create');
-    }); 
-    Route::get('/categories/show', function () { 
-        return view('categories.backoffice.staff.show');
+    Route::get('/Categories/show', function () { 
+        return view('Categories.backoffice.staff.show');
     }); 
 
     Route::get('/claims', function () { 
@@ -281,58 +512,6 @@ Route::domain('staff.babcasa.com')->group(function (){
     Route::get('/claims/show', function () { 
         return view('claims.backoffice.staff.show');
     }); 
- 
-
-    Route::get('/details', function () { 
-        return view('details.backoffice.staff.index');
-    }); 
-    Route::get('/details/create', function () { 
-        return view('details.backoffice.staff.create');
-    }); 
-    Route::get('/details/show', function () { 
-        return view('details.backoffice.staff.show');
-    }); 
-
-    Route::get('/currencies', function () { 
-        return view('currencies.backoffice.staff.index');
-    }); 
-    Route::get('/currencies/create', function () { 
-        return view('currencies.backoffice.staff.create');
-    }); 
-    Route::get('/currencies/show', function () { 
-        return view('currencies.backoffice.staff.show');
-    }); 
-
-    Route::get('/reasons', function () { 
-        return view('reasons.backoffice.staff.index');
-    }); 
-    Route::get('/reasons/create', function () { 
-        return view('reasons.backoffice.staff.create');
-    }); 
-    Route::get('/reasons/show', function () { 
-        return view('reasons.backoffice.staff.show');
-    }); 
-
-    Route::get('/countries', function () { 
-        return view('countries.backoffice.staff.index');
-    }); 
-    Route::get('/countries/create', function () { 
-        return view('countries.backoffice.staff.create');
-    }); 
-    Route::get('/countries/show', function () { 
-        return view('countries.backoffice.staff.show');
-    }); 
-
-    Route::get('/code_countries', function () { 
-        return view('code_countries.backoffice.staff.index');
-    }); 
-    Route::get('/code_countries/create', function () { 
-        return view('code_countries.backoffice.staff.create');
-    }); 
-    Route::get('/code_countries/show', function () { 
-        return view('code_countries.backoffice.staff.show');
-    }); 
-
 
 }); 
 

@@ -13,7 +13,7 @@
             <div class="col-md-12">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="{{ url('/') }}">Tableau de borad</a>
+                        <a href="{{ url('/') }}">DASHBOARD</a>
                     </li>
                     <li class="breadcrumb-item active">
                         claims
@@ -44,22 +44,23 @@
             </div>
             <div class="card-body">
                 <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
-                    <thead>
-                        <th style="width:20%" class="text-center">Name</th> 
-                        <th style="width:10%" class="text-center">Creation date</th>                
-                        <th style="width:10%" class="text-center"></th>                
-                    </thead>
-            
-                    <tbody>  
+                        <thead>
+                            <th style="width:20%" class="text-center">Titre</th>
+                            <th style="width:10%" class="text-center">Sujet</th>
+                            <th style="width:10%" class="text-center">Date de création</th>
+                            <th style="width:10%" class="text-center">Nombre messages</th>
+                            <th style="width:10%" class="text-center">Etat</th>                
+                        </thead>
+                
+                        <tbody>   
                             <tr class="order-progress"  >
-                                <td class="v-align-middle"><a href="{{url('claims/show')}}"><strong> Lorem ipsum dolor sit amet. </strong></a></td>            
-                                <td class="v-align-middle text-center"> 01/02/2018 </td>       
-                                <td class="v-align-middle text-center">
-                                    <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
-                                </td> 
-                            </tr> 
-                    </tbody>
+                                <td class="v-align-middle"><a href="{{ url('claims/show') }}"><strong> Order delay  </strong></a></td>
+                                <td class="v-align-middle text-center"><strong>  Order   </strong></td>                
+                                <td class="v-align-middle text-center"> 01/05/2018 </td>              
+                                <td class="v-align-middle text-center"> 5 </td> 
+                                <td class="v-align-middle text-center"><strong> Close </strong></td> 
+                            </tr>     
+                        </tbody>
                 </table>
             </div>
         </div> 

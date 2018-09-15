@@ -9,7 +9,7 @@
         <div class="col-md-12">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="{{ url('/') }}">Tableau de borad</a>
+                    <a href="{{ url('/') }}">DASHBOARD</a>
                 </li>
                 <li class="breadcrumb-item">
                     <a href="{{ url('/currencies') }}">Currencies</a>
@@ -31,12 +31,31 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-xl-12">
-                    <form id="form-personal">
+                    <form id="form-personal" method="POST" action="{{url('currencies')}}" >
+                        {{ csrf_field() }}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group form-group-default">
+                                    <label>Name</label>
+                                    <input type="text" class="form-control" name="name" placeholder="name">
+                                    <label class='error' for='name'>
+                                            @if ($errors->has('name'))
+                                                {{ $errors->first('name') }}
+                                            @endif
+                                    </label> 
+                                </div>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group form-group-default">
                                     <label>Symbole</label>
                                     <input type="text" class="form-control" name="symbole" placeholder="symbole">
+                                    <label class='error' for='symbole'>
+                                            @if ($errors->has('symbole'))
+                                                {{ $errors->first('symbole') }}
+                                            @endif
+                                    </label> 
                                 </div>
                             </div>
                         </div>
@@ -44,10 +63,10 @@
                             <div class="col-md-12"> 
                                 <div class="form-group form-group-default">
                                     <label>Country</label>
-                                    <select class="cs-select cs-skin-slide cs-transparent" name="country_id[]" data-init-plugin="cs-select">
-                                        <option Selected>County</option>
-                                        <option>USA (+1)</option>
-                                        <option>Uzbekistan (+7)</option> 
+                                    <select class="cs-select cs-skin-slide cs-transparent" name="country_id" data-init-plugin="cs-select">
+                                            @foreach($countries as $country)
+                                            <option value="{{$country->id}}">{{$country->name}}</option> 
+                                            @endforeach
                                     </select> 
                                 </div>
                             </div>

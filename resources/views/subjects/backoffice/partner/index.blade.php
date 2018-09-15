@@ -13,13 +13,10 @@
             <div class="col-md-12">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="/">Tableau de borad</a>
+                        <a href="/">DASHBOARD</a>
                     </li>
                     <li class="breadcrumb-item">
                         <a href="{{url('support/ticket')}}">Support</a>
-                    </li>
-                    <li class="breadcrumb-item active">
-                        Tickets titre
                     </li>
                 </ol>
             </div>

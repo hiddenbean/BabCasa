@@ -13,7 +13,7 @@ class Language extends Model
     
     public function attributeVarcharValueLang()
     {
-        return $this->hasMany('App\Attribute_varchar_value_lang');
+        return $this->hasMany('App\AttributeVarcharValueLang');
     }
 
     public function bundleLangs()
@@ -21,13 +21,13 @@ class Language extends Model
         return $this->hasMany('App\Bundle_lang');
     }
 
-    public function categorieLang()
+    public function categoryLang()
     {
-        return $this->hasMany('App\Categorie_lang');
+        return $this->hasMany('App\CategoryLang');
     }
     public function discountLangs()
     {
-        return $this->hasMany('App\Discount_lang');
+        return $this->hasMany('App\DiscountLang');
     }
     public function detailLangs()
     {
@@ -36,15 +36,15 @@ class Language extends Model
 
     public function detailValueLangs()
     {
-        return $this->hasMany('App\Detail_value_lang');
+        return $this->hasMany('App\DetailValueLang');
     }
     public function productLangs()
     {
-        return $this->hasMany('App\Product_lang');
+        return $this->hasMany('App\ProductLang');
     }
     public function tagLang()
     {
-        return $this->hasMany('App\Tag_lang');
+        return $this->hasMany('App\TagLang');
     } 
 
 }

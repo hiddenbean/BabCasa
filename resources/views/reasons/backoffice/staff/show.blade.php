@@ -9,7 +9,7 @@
         <div class="col-md-12">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="{{ url('/') }}">Tableau de borad</a>
+                    <a href="{{ url('/') }}">DASHBOARD</a>
                 </li>
                 <li class="breadcrumb-item">
                     <a href="{{ url('/reasons') }}">reasons</a>
@@ -34,19 +34,19 @@
                     <div class="row">
                         <div class="col-md-12">
                             <h5>Reference</h5>
-                            <p>GJGHKJJK </p> 
+                            <p>{{$reason->reference}} </p> 
                         </div> 
                     </div>   
                     <div class="row">
                         <div class="col-md-12">
                             <h5>Short description</h5>
-                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vero voluptas incidunt voluptate! Commodi quo, voluptatibus quis sed voluptate voluptatem ipsa. </p> 
+                            <p>{{$reason->reasonLang->first()->short_description}} </p> 
                         </div> 
                     </div>   
                     <div class="row">
                         <div class="col-md-12">
                             <h5>description</h5>
-                            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Excepturi, quos quaerat tenetur in, reiciendis iste temporibus eius fugiat suscipit ad modi praesentium nobis esse? Magni, neque eius non dolor, ullam provident repudiandae dolore optio nisi aliquam beatae velit corporis, explicabo consectetur ipsam laudantium laborum facilis perspiciatis consequuntur vero enim. Repudiandae fugit sapiente assumenda dolore hic inventore dignissimos veritatis quod ratione tenetur, officia nemo, at odio quos recusandae. Beatae eligendi necessitatibus nisi sequi quaerat sapiente dolore facere nam a dolorem in sed aliquam veniam maiores, assumenda dolores hic enim id, atque officia, iure facilis. Dolor dicta expedita accusantium, reprehenderit omnis tenetur perferendis adipisci modi voluptatibus amet ex ab, consectetur id aperiam veritatis dignissimos? Illo cum maxime sit perferendis porro vitae, facere consectetur impedit culpa debitis cupiditate ut atque. Nemo illo eveniet, quaerat id corporis sequi soluta molestiae nesciunt rerum voluptas ipsa, ex sunt dolore eius nostrum nobis facere exercitationem amet libero. </p> 
+                            <p>{{$reason->reasonLang->first()->description}} </p> 
                         </div> 
                     </div>   
                 </div> 

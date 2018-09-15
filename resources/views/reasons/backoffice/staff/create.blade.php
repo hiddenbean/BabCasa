@@ -9,7 +9,7 @@
         <div class="col-md-12">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="{{ url('/') }}">Tableau de borad</a>
+                    <a href="{{ url('/') }}">DASHBOARD</a>
                 </li>
                 <li class="breadcrumb-item">
                     <a href="{{ url('/reasons') }}">reasons</a>
@@ -31,12 +31,18 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-xl-12">
-                    <form id="form-personal">
+                    <form id="form-personal" method="POST" action="{{url('reasons')}}" >
+                            {{ csrf_field() }}
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group form-group-default">
                                     <label>Reference</label>
                                     <input type="text" class="form-control" name="reference" placeholder="Reference">
+                                    <label class='error' for='reference'>
+                                            @if ($errors->has('reference'))
+                                                {{ $errors->first('reference') }}
+                                            @endif
+                                    </label>
                                 </div>
                             </div>
                         </div> 
@@ -45,6 +51,11 @@
                                 <div class="form-group form-group-default">
                                     <label>Short description</label>
                                     <textarea name="short_description" id=""class="form-control"></textarea>
+                                    <label class='error' for='short_description'>
+                                            @if ($errors->has('short_description'))
+                                                {{ $errors->first('short_description') }}
+                                            @endif
+                                    </label>
                                 </div>
                             </div>
                         </div> 
@@ -53,15 +64,14 @@
                                 <div class="form-group form-group-default">
                                     <label>Description</label>
                                     <textarea name="description" id="" cols="30" rows="15" class="form-control"></textarea>
+                                    <label class='error' for='description'>
+                                            @if ($errors->has('description'))
+                                                {{ $errors->first('description') }}
+                                            @endif
+                                    </label>
                                 </div>
                             </div>
                         </div> 
-                        <div class="row">
-                            <div class="col-md-12">
-                                <input type="checkbox" data-init-plugin="switchery" data-size="small" data-color="primary"  /> 
-                                <label for="">Is Active</label>
-                            </div>
-                        </div>
                         <button class="btn btn-primary" type="submit">Save</button>
                     </form>
                 </div>

@@ -19,7 +19,7 @@ class ClaimMessage extends Model
         return $this->belongsTo('App\Claim');
     }
 
-    public function claim_messageable()
+    public function claimMessageable()
     {
         return $this->morphTo();
     }

@@ -1,8 +1,10 @@
 <?php
 
 namespace App;
-
+use App;
+use App\Language;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
@@ -14,7 +16,7 @@ class Product extends Model
         
         public function productLangs()
         {
-                return $this->hasMany('App\Product_lang');
+                return $this->hasMany('App\ProductLang');
         }
 
         public function tags()
@@ -32,14 +34,14 @@ class Product extends Model
                 return $this->belongsToMany('App\Discount');
         }
 
-        public function currencie()
+        public function currency()
         {
-                return $this->hasOne('App\Currencie');
+                return $this->hasOne('App\Currency');
         }
 
-        public function detail_values()
+        public function detailValues()
         {
-                return $this->hasMany('App\Detail_value');
+                return $this->hasMany('App\DetailValue');
         }
 
         public function picture()
@@ -49,6 +51,17 @@ class Product extends Model
 
         public function categories()
         {
-                return $this->belongsToMany('App\Categorie');
+                return $this->belongsToMany('App\Category');
+        }
+
+        public function productLang()
+        {
+            $langId = Language::where('symbol',App::getLocale())->first()->id; 
+            return $this->productLangs()->where('lang_id',$langId);
+        }
+    
+        public function orders()
+        {
+                return $this->morphToMany('App\Order', 'orderable');
         }
 }

@@ -37,7 +37,7 @@ class PartnerLoginController extends Controller
     }
 
     /**
-     * Show the application's login form for the finale client.
+     * Show the application's login form for the partner.
      *
      * @return \Illuminate\Http\Response
      */

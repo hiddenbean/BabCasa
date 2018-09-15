@@ -10,7 +10,7 @@
         <div class="col-md-12">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="{{ url('/') }}">Tableau de borad</a>
+                    <a href="{{ url('/') }}">DASHBOARD</a>
                 </li>
                 <li class="breadcrumb-item">
                     <a href="{{ url('/categories') }}">categories</a>
@@ -27,20 +27,22 @@
 <div class="container-fluid container-fixed-lg">
     <div class="card ">
         <div class="card-header">
-            <h4 class="m-t-0 m-b-0"> <strong>Categories</strong> </h4>
+            <h4 class="m-t-0 m-b-0"> <strong>Category</strong> </h4>
         </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-md-9 b-r b-dashed b-grey"> 
                         <div class="row">
                             <div class="col-md-12">
-                                <h5>Name</h5>
-                                <p>Lorem ipsum </p> 
+                                <h5>{{$category->categoryLang->first()->reference}}</h5> 
+                                @if(isset($category->category->categoryLang)) <small>parent : <strong>{{$category->category->categoryLang->first()->reference}}</strong></small>@endif
+                                 
+                                <p>{{$category->categoryLang->first()->description}} </p> 
                             </div> 
                         </div>
                         <div class="row">
                             <div class="col-md-12"> 
-                                    <img src="{{ asset('img/profiles/6x.jpg') }}" alt="" srcset="">
+                                  @if(isset($category->picture))  <img src="{{ Storage::url($category->picture->path) }}" alt="" srcset="">@endif
                                 
                             </div>
                         </div>   

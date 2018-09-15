@@ -13,7 +13,7 @@
             <div class="col-md-12">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="{{ url('/') }}">Tableau de borad</a>
+                        <a href="{{ url('/') }}">DASHBOARD</a>
                     </li>
                     <li class="breadcrumb-item active">
                         Client Particular
@@ -54,15 +54,45 @@
             
                     <tbody>  
                             <tr class="order-progress"  >
-                                <td class="v-align-middle"><a href="{{url('clients/particular/show')}}"><strong> Lorem ipsum dolor sit amet. </strong></a></td>
-                                <td class="v-align-middle text-center"><strong> client_particular@admin.com.</strong></td>                
-                                <td class="v-align-middle text-center"> 01/02/2018 </td>       
-                                <td class="v-align-middle text-center"> <strong>Approve</strong> </td>       
-                                <td class="v-align-middle text-center">
-                                    <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
-                                </td> 
-                            </tr> 
+                                    <td class="v-align-middle"><a href="{{url('clients/particular/show')}}"><strong> Khalifah Abde lghaffar </strong></a></td>
+                                    <td class="v-align-middle text-center"><strong> khalifah-Abde-lghaffar@gmail.com</strong></td>                
+                                    <td class="v-align-middle text-center"> December 23, 1978 </td>       
+                                    <td class="v-align-middle text-center"> <strong>Not Approved</strong> </td>       
+                                    <td class="v-align-middle text-center">
+                                        <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
+                                        <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
+                                    </td> 
+                                </tr> 
+                                <tr class="order-progress"  >
+                                    <td class="v-align-middle"><a href="{{url('clients/particular/show')}}"><strong> Jihad Haytham </strong></a></td>
+                                    <td class="v-align-middle text-center"><strong> jihad.haytham@gmail.com</strong></td>                
+                                    <td class="v-align-middle text-center"> March 31, 1982 </td>       
+                                    <td class="v-align-middle text-center"> <strong>Approve</strong> </td>       
+                                    <td class="v-align-middle text-center">
+                                        <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
+                                        <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
+                                    </td> 
+                                </tr> 
+                                <tr class="order-progress"  >
+                                    <td class="v-align-middle"><a href="{{url('clients/particular/show')}}"><strong> Mahbub Hanan </strong></a></td>
+                                    <td class="v-align-middle text-center"><strong> mahbub.hanan@gmail.com</strong></td>                
+                                    <td class="v-align-middle text-center"> April 10, 1992 </td>       
+                                    <td class="v-align-middle text-center"> <strong>Approve</strong> </td>       
+                                    <td class="v-align-middle text-center">
+                                        <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
+                                        <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
+                                    </td> 
+                                </tr> 
+                                <tr class="order-progress"  >
+                                    <td class="v-align-middle"><a href="{{url('clients/particular/show')}}"><strong> Ahmad Gerges </strong></a></td>
+                                    <td class="v-align-middle text-center"><strong> ahmad_gerges@gmail.com</strong></td>                
+                                    <td class="v-align-middle text-center"> May 26, 1981 </td>       
+                                    <td class="v-align-middle text-center"> <strong>Not Approved</strong> </td>       
+                                    <td class="v-align-middle text-center">
+                                        <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
+                                        <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
+                                    </td> 
+                                </tr> 
                     </tbody>
                 </table>
             </div>

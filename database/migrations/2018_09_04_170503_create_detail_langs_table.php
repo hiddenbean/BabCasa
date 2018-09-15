@@ -16,7 +16,9 @@ class CreateDetailLangsTable extends Migration
         Schema::create('detail_langs', function (Blueprint $table) {
             $table->increments('id');
             $table->string('value');
+            $table->integer('lang_id');
             $table->integer('detail_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -7,12 +7,7 @@
 <!-- START SECONDARY SIDEBAR -->
 <nav class="secondary-sidebar"> 
     <p class="menu-title">Sttings</p>
-    <ul class="main-menu">
-        <li class="">
-            <a href="{{ url('/settigs') }}">
-            <span class="title"><i class="fa fa-envelope"></i> Newsletter suscription</span> 
-            </a>
-        </li>
+    <ul class="main-menu"> 
         <li >
             <a href="{{ url('/security') }}">
             <span class="title"><i class="pg-folder"></i>Security</span>
@@ -41,10 +36,10 @@
                                     <div class="col-md-12 m-t-10 m-b-10">
                                         <div class="email-content-header "> 
                                             <div class="sender inline m-l-10">
-                                                <p class="name no-margin bold">David Nester</p>
-                                                <p class="datetime no-margin">Everything here, Made Just for you :)</p>
+                                                <p class="name no-margin bold">Mohammed Kassab</p>
+                                                <p class="datetime no-margin">Update user Faris Adnan Shamoun</p>
                                             </div> 
-                                            <div class="subject m-l-10 semi-bold"> Today at 11:23am </div> 
+                                            <div class="subject m-l-10 semi-bold"> at 12:23am </div> 
                                         </div>
                                     </div>   
                                 </div>  
@@ -52,10 +47,10 @@
                                     <div class="col-md-12 m-t-10 m-b-10">
                                         <div class="email-content-header "> 
                                             <div class="sender inline m-l-10">
-                                                <p class="name no-margin bold">David Nester</p>
-                                                <p class="datetime no-margin">Everything here, Made Just for you :)</p>
+                                                <p class="name no-margin bold">Zaki Shahid</p>
+                                                <p class="datetime no-margin">Create new Client</p>
                                             </div> 
-                                            <div class="subject m-l-10 semi-bold"> Today at 11:23am </div> 
+                                            <div class="subject m-l-10 semi-bold"> at 11:23am </div> 
                                         </div>
                                     </div>   
                                 </div>  
@@ -70,21 +65,10 @@
                                     <div class="col-md-12 m-t-10 m-b-10">
                                         <div class="email-content-header "> 
                                             <div class="sender inline m-l-10">
-                                                <p class="name no-margin bold">David Nester</p>
-                                                <p class="datetime no-margin">Everything here, Made Just for you :)</p>
+                                                <p class="name no-margin bold">Abbas Ghannam</p>
+                                                <p class="datetime no-margin">Update user Farhan Samaha</p>
                                             </div> 
                                             <div class="subject m-l-10 semi-bold"> 10 juin 2018 22:08 </div> 
-                                        </div>
-                                    </div>   
-                                </div>  
-                                <div class="row border-bottom">
-                                    <div class="col-md-12 m-t-10 m-b-10">
-                                        <div class="email-content-header "> 
-                                            <div class="sender inline m-l-10">
-                                                <p class="name no-margin bold">David Nester</p>
-                                                <p class="datetime no-margin">Everything here, Made Just for you :)</p>
-                                            </div> 
-                                            <div class="subject m-l-10 semi-bold"> 10 juin 2018 21:08 </div> 
                                         </div>
                                     </div>   
                                 </div>  
@@ -92,13 +76,13 @@
                                     <div class="col-md-12 m-t-10 m-b-10">
                                         <div class="email-content-header "> 
                                             <div class="sender inline m-l-10">
-                                                <p class="name no-margin bold">David Nester</p>
-                                                <p class="datetime no-margin">Everything here, Made Just for you :)</p>
+                                                <p class="name no-margin bold">Salwa Naila</p>
+                                                <p class="datetime no-margin">Delete partner</p>
                                             </div> 
                                             <div class="subject m-l-10 semi-bold"> 10 juin 2018 21:08 </div> 
                                         </div>
                                     </div>   
-                                </div>  
+                                </div>   
                             </div>
                         </div>  
             </div>
