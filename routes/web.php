@@ -15,18 +15,22 @@
 
 Route::domain('www.babcasa.com')->group(function (){
     Route::get('/', function () {
-        return view('welcome');
+        return view('system.frontoffice.catalog');
     });
-   
 
+    Route::get('/list', function () {
+        return view('system.frontoffice.list');
+    });
+
+    Route::get('/product', function () {
+        return view('system.frontoffice.product');
+    });
 });
 
 Route::domain('staff.babcasa.com')->group(function (){
     Route::get('/', function () {
         return view('welcome');
     });
-   
-    
 });
 
 Route::domain('partner.babcasa.com')->group(function (){
@@ -41,9 +45,9 @@ Route::domain('partner.babcasa.com')->group(function (){
     Route::get('security', 'PartnerController@security');
     Route::get('settings', 'PartnerController@edit');
 
-     //client finale gestion support routes start 
-     Route::prefix('support')->group(function() {
-         Route::get('ticket','ClaimController@index');
+    //client finale gestion support routes start 
+    Route::prefix('support')->group(function() {
+        Route::get('ticket','ClaimController@index');
         Route::get('/','SubjectController@index');
         Route::prefix('{subject}')->group(function() {
             Route::prefix('ticket')->group(function() {
@@ -51,8 +55,6 @@ Route::domain('partner.babcasa.com')->group(function (){
             });
         });
     });
-   
-
 });
 
 
@@ -63,9 +65,7 @@ Route::domain('www.babcasa.com')->group(function (){
 
     Route::post('/', function () {
         return view('welcome');
-    }); 
-
-    
+    });
 });
 
 Route::domain('partner.babcasa.com')->group(function (){
@@ -79,7 +79,7 @@ Route::domain('partner.babcasa.com')->group(function (){
     Route::delete('{partner}/security/{session}', 'PartnerController@sessionDestroy');
     Route::post('{partner}/settings/update', 'PartnerController@update');
 
-      //client finale gestion support routes start 
+    //client finale gestion support routes start 
     Route::prefix('support')->group(function() {
         Route::prefix('{subject}')->group(function() {
             Route::prefix('ticket')->group(function() {
@@ -95,8 +95,6 @@ Route::domain('staff.babcasa.com')->group(function (){
     Route::post('/', function () {
         return view('welcome');
     });
-
-
 });
 
 Auth::routes();

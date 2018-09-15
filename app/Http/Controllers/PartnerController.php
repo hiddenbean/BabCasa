@@ -28,6 +28,7 @@ class PartnerController extends Controller
 
     public function dashboard()
     {
+        $a =1;
         return view('system.backoffice.partner.dashboard');
     }
 
