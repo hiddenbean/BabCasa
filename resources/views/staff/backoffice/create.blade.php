@@ -46,8 +46,7 @@
                         <div class="tab-content bg-white">
                             <!-- START FIRST TAB CONTENT GENRAL -->
                             <div class="tab-pane active show" id="general">
-                                <div class="row">
-                                    {{$errors}}
+                                <div class="row"> 
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Name</label>
@@ -134,9 +133,12 @@
                                             <div class="form-group form-group-default">
                                                 <label for="">Profile Type</label> 
                                                 <select class="cs-select cs-skin-slide cs-transparent" value="{{ old('profile_id') }}"  name="profile_id" data-init-plugin="cs-select">
-                                                   @foreach($profiles as $profile)
+                                                   {{--  @foreach($profiles as $profile)
                                                 <option value="{{$profile->id}}" >{{$profile->profileLang->first()->reference}}</option>
-                                                    @endforeach
+                                                    @endforeach  --}} 
+                                                <option value=" " >Admin</option>
+                                                <option value=" " >Editor</option>
+                                                 
                                                 </select> 
                                             </div>
                                             

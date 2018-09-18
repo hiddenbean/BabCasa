@@ -1,9 +1,9 @@
 @extends('layouts.backoffice.partner.app')
 
 @section('css_before')
-    <link href="{{asset('plugins/jquery-datatable/media/css/dataTables.bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('plugins/jquery-datatable/extensions/FixedColumns/css/dataTables.fixedColumns.min.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('plugins/datatables-responsive/css/datatables.responsive.css') }}" rel="stylesheet" type="text/css" media="screen" /> 
+<link href="{{asset('plugins/jquery-datatable/media/css/dataTables.bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{asset('plugins/jquery-datatable/extensions/FixedColumns/css/dataTables.fixedColumns.min.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{asset('plugins/datatables-responsive/css/datatables.responsive.css') }}" rel="stylesheet" type="text/css" media="screen" /> 
 @endsection
 
 @section('content')
@@ -16,7 +16,7 @@
                         <a href="{{ url('/') }}">DASHBOARD</a>
                     </li>
                     <li class="breadcrumb-item active">
-                        claims
+                        Support
                     </li>
                 </ol>
             </div>
@@ -26,12 +26,12 @@
     <div class="container-fluid container-fixed-lg bg-white">
         <div class="card card-transparent">
             <div class="card-header">
-                <div class="card-title">List of Claims</div>
+                <div class="card-title">Liste des tickets</div>
                 <div class="pull-right">
                     <div class="col-xs-12">
                         <div class="row">
                             <div class="col-md-6 text-right no-padding">
-                            <a href="{{url('claims/create')}}" class="btn btn-primary btn-cons">New claim</a>
+                            <a href="{{url('support')}}" class="btn btn-primary btn-cons">Nouveau ticket</a>
                             </div>
                             <div class="col-md-6">
                                 <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
@@ -44,23 +44,28 @@
             </div>
             <div class="card-body">
                 <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
-                        <thead>
-                            <th style="width:20%" class="text-center">Titre</th>
-                            <th style="width:10%" class="text-center">Sujet</th>
-                            <th style="width:10%" class="text-center">Date de création</th>
-                            <th style="width:10%" class="text-center">Nombre messages</th>
-                            <th style="width:10%" class="text-center">Etat</th>                
-                        </thead>
-                
-                        <tbody>   
+                    <thead>
+                        <th style="width:20%" class="text-center">Titre</th>
+                        <th style="width:10%" class="text-center">Sujet</th>
+                        <th style="width:10%" class="text-center">Date de création</th>
+                        <th style="width:10%" class="text-center">Nombre messages</th>
+                        <th style="width:10%" class="text-center">Etat</th>                
+                    </thead>
+            
+                    <tbody> 
+                        @if (isset($claims))
+                            @foreach($claims as $claim)
                             <tr class="order-progress"  >
-                                <td class="v-align-middle"><a href="{{ url('claims/show') }}"><strong> Order delay  </strong></a></td>
-                                <td class="v-align-middle text-center"><strong>  Order   </strong></td>                
-                                <td class="v-align-middle text-center"> 01/05/2018 </td>              
-                                <td class="v-align-middle text-center"> 5 </td> 
-                                <td class="v-align-middle text-center"><strong> Close </strong></td> 
-                            </tr>     
-                        </tbody>
+                                <td class="v-align-middle"><a href="{{ url('support/ticket/'.$claim->id) }}"><strong>{{ $claim->title}} </strong></a></td>
+                                <td class="v-align-middle text-center"><strong> {{ $claim->subject->title}}  </strong></td>                
+                                <td class="v-align-middle text-center">{{ $claim->created_at}} </td>              
+                                <td class="v-align-middle text-center">{{ $claim->claimMessages()->count()}}</td> 
+                                <td class="v-align-middle text-center"><strong>@if($claim->status==1)Open @else Close @endif</strong></td> 
+                            </tr>
+                            @endforeach
+                        @endif
+                       
+                    </tbody>
                 </table>
             </div>
         </div> 
@@ -77,7 +82,7 @@
         <script type="text/javascript" src="{{asset('plugins/datatables-responsive/js/lodash.min.js')}}"></script>
 
         <script>
-    $(document).ready(function () { 
+        $(document).ready(function () { 
 
             var table = $('#tableWithSearch');
 

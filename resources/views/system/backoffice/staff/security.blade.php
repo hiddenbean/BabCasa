@@ -7,18 +7,13 @@
 <!-- START SECONDARY SIDEBAR -->
 <nav class="secondary-sidebar"> 
         <p class="menu-title">Sttings</p>
-        <ul class="main-menu">
-            <li class="">
-                <a href="{{ url('/settigs') }}">
-                <span class="title"><i class="fa fa-envelope"></i> Newsletter suscription</span> 
-                </a>
-            </li>
-            <li >
+        <ul class="main-menu"> 
+            <li class="active">
                 <a href="{{ url('/security') }}">
                 <span class="title"><i class="pg-folder"></i>Security</span>
                 </a> 
             </li>
-            <li class="active">
+            <li>
                 <a href="{{ url('/log') }}">
                     <span class="title"><i class="pg-sent"></i>Log</span>
                 </a>
@@ -34,8 +29,7 @@
             <div class="card-body">
                     <div class="row">
                             <div class="col-md-7 b-r b-dashed b-grey">
-                                @if (isset($guests))
-                                    @foreach($guests as $guest)
+                                
                                         <div class="row">
                                             <div class="col-md-11">
                                                 <div class="card">
@@ -49,12 +43,12 @@
                                                                 
                                                                 <div class="row">
                                                                     <div class="col-md-12">
-                                                                        {{ $guest->device }} 
+                                                                       Computer 
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
                                                                     <div class="col-md-12">
-                                                                            {{ $guest->os }}
+                                                                           Windows 10
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -65,7 +59,7 @@
                                                                 <strong>Navigateur</strong>   
                                                             </div>
                                                             <div class="col-md-8">
-                                                                    {{ $guest->browser }}
+                                                                    Chrome
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -73,7 +67,7 @@
                                                                 <strong>Adresse IP</strong>
                                                             </div>
                                                             <div class="col-md-8">
-                                                                    {{ $guest->ipAddress }}
+                                                                    198.195.2.1
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -81,7 +75,7 @@
                                                                 <strong>Derniere activeite</strong> 
                                                             </div>
                                                             <div class="col-md-8">
-                                                                    {{ $guest->lastActivity }}
+                                                                   5h
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -97,7 +91,7 @@
                                                             <div class="col-md-4 m-t-5">
                                                                 <strong>Acces au compte</strong>  
                                                             </div>
-                                                            <form action="{{ url($partner->name.'/security/'.$guest->id) }}" method="post">
+                                                            <form action="" method="post">
                                                                     {{ csrf_field() }}
                                                                     {{ method_field('DELETE') }}
                                                                 <div class="col-md-8">
@@ -109,8 +103,7 @@
                                                 </div>
                                             </div>
                                         </div> 
-                                    @endforeach
-                                @endif
+                                  
                             </div> 
                             <div class="col-md-5">
                                 <div class="row">
@@ -125,14 +118,12 @@
                                     <div class="col-md-12">
                                         <h3>Deactivate your account</h3>
                                         By deactivating your account, you deactivate your profile and delete your name and photo from most of the content you have shared on Babcasa.
-                                            <a href="#">En savoir plus</a>.  
-                                            @if (isset($guests))
-                                            <form action="{{url('partner/'.$partner->id.'/deactivate')}}" method="POST" class="m-t-5">
+                
+                                            <form action="" method="POST" class="m-t-5">
                                                 {{ csrf_field() }}
                                                 {{ method_field('DELETE') }}
                                                 <input type="submit" class="btn btn-danger" value="Desactiver">
-                                            </form> 
-                                            @endif
+                                            </form>  
                                     </div>
                                 </div>
                             </div>
