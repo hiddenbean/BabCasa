@@ -60,7 +60,9 @@
                                 <td class="v-align-middle text-center"><strong> 07/02/2018 </strong></td>      
                                 <td class="v-align-middle text-center"><strong>01/03/2018</strong></td> 
                                 <td class="v-align-middle text-center"> 10 </td>      
-                                <td class="v-align-middle text-center"><strong> 50% </strong></td>      
+                                <td class="v-align-middle text-center"><strong> 50% </strong>
+                                
+                                </td>      
                                 <td class="v-align-middle text-center"> 01/02/2018 </td>      
                                 <td class="v-align-middle text-center">
                                     <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
@@ -71,7 +73,9 @@
                                 <td class="v-align-middle text-center"><strong> 21/05/2018 </strong></td>      
                                 <td class="v-align-middle text-center"><strong>15/06/2018</strong></td> 
                                 <td class="v-align-middle text-center"> 5 </td>      
-                                <td class="v-align-middle text-center"><strong> 30%</strong> </td>   
+                                <td class="v-align-middle text-center"><strong> 30%</strong>
+                                
+                                </td>   
                                 <td class="v-align-middle text-center"> 01/05/2018 </td>      
                                 <td class="v-align-middle text-center">
                                     <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
@@ -82,7 +86,9 @@
                                 <td class="v-align-middle text-center"><strong> 07/04/2018 </strong></td>      
                                 <td class="v-align-middle text-center"><strong>30/05/2018</strong></td>
                                 <td class="v-align-middle text-center"> 7 </td>      
-                                <td class="v-align-middle text-center"> <strong><strong>25%</strong> </td>    
+                                <td class="v-align-middle text-center"> <strong><strong>25%</strong>
+                                
+                                </td>    
                                 <td class="v-align-middle text-center"> 01/04/2018 </td>      
                                 <td class="v-align-middle text-center">
                                     <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>

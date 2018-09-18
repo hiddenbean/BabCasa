@@ -1,4 +1,4 @@
-@extends('layouts.backoffice.partner.app')
+ @extends('layouts.backoffice.partner.app')
 @section('css_before')
 <link href="{{ asset('plugins/bootstrap-datepicker/css/datepicker3.css') }}" rel="stylesheet" type="text/css" media="screen">
 <link href="{{ asset('plugins/jquery-dynatree/skin/ui.dynatree.css') }}" rel="stylesheet" type="text/css" media="screen" /> 
@@ -27,7 +27,7 @@
 <div class="container-fluid container-fixed-lg">
     <div class="card ">
         <div class="card-header">
-            <h4 class="m-t-0 m-b-0"> <strong>Create new product</strong> </h4>
+            <h4 class="m-t-0 m-b-0"> <strong>Create new bill</strong> </h4>
         </div>
         <div class="card-body">
             <div class="row"> 
