@@ -15,7 +15,7 @@
                     <a href="{{ url('/staff') }}">Staff</a>
                 </li>
                 <li class="breadcrumb-item active">
-                    Create
+                    Update
                 </li>
             </ol>
         </div>
@@ -27,11 +27,10 @@
         <div class="card-header">
             <h4 class="m-t-0 m-b-0"> <strong>Create new staff</strong> </h4>
         </div>
-        {{$errors}}
         <div class="card-body">
             <div class="row">
                 <div class="col-xl-12">
-                    <form id="form-personal"  method="POST" action="{{url('staff')}}" enctype="multipart/form-data">
+                    <form id="form-personal"  method="POST" action="{{url('staff/'.$staff->id)}}" enctype="multipart/form-data">
                         {{ csrf_field() }}
 
                         <ul class="nav nav-tabs nav-tabs-simple nav-tabs-left bg-white" id="tab-3">
@@ -50,7 +49,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Name</label>
-                                            <input type="text" class="form-control"  value="{{ old('name') }}" name="name" placeholder="Name">
+                                            <input type="text" class="form-control"  value="{{$staff->name}}" name="name" placeholder="Name" disabled>
                                         </div>
                                         <label class='error' for='name'>
                                                 @if ($errors->has('name'))
@@ -64,7 +63,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group form-group-default">
                                             <label>First name</label>
-                                            <input type="text" class="form-control" value="{{ old('first_name') }}"  name="first_name">
+                                            <input type="text" class="form-control" value="{{$staff->first_name}}"  name="first_name">
                                         </div>
                                         <label class='error' for='first_name'>
                                                 @if ($errors->has('first_name'))
@@ -75,7 +74,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group form-group-default ">
                                             <label>Last name</label>
-                                            <input type="text" class="form-control" value="{{ old('last_name') }}"  name="last_name">
+                                            <input type="text" class="form-control" value="{{$staff->last_name}}"  name="last_name">
                                         </div>
                                         <label class='error' for='last_name'>
                                                 @if ($errors->has('last_name'))
@@ -88,7 +87,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Email</label>
-                                            <input type="email" class="form-control" value="{{ old('email') }}"  name="email" placeholder="Email">
+                                            <input type="email" class="form-control" value="{{$staff->email}}"  name="email" placeholder="Email">
                                         </div>
                                         <label class='error' for='email'>
                                                 @if ($errors->has('email'))
@@ -97,7 +96,7 @@
                                         </label> 
                                     </div>
                                 </div>
-                                <div class="row">
+                                {{-- <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Password</label>
@@ -109,13 +108,13 @@
                                                 @endif
                                         </label> 
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group form-group-default input-group">
                                             <div class="form-input-group">
                                                 <label>Birthday</label>
-                                                <input type="text" name="birthday" value="{{ old('birthday') }}"  class="form-control" placeholder="Birthday"
+                                                <input type="text" name="birthday" value="{{$staff->birthday}}"  class="form-control" placeholder="Birthday"
                                                     id="birthday">
                                             </div>
                                             <label class='error' for='birthday'>
@@ -133,9 +132,10 @@
                                         <div class="col-md-12">
                                             <div class="form-group form-group-default">
                                                 <label for="">Profile Type</label> 
-                                                <select class="cs-select cs-skin-slide cs-transparent" value="{{ old('profile_id') }}"  name="profile_id" data-init-plugin="cs-select">
+                                                <select class="cs-select cs-skin-slide cs-transparent" value="{{$staff->profile_id}}"  name="profile_id" data-init-plugin="cs-select">
                                                     @foreach($profiles as $profile)
-                                                <option value="{{$profile->id}}" >{{$profile->profileLang->first()->reference}}</option>
+                                                   
+                                                <option value="{{$profile->id}}"  @if($staff->profile_id == $profile->id) selected @endif >{{$profile->profileLang->first()->reference}}</option>
                                                     @endforeach 
                                                  
                                                 </select> 
@@ -146,9 +146,9 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="radio radio-success">
-                                            <input type="radio" value="male" name="gender" id="male">
+                                            <input type="radio" value="male" @if($staff->gender == 'male') checked @endif name="gender" id="male">
                                             <label for="male">Male</label>
-                                            <input type="radio" checked="checked" value="female" name="gender" id="female">
+                                            <input type="radio"  value="female" @if($staff->gender == 'female') checked @endif name="gender" name="gender" id="female">
                                             <label for="female">Female</label>
                                         </div>
                                     </div>
@@ -156,7 +156,7 @@
                                 <div class="row">
                                     <div class="col-sm-2">
                                             <div class="form-group form-group-default">
-                                                    <img src="{{ asset('img/img_placeholder.png') }}" id="image_preview_staff"
+                                                    <img src="{{ Storage::url($staff->picture->path)}}" id="image_preview_staff"
                                                         alt="" srcset="" width="100">
                                                     <label for="path_staff" class="choose_photo">
                                                         <span>
@@ -164,11 +164,11 @@
                                                     </label>
                                                     <input type="file" id="path_staff" name="path" class="form-control hide">
                                                 </div>
-                                        <label class='error' for='path'>
+                                        {{-- <label class='error' for='path'>
                                                 @if ($errors->has('path'))
                                                     {{ $errors->first('path') }}
                                                 @endif
-                                        </label> 
+                                        </label>  --}}
                                     </div>
                                 </div>
                             </div> <!-- END FIRST TAB CONTENT GENRAL -->
@@ -178,7 +178,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Address</label>
-                                            <input type="text" class="form-control" name="address" value="{{ old('address') }}"  placeholder="Name">
+                                            <input type="text" class="form-control" name="address" value="{{$staff->address->address}}"  placeholder="Name">
                                         </div>
                                         <label class='error' for='address'>
                                                 @if ($errors->has('address'))
@@ -191,7 +191,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Address tow</label>
-                                            <input type="text" class="form-control" name="address_tow" value="{{ old('address_tow') }}"  placeholder="Name">
+                                            <input type="text" class="form-control" name="address_tow" value="{{$staff->address->address_tow}}"  placeholder="Name">
                                         </div>
                                         <label class='error' for='address_tow'>
                                                 @if ($errors->has('address_tow'))
@@ -204,7 +204,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group form-group-default">
                                             <label>Full name</label>
-                                            <input type="text" class="form-control" name="full_name" value="{{ old('full_name') }}"  placeholder="Full name">
+                                            <input type="text" class="form-control" name="full_name" value="{{$staff->address->full_name}}"  placeholder="Full name">
                                         </div>
                                         <label class='error' for='full_name'>
                                                 @if ($errors->has('full_name'))
@@ -215,7 +215,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group form-group-default">
                                             <label>Zip code</label>
-                                            <input type="text" class="form-control" name="zip_code" value="{{ old('zip_code') }}"  placeholder="Zip code">
+                                            <input type="text" class="form-control" name="zip_code" value="{{$staff->address->zip_code}}"  maxlength="6"  placeholder="Zip code">
                                         </div>
                                         <label class='error' for='zip_code'>
                                                 @if ($errors->has('zip_code'))
@@ -227,8 +227,8 @@
                                         <div class="form-group form-group-default">
                                             <label>Country</label>
                                             <select class="cs-select cs-skin-slide cs-transparent" name="country_id" data-init-plugin="cs-select">
-                                                    @foreach($countries as $country)
-                                                    <option value="{{$country->id}}" >{{$country->name}}</option>
+                                                    @foreach($countries as $Country)
+                                                    <option value="{{$Country->id}}" @if($staff->address->country_id == $Country->id) selected @endif >{{$Country->name}}</option>
                                                         @endforeach 
                                             </select> 
                                             <label class='error' for='country'>
@@ -241,7 +241,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group form-group-default">
                                             <label>City</label>
-                                            <input type="text" class="form-control" name="city" value="{{ old('city') }}"  placeholder="City">
+                                            <input type="text" class="form-control" name="city" value="{{$staff->address->city}}"  placeholder="City">
                                         </div>
                                         <label class='error' for='city'>
                                                 @if ($errors->has('city'))
@@ -254,15 +254,16 @@
                                     <div class="col-md-4">
                                             <div class="form-group form-group-default input-group">
                                                     <div class="cs-input-group-addon input-group-addon d-flex">
-                                                        <select class="cs-select cs-skin-slide cs-transparent" name="code_country[]" data-init-plugin="cs-select">
+                                                        <select class="cs-select cs-skin-slide cs-transparent" name="code_country[]"  data-init-plugin="cs-select">
                                                                 @foreach($countries as $country)
-                                                                <option value="{{$country->id}}" >{{$country->code}}</option>
+                                                                <option value="{{$country->id}}"  @if($staff->phones[0]->country->country_id == $country->id) selected @endif >{{$country->code}}</option>
                                                                     @endforeach 
                                                         </select>
                                                     </div>
+                                                <input type="hidden" name="phone_id[]" value="{{$staff->phones[0]->id}}">
                                                     <div class="form-input-group flex-1">
                                                         <label>Phone one</label>
-                                                        <input type="text" id="phone" name="numbers[]" value="{{ old('numbers.0') }}" class="form-control">
+                                                        <input type="text" id="phone" name="numbers[]" value="{{$staff->phones[0]->number}}" class="form-control">
                                                         @if ($errors->has('numbers.0'))
                                                         <label class='error' for='phone'>{{ $errors->first('numbers.0') }}</label>
                                                         @endif
@@ -275,13 +276,14 @@
                                                     <div class="cs-input-group-addon input-group-addon d-flex">
                                                         <select class="cs-select cs-skin-slide cs-transparent" name="code_country[]" data-init-plugin="cs-select">
                                                                 @foreach($countries as $country)
-                                                                <option value="{{$country->id}}" >{{$country->code}}</option>
+                                                                <option value="{{$country->id}}"  @if($staff->phones[1]->country->country_id == $country->id) selected @endif >{{$country->code}}</option>
                                                                     @endforeach 
                                                         </select>
                                                     </div>
+                                                    <input type="hidden" name="phone_id[]" value="{{$staff->phones[1]->id}}">
                                                     <div class="form-input-group flex-1">
                                                         <label>Phone tow</label>
-                                                        <input type="text" id="phone" name="numbers[]" value="{{ old('numbers.1') }}" class="form-control">
+                                                        <input type="text" id="phone" name="numbers[]" value="{{$staff->phones[1]->number}}" class="form-control">
                                                         @if ($errors->has('numbers.1'))
                                                         <label class='error' for='phone'>{{ $errors->first('numbers .1') }}</label>
                                                         @endif
@@ -293,13 +295,14 @@
                                                     <div class="cs-input-group-addon input-group-addon d-flex">
                                                         <select class="cs-select cs-skin-slide cs-transparent" name="code_country[]" data-init-plugin="cs-select">
                                                                 @foreach($countries as $country)
-                                                                <option value="{{$country->id}}" >{{$country->code}}</option>
+                                                                <option value="{{$country->id}}"  @if($staff->phones[2]->country->country_id == $country->id) selected @endif >{{$country->code}}</option>
                                                                     @endforeach 
                                                         </select>
                                                     </div>
+                                                    <input type="hidden" name="fax_id" value="{{$staff->phones[2]->id}}">
                                                     <div class="form-input-group flex-1">
                                                         <label>Fax</label>
-                                                        <input type="text" id="phone" name="fax_number" value="{{ old('fax_number') }}" class="form-control">
+                                                        <input type="text" id="phone" name="fax_number" value="{{$staff->phones[2]->number}}" class="form-control">
                                                         @if ($errors->has('fax_number'))
                                                         <label class='error' for='phone'>{{ $errors->first('fax_number') }}</label>
                                                         @endif

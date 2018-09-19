@@ -13,10 +13,10 @@
             <div class="col-md-12">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="{{ url('/') }}">Dashboard</a>
+                        <a href="{{ url('/') }}">DASHBOARD</a>
                     </li>
                     <li class="breadcrumb-item active">
-                        Staff
+                        profiles
                     </li>
                 </ol>
             </div>
@@ -26,12 +26,12 @@
     <div class="container-fluid container-fixed-lg bg-white">
         <div class="card card-transparent">
             <div class="card-header">
-                <div class="card-title">List of staff</div>
+                <div class="card-title">List of profiles</div>
                 <div class="pull-right">
                     <div class="col-xs-12">
                         <div class="row">
                             <div class="col-md-6 text-right no-padding">
-                            <a href="{{url('staff/create')}}" class="btn btn-primary btn-cons">New staff</a>
+                            <a href="{{url('profiles/create')}}" class="btn btn-primary btn-cons">New profile</a>
                             </div>
                             <div class="col-md-6">
                                 <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
@@ -45,27 +45,20 @@
             <div class="card-body">
                 <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
                     <thead>
-                        <th style="width:20%" class="text-center">Name</th>
-                        <th style="width:10%" class="text-center">Email</th> 
-                        <th style="width:10%" class="text-center">Creation date</th> 
-                        <th style="width:10%" class="text-center">Profile type</th>                
-                        <th style="width:10%" class="text-center"></th>                
+                        <th style="width:90%" class="text-center"> Nom de profiles</th>                    
+                        <th style="width:10%" class="text-center"></th>           
                     </thead>
             
-                    <tbody> 
-                        @foreach($staffs as $staff) 
+                    <tbody>
+                        @foreach($profiles as $profile)  
                             <tr class="order-progress"  >
-                                <td class="v-align-middle"><a href="{{url('staff/'.$staff->name)}}"><strong> {{$staff->first_name.' '.$staff->last_name}} </strong></a></td>
-                                <td class="v-align-middle text-center"><strong> {{$staff->email}}</strong></td>                
-                                <td class="v-align-middle text-center">{{date('d-m-Y', strtotime($staff->created_at))}}</td>      
-                                <td class="v-align-middle text-center"><strong>{{$staff->profile->profileLang->first()->reference}}</strong></td> 
+                                <td class="v-align-middle"><a href="{{url('profiles/'.$profile->id)}}"><strong> {{$profile->profileLang->first()->reference}} </strong></a></td>            
                                 <td class="v-align-middle text-center">
-                                        <a href="{{url('staff/'.$staff->name.'/edit')}}" class="btn btn-transparent"><i class="fa fa-pencil"></i></a>
-                                        <a href="{{route('delete.staff',['staff'=>$staff->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></a>
-                                    </td> 
+                                    <a href="{{url('profiles/'.$profile->id.'/edit')}}" class="btn btn-transparent"><i class="fa fa-pencil"></i></a>
+                                     <a href="{{route('delete.profile',['profile'=>$profile->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></a>
+                                </td> 
                             </tr> 
-                            @endforeach
-                            
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -92,7 +85,7 @@
                 "destroy": true,  
                 "scrollCollapse": true,
                 "order": [
-                    [0, "asc"]
+                    [0, "desc"]
                 ],
                 "iDisplayLength": 10
             };

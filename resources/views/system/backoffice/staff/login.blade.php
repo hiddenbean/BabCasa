@@ -12,17 +12,19 @@
         <h3>Connectez-vous à votre espace</h3>
         <div class="row">
             <div class="col-md-12">
-                <form id="form-register" class="p-t-15" role="form" action="index.html" novalidate="novalidate">
-
+                <form id="form-register" class="p-t-15" role="form" method="POST" action="{{route('staff.login.submit')}}" novalidate="novalidate">
+                    @csrf
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group form-group-default input-group">
                                 <div class="form-input-group">
                                     <label>Saisissez votre nom d&apos;utilisateur</label>
-                                    <input type="login" class="form-control">
+                                    <input type="email" name="email" class="form-control">
                                 </div>
                             </div>
-                            <label for="login" class="error"></label>
+                            @if ($errors->has('email'))
+                            <label class='error' for='email'>{{ $errors->first('email') }}</label>
+                             @endif
                         </div>
                     </div> 
                     <div class="row">
@@ -30,7 +32,9 @@
                             <div class="form-group form-group-default">
                                 <label>Mot de passe</label>
                                 <input type="password" name="password" class="form-control">
-                                <label for="password" class="error"></label>
+                                @if ($errors->has('password'))
+                                <label class='error' for='password'>{{ $errors->first('password') }}</label>
+                                 @endif
                             </div>
                         </div>
                     </div>

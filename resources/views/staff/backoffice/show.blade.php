@@ -34,59 +34,63 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <h5>Name</h5>
-                                <p>Naturohair</p>
+                                <p>{{$staff->name}}</p>
 
                                 <h5 class="p-t-15">First name</h5>
-                                <p>Abdellatif</p>
+                                <p>{{$staff->first_name}}</p>
+                                <h5 class="p-t-15">Profile</h5>
+                                <p>{{$staff->profile->profileLang->first()->reference}}</p>
                             </div>
                             <div class="col-md-4">
                                 <h5>Email</h5>
-                                <p>abde-latif@gmail.com</p>
+                                <p>{{$staff->email}}</p>
 
                                 <h5 class="p-t-15"> last Name</h5>
-                                <p>Haytham</p> 
+                                <p>{{$staff->last_name}}</p> 
                             </div>
                             <div class="col-md-4">
-                                <img src="{{ asset('img/profiles/8x.jpg') }}" alt="" srcset="">
+                                <img src="{{ Storage::url($staff->picture->path)}}" alt="" srcset="" width="350">
                             </div>
                         </div>  
                         <div class="row">
                             <div class="col-md-4">
                                 <h5>Adresse:</h5>
-                                <p>119 Rue Hedi Nooman
-                                    <br>5140 SOUASSI</p>
+                                <p>{{$staff->address->address}}
+                                    <br>{{$staff->address->address_two}}</p>
                             </div>
                             <div class="col-md-4">
                                 <h5>Country:</h5>
-                                <p>Maroc</p>
+                                <p>{{$staff->address->country->name}}</p>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-4">
                                 <h5>City:</h5>
-                                <p>Rabat</p>
+                                <p>{{$staff->address->city}}</p>
                             </div>
                             <div class="col-md-4">
                                 <h5>Full name:</h5>
-                                <p>Abdellatif Haytham , 119 Rue Hedi Nooman</p>
+                                <p>{{$staff->address->full_name}}</p>
                             </div>
                             <div class="col-md-4">
                                 <h5>Zip code:</h5>
-                                <p>26200</p>
+                                <p>{{$staff->address->zip_code}}</p>
                             </div>
                         </div>
+                        {{-- {{$staff->phones[0]->country}} --}}
                         <div class="row">
                             <div class="col-md-4">
-                                <h5>Phone N1:</h5>
-                                <p>(+212) 03.33.00.97070 /p>
-                            </div>
+                                    <h5>Phone N1:</h5>
+                                    <p>{{'('.$staff->phones[0]->country->code.') '. $staff->phones[0]->number }}</p>
+                                </div>
+                           
                             <div class="col-md-4">
                                 <h5>phone N2:</h5>
-                                <p>(+212) 03.33.00.97070</p>
+                                <p>{{'('.$staff->phones[1]->country->code.') '. $staff->phones[1]->number }}</p>
                             </div>
                             <div class="col-md-4">
                                 <h5>Fax:</h5>
-                                <p>04.33.00.97070</p>
+                                <p>{{'('.$staff->phones[2]->country->code.') '. $staff->phones[2]->number }}</p>
                             </div>
                         </div> 
                 </div>

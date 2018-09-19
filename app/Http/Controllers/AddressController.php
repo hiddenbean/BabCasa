@@ -19,7 +19,7 @@ class AddressController extends Controller
             'address' => 'required',
             'address_two' => 'sometimes',
             'full_name' => 'required',
-            'country' => 'required',
+            'country_id' => 'required',
             'city' => 'required',
             'zip_code' => 'required|numeric',
             'longitude' => 'sometimes',

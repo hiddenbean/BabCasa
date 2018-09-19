@@ -15,4 +15,8 @@ class Phone extends Model
     {
         return $this->morphTo();
     }
+    public function country()
+    {
+        return $this->belongsTo('App\Country');
+    }
 }

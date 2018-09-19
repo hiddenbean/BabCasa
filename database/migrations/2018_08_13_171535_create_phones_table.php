@@ -19,7 +19,7 @@ class CreatePhonesTable extends Migration
             $table->string('type');
             $table->integer('phoneable_id');
             $table->string('phoneable_type');
-            $table->integer('phone_code_id');
+            $table->integer('country_id');
             $table->softDeletes();
             $table->timestamps();
         });

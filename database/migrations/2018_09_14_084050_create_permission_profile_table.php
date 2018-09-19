@@ -17,6 +17,8 @@ class CreatePermissionProfileTable extends Migration
             $table->increments('id');
             $table->integer('permission_id');
             $table->integer('profile_id');
+            $table->boolean('can_read');
+            $table->boolean('can_write');
             $table->timestamps();
         });
     }

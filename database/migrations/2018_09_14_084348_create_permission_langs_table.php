@@ -18,6 +18,7 @@ class CreatePermissionLangsTable extends Migration
             $table->string('reference');
             $table->text('description');
             $table->integer('permission_id');
+            $table->integer('lang_id');
             $table->softDeletes();
             $table->timestamps();
         });

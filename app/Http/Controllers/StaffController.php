@@ -6,8 +6,12 @@ use App;
 use App\Staff;
 use App\Profile;
 use App\Language;
+use App\Country;
 use App\Adress;
 use App\Phone;
+use App\Http\Controllers\AddressController;
+use App\Http\Controllers\PictureController;
+use App\Http\Controllers\PhoneController;
 use Illuminate\Http\Request;
 
 class StaffController extends Controller
@@ -20,7 +24,6 @@ class StaffController extends Controller
     protected function validateRequest(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:staff,name',
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => 'required|email|unique:staff,email',
@@ -38,6 +41,7 @@ class StaffController extends Controller
     {
         // $id = Auth::guard('staff')->user()->id;
         $data['staffs'] = Staff::where('id','!=',0)->get();
+        // return $data;
         return view('staff.backoffice.index',$data);
     }
     
@@ -49,6 +53,7 @@ class StaffController extends Controller
     public function create()
     {
         $data['profiles'] = Profile::all();
+        $data['countries'] = Country::all();
         return view('staff.backoffice.create',$data);
     }
 
@@ -94,13 +99,9 @@ class StaffController extends Controller
             $adress->zip_code = $request->zip_code;
             $adress->ful_name = $request->ful_name;
             $adress->city = $request->city;
+            $adress->save();
 
         }
-
-
-        // $phone->phone = $request->phone;
-        // $phone->phone_tow = $request->phone_tow;
-        // $phone->fax = $request->fax;
     }
 
     /**
@@ -111,9 +112,9 @@ class StaffController extends Controller
      */
     public function show($staff)
     {
-        $data['staff'] = Staff::where('name',$staff);
-        return $data;
-
+        $data['staff'] = Staff::where('name',$staff)->first();
+        // return $data['staff']->phones[0]->country; 
+        return view('staff.backoffice.show',$data);
     }
 
     /**
@@ -124,9 +125,10 @@ class StaffController extends Controller
      */
     public function edit($staff)
     {
-
-        $data['staff'] = Staff::where('name',$staff);
-
+        $data['profiles'] = Profile::all();
+        $data['countries'] = Country::all();
+        $data['staff'] = Staff::where('name',$staff)->first();
+        return view('staff.backoffice.edit',$data);
         return $data;
       
     }
@@ -140,16 +142,76 @@ class StaffController extends Controller
      */
     public function update(Request $request,$staff)
     {
-        $this->validateRequest($request);
+        
+        $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required|email|unique:staff,email,'.$staff,
+            'gender' => 'required',
+            'birthday' => 'required|date',
+        ]);
+        $AddressController = new AddressController();
+        $AddressController->validateRequest($request);
+        
+        $request->validate([
+            'numbers.0' => 'required|numeric|unique:phones,number,'.$request->phone_id[0],
+            'numbers.1' => 'sometimes|numeric|unique:phones,number,'.$request->phone_id[1],
+            'code_country.0' => 'required',
+            'code_country.1' => 'required',
+        ]);      
 
-        // Auth::guard('staff')->user()->id
-        $staff = Staff::where('name',$staff);
+        $staff = Staff::find($staff);
         $staff->first_name = $request->first_name;
         $staff->last_name = $request->last_name;
         $staff->email = $request->email;
         $staff->gender = $request->gender;
-        $staff->birthday = $request->birthday;
+        $staff->profile_id = $request->profile_id;
+        $staff->birthday = date('Y-m-d H:i:s',strtotime($request->birthday));
         $staff->save();
+        $address = $staff->address;
+        $address->address = $request->address;
+        $address->address_tow = $request->address_tow;
+        $address->full_name = $request->full_name;
+        $address->zip_code = $request->zip_code;
+        $address->country_id = $request->country_id;
+        $address->city = $request->city;
+        $address->save();
+             
+        if($request->hasFile('path')) 
+        {
+            $picture = $staff->picture;
+            $picture->name = time().'.'.$request->file('path')->extension();
+            $picture->tag = "staff";
+            $picture->path = $request->path->store('images/staff', 'public');
+            $picture->extension = $request->path->extension();
+            $picture->save();
+        }
+        
+
+        foreach($request->numbers as $key => $number)
+        {
+            if($number != null)
+            {
+               
+                $phone = Phone::find($request->phone_id[$key]);
+                $phone->number = $number;
+                $phone->type = "phone";
+                $phone->country_id = $request->code_country[$key];
+                $phone->save();
+            }
+        }
+
+        if($request->fax_number)
+        {
+            
+            $phone = Phone::find($request->fax_id);
+            $phone->number = $request->fax_number;
+            $phone->type = "fix";
+            $phone->country_id = $request->code_country[2];
+            $phone->save();
+        }
+            
+        return redirect('staff');
     }
 
     /**
@@ -162,6 +224,6 @@ class StaffController extends Controller
     {
         $staff = Staff::findOrFail($staff);
         $staff->delete();
-        return redirect('staffs');
+        return redirect('staff');
     }
 }

@@ -60,7 +60,7 @@ class StaffRegisterController extends Controller
         $request->validate([
             'name' => 'required|unique:staff,name',
             'email' => 'required|unique:staff,email',
-            'password' => 'required|min:6|confirmed',
+            'password' => 'required|min:6',
             'first_name' => 'required',
             'last_name' => 'required',
             'birthday' => 'required',
@@ -81,8 +81,10 @@ class StaffRegisterController extends Controller
      * @return \Illuminate\Http\Response.
      */
     protected function store(Request $request)
-    {return dd($request);
-       $this->validateRequest($request);
+    {
+        
+        
+        $this->validateRequest($request);
         
         $AddressController = new AddressController();
         $AddressController->validateRequest($request);
@@ -94,7 +96,7 @@ class StaffRegisterController extends Controller
         $PhoneController->validateRequest($request);        
 
         $password = bcrypt($request->password);
-        $name = $request->company_name;
+        $name = $request->name;
         while(Staff::where('name', $request->name)->first()){
             $name = $name.'_'.rand(0,9);
         }
@@ -104,30 +106,27 @@ class StaffRegisterController extends Controller
             'password' => $password,
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
-            'birthday' => $request->birthday,
+            'birthday' => date('Y-m-d H:i:s',strtotime($request->birthday)),
             'gender' => $request->gender,
-            'profile_id' => $request->profile,
+            'profile_id' => $request->profile_id,
             ]);
 
-        $country = Country::where('name', $request->country)->firstOrFail();
-
-        $address = Address::create([
-            'address' => $request->address,
-            'address_two' => $request->address_two,
-            'full_name' => $request->full_name,
-            'country_id' => $country->id,
-            'city' => $request->city,
-            'zip_code' => $request->zip_code,
-            'longitude' => $request->longitude,
-            'latitude' => $request->latitude,
-            'addressable_type' => 'staff',
-            'addressable_id' => $staff->id,
-        ]);
+            $adress = new Address();
+            $adress->address = $request->address;
+            $adress->address_tow = $request->address_tow;
+            $adress->full_name = $request->full_name;
+            $adress->zip_code = $request->zip_code;
+            $adress->country_id = $request->country_id;
+            $adress->city = $request->city;
+            $adress->addressable_type = 'staff';
+            $adress->addressable_id = $staff->id;
+            $adress->save();
+             
 
         if($request->hasFile('path')) 
         {
             $picture = Picture::create([
-                'name' => $request->company_name,
+                'name' =>  time().'.'.$request->file('path')->extension(),
                 'tag' => "staff_avatar",
                 'path' => $request->file('path')->store('images/staffs', 'public'),
                 'extension' => $request->file('path')->extension(),
@@ -137,33 +136,33 @@ class StaffRegisterController extends Controller
         }
         
 
-        foreach($request->number as $key => $number)
+        foreach($request->numbers as $key => $number)
         {
             if($number != null)
             {
-                $phone = Phone::create([
-                    'number' => $number,
-                    'type' => 'fix',
-                    'phone_code_id' => $request->code_country[$key],
-                    'phoneable_type' => 'staff',
-                    'phoneable_id' => $staff->id,
-                ]);
+                
+                $phone = new Phone();
+                $phone->number = $number;
+                $phone->type = "phone";
+                $phone->country_id = $request->code_country[$key];
+                $phone->phoneable_type = 'staff';
+                $phone->phoneable_id = $staff->id;
+                $phone->save();
             }
         }
 
         if($request->fax_number)
             {
-                $phone = Phone::create([
-                    'number' => $request->fax_number,
-                    'type' => 'fax',
-                    'phone_code_id' => $request->code_country[2],
-                    'phoneable_type' => 'staff',
-                    'phoneable_id' => $staff->id,
-                ]);
+                $phone = new Phone();
+                $phone->number = $request->fax_number;
+                $phone->type = "fax";
+                $phone->country_id = $request->code_country[2];
+                $phone->phoneable_type = 'staff';
+                $phone->phoneable_id = $staff->id;
+                $phone->save();
             }
-        $this->guardsLogout();
-        auth()->guard('staff')->login($staff);
-        return redirect('/');
+            
+        return redirect('staff');
     }
 
      /**

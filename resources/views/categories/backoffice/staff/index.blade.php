@@ -31,8 +31,10 @@
                     <div class="col-xs-12">
                         <div class="row">
                             <div class="col-md-6 text-right no-padding">
-                            <a href="{{url('categories/create')}}" class="btn btn-primary btn-cons">New categories</a>
-                            </div>
+                                    @if (auth()->guard('staff')->user()->can('write','category'))
+                                        <a href="{{url('categories/create')}}" class="btn btn-primary btn-cons">New categories</a>
+                                    @endif
+                                    </div>
                             <div class="col-md-6">
                                 <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
                             </div>
@@ -58,9 +60,12 @@
                                 <td class="v-align-middle text-center"><strong>{{$category->categoryLang->first()->description}} </strong></td>                
                                 <td class="v-align-middle text-center"> @if(isset($category->category_id)){{$category->category->categoryLang->first()->reference}} @endif </td>             
                                 <td class="v-align-middle text-center">
+                                        @if (auth()->guard('staff')->user()->can('write','category'))
+
                                         <a href="{{url('categories/'.$category->id.'/edit')}}" class="btn btn-transparent"><i class="fa fa-pencil"></i></a>
                                         <a href="{{route('delete.category',['category'=>$category->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></a>
-                                </td> 
+                                        @endif
+                                    </td> 
                             </tr> 
                             @endforeach 
                     </tbody>

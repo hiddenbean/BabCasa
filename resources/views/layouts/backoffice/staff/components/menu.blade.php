@@ -115,6 +115,10 @@
             </span>
             <ul class="sub-menu">
                 <li>
+                    <a href="{{ url('/profiles') }}">Profiles</a>
+                    <span class="icon-thumbnail">Pr</span>
+                </li>
+                <li>
                     <a href="{{ url('/security') }}">Security</a>
                     <span class="icon-thumbnail">Se</span>
                 </li>

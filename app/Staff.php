@@ -49,7 +49,7 @@ class Staff extends Authenticatable
 
     public function phones()
     {
-        return $this->morphOne('App\Phone', 'phoneable');
+        return $this->morphMany('App\Phone', 'phoneable');
     }
     public function profile()
     {

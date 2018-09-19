@@ -23,7 +23,7 @@ class Profile extends Model
 
     public function permissions()
     {
-            return $this->belongsToMany('App\Permission');
+            return $this->belongsToMany('App\Permission')->withPivot('can_read', 'can_write');
     }
     public function staff()
     {

@@ -3,13 +3,21 @@
 namespace App\Http\Controllers;
 
 use App;
-use App\Profile;
+use App\profile;
 use App\Language;
-use App\ProfileLang;
+use App\Permission;
+use App\profileLang;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
-class ProfileController extends Controller
+
+class profileController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:staff');
+    }
+
    /**
      * Get a validator for an incoming registration request.
      *
@@ -30,8 +38,10 @@ class ProfileController extends Controller
      */
     public function index()
     {
+        // (auth()->guard('staff')->user()->can('read','category'))
+       
         $data['profiles'] = Profile::all();
-        return view('profiles.backoffice.staff.index',$data);
+        return view('profiles.backoffice.index',$data);
     }
     
     /**
@@ -42,7 +52,7 @@ class ProfileController extends Controller
     public function create()
     {
 
-        return view('profiles.backoffice.staff.create');
+        return view('profiles.backoffice.create');
     }
     
     /**
@@ -55,16 +65,15 @@ class ProfileController extends Controller
     {
         $this->validateRequest($request);
 
-        $Profile = new Profile();
-        $Profile->reference = $request->reference; 
-        $Profile->save(); 
-
-        $ProfileLang = new ProfileLang();
-        $ProfileLang->short_description = $request->short_description; 
-        $ProfileLang->description = $request->description; 
-        $ProfileLang->Profile_id = $Profile->id; 
-        $ProfileLang->lang_id = Language::where('symbol',App::getLocale())->first()->id;
-        $ProfileLang->save();
+        $profile = new Profile();
+        $profile->save(); 
+        
+        $profileLang = new ProfileLang();
+        $profileLang->reference = $request->reference; 
+        $profileLang->description = $request->description; 
+        $profileLang->profile_id = $profile->id; 
+        $profileLang->lang_id = Language::where('symbol',App::getLocale())->first()->id;
+        $profileLang->save();
         
         return redirect('profiles');
     }
@@ -72,54 +81,77 @@ class ProfileController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Profile  $Profile
+     * @param  \App\profile  $profile
      * @return \Illuminate\Http\Response
      */
-    public function show($Profile)
+    public function show($profile)
     {
         
-        $data['Profile'] = Profile::find($Profile);
-        return view('profiles.backoffice.staff.show',$data);
+        $data['profile'] = Profile::find($profile);
+        $data['permissions'] = Permission::all();
+        return view('profiles.backoffice.show',$data);
+    }
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\profile  $profile
+     * @return \Illuminate\Http\Response
+     */
+    public function permissions(Request $request,$profile)
+    {
+        $profile = Profile::find($profile);
+        $profile->permissions()->detach();
+
+        foreach($request->permissions as $key =>$permission)
+        {
+            $canRead = isset($request->can_read[$key]) ? 1 : 0 ;
+            $canWrite = isset($request->can_write[$key]) ? 1 : 0 ;
+            $profile->permissions()->attach($permission,['can_read'=>$canRead,'can_write'=>$canWrite]);
+
+        }
+        return redirect()->back();
+        
+        $data['permissions'] = Permission::all();
+        return view('profiles.backoffice.show',$data);
     }
     
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Profile  $Profile
+     * @param  \App\profile  $profile
      * @return \Illuminate\Http\Response
      */
-    public function edit($Profile)
+    public function edit($profile)
     {
-        $data['Profile'] = Profile::find($Profile);
-        return view('profiles.backoffice.staff.edit',$data);
+        $data['profile'] = Profile::find($profile);
+        // return $data;
+        return view('profiles.backoffice.edit',$data);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Profile  $Profile
+     * @param  \App\profile  $profile
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $Profile)
+    public function update(Request $request, $profile)
     {
         $request->validate([
-            'reference' => 'required|unique:profiles,reference,'.$Profile,
-            'short_description' => 'required|required|max:600',
+            'reference' => 'required|unique:profile_langs,reference,'.$profile.',profile_id',
             'description' => 'required|required|max:3000',
         ]);
         
-        $Profile = Profile::find($Profile);
-        $Profile->reference = $request->reference; 
-        $Profile->save();
-
-        $ProfileLangId = $Profile->ProfileLang->first()->id;
-
-        $ProfileLang = ProfileLang::find($ProfileLangId);
-        $ProfileLang->short_description = $request->short_description; 
-        $ProfileLang->description = $request->description; 
-        $ProfileLang->lang_id = Language::where('symbol',App::getLocale())->first()->id;
-        $ProfileLang->save(); 
+        $profile = Profile::find($profile);
+        $profile->save();
+        
+        $profileLangId = $profile->profileLang->first()->id;
+        
+        $profileLang = ProfileLang::find($profileLangId);
+        $profileLang->reference = $request->reference; 
+        $profileLang->description = $request->description; 
+        $profileLang->lang_id = Language::where('symbol',App::getLocale())->first()->id;
+        $profileLang->save(); 
         
         return redirect('profiles');
     }
@@ -127,14 +159,14 @@ class ProfileController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Profile  $Profile
+     * @param  \App\profile  $profile
      * @return \Illuminate\Http\Response
      */
-    public function destroy($Profile)
+    public function destroy($profile)
     {
         // récupérer photo
-        $Profile = Profile::findOrFail($Profile);
-       $Profile->delete();
+        $profile = Profile::findOrFail($profile);
+       $profile->delete();
        return redirect('profiles');
 
     }

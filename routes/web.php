@@ -69,11 +69,29 @@ Route::domain('staff.babcasa.com')->group(function (){
     });
 
     //////////reasons
-    Route::prefix('staffs')->group(function() {
+    Route::get('/sign-in', 'Auth\StaffLoginController@showLoginForm');
+    Route::prefix('staff')->group(function() {
         Route::get('/', 'StaffController@index'); 
         Route::get('create', 'StaffController@create'); 
         Route::get('{staff}', 'StaffController@show'); 
         Route::get('{staff}/edit', 'StaffController@edit'); 
+    }); 
+
+    //////////profiles
+    Route::prefix('profiles')->group(function() {
+        Route::get('/', 'ProfileController@index');
+        Route::get('/test', function () {
+            if (Gate::allows('update-post', 1)) {
+                return "it's working";
+            }
+            else 
+            {
+                return "it's not working";
+            }
+        });
+        Route::get('create', 'ProfileController@create'); 
+        Route::get('{profile}', 'profileController@show'); 
+        Route::get('{profile}/edit', 'ProfileController@edit'); 
     }); 
    
     
@@ -221,12 +239,22 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::post('{reason}', 'ReasonController@update'); 
         Route::delete('{reason}', 'ReasonController@destroy')->name('delete.reason');
     }); 
-      //////////STAFF
-      Route::prefix('staffs')->group(function() {
+    //////////STAFF
+    
+    Route::post('sign-in', 'Auth\StaffLoginController@login')->name('staff.login.submit');
+      Route::prefix('staff')->group(function() {
 
-        Route::post('/', 'StaffController@store'); 
+        Route::post('/', 'Auth\StaffRegisterController@store'); 
         Route::post('{staff}', 'StaffController@update'); 
         Route::delete('{staff}', 'StaffController@destroy')->name('delete.staff');
+    }); 
+      //////////profiles
+      Route::prefix('profiles')->group(function() {
+
+        Route::post('/', 'ProfileController@store'); 
+        Route::post('{profile}', 'ProfileController@update'); 
+        Route::post('{profile}/permissions', 'ProfileController@permissions'); 
+        Route::delete('{profile}', 'ProfileController@destroy')->name('delete.profile');
     }); 
     // Staff register route
     Route::post('register', 'auth\StaffRegisterController@store')->name('staff.register.submit'); 
@@ -447,15 +475,15 @@ Route::domain('staff.babcasa.com')->group(function (){
     }); 
 
 
-    Route::get('/staff', function () { 
-        return view('staff.backoffice.index');
-    }); 
-    Route::get('/staff/create', function () { 
-        return view('staff.backoffice.create');
-    }); 
-    Route::get('/staff/show', function () { 
-        return view('staff.backoffice.show');
-    }); 
+    // Route::get('/staff', function () { 
+    //     return view('staff.backoffice.index');
+    // }); 
+    // Route::get('/staff/create', function () { 
+    //     return view('staff.backoffice.create');
+    // }); 
+    // Route::get('/staff/show', function () { 
+    //     return view('staff.backoffice.show');
+    // }); 
 
     Route::get('/partner', function () { 
         return view('partners.backoffice.staff.index');

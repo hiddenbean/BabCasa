@@ -74,17 +74,20 @@ class Handler extends ExceptionHandler
             case 'partner' :
                 $this->authenticationCheck($guard) ? $login = "system.404" : $login = '/sign-in';
                 break;
+            case 'staff' :
+                $this->authenticationCheck($guard) ? $login = "system.404" : $login = '/sign-in';
+                break;
         }
         return redirect()->guest(url($login));
     }
 
     public function authenticationCheck($guard)
     {
-        $guards = array("partner");
+        $guards = array("partner","staff");
         $authenticated = false;
         $index = array_search($guard,$guards);
         $i=0;
-        while($i<1 && !$authenticated)
+        while($i<2 && !$authenticated)
         {
             if($i != $index)
             {

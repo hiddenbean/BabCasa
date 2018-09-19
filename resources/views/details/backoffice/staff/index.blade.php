@@ -31,7 +31,9 @@
                     <div class="col-xs-12">
                         <div class="row">
                             <div class="col-md-6 text-right no-padding">
+                                    @if (auth()->guard('staff')->user()->can('write','detail'))
                             <a href="{{url('details/create')}}" class="btn btn-primary btn-cons">New detail</a>
+                            @endif
                             </div>
                             <div class="col-md-6">
                                 <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
@@ -54,8 +56,11 @@
                             <tr class="order-progress"  >
                                 <td class="v-align-middle"><strong> {{$detail->detailLang->first()->value}} </strong></td>    
                                 <td class="v-align-middle text-center">
+                                        @if (auth()->guard('staff')->user()->can('write','detail'))
+
                                         <a href="{{url('details/'.$detail->id.'/edit')}}" class="btn btn-transparent"><i class="fa fa-pencil"></i></a>
                                         <a href="{{route('delete.detail',['detail'=>$detail->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></a>
+                                        @endif
                                </td> 
                             </tr> 
                         @endforeach

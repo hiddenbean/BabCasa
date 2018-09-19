@@ -31,7 +31,10 @@
                     <div class="col-xs-12">
                         <div class="row">
                             <div class="col-md-6 text-right no-padding">
+                                    @if (auth()->guard('staff')->user()->can('write','currency'))
+
                             <a href="{{url('currencies/create')}}" class="btn btn-primary btn-cons">New currency</a>
+                            @endif
                             </div>
                             <div class="col-md-6">
                                 <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
@@ -58,8 +61,11 @@
                             <td class="v-align-middle"><strong>{{$currency->symbole}}</strong></td>            
                             <td class="v-align-middle"><strong>{{$currency->country->name}}</strong></td>            
                             <td class="v-align-middle text-center">
+                                    @if (auth()->guard('staff')->user()->can('write','currency'))
+
                                     <a href="{{url('currencies/'.$currency->id.'/edit')}}" class="btn btn-transparent"><i class="fa fa-pencil"></i></a>
                                     <a href="{{route('delete.currency',['currency'=>$currency->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></a>
+                                    @endif
                            </td> 
                         </tr> 
                         @endforeach
