@@ -31,7 +31,7 @@
                     <div class="col-xs-12">
                         <div class="row">
                             <div class="col-md-6 text-right no-padding">
-                            <a href="{{url('partner/create')}}" class="btn btn-primary btn-cons">New partner</a>
+                            <a href="{{url('partners/create')}}" class="btn btn-primary btn-cons">New partner</a>
                             </div>
                             <div class="col-md-6">
                                 <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
@@ -51,52 +51,19 @@
                         <th style="width:10%" class="text-center"></th>                
                     </thead>
             
-                    <tbody>  
+                    <tbody> 
+                        @foreach($partners as $partner) 
                             <tr class="order-progress"  >
-                                <td class="v-align-middle"><a href="{{url('partner/show')}}"><strong> Kalil Wakil </strong></a></td>
-                                <td class="v-align-middle text-center"><strong> kalil-wakil@admin.com</strong></td>                
-                                <td class="v-align-middle text-center"> February 2, 1985 </td>       
+                                <td class="v-align-middle"><a href="{{url('partners/'.$partner->name)}}"><strong> {{$partner->company_name}} </strong></a></td>
+                                <td class="v-align-middle text-center"><strong> {{$partner->email}}</strong></td>                
+                                <td class="v-align-middle text-center"> {{date('M d, Y',strtotime($partner->created_at))}} </td>       
                                 <td class="v-align-middle text-center">
-                                    <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
-                                </td> 
+                                        <a href="{{url('partners/'.$partner->name.'/edit')}}" class="btn btn-transparent"><i class="fa fa-pencil"></i></a>
+                                        <a href="{{route('delete.partner',['partner'=>$partner->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></a>
+                                    </td> 
                             </tr> 
-                            <tr class="order-progress"  >
-                                <td class="v-align-middle"><a href="{{url('partner/show')}}"><strong> Abde Lkhabir Tareef </strong></a></td>
-                                <td class="v-align-middle text-center"><strong>  lkhabir-tareef@admin.com</strong></td>                
-                                <td class="v-align-middle text-center"> March 26, 1977 </td>       
-                                <td class="v-align-middle text-center">
-                                    <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
-                                </td> 
-                            </tr> 
-                            <tr class="order-progress"  >
-                                <td class="v-align-middle"><a href="{{url('partner/show')}}"><strong> Amjad Mazin </strong></a></td>
-                                <td class="v-align-middle text-center"><strong> amjad-mazin@admin.com</strong></td>                
-                                <td class="v-align-middle text-center"> April 8, 1969 </td>       
-                                <td class="v-align-middle text-center">
-                                    <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
-                                </td> 
-                            </tr> 
-                            <tr class="order-progress"  >
-                                <td class="v-align-middle"><a href="{{url('partner/show')}}"><strong> Wahid Haddad </strong></a></td>
-                                <td class="v-align-middle text-center"><strong> wahid.haddad@admin.com</strong></td>                
-                                <td class="v-align-middle text-center"> August 5, 1961 </td>       
-                                <td class="v-align-middle text-center">
-                                    <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
-                                </td> 
-                            </tr> 
-                            <tr class="order-progress"  >
-                                <td class="v-align-middle"><a href="{{url('partner/show')}}"><strong> Naila Shamoun </strong></a></td>
-                                <td class="v-align-middle text-center"><strong> naila.shamoun@admin.com</strong></td>                
-                                <td class="v-align-middle text-center"> June 2, 1964 </td>       
-                                <td class="v-align-middle text-center">
-                                    <button class="btn btn-transparent"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></button>
-                                </td> 
-                            </tr> 
+                        @endforeach
+                         
                     </tbody>
                 </table>
             </div>

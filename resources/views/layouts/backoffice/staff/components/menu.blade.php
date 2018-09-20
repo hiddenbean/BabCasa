@@ -16,7 +16,7 @@
             </span>
         </li>
         <li>
-            <a href="{{ url('/partner') }}">
+            <a href="{{ url('/partners') }}">
                 <span class="title">Partner</span>
             </a>
             <span class="icon-thumbnail">

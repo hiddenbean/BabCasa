@@ -2,27 +2,40 @@
 
 namespace App\Http\Controllers;
 
-use App\Phone;
-use App\Partner;
-use App\Guest;
 use DB;
-use Illuminate\Http\Request;
 use Auth;
+use App\Guest;
+use App\Phone;
+use App\Reason;
+use App\Partner;
+use App\Country;
+use App\Address;
+use App\Picture;
+use App\Language;
+use App\Http\Controllers\AddressController;
+use App\Http\Controllers\PictureController;
+use App\Http\Controllers\PhoneController;
+use Illuminate\Http\Request;
 
 class PartnerController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware('auth:partner');
+        // $this->middleware('auth:partner');
     }
     
     protected function validateRequest(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:partner,email',
-            'password' => 'required|min:6|confirmed',
+            'company_name' => 'required|unique:partners,company_name',
+            'name' => 'required|unique:partners,name',
+            'email' => 'required|email|unique:partners,email',
+            'password' => 'required|min:6',
+            'about' => 'required',
+            'trade_registry' => 'required',
+            'ice' => 'required',
+            'taxe_id' => 'required',
         ]);
     }
 
@@ -38,7 +51,8 @@ class PartnerController extends Controller
      */
     public function index()
     {
-        //
+        $data['partners'] = Partner::all();
+        return view('partners.backoffice.staff.index',$data);
     }
 
     /**
@@ -48,7 +62,8 @@ class PartnerController extends Controller
      */
     public function create()
     {
-        //
+        $data['countries'] = Country::all();
+        return view('partners.backoffice.partner.create',$data);
     }
 
     /**
@@ -60,12 +75,86 @@ class PartnerController extends Controller
     public function store(Request $request)
     {
         $this->validateRequest($request);
+        
+        $AddressController = new AddressController();
+        $AddressController->validateRequest($request);
+        
+        $PictureController = new PictureController();
+        $PictureController->validateRequest($request);
+        
+        $PhoneController = new PhoneController();
+        $PhoneController->validateRequest($request);        
+        
         $password = bcrypt($request->password);
-        $name = str_before($request->email, '@');
-        while(PartnerAccount::where('name', $name)->first()){
+        $name = $request->company_name;
+        while(Partner::where('name', $request->company_name)->first()){
             $name = $name.'_'.rand(0,9);
         }
-        //
+        $is_register_to_newsletter = ($request->is_register_to_newsletter=='on') ? 1 : 0;
+        $partner = Partner::create([
+            'company_name' => $request->company_name,
+            'name' => $name,
+            'email' =>  $request->email,
+            'password' => $password,
+            'about' => $request->about,
+            'trade_registry' => $request->trade_registry,
+            'is_register_to_newsletter' => $is_register_to_newsletter,
+            'ice' => $request->ice,
+            'taxe_id' => $request->tax_id,
+            ]);
+
+            $address = new  Address();
+            $address->address = $request->address;
+            $address->address_tow = $request->address_tow;
+            $address->full_name = $request->full_name;
+            $address->zip_code = $request->zip_code;
+            $address->country_id = $request->country_id;
+            $address->city = $request->city;
+            $address->addressable_type = 'partner';
+            $address->addressable_id = $partner->id;
+            $address->save();
+            
+
+        if($request->hasFile('path')) 
+        {
+            $picture = Picture::create([
+                'name' => $request->company_name,
+                'tag' => "partner_avatar",
+                'path' => $request->file('path')->store('images/partners', 'public'),
+                'extension' => $request->file('path')->extension(),
+                'pictureable_type' => 'partner',
+                'pictureable_id' => $partner->id,
+            ]);
+        }
+        
+
+        foreach($request->numbers as $key => $number)
+        {
+            if($number != null)
+            {
+                $phone = new Phone();
+                $phone->number = $number;
+                $phone->type = "phone";
+                $phone->country_id = $request->code_country[$key];
+                $phone->phoneable_type = 'partner';
+                $phone->phoneable_id = $partner->id;
+                $phone->save();
+            }
+        }
+
+        if($request->fax_number)
+            {
+
+                $phone = new Phone();
+                $phone->number = $request->fax_number;
+                $phone->type = "fix";
+                $phone->country_id = $request->code_country[2];
+                $phone->phoneable_type = 'partner';
+                $phone->phoneable_id = $partner->id;
+                $phone->save();
+            }  
+            
+            return redirect('partners');
     }
 
     /**
@@ -76,8 +165,10 @@ class PartnerController extends Controller
      */
     public function show($partner)
     {
-        $data['partner'] = Partner::findOrfail($partner);
-        return $data;
+        $data['reasons'] = Reason::all();
+        $data['partner'] = Partner::where('name',$partner)->first();
+        // return $data['partner']->status->first()->is_approved;
+        return view('partners.backoffice.staff.show',$data);
     }
 
     /**
@@ -86,13 +177,12 @@ class PartnerController extends Controller
      * @param  \App\Partner  $partner
      * @return \Illuminate\Http\Response
      */
-    public function edit()
+    public function edit($partner)
     {
-        isset($request->partner) ? $partner = $request->partner : $partner = auth()->guard('partner')->user()->name;
-        $partner = Partner::where('name', $partner)->firstOrFail();
-        return view('system.backoffice.partner.settings',[
-            'partner' => $partner,
-        ]);
+        $data['countries'] = Country::all();
+        $data['partner'] = Partner::where('name',$partner)->first();
+        return view('partners.backoffice.staff.edit',$data);
+
     }
 
     /**
@@ -105,107 +195,79 @@ class PartnerController extends Controller
     public function update(Request $request, $partner)
     {
         $request->validate([
-            'name' => 'required|sometimes',
-            'email' => 'required',
-            'company_name' => 'required|sometimes',
-            'trade_registry' => 'required|numeric',
-            'ice' => 'required|numeric',
-            'about' => 'nullable',
-            ]);
-            
-        $AddressController = new AddressController();
-        $AddressController->validateRequest($request);
-
-        // $PhoneController = new PhoneController();
-        // $PhoneController->validateRequest($request);
-
-        $request->validate([
-            'number.0' => 'required|numeric',
-            'number.1' => 'nullable|numeric',
-            'number.2' => 'nullable|numeric',
-            'code_country.0' => 'required',
-            'code_country.1' => 'nullable',
-            'code_country.2' => 'nullable',
+            'company_name' => 'required|unique:partners,company_name,'.$partner,
+            'email' => 'required|email|unique:partners,email,'.$partner,
+            'about' => 'required',
+            'trade_registry' => 'required',
+            'ice' => 'required',
+            'taxe_id' => 'required',
         ]);
         
-        isset($request->partner) ? $partner = $request->partner : $partner = auth()->guard('partner')->user()->name;
-        $partner = Partner::where('name', $partner)->firstOrFail();
-        // La modification des infos de parteanire
-        $partner->company_name  =  $request->input('company_name');
-        if($request->input('name') != $partner->name)
-        {
-            $reqeust->validate([
-                'name' => 'unique:partners,name',
-            ]);
-            $partner->name  =  $request->input('name');
-        }
-
-        if($request->input('email') != $partner->email)
-        {
-            $request->validate([
-                'email' => 'unique:partners,email',
-            ]);
-            $partner->email  =  $request->input('email');
-        }
+        $AddressController = new AddressController();
+        $AddressController->validateRequest($request);
         
-        $partner->trade_registry  =  $request->input('trade_registry');
-        $partner->ice  =  $request->input('ice');
-        $partner->about  =  $request->input('about');
-        $partner->save();
+        $request->validate([
+            'numbers.0' => 'required|numeric|unique:phones,number,'.$request->phone_id[0],
+            'numbers.1' => 'sometimes|numeric|unique:phones,number,'.$request->phone_id[1],
+            'code_country.0' => 'required',
+            'code_country.1' => 'required',
+        ]);      
+        $is_register_to_newsletter = ($request->is_register_to_newsletter=='on') ? 1 : 0;
 
+        $partner = partner::find($partner);
+        $partner->company_name = $request->company_name;
+        $partner->about = $request->about;
+        $partner->email = $request->email;
+        $partner->trade_registry = $request->trade_registry;
+        $partner->is_register_to_newsletter = $is_register_to_newsletter;
+        $partner->ice = $request->ice;
+        $partner->taxe_id = $request->taxe_id;
+        $partner->save();
+        
+        $address = $partner->address;
+        $address->address = $request->address;
+        $address->address_tow = $request->address_tow;
+        $address->full_name = $request->full_name;
+        $address->zip_code = $request->zip_code;
+        $address->country_id = $request->country_id;
+        $address->city = $request->city;
+        $address->save();
+             
         if($request->hasFile('path')) 
         {
             $picture = $partner->picture;
-            $picture->path = $request->file('path')->store('images/partners', 'public');
-            $picture->extension = $request->file('path')->extension();
+            $picture->name = time().'.'.$request->file('path')->extension();
+            $picture->tag = "partner";
+            $picture->path = $request->path->store('images/partner', 'public');
+            $picture->extension = $request->path->extension();
             $picture->save();
         }
+        
 
-        foreach($request->number as $key => $phone_number)
+        foreach($request->numbers as $key => $number)
         {
-            if($phone_number == null && isset($request->id[$key]))
+            if($number != null)
             {
-                $phone = Phone::find($request->id[$key]);
-                $phone->delete();
-            }
-            else if($phone_number != null)
-            {
-                if($request->id[$key])
-                {
-                    $phone = Phone::find($request->id[$key]);
-                    $phone->number = $phone_number;
-                    $phone->save();
-                }
-                else
-                {
-                    $phone = Phone::withTrashed()->where('number', $phone_number)->first();
-                    if($phone)
-                    {
-                        $phone->restore();
-                    }
-                    else
-                    {
-                        $phone = Phone::create([
-                            'number' => $phone_number,
-                            'type' => $request->type[$key],
-                            'code_country_id' => $request->code_country[$key],
-                            'phoneable_type' => 'partner',
-                            'phoneable_id' => $partner->id,
-                        ]);
-                    }
-                }
+               
+                $phone = Phone::find($request->phone_id[$key]);
+                $phone->number = $number;
+                $phone->type = "phone";
+                $phone->country_id = $request->code_country[$key];
+                $phone->save();
             }
         }
-        // La modificatuin des adresses
-        $address = $partner->address;
-        $address->country = $request->input('country');
-        $address->city = $request->input('city');
-        $address->address = $request->input('address');
-        $address->address_two = $request->input('address_two');
-        $address->full_name = $request->input('full_name');
-        $address->zip_code = $request->input('zip_code');
-        $partner->address->save();
-        return back()->with('partner', $partner);
+
+        if($request->fax_number)
+        {
+            
+            $phone = Phone::find($request->fax_id);
+            $phone->number = $request->fax_number;
+            $phone->type = "fix";
+            $phone->country_id = $request->code_country[2];
+            $phone->save();
+        }
+            
+        return redirect('partners');
     }
 
     /**

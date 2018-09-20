@@ -168,6 +168,7 @@ class StaffController extends Controller
         $staff->profile_id = $request->profile_id;
         $staff->birthday = date('Y-m-d H:i:s',strtotime($request->birthday));
         $staff->save();
+        
         $address = $staff->address;
         $address->address = $request->address;
         $address->address_tow = $request->address_tow;
@@ -214,6 +215,32 @@ class StaffController extends Controller
         return redirect('staff');
     }
 
+    /**
+     * desactive the specified resource from storage.
+     *
+     * @param  \App\Staff  $staff
+     * @return \Illuminate\Http\Response
+     */
+    public function desactive($staff)
+    {
+        $staff = Staff::findOrFail($staff);
+        $staff->status = 0;
+        $staff->save();
+        return redirect('staff');
+    }
+    /**
+     * active the specified resource from storage.
+     *
+     * @param  \App\Staff  $staff
+     * @return \Illuminate\Http\Response
+     */
+    public function active($staff)
+    {
+        $staff = Staff::findOrFail($staff);
+        $staff->status = 1;
+        $staff->save();
+        return redirect('staff');
+    }
     /**
      * Remove the specified resource from storage.
      *

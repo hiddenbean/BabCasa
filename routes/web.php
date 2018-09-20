@@ -77,6 +77,13 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::get('{staff}/edit', 'StaffController@edit'); 
     }); 
 
+    Route::prefix('partners')->group(function() {
+        Route::get('/', 'PartnerController@index'); 
+        Route::get('create', 'PartnerController@create'); 
+        Route::get('{partner}', 'PartnerController@show'); 
+        Route::get('{partner}/edit', 'PartnerController@edit'); 
+    }); 
+
     //////////profiles
     Route::prefix('profiles')->group(function() {
         Route::get('/', 'ProfileController@index');
@@ -239,6 +246,13 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::post('{reason}', 'ReasonController@update'); 
         Route::delete('{reason}', 'ReasonController@destroy')->name('delete.reason');
     }); 
+
+      //////////STATUS
+      Route::prefix('statuses')->group(function() {
+        Route::post('/','StatusController@store');
+        Route::post('{reason}', 'StatusController@update'); 
+        Route::delete('{reason}', 'StatusController@destroy')->name('delete.reason');
+    }); 
     //////////STAFF
     
     Route::post('sign-in', 'Auth\StaffLoginController@login')->name('staff.login.submit');
@@ -246,7 +260,17 @@ Route::domain('staff.babcasa.com')->group(function (){
 
         Route::post('/', 'Auth\StaffRegisterController@store'); 
         Route::post('{staff}', 'StaffController@update'); 
+        Route::post('{staff}/active', 'StaffController@active')->name('active.staff');
+        Route::post('{staff}/desactive', 'StaffController@desactive')->name('desactive.staff');
         Route::delete('{staff}', 'StaffController@destroy')->name('delete.staff');
+    }); 
+      Route::prefix('partners')->group(function() {
+
+        Route::post('/', 'PartnerController@store'); 
+        Route::post('{partner}', 'PartnerController@update'); 
+        // Route::post('{partner}/active', 'PartnerController@active')->name('active.partner');
+        // Route::post('{partner}/desactive', 'PartnerController@desactive')->name('desactive.partner');
+        Route::delete('{partner}', 'PartnerController@destroy')->name('delete.partner');
     }); 
       //////////profiles
       Route::prefix('profiles')->group(function() {

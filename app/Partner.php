@@ -37,6 +37,14 @@ class Partner extends Authenticatable
     {
         return $this->morphMany('App\Phone', 'phoneable');
     }
+    public function statuses()
+    {
+        return $this->hasMany('App\Status');
+    }
+    public function status()
+    {
+        return $this->statuses()->orderBy('id', 'desc');
+    }
     
     public static function boot()
     {

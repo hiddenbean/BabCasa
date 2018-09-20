@@ -46,9 +46,10 @@
                 <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
                     <thead>
                         <th style="width:20%" class="text-center">Name</th>
-                        <th style="width:10%" class="text-center">Email</th> 
+                        <th style="width:20%" class="text-center">Email</th> 
                         <th style="width:10%" class="text-center">Creation date</th> 
                         <th style="width:10%" class="text-center">Profile type</th>                
+                        <th style="width:10%" class="text-center">Status</th>                
                         <th style="width:10%" class="text-center"></th>                
                     </thead>
             
@@ -59,6 +60,7 @@
                                 <td class="v-align-middle text-center"><strong> {{$staff->email}}</strong></td>                
                                 <td class="v-align-middle text-center">{{date('d-m-Y', strtotime($staff->created_at))}}</td>      
                                 <td class="v-align-middle text-center"><strong>{{$staff->profile->profileLang->first()->reference}}</strong></td> 
+                                <td class="v-align-middle text-center"><strong>@if($staff->status) Active @else Desactive @endif</strong></td> 
                                 <td class="v-align-middle text-center">
                                         <a href="{{url('staff/'.$staff->name.'/edit')}}" class="btn btn-transparent"><i class="fa fa-pencil"></i></a>
                                         <a href="{{route('delete.staff',['staff'=>$staff->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></a>

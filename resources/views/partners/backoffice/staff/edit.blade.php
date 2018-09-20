@@ -1,4 +1,4 @@
-@extends('layouts.backoffice.staff.app')
+@extends('layouts.backoffice.partner.app')
 @section('css_before')
     <link href="{{ asset('plugins/bootstrap-datepicker/css/datepicker3.css') }}" rel="stylesheet" type="text/css" media="screen">
     <link href="{{ asset('plugins/switchery/css/switchery.min.css') }}" rel="stylesheet" type="text/css" media="screen" />
@@ -32,13 +32,12 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-xl-12">
-                    <form id="form-personal"  method="POST" action="{{url('partners')}}" enctype="multipart/form-data">
+                    <form id="form-personal"  method="POST" action="{{url('partners/'.$partner->id)}}" enctype="multipart/form-data">
                         @csrf
                         <!-- START TABS -->
                         <ul class="nav nav-tabs nav-tabs-simple nav-tabs-left bg-white" id="tab-3">
                             <li class="nav-item">
                                 <a href="#" class="active show" data-toggle="tab" data-target="#general">General information</a>
-                                {{$errors}}
                             </li>
                             <li class="nav-item">
                                 <a href="#" data-toggle="tab" data-target="#address" class="">Address & Phone</a>
@@ -51,7 +50,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Company name</label>
-                                            <input type="text" class="form-control" name="company_name" placeholder="Company name" value="{{ old('company_name') }}">
+                                            <input type="text" class="form-control" name="company_name" placeholder="Company name" value="{{$partner->company_name}}">
                                         </div>
                                         <label class='error' for='company_name'>
                                                 @if ($errors->has('company_name'))
@@ -64,7 +63,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Name</label>
-                                            <input type="text" class="form-control" name="name" placeholder="Name" value="{{ old('name') }}">
+                                            <input type="text" class="form-control" name="name" placeholder="Name" value="{{$partner->name }}" disabled>
                                         </div>
                                         <label class='error' for='name'>
                                                 @if ($errors->has('name'))
@@ -77,7 +76,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Email</label>
-                                            <input type="email" class="form-control" name="email" placeholder="Email" value="{{ old('email') }}">
+                                            <input type="email" class="form-control" name="email" placeholder="Email" value="{{$partner->email}}">
                                         </div>
                                         <label class='error' for='email'>
                                                 @if ($errors->has('email'))
@@ -89,21 +88,8 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
-                                            <label>Password</label>
-                                            <input type="password" class="form-control" name="password" placeholder="Password" >
-                                        </div>
-                                        <label class='error' for='password'>
-                                                @if ($errors->has('password'))
-                                                    {{ $errors->first('password') }}
-                                                @endif
-                                        </label> 
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group form-group-default">
                                             <label>About</label>
-                                            <textarea name="about" class="form-control">{{old('about')}}
+                                            <textarea name="about" class="form-control">{{$partner->about}}
                                             </textarea>
                                             <label class='error' for='about'>
                                                 @if ($errors->has('about'))
@@ -117,7 +103,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group form-group-default">
                                             <label>Trade registry</label>
-                                            <input type="text" class="form-control" name="trade_registry" placeholder="Trade registry" value="{{ old('trade_registry') }}">
+                                            <input type="text" class="form-control" name="trade_registry" placeholder="Trade registry" value="{{$partner->trade_registry}}">
                                         </div>
                                         <label class='error' for='trade_registry'>
                                                 @if ($errors->has('trade_registry'))
@@ -128,7 +114,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group form-group-default">
                                             <label>Ice</label>
-                                            <input type="text" class="form-control" name="ice" placeholder="Ice" value="{{ old('ice') }}">
+                                            <input type="text" class="form-control" name="ice" placeholder="Ice" value="{{$partner->ice}}">
                                         </div>
                                         <label class='error' for='ice'>
                                                 @if ($errors->has('ice'))
@@ -142,7 +128,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Taxe id</label>
-                                            <input type="passwod" class="form-control" name="taxe_id" placeholder="Taxe id" value="{{ old('taxe_id') }}">
+                                            <input type="passwod" class="form-control" name="taxe_id" placeholder="Taxe id" value="{{$partner->taxe_id}}">
                                         </div>
                                         <label class='error' for='taxe_id'>
                                                 @if ($errors->has('taxe_id'))
@@ -153,15 +139,14 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <input type="checkbox" data-init-plugin="switchery" data-size="small" data-color="primary" checked="checked" /> 
+                                        <input type="checkbox" data-init-plugin="switchery" name="is_register_to_newsletter" data-size="small" data-color="primary" @if($partner->is_register_to_newsletter) checked="checked" @endif /> 
                                         <label for="">Is register to newsletter</label>
                                     </div>
                                 </div> 
-                                
                                 <div class="row">
                                     <div class="col-sm-2">
                                         <div class="form-group form-group-default">
-                                            <img src="{{ asset('img/img_placeholder.png') }}" id="image_preview_partner"
+                                            <img src="{{{ Storage::url($partner->picture->path)}}}" id="image_preview_partner"
                                                 alt="" srcset="" width="100">
                                             <label for="path_partner" class="choose_photo">
                                                 <span>
@@ -183,7 +168,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Address</label>
-                                            <input type="text" class="form-control" name="address" placeholder="Name" value="{{ old('address') }}">
+                                            <input type="text" class="form-control" name="address" placeholder="Name" value="{{$partner->address->address}}">
                                         </div>
                                         <label class='error' for='address'>
                                                 @if ($errors->has('address'))
@@ -196,7 +181,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Address tow</label>
-                                            <input type="text" class="form-control" name="address_tow" placeholder="Name" value="{{ old('address_tow') }}">
+                                            <input type="text" class="form-control" name="address_tow" placeholder="Name" value="{{$partner->address->address_tow}}">
                                         </div>
                                     </div>
                                 </div>
@@ -204,7 +189,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group form-group-default">
                                             <label>Full name</label>
-                                            <input type="text" class="form-control" name="full_name" placeholder="Full name" value="{{ old('full_name') }}">
+                                            <input type="text" class="form-control" name="full_name" placeholder="Full name" value="{{ $partner->address->full_name}}">
                                         </div>
                                         <label class='error' for='full_name'>
                                                 @if ($errors->has('full_name'))
@@ -215,7 +200,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group form-group-default">
                                             <label>Zip code</label>
-                                            <input type="text" class="form-control" name="zip_code" placeholder="Zip code" value="{{ old('zip_code') }}" maxlength="6" >
+                                            <input type="text" class="form-control" name="zip_code" placeholder="Zip code" value="{{$partner->address->zip_code}}" maxlength="6" >
                                         </div>
                                         <label class='error' for='zip_code'>
                                                 @if ($errors->has('zip_code'))
@@ -241,7 +226,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group form-group-default">
                                             <label>City</label>
-                                            <input type="text" class="form-control" name="city" placeholder="City" value="{{ old('city') }}">
+                                            <input type="text" class="form-control" name="city" placeholder="City" value="{{$partner->address->city}}">
                                         </div>
                                         <label class='error' for='city'>
                                                 @if ($errors->has('city'))
@@ -254,15 +239,16 @@
                                     <div class="col-md-4">
                                             <div class="form-group form-group-default input-group">
                                                     <div class="cs-input-group-addon input-group-addon d-flex">
-                                                        <select class="cs-select cs-skin-slide cs-transparent" name="code_country[]" data-init-plugin="cs-select">
+                                                        <select class="cs-select cs-skin-slide cs-transparent" name="code_country[]"  data-init-plugin="cs-select">
                                                                 @foreach($countries as $country)
-                                                                <option value="{{$country->id}}" >{{$country->code}}</option>
+                                                                <option value="{{$country->id}}"  @if($partner->phones[0]->country->country_id == $country->id) selected @endif >{{$country->code}}</option>
                                                                     @endforeach 
                                                         </select>
                                                     </div>
+                                                <input type="hidden" name="phone_id[]" value="{{$partner->phones[0]->id}}">
                                                     <div class="form-input-group flex-1">
                                                         <label>Phone one</label>
-                                                        <input type="text" id="phone" name="numbers[]" value="{{ old('numbers.0') }}" class="form-control">
+                                                        <input type="text" id="phone" name="numbers[]" value="{{$partner->phones[0]->number}}" class="form-control">
                                                         @if ($errors->has('numbers.0'))
                                                         <label class='error' for='phone'>{{ $errors->first('numbers.0') }}</label>
                                                         @endif
@@ -275,13 +261,14 @@
                                                     <div class="cs-input-group-addon input-group-addon d-flex">
                                                         <select class="cs-select cs-skin-slide cs-transparent" name="code_country[]" data-init-plugin="cs-select">
                                                                 @foreach($countries as $country)
-                                                                <option value="{{$country->id}}" >{{$country->code}}</option>
+                                                                <option value="{{$country->id}}"  @if($partner->phones[1]->country->country_id == $country->id) selected @endif >{{$country->code}}</option>
                                                                     @endforeach 
                                                         </select>
                                                     </div>
+                                                    <input type="hidden" name="phone_id[]" value="{{$partner->phones[1]->id}}">
                                                     <div class="form-input-group flex-1">
                                                         <label>Phone tow</label>
-                                                        <input type="text" id="phone" name="numbers[]" value="{{ old('numbers.1') }}" class="form-control">
+                                                        <input type="text" id="phone" name="numbers[]" value="{{$partner->phones[1]->number}}" class="form-control">
                                                         @if ($errors->has('numbers.1'))
                                                         <label class='error' for='phone'>{{ $errors->first('numbers .1') }}</label>
                                                         @endif
@@ -293,13 +280,14 @@
                                                     <div class="cs-input-group-addon input-group-addon d-flex">
                                                         <select class="cs-select cs-skin-slide cs-transparent" name="code_country[]" data-init-plugin="cs-select">
                                                                 @foreach($countries as $country)
-                                                                <option value="{{$country->id}}" >{{$country->code}}</option>
+                                                                <option value="{{$country->id}}"  @if($partner->phones[2]->country->country_id == $country->id) selected @endif >{{$country->code}}</option>
                                                                     @endforeach 
                                                         </select>
                                                     </div>
+                                                    <input type="hidden" name="fax_id" value="{{$partner->phones[2]->id}}">
                                                     <div class="form-input-group flex-1">
                                                         <label>Fax</label>
-                                                        <input type="text" id="phone" name="fax_number" value="{{ old('fax_number') }}" class="form-control">
+                                                        <input type="text" id="phone" name="fax_number" value="{{$partner->phones[2]->number}}" class="form-control">
                                                         @if ($errors->has('fax_number'))
                                                         <label class='error' for='phone'>{{ $errors->first('fax_number') }}</label>
                                                         @endif

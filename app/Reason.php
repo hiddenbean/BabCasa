@@ -22,4 +22,8 @@ class Reason extends Model
         return $this->reasonLangs()->where('lang_id',$langId);
 
     }
+    public function statuses()
+    {
+        return $this->belongsToMany('App\Status')->withTimestamps();
+    }
 }

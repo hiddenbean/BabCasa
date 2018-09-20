@@ -104,9 +104,18 @@
                         <div class="col-md-12">
                             <h3> Deactivate this account</h3>
                             Deactivating your account will disable your profile and remove your name and photo from most things you've shared on Babcasa. Some information may still be visible to others.
-                            <form action="" method="post" class="mt-2">
+                           @if($staff->status)
+                            <form action="{{route('desactive.staff',['staff'=>$staff->id])}}" method="post" class="mt-2">
+                                @csrf
                                 <button type="submit" class="btn btn-danger" >Deactivate</button>
                             </form>
+                            @else 
+                            <form action="{{route('active.staff',['staff'=>$staff->id])}}" method="post" class="mt-2">
+                                @csrf
+                                <button type="submit" class="btn btn-info" >Activate</button>
+                            </form>
+                            @endif
+                            {{-- <a href="{{route('delete.staff',['staff'=>$staff->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-danger">Deactivate</a> --}}
                         </div>
                     </div>  
                 </div>

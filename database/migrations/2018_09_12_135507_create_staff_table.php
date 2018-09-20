@@ -23,6 +23,7 @@ class CreateStaffTable extends Migration
             $table->date('birthday');
             $table->string('gender');
             $table->integer('profile_id');
+            $table->boolean('status')->default(1);
             $table->softDeletes();
             $table->timestamps();
         });
