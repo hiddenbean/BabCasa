@@ -9,7 +9,7 @@
                 <div class="header-right">
                     <div class="top-bar-list">
                         <a href="#">
-                            <p>Buyer protection</p>
+                            <p>Buyer protectio</p>
                         </a>
                     </div>
                     <div class="top-bar-list">

@@ -56,7 +56,7 @@
                                                         <br>
                                                         <div class="row">
                                                             <div class="col-md-4">
-                                                                <strong>Navigateur</strong>   
+                                                                <strong>Browser</strong>   
                                                             </div>
                                                             <div class="col-md-8">
                                                                     Chrome
@@ -72,7 +72,7 @@
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-md-4">
-                                                                <strong>Derniere activeite</strong> 
+                                                                <strong>Last Activity</strong> 
                                                             </div>
                                                             <div class="col-md-8">
                                                                    5h

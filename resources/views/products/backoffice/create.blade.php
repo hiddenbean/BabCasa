@@ -25,102 +25,100 @@
 <!-- breadcrumb end -->
 
 <div class="container-fluid container-fixed-lg">
-    <div class="card ">
-        <div class="card-header">
-            <h4 class="m-t-0 m-b-0"> <strong>Create new product</strong> </h4>
-        </div>
-        <div class="card-body">
-            <div class="row"> 
-                <div class="col-md-4 tree-right">
-                    <div id="default-tree" class="m-b-20">
-                        <ul id="treeData" class="hidden"> 
-                            <li id="id4" class="folder expanded">Document with some children (expanded on init)
-                            <ul>
-                                <li id="id4.1" class="expanded">Sub-item 4.1 (active and focus on init)
-                                <ul>
-                                    <li id="id4.1.1">Sub-item 4.1.1</li>
-                                    <li id="id4.1.2">Sub-item 4.1.2</li>
-                                </ul>
-                                </li>
-                            </ul>
-                            </li>
-                        </ul>
+    <div class="row"> 
+        <div class="col-xl-7 col-md-6">
+            <div class="card card-transparent">
+                <div class="card-header">
+                    <div class="card-title">
+                        <strong>
+                            Product creation form
+                        </strong>
                     </div>
+                    <h4 class="no-margin">
+                        You can use this form to create a simple or complex products,
+                            <br>even more unlimited variants and customizations.
+                    </h4>
+                    <small>
+                        <a href="#">
+                            Need help <i class="fa fa-question-circle"></i>
+                        </a>
+                    </small>
                 </div>
-                <div class="col-md-8">
-                    <form id="form-personal">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group form-group-default">
-                                        <label>Reference</label>
-                                        <input type="text" class="form-control" name="reference" placeholder="Reference">
+                <div class="card-body">
+                    <form id="form-personal" class="m-t-20">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group form-group-default">
+                                    <label>Reference</label>
+                                    <input type="text" class="form-control" name="reference" placeholder="Reference">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col-md-12">
+                                <div class="form-group form-group-default required has-error">
+                                    <label>Short description</label>
+                                    <textarea type="text" class="form-control error" name="short_description"></textarea>
+                                </div><label class="error" for="short_description">This field is required.</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group form-group-default">
+                                    <label>Description</label>
+                                    <textarea type="text" class="form-control error" name="description" rows="15"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group form-group-default">
+                                    <div class="image_preview text-center">
+                                        <img src="{{ asset('img/img_placeholder.png') }}" id="image_preview_product"
+                                            alt="" srcset="" height="150">
                                     </div>
+                                    <label for="path_product" class="choose_photo">
+                                        <span>
+                                            <i class="fa fa-image"></i> Choisir une photo</span>
+                                    </label>
+                                    <input type="file" id="path_product" name="path" class="form-control hide"
+                                        multiple="">
                                 </div>
                             </div>
-                            <div class="row clearfix">
-                                <div class="col-md-12">
-                                    <div class="form-group form-group-default required has-error">
-                                        <label>Short description</label>
-                                        <textarea type="text" class="form-control error" name="short_description"></textarea>
-                                    </div><label class="error" for="short_description">This field is required.</label>
-                                </div>
-                            </div>
+                        </div>
+                        <div id="root">
                             <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group form-group-default">
-                                        <label>Description</label>
-                                        <textarea type="text" class="form-control error" name="description" rows="15"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="form-group form-group-default">
-                                        <div class="image_preview text-center">
-                                            <img src="{{ asset('img/img_placeholder.png') }}" id="image_preview_product"
-                                                alt="" srcset="" height="150">
+                                <div class="col-md-6">
+                                    <div class="form-group form-group-default input-group">
+                                        <div class="form-input-group">
+                                            <label>Price</label>
+                                            <input type="text" class="form-control" placeholder="Price" id="datepicker-component2">
                                         </div>
-                                        <label for="path_product" class="choose_photo">
-                                            <span>
-                                                <i class="fa fa-image"></i> Choisir une photo</span>
-                                        </label>
-                                        <input type="file" id="path_product" name="path" class="form-control hide"
-                                            multiple="">
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="root">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group form-group-default input-group">
-                                            <div class="form-input-group">
-                                                <label>Price</label>
-                                                <input type="text" class="form-control" placeholder="Price" id="datepicker-component2">
-                                            </div>
-                                            <div class="input-group-append ">
-                                                <span class="input-group-text"><i class="currency">$</i></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6" class="attr_block">
-                                        <div class="form-group form-group-default">
-                                            <label>Quantity</label>
-                                            <input type="text" class="form-control error" name="quantity">
+                                        <div class="input-group-append ">
+                                            <span class="input-group-text"><i class="currency">$</i></span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row m-b-15">
-                                    <div class="col-md-12"> 
-                                        <a class="ajax m-b-5" href="{{ url('products/select_attr?block=root') }}">It have option</a>  
+                                <div class="col-md-6" class="attr_block">
+                                    <div class="form-group form-group-default">
+                                        <label>Quantity</label>
+                                        <input type="text" class="form-control error" name="quantity">
                                     </div>
                                 </div>
                             </div>
-                            <button class="btn btn-primary m-t-15" type="submit">Save</button>
+                            <div class="row m-b-15">
+                                <div class="col-md-12"> 
+                                    <a class="ajax m-b-5" href="{{ url('products/select_attr?block=root') }}">It have option</a>  
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary m-t-15" type="submit">Save</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 @endsection
 

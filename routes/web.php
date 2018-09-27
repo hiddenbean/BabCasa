@@ -83,7 +83,6 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::get('{staff}', 'StaffController@show'); 
         Route::get('{staff}/edit', 'StaffController@edit'); 
     }); 
-   
     
 });
 
@@ -247,11 +246,10 @@ Route::domain('staff.babcasa.com')->group(function (){
 
 
 
-
-
 // UI
 use App\Services\Ajax\Ajax;
 use Illuminate\Http\Request;
+
 Route::domain('partner.babcasa.com')->group(function (){
 
 
