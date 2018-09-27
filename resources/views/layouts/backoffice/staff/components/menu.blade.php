@@ -72,6 +72,16 @@
             </span>
         </li>
         @endif
+         @if (auth()->guard('staff')->user()->can('read','tag'))
+        <li>
+            <a href="{{ url('/tags') }}">
+                <span class="title">Tags</span>
+            </a>
+            <span class="icon-thumbnail">
+                <i class="fa fa-tag"></i>
+            </span>
+        </li>
+        @endif
          @if (auth()->guard('staff')->user()->can('read','currency'))
         <li>
             <a href="{{ url('/currencies') }}">

@@ -50,8 +50,10 @@
                     <thead>
                         <th style="width:30%" class="text-center">Nom de Currency</th>                    
                         <th style="width:20%" class="text-center">Symbole</th>                    
-                        <th style="width:40%" class="text-center">Nom de country</th>                    
+                        <th style="width:40%" class="text-center">Nom de country</th>       
+                        @if (auth()->guard('staff')->user()->can('write','currency'))               
                         <th style="width:10%" class="text-center"></th>           
+                        @endif                
                     </thead>
             
                     <tbody>  
@@ -60,13 +62,13 @@
                             <td class="v-align-middle"><strong>{{$currency->name}}</strong></td>            
                             <td class="v-align-middle"><strong>{{$currency->symbole}}</strong></td>            
                             <td class="v-align-middle"><strong>{{$currency->country->name}}</strong></td>            
-                            <td class="v-align-middle text-center">
                                     @if (auth()->guard('staff')->user()->can('write','currency'))
+                            <td class="v-align-middle text-center">
 
                                     <a href="{{url('currencies/'.$currency->id.'/edit')}}" class="btn btn-transparent"><i class="fa fa-pencil"></i></a>
                                     <a href="{{route('delete.currency',['currency'=>$currency->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></a>
-                                    @endif
                            </td> 
+                                    @endif
                         </tr> 
                         @endforeach
                     </tbody>

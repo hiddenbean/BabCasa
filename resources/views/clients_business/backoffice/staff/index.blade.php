@@ -31,7 +31,9 @@
                     <div class="col-xs-12">
                         <div class="row">
                             <div class="col-md-6 text-right no-padding">
+                             @if (auth()->guard('staff')->user()->can('write','businessCostumer'))
                             <a href="{{url('clients/business/create')}}" class="btn btn-primary btn-cons">New client business</a>
+                            @endif
                             </div>
                             <div class="col-md-6">
                                 <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">

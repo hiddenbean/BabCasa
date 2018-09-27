@@ -80,4 +80,4 @@
 @stop 
 
 @section('script')
-@stop
+    @stop

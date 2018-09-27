@@ -31,7 +31,9 @@
                     <div class="col-xs-12">
                         <div class="row">
                             <div class="col-md-6 text-right no-padding">
+                            @if (auth()->guard('staff')->user()->can('write','staff'))
                             <a href="{{url('staff/create')}}" class="btn btn-primary btn-cons">New staff</a>
+                            @endif
                             </div>
                             <div class="col-md-6">
                                 <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
@@ -49,8 +51,10 @@
                         <th style="width:20%" class="text-center">Email</th> 
                         <th style="width:10%" class="text-center">Creation date</th> 
                         <th style="width:10%" class="text-center">Profile type</th>                
-                        <th style="width:10%" class="text-center">Status</th>                
-                        <th style="width:10%" class="text-center"></th>                
+                        <th style="width:10%" class="text-center">Status</th> 
+                         @if (auth()->guard('staff')->user()->can('write','staff'))               
+                        <th style="width:10%" class="text-center"></th>            
+                        @endif    
                     </thead>
             
                     <tbody> 
@@ -61,10 +65,12 @@
                                 <td class="v-align-middle text-center">{{date('d-m-Y', strtotime($staff->created_at))}}</td>      
                                 <td class="v-align-middle text-center"><strong>{{$staff->profile->profileLang->first()->reference}}</strong></td> 
                                 <td class="v-align-middle text-center"><strong>@if($staff->status) Active @else Desactive @endif</strong></td> 
+                                 @if (auth()->guard('staff')->user()->can('write','staff'))
                                 <td class="v-align-middle text-center">
                                         <a href="{{url('staff/'.$staff->name.'/edit')}}" class="btn btn-transparent"><i class="fa fa-pencil"></i></a>
                                         <a href="{{route('delete.staff',['staff'=>$staff->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></a>
                                     </td> 
+                                  @endif
                             </tr> 
                             @endforeach
                             
