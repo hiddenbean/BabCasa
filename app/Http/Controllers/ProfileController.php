@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App;
-use App\profile;
+use App\Profile;
 use App\Language;
 use App\Permission;
 use App\profileLang;
@@ -99,13 +99,28 @@ class profileController extends Controller
      */
     public function permissions(Request $request,$profile)
     {
+        //return $request->can;
         $profile = Profile::find($profile);
         $profile->permissions()->detach();
 
         foreach($request->permissions as $key =>$permission)
         {
-            $canRead = isset($request->can_read[$key]) ? 1 : 0 ;
-            $canWrite = isset($request->can_write[$key]) ? 1 : 0 ;
+            switch ($request->can[$key]) {
+                case 0:
+                $canRead = 0;
+                $canWrite = 0;
+                    break;
+                
+                case 1:
+                $canRead = 1;
+                $canWrite = 0;
+                    break;
+                
+                case 2:
+                $canRead = 1;
+                $canWrite = 1;
+                    break;
+            }
             $profile->permissions()->attach($permission,['can_read'=>$canRead,'can_write'=>$canWrite]);
 
         }

@@ -59,18 +59,25 @@
                             {{$permission->permissionLang->first()->reference}}
                         </strong>
                         <div class="col-md-9 row">
-                            <div class="col-md-6 form-check">
-                                <input class="form-check-input" type="checkbox" value="1" name="can_read[]"  @if($profile->permissions()->where('permission_id',$permission->id)->where('can_read',1)->first()) checked  @endif  id="defaultCheck1">
-                                <label class="form-check-label" for="defaultCheck1">
-                                    Can read
-                                </label>
-                            </div>
-                            <div class="col-md-6 form-check">
-                                <input class="form-check-input" type="checkbox" value="1" name="can_write[]"   @if($profile->permissions()->where('permission_id',$permission->id)->where('can_write',1)->first()) checked  @endif id="defaultCheck1">
-                                <label class="form-check-label" for="defaultCheck1">
-                                    Can write
-                                </label>
-                            </div>
+                                        <div class="form-group form-group-default">
+                                       <select class="cs-select cs-skin-slide cs-transparent" name="can[]" >
+                                                <option value="0" 
+                                                 @if($profile->permissions()->where('permission_id',$permission->id)->where('can_read',0)->where('can_write',0)->first())
+                                                            selected 
+                                                    @endif
+                                                 >None</option>
+                                                <option value="1" 
+                                                     @if($profile->permissions()->where('permission_id',$permission->id)->where('can_read',1)->where('can_write',0)->first())
+                                                            selected 
+                                                    @endif
+                                                >Read</option>
+                                                <option value="2" 
+                                                    @if($profile->permissions()->where('permission_id',$permission->id)->where('can_read',1)->where('can_write',1)->first())
+                                                        selected 
+                                                    @endif
+                                                  >Read & Write</option>
+                                        </select>
+                                    </div>
                         </div>
 
                     </div>

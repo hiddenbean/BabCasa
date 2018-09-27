@@ -19,7 +19,7 @@ $factory->define(App\Staff::class, function (Faker $faker) {
         'first_name' => $faker->firstNameMale,
         'last_name' => $faker->lastName,
         'profile_id' => 1,
-        'email' => $faker->unique()->safeEmail,
+        'email' => 'staff@babcasa.com',
         'password' =>  '$2y$10$MwCBUoznXI9cK9qYIh8HMeNTRTkGW26X0ZPpW5QF9ZEOrKZAXLOvm', // 123456
         'birthday' => $faker->dateTime,
         'gender' => $faker->randomElement($array = array (1,2)),

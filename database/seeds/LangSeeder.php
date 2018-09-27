@@ -11,6 +11,6 @@ class LangSeeder extends Seeder
      */
     public function run()
     {
-        factory('App\Language', 3)->create();
+        factory('App\Language', 1)->create();
     }
 }

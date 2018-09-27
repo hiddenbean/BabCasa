@@ -1,12 +1,15 @@
 <div class="sidebar-menu">
     <!-- BEGIN SIDEBAR MENU ITEMS-->
     <ul class="menu-items">
+    @if (auth()->guard('staff')->user()->can('read','dashboard'))
         <li class="m-t-30 ">
             <a href="{{ url('/') }}" class="detailed">
                 <span class="title">Dashboard</span>
             </a>
             <span class="bg-primary icon-thumbnail"><i class="pg-home"></i></span>
         </li>
+        @endif
+         @if (auth()->guard('staff')->user()->can('read','staff'))
         <li>
             <a href="{{ url('/staff') }}">
                 <span class="title">Staff</span>
@@ -15,6 +18,8 @@
                 <i class="fa fa-users"></i>
             </span>
         </li>
+        @endif
+         @if (auth()->guard('staff')->user()->can('read','partner'))
         <li>
             <a href="{{ url('/partners') }}">
                 <span class="title">Partner</span>
@@ -23,6 +28,7 @@
                 <i class="fa fa-users"></i>
             </span>
         </li>
+        @endif
         <li>
             <a href="javascript:;">
                 <span class="title">Clients</span>
@@ -32,16 +38,21 @@
                 <i class="fa fa-user-circle"></i>
             </span>
             <ul class="sub-menu">
+         @if (auth()->guard('staff')->user()->can('read','businessCostumer'))
                 <li>
                     <a href="{{ url('/clients/business') }}">Clients business</a>
                     <span class="icon-thumbnail">CB</span>
                 </li>
+        @endif
+         @if (auth()->guard('staff')->user()->can('read','particularCostumer'))
                 <li>
                     <a href="{{ url('/clients/particular') }}">Clients particular</a>
                     <span class="icon-thumbnail">CP</span>
                 </li>
+        @endif
             </ul>
         </li>
+         @if (auth()->guard('staff')->user()->can('read','category'))
         <li>
             <a href="{{ url('/categories') }}">
                 <span class="title">Categories</span>
@@ -50,6 +61,8 @@
                 <i class="fa fa-copy"></i>
             </span>
         </li> 
+        @endif
+         @if (auth()->guard('staff')->user()->can('read','detail'))
         <li>
             <a href="{{ url('/details') }}">
                 <span class="title">Details</span>
@@ -58,6 +71,8 @@
                 <i class="fa fa-align-justify"></i>
             </span>
         </li>
+        @endif
+         @if (auth()->guard('staff')->user()->can('read','currency'))
         <li>
             <a href="{{ url('/currencies') }}">
                 <span class="title">Currencies</span>
@@ -66,6 +81,8 @@
                 <i class="fa fa-dollar"></i>
             </span>
         </li>
+        @endif
+         @if (auth()->guard('staff')->user()->can('read','reason'))
         <li>
             <a href="{{ url('/reasons') }}">
                 <span class="title">Reasons</span>
@@ -74,6 +91,8 @@
                 <i class="fa fa-file"></i>
             </span>
         </li>
+        @endif
+         @if (auth()->guard('staff')->user()->can('read','country'))
         <li>
             <a href="{{ url('/countries') }}">
                 <span class="title">Countries</span>
@@ -82,6 +101,8 @@
                 <i class="fa fa-globe"></i>
             </span>
         </li>
+        @endif
+         @if (auth()->guard('staff')->user()->can('read','claim'))
         <li>
                 <a href="javascript:;">
                     <span class="title">support</span>
@@ -97,6 +118,7 @@
                     </li> 
                 </ul>
             </li>
+        @endif
         <li>
             <a href="{{ url('/profile') }}">
                 <span class="title">Account</span>
@@ -114,10 +136,12 @@
                 <i class="fa fa-cogs"></i>
             </span>
             <ul class="sub-menu">
+         @if (auth()->guard('staff')->user()->can('read','profile'))
                 <li>
                     <a href="{{ url('/profiles') }}">Profiles</a>
                     <span class="icon-thumbnail">Pr</span>
                 </li>
+                @endif
                 <li>
                     <a href="{{ url('/security') }}">Security</a>
                     <span class="icon-thumbnail">Se</span>
