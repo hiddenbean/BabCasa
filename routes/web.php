@@ -87,20 +87,16 @@ Route::domain('staff.babcasa.com')->group(function (){
     //////////profiles
     Route::prefix('profiles')->group(function() {
         Route::get('/', 'ProfileController@index');
-        Route::get('/test', function () {
-            if (Gate::allows('update-post', 1)) {
-                return "it's working";
-            }
-            else 
-            {
-                return "it's not working";
-            }
-        });
         Route::get('create', 'ProfileController@create'); 
         Route::get('{profile}', 'profileController@show'); 
         Route::get('{profile}/edit', 'ProfileController@edit'); 
     }); 
    
+      //////////STATUS
+      Route::prefix('statuses')->group(function() {
+        Route::get('{partner}','StatusController@index');
+     
+    }); 
     
 });
 

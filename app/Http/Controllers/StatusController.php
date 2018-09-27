@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Status;
+use App\Partner;
 use Illuminate\Http\Request;
 
 class StatusController extends Controller
@@ -19,9 +20,14 @@ class StatusController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($partner)
     {
-        //
+        
+        $data['partner'] = Partner::where('name',$partner)->first();
+   
+        $data['statuses'] = $data['partner']->statuses()->orderBy('id', 'desc')->get();
+        // return $data['statuses'];
+        return view('statuses.backoffice.staff.index',$data);
     }
 
     /**

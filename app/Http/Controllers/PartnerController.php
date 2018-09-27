@@ -63,7 +63,7 @@ class PartnerController extends Controller
     public function create()
     {
         $data['countries'] = Country::all();
-        return view('partners.backoffice.partner.create',$data);
+        return view('partners.backoffice.staff.create',$data);
     }
 
     /**

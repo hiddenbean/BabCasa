@@ -38,7 +38,6 @@
                         <ul class="nav nav-tabs nav-tabs-simple nav-tabs-left bg-white" id="tab-3">
                             <li class="nav-item">
                                 <a href="#" class="active show" data-toggle="tab" data-target="#general">General information</a>
-                                {{$errors}}
                             </li>
                             <li class="nav-item">
                                 <a href="#" data-toggle="tab" data-target="#address" class="">Address & Phone</a>

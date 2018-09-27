@@ -106,13 +106,34 @@
                 <div class="col-md-3">
                     <div class="row">
                         <div class="col-md-12">
+                                @if($partner->status->first()->is_approved)
+                                <span class="label label-success">Approuve</span>  
+                                @else 
+                                     <span class="label label-danger">Rejeter</span>  
+                                @endif
+                                <a href="{{url('statuses/'.$partner->name)}}" class="float-right"> Statuses history</a>
+                                <br>
+                                <div id="approve">
+
+                                
                             <h3> Approve this account</h3>
                             When a user submits a self-registration form, it can be reviewed and approved.
                         <form action="{{url('statuses')}}" method="post" class="mt-2">
                                 @csrf
                         <input type="hidden" name="partner_id" value="{{$partner->id}}">
                                 <input type="checkbox" data-init-plugin="switchery" data-size="small" name="is_approved" data-color="primary" @if($partner->status->first()->is_approved) checked @endif /> 
-                                <label for="">Approve</label>
+                                <label for="">Approve</label><br>
+                                <label for="">
+                                        @if($partner->status->first())
+                                        @foreach($partner->status->first()->reasons as $key => $reason)
+                                        {{$reason->reference}} 
+                                        @if(count($partner->status->first()->reasons)-1!=$key) / @endif
+                                    @endforeach
+
+
+                                        @endif
+                               
+                                </label>
                                 <select class="full-width select2-hidden-accessible" name="reasons[]" data-init-plugin="select2" multiple="" tabindex="-1" aria-hidden="true">
                                         @foreach($reasons as $reason)
                                             <option value="{{$reason->id}}">{{$reason->reference}}</option>
@@ -127,6 +148,7 @@
                                     <button type="submit"  class="btn btn-danger mt-2">Submit</button>
                             </form>
                         </div>
+                        </div>
                         
                         <div class="col-md-12">
                             <h3>Update password</h3>
@@ -136,9 +158,8 @@
                         <div class="col-md-12">
                             <h3> Deactivate this account</h3>
                             Deactivating your account will disable your profile and remove your name and photo from most things you've shared on Babcasa. Some information may still be visible to others.
-                            <form action="" method="post" class="mt-2">
-                                <button type="submit" class="btn btn-danger" >Deactivate</button>
-                            </form>
+                          <br>
+                                <a href="{{route('delete.partner',['partner'=>$partner->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-danger">Deactivate</a>
                         </div>
                     </div>  
                 </div>

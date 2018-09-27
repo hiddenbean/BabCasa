@@ -29,6 +29,5 @@ class AuthServiceProvider extends ServiceProvider
         Gate::resource('permissions', 'App\Policies\PermissionPolicy');
         Gate::define('read', 'App\Policies\PermissionPolicy@read');
         Gate::define('write', 'App\Policies\PermissionPolicy@write');
-        // Gate::define('update-post', function ($user){return true;});
     }
 }
