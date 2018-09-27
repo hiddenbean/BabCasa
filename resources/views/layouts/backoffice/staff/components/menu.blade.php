@@ -4,7 +4,7 @@
     @if (auth()->guard('staff')->user()->can('read','dashboard'))
         <li class="m-t-30 ">
             <a href="{{ url('/') }}" class="detailed">
-                <span class="title">Dashboard</span>
+                <span class="title">Dashboard </span>
             </a>
             <span class="bg-primary icon-thumbnail"><i class="pg-home"></i></span>
         </li>
@@ -69,6 +69,16 @@
             </a>
             <span class="icon-thumbnail">
                 <i class="fa fa-align-justify"></i>
+            </span>
+        </li>
+        @endif
+         @if (auth()->guard('staff')->user()->can('read','tag'))
+        <li>
+            <a href="{{ url('/tags') }}">
+                <span class="title">Tags</span>
+            </a>
+            <span class="icon-thumbnail">
+                <i class="fa fa-tag"></i>
             </span>
         </li>
         @endif
