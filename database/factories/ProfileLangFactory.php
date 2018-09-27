@@ -15,7 +15,7 @@ use Faker\Generator as Faker;
 
 $factory->define(App\ProfileLang::class, function (Faker $faker) {
     return [
-        'referene' =>  $faker->randomElement($array = array ('editor','markter')),
+        'referene' =>  'editor',
         'description' => $faker->text,
         'profile_id' => 1, 
         'lang_id' => 1, 

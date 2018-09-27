@@ -21,9 +21,7 @@ Route::domain('www.babcasa.com')->group(function (){
 
 Route::domain('staff.babcasa.com')->group(function (){
     
-    Route::get('/', function () {
-        return view('welcome');
-    });
+    Route::get('/', 'StaffController@dashboard');
     //////////TAGS
     Route::prefix('tags')->group(function() {
         Route::get('/', 'TagController@index'); 
