@@ -21,7 +21,6 @@
                         <div class="col-md-12">
                             <div class="form-group form-group-default input-group @if($errors->has('username')) has-error @endif">
                                 <div class="form-input-group">
-<<<<<<< HEAD
                                     <label>USERNAME</label>
                                     <input type="text" name="username" class="form-control" placeholder="Your staff username here">
                                     @if ($errors->has('username'))
@@ -32,10 +31,6 @@
                                     <span class="input-group-text">
                                         @babcasa.com
                                     </span>
-=======
-                                    <label>Saisissez votre nom d&apos;utilisateur</label>
-                                    <input type="email" name="email" value="{{ old('email') }}" class="form-control">
->>>>>>> 78f90b8f99cc00fe4e175bb327d8908387f82248
                                 </div>
                             </div>
                         </div>
@@ -54,12 +49,12 @@
                     <div class="row m-t-10 m-b-10"> 
                         <div class="col-md-6 sm-p-l-10">
                             <div class="checkbox no-margin">
-                                <input type="checkbox" name="remembre" id="remembre">
-                                <label for="remembre">Keep Me Signed in</label>
+                                <input type="checkbox" name="remember" id="remember">
+                                <label for="remember">Keep Me Signed in</label>
                             </div>
                         </div> 
                         <div class="col-md-6 text-right">
-                            <a href="#" class="small">Forgot your password ?</a> 
+                            <a href="{{ route('staffs.passwords.rest') }}" class="small">Forgot your password ?</a> 
                         </div>
                     </div>
                     <button class="btn btn-primary btn-cons m-t-10" type="submit">Login</button>

@@ -12,7 +12,6 @@ class PictureSeeder extends Seeder
      */
     public function run()
     {
-        
         DB::table('pictures')->insert([
             'name' => 'PICTURE1',
             'tag' => "STAFF_avatar",
@@ -20,6 +19,6 @@ class PictureSeeder extends Seeder
             'extension' => '.png',
             'pictureable_type' => 'staff',
             'pictureable_id' => 1,
-    ]);
+        ]);
     }
 }

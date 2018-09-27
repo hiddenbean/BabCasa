@@ -59,8 +59,12 @@ class StaffLoginController extends Controller
     public function login(Request $request)
     {
         $this->validateReqeust($request);
-        
-        if(Auth::guard('staff')->attempt($request->only('email', 'password'), $request->remember))
+        $loginRequest = [
+            'email' => $request->username."@babcasa.com",
+            'password' => $request->password,
+        ];
+        $remember = $request->remember === "on" ? true : false;
+        if(Auth::guard('staff')->attempt($loginRequest, $remember))
         {
             return redirect()->intended('/');
         }
@@ -76,7 +80,7 @@ class StaffLoginController extends Controller
     public function validateReqeust(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|exists:staff,email',
+            'username' => 'required',
             'password' => 'required|min:6',
         ]);
     }
@@ -87,14 +91,14 @@ class StaffLoginController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-   public function logout(Request $request)
-   {
-       Auth::guard('staff')->logout();
-       $request->session()->invalidate();
-       return redirect('/sign-in');
-   }
+    public function logout(Request $request)
+    {
+        Auth::guard('staff')->logout();
+        $request->session()->invalidate();
+        return redirect('sign-in');
+    }
 
-   public function redirecTo()
+    public function redirecTo()
     {
         return '/';
     }
