@@ -319,3 +319,7 @@ fieldset[disabled] .btn-warning.active {
 .m-t-2{
     margin-top: 2px;
 }
+
+.register-container {
+    height: calc(100% - 70px);
+}
