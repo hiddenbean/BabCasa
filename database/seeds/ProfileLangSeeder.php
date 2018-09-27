@@ -11,6 +11,6 @@ class ProfileLangSeeder extends Seeder
      */
     public function run()
     {
-        factory('App\ProfileLang', 2)->create();
+        factory('App\ProfileLang', 1)->create();
     }
 }

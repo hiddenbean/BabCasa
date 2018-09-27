@@ -21,6 +21,7 @@
                         <div class="col-md-12">
                             <div class="form-group form-group-default input-group @if($errors->has('username')) has-error @endif">
                                 <div class="form-input-group">
+<<<<<<< HEAD
                                     <label>USERNAME</label>
                                     <input type="text" name="username" class="form-control" placeholder="Your staff username here">
                                     @if ($errors->has('username'))
@@ -31,6 +32,10 @@
                                     <span class="input-group-text">
                                         @babcasa.com
                                     </span>
+=======
+                                    <label>Saisissez votre nom d&apos;utilisateur</label>
+                                    <input type="email" name="email" value="{{ old('email') }}" class="form-control">
+>>>>>>> 78f90b8f99cc00fe4e175bb327d8908387f82248
                                 </div>
                             </div>
                         </div>

@@ -18,7 +18,7 @@ class StaffController extends Controller
 {
     public function __construct()
     {
-        // $this->middleware('auth:staff');
+         $this->middleware('auth:staff');
     }
 
     protected function validateRequest(Request $request)
@@ -45,6 +45,10 @@ class StaffController extends Controller
         return view('staff.backoffice.index',$data);
     }
     
+    public function dashboard()
+    {
+        return view('system.backoffice.staff.dashboard');
+    }
     /**
      * Show the form for creating a new resource.
      *

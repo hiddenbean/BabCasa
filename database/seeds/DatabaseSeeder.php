@@ -14,10 +14,10 @@ class DatabaseSeeder extends Seeder
         $this->call(StaffSeeder::class);
         $this->call(LangSeeder::class);
         $this->call(ProfileSeeder::class);
-        $this->call(ProfileLangSeeder::class);
+        //$this->call(ProfileLangSeeder::class);
         $this->call(PartnerSeeder::class);
-        $this->call(PhoneSeeder::class);
-        $this->call(AddressSeeder::class);
+        //$this->call(PhoneSeeder::class);
+        //$this->call(AddressSeeder::class);
         $this->call(DiscountSeeder::class);
         $this->call(DiscountLangSeeder::class);
     }

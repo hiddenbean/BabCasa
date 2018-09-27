@@ -64,7 +64,7 @@ class StaffLoginController extends Controller
         {
             return redirect()->intended('/');
         }
-        return redirect()->back();
+        return redirect('/');
     }
 
     /**
