@@ -6,7 +6,7 @@ use App;
 use App\Profile;
 use App\Language;
 use App\Permission;
-use App\profileLang;
+use App\ProfileLang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -37,9 +37,7 @@ class profileController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        // (auth()->guard('staff')->user()->can('read','category'))
-       
+    {       
         $data['profiles'] = Profile::all();
         return view('profiles.backoffice.index',$data);
     }

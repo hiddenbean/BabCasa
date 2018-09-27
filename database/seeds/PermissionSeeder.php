@@ -42,7 +42,7 @@ class PermissionSeeder extends Seeder
             'type' => 'profile',
         ]);
         DB::table('permissions')->insert([
-            'type' => 'sraff',
+            'type' => 'staff',
         ]);
         DB::table('permissions')->insert([
             'type' => 'particularCostumer',

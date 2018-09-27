@@ -49,8 +49,10 @@
                     <thead>
                         <th style="width:50%" class="text-center">Name</th>                    
                         <th style="width:20%" class="text-center">Alpha code</th>                    
-                        <th style="width:20%" class="text-center">Code</th>                    
+                        <th style="width:20%" class="text-center">Code</th>         
+                        @if (auth()->guard('staff')->user()->can('write','country'))               
                         <th style="width:10%" class="text-center"></th>           
+                        @endif              
                     </thead>
             
                     <tbody>  
@@ -59,13 +61,13 @@
                                 <td class="v-align-middle"><strong>{{$country->name}}</strong></td>            
                                 <td class="v-align-middle"><strong>{{$country->code_alpha}} </strong></td>            
                                 <td class="v-align-middle"><strong>{{$country->code}} </strong></td>            
-                                <td class="v-align-middle text-center">
                                         @if (auth()->guard('staff')->user()->can('write','country'))
+                                <td class="v-align-middle text-center">
 
                                         <a href="{{url('countries/'.$country->id.'/edit')}}" class="btn btn-transparent"><i class="fa fa-pencil"></i></a>
                                         <a href="{{route('delete.country',['country'=>$country->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></a>
-                                        @endif
                                 </td> 
+                                        @endif
                             </tr> 
                         @endforeach
                     </tbody>

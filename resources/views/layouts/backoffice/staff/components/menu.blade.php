@@ -4,7 +4,7 @@
     @if (auth()->guard('staff')->user()->can('read','dashboard'))
         <li class="m-t-30 ">
             <a href="{{ url('/') }}" class="detailed">
-                <span class="title">Dashboard </span>
+                <span class="title">Dashboard</span>
             </a>
             <span class="bg-primary icon-thumbnail"><i class="pg-home"></i></span>
         </li>

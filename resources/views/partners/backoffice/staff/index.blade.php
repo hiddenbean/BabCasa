@@ -49,8 +49,10 @@
                     <thead>
                         <th style="width:20%" class="text-center">Name</th>
                         <th style="width:10%" class="text-center">Email</th> 
-                        <th style="width:10%" class="text-center">Creation date</th>                
+                        <th style="width:10%" class="text-center">Creation date</th>    
+                        @if (auth()->guard('staff')->user()->can('write','partner'))               
                         <th style="width:10%" class="text-center"></th>                
+                        @endif              
                     </thead>
             
                     <tbody> 
@@ -59,10 +61,13 @@
                                 <td class="v-align-middle"><a href="{{url('partners/'.$partner->name)}}"><strong> {{$partner->company_name}} </strong></a></td>
                                 <td class="v-align-middle text-center"><strong> {{$partner->email}}</strong></td>                
                                 <td class="v-align-middle text-center"> {{date('M d, Y',strtotime($partner->created_at))}} </td>       
+                                @if (auth()->guard('staff')->user()->can('write','partner'))               
+
                                 <td class="v-align-middle text-center">
                                         <a href="{{url('partners/'.$partner->name.'/edit')}}" class="btn btn-transparent"><i class="fa fa-pencil"></i></a>
                                         <a href="{{route('delete.partner',['partner'=>$partner->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></a>
                                     </td> 
+                                @endif
                             </tr> 
                         @endforeach
                          

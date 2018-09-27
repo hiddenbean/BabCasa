@@ -48,19 +48,23 @@
                 <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
                     <thead>
                         <th style="width:40%" class="text-center">Reference</th>                    
-                        <th style="width:50%" class="text-center">Short description</th>                    
+                        <th style="width:50%" class="text-center">Short description</th>  
+                        @if (auth()->guard('staff')->user()->can('write','reason'))               
                         <th style="width:10%" class="text-center"></th>           
+                        @endif                     
                     </thead>
             
                     <tbody>  
                         @foreach($reasons as $reason)
                         <tr class="order-progress"  >
                             <td class="v-align-middle"><a href="{{url('reasons/'.$reason->id)}}"><strong>{{$reason->reference}} </strong></a></td>            
-                            <td class="v-align-middle"><strong>{{$reason->reasonLang->first()->short_description}}</strong></td>            
+                            <td class="v-align-middle"><strong>{{$reason->reasonLang->first()->short_description}}</strong></td>  
+                            @if (auth()->guard('staff')->user()->can('write','reason'))               
                             <td class="v-align-middle text-center">
                                     <a href="{{url('reasons/'.$reason->id.'/edit')}}" class="btn btn-transparent"><i class="fa fa-pencil"></i></a>
                                     <a href="{{route('delete.reason',['reason'=>$reason->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></a>
                            </td> 
+                        @endif             
                         </tr> 
                         @endforeach
                     </tbody>
