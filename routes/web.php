@@ -24,6 +24,9 @@ Route::domain('staff.babcasa.com')->group(function (){
     Route::get('/', function () {
         return view('welcome');
     });
+
+    Route::get('login', 'Auth\StaffLoginController@showLoginForm');
+
     //////////TAGS
     Route::prefix('tags')->group(function() {
         Route::get('/', 'TagController@index'); 
