@@ -19,7 +19,7 @@
                             <div class="form-group form-group-default input-group">
                                 <div class="form-input-group">
                                     <label>Saisissez votre nom d&apos;utilisateur</label>
-                                    <input type="email" name="email" class="form-control">
+                                    <input type="email" name="email" value="{{ old('email') }}" class="form-control">
                                 </div>
                             </div>
                             @if ($errors->has('email'))

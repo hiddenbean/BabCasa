@@ -68,8 +68,9 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::get('{reason}/edit', 'ReasonController@edit'); 
     });
 
-    //////////reasons
+    //////////staff
     Route::get('/sign-in', 'Auth\StaffLoginController@showLoginForm');
+    Route::get('/logout', 'Auth\StaffLoginController@logout');
     Route::prefix('staff')->group(function() {
         Route::get('/', 'StaffController@index'); 
         Route::get('create', 'StaffController@create'); 
