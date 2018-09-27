@@ -12,136 +12,144 @@
 */
 
 // GET DOMAINs
+Route::group(
+    [
+        'prefix' => LaravelLocalization::setLocale(),
+        'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
+    ],
+    function()
+    {
 
-Route::domain('www.babcasa.com')->group(function (){
-    Route::get('/', function () {
-        return view('welcome');
-    });
-});
-
-Route::domain('staff.babcasa.com')->group(function (){
-    //staff home page
-    Route::get('/', 'StaffController@dashboard');
-    Route::get('passwords/rest', 'Auth\StaffForgotPasswordController@showLinkRequestForm')->name('staffs.passwords.rest');
-    Route::post('passwords/email', 'Auth\StaffForgotPasswordController@sendResetLinkEmail')->name('staff.password.link.send');
-    
-    //login page
-    Route::get('sign-in', 'Auth\StaffLoginController@showLoginForm');
-    Route::get('logout', 'Auth\StaffLoginController@logout');
-
-    //////////TAGS
-    Route::prefix('tags')->group(function() {
-        Route::get('/', 'TagController@index'); 
-        Route::get('create', 'TagController@create'); 
-        Route::get('{tag}', 'TagController@show'); 
-        Route::get('{tag}/edit', 'TagController@edit'); 
-    });
-
-    //////////CATEGORIES
-    Route::prefix('categories')->group(function() {
-        Route::get('/', 'CategoryController@index'); 
-        Route::get('create', 'CategoryController@create'); 
-        Route::get('{Category}', 'CategoryController@show'); 
-        Route::get('{Category}/edit', 'CategoryController@edit'); 
-    });
-
-    //////////DETAILS
-    Route::prefix('details')->group(function() {
-        Route::get('/', 'DetailController@index'); 
-        Route::get('create', 'DetailController@create'); 
-        Route::get('{detail}', 'DetailController@show'); 
-        Route::get('{detail}/edit', 'DetailController@edit'); 
-    });
-
-    //////////countries
-    Route::prefix('countries')->group(function() {
-        Route::get('/', 'CountryController@index'); 
-        Route::get('create', 'CountryController@create'); 
-        Route::get('{country}', 'CountryController@show'); 
-        Route::get('{country}/edit', 'CountryController@edit'); 
-    });
-
-    //////////countries
-    Route::prefix('currencies')->group(function() {
-        Route::get('/', 'CurrencyController@index'); 
-        Route::get('create', 'CurrencyController@create'); 
-        Route::get('{currency}', 'CurrencyController@show'); 
-        Route::get('{currency}/edit', 'CurrencyController@edit'); 
-    }); 
-
-    //////////reasons
-    Route::prefix('reasons')->group(function() {
-        Route::get('/', 'ReasonController@index'); 
-        Route::get('create', 'ReasonController@create'); 
-        Route::get('{reason}', 'ReasonController@show'); 
-        Route::get('{reason}/edit', 'ReasonController@edit'); 
-    });
-
-    //////////staff
-    Route::prefix('staff')->group(function() {
-        Route::get('/', 'StaffController@index'); 
-        Route::get('create', 'StaffController@create'); 
-        Route::get('{staff}', 'StaffController@show'); 
-        Route::get('{staff}/edit', 'StaffController@edit'); 
-    }); 
-
-    Route::prefix('partners')->group(function() {
-        Route::get('/', 'PartnerController@index'); 
-        Route::get('create', 'PartnerController@create'); 
-        Route::get('{partner}', 'PartnerController@show'); 
-        Route::get('{partner}/edit', 'PartnerController@edit'); 
-    }); 
-
-    //////////profiles
-    Route::prefix('profiles')->group(function() {
-        Route::get('/', 'ProfileController@index');
-        Route::get('create', 'ProfileController@create'); 
-        Route::get('{profile}', 'profileController@show'); 
-        Route::get('{profile}/edit', 'ProfileController@edit'); 
-    }); 
-
-    //////////STATUS
-    Route::prefix('statuses')->group(function() {
-        Route::get('{partner}','StatusController@index');
-    
-    }); 
-    
-});
-
-Route::domain('partner.babcasa.com')->group(function (){
-    Route::get('{product}/edit', 'ProductController@edit'); 
-    Route::get('/register', 'auth\StaffRegisterController@showRegisterForm');
-});
-
-Route::domain('partner.babcasa.com')->group(function (){
-    Route::get('/test', 'ProductController@create'); 
-
-    Route::get('/register', 'auth\PartnerRegisterController@showRegisterForm'); 
-    Route::get('/sign-in', 'Auth\PartnerLoginController@showLoginForm');
-    Route::get('/', 'PartnerController@dashboard');
-    Route::get('/logout', 'Auth\PartnerLoginController@logout');
-    Route::get('/password', 'Auth\PartnerForgotPasswordController@showLinkRequestForm');
-    Route::get('{partner}/password/reset/{token}', 'auth\PartnerResetPasswordController@showResetForm');
-    Route::get('security', 'PartnerController@security');
-    Route::get('settings', 'PartnerController@edit');
-    Route::get('discount/create', function(){return view('discounts.backoffice.create');});
-
-    //client finale gestion support routes start 
-    Route::prefix('support')->group(function() {
-        Route::prefix('ticket')->group(function() {
-            Route::get('/','ClaimController@index');
-            Route::get('{id}','ClaimController@show');
-        });
-
-        Route::get('/','SubjectController@index');
-        Route::prefix('{subject}')->group(function() {
-            Route::prefix('ticket')->group(function() {
-                Route::get('create','ClaimController@create');
+        Route::domain('www.babcasa.com')->group(function (){
+            Route::get('/', function () {
+                return view('welcome');
             });
         });
-    });
-    
-});
+
+        Route::domain('staff.babcasa.com')->group(function (){
+            //staff home page
+            Route::get('/', 'StaffController@dashboard');
+            Route::get('passwords/rest', 'Auth\StaffForgotPasswordController@showLinkRequestForm')->name('staffs.passwords.rest');
+            
+            //login page
+            Route::get('sign-in', 'Auth\StaffLoginController@showLoginForm');
+            Route::get('logout', 'Auth\StaffLoginController@logout');
+
+            //////////TAGS
+            Route::prefix('tags')->group(function() {
+                Route::get('/', 'TagController@index'); 
+                Route::get('create', 'TagController@create'); 
+                Route::get('{tag}', 'TagController@show'); 
+                Route::get('{tag}/edit', 'TagController@edit'); 
+            });
+
+            //////////CATEGORIES
+            Route::prefix('categories')->group(function() {
+                Route::get('/', 'CategoryController@index'); 
+                Route::get('create', 'CategoryController@create'); 
+                Route::get('{Category}', 'CategoryController@show'); 
+                Route::get('{Category}/edit', 'CategoryController@edit'); 
+            });
+
+            //////////DETAILS
+            Route::prefix('details')->group(function() {
+                Route::get('/', 'DetailController@index'); 
+                Route::get('create', 'DetailController@create'); 
+                Route::get('{detail}', 'DetailController@show'); 
+                Route::get('{detail}/edit', 'DetailController@edit'); 
+            });
+
+            //////////countries
+            Route::prefix('countries')->group(function() {
+                Route::get('/', 'CountryController@index'); 
+                Route::get('create', 'CountryController@create'); 
+                Route::get('{country}', 'CountryController@show'); 
+                Route::get('{country}/edit', 'CountryController@edit'); 
+            });
+
+            //////////countries
+            Route::prefix('currencies')->group(function() {
+                Route::get('/', 'CurrencyController@index'); 
+                Route::get('create', 'CurrencyController@create'); 
+                Route::get('{currency}', 'CurrencyController@show'); 
+                Route::get('{currency}/edit', 'CurrencyController@edit'); 
+            }); 
+
+            //////////reasons
+            Route::prefix('reasons')->group(function() {
+                Route::get('/', 'ReasonController@index'); 
+                Route::get('create', 'ReasonController@create'); 
+                Route::get('{reason}', 'ReasonController@show'); 
+                Route::get('{reason}/edit', 'ReasonController@edit'); 
+            });
+
+            //////////staff
+            Route::prefix('staff')->group(function() {
+                Route::get('/', 'StaffController@index'); 
+                Route::get('create', 'StaffController@create'); 
+                Route::get('{staff}', 'StaffController@show'); 
+                Route::get('{staff}/edit', 'StaffController@edit'); 
+            }); 
+
+            Route::prefix('partners')->group(function() {
+                Route::get('/', 'PartnerController@index'); 
+                Route::get('create', 'PartnerController@create'); 
+                Route::get('{partner}', 'PartnerController@show'); 
+                Route::get('{partner}/edit', 'PartnerController@edit'); 
+            }); 
+
+            //////////profiles
+            Route::prefix('profiles')->group(function() {
+                Route::get('/', 'ProfileController@index');
+                Route::get('create', 'ProfileController@create'); 
+                Route::get('{profile}', 'profileController@show'); 
+                Route::get('{profile}/edit', 'ProfileController@edit'); 
+            }); 
+
+            //////////STATUS
+            Route::prefix('statuses')->group(function() {
+                Route::get('{partner}','StatusController@index');
+            
+            }); 
+            
+        });
+
+        Route::domain('partner.babcasa.com')->group(function (){
+            Route::get('{product}/edit', 'ProductController@edit'); 
+            Route::get('/register', 'auth\StaffRegisterController@showRegisterForm');
+        });
+
+        Route::domain('partner.babcasa.com')->group(function (){
+            Route::get('/test', 'ProductController@create'); 
+
+            Route::get('/register', 'auth\PartnerRegisterController@showRegisterForm'); 
+            Route::get('/sign-in', 'Auth\PartnerLoginController@showLoginForm');
+            Route::get('/', 'PartnerController@dashboard');
+            Route::get('/logout', 'Auth\PartnerLoginController@logout');
+            Route::get('/password', 'Auth\PartnerForgotPasswordController@showLinkRequestForm');
+            Route::get('{partner}/password/reset/{token}', 'auth\PartnerResetPasswordController@showResetForm');
+            Route::get('security', 'PartnerController@security');
+            Route::get('settings', 'PartnerController@edit');
+            Route::get('discount/create', function(){return view('discounts.backoffice.create');});
+
+            //client finale gestion support routes start 
+            Route::prefix('support')->group(function() {
+                Route::prefix('ticket')->group(function() {
+                    Route::get('/','ClaimController@index');
+                    Route::get('{id}','ClaimController@show');
+                });
+
+                Route::get('/','SubjectController@index');
+                Route::prefix('{subject}')->group(function() {
+                    Route::prefix('ticket')->group(function() {
+                        Route::get('create','ClaimController@create');
+                    });
+                });
+            });
+            
+        });
+    }
+);
 
 // POST DOMAINs
 Route::domain('www.babcasa.com')->group(function (){
@@ -204,6 +212,9 @@ Route::domain('staff.babcasa.com')->group(function (){
     Route::post('/', function () {
         return view('welcome');
     });
+
+    Route::post('passwords/email', 'Auth\StaffForgotPasswordController@sendResetLinkEmail')->name('staff.password.link.send');
+
     //////////TAGS
     Route::prefix('tags')->group(function() {
 
