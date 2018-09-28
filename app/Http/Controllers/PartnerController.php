@@ -22,7 +22,8 @@ class PartnerController extends Controller
 
     public function __construct()
     {
-        // $this->middleware('auth:partner');
+         //$this->middleware('auth:staff');
+         $this->middleware('AuthorizeGet:partner'); //->except('index','create');
     }
     
     protected function validateRequest(Request $request)

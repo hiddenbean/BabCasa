@@ -23,7 +23,7 @@ Route::domain('staff.babcasa.com')->group(function (){
     
     Route::get('/', 'StaffController@dashboard');
     //////////TAGS
-    Route::prefix('tags')->group(function() {
+    Route::prefix('tags')->middleware('AuthorizeGet:tag')->group(function() {
         Route::get('/', 'TagController@index'); 
         Route::get('create', 'TagController@create'); 
         Route::get('{tag}', 'TagController@show'); 
@@ -31,7 +31,7 @@ Route::domain('staff.babcasa.com')->group(function (){
     });
 
     //////////CATEGORIES
-    Route::prefix('categories')->group(function() {
+    Route::prefix('categories')->middleware('AuthorizeGet:category')->group(function() {
         Route::get('/', 'CategoryController@index'); 
         Route::get('create', 'CategoryController@create'); 
         Route::get('{Category}', 'CategoryController@show'); 
@@ -39,7 +39,7 @@ Route::domain('staff.babcasa.com')->group(function (){
     });
 
     //////////DETAILS
-    Route::prefix('details')->group(function() {
+    Route::prefix('details')->middleware('AuthorizeGet:detail')->group(function() {
         Route::get('/', 'DetailController@index'); 
         Route::get('create', 'DetailController@create'); 
         Route::get('{detail}', 'DetailController@show'); 
@@ -47,7 +47,7 @@ Route::domain('staff.babcasa.com')->group(function (){
     });
 
     //////////countries
-    Route::prefix('countries')->group(function() {
+    Route::prefix('countries')->middleware('AuthorizeGet:country')->group(function() {
         Route::get('/', 'CountryController@index'); 
         Route::get('create', 'CountryController@create'); 
         Route::get('{country}', 'CountryController@show'); 
@@ -55,7 +55,7 @@ Route::domain('staff.babcasa.com')->group(function (){
     });
 
     //////////countries
-    Route::prefix('currencies')->group(function() {
+    Route::prefix('currencies')->middleware('AuthorizeGet:currency')->group(function() {
         Route::get('/', 'CurrencyController@index'); 
         Route::get('create', 'CurrencyController@create'); 
         Route::get('{currency}', 'CurrencyController@show'); 
@@ -63,7 +63,7 @@ Route::domain('staff.babcasa.com')->group(function (){
     }); 
 
     //////////reasons
-    Route::prefix('reasons')->group(function() {
+    Route::prefix('reasons')->middleware('AuthorizeGet:reason')->group(function() {
         Route::get('/', 'ReasonController@index'); 
         Route::get('create', 'ReasonController@create'); 
         Route::get('{reason}', 'ReasonController@show'); 
@@ -73,14 +73,14 @@ Route::domain('staff.babcasa.com')->group(function (){
     //////////staff
     Route::get('/sign-in', 'Auth\StaffLoginController@showLoginForm');
     Route::get('/logout', 'Auth\StaffLoginController@logout');
-    Route::prefix('staff')->group(function() {
+    Route::prefix('staff')->middleware('AuthorizeGet:staff')->group(function() {
         Route::get('/', 'StaffController@index'); 
         Route::get('create', 'StaffController@create'); 
         Route::get('{staff}', 'StaffController@show'); 
         Route::get('{staff}/edit', 'StaffController@edit'); 
     }); 
 
-    Route::prefix('partners')->group(function() {
+    Route::prefix('partners')->middleware('AuthorizeGet:partner')->group(function() {
         Route::get('/', 'PartnerController@index'); 
         Route::get('create', 'PartnerController@create'); 
         Route::get('{partner}', 'PartnerController@show'); 
@@ -88,7 +88,7 @@ Route::domain('staff.babcasa.com')->group(function (){
     }); 
 
     //////////profiles
-    Route::prefix('profiles')->group(function() {
+    Route::prefix('profiles')->middleware('AuthorizeGet:profile')->group(function() {
         Route::get('/', 'ProfileController@index');
         Route::get('create', 'ProfileController@create'); 
         Route::get('{profile}', 'profileController@show'); 
@@ -200,7 +200,7 @@ Route::domain('staff.babcasa.com')->group(function (){
         return view('welcome');
     });
     //////////TAGS
-    Route::prefix('tags')->group(function() {
+    Route::prefix('tags')->middleware('AuthorizePost:tag')->group(function() {
 
         Route::post('/', 'TagController@store'); 
         Route::post('{tag}', 'TagController@update'); 
@@ -208,35 +208,35 @@ Route::domain('staff.babcasa.com')->group(function (){
     }); 
 
     //////////Categories
-    Route::prefix('categories')->group(function() {
+    Route::prefix('categories')->middleware('AuthorizePost:category')->group(function() {
 
         Route::post('/','CategoryController@store'); 
         Route::post('{category}', 'CategoryController@update'); 
         Route::delete('{category}', 'CategoryController@destroy')->name('delete.category');
     }); 
     //////////details
-    Route::prefix('details')->group(function() {
+    Route::prefix('details')->middleware('AuthorizePost:detail')->group(function() {
 
         Route::post('/', 'DetailController@store'); 
         Route::post('{detail}', 'DetailController@update'); 
         Route::delete('{detail}', 'DetailController@destroy')->name('delete.detail');
     }); 
     //////////COUNTRIES
-    Route::prefix('countries')->group(function() {
+    Route::prefix('countries')->middleware('AuthorizePost:country')->group(function() {
 
         Route::post('/', 'CountryController@store'); 
         Route::post('{country}', 'CountryController@update'); 
         Route::delete('{country}', 'CountryController@destroy')->name('delete.country');
     }); 
     //////////CURRENCIES
-    Route::prefix('currencies')->group(function() {
+    Route::prefix('currencies')->middleware('AuthorizePost:currency')->group(function() {
 
         Route::post('/', 'CurrencyController@store'); 
         Route::post('{currency}', 'CurrencyController@update'); 
         Route::delete('{currency}', 'CurrencyController@destroy')->name('delete.currency');
     }); 
     //////////REASONS
-    Route::prefix('reasons')->group(function() {
+    Route::prefix('reasons')->middleware('AuthorizePost:reason')->group(function() {
 
         Route::post('/', 'ReasonController@store'); 
         Route::post('{reason}', 'ReasonController@update'); 
@@ -253,15 +253,13 @@ Route::domain('staff.babcasa.com')->group(function (){
     
     Route::post('sign-in', 'Auth\StaffLoginController@login')->name('staff.login.submit');
 
-    Route::prefix('staff')->group(function() {
+    Route::prefix('staff')->middleware('AuthorizePost:staff')->group(function() {
         Route::post('/', 'Auth\StaffRegisterController@store'); 
         Route::post('{staff}', 'StaffController@update'); 
-        Route::post('{staff}/active', 'StaffController@active')->name('active.staff');
-        Route::post('{staff}/desactive', 'StaffController@desactive')->name('desactive.staff');
         Route::delete('{staff}', 'StaffController@destroy')->name('delete.staff');
     }); 
 
-    Route::prefix('partners')->group(function() {
+    Route::prefix('partners')->middleware('AuthorizePost:partner')->group(function() {
 
         Route::post('/', 'PartnerController@store'); 
         Route::post('{partner}', 'PartnerController@update'); 
@@ -271,7 +269,7 @@ Route::domain('staff.babcasa.com')->group(function (){
     });
 
     //////////profiles
-    Route::prefix('profiles')->group(function() {
+    Route::prefix('profiles')->middleware('AuthorizePost:profile')->group(function() {
 
         Route::post('/', 'ProfileController@store'); 
         Route::post('{profile}', 'ProfileController@update'); 

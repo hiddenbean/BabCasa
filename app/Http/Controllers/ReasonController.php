@@ -10,6 +10,11 @@ use Illuminate\Http\Request;
 
 class ReasonController extends Controller
 {
+    public function __construct()
+    {
+         $this->middleware('auth:staff');
+         $this->middleware('AuthorizeGet:reason'); //->except('index','create');
+    }
     /**
      * Get a validator for an incoming registration request.
      *
