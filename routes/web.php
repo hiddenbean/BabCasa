@@ -20,8 +20,15 @@ Route::domain('www.babcasa.com')->group(function (){
 });
 
 Route::domain('staff.babcasa.com')->group(function (){
-    
+    //staff home page
     Route::get('/', 'StaffController@dashboard');
+    Route::get('passwords/rest', 'Auth\StaffForgotPasswordController@showLinkRequestForm')->name('staffs.passwords.rest');
+    Route::post('passwords/email', 'Auth\StaffForgotPasswordController@sendResetLinkEmail')->name('staff.password.link.send');
+    
+    //login page
+    Route::get('sign-in', 'Auth\StaffLoginController@showLoginForm');
+    Route::get('logout', 'Auth\StaffLoginController@logout');
+
     //////////TAGS
     Route::prefix('tags')->middleware('AuthorizeGet:tag')->group(function() {
         Route::get('/', 'TagController@index'); 

@@ -12,7 +12,6 @@ class PictureSeeder extends Seeder
      */
     public function run()
     {
-        
         DB::table('pictures')->insert([
             'name' => 'PICTURE1',
             'tag' => "STAFF_avatar",
