@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class AuthorizeGet
+class CanRead
 {
     /**
      * Handle an incoming request.

@@ -12,7 +12,7 @@ class CountryController extends Controller
     public function __construct()
     {
          $this->middleware('auth:staff');
-         $this->middleware('AuthorizeGet:country'); //->except('index','create');
+         $this->middleware('CanRead:country'); //->except('index','create');
     }
     /**
      * Get a validator for an incoming registration request.

@@ -22,7 +22,7 @@ class ClaimController extends Controller
     public function __construct()
     {
          $this->middleware('auth:partner');
-         $this->middleware('AuthorizeGet:claim'); //->except('index','create');
+         $this->middleware('CanRead:claim'); //->except('index','create');
     }
 
       public function validateClaim(Request $request)

@@ -13,7 +13,7 @@ class TagController extends Controller
     public function __construct()
     {
          $this->middleware('auth:staff');
-         $this->middleware('AuthorizeGet:tag'); //->except('index','create');
+         $this->middleware('CanRead:tag'); //->except('index','create');
     }
      /**
      * Get a validator for an incoming registration request.

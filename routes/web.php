@@ -30,76 +30,94 @@ Route::domain('staff.babcasa.com')->group(function (){
     Route::get('logout', 'Auth\StaffLoginController@logout');
 
     //////////TAGS
-    Route::prefix('tags')->middleware('AuthorizeGet:tag')->group(function() {
+    Route::prefix('tags')->middleware('CanRead:tag')->group(function() {
         Route::get('/', 'TagController@index'); 
-        Route::get('create', 'TagController@create'); 
+        Route::group(['middleware' => ['CanWrite:tag']], function(){
+            Route::get('create', 'TagController@create'); 
+            Route::get('{tag}/edit', 'TagController@edit'); 
+        });     
         Route::get('{tag}', 'TagController@show'); 
-        Route::get('{tag}/edit', 'TagController@edit'); 
     });
 
     //////////CATEGORIES
-    Route::prefix('categories')->middleware('AuthorizeGet:category')->group(function() {
+    Route::prefix('categories')->middleware('CanRead:category')->group(function() {
         Route::get('/', 'CategoryController@index'); 
-        Route::get('create', 'CategoryController@create'); 
+        Route::group(['middleware' => ['CanWrite:category']], function(){
+            Route::get('create', 'CategoryController@create'); 
+            Route::get('{Category}/edit', 'CategoryController@edit'); 
+        });
         Route::get('{Category}', 'CategoryController@show'); 
-        Route::get('{Category}/edit', 'CategoryController@edit'); 
     });
 
     //////////DETAILS
-    Route::prefix('details')->middleware('AuthorizeGet:detail')->group(function() {
+    Route::prefix('details')->middleware('CanRead:detail')->group(function() {
         Route::get('/', 'DetailController@index'); 
-        Route::get('create', 'DetailController@create'); 
+        Route::group(['middleware' => ['CanWrite:detail']], function(){
+            Route::get('create', 'DetailController@create'); 
+            Route::get('{detail}/edit', 'DetailController@edit'); 
+        });
         Route::get('{detail}', 'DetailController@show'); 
-        Route::get('{detail}/edit', 'DetailController@edit'); 
     });
 
     //////////countries
-    Route::prefix('countries')->middleware('AuthorizeGet:country')->group(function() {
+    Route::prefix('countries')->middleware('CanRead:country')->group(function() {
         Route::get('/', 'CountryController@index'); 
-        Route::get('create', 'CountryController@create'); 
-        Route::get('{country}', 'CountryController@show'); 
-        Route::get('{country}/edit', 'CountryController@edit'); 
+          Route::group(['middleware' => ['CanWrite:country']], function(){
+                Route::get('create', 'CountryController@create'); 
+                Route::get('{country}/edit', 'CountryController@edit');
+            }); 
+              Route::get('{country}', 'CountryController@show'); 
     });
 
     //////////countries
-    Route::prefix('currencies')->middleware('AuthorizeGet:currency')->group(function() {
+    Route::prefix('currencies')->middleware('CanRead:currency')->group(function() {
         Route::get('/', 'CurrencyController@index'); 
-        Route::get('create', 'CurrencyController@create'); 
-        Route::get('{currency}', 'CurrencyController@show'); 
-        Route::get('{currency}/edit', 'CurrencyController@edit'); 
+          Route::group(['middleware' => ['CanWrite:currency']], function(){
+                Route::get('create', 'CurrencyController@create'); 
+                Route::get('{currency}/edit', 'CurrencyController@edit');
+            }); 
+              Route::get('{currency}', 'CurrencyController@show'); 
     }); 
 
     //////////reasons
-    Route::prefix('reasons')->middleware('AuthorizeGet:reason')->group(function() {
+    Route::prefix('reasons')->middleware('CanRead:reason')->group(function() {
         Route::get('/', 'ReasonController@index'); 
-        Route::get('create', 'ReasonController@create'); 
-        Route::get('{reason}', 'ReasonController@show'); 
-        Route::get('{reason}/edit', 'ReasonController@edit'); 
+          Route::group(['middleware' => ['CanWrite:reason']], function(){
+                Route::get('create', 'ReasonController@create'); 
+                Route::get('{reason}/edit', 'ReasonController@edit');
+            }); 
+              Route::get('{reason}', 'ReasonController@show'); 
     });
 
     //////////staff
     Route::get('/sign-in', 'Auth\StaffLoginController@showLoginForm');
     Route::get('/logout', 'Auth\StaffLoginController@logout');
-    Route::prefix('staff')->middleware('AuthorizeGet:staff')->group(function() {
+    Route::prefix('staff')->middleware('CanRead:staff')->group(function() {
         Route::get('/', 'StaffController@index'); 
-        Route::get('create', 'StaffController@create'); 
-        Route::get('{staff}', 'StaffController@show'); 
-        Route::get('{staff}/edit', 'StaffController@edit'); 
+          Route::group(['middleware' => ['CanWrite:staff']], function(){
+                Route::get('create', 'StaffController@create'); 
+                Route::get('{staff}/edit', 'StaffController@edit');
+            }); 
+              Route::get('{staff}', 'StaffController@show'); 
     }); 
 
-    Route::prefix('partners')->middleware('AuthorizeGet:partner')->group(function() {
+    Route::prefix('partners')->middleware('CanRead:partner')->group(function() {
         Route::get('/', 'PartnerController@index'); 
-        Route::get('create', 'PartnerController@create'); 
-        Route::get('{partner}', 'PartnerController@show'); 
-        Route::get('{partner}/edit', 'PartnerController@edit'); 
+          Route::group(['middleware' => ['CanWrite:partner']], function(){
+                Route::get('create', 'PartnerController@create'); 
+                Route::get('{partner}/edit', 'PartnerController@edit');
+            }); 
+              Route::get('{partner}', 'PartnerController@show'); 
     }); 
 
     //////////profiles
-    Route::prefix('profiles')->middleware('AuthorizeGet:profile')->group(function() {
+    Route::prefix('profiles')->middleware('CanRead:profile')->group(function() {
         Route::get('/', 'ProfileController@index');
-        Route::get('create', 'ProfileController@create'); 
-        Route::get('{profile}', 'profileController@show'); 
-        Route::get('{profile}/edit', 'ProfileController@edit'); 
+          Route::group(['middleware' => ['CanWrite:profile']], function(){
+                Route::get('create', 'ProfileController@create'); 
+                Route::get('{profile}/edit', 'ProfileController@edit');
+            }); 
+              Route::get('{profile}', 'profileController@show'); 
     }); 
 
     //////////STATUS
@@ -207,7 +225,7 @@ Route::domain('staff.babcasa.com')->group(function (){
         return view('welcome');
     });
     //////////TAGS
-    Route::prefix('tags')->middleware('AuthorizePost:tag')->group(function() {
+    Route::prefix('tags')->middleware('CanWrite:tag')->group(function() {
 
         Route::post('/', 'TagController@store'); 
         Route::post('{tag}', 'TagController@update'); 
@@ -215,35 +233,35 @@ Route::domain('staff.babcasa.com')->group(function (){
     }); 
 
     //////////Categories
-    Route::prefix('categories')->middleware('AuthorizePost:category')->group(function() {
+    Route::prefix('categories')->middleware('CanWrite:category')->group(function() {
 
         Route::post('/','CategoryController@store'); 
         Route::post('{category}', 'CategoryController@update'); 
         Route::delete('{category}', 'CategoryController@destroy')->name('delete.category');
     }); 
     //////////details
-    Route::prefix('details')->middleware('AuthorizePost:detail')->group(function() {
+    Route::prefix('details')->middleware('CanWrite:detail')->group(function() {
 
         Route::post('/', 'DetailController@store'); 
         Route::post('{detail}', 'DetailController@update'); 
         Route::delete('{detail}', 'DetailController@destroy')->name('delete.detail');
     }); 
     //////////COUNTRIES
-    Route::prefix('countries')->middleware('AuthorizePost:country')->group(function() {
+    Route::prefix('countries')->middleware('CanWrite:country')->group(function() {
 
         Route::post('/', 'CountryController@store'); 
         Route::post('{country}', 'CountryController@update'); 
         Route::delete('{country}', 'CountryController@destroy')->name('delete.country');
     }); 
     //////////CURRENCIES
-    Route::prefix('currencies')->middleware('AuthorizePost:currency')->group(function() {
+    Route::prefix('currencies')->middleware('CanWrite:currency')->group(function() {
 
         Route::post('/', 'CurrencyController@store'); 
         Route::post('{currency}', 'CurrencyController@update'); 
         Route::delete('{currency}', 'CurrencyController@destroy')->name('delete.currency');
     }); 
     //////////REASONS
-    Route::prefix('reasons')->middleware('AuthorizePost:reason')->group(function() {
+    Route::prefix('reasons')->middleware('CanWrite:reason')->group(function() {
 
         Route::post('/', 'ReasonController@store'); 
         Route::post('{reason}', 'ReasonController@update'); 
@@ -260,13 +278,13 @@ Route::domain('staff.babcasa.com')->group(function (){
     
     Route::post('sign-in', 'Auth\StaffLoginController@login')->name('staff.login.submit');
 
-    Route::prefix('staff')->middleware('AuthorizePost:staff')->group(function() {
+    Route::prefix('staff')->middleware('CanWrite:staff')->group(function() {
         Route::post('/', 'Auth\StaffRegisterController@store'); 
         Route::post('{staff}', 'StaffController@update'); 
         Route::delete('{staff}', 'StaffController@destroy')->name('delete.staff');
     }); 
 
-    Route::prefix('partners')->middleware('AuthorizePost:partner')->group(function() {
+    Route::prefix('partners')->middleware('CanWrite:partner')->group(function() {
 
         Route::post('/', 'PartnerController@store'); 
         Route::post('{partner}', 'PartnerController@update'); 
@@ -276,7 +294,7 @@ Route::domain('staff.babcasa.com')->group(function (){
     });
 
     //////////profiles
-    Route::prefix('profiles')->middleware('AuthorizePost:profile')->group(function() {
+    Route::prefix('profiles')->middleware('CanWrite:profile')->group(function() {
 
         Route::post('/', 'ProfileController@store'); 
         Route::post('{profile}', 'ProfileController@update'); 

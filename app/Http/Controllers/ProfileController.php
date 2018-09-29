@@ -16,7 +16,7 @@ class profileController extends Controller
     public function __construct()
     {
          $this->middleware('auth:staff');
-        // $this->middleware('AuthorizeGet:profile'); //->except('index','create');
+        // $this->middleware('CanRead:profile'); //->except('index','create');
     }
 
    /**

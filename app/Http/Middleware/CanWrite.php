@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class AuthorizePost
+class CanWrite
 {
     /**
      * Handle an incoming request.
