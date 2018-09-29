@@ -83,7 +83,6 @@
                                 <div class="col-md-12">
                                     <div class="padding-30 sm-padding-5">
                                         <p>Informations de base</p>
-                                        {{$errors}}
                                         <div class="form-group-attached">
                                             <div class="row clearfix">
                                                 <div class="col-sm-6">

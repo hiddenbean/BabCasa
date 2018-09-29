@@ -22,7 +22,7 @@ class PartnerController extends Controller
 
     public function __construct()
     {
-         //$this->middleware('auth:staff');
+        // $this->middleware('auth:staff');
     }
     
     protected function validateRequest(Request $request)
@@ -82,7 +82,8 @@ class PartnerController extends Controller
         $PictureController = new PictureController();
         $PictureController->validateRequest($request);
         
-              
+        $phone = new PhoneController();
+        $phone->validateRequest($request);
         
         $password = bcrypt($request->password);
         $name = $request->company_name;

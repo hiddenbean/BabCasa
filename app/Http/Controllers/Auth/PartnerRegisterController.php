@@ -91,6 +91,9 @@ class PartnerRegisterController extends Controller
         
         $PictureController = new PictureController();
         $PictureController->validateRequest($request);
+
+        $phone = new PhoneController();
+        $phone->validateRequest($request);
                
         
         $password = bcrypt($request->password);

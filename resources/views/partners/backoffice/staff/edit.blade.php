@@ -1,4 +1,4 @@
-@extends('layouts.backoffice.partner.app')
+@extends('layouts.backoffice.staff.app')
 @section('css_before')
     <link href="{{ asset('plugins/bootstrap-datepicker/css/datepicker3.css') }}" rel="stylesheet" type="text/css" media="screen">
     <link href="{{ asset('plugins/switchery/css/switchery.min.css') }}" rel="stylesheet" type="text/css" media="screen" />
