@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use Auth;
+use App\Phone;
 use App\Partner;
 use App\Country;
 use App\Address;
 use App\Picture;
-use App\Phone;
+use App\Status;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\PictureController;
@@ -83,22 +84,21 @@ class PartnerRegisterController extends Controller
      */
     protected function store(Request $request)
     {
-       $this->validateRequest($request);
+        $this->validateRequest($request);
         
         $AddressController = new AddressController();
         $AddressController->validateRequest($request);
         
         $PictureController = new PictureController();
         $PictureController->validateRequest($request);
+               
         
-        $PhoneController = new PhoneController();
-        $PhoneController->validateRequest($request);        
-
         $password = bcrypt($request->password);
         $name = $request->company_name;
         while(Partner::where('name', $request->company_name)->first()){
             $name = $name.'_'.rand(0,9);
         }
+        $is_register_to_newsletter = ($request->is_register_to_newsletter=='on') ? 1 : 0;
         $partner = Partner::create([
             'company_name' => $request->company_name,
             'name' => $name,
@@ -106,24 +106,27 @@ class PartnerRegisterController extends Controller
             'password' => $password,
             'about' => $request->about,
             'trade_registry' => $request->trade_registry,
+            'is_register_to_newsletter' => $is_register_to_newsletter,
             'ice' => $request->ice,
             'taxe_id' => $request->tax_id,
             ]);
+            $status = new Status();
+            $status->is_approved = 0;
+            $status->partner_id = $partner->id;
+            $status->staff_id = 1;//auth()->guard('staff')->user()->id;
+            $status->save();
 
-        $country = Country::where('name', $request->country)->firstOrFail();
-
-        $address = Address::create([
-            'address' => $request->address,
-            'address_two' => $request->address_two,
-            'full_name' => $request->full_name,
-            'country_id' => $country->id,
-            'city' => $request->city,
-            'zip_code' => $request->zip_code,
-            'longitude' => $request->longitude,
-            'latitude' => $request->latitude,
-            'addressable_type' => 'partner',
-            'addressable_id' => $partner->id,
-        ]);
+            $address = new  Address();
+            $address->address = $request->address;
+            $address->address_tow = $request->address_tow;
+            $address->full_name = $request->full_name;
+            $address->zip_code = $request->zip_code;
+            $address->country_id = $request->country_id;
+            $address->city = $request->city;
+            $address->addressable_type = 'partner';
+            $address->addressable_id = $partner->id;
+            $address->save();
+            
 
         if($request->hasFile('path')) 
         {
@@ -138,30 +141,32 @@ class PartnerRegisterController extends Controller
         }
         
 
-        foreach($request->number as $key => $number)
+        foreach($request->numbers as $key => $number)
         {
             if($number != null)
             {
-                $phone = Phone::create([
-                    'number' => $number,
-                    'type' => 'fix',
-                    'phone_code_id' => $request->code_country[$key],
-                    'phoneable_type' => 'partner',
-                    'phoneable_id' => $partner->id,
-                ]);
+                $phone = new Phone();
+                $phone->number = $number;
+                $phone->type = "phone";
+                $phone->country_id = $request->code_country[$key];
+                $phone->phoneable_type = 'partner';
+                $phone->phoneable_id = $partner->id;
+                $phone->save();
             }
         }
 
         if($request->fax_number)
             {
-                $phone = Phone::create([
-                    'number' => $request->fax_number,
-                    'type' => 'fax',
-                    'phone_code_id' => $request->code_country[2],
-                    'phoneable_type' => 'partner',
-                    'phoneable_id' => $partner->id,
-                ]);
-            }
+
+                $phone = new Phone();
+                $phone->number = $request->fax_number;
+                $phone->type = "fix";
+                $phone->country_id = $request->code_country[2];
+                $phone->phoneable_type = 'partner';
+                $phone->phoneable_id = $partner->id;
+                $phone->save();
+            }  
+            
         $this->guardsLogout();
         auth()->guard('partner')->login($partner);
         return redirect('/');
@@ -184,7 +189,8 @@ class PartnerRegisterController extends Controller
      */
     public function showRegisterForm()
     {
-        return view('system.backoffice.partner.register');
+        $data['countries'] = Country::all();
+        return view('system.backoffice.partner.register',$data);
     }
 }
 

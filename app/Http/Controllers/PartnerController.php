@@ -23,7 +23,6 @@ class PartnerController extends Controller
     public function __construct()
     {
          //$this->middleware('auth:staff');
-         $this->middleware('CanRead:partner'); //->except('index','create');
     }
     
     protected function validateRequest(Request $request)
@@ -83,8 +82,7 @@ class PartnerController extends Controller
         $PictureController = new PictureController();
         $PictureController->validateRequest($request);
         
-        $PhoneController = new PhoneController();
-        $PhoneController->validateRequest($request);        
+              
         
         $password = bcrypt($request->password);
         $name = $request->company_name;
@@ -103,6 +101,11 @@ class PartnerController extends Controller
             'ice' => $request->ice,
             'taxe_id' => $request->tax_id,
             ]);
+            $status = new Status();
+            $status->is_approved = 1;
+            $status->partner_id = $partner->id;
+            $status->staff_id = auth()->guard('staff')->user()->id;
+            $status->save();
 
             $address = new  Address();
             $address->address = $request->address;

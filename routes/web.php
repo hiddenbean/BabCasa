@@ -130,13 +130,12 @@ Route::domain('staff.babcasa.com')->group(function (){
 
 Route::domain('partner.babcasa.com')->group(function (){
     Route::get('{product}/edit', 'ProductController@edit'); 
-    Route::get('/register', 'auth\StaffRegisterController@showRegisterForm');
 });
 
 Route::domain('partner.babcasa.com')->group(function (){
     Route::get('/test', 'ProductController@create'); 
 
-    Route::get('/register', 'auth\PartnerRegisterController@showRegisterForm'); 
+    Route::get('/register', 'Auth\PartnerRegisterController@showRegisterForm'); 
     Route::get('/sign-in', 'Auth\PartnerLoginController@showLoginForm');
     Route::get('/', 'PartnerController@dashboard');
     Route::get('/logout', 'Auth\PartnerLoginController@logout');
@@ -178,7 +177,7 @@ Route::domain('partner.babcasa.com')->group(function (){
     Route::post('/store', 'ProductController@store');
 
     // Partner register route
-    Route::post('register', 'auth\PartnerRegisterController@store')->name('partner.register.submit'); 
+    Route::post('register', 'Auth\PartnerRegisterController@store')->name('partner.register.submit'); 
     // Partner auth route, sign in    
     Route::post('/sign-in', 'Auth\PartnerLoginController@login');
 
@@ -303,6 +302,6 @@ Route::domain('staff.babcasa.com')->group(function (){
     });
 
     // Staff register route
-    Route::post('register', 'auth\StaffRegisterController@store')->name('staff.register.submit'); 
+    //Route::post('register', 'auth\StaffRegisterController@store')->name('staff.register.submit'); 
 
 });
