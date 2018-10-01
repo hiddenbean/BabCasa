@@ -34,7 +34,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div> 
+                    </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group form-group-default @if($errors->has('password')) has-error @endif">
@@ -54,7 +54,7 @@
                             </div>
                         </div> 
                         <div class="col-md-6 text-right">
-                            <a href="{{ route('staffs.passwords.rest') }}" class="small">Forgot your password ?</a> 
+                            <a href="{{ route('staff.passwords.reset') }}" class="small">Forgot your password ?</a> 
                         </div>
                     </div>
                     <button class="btn btn-primary btn-cons m-t-10" type="submit">Login</button>

@@ -4,10 +4,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+//use this notification to sen an email to a specific user
+use App\Notifications\StaffPasswordNotification;
 
 class Staff extends Authenticatable
 {
+
+    use Notifiable;
     use SoftDeletes;
     protected $guard = 'staff';
 
@@ -54,5 +59,16 @@ class Staff extends Authenticatable
     public function profile()
     {
         return $this->belongsTo('App\Profile');
+    }
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new StaffPasswordNotification($token, 'staff'));
     }
 }
