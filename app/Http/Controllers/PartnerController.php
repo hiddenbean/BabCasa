@@ -22,7 +22,7 @@ class PartnerController extends Controller
 
     public function __construct()
     {
-        // $this->middleware('auth:partner');
+        $this->middleware('auth:partner');
     }
     
     protected function validateRequest(Request $request)
@@ -278,8 +278,7 @@ class PartnerController extends Controller
      */
     public function destroy($partner)
     {
-        if(Auth::guard('partner')->user()->id != $partner) return;
-        $partner = Partner::findOrfail($partner);
+        $partner = Partner::where('name', $partner)->first();
         $partner->delete();
         return redirect()->back();
     }

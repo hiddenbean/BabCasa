@@ -29,6 +29,9 @@ Route::domain('staff.babcasa.com')->group(function (){
     Route::get('sign-in', 'Auth\StaffLoginController@showLoginForm');
     Route::get('logout', 'Auth\StaffLoginController@logout');
 
+    // Security
+    Route::get('security', 'StaffController@security');
+
     //////////TAGS
     Route::prefix('tags')->group(function() {
         Route::get('/', 'TagController@index'); 
@@ -158,12 +161,9 @@ Route::domain('partner.babcasa.com')->group(function (){
     Route::post('/store', 'ProductController@store');
 
     // Partner register route
-    Route::post('register', 'auth\PartnerRegisterController@store')->name('partner.register.submit'); 
+    Route::post('register', 'auth\PartnerRegisterController@store')->name('partner.register.submit');
     // Partner auth route, sign in    
     Route::post('/sign-in', 'Auth\PartnerLoginController@login');
-
-    // Desactivate partner account
-    Route::delete('partner/{partner}/desactivate', 'PartnerController@destroy');
 
     // Partner change password start
     Route::prefix('password')->group(function() {
@@ -175,6 +175,9 @@ Route::domain('partner.babcasa.com')->group(function (){
     Route::prefix('{partner}')->group(function() {
         // Partner secutiry
         Route::delete('security/{session}', 'PartnerController@sessionDestroy');
+
+        // Desactivate partner account
+        Route::delete('/desactivate', 'PartnerController@destroy');
 
         // Partner update
         Route::post('settings/update', 'PartnerController@update');
@@ -208,6 +211,14 @@ Route::domain('staff.babcasa.com')->group(function (){
     // Reset password
     Route::post('passwords/email', 'Auth\StaffForgotPasswordController@sendResetLinkEmail')->name('staff.password.link.send');
     Route::post('password/reset', 'Auth\StaffResetPasswordController@reset')->name('staff.password.reset');
+
+    Route::prefix('{staff}')->group(function() {
+        // Staff secutiry
+        Route::delete('security/{session}', 'StaffController@sessionDestroy');
+
+        // Desactivate staff account
+        Route::delete('/desactivate', 'StaffController@destroy');
+    });
 
     //////////TAGS
     Route::prefix('tags')->group(function() {

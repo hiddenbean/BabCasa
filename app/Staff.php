@@ -61,6 +61,29 @@ class Staff extends Authenticatable
         return $this->belongsTo('App\Profile');
     }
 
+    public static function boot()
+    {
+        parent::boot();    
+    
+        // cause a delete of a product to cascade to children so they are also deleted
+        static::deleting(function($partner)
+        {
+            $partner->address()->delete();
+            $partner->picture()->delete();
+            $partner->phones()->delete();
+            $partner->claimMessages()->delete();
+            $partner->claims()->delete();
+            
+        });
+
+        static::restoring(function($partner)
+        {
+            $partner->address()->withTrashed()->restore();
+            $partner->picture()->withTrashed()->restore();
+            $partner->phones()->withTrashed()->restore();
+        });
+    }
+
     /**
      * Send the password reset notification.
      *

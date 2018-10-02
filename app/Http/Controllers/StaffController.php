@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App;
+use Auth;
+use DB;
 use App\Staff;
 use App\Profile;
 use App\Language;
@@ -12,6 +14,7 @@ use App\Phone;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\PictureController;
 use App\Http\Controllers\PhoneController;
+use App\Guest;
 use Illuminate\Http\Request;
 
 class StaffController extends Controller
@@ -253,8 +256,38 @@ class StaffController extends Controller
      */
     public function destroy($staff)
     {
-        $staff = Staff::findOrFail($staff);
+        $staff = Staff::where('name', $staff)->first();
         $staff->delete();
         return redirect('staff');
+    }
+
+    /**
+     * Show all open sessions for the account.
+     * Option to change password and to desable the account.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function security()
+    {
+        $staff = Auth::guard('staff')->user();
+        $guests = Guest::some($staff->id);
+        return view('system.backoffice.staff.security', [
+            'staff' => $staff,
+            'guests' => $guests,
+        ]);
+    }
+
+    /**
+     * Desable staffs account.
+     *
+     * @param  \Iluminate\Http\Request $request
+     * @param  \App\Staff  $staff
+     * @param  \App\Guest  $session_id
+     * @return \Illuminate\Http\Response
+     */
+    public function sessionDestroy(Request $request,$staff, $session_id)
+    {
+        DB::table('sessions')->where('id', $session_id)->delete();
+        return redirect(str_before(url()->current(), '.com').'.com/security');
     }
 }
