@@ -18,9 +18,11 @@ class ClaimController extends Controller
      *
      * @return void
      */
+   
     public function __construct()
     {
-        $this->middleware('auth:partner');
+         $this->middleware('auth:partner');
+         $this->middleware('CanRead:claim'); //->except('index','create');
     }
 
       public function validateClaim(Request $request)

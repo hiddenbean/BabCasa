@@ -154,6 +154,11 @@
                                                         <label for="path_partner" class="choose_photo">
                                                             <span>
                                                                 <i class="fa fa-image"></i> Choisir une photo</span>
+                                                         <label class='error' for='path'>
+                                                                @if ($errors->has('path'))
+                                                                    {{ $errors->first('path') }}
+                                                                @endif
+                                                        </label> 
                                                         </label>
                                                         <input type="file" id="path_partner" name="path" class="form-control hide">
                                                     </div>
@@ -208,12 +213,18 @@
                                             </div>
                                             <div class="row clearfix">
                                                 <div class="col-sm-6">
-                                                    <div class="form-group form-group-default">
-                                                        <label for="country">Pays</label>
-                                                        <input type="text" id="country" name="country" value="{{ old('country') }}" class="form-control" placeholder="">
-                                                        @if ($errors->has('country'))
-                                                        <label class='error' for='country'>{{ $errors->first('country') }}</label>
-                                                        @endif
+                                                     <div class="form-group form-group-default">
+                                                        <label>Country</label>
+                                                        <select class="cs-select cs-skin-slide cs-transparent" name="country_id" data-init-plugin="cs-select">
+                                                            @foreach($countries as $country)
+                                                            <option value="{{$country->id}}" >{{$country->name}}</option>
+                                                                @endforeach 
+                                                    </select> 
+                                                    <label class='error' for='country'>
+                                                            @if ($errors->has('country'))
+                                                                {{ $errors->first('country') }}
+                                                            @endif
+                                                    </label> 
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
@@ -239,7 +250,7 @@
                                                 <div class="col-sm-3">
                                                     <div class="form-group form-group-default">
                                                         <label for="zip_code">Code postal</label>
-                                                        <input type="text" id="zip_code" name="zip_code" value="{{ old('zip_code') }}" class="form-control">
+                                                        <input type="text" id="zip_code" name="zip_code" value="{{ old('zip_code') }}" class="form-control"  maxlength="6" >
                                                         @if ($errors->has('zip_code'))
                                                         <label class='error' for='zip_code'>{{ $errors->first('zip_code') }}</label>
                                                         @endif
@@ -253,93 +264,60 @@
                                         <div class="form-group-attached">
                                             <div class="row clearfix">
                                                 <div class="col-md-6">
-                                                    <div class="form-group form-group-default input-group">
-                                                        <div class="cs-input-group-addon input-group-addon d-flex">
-                                                            <select class="cs-select cs-skin-slide cs-transparent" name="code_country[]" data-init-plugin="cs-select">
-                                                                <option data-countryCode="GB" value="44" Selected>UK (+44)</option>
-                                                                <option data-countryCode="US" value="1">USA (+1)</option>
-                                                                <option data-countryCode="UZ" value="7">Uzbekistan (+7)</option>
-                                                                <option data-countryCode="VU" value="678">Vanuatu (+678)</option>
-                                                                <option data-countryCode="VA" value="379">Vatican City (+379)</option>
-                                                                <option data-countryCode="VE" value="58">Venezuela (+58)</option>
-                                                                <option data-countryCode="VN" value="84">Vietnam (+84)</option>
-                                                                <option data-countryCode="VG" value="84">Virgin Islands - British (+1284)</option>
-                                                                <option data-countryCode="VI" value="84">Virgin Islands - US (+1340)</option>
-                                                                <option data-countryCode="WF" value="681">Wallis &amp; Futuna (+681)</option>
-                                                                <option data-countryCode="YE" value="969">Yemen (North)(+969)</option>
-                                                                <option data-countryCode="YE" value="967">Yemen (South)(+967)</option>
-                                                                <option data-countryCode="ZM" value="260">Zambia (+260)</option>
-                                                                <option data-countryCode="ZW" value="263">Zimbabwe (+263)</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-input-group flex-1">
-                                                            <label>Téléphone N1</label>
-                                                            <input type="text" id="phone" name="number[]" value="{{ old('number.0') }}" class="form-control">
-                                                            @if ($errors->has('number.0'))
-                                                            <label class='error' for='phone'>{{ $errors->first('number.0') }}</label>
-                                                            @endif
-                                                        </div>
+                                                     <div class="form-group form-group-default input-group">
+                                                    <div class="cs-input-group-addon input-group-addon d-flex">
+                                                        <select class="cs-select cs-skin-slide cs-transparent" name="code_country[]" data-init-plugin="cs-select">
+                                                                @foreach($countries as $country)
+                                                                <option value="{{$country->id}}" >{{$country->code}}</option>
+                                                                    @endforeach 
+                                                        </select>
                                                     </div>
+                                                    <div class="form-input-group flex-1">
+                                                        <label>Phone one</label>
+                                                        <input type="text" id="phone" name="numbers[]" value="{{ old('numbers.0') }}" class="form-control">
+                                                        @if ($errors->has('numbers.0'))
+                                                        <label class='error' for='phone'>{{ $errors->first('numbers.0') }}</label>
+                                                        @endif
+                                                    </div>
+                                            </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group form-group-default input-group">
-                                                        <div class="cs-input-group-addon input-group-addon d-flex">
-                                                            <select class="cs-select cs-skin-slide cs-transparent"  name="code_country[]" data-init-plugin="cs-select">
-                                                                <option data-countryCode="GB" value="44" Selected>UK (+44)</option>
-                                                                <option data-countryCode="US" value="1">USA (+1)</option>
-                                                                <option data-countryCode="UZ" value="7">Uzbekistan (+7)</option>
-                                                                <option data-countryCode="VU" value="678">Vanuatu (+678)</option>
-                                                                <option data-countryCode="VA" value="379">Vatican City (+379)</option>
-                                                                <option data-countryCode="VE" value="58">Venezuela (+58)</option>
-                                                                <option data-countryCode="VN" value="84">Vietnam (+84)</option>
-                                                                <option data-countryCode="VG" value="84">Virgin Islands - British (+1284)</option>
-                                                                <option data-countryCode="VI" value="84">Virgin Islands - US (+1340)</option>
-                                                                <option data-countryCode="WF" value="681">Wallis &amp; Futuna (+681)</option>
-                                                                <option data-countryCode="YE" value="969">Yemen (North)(+969)</option>
-                                                                <option data-countryCode="YE" value="967">Yemen (South)(+967)</option>
-                                                                <option data-countryCode="ZM" value="260">Zambia (+260)</option>
-                                                                <option data-countryCode="ZW" value="263">Zimbabwe (+263)</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-input-group flex-1">
-                                                            <label>Téléphone N2</label>
-                                                            <input type="text" id="phone_two" name="number[]" value="{{ old('number.1') }}" class="form-control">
-                                                            @if ($errors->has('number.1'))
-                                                            <label class='error' for='phone_two'>{{ $errors->first('number.1') }}</label>
-                                                            @endif
-                                                        </div>
+                                                    <div class="cs-input-group-addon input-group-addon d-flex">
+                                                        <select class="cs-select cs-skin-slide cs-transparent" name="code_country[]" data-init-plugin="cs-select">
+                                                                @foreach($countries as $country)
+                                                                <option value="{{$country->id}}" >{{$country->code}}</option>
+                                                                    @endforeach 
+                                                        </select>
                                                     </div>
+                                                    <div class="form-input-group flex-1">
+                                                        <label>Phone one</label>
+                                                        <input type="text" id="phone" name="numbers[]" value="{{ old('numbers.1') }}" class="form-control">
+                                                        @if ($errors->has('numbers.1'))
+                                                        <label class='error' for='phone'>{{ $errors->first('numbers.1') }}</label>
+                                                        @endif
+                                                    </div>
+                                            </div>
                                                 </div>
                                             </div>
                                             <div class="row clearfix">
                                                 <div class="col-sm-12">
-                                                    <div class="form-group form-group-default input-group">
-                                                        <div class="cs-input-group-addon input-group-addon d-flex">
-                                                            <select class="cs-select cs-skin-slide cs-transparent"  name="code_country[]" data-init-plugin="cs-select">
-                                                                <option data-countryCode="GB" value="44" Selected>UK (+44)</option>
-                                                                <option data-countryCode="US" value="1">USA (+1)</option>
-                                                                <option data-countryCode="UZ" value="7">Uzbekistan (+7)</option>
-                                                                <option data-countryCode="VU" value="678">Vanuatu (+678)</option>
-                                                                <option data-countryCode="VA" value="379">Vatican City (+379)</option>
-                                                                <option data-countryCode="VE" value="58">Venezuela (+58)</option>
-                                                                <option data-countryCode="VN" value="84">Vietnam (+84)</option>
-                                                                <option data-countryCode="VG" value="84">Virgin Islands - British (+1284)</option>
-                                                                <option data-countryCode="VI" value="84">Virgin Islands - US (+1340)</option>
-                                                                <option data-countryCode="WF" value="681">Wallis &amp; Futuna (+681)</option>
-                                                                <option data-countryCode="YE" value="969">Yemen (North)(+969)</option>
-                                                                <option data-countryCode="YE" value="967">Yemen (South)(+967)</option>
-                                                                <option data-countryCode="ZM" value="260">Zambia (+260)</option>
-                                                                <option data-countryCode="ZW" value="263">Zimbabwe (+263)</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-input-group flex-1">
-                                                            <label>Fax</label>
-                                                            <input type="text" id="fax" name="fax_number" value="{{ old('fax_number') }}" class="form-control">
-                                                            @if ($errors->has('fax_number'))
-                                                            <label class='error' for='fax'>{{ $errors->first('fax_number') }}</label>
-                                                            @endif
-                                                        </div>
+                                                   <div class="form-group form-group-default input-group">
+                                                    <div class="cs-input-group-addon input-group-addon d-flex">
+                                                        <select class="cs-select cs-skin-slide cs-transparent" name="code_country[]" data-init-plugin="cs-select">
+                                                                @foreach($countries as $country)
+                                                                <option value="{{$country->id}}" >{{$country->code}}</option>
+                                                                    @endforeach 
+                                                        </select>
                                                     </div>
+                                                    <div class="form-input-group flex-1">
+                                                        <label>Fax</label>
+                                                        <input type="text" id="phone" name="fax_number" value="{{ old('fax_number') }}" class="form-control">
+                                                        @if ($errors->has('fax_number'))
+                                                        <label class='error' for='phone'>{{ $errors->first('fax_number') }}</label>
+                                                        @endif
+                                                    </div>
+                                                </div>
                                                 </div>
                                             </div>
                                         </div>

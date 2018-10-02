@@ -17,10 +17,10 @@ class PhoneController extends Controller
     public function validateRequest(Request $request)
     {
         $request->validate([
-            'numbers.0' => 'required|numeric|unique:phones,number',
+            'numbers.0' => 'sometimes|numeric|unique:phones,number',
             'numbers.1' => 'sometimes|numeric|unique:phones,number',
-            'code_country.0' => 'required',
-            'code_country.1' => 'required',
+            'code_country.0' => 'sometimes',
+            'code_country.1' => 'sometimes',
         ]);
     }
     /**

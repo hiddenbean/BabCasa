@@ -42,7 +42,6 @@ class StaffController extends Controller
      */
     public function index()
     {
-        // $id = Auth::guard('staff')->user()->id;
         $data['staffs'] = Staff::where('id','!=',0)->get();
         // return $data;
         return view('staff.backoffice.index',$data);
@@ -222,32 +221,7 @@ class StaffController extends Controller
         return redirect('staff');
     }
 
-    /**
-     * desactive the specified resource from storage.
-     *
-     * @param  \App\Staff  $staff
-     * @return \Illuminate\Http\Response
-     */
-    public function desactive($staff)
-    {
-        $staff = Staff::findOrFail($staff);
-        $staff->status = 0;
-        $staff->save();
-        return redirect('staff');
-    }
-    /**
-     * active the specified resource from storage.
-     *
-     * @param  \App\Staff  $staff
-     * @return \Illuminate\Http\Response
-     */
-    public function active($staff)
-    {
-        $staff = Staff::findOrFail($staff);
-        $staff->status = 1;
-        $staff->save();
-        return redirect('staff');
-    }
+
     /**
      * Remove the specified resource from storage.
      *

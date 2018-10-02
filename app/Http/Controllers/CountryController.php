@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 
 class CountryController extends Controller
 {
+    public function __construct()
+    {
+         $this->middleware('auth:staff');
+         $this->middleware('CanRead:country'); //->except('index','create');
+    }
     /**
      * Get a validator for an incoming registration request.
      *

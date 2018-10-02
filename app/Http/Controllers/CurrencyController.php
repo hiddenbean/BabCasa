@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class CurrencyController extends Controller
 {
+    public function __construct()
+    {
+         $this->middleware('auth:staff');
+         $this->middleware('CanRead:currency'); //->except('index','create');
+    }
     /**
      * Get a validator for an incoming registration request.
      *
