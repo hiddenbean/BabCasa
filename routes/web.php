@@ -180,7 +180,7 @@ Route::domain('partner.babcasa.com')->group(function (){
     Route::post('/store', 'ProductController@store');
 
     // Partner register route
-    Route::post('register', 'Auth\PartnerRegisterController@store')->name('partner.register.submit'); 
+    Route::post('register', 'Auth\PartnerRegisterController@store')->name('partner.register.submit');
     // Partner auth route, sign in    
     Route::post('/sign-in', 'Auth\PartnerLoginController@login');
 

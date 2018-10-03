@@ -12,32 +12,35 @@ class Category extends Model
 
     public function categoryLangs()
     {
-            return $this->hasMany('App\CategoryLang');
+            return $this->hasMany('App\CategoryLang')->withTrashed();
     }
+
     public function categoryLang()
     {
-        $langId = Language::where('symbol',App::getLocale())->first()->id; 
+        $langId = Language::where('alpha_2_code',App::getLocale())->first()->id; 
         return $this->categoryLangs()->where('lang_id',$langId);
     }
 
     public function subCategories()
     {
-            return $this->hasMany('App\Category');
+            return $this->hasMany('App\Category')->withTrashed();
     }
 
     public function category()
     {
-        return $this->belongsTo('App\Category');
+        return $this->belongsTo('App\Category')->withTrashed();
     }
     
     public function attributes()
     {
         return $this->belongsToMany('App\Attribute');
     }
+
     public function products()
     {
         return $this->belongsToMany('App\Product');
     }
+    
     public function details()
     {
         return $this->belongsToMany('App\Detail');
@@ -56,12 +59,14 @@ class Category extends Model
         static::deleting(function($category)
         {
             $category->categoryLangs()->delete();
+            $category->subCategories()->delete();
             
         });
 
         static::restoring(function($category)
         {
             $category->categoryLangs()->withTrashed()->restore();
+            $category->subCategories()->withTrashed()->restore();
         });
     }
 }

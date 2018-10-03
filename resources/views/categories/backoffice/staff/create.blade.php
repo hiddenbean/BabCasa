@@ -102,6 +102,26 @@
     <script>
         $(document).ready(function () {
             $('#birthday').datepicker();
+
+            $("#path_staff").on("change", function () {
+                var _this = this;
+                var image_preview = $("#image_preview_staff");
+                showImage(_this, image_preview);
+            });
+
+            function showImage(_this, image_preview) {
+                var files = !!_this.files ? _this.files : [];
+                if (!files.length || !window.FileReader) return;
+                if (/^image/.test(files[0].type)) {
+                    var ReaderObj = new FileReader();
+                    ReaderObj.readAsDataURL(files[0]);
+                    ReaderObj.onloadend = function () {
+                        image_preview.attr('src', this.result);
+                    }
+                } else {
+                    alert("Upload an image");
+                }
+            } 
         });
     </script>
 @stop

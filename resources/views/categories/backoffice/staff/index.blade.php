@@ -26,6 +26,16 @@
     <div class="container-fluid container-fixed-lg bg-white">
         <div class="card card-transparent">
             <div class="card-header">
+                    @if (\Session::has('error'))
+                        <div class="alert alert-danger">
+                            {!! \Session::get('error') !!}
+                        </div>
+                    @endif
+                    @if (\Session::has('success'))
+                        <div class="alert alert-success">
+                            {!! \Session::get('success') !!}
+                        </div>
+                    @endif
                 <div class="card-title">List of categories</div>
                 <div class="pull-right">
                     <div class="col-xs-12">
@@ -60,7 +70,7 @@
                             <tr class="order-progress"  >
                                 <td class="v-align-middle"><a href="{{url('categories/'.$category->id)}}"><strong> {{$category->categoryLang->first()->reference}} </strong></a></td>
                                 <td class="v-align-middle text-center"><strong>{{$category->categoryLang->first()->description}} </strong></td>                
-                                <td class="v-align-middle text-center"> @if(isset($category->category_id)){{$category->category->categoryLang->first()->reference}} @endif </td>             
+                                <td class="v-align-middle text-center"> @if(isset($category->category_id)) <a href="{{url('categories/'.$category->category->id)}}"><strong> {{$category->category->categoryLang->first()->reference}} </strong></a> @endif </td>             
                                         @if (auth()->guard('staff')->user()->can('write','category'))
                                 <td class="v-align-middle text-center">
 

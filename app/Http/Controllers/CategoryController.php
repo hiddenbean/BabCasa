@@ -13,7 +13,7 @@ class CategoryController extends Controller
 {
     public function __construct()
     {
-         $this->middleware('auth:staff');
+         $this->middleware('guest:staff');
          $this->middleware('CanRead:category'); //->except('index','create');
     }
      /**
@@ -25,7 +25,7 @@ class CategoryController extends Controller
     protected function validateRequest(Request $request)
     {
         $request->validate([
-            'reference' => 'required|unique:Category_langs,reference',
+            'reference' => 'required|unique:category_langs,reference,NULL,id,deleted_at,NULL',
             'description' => 'required|required|max:3000',
             'category_id' => 'sometimes',
         ]);
@@ -62,10 +62,21 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $this->validateRequest($request);
-        $category = new Category();
-        if($request->category_id>0)
-        $category->category_id = $request->category_id; 
+        
+        $trashed_category_lang = CategoryLang::withTrashed()->where('reference', $request->reference)->first();
+        if($trashed_category_lang)
+        {
+            $category = $trashed_category_lang->category;
+            $this->restore($category->id);
+            $category_lang = $category->categoryLang->first();
+        }
+        else
+        {   
+            $category = new Category();
+        }
 
+        
+        $request->category_id ? $category->category_id = $request->category_id : null ;
         $category->save(); 
         
         if($request->path)
@@ -80,15 +91,26 @@ class CategoryController extends Controller
             ]);
 
         }
-
-        $categoryLang = new CategoryLang();
-        $categoryLang->reference = $request->reference; 
-        $categoryLang->description = $request->description; 
-        $categoryLang->category_id = $category->id; 
-        $categoryLang->lang_id = Language::where('symbol',App::getLocale())->first()->id;
-        $categoryLang->save();
+        if(!isset($category_lang))
+        {
+            $category_lang = new CategoryLang();
+            $categoryçlang->category_id = $category->id;
+            $category_lang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
+        }
+        $category_lang->reference = $request->reference;
+        $category_lang->description = $request->description;
+        $category_lang->save();
         
-        return redirect('categories');
+        return redirect('categories')->with(
+            'success',
+            'Category has been added successfuly !!'
+        );
+    }
+
+    public function restore($category_id)
+    {
+        $category = Category::withTrashed()->findOrFail($category_id);
+        $category->restore();
     }
 
     /**
@@ -99,7 +121,6 @@ class CategoryController extends Controller
      */
     public function show($category)
     {
-        
         $data['category'] = Category::find($category);
         return view('categories.backoffice.staff.show',$data);
     }
@@ -127,47 +148,39 @@ class CategoryController extends Controller
     public function update(Request $request, $category)
     {
         $request->validate([
-            'reference' => 'required|unique:Category_langs,reference,'.$category.',category_id',
+            'reference' => 'required|unique:category_langs,reference,'.$category.',category_id',
             'description' => 'required|required|max:3000',
             'category_id' => 'sometimes',
         ]);
         
         $category = Category::find($category);
-        $category->category_id = $request->category_id; 
+        $request->category_id == 0 ? $category_parent = null: $category_parent = $request->category_id;
+        $category->category_id = $category_parent; 
         $category->save();
         
-        if(isset($category->picture))
-        {
-            $picture = $category->picture;
-            if($request->hasFile('path')) {
-                $picture->name =time().'.'.$request->file('path')->extension();
-                $picture->tag = "category";
-                $picture->path = $request->file('path')->store('images/categories', 'public');
-                $picture->extension = $request->file('path')->extension();
-                $picture->save(); 
-    
-            }
-        }else{
-            if($request->path)
+        if($request->hasFile('path')) {
+            if(isset($category->picture))
             {
-                $picture = Picture::create([
-                    'name' => time().'.'.$request->file('path')->extension(),
-                    'tag' => "category",
-                    'path' => $request->path->store('images/categories', 'public'),
-                    'extension' => $request->path->extension(),
-                    'pictureable_type' => 'category',
-                    'pictureable_id' => $category->id,
-                ]);
-    
+                $picture = $category->picture;
             }
+            else
+            {
+                $picture = new Picture();
+            }
+            $picture->name =time().'.'.$request->file('path')->extension();
+            $picture->tag = "category";
+            $picture->path = $request->file('path')->store('images/categories', 'public');
+            $picture->extension = $request->file('path')->extension();
+            $picture->save();
         }
-        $categoryLangId = $category->categoryLang->first()->id;
 
-        $categoryLang = CategoryLang::find($categoryLangId);
-        $categoryLang->reference = $request->reference; 
-        $categoryLang->description = $request->description; 
-        $categoryLang->lang_id = Language::where('symbol',App::getLocale())->first()->id;
-        $categoryLang->save(); 
+        $category_lang = $category->categoryLang->first();
+
+        $category_lang->reference = $request->reference;
+        $category_lang->description = $request->description;
+        $category_lang->category_id = $category->id;
+        $categoryLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
+        $category_lang->save();
         
         return redirect('categories');
     }
@@ -181,9 +194,35 @@ class CategoryController extends Controller
     public function destroy($Category)
     {
         // récupérer photo
-        $Category = Category::findOrFail($Category);
-       $Category->delete();
-       return redirect('categories');
+        $category = Category::findOrFail($Category);
+
+        if(isset($category->products[0]) || isset($category->bundles[0]) || isset($category->markets[0]))
+        {return $category->products;
+            return  redirect()
+                        ->back()
+                        ->with(
+                            'error',
+                            'category can\'t be deleted it has products/bundles/markets !!' 
+                        );
+        }
+
+        foreach($category->subCategories as $sub_category)
+        {
+            if(isset($sub_category->products[0]) || isset($sub_category->bundles[0]) || isset($category->markets[0]))
+            {
+                return  redirect()
+                            ->back()
+                            ->with(
+                                'error',
+                                'category can\'t be deleted it has a subcategory with products/bundles/markets !!'
+                            );
+            }
+        }
+        $category->delete();
+        return redirect('categories')->with(
+                            'success',
+                            'Category has been deleted successfuly !!'
+        );
 
     }
 }
