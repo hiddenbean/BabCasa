@@ -26,6 +26,11 @@
     <div class="container-fluid container-fixed-lg bg-white">
         <div class="card card-transparent">
             <div class="card-header">
+                @if (\Session::has('success'))
+                    <div class="alert alert-success">
+                        {!! \Session::get('success') !!}
+                    </div>
+                @endif
                 <div class="card-title">List of staff</div>
                 <div class="pull-right">
                     <div class="col-xs-12">
@@ -68,7 +73,7 @@
                                  @if (auth()->guard('staff')->user()->can('write','staff'))
                                 <td class="v-align-middle text-center">
                                         <a href="{{url('staff/'.$staff->name.'/edit')}}" class="btn btn-transparent"><i class="fa fa-pencil"></i></a>
-                                        <a href="{{route('delete.staff',['staff'=>$staff->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></a>
+                                        <a href="{{route('delete.staff',['staff'=>$staff->name])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></a>
                                     </td> 
                                   @endif
                             </tr> 

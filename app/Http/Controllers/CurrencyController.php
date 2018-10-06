@@ -22,9 +22,9 @@ class CurrencyController extends Controller
     protected function validateRequest(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:Currencies,name',
-            'symbole' => 'required|unique:Currencies,symbole',
-            'country_id' => 'required',
+            'name' => 'required|unique:currencies,name',
+            'symbole' => 'required|unique:currencies,symbole',
+            'country_id' => 'required|unique:currencies,country_id',
         ]);
     }
 
@@ -66,7 +66,11 @@ class CurrencyController extends Controller
         $currency->country_id = $request->country_id;
         $currency->save(); 
         
-        return redirect('currencies');
+        return redirect('currencies')
+                                ->with(
+                                    'success',
+                                    'Currency added successfuly !!'
+                                    );
     }
 
     /**
@@ -77,9 +81,9 @@ class CurrencyController extends Controller
      */
     public function show($Currency)
     {
-        
+        // All the informations are shown on currency index
         $data['Currency'] = Currency::find($Currency);
-        return 1;
+        return view();
     }
     
     /**
@@ -107,7 +111,7 @@ class CurrencyController extends Controller
         $request->validate([
             'name' => 'required|unique:currencies,name,'.$currency,
             'symbole' => 'required|unique:currencies,symbole,'.$currency,
-            'country_id' => 'required',
+            'country_id' => 'required|unique:currencies,country_id',
         ]);
         
         $currency = Currency::find($currency);
@@ -131,7 +135,11 @@ class CurrencyController extends Controller
         // récupérer photo
         $currency = Currency::findOrFail($currency);
        $currency->delete();
-       return redirect('currencies');
+       return redirect('currencies')
+                                ->with(
+                                    'success',
+                                    'Currency deleted successfuly !!'
+                                    );
 
     }
 }

@@ -24,7 +24,7 @@ class ReasonController extends Controller
     protected function validateRequest(Request $request)
     {
         $request->validate([
-            'reference' => 'required|unique:reasons,reference',
+            'reference' => 'required|unique:reasons,reference,null,id,deleted_at,null',
             'short_description' => 'required|required|max:600',
             'description' => 'required|required|max:3000',
         ]);
@@ -61,16 +61,31 @@ class ReasonController extends Controller
     {
         $this->validateRequest($request);
 
-        $reason = new Reason();
-        $reason->reference = $request->reference; 
-        $reason->save(); 
+        $reason_trashed = Reason::withTrashed()->where('reference', $request->reference)->first();
 
-        $reasonLang = new ReasonLang();
-        $reasonLang->short_description = $request->short_description; 
-        $reasonLang->description = $request->description; 
-        $reasonLang->reason_id = $reason->id; 
-        $reasonLang->lang_id = Language::where('symbol',App::getLocale())->first()->id;
-        $reasonLang->save();
+        if($reason_trashed)
+        {
+            $reason = $reason_trashed;
+            $reason->restore();
+            $reason_lang = $reason->reasonLang->first();
+        }
+        else
+        {
+            $reason = new Reason();
+            $reason->reference = $request->reference; 
+        }
+        
+        $reason->save();
+        if(!isset($reason_lang))
+        {
+            $reason_lang = new ReasonLang();
+        }
+
+        $reason_lang->short_description = $request->short_description;
+        $reason_lang->description = $request->description;
+        $reason_lang->reason_id = $reason->id;
+        $reason_lang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
+        $reason_lang->save();
         
         return redirect('reasons');
     }
@@ -124,7 +139,7 @@ class ReasonController extends Controller
         $reasonLang = ReasonLang::find($reasonLangId);
         $reasonLang->short_description = $request->short_description; 
         $reasonLang->description = $request->description; 
-        $reasonLang->lang_id = Language::where('symbol',App::getLocale())->first()->id;
+        $reasonLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
         $reasonLang->save(); 
         
         return redirect('reasons');
@@ -138,9 +153,21 @@ class ReasonController extends Controller
      */
     public function destroy($Reason)
     {
-        $Reason = Reason::findOrFail($Reason);
-       $Reason->delete();
-       return redirect('reasons');
+        $reason = Reason::findOrFail($Reason);
+        if(isset($reason->statuses[0]))
+        {
+            return redirect('reasons')
+                                ->with(
+                                    'error',
+                                    'Reason can\'t be deleted it is in an association with statuses !!'
+                                    );
+        }
+        $reason->delete();
+        return redirect('/reasons')
+                            ->with(
+                                'success',
+                                'Reason deleted successfuly !!'
+                                );
 
     }
 }

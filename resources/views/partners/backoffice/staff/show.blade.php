@@ -89,17 +89,38 @@
                             {{-- {{$partner->phones[0]->country}} --}}
                             <div class="row">
                                 <div class="col-md-4">
-                                        <h5>Phone N1:</h5>
-                                        <p>{{'('.$partner->phones[0]->country->code.') '. $partner->phones[0]->number }}</p>
-                                    </div>
+                                    @if(count($partner->phones) > 0 && isset($partner->phones->whereIn('type', ['phone', 'fix'])->first()->number))
+                                        <!--{{ $phone1 = $partner->phones->whereIn('type', ['phone', 'fix'])->first()->number }}-->
+                                        <!--{{ $country1 = $partner->phones->whereIn('type', ['phone', 'fix'])->first()->country->code }}-->
+                                    @else
+                                        <!--{{ $phone1 = 'Not available' }}-->
+                                        <!--{{ $country1 = 'Not available' }}-->
+                                    @endif
+                                    <h5>Phone N1:</h5>
+                                    <p>{{'('.$country1.') '. $phone1 }}</p>
+                                </div>
                                
                                 <div class="col-md-4">
+                                    @if(count($partner->phones) > 1 && isset($partner->phones->whereIn('type', ['phone', 'fix'])->first()->number))
+                                        <!--{{ $phone2 = $partner->phones->whereIn('type', ['phone', 'fix'])->first()->number }}-->
+                                        <!--{{ $country2 = $partner->phones->whereIn('type', ['phone', 'fix'])->first()->country->code }}-->
+                                    @else
+                                        <!--{{ $phone2 = 'Not available' }}-->
+                                        <!--{{ $country2 = 'Not available' }}-->
+                                    @endif
                                     <h5>phone N2:</h5>
-                                    <p>{{'('.$partner->phones[1]->country->code.') '. $partner->phones[1]->number }}</p>
+                                    <p>{{'('.$country2.') '. $phone2 }}</p>
                                 </div>
                                 <div class="col-md-4">
+                                    @if(isset($partner->phones->where('type', 'fax')->first()->number))
+                                        <!--{{ $phone3 = $partner->phones->where('type', 'fax')->first()->number }}-->
+                                        <!--{{ $country3 = $partner->phones->where('type', 'fax')->first()->country->code }}-->
+                                    @else
+                                        <!--{{ $phone3 = 'Not available' }}-->
+                                        <!--{{ $country3 = 'Not available' }}-->
+                                    @endif
                                     <h5>Fax:</h5>
-                                    <p>{{'('.$partner->phones[2]->country->code.') '. $partner->phones[2]->number }}</p>
+                                    <p>{{'('.$country3.') '. $phone3 }}</p>
                                 </div>
                             </div> 
                     </div>
@@ -159,7 +180,7 @@
                             <h3> Deactivate this account</h3>
                             Deactivating your account will disable your profile and remove your name and photo from most things you've shared on Babcasa. Some information may still be visible to others.
                           <br>
-                                <a href="{{route('delete.partner',['partner'=>$partner->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-danger">Deactivate</a>
+                                <a href="{{url('partners/'.$partner->name.'/reset/password')}}" data-method="post"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-danger">Deactivate</a>
                         </div>
                     </div>  
                 </div>

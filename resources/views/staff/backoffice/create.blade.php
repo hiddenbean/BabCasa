@@ -190,12 +190,12 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
-                                            <label>Address tow</label>
-                                            <input type="text" class="form-control" name="address_tow" value="{{ old('address_tow') }}"  placeholder="Name">
+                                            <label>Address two</label>
+                                            <input type="text" class="form-control" name="address_two" value="{{ old('address_two') }}"  placeholder="Name">
                                         </div>
-                                        <label class='error' for='address_tow'>
-                                                @if ($errors->has('address_tow'))
-                                                    {{ $errors->first('address_tow') }}
+                                        <label class='error' for='address_two'>
+                                                @if ($errors->has('address_two'))
+                                                    {{ $errors->first('address_two') }}
                                                 @endif
                                         </label> 
                                     </div>
@@ -280,7 +280,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="form-input-group flex-1">
-                                                        <label>Phone tow</label>
+                                                        <label>Phone two</label>
                                                         <input type="text" id="phone" name="numbers[]" value="{{ old('numbers.1') }}" class="form-control">
                                                         @if ($errors->has('numbers.1'))
                                                         <label class='error' for='phone'>{{ $errors->first('numbers .1') }}</label>

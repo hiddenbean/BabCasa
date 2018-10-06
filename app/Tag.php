@@ -22,7 +22,7 @@ class Tag extends Model
     
     public function tagLang()
     {
-        $langId = Language::where('symbol',App::getLocale())->first()->id; 
+        $langId = Language::where('alpha_2_code',App::getLocale())->first()->id; 
         return $this->tagLangs()->where('lang_id',$langId);
 
     }

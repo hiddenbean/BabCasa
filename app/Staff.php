@@ -71,8 +71,6 @@ class Staff extends Authenticatable
             $partner->address()->delete();
             $partner->picture()->delete();
             $partner->phones()->delete();
-            $partner->claimMessages()->delete();
-            $partner->claims()->delete();
             
         });
 

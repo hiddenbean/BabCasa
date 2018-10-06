@@ -86,11 +86,19 @@
                            
                             <div class="col-md-4">
                                 <h5>phone N2:</h5>
-                                <p>{{'('.$staff->phones[1]->country->code.') '. $staff->phones[1]->number }}</p>
+                                @if(isset($staff->phones[1]))
+                                    <p>{{'('.$staff->phones[1]->country->code.') '. $staff->phones[1]->number }}</p>
+                                @else
+                                    <p>Not available</p>
+                                @endif
                             </div>
                             <div class="col-md-4">
                                 <h5>Fax:</h5>
-                                <p>{{'('.$staff->phones[2]->country->code.') '. $staff->phones[2]->number }}</p>
+                                @if(isset($staff->phones[2]))
+                                    <p>{{'('.$staff->phones[2]->country->code.') '. $staff->phones[2]->number }}</p>
+                                @else
+                                    <p>Not available</p>
+                                @endif
                             </div>
                         </div> 
                 </div>

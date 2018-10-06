@@ -47,23 +47,24 @@
             <div class="card-body">
                 <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
                     <thead>
-                        <th style="width:90%" class="text-center">Nom de details</th> 
+                        <th style="width:40%" class="text-center">Nom de details</th>
+                        <th style="width:40%" class="text-center">Categories</th> 
                          @if (auth()->guard('staff')->user()->can('write','detail'))               
                         <th style="width:10%" class="text-center"></th>           
                         @endif                   
                     </thead>
-            
+                    
                     <tbody>
                         @foreach($details as $detail )  
                             <tr class="order-progress"  >
                                 <td class="v-align-middle"><strong> {{$detail->detailLang->first()->value}} </strong></td>    
-                                        @if (auth()->guard('staff')->user()->can('write','detail'))
-                                <td class="v-align-middle text-center">
-
-                                        <a href="{{url('details/'.$detail->id.'/edit')}}" class="btn btn-transparent"><i class="fa fa-pencil"></i></a>
-                                        <a href="{{route('delete.detail',['detail'=>$detail->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></a>
-                               </td> 
-                                        @endif
+                                <td class="v-align-middle"><strong> Category</strong></td>    
+                                    @if (auth()->guard('staff')->user()->can('write','detail'))
+                                        <td class="v-align-middle text-center">
+                                            <a href="{{url('details/'.$detail->id.'/edit')}}" class="btn btn-transparent"><i class="fa fa-pencil"></i></a>
+                                            <a href="{{route('delete.detail',['detail'=>$detail->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></a>
+                                        </td> 
+                                    @endif
                             </tr> 
                         @endforeach
                     </tbody>

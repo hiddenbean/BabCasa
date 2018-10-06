@@ -23,7 +23,7 @@ class CountryController extends Controller
     protected function validateRequest(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:countries,name',
+            'name' => 'required|unique:countries,name,null,id,deleted_at,null',
             'code_alpha' => 'required',
             'code' => 'required',
         ]);
@@ -60,13 +60,28 @@ class CountryController extends Controller
     {
         $this->validateRequest($request);
 
-        $country = new Country();
-        $country->name = $request->name;
+        $trashed_country = Country::withTrashed()->where('name', $request->name)->first();
+
+        if($trashed_country)
+        {
+            $country = $trashed_country;
+            $country->restore();
+        }
+        else
+        {
+            $country = new Country();
+            $country->name = $request->name;
+        }
+        
         $country->code_alpha = $request->code_alpha;
-        $country->code = $request->code; 
+        $country->code = $request->code;
         $country->save(); 
         
-        return redirect('countries');
+        return redirect('countries')
+                                ->with(
+                                    'success',
+                                    'Country has been deleted successfuly !!'
+                                );
     }
 
     /**
@@ -129,9 +144,21 @@ class CountryController extends Controller
     public function destroy($Country)
     {
         // récupérer photo
-        $Country = Country::findOrFail($Country);
-       $Country->delete();
-       return redirect('countries');
+        $country = Country::findOrFail($Country);
+        if(isset($country->phones[0]) || isset($country->addresses[0]) || isset($country->currency[0]))
+        {
+            return redirect('countries')
+                                    ->with(
+                                        'error',
+                                        'Country can\'t be deleted it is in an association with Phones/Addresses/Currency !!'
+                                    );
+        }
+        $country->delete();
+        return redirect('countries')
+                                ->with(
+                                    'success',
+                                    'Country has been deleted successfuly !!'
+                                );
 
     }
 }

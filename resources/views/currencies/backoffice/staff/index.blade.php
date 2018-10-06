@@ -26,6 +26,11 @@
     <div class="container-fluid container-fixed-lg bg-white">
         <div class="card card-transparent">
             <div class="card-header">
+                @if (\Session::has('success'))
+                    <div class="alert alert-success">
+                        {!! \Session::get('success') !!}
+                    </div>
+                @endif
                 <div class="card-title">List of currencies</div>
                 <div class="pull-right">
                     <div class="col-xs-12">

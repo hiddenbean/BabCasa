@@ -47,6 +47,23 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group form-group-default">
+                                        <label>details name</label>
+                                        <select class="js-example-basic-multiple col-md-12" name="state">
+                                                <option value="AL">Alabama</option>
+                                                  ...
+                                                <option value="WY">Wyoming</option>
+                                              </select>
+                                        <label class='error' for='value'>
+                                                @if ($errors->has('value'))
+                                                    {{ $errors->first('value') }}
+                                                @endif
+                                        </label> 
+                                    </div>
+                                </div>
+                            </div>
                         <button class="btn btn-primary" type="submit">Save</button>
                     </form>
                 </div>
@@ -57,12 +74,14 @@
 @endsection
 
 @section('script')
+    <script src="{{ asset('plugins/select2/js/select2.js') }}" type="text/javascript"></script>
     <script src="{{ asset('plugins/switchery/js/switchery.min.js') }}" type="text/javascript"></script>
     <script type="text/javascript" src="{{ asset('plugins/classie/classie.js') }}"></script>
     <script src="{{ asset('plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
     <script>
         $(document).ready(function () {
             $('#birthday').datepicker();
+            $('.js-example-basic-multiple').select2();
         });
     </script>
 @stop

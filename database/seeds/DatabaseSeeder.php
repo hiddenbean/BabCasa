@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionProfileSeeder::class);
         $this->call(PictureSeeder::class);
         $this->call(PartnerSeeder::class);
+        $this->call(StatusSeeder::class);
         $this->call(DiscountSeeder::class);
         $this->call(DiscountLangSeeder::class);
     }

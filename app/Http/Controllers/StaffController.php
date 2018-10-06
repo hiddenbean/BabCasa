@@ -100,7 +100,7 @@ class StaffController extends Controller
         {
             $adress = new Adress();
             $adress->address = $request->address;
-            $adress->address_tow = $request->address_tow;
+            $adress->address_two = $request->address_two;
             $adress->ful_name = $request->ful_name;
             $adress->zip_code = $request->zip_code;
             $adress->ful_name = $request->ful_name;
@@ -135,7 +135,6 @@ class StaffController extends Controller
         $data['countries'] = Country::all();
         $data['staff'] = Staff::where('name',$staff)->first();
         return view('staff.backoffice.edit',$data);
-        return $data;
       
     }
 
@@ -155,18 +154,20 @@ class StaffController extends Controller
             'email' => 'required|email|unique:staff,email,'.$staff,
             'gender' => 'required',
             'birthday' => 'required|date',
+            'profile_id' => 'required|exists:profiles,id',
         ]);
         $AddressController = new AddressController();
         $AddressController->validateRequest($request);
+
         
         $request->validate([
             'numbers.0' => 'required|numeric|unique:phones,number,'.$request->phone_id[0],
-            'numbers.1' => 'sometimes|numeric|unique:phones,number,'.$request->phone_id[1],
+            'numbers.1' => 'nullable|numeric|unique:phones,number,'.$request->phone_id[1],
             'code_country.0' => 'required',
             'code_country.1' => 'required',
-        ]);      
+        ]);
 
-        $staff = Staff::find($staff);
+        $staff = Staff::findOrFail($staff);
         $staff->first_name = $request->first_name;
         $staff->last_name = $request->last_name;
         $staff->email = $request->email;
@@ -175,33 +176,42 @@ class StaffController extends Controller
         $staff->birthday = date('Y-m-d H:i:s',strtotime($request->birthday));
         $staff->save();
         
+        
         $address = $staff->address;
         $address->address = $request->address;
-        $address->address_tow = $request->address_tow;
+        $address->address_two = $request->address_two;
         $address->full_name = $request->full_name;
         $address->zip_code = $request->zip_code;
         $address->country_id = $request->country_id;
         $address->city = $request->city;
         $address->save();
-             
+        
         if($request->hasFile('path')) 
         {
             $picture = $staff->picture;
             $picture->name = time().'.'.$request->file('path')->extension();
-            $picture->tag = "staff";
+            $picture->tag = "staff_avatar";
             $picture->path = $request->path->store('images/staff', 'public');
             $picture->extension = $request->path->extension();
             $picture->save();
         }
         
-
         foreach($request->numbers as $key => $number)
         {
+            
             if($number != null)
             {
-               
-                $phone = Phone::find($request->phone_id[$key]);
+                $phone = Phone::where('id', $request->phone_id[$key])
+                                    ->whereIn('type', ['phone', 'fix'])
+                                    ->where('phoneable_id', $staff->id)
+                                    ->first();
+                if($phone == null)
+                {
+                    $phone = new Phone();
+                }
                 $phone->number = $number;
+                $phone->phoneable_id = $staff->id;
+                $phone->phoneable_type = 'staff';
                 $phone->type = "phone";
                 $phone->country_id = $request->code_country[$key];
                 $phone->save();
@@ -210,12 +220,20 @@ class StaffController extends Controller
 
         if($request->fax_number)
         {
-            
-            $phone = Phone::find($request->fax_id);
-            $phone->number = $request->fax_number;
-            $phone->type = "fix";
-            $phone->country_id = $request->code_country[2];
-            $phone->save();
+            $fax = Phone::where('id', $request->fax_id)
+                                ->where('type', 'fax')
+                                ->where('phoneable_id', $staff->id)
+                                ->first();
+            if($fax == null)
+            {
+                $fax = new Phone();
+            }
+            $fax->number = $request->fax_number;
+            $fax->phoneable_id = $staff->id;
+            $fax->phoneable_type = 'staff';
+            $fax->type = "fax";
+            $fax->country_id = $request->code_country[2];
+            $fax->save();
         }
             
         return redirect('staff');
@@ -232,7 +250,11 @@ class StaffController extends Controller
     {
         $staff = Staff::where('name', $staff)->first();
         $staff->delete();
-        return redirect('staff');
+        return redirect('staff')
+                            ->with(
+                                'success',
+                                'Staff member deleted successfuly !!'
+                                );
     }
 
     /**

@@ -94,7 +94,7 @@ class CategoryController extends Controller
         if(!isset($category_lang))
         {
             $category_lang = new CategoryLang();
-            $categoryçlang->category_id = $category->id;
+            $category_lang->category_id = $category->id;
             $category_lang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
         }
         $category_lang->reference = $request->reference;

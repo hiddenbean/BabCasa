@@ -16,7 +16,7 @@ use Faker\Generator as Faker;
 $factory->define(App\Language::class, function (Faker $faker) {
     return [
         'name' => 'english',
-        'symbol' => 'en',
+        'alpha_2_code' => 'en',
        
         
     ];

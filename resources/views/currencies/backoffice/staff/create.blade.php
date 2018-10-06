@@ -67,7 +67,12 @@
                                             @foreach($countries as $country)
                                             <option value="{{$country->id}}">{{$country->name}}</option> 
                                             @endforeach
-                                    </select> 
+                                    </select>
+                                    <label class='error' for='country_id'>
+                                        @if ($errors->has('country_id'))
+                                            {{ $errors->first('country_id') }}
+                                        @endif
+                                </label>  
                                 </div>
                             </div>
                         </div>

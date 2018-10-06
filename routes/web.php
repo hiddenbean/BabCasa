@@ -287,7 +287,7 @@ Route::domain('staff.babcasa.com')->group(function (){
     Route::prefix('statuses')->group(function() {
         Route::post('/','StatusController@store');
         Route::post('{reason}', 'StatusController@update'); 
-        Route::delete('{reason}', 'StatusController@destroy')->name('delete.reason');
+        Route::delete('{reason}', 'StatusController@destroy')->name('delete.status');
     }); 
     //////////STAFF
     
@@ -306,6 +306,7 @@ Route::domain('staff.babcasa.com')->group(function (){
         // Route::post('{partner}/active', 'PartnerController@active')->name('active.partner');
         // Route::post('{partner}/desactive', 'PartnerController@desactive')->name('desactive.partner');
         Route::delete('{partner}', 'PartnerController@destroy')->name('delete.partner');
+        Route::post('{partner}/reset/password', 'PartnerController@sendSMS');
     });
 
     //////////profiles

@@ -121,7 +121,7 @@ class PartnerRegisterController extends Controller
 
             $address = new  Address();
             $address->address = $request->address;
-            $address->address_tow = $request->address_tow;
+            $address->address_two = $request->address_two;
             $address->full_name = $request->full_name;
             $address->zip_code = $request->zip_code;
             $address->country_id = $request->country_id;

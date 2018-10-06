@@ -113,7 +113,7 @@ class StaffRegisterController extends Controller
 
             $adress = new Address();
             $adress->address = $request->address;
-            $adress->address_tow = $request->address_tow;
+            $adress->address_two = $request->address_two;
             $adress->full_name = $request->full_name;
             $adress->zip_code = $request->zip_code;
             $adress->country_id = $request->country_id;

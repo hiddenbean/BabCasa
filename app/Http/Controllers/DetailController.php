@@ -61,12 +61,12 @@ class DetailController extends Controller
         $this->validateRequest($request);
 
         $detail = new Detail();
-        $detail->save(); 
+        $detail->save();
 
         $detailLang = new DetailLang();
-        $detailLang->value = $request->value; 
-        $detailLang->detail_id = $detail->id; 
-        $detailLang->lang_id = Language::where('symbol',App::getLocale())->first()->id;
+        $detailLang->value = $request->value;
+        $detailLang->detail_id = $detail->id;
+        $detailLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
         $detailLang->save();
         
         return redirect('details');
@@ -114,7 +114,7 @@ class DetailController extends Controller
 
         $detailLang = DetailLang::find($detailLangId);
         $detailLang->value = $request->value; 
-        $detailLang->lang_id = Language::where('symbol',App::getLocale())->first()->id;
+        $detailLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
         $detailLang->save(); 
         
         return redirect('details');
