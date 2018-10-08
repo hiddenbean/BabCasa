@@ -7,14 +7,15 @@
     <div class="d-flex justify-content-center flex-column full-height ">
         <div class="logo_text"><img src="{{ asset('img/logo.png') }}" alt="{{ config('app.name', 'BAB Casa') }}" height="60">  </div> 
         <h3>Réinitialiser le mot de passe </h3> 
-        <form id="form-register" class="p-t-15" role="form" action="{{ route('password.request') }}" method="post">
+        <form id="form-register" class="p-t-15" role="form" action="{{ route('staff.password.reset') }}" method="post">
             @csrf 
+            <input type="hidden" name="token" value="{{$token}}">
             <div class="form-group-attached"> 
                 <div class="row clearfix">
                     <div class="col-sm-12">
                         <div class="form-group form-group-default required">
                             <label for="email">Email</label>
-                            <input type="text" id="email" name="email" class="form-control">
+                            <input type="text" id="email" name="email"  value="{{ $email }}" class="form-control">
                             <label class='error' for='email'></label>
                         </div>
                     </div>  

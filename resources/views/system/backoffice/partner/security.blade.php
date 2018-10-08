@@ -25,8 +25,10 @@
                     <div class="card-header">
                         <h4 class="m-t-0 m-b-0"> <strong>Security</strong> </h4>
                     </div>
+                    
                     <div class="card-body">
                             <div class="row">
+                                    @foreach($guests as $guest)
                                     <div class="col-md-7 b-r b-dashed b-grey">
                                         
                                                 <div class="row">
@@ -42,12 +44,12 @@
                                                                         
                                                                         <div class="row">
                                                                             <div class="col-md-12">
-                                                                               Computer 
+                                                                               {{ $guest->device }} 
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
                                                                             <div class="col-md-12">
-                                                                                   Windows 10
+                                                                                {{ $guest->os }}
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -58,7 +60,7 @@
                                                                         <strong>Navigateur</strong>   
                                                                     </div>
                                                                     <div class="col-md-8">
-                                                                            Chrome
+                                                                        {{ $guest->browser }}
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
@@ -66,7 +68,7 @@
                                                                         <strong>Adresse IP</strong>
                                                                     </div>
                                                                     <div class="col-md-8">
-                                                                            198.195.2.1
+                                                                            {{ $guest->ipAddress }}
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
@@ -74,7 +76,7 @@
                                                                         <strong>Derniere activeite</strong> 
                                                                     </div>
                                                                     <div class="col-md-8">
-                                                                           5h
+                                                                           {{ $guest->lastActivity }}
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
@@ -90,7 +92,7 @@
                                                                     <div class="col-md-4 m-t-5">
                                                                         <strong>Acces au compte</strong>  
                                                                     </div>
-                                                                    <form action="" method="post">
+                                                                <form action="{{ url($partner->name.'/security/'.$guest->id) }}" method="post">
                                                                             {{ csrf_field() }}
                                                                             {{ method_field('DELETE') }}
                                                                         <div class="col-md-8">
@@ -103,7 +105,8 @@
                                                     </div>
                                                 </div> 
                                           
-                                    </div> 
+                                    </div>
+                                    @endforeach 
                                     <div class="col-md-5">
                                         <div class="row">
                                             <div class="col-md-12">
@@ -118,7 +121,7 @@
                                                 <h3>Deactivate your account</h3>
                                                 By deactivating your account, you deactivate your profile and delete your name and photo from most of the content you have shared on Babcasa.
                         
-                                                    <form action="" method="POST" class="m-t-5">
+                                            <form action="{{ url($partner->name.'/desactivate') }}" method="POST" class="m-t-5">
                                                         {{ csrf_field() }}
                                                         {{ method_field('DELETE') }}
                                                         <input type="submit" class="btn btn-danger" value="Desactiver">

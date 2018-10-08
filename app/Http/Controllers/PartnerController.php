@@ -284,8 +284,7 @@ class PartnerController extends Controller
      */
     public function destroy($partner)
     {
-        if(Auth::guard('partner')->user()->id != $partner) return;
-        $partner = Partner::findOrfail($partner);
+        $partner = Partner::where('name', $partner)->first();
         $partner->delete();
         return redirect()->back();
     }

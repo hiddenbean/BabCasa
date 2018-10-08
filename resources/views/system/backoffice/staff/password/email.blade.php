@@ -22,7 +22,7 @@
                     <div class="form-group form-group-default input-group  @if ($errors->has('email')) has-error @endif">
                         <div class="form-input-group">
                             <label>E-mail</label> 
-                            <input type="text" class="form-control " name="email" placeholder="Ex : xy@babcasa.com">
+                        <input type="text" class="form-control " name="email" placeholder="Ex : xy@babcasa.com">
                             <label class='error' for='email'>
                             @if ($errors->has('email'))
                                 {{ $errors->first('email') }}

@@ -74,7 +74,7 @@
                         </div>
                     </div>
                     <div class="col-md-6 text-right">
-                        <a href="#" class="small float-right">Mot de passe oublié?</a>
+                        <a href="{{ url('/password/email') }}" class="small float-right">Mot de passe oublié?</a>
                         <br>
                         <a href="#" class="small">Contacter l&apos;assistance</a>
                     </div>

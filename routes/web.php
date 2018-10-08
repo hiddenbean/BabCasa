@@ -22,12 +22,15 @@ Route::domain('www.babcasa.com')->group(function (){
 Route::domain('staff.babcasa.com')->group(function (){
     //staff home page
     Route::get('/', 'StaffController@dashboard');
-    Route::get('passwords/rest', 'Auth\StaffForgotPasswordController@showLinkRequestForm')->name('staffs.passwords.rest');
-    Route::post('passwords/email', 'Auth\StaffForgotPasswordController@sendResetLinkEmail')->name('staff.password.link.send');
+    Route::get('passwords/reset', 'Auth\StaffForgotPasswordController@showLinkRequestForm')->name('staff.passwords.reset');
+    Route::get('{staff}/password/reset/{token}', 'Auth\StaffResetPasswordController@showResetForm');
     
     //login page
     Route::get('sign-in', 'Auth\StaffLoginController@showLoginForm');
     Route::get('logout', 'Auth\StaffLoginController@logout');
+
+    // Security
+    Route::get('security', 'StaffController@security');
 
     //////////TAGS
     Route::prefix('tags')->middleware('CanRead:tag')->group(function() {
@@ -139,8 +142,8 @@ Route::domain('partner.babcasa.com')->group(function (){
     Route::get('/sign-in', 'Auth\PartnerLoginController@showLoginForm');
     Route::get('/', 'PartnerController@dashboard');
     Route::get('/logout', 'Auth\PartnerLoginController@logout');
-    Route::get('/password', 'Auth\PartnerForgotPasswordController@showLinkRequestForm');
-    Route::get('{partner}/password/reset/{token}', 'auth\PartnerResetPasswordController@showResetForm');
+    Route::get('/password/email', 'Auth\PartnerForgotPasswordController@showLinkRequestForm');
+    Route::get('{partner}/password/reset/{token}', 'Auth\PartnerResetPasswordController@showResetForm');
     Route::get('security', 'PartnerController@security');
     Route::get('settings', 'PartnerController@edit');
     Route::get('discount/create', function(){return view('discounts.backoffice.create');});
@@ -181,19 +184,19 @@ Route::domain('partner.babcasa.com')->group(function (){
     // Partner auth route, sign in    
     Route::post('/sign-in', 'Auth\PartnerLoginController@login');
 
-    // Desactivate partner account
-    Route::delete('partner/{partner}/desactivate', 'PartnerController@destroy');
-
     // Partner change password start
     Route::prefix('password')->group(function() {
-        Route::post('email', 'auth\PartnerForgotPasswordController@sendResetLinkEmail');
-        Route::post('reset', 'auth\PartnerResetPasswordController@reset');
+        Route::post('email', 'Auth\PartnerForgotPasswordController@sendResetLinkEmail');
+        Route::post('reset', 'Auth\PartnerResetPasswordController@reset');
     });
     // Partner change password end
 
     Route::prefix('{partner}')->group(function() {
         // Partner secutiry
         Route::delete('security/{session}', 'PartnerController@sessionDestroy');
+
+        // Desactivate partner account
+        Route::delete('/desactivate', 'PartnerController@destroy');
 
         // Partner update
         Route::post('settings/update', 'PartnerController@update');
@@ -223,6 +226,19 @@ Route::domain('staff.babcasa.com')->group(function (){
     Route::post('/', function () {
         return view('welcome');
     });
+
+    // Reset password
+    Route::post('passwords/email', 'Auth\StaffForgotPasswordController@sendResetLinkEmail')->name('staff.password.link.send');
+    Route::post('password/reset', 'Auth\StaffResetPasswordController@reset')->name('staff.password.reset');
+
+    Route::prefix('{staff}')->group(function() {
+        // Staff secutiry
+        Route::delete('security/{session}', 'StaffController@sessionDestroy');
+
+        // Desactivate staff account
+        Route::delete('/desactivate', 'StaffController@destroy');
+    });
+
     //////////TAGS
     Route::prefix('tags')->middleware('CanWrite:tag')->group(function() {
 
