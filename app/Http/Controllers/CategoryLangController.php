@@ -16,7 +16,7 @@ class CategoryLangController extends Controller
     protected function validateRequest(Request $request)
     {
         $request->validate([
-            'reference' => 'required|unique:Category_langs,Category',
+            'reference' => 'required|unique:category_langs,category',
         ]);
     }
 
@@ -58,7 +58,7 @@ class CategoryLangController extends Controller
         $CategoryLang = new CategoryLang();
         $CategoryLang->Category = $request->Category; 
         $CategoryLang->Category_id = $Category->id; 
-        $CategoryLang->lang_id = Language::where('symbol',App::getLocale())->first()->id;
+        $CategoryLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
         $CategoryLang->save();
         
         return redirect('categories');
@@ -106,7 +106,7 @@ class CategoryLangController extends Controller
 
         $CategoryLang = CategoryLang::find($CategoryLangId);
         $CategoryLang->Category = $request->Category; 
-        $CategoryLang->lang_id = Language::where('symbol',App::getLocale())->first()->id;
+        $CategoryLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
         $CategoryLang->save(); 
         
         return redirect('categories');

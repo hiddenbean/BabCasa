@@ -17,7 +17,7 @@ class Profile extends Model
 
     public function profileLang()
     {
-            $langId = Language::where('symbol',App::getLocale())->first()->id; 
+            $langId = Language::where('alpha_2_code',App::getLocale())->first()->id; 
             return $this->profileLangs()->where('lang_id',$langId);
     }
 

@@ -69,7 +69,7 @@ class ReasonController extends Controller
         $reasonLang->short_description = $request->short_description; 
         $reasonLang->description = $request->description; 
         $reasonLang->reason_id = $reason->id; 
-        $reasonLang->lang_id = Language::where('symbol',App::getLocale())->first()->id;
+        $reasonLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
         $reasonLang->save();
         
         return redirect('reasons');
@@ -124,7 +124,7 @@ class ReasonController extends Controller
         $reasonLang = ReasonLang::find($reasonLangId);
         $reasonLang->short_description = $request->short_description; 
         $reasonLang->description = $request->description; 
-        $reasonLang->lang_id = Language::where('symbol',App::getLocale())->first()->id;
+        $reasonLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
         $reasonLang->save(); 
         
         return redirect('reasons');

@@ -99,7 +99,7 @@ class ProductController extends Controller
         $productlang->short_description = $request->short_description;
         $productlang->description = $request->description;
         $productlang->product_id = $product->id;
-        $productlang->lang_id = Language::where('symbol',App::getLocale())->first()->id;
+        $productlang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
         $productlang->save();
         // $pictureController = new PictureController();
         // $pictureController->validateRequest($request);
@@ -129,7 +129,7 @@ class ProductController extends Controller
             $detailValueLang = new DetailValueLang();
             $detailValueLang->value = $value;
             $detailValueLang->detail_value_id = $detailValue->id;
-            $detailValueLang->lang_id = Language::where('symbol',App::getLocale())->first()->id;
+            $detailValueLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
             $detailValueLang->save();
             
         }
@@ -209,7 +209,7 @@ class ProductController extends Controller
                 $attributeVarcharValueLang = new AttributeVarcharValueLang();
                 $attributeVarcharValueLang->value = $value;
                 $attributeVarcharValueLang->attribute_varchar_value_id = $attributeVarcharValue->id;
-                $attributeVarcharValueLang->lang_id = Language::where('symbol',App::getLocale())->first()->id;
+                $attributeVarcharValueLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
                 $attributeVarcharValueLang->save();
                 
                  break;

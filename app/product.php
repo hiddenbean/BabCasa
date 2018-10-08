@@ -56,7 +56,7 @@ class Product extends Model
 
         public function productLang()
         {
-            $langId = Language::where('symbol',App::getLocale())->first()->id; 
+            $langId = Language::where('alpha_2_code',App::getLocale())->first()->id; 
             return $this->productLangs()->where('lang_id',$langId);
         }
     

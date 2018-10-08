@@ -18,7 +18,7 @@ class Reason extends Model
     }
     public function reasonLang()
     {
-        $langId = Language::where('symbol',App::getLocale())->first()->id; 
+        $langId = Language::where('alpha_2_code',App::getLocale())->first()->id; 
         return $this->reasonLangs()->where('lang_id',$langId);
 
     }

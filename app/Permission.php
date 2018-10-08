@@ -15,7 +15,7 @@ class Permission extends Model
 
     public function permissionLang()
     {
-            $langId = Language::where('symbol',App::getLocale())->first()->id; 
+            $langId = Language::where('alpha_2_code',App::getLocale())->first()->id; 
             return $this->permissionLangs()->where('lang_id',$langId);
     }
 

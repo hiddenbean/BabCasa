@@ -18,7 +18,7 @@ class Detail extends Model
     
     public function detailLang()
     {
-        $langId = Language::where('symbol',App::getLocale())->first()->id; 
+        $langId = Language::where('alpha_2_code',App::getLocale())->first()->id; 
         return $this->detailLangs()->where('lang_id',$langId);
     }
     public function categories()
