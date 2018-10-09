@@ -107,13 +107,16 @@
                         <div class="col-md-12">
                             <h3>Update password</h3>
                             We advise you to use a password you do not use anywhere else.<br>
-                            <a href="#"><strong>Update password</strong></a>
+                            <form action="{{route('reset.password.staff',['staff'=>$staff->name])}}" method="post">
+                                @csrf
+                                <button type="submit">Update password</button>
+                            </form>
                         </div>
                         <div class="col-md-12">
                             <h3> Deactivate this account</h3>
                             Deactivating your account will disable your profile and remove your name and photo from most things you've shared on Babcasa. Some information may still be visible to others.
                            <br>
-                            <a href="{{route('delete.staff',['staff'=>$staff->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-danger">Deactivate</a> 
+                            <a href="{{route('delete.staff',['staff'=>$staff->name])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-danger">Deactivate</a> 
                         </div>
                     </div>  
                 </div>

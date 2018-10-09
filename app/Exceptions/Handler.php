@@ -72,7 +72,7 @@ class Handler extends ExceptionHandler
         switch($guard)
         {
             case 'partner' :
-                //$this->authenticationCheck($guard) ? $login = "system.404" : 
+                //$this->authenticationCheck($guard) ? $login = "system.404" :
                 $login = '/sign-in';
                 break;
             case 'staff' :

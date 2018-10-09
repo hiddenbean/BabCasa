@@ -61,6 +61,11 @@ class Staff extends Authenticatable
         return $this->belongsTo('App\Profile');
     }
 
+    public function pins()
+    {
+        return $this->morphMany('App\Pin', 'Pinable');
+    }
+
     public static function boot()
     {
         parent::boot();    

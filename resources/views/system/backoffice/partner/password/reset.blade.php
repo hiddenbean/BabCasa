@@ -9,7 +9,7 @@
         <h3>Réinitialiser le mot de passe </h3> 
         <form id="form-register" class="p-t-15" role="form" action="{{ url('password/reset') }}" method="post">
             @csrf
-             {{$errors}}
+            
             <div class="form-group-attached"> 
                 <div class="row clearfix">
                     <div class="col-sm-12">

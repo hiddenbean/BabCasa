@@ -44,6 +44,11 @@ class Partner extends Authenticatable
     {
         return $this->statuses()->orderBy('id', 'desc');
     }
+
+    public function pins()
+    {
+        return $this->morphMany('App\Pin', 'Pinable');
+    }
     
     public static function boot()
     {

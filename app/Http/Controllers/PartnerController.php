@@ -12,6 +12,7 @@ use App\Country;
 use App\Address;
 use App\Picture;
 use App\Language;
+use DateTime;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\PictureController;
 use App\Http\Controllers\PhoneController;
@@ -22,8 +23,8 @@ class PartnerController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:staff')->except('dashboard');
-        $this->middleware('auth:partner')->except('index', 'show', 'destroy');
+        
+        $this->middleware('auth:staff,partner');
     }
     
     protected function validateRequest(Request $request)
@@ -318,41 +319,6 @@ class PartnerController extends Controller
     {
         DB::table('sessions')->where('id', $session_id)->delete();
         return redirect(str_before(url()->current(), '.com').'.com/security');
-    }
-
-    /**
-     * Send sms to the partner in case of changing password by a staff member
-     * 
-     * @param \App\Partner $partner
-     * @return \illuminate\Http\Response
-     */
-    public function sendSMS($partner)
-    {
-        $partner = Partner::where('name', $partner)->first();
-        $number = $partner->phones()->where('type', 'phone')->first();
-        return $phone->country->code.''.$phone->number;
-        $code = rand(100000, 999999);
-        if($number)
-        {   
-            Nexmo::message()->send([
-                'to'   => $phone->country->code.''.$phone->number,
-                'from' => '0610256365',
-                'text' => 'this'.$code.' is the code to reset password.'
-            ]);
-            return redirect()
-                            ->with(
-                                'success', 
-                                'the message has been sent successfuly !!'
-                            );
-        }
-        else
-        {
-            return redirect()
-                            ->with(
-                                'error',
-                                'The partner doesn\'t have a valid number !!'
-                            );
-        }
     }
 }
 
