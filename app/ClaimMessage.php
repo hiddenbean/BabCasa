@@ -21,6 +21,6 @@ class ClaimMessage extends Model
 
     public function claimMessageable()
     {
-        return $this->morphTo();
+        return $this->morphTo()->withTrashed();
     }
 }

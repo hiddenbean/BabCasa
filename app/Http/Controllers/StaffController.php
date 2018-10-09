@@ -247,8 +247,8 @@ class StaffController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($staff)
-    {return $staff;
-        $staff = Staff::where('name', $staff)->first();return $staff;
+    {
+        $staff = Staff::where('name', $staff)->first();
         $staff->delete();
         return redirect('staff')
                             ->with(

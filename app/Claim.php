@@ -21,7 +21,7 @@ class Claim extends Model
 
     public function claimable()
     {
-        return $this->morphTo();
+        return $this->morphTo()->withTrashed();
     }
 
     public function claimMessages()

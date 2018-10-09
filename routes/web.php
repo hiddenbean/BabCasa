@@ -300,7 +300,7 @@ Route::domain('staff.babcasa.com')->group(function (){
 
     Route::prefix('staff')->middleware('CanWrite:staff')->group(function() {
         Route::post('/', 'Auth\StaffRegisterController@store'); 
-        Route::post('{staff}', 'StaffController@update'); 
+        Route::put('{staff}', 'StaffController@update'); 
         Route::delete('{staff}', 'StaffController@destroy')->name('delete.staff');
         Route::post('{staff}/reset/password', 'PinController@store')->name('reset.password.staff');
         Route::post('{staff}/pin/verification', 'PinController@checkPin');
@@ -313,7 +313,7 @@ Route::domain('staff.babcasa.com')->group(function (){
         // Route::post('{partner}/active', 'PartnerController@active')->name('active.partner');
         // Route::post('{partner}/desactive', 'PartnerController@desactive')->name('desactive.partner');
         Route::prefix('{partner}')->group(function() {
-            Route::post('/', 'PartnerController@update'); 
+            Route::put('/', 'PartnerController@update'); 
             Route::delete('/', 'PartnerController@destroy')->name('delete.partner');
             Route::post('/reset/password', 'PinController@store')->name('reset.password.partner');
             Route::post('/pin/verification', 'PinController@checkPin');

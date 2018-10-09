@@ -215,10 +215,11 @@ class PartnerController extends Controller
         
         $request->validate([
             'numbers.0' => 'required|numeric|unique:phones,number,'.$request->phone_id[0],
-            'numbers.1' => 'sometimes|numeric|unique:phones,number,'.$request->phone_id[1],
+            'numbers.1' => 'nullable|numeric|unique:phones,number,'.$request->phone_id[1],
             'code_country.0' => 'required',
-            'code_country.1' => 'required',
-        ]);      
+            'code_country.1' => 'nullable',
+            'code_country.2' => 'nullable',
+        ]);   
         $is_register_to_newsletter = ($request->is_register_to_newsletter=='on') ? 1 : 0;
 
         $partner = partner::find($partner);
