@@ -31,7 +31,7 @@
                     <div class="col-xs-12">
                         <div class="row">
                             <div class="col-md-6 text-right no-padding">
-                            <a href="{{url('claims/create')}}" class="btn btn-primary btn-cons">New claim</a>
+                            <a href="{{url('support/create')}}" class="btn btn-primary btn-cons">New claim</a>
                             </div>
                             <div class="col-md-6">
                                 <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
@@ -47,19 +47,21 @@
                         <thead>
                             <th style="width:20%" class="text-center">Titre</th>
                             <th style="width:10%" class="text-center">Sujet</th>
-                            <th style="width:10%" class="text-center">Date de création</th>
+                            <th style="width:10%" class="text-center">Created at</th>
                             <th style="width:10%" class="text-center">Nombre messages</th>
                             <th style="width:10%" class="text-center">Etat</th>                
                         </thead>
                 
                         <tbody>   
+                        @foreach($claims->sortBy('created_at',false) as $claim)
                             <tr class="order-progress"  >
-                                <td class="v-align-middle"><a href="{{ url('claims/show') }}"><strong> Order delay  </strong></a></td>
-                                <td class="v-align-middle text-center"><strong>  Order   </strong></td>                
-                                <td class="v-align-middle text-center"> 01/05/2018 </td>              
-                                <td class="v-align-middle text-center"> 5 </td> 
-                                <td class="v-align-middle text-center"><strong> Close </strong></td> 
-                            </tr>     
+                                <td class="v-align-middle"><a href="{{ url('support/'.$claim->id) }}"><strong> {{ $claim->title}}  </strong></a></td>
+                                <td class="v-align-middle text-center"><strong>  {{$claim->subject->title}}   </strong></td>                
+                                <td class="v-align-middle text-center">{{date('d-m-Y', strtotime($claim->created_at))}}</td>              
+                                <td class="v-align-middle text-center"> {{$claim->claimMessages->count()}} </td> 
+                                <td class="v-align-middle text-center"><strong> @if($claim->status) Open @else Close @endif </strong></td> 
+                            </tr> 
+                        @endforeach    
                         </tbody>
                 </table>
             </div>

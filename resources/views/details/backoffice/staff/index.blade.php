@@ -47,7 +47,8 @@
             <div class="card-body">
                 <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
                     <thead>
-                        <th style="width:90%" class="text-center">Nom de details</th> 
+                        <th style="width:20%" class="text-center">Nom de details</th> 
+                        <th style="width:70%" class="text-center">Categories</th> 
                          @if (auth()->guard('staff')->user()->can('write','detail'))               
                         <th style="width:10%" class="text-center"></th>           
                         @endif                   
@@ -57,6 +58,13 @@
                         @foreach($details as $detail )  
                             <tr class="order-progress"  >
                                 <td class="v-align-middle"><strong> {{$detail->detailLang->first()->value}} </strong></td>    
+                                <td class="v-align-middle text-center">
+                                    @foreach($detail->categories as $category)
+
+                                        {{$category->categoryLang->first()->reference}} /
+
+                                    @endforeach
+                                </td>    
                                         @if (auth()->guard('staff')->user()->can('write','detail'))
                                 <td class="v-align-middle text-center">
 

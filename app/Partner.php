@@ -44,7 +44,11 @@ class Partner extends Authenticatable
     {
         return $this->statuses()->orderBy('id', 'desc');
     }
-    
+    public function claimMessages()
+    {
+        return $this->hasMany('App\ClaimMessage');
+    }
+
     public static function boot()
     {
         parent::boot();    

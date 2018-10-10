@@ -123,14 +123,18 @@
                 </span>
                 <ul class="sub-menu">
                     <li>
-                        <a href="{{ url('/claims') }}">My tickets</a>
+                        <a href="{{ url('/support') }}">My tickets</a>
+                        <span class="icon-thumbnail">Cl</span>
+                    </li> 
+                    <li>
+                        <a href="{{ url('/support/related') }}">Related</a>
                         <span class="icon-thumbnail">Cl</span>
                     </li> 
                 </ul>
             </li>
         @endif
         <li>
-            <a href="{{ url('/profile') }}">
+            <a href="{{ url('/account') }}">
                 <span class="title">Account</span>
             </a>
             <span class="icon-thumbnail">

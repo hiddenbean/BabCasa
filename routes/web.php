@@ -22,6 +22,7 @@ Route::domain('www.babcasa.com')->group(function (){
 Route::domain('staff.babcasa.com')->group(function (){
     //staff home page
     Route::get('/', 'StaffController@dashboard');
+    Route::get('account', 'StaffController@profile');
     Route::get('passwords/reset', 'Auth\StaffForgotPasswordController@showLinkRequestForm')->name('staff.passwords.reset');
     Route::get('{staff}/password/reset/{token}', 'Auth\StaffResetPasswordController@showResetForm');
     
@@ -41,6 +42,17 @@ Route::domain('staff.babcasa.com')->group(function (){
         });     
         Route::get('{tag}', 'TagController@show'); 
     });
+
+     
+    Route::prefix('support')->group(function() {
+            Route::get('/','ClaimController@all');
+            Route::get('related','ClaimController@related');
+            Route::get('create','ClaimController@create');
+            Route::get('{id}','ClaimController@show');
+            Route::prefix('message')->group(function() {
+                Route::get('{claim}/create','ClaimMessageController@create');
+            });
+        });
 
     //////////CATEGORIES
     Route::prefix('categories')->middleware('CanRead:category')->group(function() {
@@ -211,7 +223,7 @@ Route::domain('partner.babcasa.com')->group(function (){
     Route::prefix('support')->group(function() {
         Route::prefix('{subject}')->group(function() {
             Route::prefix('ticket')->group(function() {
-                Route::post('create','ClaimController@store');
+                Route::post('','ClaimController@store');
             });
         });
         Route::prefix('ticket')->group(function() {
@@ -246,6 +258,15 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::post('{tag}', 'TagController@update'); 
         Route::delete('/{tag}', 'TagController@destroy')->name('delete.tag');
     }); 
+
+    //////////CLAIMs
+    Route::prefix('support')->group(function() {
+        Route::post('','ClaimController@store');
+        Route::post('{claim}/close','ClaimController@close');
+        Route::prefix('message')->group(function() {
+            Route::post('{claim}','ClaimMessageController@store');
+        });
+    });
 
     //////////Categories
     Route::prefix('categories')->middleware('CanWrite:category')->group(function() {

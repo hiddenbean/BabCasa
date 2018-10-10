@@ -21,8 +21,7 @@ class ClaimController extends Controller
    
     public function __construct()
     {
-         $this->middleware('auth:partner');
-         $this->middleware('CanRead:claim'); //->except('index','create');
+         $this->middleware('auth:partner,staff');
     }
 
       public function validateClaim(Request $request)
@@ -44,19 +43,41 @@ class ClaimController extends Controller
         $data['claims']=$data['partner']->claims;
         return view('claims.backoffice.partner.index',$data);  
     }
+    /**
+     * Display a list of all claims.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function all()
+    {
+        
+        $data['claims']=Claim::all();
+        return view('claims.backoffice.staff.index',$data);  
+    }
+    /**
+     * Display a list of related claims.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function related()
+    {
+        
+        $data['claims']=Auth::guard('staff')->user()->claims;
+        return view('claims.backoffice.staff.index',$data);  
+    }
 
     /**
      * Show the form for creating a new claim for the authenticated partner.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($subject)
+    public function create()
     {
-        isset($request->partner) ? $partner = $request->partner : $partner = Auth::guard('partner')->user()->name;
-        $data['partner'] = Partner::where('name',$partner)->firstOrFail();
+        //isset($request->partner) ? $partner = $request->partner : $partner = Auth::guard('partner')->user()->name;
+        //$data['partner'] = Partner::where('name',$partner)->firstOrFail();
         $data['subjects']=Subject::all();
-        $data['Subject']=Subject::where('name',$subject)->firstOrFail();
-        return view('claims.backoffice.partner.create',$data); 
+        //$data['Subject']=Subject::where('name',$subject)->firstOrFail();
+        return view('claims.backoffice.staff.create',$data); 
     }
 
     /**
@@ -67,7 +88,9 @@ class ClaimController extends Controller
      */
     public function store(Request $request)
     {
+        
         $this->validateClaim($request);
+        return $request;
 
         $user = $this->userType();
         $complainer=auth()->guard($user)->user();
@@ -91,7 +114,7 @@ class ClaimController extends Controller
         $message->claim_messageable_id = $complainer->id;
 
         $message->save();
-        return redirect('support/ticket');
+        return redirect('support');
          
     }
 
@@ -110,6 +133,7 @@ class ClaimController extends Controller
         return $profiles[$i];
     }
 
+
     /**
      * Display the claim along with it messages.
      *
@@ -118,12 +142,25 @@ class ClaimController extends Controller
      */
     public function show($id)
     {
-        isset($request->partner) ? $partner = $request->partner : $partner = Auth::guard('partner')->user()->name;
-        $partner = Partner::where('name', $partner)->firstOrFail();
+        
         $claim=Claim::where('id', $id)->first();
-        return  view('claims.backoffice.partner.show', [
+        return  view('claims.backoffice.staff.show', [
             'claim' => $claim,
         ]);
+    }
+    /**
+     * Display the claim along with it messages.
+     *
+     * @param  \App\Experience  $experience
+     * @return \Illuminate\Http\Response
+     */
+    public function close($id)
+    {
+        
+        $claim=Claim::where('id', $id)->first();
+        $claim->status = 0;
+        $claim->save();
+        return redirect()->back();
     }
 
     /**

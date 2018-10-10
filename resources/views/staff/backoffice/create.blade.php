@@ -27,7 +27,6 @@
         <div class="card-header">
             <h4 class="m-t-0 m-b-0"> <strong>Create new staff</strong> </h4>
         </div>
-        {{$errors}}
         <div class="card-body">
             <div class="row">
                 <div class="col-xl-12">
