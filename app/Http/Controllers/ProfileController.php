@@ -74,7 +74,7 @@ class profileController extends Controller
         $profileLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
         $profileLang->save();
         
-        return redirect('profiles');
+        return redirect('profiles/'.$profile->id);
     }
 
     /**

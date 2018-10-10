@@ -11,11 +11,8 @@
                 <li class="breadcrumb-item">
                     <a href="{{ url('/') }}">DASHBOARD</a>
                 </li>
-                <li class="breadcrumb-item">
-                    <a href="{{ url('/staff') }}">Staff</a>
-                </li>
                 <li class="breadcrumb-item active">
-                    Update
+                    Account
                 </li>
             </ol>
         </div>
@@ -25,7 +22,7 @@
 <div class="container-fluid container-fixed-lg">
     <div class="card ">
         <div class="card-header">
-            <h4 class="m-t-0 m-b-0"> <strong>Create new staff</strong> </h4>
+            <h4 class="m-t-0 m-b-0"> <strong>My Account</strong> </h4>
         </div>
         <div class="card-body">
             <div class="row">

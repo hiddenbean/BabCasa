@@ -55,6 +55,30 @@ class ClaimController extends Controller
         return view('claims.backoffice.staff.index',$data);  
     }
     /**
+     * Display a list of open claims.
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function open()
+    {
+        
+        $data['claims']=Claim::where('status',true)->get();
+        return view('claims.backoffice.staff.index',$data);  
+    }
+
+    /**
+     * Display a list of close claims.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function closed()
+    {
+        
+        $data['claims']=Claim::where('status',false)->get();
+        return view('claims.backoffice.staff.index',$data);  
+    }
+    /**
      * Display a list of related claims.
      *
      * @return \Illuminate\Http\Response

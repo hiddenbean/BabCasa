@@ -123,11 +123,19 @@
                 </span>
                 <ul class="sub-menu">
                     <li>
-                        <a href="{{ url('/support') }}">My tickets</a>
-                        <span class="icon-thumbnail">Cl</span>
+                        <a href="{{ url('/support') }}">All</a>
+                        <span class="icon-thumbnail">Al</span>
                     </li> 
                     <li>
                         <a href="{{ url('/support/related') }}">Related</a>
+                        <span class="icon-thumbnail">Re</span>
+                    </li> 
+                    <li>
+                        <a href="{{ url('/support/open') }}">Open</a>
+                        <span class="icon-thumbnail">Op</span>
+                    </li> 
+                    <li>
+                        <a href="{{ url('/support/closed') }}">close</a>
                         <span class="icon-thumbnail">Cl</span>
                     </li> 
                 </ul>

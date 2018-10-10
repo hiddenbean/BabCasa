@@ -47,6 +47,8 @@ Route::domain('staff.babcasa.com')->group(function (){
     Route::prefix('support')->group(function() {
             Route::get('/','ClaimController@all');
             Route::get('related','ClaimController@related');
+            Route::get('open','ClaimController@open');
+            Route::get('closed','ClaimController@closed');
             Route::get('create','ClaimController@create');
             Route::get('{id}','ClaimController@show');
             Route::prefix('message')->group(function() {
