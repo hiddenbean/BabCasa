@@ -17,9 +17,9 @@ class PhoneController extends Controller
     public function validateRequest(Request $request)
     {
         $request->validate([
-            'numbers.0' => 'nullable|numeric|unique:phones,number',
-            'numbers.1' => 'nullable|numeric|unique:phones,number',
-            'fax_number' => 'nullable|numeric|unique:phones,number',
+            'numbers.0' => 'required|numeric|unique:phones,number|digits:9',
+            'numbers.1' => 'nullable|numeric|unique:phones,number|digits:9',
+            'fax_number' => 'nullable|numeric|unique:phones,number|digits:9',
             'code_country.0' => 'sometimes',
             'code_country.1' => 'sometimes',
             'code_country.2' => 'sometimes',

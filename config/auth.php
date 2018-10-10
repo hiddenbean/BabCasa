@@ -56,6 +56,11 @@ return [
             'provider' => 'staff',
         ],
 
+        'business' => [
+            'driver' => 'session',
+            'provider' => 'businesses',
+        ],
+
 
     ],
 
@@ -92,6 +97,11 @@ return [
             'model' => App\Staff::class,
         ],
 
+        'businesses' => [
+            'driver' => 'eloquent',
+            'model' => App\Business::class,
+        ],
+
 
         // 'users' => [
         //     'driver' => 'database',
@@ -126,8 +136,15 @@ return [
             'table' => 'password_resets',
             'expire' => 60,
         ],
+
         'staff' => [
             'provider' => 'staff',
+            'table' => 'password_resets',
+            'expire' => 60,
+        ],
+
+        'businesses' => [
+            'provider' => 'businesses',
             'table' => 'password_resets',
             'expire' => 60,
         ],

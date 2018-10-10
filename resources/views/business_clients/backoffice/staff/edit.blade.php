@@ -13,7 +13,7 @@
                     <a href="{{ url('/') }}">DASHBOARD</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a href="{{ url('/partners') }}">Partner</a>
+                    <a href="{{ url('/clients/businesses') }}">Business clients</a>
                 </li>
                 <li class="breadcrumb-item active">
                     Update
@@ -27,12 +27,12 @@
 <div class="container-fluid container-fixed-lg">
     <div class="card ">
         <div class="card-header">
-            <h4 class="m-t-0 m-b-0"> <strong>Create new Partner</strong> </h4>
+            <h4 class="m-t-0 m-b-0"> <strong>Create new Business</strong> </h4>
         </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-xl-12">
-                    <form id="form-personal"  method="POST" action="{{url('partners/'.$partner->name)}}" enctype="multipart/form-data">
+                    <form id="form-personal"  method="post" action="{{url('clients/businesses/'.$business->name)}}" enctype="multipart/form-data">
                         @csrf
                         {{ method_field('put') }}
                         <!-- START TABS -->
@@ -51,7 +51,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Company name</label>
-                                            <input type="text" class="form-control" name="company_name" placeholder="Company name" value="{{$partner->company_name}}">
+                                            <input type="text" class="form-control" name="company_name" placeholder="Company name" value="{{$business->company_name}}">
                                         </div>
                                         <label class='error' for='company_name'>
                                                 @if ($errors->has('company_name'))
@@ -64,7 +64,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Name</label>
-                                            <input type="text" class="form-control" name="name" placeholder="Name" value="{{$partner->name }}" disabled>
+                                            <input type="text" class="form-control" name="name" placeholder="Name" value="{{$business->name }}" disabled>
                                         </div>
                                         <label class='error' for='name'>
                                                 @if ($errors->has('name'))
@@ -77,7 +77,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Email</label>
-                                            <input type="email" class="form-control" name="email" placeholder="Email" value="{{$partner->email}}">
+                                            <input type="email" class="form-control" name="email" placeholder="Email" value="{{$business->email}}">
                                         </div>
                                         <label class='error' for='email'>
                                                 @if ($errors->has('email'))
@@ -90,7 +90,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>About</label>
-                                            <textarea name="about" class="form-control">{{$partner->about}}
+                                            <textarea name="about" class="form-control">{{$business->about}}
                                             </textarea>
                                             <label class='error' for='about'>
                                                 @if ($errors->has('about'))
@@ -104,7 +104,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group form-group-default">
                                             <label>Trade registry</label>
-                                            <input type="text" class="form-control" name="trade_registry" placeholder="Trade registry" value="{{$partner->trade_registry}}">
+                                            <input type="text" class="form-control" name="trade_registry" placeholder="Trade registry" value="{{$business->trade_registry}}">
                                         </div>
                                         <label class='error' for='trade_registry'>
                                                 @if ($errors->has('trade_registry'))
@@ -115,7 +115,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group form-group-default">
                                             <label>Ice</label>
-                                            <input type="text" class="form-control" name="ice" placeholder="Ice" value="{{$partner->ice}}">
+                                            <input type="text" class="form-control" name="ice" placeholder="Ice" value="{{$business->ice}}">
                                         </div>
                                         <label class='error' for='ice'>
                                                 @if ($errors->has('ice'))
@@ -129,7 +129,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Taxe id</label>
-                                            <input type="passwod" class="form-control" name="taxe_id" placeholder="Taxe id" value="{{$partner->taxe_id}}">
+                                            <input type="passwod" class="form-control" name="taxe_id" placeholder="Taxe id" value="{{$business->taxe_id}}">
                                         </div>
                                         <label class='error' for='taxe_id'>
                                                 @if ($errors->has('taxe_id'))
@@ -140,20 +140,26 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <input type="checkbox" data-init-plugin="switchery" name="is_register_to_newsletter" data-size="small" data-color="primary" @if($partner->is_register_to_newsletter) checked="checked" @endif /> 
+                                        <input type="checkbox" data-init-plugin="switchery" name="register_to_newsletter" data-size="small" data-color="primary" @if($business->is_register_to_newsletter) checked="checked" @endif /> 
                                         <label for="">Is register to newsletter</label>
                                     </div>
-                                </div> 
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <input type="checkbox" data-init-plugin="switchery" name="approve" data-size="small" data-color="primary" @if($business->status->first()->is_approved) checked="checked" @endif /> 
+                                        <label for="">Approve</label>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="col-sm-2">
                                         <div class="form-group form-group-default">
-                                            <img src="{{{ Storage::url($partner->picture->path)}}}" id="image_preview_partner"
+                                            <img src="{{{ Storage::url($business->picture->path)}}}" id="image_preview_business"
                                                 alt="" srcset="" width="100">
-                                            <label for="path_partner" class="choose_photo">
+                                            <label for="path_business" class="choose_photo">
                                                 <span>
                                                     <i class="fa fa-image"></i> Choisir une photo</span>
                                             </label>
-                                            <input type="file" id="path_partner" name="path" class="form-control hide">
+                                            <input type="file" id="path_business" name="path" class="form-control hide">
                                         </div>
                                         <label class='error' for='path'>
                                             @if ($errors->has('path'))
@@ -169,7 +175,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Address</label>
-                                            <input type="text" class="form-control" name="address" placeholder="Name" value="{{$partner->address->address}}">
+                                            <input type="text" class="form-control" name="address" placeholder="Name" value="{{$business->address->address}}">
                                         </div>
                                         <label class='error' for='address'>
                                                 @if ($errors->has('address'))
@@ -182,7 +188,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Address tow</label>
-                                            <input type="text" class="form-control" name="address_tow" placeholder="Name" value="{{$partner->address->address_tow}}">
+                                            <input type="text" class="form-control" name="address_tow" placeholder="Name" value="{{$business->address->address_tow}}">
                                         </div>
                                     </div>
                                 </div>
@@ -190,7 +196,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group form-group-default">
                                             <label>Full name</label>
-                                            <input type="text" class="form-control" name="full_name" placeholder="Full name" value="{{ $partner->address->full_name}}">
+                                            <input type="text" class="form-control" name="full_name" placeholder="Full name" value="{{ $business->address->full_name}}">
                                         </div>
                                         <label class='error' for='full_name'>
                                                 @if ($errors->has('full_name'))
@@ -201,7 +207,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group form-group-default">
                                             <label>Zip code</label>
-                                            <input type="text" class="form-control" name="zip_code" placeholder="Zip code" value="{{$partner->address->zip_code}}" maxlength="6" >
+                                            <input type="text" class="form-control" name="zip_code" placeholder="Zip code" value="{{$business->address->zip_code}}" maxlength="6" >
                                         </div>
                                         <label class='error' for='zip_code'>
                                                 @if ($errors->has('zip_code'))
@@ -227,7 +233,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group form-group-default">
                                             <label>City</label>
-                                            <input type="text" class="form-control" name="city" placeholder="City" value="{{$partner->address->city}}">
+                                            <input type="text" class="form-control" name="city" placeholder="City" value="{{$business->address->city}}">
                                         </div>
                                         <label class='error' for='city'>
                                                 @if ($errors->has('city'))
@@ -239,11 +245,11 @@
                                 <div class="row clearfix">
                                     <div class="col-md-4">
                                         <div class="form-group form-group-default input-group">
-                                            @if(count($partner->phones) > 0 && isset($partner->phones()->whereIn('type', ['fix', 'phone'])->get()[0]->number))
-                                                <!--{{ $number0 = $partner->phones()->whereIn('type', ['phone', 'fix'])->get()[0]->number }}-->
-                                                <!--{{ $number0_id = $partner->phones()->whereIn('type', ['phone', 'fix'])->get()[0]->id }}-->
-                                                <!--{{ $country0_id = $partner->phones()->whereIn('type', ['phone', 'fix'])->get()[0]->country->country_id }}-->
-                                                <!--{{ $country0_code = $partner->phones()->whereIn('type', ['phone', 'fix'])->get()[0]->country->code }}-->
+                                            @if(count($business->phones) > 0 && isset($business->phones()->whereIn('type', ['fix', 'phone'])->get()[0]->number))
+                                                <!--{{ $number0 = $business->phones()->whereIn('type', ['phone', 'fix'])->get()[0]->number }}-->
+                                                <!--{{ $number0_id = $business->phones()->whereIn('type', ['phone', 'fix'])->get()[0]->id }}-->
+                                                <!--{{ $country0_id = $business->phones()->whereIn('type', ['phone', 'fix'])->get()[0]->country->country_id }}-->
+                                                <!--{{ $country0_code = $business->phones()->whereIn('type', ['phone', 'fix'])->get()[0]->country->code }}-->
                                             @else
                                                 <!--{{ $number0 = null }}-->
                                                 <!--{{ $number0_id = null }}-->
@@ -270,11 +276,11 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group form-group-default input-group">
-                                            @if(count($partner->phones) > 1 && isset($partner->phones()->whereIn('type', ['fix', 'phone'])->get()[1]->number))
-                                                <!--{{ $number1 = $partner->phones()->whereIn('type', ['phone', 'fix'])->get()[1]->number }}-->
-                                                <!--{{ $number1_id = $partner->phones()->whereIn('type', ['phone', 'fix'])->get()[1]->id }}-->
-                                                <!--{{ $country1_id = $partner->phones()->whereIn('type', ['phone', 'fix'])->get()[1]->country->country_id }}-->
-                                                <!--{{ $country1_code = $partner->phones()->whereIn('type', ['phone', 'fix'])->get()[1]->country->code }}-->
+                                            @if(count($business->phones) > 1 && isset($business->phones()->whereIn('type', ['fix', 'phone'])->get()[1]->number))
+                                                <!--{{ $number1 = $business->phones()->whereIn('type', ['phone', 'fix'])->get()[1]->number }}-->
+                                                <!--{{ $number1_id = $business->phones()->whereIn('type', ['phone', 'fix'])->get()[1]->id }}-->
+                                                <!--{{ $country1_id = $business->phones()->whereIn('type', ['phone', 'fix'])->get()[1]->country->country_id }}-->
+                                                <!--{{ $country1_code = $business->phones()->whereIn('type', ['phone', 'fix'])->get()[1]->country->code }}-->
                                             @else
                                                 <!--{{ $number1 = null }}-->
                                                 <!--{{ $number1_id = null }}-->
@@ -300,11 +306,11 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group form-group-default input-group">
-                                            @if(isset($partner->phones->where('type', 'fax')->first()->number))
-                                                <!--{{ $fax = $partner->phones->where('type', 'fax')->first()->number }}-->
-                                                <!--{{ $fax_id = $partner->phones->where('type', 'fax')->first()->id }}-->
-                                                <!--{{ $country3_id = $partner->phones->where('type', 'fax')->first()->country->country_id }}-->
-                                                <!--{{ $country3_code = $partner->phones->where('type', 'fax')->first()->country->code }}-->
+                                            @if(isset($business->phones->where('type', 'fax')->first()->number))
+                                                <!--{{ $fax = $business->phones->where('type', 'fax')->first()->number }}-->
+                                                <!--{{ $fax_id = $business->phones->where('type', 'fax')->first()->id }}-->
+                                                <!--{{ $country3_id = $business->phones->where('type', 'fax')->first()->country->country_id }}-->
+                                                <!--{{ $country3_code = $business->phones->where('type', 'fax')->first()->country->code }}-->
                                             @else
                                                 <!--{{ $fax = null }}-->
                                                 <!--{{ $fax_id = null }}-->
@@ -349,9 +355,9 @@
         $(document).ready(function () {
             $('#birthday').datepicker();
              /* Image preview */
-             $("#path_partner").on("change", function () {
+             $("#path_business").on("change", function () {
                 var _this = this;
-                var image_preview = $("#image_preview_partner");
+                var image_preview = $("#image_preview_business");
                 showImage(_this, image_preview);
             });
 

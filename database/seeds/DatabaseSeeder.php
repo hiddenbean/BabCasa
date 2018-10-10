@@ -24,5 +24,6 @@ class DatabaseSeeder extends Seeder
         $this->call(StatusSeeder::class);
         $this->call(DiscountSeeder::class);
         $this->call(DiscountLangSeeder::class);
+        $this->call(BusinessSeeder::class);
     }
 }

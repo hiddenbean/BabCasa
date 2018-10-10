@@ -117,7 +117,18 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::get('{partner}/reset/password', 'PartnerController@resetPassword');
         Route::get('{partner}/pin/verification', 'PinController@checkPinForm');
         Route::get('{partner}/password/{password}', 'PinController@showPassword');
-    }); 
+    });
+
+    Route::prefix('clients')->group(function(){
+        Route::prefix('businesses')->middleware('CanRead:business_client')->group(function(){
+            Route::get('/', 'BusinessController@index');
+            Route::get('/create', 'BusinessController@create');
+            Route::get('/{business}/show', 'BusinessController@show');
+            Route::get('/{business}/edit', 'BusinessController@edit');
+            Route::get('{business}/pin/verification', 'PinController@checkPinForm');
+            Route::get('{business}/password/{password}', 'PinController@showPassword');
+        });
+    });
 
     //////////profiles
     Route::prefix('profiles')->middleware('CanRead:profile')->group(function() {
@@ -319,6 +330,18 @@ Route::domain('staff.babcasa.com')->group(function (){
             Route::post('/pin/verification', 'PinController@checkPin');
         });
     });
+    Route::prefix('clients')->group(function(){
+        Route::prefix('businesses')->middleware('CanWrite:business_client')->group(function(){
+            Route::post('/store', 'BusinessController@store');
+            Route::prefix('{business}')->group(function(){
+                Route::delete('/destroy', 'BusinessController@destroy')->name('delete.business');
+                Route::post('/reset/password', 'PinController@store')->name('reset.password.business');
+                Route::put('/', 'BusinessController@update');
+                Route::post('/pin/verification', 'PinController@checkPin');
+                
+            });
+        });
+    });
 
     //////////profiles
     Route::prefix('profiles')->middleware('CanWrite:profile')->group(function() {
@@ -331,5 +354,18 @@ Route::domain('staff.babcasa.com')->group(function (){
 
     // Staff register route
     //Route::post('register', 'auth\StaffRegisterController@store')->name('staff.register.submit'); 
+
+    
+    
+
+    Route::get('/clients/particular', function () { 
+        return view('clients_particular.backoffice.staff.index');
+    }); 
+    Route::get('/clients/particular/create', function () { 
+        return view('clients_particular.backoffice.staff.create');
+    }); 
+    Route::get('/clients/particular/show', function () { 
+        return view('clients_particular.backoffice.staff.show');
+    });
 
 });

@@ -45,7 +45,6 @@ class PinController extends Controller
         {
             $date = new DateTime();
             $date = date_modify($date,"+5 minutes");
-            date_format($date,"Y-m-d H:i:s");
             $code = rand(100000, 999999);
             $pin = Pin::create([
                 'code' => $code,
@@ -78,6 +77,7 @@ class PinController extends Controller
         switch ($url_split)
         {
             case 'partners' : return ['App\Partner', 'partner', 'partners.backoffice.staff']; break;
+            case 'clients/businesses' : return ['App\Business', 'business', 'business_clients.backoffice.staff']; break;
             case 'clients' : return 'App\Client'; break;
             case 'staff' : return ['App\Staff', 'staff', 'staff.backoffice']; break;
         }

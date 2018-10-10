@@ -13,7 +13,7 @@
                     <a href="{{ url('/') }}">DASHBOARD</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a href="{{ url('/clients/business') }}">Clients business</a>
+                    <a href="{{ url('/clients/businesses') }}">Clients business</a>
                 </li>
                 <li class="breadcrumb-item active">
                     Create
@@ -32,7 +32,8 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-xl-12">
-                    <form id="form-personal">
+                <form id="form-personal" action="{{ url('clients/businesses/store') }}" method="post" enctype="multipart/form-data">
+                    @csrf
                         <!-- START TABS -->
                         <ul class="nav nav-tabs nav-tabs-simple nav-tabs-left bg-white" id="tab-3">
                             <li class="nav-item">
@@ -49,7 +50,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Company name</label>
-                                            <input type="text" class="form-control" name="company_name" placeholder="Company name">
+                                            <input type="text" class="form-control" name="company_name" placeholder="Company name" value="lhjak">
                                         </div>
                                     </div>
                                 </div> 
@@ -57,7 +58,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Name</label>
-                                            <input type="text" class="form-control" name="name" placeholder="Name">
+                                            <input type="text" class="form-control" name="name" placeholder="Name" value="lhjak">
                                         </div>
                                     </div>
                                 </div> 
@@ -65,7 +66,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Email</label>
-                                            <input type="email" class="form-control" name="email" placeholder="Email">
+                                            <input type="email" class="form-control" name="email" placeholder="Email" value="lhjak@j.com">
                                         </div>
                                     </div>
                                 </div>
@@ -73,7 +74,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Password</label>
-                                            <input type="passwod" class="form-control" name="password" placeholder="Password">
+                                            <input type="passwod" class="form-control" name="password" placeholder="Password" value="lhjak">
                                         </div>
                                     </div>
                                 </div>
@@ -81,7 +82,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>About</label>
-                                            <textarea name="about" class="form-control">
+                                            <textarea name="about" class="form-control" value="lhjak">
 
                                             </textarea>
                                         </div>
@@ -91,13 +92,13 @@
                                     <div class="col-md-6">
                                         <div class="form-group form-group-default">
                                             <label>Trade registry</label>
-                                            <input type="text" class="form-control" name="trade_registry" placeholder="Trade registry">
+                                            <input type="text" class="form-control" name="trade_registry" placeholder="Trade registry" value="1111">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group form-group-default">
                                             <label>Ice</label>
-                                            <input type="text" class="form-control" name="ice" placeholder="Ice">
+                                            <input type="text" class="form-control" name="ice" placeholder="Ice" value="1111">
                                         </div>
                                     </div>
                                 </div> 
@@ -105,19 +106,19 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Taxe id</label>
-                                            <input type="passwod" class="form-control" name="taxe_id" placeholder="Taxe id">
+                                            <input type="passwod" class="form-control" name="taxe_id" placeholder="Taxe id" value="111">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <input type="checkbox" data-init-plugin="switchery" data-size="small" data-color="primary" checked="checked" /> 
+                                        <input type="checkbox" data-init-plugin="switchery" name="register_to_newsletter" data-size="small" data-color="primary" checked="checked" /> 
                                         <label for="">Is register to newsletter</label>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <input type="checkbox" data-init-plugin="switchery" data-size="small" data-color="primary" checked="checked" /> 
+                                        <input type="checkbox" data-init-plugin="switchery" name="approve" data-size="small" data-color="primary" checked="checked" /> 
                                         <label for="">Approve</label>
                                     </div>
                                 </div>
@@ -141,7 +142,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Address</label>
-                                            <input type="text" class="form-control" name="address" placeholder="Name">
+                                            <input type="text" class="form-control" name="address" placeholder="Name" value="lhjak" >
                                         </div>
                                     </div>
                                 </div>
@@ -149,7 +150,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Address tow</label>
-                                            <input type="text" class="form-control" name="address_tow" placeholder="Name">
+                                            <input type="text" class="form-control" name="address_two" placeholder="Name" value="lhjak">
                                         </div>
                                     </div>
                                 </div>
@@ -157,49 +158,73 @@
                                     <div class="col-md-3">
                                         <div class="form-group form-group-default">
                                             <label>Full name</label>
-                                            <input type="text" class="form-control" name="ful_name" placeholder="Full name">
+                                            <input type="text" class="form-control" name="full_name" placeholder="Full name" value="lhjak">
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group form-group-default">
                                             <label>Zip code</label>
-                                            <input type="text" class="form-control" name="zip_code" placeholder="Zip code">
+                                            <input type="text" class="form-control" name="zip_code" placeholder="Zip code" value="111">
                                         </div>
                                     </div>
                                     <div class="col-md-3"> 
                                         <div class="form-group form-group-default">
                                             <label>Country</label>
-                                            <select class="cs-select cs-skin-slide cs-transparent" name="country_id[]" data-init-plugin="cs-select">
-                                                <option Selected>County</option>
-                                                <option>USA (+1)</option>
-                                                <option>Uzbekistan (+7)</option> 
+                                            <select class="cs-select cs-skin-slide cs-transparent" name="country_id" data-init-plugin="cs-select">
+                                                @foreach($countries as $country)
+                                                    <option value="{{$country->id}}">{{$country->name}}</option>
+                                                @endforeach 
                                             </select> 
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group form-group-default">
                                             <label>City</label>
-                                            <input type="text" class="form-control" name="city" placeholder="City">
+                                            <input type="text" class="form-control" name="city" placeholder="City" value="lhjak">
                                         </div>
                                     </div> 
                                 </div> 
                                 <div class="row clearfix">
                                     <div class="col-md-4">
+                                        <div class="cs-input-group-addon input-group-addon d-flex">
+                                            <select class="cs-select cs-skin-slide cs-transparent" name="code_country[]" data-init-plugin="cs-select">
+                                                    @foreach($countries as $country)
+                                                        <option value="{{$country->id}}">{{$country->code}}</option>
+                                                    @endforeach 
+                                            </select>
+                                        </div>
                                         <div class="form-group form-group-default required has-error">
                                             <label>Phone one </label>
-                                            <input type="text" class="form-control error" name="first_name">
-                                        </div><label class="error" for="first_name">This field is required.</label>
+                                            <input type="text" class="form-control error" name="numbers[]">
+                                        </div>
+                                    @if ($errors->has('full_name'))
+                                        {{ $errors->first('full_name') }}
+                                    @endif
                                     </div>
                                     <div class="col-md-4">
+                                        <div class="cs-input-group-addon input-group-addon d-flex">
+                                            <select class="cs-select cs-skin-slide cs-transparent" name="code_country[]" data-init-plugin="cs-select">
+                                                    @foreach($countries as $country)
+                                                        <option value="{{$country->id}}">{{$country->code}}</option>
+                                                    @endforeach 
+                                            </select>
+                                        </div>
                                         <div class="form-group form-group-default">
                                             <label>Phone tow </label>
-                                            <input type="text" class="form-control" name="last_name">
+                                            <input type="text" class="form-control" name="numbers[]">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
+                                        <div class="cs-input-group-addon input-group-addon d-flex">
+                                            <select class="cs-select cs-skin-slide cs-transparent" name="code_country[]" data-init-plugin="cs-select">
+                                                    @foreach($countries as $country)
+                                                        <option value="{{$country->id}}">{{$country->code}}</option>
+                                                    @endforeach 
+                                            </select>
+                                        </div>
                                         <div class="form-group form-group-default">
                                             <label>Fax </label>
-                                            <input type="text" class="form-control" name="fax">
+                                            <input type="text" class="form-control" name="fax_number">
                                         </div>
                                     </div>
                                 </div>
