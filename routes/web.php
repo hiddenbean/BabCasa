@@ -117,6 +117,17 @@ Route::domain('staff.babcasa.com')->group(function (){
             }); 
               Route::get('{staff}', 'StaffController@show'); 
     }); 
+    
+    //////////ParticularClient
+   
+    Route::prefix('particular-clients')->middleware('CanRead:staff')->group(function() {
+        Route::get('/', 'ParticularClientController@index'); 
+          Route::group(['middleware' => ['CanWrite:staff']], function(){
+                Route::get('create', 'ParticularClientController@create'); 
+                Route::get('{particular}/edit', 'ParticularClientController@edit');
+            }); 
+              Route::get('{particular}', 'ParticularClientController@show'); 
+    }); 
 
     Route::prefix('partners')->middleware('CanRead:partner')->group(function() {
         Route::get('/', 'PartnerController@index'); 
@@ -320,6 +331,12 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::post('/', 'Auth\StaffRegisterController@store'); 
         Route::post('{staff}', 'StaffController@update'); 
         Route::delete('{staff}', 'StaffController@destroy')->name('delete.staff');
+    }); 
+    //////////particular-clients
+    Route::prefix('particular-clients')->middleware('CanWrite:staff')->group(function() {
+        Route::post('/', 'ParticularClientController@store'); 
+        Route::put('{particular}', 'ParticularClientController@update'); 
+        Route::delete('{particular}', 'ParticularClientController@destroy')->name('delete.particular-client');
     }); 
 
     Route::prefix('partners')->middleware('CanWrite:partner')->group(function() {
