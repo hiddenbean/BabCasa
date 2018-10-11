@@ -12,6 +12,7 @@ use App\Country;
 use App\Address;
 use App\Picture;
 use App\Language;
+use DateTime;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\PictureController;
 use App\Http\Controllers\PhoneController;
@@ -150,16 +151,16 @@ class PartnerController extends Controller
         }
 
         if($request->fax_number)
-            {
+        {
 
-                $phone = new Phone();
-                $phone->number = $request->fax_number;
-                $phone->type = "fix";
-                $phone->country_id = $request->code_country[2];
-                $phone->phoneable_type = 'partner';
-                $phone->phoneable_id = $partner->id;
-                $phone->save();
-            }  
+            $phone = new Phone();
+            $phone->number = $request->fax_number;
+            $phone->type = "fix";
+            $phone->country_id = $request->code_country[2];
+            $phone->phoneable_type = 'partner';
+            $phone->phoneable_id = $partner->id;
+            $phone->save();
+        }  
             
             return redirect('partners');
     }
@@ -215,13 +216,14 @@ class PartnerController extends Controller
         
         $request->validate([
             'numbers.0' => 'required|numeric|unique:phones,number,'.$request->phone_id[0],
-            'numbers.1' => 'sometimes|numeric|unique:phones,number,'.$request->phone_id[1],
+            'numbers.1' => 'nullable|numeric|unique:phones,number,'.$request->phone_id[1],
             'code_country.0' => 'required',
-            'code_country.1' => 'required',
-        ]);      
+            'code_country.1' => 'nullable',
+            'code_country.2' => 'nullable',
+        ]);   
         $is_register_to_newsletter = ($request->is_register_to_newsletter=='on') ? 1 : 0;
 
-        $partner = partner::find($partner);
+        $partner = partner::where('name', $partner)->first();
         $partner->company_name = $request->company_name;
         $partner->about = $request->about;
         $partner->email = $request->email;
@@ -255,8 +257,16 @@ class PartnerController extends Controller
         {
             if($number != null)
             {
-               
-                $phone = Phone::find($request->phone_id[$key]);
+                $phone = Phone::where('id', $request->phone_id[$key])
+                                                                ->whereIn('type', ['phone', 'fix'])
+                                                                ->where('phoneable_id', $business->id)
+                                                                ->first();
+                if($phone == null)
+                {
+                    $phone = new Phone();
+                    $phone->phoneable_id = $partner->id;
+                    $phone->phoneable_type = 'partner';
+                }
                 $phone->number = $number;
                 $phone->type = "phone";
                 $phone->country_id = $request->code_country[$key];
@@ -266,13 +276,23 @@ class PartnerController extends Controller
 
         if($request->fax_number)
         {
-            
+            $fax = Phone::where('id', $request->fax_id)
+                                ->where('type', 'fax')
+                                ->where('phoneable_id', $business->id)
+                                ->first();
+            if($fax == null)
+            {
+                $fax = new Phone();
+                $phone->phoneable_id = $partner->id;
+                $phone->phoneable_type = 'partner';
+            }
             $phone = Phone::find($request->fax_id);
             $phone->number = $request->fax_number;
             $phone->type = "fix";
             $phone->country_id = $request->code_country[2];
             $phone->save();
         }
+
             
         return redirect('partners');
     }
@@ -319,41 +339,6 @@ class PartnerController extends Controller
     {
         DB::table('sessions')->where('id', $session_id)->delete();
         return redirect(str_before(url()->current(), '.com').'.com/security');
-    }
-
-    /**
-     * Send sms to the partner in case of changing password by a staff member
-     * 
-     * @param \App\Partner $partner
-     * @return \illuminate\Http\Response
-     */
-    public function sendSMS($partner)
-    {
-        $partner = Partner::where('name', $partner)->first();
-        $number = $partner->phones()->where('type', 'phone')->first();
-        return $phone->country->code.''.$phone->number;
-        $code = rand(100000, 999999);
-        if($number)
-        {   
-            Nexmo::message()->send([
-                'to'   => $phone->country->code.''.$phone->number,
-                'from' => '0610256365',
-                'text' => 'this'.$code.' is the code to reset password.'
-            ]);
-            return redirect()
-                            ->with(
-                                'success', 
-                                'the message has been sent successfuly !!'
-                            );
-        }
-        else
-        {
-            return redirect()
-                            ->with(
-                                'error',
-                                'The partner doesn\'t have a valid number !!'
-                            );
-        }
     }
 }
 

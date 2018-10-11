@@ -17,16 +17,21 @@ class Partner extends Authenticatable
     use SoftDeletes;  
 
     protected $fillable = ['company_name', 'email','password', 'name', 'about', 'trade_registry', 'ice', 'taxe_id'];
+
+    protected $hidden = ['password', 'remember_token'];
+
     protected $guard = 'partner';
 
     public function address()
     {
         return $this->morphOne('App\Address', 'addressable');
     }
+
     public function picture()
     {
         return $this->morphOne('App\Picture', 'pictureable');
     }
+    
     public function claims()
     {
         return $this->morphMany('App\Claim', 'claimable');
@@ -38,7 +43,7 @@ class Partner extends Authenticatable
     }
     public function statuses()
     {
-        return $this->hasMany('App\Status');
+        return $this->morphMany('App\Status', 'user');
     }
     public function status()
     {
@@ -49,6 +54,12 @@ class Partner extends Authenticatable
         return $this->hasMany('App\ClaimMessage');
     }
 
+
+    public function pins()
+    {
+        return $this->morphMany('App\Pin', 'Pinable');
+    }
+    
     public static function boot()
     {
         parent::boot();    

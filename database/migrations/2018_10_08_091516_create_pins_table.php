@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateStatusesTable extends Migration
+class CreatePinsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateStatusesTable extends Migration
      */
     public function up()
     {
-        Schema::create('statuses', function (Blueprint $table) {
+        Schema::create('pins', function (Blueprint $table) {
             $table->increments('id');
-            $table->boolean('is_approved');
-            $table->integer('user_id');
-            $table->string('user_type');
-            $table->integer('staff_id');
+            $table->string('code');
+            $table->boolean('expired');
+            $table->datetime('expired_at');
+            $table->string('pinable_type');
+            $table->integer('pinable_id');
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ class CreateStatusesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('statuses');
+        Schema::dropIfExists('pins');
     }
 }

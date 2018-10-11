@@ -111,11 +111,14 @@ Route::domain('staff.babcasa.com')->group(function (){
     Route::get('/logout', 'Auth\StaffLoginController@logout');
     Route::prefix('staff')->middleware('CanRead:staff')->group(function() {
         Route::get('/', 'StaffController@index'); 
-          Route::group(['middleware' => ['CanWrite:staff']], function(){
-                Route::get('create', 'StaffController@create'); 
-                Route::get('{staff}/edit', 'StaffController@edit');
-            }); 
-              Route::get('{staff}', 'StaffController@show'); 
+        Route::group(['middleware' => ['CanWrite:staff']], function(){
+            Route::get('create', 'StaffController@create'); 
+            Route::get('{staff}/edit', 'StaffController@edit');
+        }); 
+        Route::get('{staff}', 'StaffController@show');
+        Route::get('{staff}/reset/password', 'StaffController@resetPassword');
+        Route::get('{staff}/pin/verification', 'PinController@checkPinForm');
+        Route::get('{staff}/password/{password}', 'PinController@showPassword');
     }); 
     
     //////////ParticularClient
@@ -131,12 +134,26 @@ Route::domain('staff.babcasa.com')->group(function (){
 
     Route::prefix('partners')->middleware('CanRead:partner')->group(function() {
         Route::get('/', 'PartnerController@index'); 
-          Route::group(['middleware' => ['CanWrite:partner']], function(){
-                Route::get('create', 'PartnerController@create'); 
-                Route::get('{partner}/edit', 'PartnerController@edit');
-            }); 
-              Route::get('{partner}', 'PartnerController@show'); 
-    }); 
+        Route::group(['middleware' => ['CanWrite:partner']], function(){
+            Route::get('create', 'PartnerController@create'); 
+            Route::get('{partner}/edit', 'PartnerController@edit');
+        }); 
+        Route::get('{partner}', 'PartnerController@show');
+        Route::get('{partner}/reset/password', 'PartnerController@resetPassword');
+        Route::get('{partner}/pin/verification', 'PinController@checkPinForm');
+        Route::get('{partner}/password/{password}', 'PinController@showPassword');
+    });
+
+    Route::prefix('clients')->group(function(){
+        Route::prefix('businesses')->middleware('CanRead:business_client')->group(function(){
+            Route::get('/', 'BusinessController@index');
+            Route::get('/create', 'BusinessController@create');
+            Route::get('/{business}/show', 'BusinessController@show');
+            Route::get('/{business}/edit', 'BusinessController@edit');
+            Route::get('{business}/pin/verification', 'PinController@checkPinForm');
+            Route::get('{business}/password/{password}', 'PinController@showPassword');
+        });
+    });
 
     //////////profiles
     Route::prefix('profiles')->middleware('CanRead:profile')->group(function() {
@@ -151,7 +168,6 @@ Route::domain('staff.babcasa.com')->group(function (){
     //////////STATUS
     Route::prefix('statuses')->group(function() {
         Route::get('{partner}','StatusController@index');
-    
     }); 
     
 });
@@ -329,8 +345,10 @@ Route::domain('staff.babcasa.com')->group(function (){
 
     Route::prefix('staff')->middleware('CanWrite:staff')->group(function() {
         Route::post('/', 'Auth\StaffRegisterController@store'); 
-        Route::post('{staff}', 'StaffController@update'); 
+        Route::put('{staff}', 'StaffController@update'); 
         Route::delete('{staff}', 'StaffController@destroy')->name('delete.staff');
+        Route::post('{staff}/reset/password', 'PinController@store')->name('reset.password.staff');
+        Route::post('{staff}/pin/verification', 'PinController@checkPin');
     }); 
     //////////particular-clients
     Route::prefix('particular-clients')->middleware('CanWrite:staff')->group(function() {
@@ -342,11 +360,27 @@ Route::domain('staff.babcasa.com')->group(function (){
     Route::prefix('partners')->middleware('CanWrite:partner')->group(function() {
 
         Route::post('/', 'PartnerController@store'); 
-        Route::post('{partner}', 'PartnerController@update'); 
+        
         // Route::post('{partner}/active', 'PartnerController@active')->name('active.partner');
         // Route::post('{partner}/desactive', 'PartnerController@desactive')->name('desactive.partner');
-        Route::delete('{partner}', 'PartnerController@destroy')->name('delete.partner');
-        Route::post('{partner}/reset/password', 'PartnerController@sendSMS');
+        Route::prefix('{partner}')->group(function() {
+            Route::put('/', 'PartnerController@update'); 
+            Route::delete('/', 'PartnerController@destroy')->name('delete.partner');
+            Route::post('/reset/password', 'PinController@store')->name('reset.password.partner');
+            Route::post('/pin/verification', 'PinController@checkPin');
+        });
+    });
+    Route::prefix('clients')->group(function(){
+        Route::prefix('businesses')->middleware('CanWrite:business_client')->group(function(){
+            Route::post('/store', 'BusinessController@store');
+            Route::prefix('{business}')->group(function(){
+                Route::delete('/destroy', 'BusinessController@destroy')->name('delete.business');
+                Route::post('/reset/password', 'PinController@store')->name('reset.password.business');
+                Route::put('/', 'BusinessController@update');
+                Route::post('/pin/verification', 'PinController@checkPin');
+                
+            });
+        });
     });
 
     //////////profiles
@@ -360,5 +394,18 @@ Route::domain('staff.babcasa.com')->group(function (){
 
     // Staff register route
     //Route::post('register', 'auth\StaffRegisterController@store')->name('staff.register.submit'); 
+
+    
+    
+
+    Route::get('/clients/particular', function () { 
+        return view('clients_particular.backoffice.staff.index');
+    }); 
+    Route::get('/clients/particular/create', function () { 
+        return view('clients_particular.backoffice.staff.create');
+    }); 
+    Route::get('/clients/particular/show', function () { 
+        return view('clients_particular.backoffice.staff.show');
+    });
 
 });

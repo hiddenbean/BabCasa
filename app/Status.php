@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Status extends Model
 {
-    public function partner()
+    public function user()
     {
-        return $this->belongsTo('App\Partner');
+        return $this->morphTo();
     }
 
     public function reasons()

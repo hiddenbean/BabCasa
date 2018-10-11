@@ -225,10 +225,10 @@ class StaffController extends Controller
                 if($phone == null)
                 {
                     $phone = new Phone();
+                    $phone->phoneable_id = $staff->id;
+                    $phone->phoneable_type = 'staff';
                 }
                 $phone->number = $number;
-                $phone->phoneable_id = $staff->id;
-                $phone->phoneable_type = 'staff';
                 $phone->type = "phone";
                 $phone->country_id = $request->code_country[$key];
                 $phone->save();
@@ -244,10 +244,10 @@ class StaffController extends Controller
             if($fax == null)
             {
                 $fax = new Phone();
+                $phone->phoneable_id = $staff->id;
+                $phone->phoneable_type = 'staff';
             }
             $fax->number = $request->fax_number;
-            $fax->phoneable_id = $staff->id;
-            $fax->phoneable_type = 'staff';
             $fax->type = "fax";
             $fax->country_id = $request->code_country[2];
             $fax->save();

@@ -38,9 +38,9 @@
                 <i class="fa fa-user-circle"></i>
             </span>
             <ul class="sub-menu">
-         @if (auth()->guard('staff')->user()->can('read','businessCostumer'))
+         @if (auth()->guard('staff')->user()->can('read','business_client'))
                 <li>
-                    <a href="{{ url('/clients/business') }}">Clients business</a>
+                    <a href="{{ url('/clients/businesses') }}">Clients business</a>
                     <span class="icon-thumbnail">CB</span>
                 </li>
         @endif
