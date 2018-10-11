@@ -161,4 +161,48 @@ class CountryController extends Controller
                                 );
 
     }
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\reasons  $reasons
+     * @return \Illuminate\Http\Response
+     */
+    public function multiDestroy(Request $request)
+    {
+        
+
+        $request->validate([
+            'countries' => 'required',
+        ]);
+        $error = false;
+        
+        foreach($request->countries as $Country)
+        {
+            $cantDelete = false;
+
+            $country = Country::findOrFail($Country);
+    
+            if(isset($country->phones[0]) || isset($country->addresses[0]) || isset($country->currency[0])) {$cantDelete = true;$error = true;}
+    
+            if(!$cantDelete) 
+                $country->delete();
+
+        }
+        if(!$error) 
+        {
+            return redirect('countries')->with(
+                            'success',
+                            'Country has been deleted successfuly !!'
+             );
+
+        }
+        else 
+        {
+            return redirect('countries')->with(
+                'error',
+                'Country can\'t be deleted it has a relation with products '
+            );
+        }
+
+    }
 }

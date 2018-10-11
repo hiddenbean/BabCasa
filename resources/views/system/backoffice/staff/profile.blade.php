@@ -29,7 +29,7 @@
                 <div class="col-xl-12">
                     <form id="form-personal"  method="POST" action="{{url('staff/'.$staff->id)}}" enctype="multipart/form-data">
                         {{ csrf_field() }}
-
+                         {{ method_field('put') }}
                         <ul class="nav nav-tabs nav-tabs-simple nav-tabs-left bg-white" id="tab-3">
                             <li class="nav-item">
                                 <a href="#" class="active show" data-toggle="tab" data-target="#general">General
@@ -93,19 +93,7 @@
                                         </label> 
                                     </div>
                                 </div>
-                                {{-- <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group form-group-default">
-                                            <label>Password</label>
-                                            <input type="password" class="form-control" name="password" placeholder="Password">
-                                        </div>
-                                        <label class='error' for='password'>
-                                                @if ($errors->has('password'))
-                                                    {{ $errors->first('password') }}
-                                                @endif
-                                        </label> 
-                                    </div>
-                                </div> --}}
+                                
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group form-group-default input-group">
@@ -253,14 +241,14 @@
                                                     <div class="cs-input-group-addon input-group-addon d-flex">
                                                         <select class="cs-select cs-skin-slide cs-transparent" name="code_country[]"  data-init-plugin="cs-select">
                                                                 @foreach($countries as $country)
-                                                                <option value="{{$country->id}}"  @if($staff->phones[0]->country->country_id == $country->id) selected @endif >{{$country->code}}</option>
+                                                                <option value="{{$country->id}}"  @if($staff->phones[0]->country->country_id == $country->id && isset($staff->phones[0])) selected @endif >{{$country->code}}</option>
                                                                     @endforeach 
                                                         </select>
                                                     </div>
-                                                <input type="hidden" name="phone_id[]" value="{{$staff->phones[0]->id}}">
+                                                <input type="hidden" name="phone_id[]" value="@if(isset($staff->phones[0])){{$staff->phones[0]->id}}@endif">
                                                     <div class="form-input-group flex-1">
                                                         <label>Phone one</label>
-                                                        <input type="text" id="phone" name="numbers[]" value="{{$staff->phones[0]->number}}" class="form-control">
+                                                        <input type="text" id="phone" name="numbers[]" value="@if(isset($staff->phones[0])){{ $staff->phones[0]->number}} @endif" class="form-control">
                                                         @if ($errors->has('numbers.0'))
                                                         <label class='error' for='phone'>{{ $errors->first('numbers.0') }}</label>
                                                         @endif
@@ -273,14 +261,14 @@
                                                     <div class="cs-input-group-addon input-group-addon d-flex">
                                                         <select class="cs-select cs-skin-slide cs-transparent" name="code_country[]" data-init-plugin="cs-select">
                                                                 @foreach($countries as $country)
-                                                                <option value="{{$country->id}}"  @if($staff->phones[1]->country->country_id == $country->id) selected @endif >{{$country->code}}</option>
+                                                                <option value="{{$country->id}}"  @if(isset($staff->phones[1]) && $staff->phones[1]->country->country_id == $country->id ) selected @endif >{{$country->code}}</option>
                                                                     @endforeach 
                                                         </select>
                                                     </div>
-                                                    <input type="hidden" name="phone_id[]" value="{{$staff->phones[1]->id}}">
+                                                    <input type="hidden" name="phone_id[]" value="@if(isset($staff->phones[1])){{$staff->phones[1]->id}}@endif">
                                                     <div class="form-input-group flex-1">
                                                         <label>Phone tow</label>
-                                                        <input type="text" id="phone" name="numbers[]" value="{{$staff->phones[1]->number}}" class="form-control">
+                                                        <input type="text" id="phone" name="numbers[]" value="@if(isset($staff->phones[1])) {{$staff->phones[1]->number}} @endif" class="form-control">
                                                         @if ($errors->has('numbers.1'))
                                                         <label class='error' for='phone'>{{ $errors->first('numbers .1') }}</label>
                                                         @endif
@@ -292,14 +280,14 @@
                                                     <div class="cs-input-group-addon input-group-addon d-flex">
                                                         <select class="cs-select cs-skin-slide cs-transparent" name="code_country[]" data-init-plugin="cs-select">
                                                                 @foreach($countries as $country)
-                                                                <option value="{{$country->id}}"  @if($staff->phones[2]->country->country_id == $country->id) selected @endif >{{$country->code}}</option>
+                                                                <option value="{{$country->id}}"  @if(isset($staff->phones[2]) && $staff->phones[2]->country->country_id == $country->id) selected @endif >{{$country->code}}</option>
                                                                     @endforeach 
                                                         </select>
                                                     </div>
-                                                    <input type="hidden" name="fax_id" value="{{$staff->phones[2]->id}}">
+                                                    <input type="hidden" name="fax_id" value="@if(isset($staff->phones[2])){{$staff->phones[2]->id}}@endif">
                                                     <div class="form-input-group flex-1">
                                                         <label>Fax</label>
-                                                        <input type="text" id="phone" name="fax_number" value="{{$staff->phones[2]->number}}" class="form-control">
+                                                        <input type="text" id="phone" name="fax_number" value="@if(isset($staff->phones[2])) {{$staff->phones[2]->number}} @endif" class="form-control">
                                                         @if ($errors->has('fax_number'))
                                                         <label class='error' for='phone'>{{ $errors->first('fax_number') }}</label>
                                                         @endif

@@ -27,7 +27,7 @@ class Detail extends Model
     }
     public function detailValue()
     {
-            return $this->hasOne('App\DetaiValue');
+            return $this->hasOne('App\DetailValue');
     }
     public static function boot()
     {

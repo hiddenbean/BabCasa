@@ -55,9 +55,15 @@
                 
             </div>
             <div class="card-body">
+            <form action="{{route('delete.reasons')}}" method="post">
+                        {{ method_field('DELETE') }}
+                            {{ csrf_field() }}
                 <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
                     <thead>
-                        <th style="width:40%" class="text-center">Reference</th>                    
+                     <th style="width:3%" class="text-center">
+                        <button class="btn btn-link" type="submit"><i class="pg-trash"></i></button>
+                        </th>
+                        <th style="width:35%" class="text-center">Reference</th>                    
                         <th style="width:50%" class="text-center">Short description</th>  
                         @if (auth()->guard('staff')->user()->can('write','reason'))               
                         <th style="width:10%" class="text-center"></th>           
@@ -67,6 +73,12 @@
                     <tbody>  
                         @foreach($reasons as $reason)
                         <tr class="order-progress"  >
+                             <td class="v-align-middle">
+                                <div class="checkbox text-center">
+                                <input type="checkbox" value="{{$reason->id}}" name="reasons[]" id="checkbox{{$reason->id}}">
+                                <label for="checkbox{{$reason->id}}" class="no-padding no-margin"></label>
+                                </div>
+                            </td>
                             <td class="v-align-middle"><a href="{{url('reasons/'.$reason->id)}}"><strong>{{$reason->reference}} </strong></a></td>            
                             <td class="v-align-middle"><strong>{{$reason->reasonLang->first()->short_description}}</strong></td>  
                             @if (auth()->guard('staff')->user()->can('write','reason'))               
@@ -78,6 +90,7 @@
                         </tr> 
                         @endforeach
                     </tbody>
+                    </form>
                 </table>
             </div>
         </div> 

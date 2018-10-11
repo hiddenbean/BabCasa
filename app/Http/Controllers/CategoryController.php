@@ -231,6 +231,9 @@ class CategoryController extends Controller
     // 'category can\'t be deleted it has a subcategory with products/bundles/markets !!'
     public function multiDestroy(Request $request)
     {
+        $request->validate([
+            'categories' => 'required',
+        ]);
         $error = false;
         
         foreach($request->categories as $Category)

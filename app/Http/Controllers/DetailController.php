@@ -160,4 +160,49 @@ class DetailController extends Controller
         );
 
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Detail  $detail
+     * @return \Illuminate\Http\Response
+     */
+    public function multiDestroy(Request $request)
+    {
+        
+
+        $request->validate([
+            'details' => 'required',
+        ]);
+        $error = false;
+        
+        foreach($request->details as $Detail)
+        {
+            $cantDelete = false;
+
+            $detail = Detail::findOrFail($Detail);
+    
+            if(isset($detail->detailValue)) {$cantDelete = true;$error = true;}
+    
+            if(!$cantDelete) 
+                $detail->delete();
+
+        }
+        if(!$error) 
+        {
+            return redirect('details')->with(
+                            'success',
+                            'Detail has been deleted successfuly !!'
+             );
+
+        }
+        else 
+        {
+            return redirect('details')->with(
+                'error',
+                'Detail can\'t be deleted it has a relation with products '
+            );
+        }
+
+    }
 }

@@ -26,11 +26,16 @@
     <div class="container-fluid container-fixed-lg bg-white">
         <div class="card card-transparent">
             <div class="card-header">
-                @if (\Session::has('success'))
-                    <div class="alert alert-success">
-                        {!! \Session::get('success') !!}
-                    </div>
-                @endif
+                @if (\Session::has('error'))
+                        <div class="alert alert-danger">
+                            {!! \Session::get('error') !!}
+                        </div>
+                    @endif
+                    @if (\Session::has('success'))
+                        <div class="alert alert-success">
+                            {!! \Session::get('success') !!}
+                        </div>
+                    @endif
                 <div class="card-title">List of currencies</div>
                 <div class="pull-right">
                     <div class="col-xs-12">
@@ -51,9 +56,15 @@
                 
             </div>
             <div class="card-body">
+             <form action="{{route('delete.currencies')}}" method="post">
+                        {{ method_field('DELETE') }}
+                            {{ csrf_field() }}
                 <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
                     <thead>
-                        <th style="width:30%" class="text-center">Nom de Currency</th>                    
+                    <th style="width:3%" class="text-center">
+                        <button class="btn btn-link" type="submit"><i class="pg-trash"></i></button>
+                        </th>
+                        <th style="width:20%" class="text-center">Nom de Currency</th>                    
                         <th style="width:20%" class="text-center">Symbole</th>                    
                         <th style="width:40%" class="text-center">Nom de country</th>       
                         @if (auth()->guard('staff')->user()->can('write','currency'))               
@@ -64,6 +75,12 @@
                     <tbody>  
                         @foreach($currencies as $currency)
                         <tr class="order-progress"  >
+                            <td class="v-align-middle">
+                                <div class="checkbox text-center">
+                                <input type="checkbox" value="{{$currency->id}}" name="currencies[]" id="checkbox{{$currency->id}}">
+                                <label for="checkbox{{$currency->id}}" class="no-padding no-margin"></label>
+                                </div>
+                            </td>
                             <td class="v-align-middle"><strong>{{$currency->name}}</strong></td>            
                             <td class="v-align-middle"><strong>{{$currency->symbole}}</strong></td>            
                             <td class="v-align-middle"><strong>{{$currency->country->name}}</strong></td>            
@@ -78,6 +95,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                </form>
             </div>
         </div> 
     </div>

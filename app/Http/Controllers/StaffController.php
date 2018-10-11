@@ -135,7 +135,6 @@ class StaffController extends Controller
         $data['countries'] = Country::all();
         $data['staff'] =  Auth::guard('staff')->user();
         //$data['staff'] = Staff::find(Auth::guard('staff')->user()->id);
-
         return view('system.backoffice.staff.profile',$data);
        
     }
@@ -164,7 +163,6 @@ class StaffController extends Controller
      */
     public function update(Request $request,$staff)
     {
-        
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
@@ -244,8 +242,8 @@ class StaffController extends Controller
             if($fax == null)
             {
                 $fax = new Phone();
-                $phone->phoneable_id = $staff->id;
-                $phone->phoneable_type = 'staff';
+                $fax->phoneable_id = $staff->id;
+                $fax->phoneable_type = 'staff';
             }
             $fax->number = $request->fax_number;
             $fax->type = "fax";

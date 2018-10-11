@@ -319,6 +319,7 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::post('/', 'CountryController@store'); 
         Route::post('{country}', 'CountryController@update'); 
         Route::delete('{country}', 'CountryController@destroy')->name('delete.country');
+        Route::delete('delete/multiple', 'CountryController@multiDestroy')->name('delete.countries');
     }); 
     //////////CURRENCIES
     Route::prefix('currencies')->middleware('CanWrite:currency')->group(function() {
@@ -326,6 +327,8 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::post('/', 'CurrencyController@store'); 
         Route::post('{currency}', 'CurrencyController@update'); 
         Route::delete('{currency}', 'CurrencyController@destroy')->name('delete.currency');
+        Route::delete('delete/multiple', 'CurrencyController@multiDestroy')->name('delete.currencies');
+
     }); 
     //////////REASONS
     Route::prefix('reasons')->middleware('CanWrite:reason')->group(function() {
@@ -333,6 +336,7 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::post('/', 'ReasonController@store'); 
         Route::post('{reason}', 'ReasonController@update'); 
         Route::delete('{reason}', 'ReasonController@destroy')->name('delete.reason');
+        Route::delete('delete/multiple', 'ReasonController@multiDestroy')->name('delete.reasons');
     }); 
 
     //////////STATUS

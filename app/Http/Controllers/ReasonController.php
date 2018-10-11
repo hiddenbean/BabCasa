@@ -170,4 +170,49 @@ class ReasonController extends Controller
                                 );
 
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\reasons  $reasons
+     * @return \Illuminate\Http\Response
+     */
+    public function multiDestroy(Request $request)
+    {
+        
+
+        $request->validate([
+            'reasons' => 'required',
+        ]);
+        $error = false;
+        
+        foreach($request->reasons as $Reason)
+        {
+            $cantDelete = false;
+
+            $reason = Reason::findOrFail($Reason);
+    
+            if(isset($reason->statuses[0])) {$cantDelete = true;$error = true;}
+    
+            if(!$cantDelete) 
+                $reason->delete();
+
+        }
+        if(!$error) 
+        {
+            return redirect('reasons')->with(
+                            'success',
+                            'Reason has been deleted successfuly !!'
+             );
+
+        }
+        else 
+        {
+            return redirect('reasons')->with(
+                'error',
+                'Reason can\'t be deleted it has a relation with products '
+            );
+        }
+
+    }
 }

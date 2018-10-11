@@ -114,7 +114,7 @@ class ClaimController extends Controller
     {
         
         $this->validateClaim($request);
-        return $request;
+        
 
         $user = $this->userType();
         $complainer=auth()->guard($user)->user();

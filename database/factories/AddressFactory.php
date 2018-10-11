@@ -13,6 +13,6 @@ $factory->define(App\Address::class, function (Faker $faker) {
         'latitude' => '34.345678',
         'longitude' => '34.56789',
         'addressable_id' => '1',
-        'addressable_type' => 'partner',
+        'addressable_type' => 'staff',
     ];
 });

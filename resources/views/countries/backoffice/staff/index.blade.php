@@ -55,9 +55,15 @@
                 
             </div>
             <div class="card-body">
+              <form action="{{route('delete.countries')}}" method="post">
+                        {{ method_field('DELETE') }}
+                            {{ csrf_field() }}
                 <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
                     <thead>
-                        <th style="width:50%" class="text-center">Name</th>                    
+                     <th style="width:3%" class="text-center">
+                        <button class="btn btn-link" type="submit"><i class="pg-trash"></i></button>
+                        </th>
+                        <th style="width:45%" class="text-center">Name</th>                    
                         <th style="width:20%" class="text-center">Alpha code</th>                    
                         <th style="width:20%" class="text-center">Code</th>         
                         @if (auth()->guard('staff')->user()->can('write','country'))               
@@ -68,6 +74,12 @@
                     <tbody>  
                         @foreach($countries as $country)
                             <tr class="order-progress"  >
+                            <td class="v-align-middle">
+                                <div class="checkbox text-center">
+                                <input type="checkbox" value="{{$country->id}}" name="countries[]" id="checkbox{{$country->id}}">
+                                <label for="checkbox{{$country->id}}" class="no-padding no-margin"></label>
+                                </div>
+                            </td>
                                 <td class="v-align-middle"><strong>{{$country->name}}</strong></td>            
                                 <td class="v-align-middle"><strong>{{$country->code_alpha}} </strong></td>            
                                 <td class="v-align-middle"><strong>{{$country->code}} </strong></td>            
@@ -81,6 +93,7 @@
                             </tr> 
                         @endforeach
                     </tbody>
+                    </form>
                 </table>
             </div>
         </div> 
