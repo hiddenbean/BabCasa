@@ -26,6 +26,16 @@
     <div class="container-fluid container-fixed-lg bg-white">
         <div class="card card-transparent">
             <div class="card-header">
+             @if (\Session::has('error'))
+                        <div class="alert alert-danger">
+                            {!! \Session::get('error') !!}
+                        </div>
+                    @endif
+                    @if (\Session::has('success'))
+                        <div class="alert alert-success">
+                            {!! \Session::get('success') !!}
+                        </div>
+                    @endif
                 <div class="card-title">List of details</div>
                 <div class="pull-right">
                     <div class="col-xs-12">
@@ -45,18 +55,30 @@
                 
             </div>
             <div class="card-body">
+             <form action="{{route('delete.details')}}" method="post">
+                        {{ method_field('DELETE') }}
+                            {{ csrf_field() }}
                 <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
                     <thead>
+                     <th style="width:3%" class="text-center">
+                        <button class="btn btn-link" type="submit"><i class="pg-trash"></i></button>
+                        </th>
                         <th style="width:20%" class="text-center">Nom de details</th> 
-                        <th style="width:70%" class="text-center">Categories</th> 
+                        <th style="width:60%" class="text-center">Categories</th> 
                          @if (auth()->guard('staff')->user()->can('write','detail'))               
-                        <th style="width:10%" class="text-center"></th>           
+                        <th style="width:20%" class="text-center"></th>           
                         @endif                   
                     </thead>
                     
                     <tbody>
                         @foreach($details as $detail )  
                             <tr class="order-progress"  >
+                                <td class="v-align-middle">
+                                <div class="checkbox text-center">
+                                <input type="checkbox" value="{{$detail->id}}" name="details[]" id="checkbox{{$detail->id}}">
+                                <label for="checkbox{{$detail->id}}" class="no-padding no-margin"></label>
+                                </div>
+                                </td>
                                 <td class="v-align-middle"><strong> {{$detail->detailLang->first()->value}} </strong></td>    
                                 <td class="v-align-middle text-center">
                                     @foreach($detail->categories as $category)
@@ -75,6 +97,7 @@
                             </tr> 
                         @endforeach
                     </tbody>
+                    </form>
                 </table>
             </div>
         </div> 

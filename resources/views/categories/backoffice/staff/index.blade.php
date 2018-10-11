@@ -55,8 +55,15 @@
                 
             </div>
             <div class="card-body">
+                        <form action="{{route('delete.categories')}}" method="post">
+                        {{ method_field('DELETE') }}
+                            {{ csrf_field() }}
                 <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
                     <thead>
+                      
+                        <th style="width:3%" class="text-center">
+                        <button class="btn btn-link" type="submit"><i class="pg-trash"></i></button>
+                        </th>
                         <th style="width:20%" class="text-center">Nom de category</th>
                         <th style="width:10%" class="text-center">Description</th> 
                         <th style="width:10%" class="text-center">Parent</th>     
@@ -68,6 +75,12 @@
                     <tbody> 
                         @foreach($categories as $category)  
                             <tr class="order-progress"  >
+                            <td class="v-align-middle">
+                            <div class="checkbox text-center">
+                            <input type="checkbox" value="{{$category->id}}" name="categories[]" id="checkbox{{$category->id}}">
+                            <label for="checkbox{{$category->id}}" class="no-padding no-margin"></label>
+                            </div>
+                            </td>
                                 <td class="v-align-middle"><a href="{{url('categories/'.$category->id)}}"><strong> {{$category->categoryLang->first()->reference}} </strong></a></td>
                                 <td class="v-align-middle text-center"><strong>{{$category->categoryLang->first()->description}} </strong></td>                
                                 <td class="v-align-middle text-center"> @if(isset($category->category_id)) <a href="{{url('categories/'.$category->category->id)}}"><strong> {{$category->category->categoryLang->first()->reference}} </strong></a> @endif </td>             
@@ -82,6 +95,7 @@
                             @endforeach 
                     </tbody>
                 </table>
+                        </form>
             </div>
         </div> 
     </div>

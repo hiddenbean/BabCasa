@@ -144,8 +144,20 @@ class DetailController extends Controller
     {
         // récupérer photo
         $detail = Detail::findOrFail($detail);
-       $detail->delete();
-       return redirect('details');
+       if(isset($detail->detailValue))
+        {return $category->products;
+            return  redirect()
+                        ->back()
+                        ->with(
+                            'error',
+                            'Detail can\'t be deleted it has products !!' 
+                        );
+        }
+        $detail->delete();
+        return redirect('details')->with(
+                            'success',
+                            'Detail has been deleted successfuly !!'
+        );
 
     }
 }

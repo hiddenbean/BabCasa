@@ -303,6 +303,7 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::post('/','CategoryController@store'); 
         Route::post('{category}', 'CategoryController@update'); 
         Route::delete('{category}', 'CategoryController@destroy')->name('delete.category');
+        Route::delete('delete/multiple', 'CategoryController@multiDestroy')->name('delete.categories');
     }); 
     //////////details
     Route::prefix('details')->middleware('CanWrite:detail')->group(function() {
@@ -310,6 +311,7 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::post('/', 'DetailController@store'); 
         Route::post('{detail}', 'DetailController@update'); 
         Route::delete('{detail}', 'DetailController@destroy')->name('delete.detail');
+        Route::delete('delete/multiple', 'DetailController@multiDestroy')->name('delete.details');
     }); 
     //////////COUNTRIES
     Route::prefix('countries')->middleware('CanWrite:country')->group(function() {
