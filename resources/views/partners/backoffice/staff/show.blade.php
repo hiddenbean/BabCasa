@@ -146,12 +146,10 @@
                                 <label for="">Approve</label><br>
                                 <label for="">
                                         @if($partner->status->first())
-                                        @foreach($partner->status->first()->reasons as $key => $reason)
-                                        {{$reason->reference}} 
-                                        @if(count($partner->status->first()->reasons)-1!=$key) / @endif
-                                    @endforeach
-
-
+                                            @foreach($partner->status->first()->reasons as $key => $reason)
+                                            {{$reason->reference}} 
+                                            @if(count($partner->status->first()->reasons)-1!=$key) / @endif
+                                            @endforeach
                                         @endif
                                
                                 </label>

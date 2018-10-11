@@ -22,6 +22,7 @@ Route::domain('www.babcasa.com')->group(function (){
 Route::domain('staff.babcasa.com')->group(function (){
     //staff home page
     Route::get('/', 'StaffController@dashboard');
+    Route::get('account', 'StaffController@profile');
     Route::get('passwords/reset', 'Auth\StaffForgotPasswordController@showLinkRequestForm')->name('staff.passwords.reset');
     Route::get('{staff}/password/reset/{token}', 'Auth\StaffResetPasswordController@showResetForm');
     
@@ -41,6 +42,19 @@ Route::domain('staff.babcasa.com')->group(function (){
         });     
         Route::get('{tag}', 'TagController@show'); 
     });
+
+     
+    Route::prefix('support')->group(function() {
+            Route::get('/','ClaimController@all');
+            Route::get('related','ClaimController@related');
+            Route::get('open','ClaimController@open');
+            Route::get('closed','ClaimController@closed');
+            Route::get('create','ClaimController@create');
+            Route::get('{id}','ClaimController@show');
+            Route::prefix('message')->group(function() {
+                Route::get('{claim}/create','ClaimMessageController@create');
+            });
+        });
 
     //////////CATEGORIES
     Route::prefix('categories')->middleware('CanRead:category')->group(function() {
@@ -102,6 +116,17 @@ Route::domain('staff.babcasa.com')->group(function (){
                 Route::get('{staff}/edit', 'StaffController@edit');
             }); 
               Route::get('{staff}', 'StaffController@show'); 
+    }); 
+    
+    //////////ParticularClient
+   
+    Route::prefix('particular-clients')->middleware('CanRead:staff')->group(function() {
+        Route::get('/', 'ParticularClientController@index'); 
+          Route::group(['middleware' => ['CanWrite:staff']], function(){
+                Route::get('create', 'ParticularClientController@create'); 
+                Route::get('{particular}/edit', 'ParticularClientController@edit');
+            }); 
+              Route::get('{particular}', 'ParticularClientController@show'); 
     }); 
 
     Route::prefix('partners')->middleware('CanRead:partner')->group(function() {
@@ -211,7 +236,7 @@ Route::domain('partner.babcasa.com')->group(function (){
     Route::prefix('support')->group(function() {
         Route::prefix('{subject}')->group(function() {
             Route::prefix('ticket')->group(function() {
-                Route::post('create','ClaimController@store');
+                Route::post('','ClaimController@store');
             });
         });
         Route::prefix('ticket')->group(function() {
@@ -246,6 +271,15 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::post('{tag}', 'TagController@update'); 
         Route::delete('/{tag}', 'TagController@destroy')->name('delete.tag');
     }); 
+
+    //////////CLAIMs
+    Route::prefix('support')->group(function() {
+        Route::post('','ClaimController@store');
+        Route::post('{claim}/close','ClaimController@close');
+        Route::prefix('message')->group(function() {
+            Route::post('{claim}','ClaimMessageController@store');
+        });
+    });
 
     //////////Categories
     Route::prefix('categories')->middleware('CanWrite:category')->group(function() {
@@ -297,6 +331,12 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::post('/', 'Auth\StaffRegisterController@store'); 
         Route::post('{staff}', 'StaffController@update'); 
         Route::delete('{staff}', 'StaffController@destroy')->name('delete.staff');
+    }); 
+    //////////particular-clients
+    Route::prefix('particular-clients')->middleware('CanWrite:staff')->group(function() {
+        Route::post('/', 'ParticularClientController@store'); 
+        Route::put('{particular}', 'ParticularClientController@update'); 
+        Route::delete('{particular}', 'ParticularClientController@destroy')->name('delete.particular-client');
     }); 
 
     Route::prefix('partners')->middleware('CanWrite:partner')->group(function() {

@@ -1,5 +1,6 @@
 @extends('layouts.backoffice.staff.app')
 @section('css_before')
+      <link href="{{ asset('plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" media="screen" />
     <link href="{{ asset('plugins/bootstrap-datepicker/css/datepicker3.css') }}" rel="stylesheet" type="text/css" media="screen">
     <link href="{{ asset('plugins/switchery/css/switchery.min.css') }}" rel="stylesheet" type="text/css" media="screen" />
 @stop
@@ -48,22 +49,18 @@
                             </div>
                         </div>
                         <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group form-group-default">
-                                        <label>details name</label>
-                                        <select class="js-example-basic-multiple col-md-12" name="state">
-                                                <option value="AL">Alabama</option>
-                                                  ...
-                                                <option value="WY">Wyoming</option>
-                                              </select>
-                                        <label class='error' for='value'>
-                                                @if ($errors->has('value'))
-                                                    {{ $errors->first('value') }}
-                                                @endif
-                                        </label> 
-                                    </div>
+                            <div class="col-md-12">
+                                <div class="form-group form-group-default">
+                                    <label>categories</label>
+                                    <select class="full-width select2-hidden-accessible" name="categories[]" data-init-plugin="select2" multiple="" tabindex="-1" aria-hidden="true">
+                                        @foreach($categories as $category)
+                                            <option value="{{$category->id}}" >{{$category->categoryLang->first()->reference}}</option>
+                                        @endforeach
+                                    
+                                    </select>
                                 </div>
                             </div>
+                        </div>
                         <button class="btn btn-primary" type="submit">Save</button>
                     </form>
                 </div>
@@ -78,6 +75,7 @@
     <script src="{{ asset('plugins/switchery/js/switchery.min.js') }}" type="text/javascript"></script>
     <script type="text/javascript" src="{{ asset('plugins/classie/classie.js') }}"></script>
     <script src="{{ asset('plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
+    <script type="text/javascript" src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
     <script>
         $(document).ready(function () {
             $('#birthday').datepicker();
