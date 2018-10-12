@@ -132,7 +132,7 @@
                                 @else 
                                      <span class="label label-danger">Rejeter</span>  
                                 @endif
-                                <a href="{{url('statuses/'.$partner->name)}}" class="float-right"> Statuses history</a>
+                                <a href="{{url('statuses/partner/'.$partner->name)}}" class="float-right"> Statuses history</a>
                                 <br>
                                 <div id="approve">
 
@@ -141,7 +141,8 @@
                             When a user submits a self-registration form, it can be reviewed and approved.
                         <form action="{{url('statuses')}}" method="post" class="mt-2">
                                 @csrf
-                        <input type="hidden" name="partner_id" value="{{$partner->id}}">
+                        <input type="hidden" name="user_name" value="{{$partner->name}}">
+                        <input type="hidden" name="user_type" value="partner">
                                 <input type="checkbox" data-init-plugin="switchery" data-size="small" name="is_approved" data-color="primary" @if($partner->status->first()->is_approved) checked @endif /> 
                                 <label for="">Approve</label><br>
                                 <label for="">
@@ -154,17 +155,17 @@
                                
                                 </label>
                                 <select class="full-width select2-hidden-accessible" name="reasons[]" data-init-plugin="select2" multiple="" tabindex="-1" aria-hidden="true">
-                                        @foreach($reasons as $reason)
-                                            <option value="{{$reason->id}}">{{$reason->reference}}</option>
-                                        @endforeach
-                                    
-                                    </select>
-                                    <label class='error' for='reasons'>
-                                            @if ($errors->has('reasons'))
-                                                {{ $errors->first('reasons') }}
-                                            @endif
-                                    </label> 
-                                    <button type="submit"  class="btn btn-danger mt-2">Submit</button>
+                                    @foreach($reasons as $reason)
+                                        <option value="{{$reason->id}}">{{$reason->reference}}</option>
+                                    @endforeach
+                                
+                                </select>
+                                <label class='error' for='reasons'>
+                                        @if ($errors->has('reasons'))
+                                            {{ $errors->first('reasons') }}
+                                        @endif
+                                </label> 
+                                <button type="submit"  class="btn btn-danger mt-2">Submit</button>
                             </form>
                         </div>
                         </div>

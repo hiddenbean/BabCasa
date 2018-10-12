@@ -1,7 +1,11 @@
 @extends('layouts.backoffice.staff.app')
+@section('css')
+    <link href="{{ asset('plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" media="screen" />
+    <link class="main-stylesheet" href="{{ asset('pages/css/pages.css') }}" rel="stylesheet" type="text/css" />
+@endsection
+
 @section('css_before')
-    <link href="{{ asset('plugins/bootstrap-datepicker/css/datepicker3.css') }}" rel="stylesheet" type="text/css" media="screen">
-    <link href="{{ asset('plugins/switchery/css/switchery.min.css') }}" rel="stylesheet" type="text/css" media="screen" />
+<link href="{{ asset('plugins/bootstrap-datepicker/css/datepicker3.css') }}" rel="stylesheet" type="text/css" media="screen">
 @stop
 @section('content')
 <!-- breadcrumb start -->
@@ -121,13 +125,42 @@
                 <div class="col-md-3">
                     <div class="row">
                         <div class="col-md-12">
+                                @if($business->status->first()->is_approved)
+                                <span class="label label-success">Approuve</span>  
+                                @else 
+                                     <span class="label label-danger">Rejeter</span>  
+                                @endif
+                                <a href="{{url('statuses/business/'.$business->name)}}" class="float-right"> Statuses history</a>
+                                <br>
                             <h3> Approve this account</h3>
                             When a user submits a self-registration form, it can be reviewed and approved.
 
-                            <form action="" method="post" class="mt-2">
-                                <input type="checkbox" data-init-plugin="switchery" data-size="small" data-color="primary" checked="checked" /> 
-                                <label for="">Approve</label>
-                                <textarea name="" id="" cols="30" rows="5" class="form-control"></textarea>
+                            <form action="{{url('statuses')}}" method="post" class="mt-2">
+                                @csrf
+                                <input type="hidden" name="user_name" value="{{$business->name}}">
+                                <input type="hidden" name="user_type" value="business">
+                                <input type="checkbox" data-init-plugin="switchery" data-size="small" name="is_approved" data-color="primary" @if($business->status->first()->is_approved) checked @endif /> 
+                                <label for="">Approve</label><br>
+                                <label for="">
+                                    @if($business->status->first())
+                                        @foreach($business->status->first()->reasons as $key => $reason)
+                                            {{$reason->reference}} 
+                                            @if(count($business->status->first()->reasons)-1!=$key) / @endif
+                                        @endforeach
+                                    @endif
+                                </label>
+                                <select class="full-width select2-hidden-accessible" name="reasons[]" data-init-plugin="select2" multiple="" tabindex="-1" aria-hidden="true">
+                                    @foreach($reasons as $reason)
+                                        <option value="{{$reason->id}}">{{$reason->reference}}</option>
+                                    @endforeach
+                                
+                                </select>
+                                <label class='error' for='reasons'>
+                                        @if ($errors->has('reasons'))
+                                            {{ $errors->first('reasons') }}
+                                        @endif
+                                </label> 
+                                <button type="submit"  class="btn btn-danger mt-2">Submit</button>
                             </form>
                         </div>
                         <div class="col-md-12">
@@ -156,5 +189,5 @@
 @endsection
 
 @section('script')
-    <script src="{{ asset('plugins/switchery/js/switchery.min.js') }}" type="text/javascript"></script>
+<script type="text/javascript" src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
 @stop

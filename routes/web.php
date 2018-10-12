@@ -148,7 +148,7 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::prefix('businesses')->middleware('CanRead:business_client')->group(function(){
             Route::get('/', 'BusinessController@index');
             Route::get('/create', 'BusinessController@create');
-            Route::get('/{business}/show', 'BusinessController@show');
+            Route::get('/{business}', 'BusinessController@show');
             Route::get('/{business}/edit', 'BusinessController@edit');
             Route::get('{business}/pin/verification', 'PinController@checkPinForm');
             Route::get('{business}/password/{password}', 'PinController@showPassword');
@@ -167,7 +167,7 @@ Route::domain('staff.babcasa.com')->group(function (){
 
     //////////STATUS
     Route::prefix('statuses')->group(function() {
-        Route::get('{partner}','StatusController@index');
+        Route::get('{type}/{user}','StatusController@index');
     }); 
     
 });

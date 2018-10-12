@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use Auth;
 use App\Guest;
+use App\Status;
 use App\Phone;
 use App\Reason;
 use App\Partner;
@@ -23,8 +24,6 @@ class PartnerController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:staff')->except('dashboard','show');
-        $this->middleware('auth:partner')->except('index','show', 'destroy');
         $this->middleware('auth:partner,staff')->only('show');
     }
     
@@ -107,7 +106,8 @@ class PartnerController extends Controller
             ]);
             $status = new Status();
             $status->is_approved = 1;
-            $status->partner_id = $partner->id;
+            $status->user_id = $partner->id;
+            $status->user_type = 'partner';
             $status->staff_id = auth()->guard('staff')->user()->id;
             $status->save();
 

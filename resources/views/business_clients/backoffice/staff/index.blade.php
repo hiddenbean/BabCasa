@@ -67,7 +67,7 @@
                     <tbody>
                         @foreach($businesses as $business)  
                         <tr class="order-progress"  >
-                            <td class="v-align-middle"><a href="{{url('clients/businesses/'.$business->name.'/show')}}"><strong> {{ $business->company_name }} </strong></a></td>
+                            <td class="v-align-middle"><a href="{{url('clients/businesses/'.$business->name)}}"><strong> {{ $business->company_name }} </strong></a></td>
                             <td class="v-align-middle text-center"><strong> {{ $business->email }}</strong></td>                
                             <td class="v-align-middle text-center"> {{ $business->created_at }} </td>
                             <!-- {{ $business->status->first()->is_approved ? $status = 'Approved' : $status = 'Not approved' }} -->    

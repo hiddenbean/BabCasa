@@ -8,6 +8,7 @@ use App\Phone;
 use App\Address;
 use App\Picture;
 use App\Status;
+use App\Reason;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\PictureController;
@@ -162,6 +163,7 @@ class BusinessController extends Controller
     public function show($business)
     {
         $data['countries'] = Country::all();
+        $data['reasons'] = Reason::all();
         $data['business'] = Business::where('name',$business)->first();
         return view('business_clients.backoffice.staff.show',$data);
     }
