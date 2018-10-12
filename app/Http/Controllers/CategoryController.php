@@ -176,11 +176,10 @@ class CategoryController extends Controller
         }
 
         $category_lang = $category->categoryLang->first();
-
         $category_lang->reference = $request->reference;
         $category_lang->description = $request->description;
         $category_lang->category_id = $category->id;
-        $categoryLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
+        $category_lang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
         $category_lang->save();
         
         return redirect('categories');
