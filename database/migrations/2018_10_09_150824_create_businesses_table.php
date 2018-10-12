@@ -24,11 +24,11 @@ class CreateBusinessesTable extends Migration
             $table->string('ice');
             $table->string('trade_registry');
             $table->boolean('is_register_to_newsletter');
-            $table->integer('staff_id');
+            $table->integer('staff_id')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
-    }
+    }Desactive
 
     /**
      * Reverse the migrations.

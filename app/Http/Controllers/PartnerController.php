@@ -312,7 +312,7 @@ class PartnerController extends Controller
             $claim->status = 0;
             $claim->save();
         }
-        if(!$this->stuckPartner($partner))
+        if($this->stuckPartner($partner))
         {
             return redirect()
                             ->back()
@@ -333,7 +333,7 @@ class PartnerController extends Controller
     {
         $orderStatus = $partner->orders()->whereIn('status', ['in_progress', 'finished'])->get();
         //$marketStatus = $partner->markets()->whereIn('status', ['in_progress', 'finished'])->get();
-        isset($orderStatus[0]) ? $stuck = true : $stuck = false;
+        $stuck = isset($orderStatus[0]) ? true : false;
         return $stuck;
     }
 
@@ -341,7 +341,7 @@ class PartnerController extends Controller
     {
         foreach($request->partners as $partner)
         {
-            $partner = Business::where('name', $partner)->first();
+            $partner = Partner::where('name', $partner)->first();
             if(!$this->stuckPartner($partner))
             {
                 $partner->delete();

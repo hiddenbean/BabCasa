@@ -69,7 +69,6 @@ class Business extends Authenticatable
             $partner->phones()->delete();
             $partner->orders()->delete();
             $partner->markets()->delete();
-            $partner->markets()->delete();
             
         });
 

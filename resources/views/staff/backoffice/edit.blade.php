@@ -26,11 +26,16 @@
     <div class="card ">
         <div class="card-header">
             <h4 class="m-t-0 m-b-0"> <strong>Create new staff</strong> </h4>
+             <label class='error' >
+             @if($errors->count()>0)
+                You have {{$errors->count()}} ERROR(S) !!
+            @endif
+             </label>
         </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-xl-12">
-                    <form id="form-personal"  method="POST" action="{{url('staff/'.$staff->id)}}" enctype="multipart/form-data">
+                    <form id="form-personal"  method="POST" action="{{url('staff/'.$staff->name)}}" enctype="multipart/form-data">
                         {{ csrf_field() }}
                         {{ method_field('put') }}
                         <ul class="nav nav-tabs nav-tabs-simple nav-tabs-left bg-white" id="tab-3">

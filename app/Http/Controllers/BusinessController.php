@@ -311,9 +311,9 @@ class BusinessController extends Controller
     public function destroy($business_name)
     {
         $business = Business::where('name', $business_name)->first();
-        
         if(!isset($business))
         {
+            
             return redirect()
                             ->back()
                             ->with(
@@ -321,8 +321,8 @@ class BusinessController extends Controller
                                 'Delete can\'t be performed !!'
                             );
         }
-
-        if(!$this->stuckBusiness($business))
+       
+        if($this->stuckBusiness($business))
         {
             return redirect()
                             ->back()
@@ -331,8 +331,12 @@ class BusinessController extends Controller
                                 'Business can\'t be deleted it has unsolved orders/markets !!'
                             );
         }
-        //$business->delete();
-        return redirect($this->redirectURL(url()->current(), $business_name))
+        $business->delete();
+        return dd($this->stuckBusiness($business));
+        return redirect($this
+                            ->redirectURL(url()
+                            ->current(), 
+                        $business_name))
                                 ->with(
                                     'success',
                                     'Business has been deleted successfuly !!'
@@ -362,7 +366,7 @@ class BusinessController extends Controller
         foreach($request->businesses as $business)
         {
             $business = Business::where('name', $business)->first();
-            if(!$this->stuckBusiness($business))
+            if($this->stuckBusiness($business))
             {
                 $business->delete();
             }

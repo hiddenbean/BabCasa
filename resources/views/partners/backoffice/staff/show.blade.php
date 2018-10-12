@@ -106,9 +106,9 @@
                                 </div>
                                
                                 <div class="col-md-4">
-                                    @if(count($partner->phones) > 1 && isset($partner->phones->whereIn('type', ['phone', 'fix'])->first()->number))
-                                        <!--{{ $phone2 = $partner->phones->whereIn('type', ['phone', 'fix'])->first()->number }}-->
-                                        <!--{{ $country2 = $partner->phones->whereIn('type', ['phone', 'fix'])->first()->country->code }}-->
+                                    @if(count($partner->phones) > 1 && isset($partner->phones->whereIn('type', ['phone', 'fix'])->take(2)->last()->number))
+                                        <!--{{ $phone2 = $partner->phones->whereIn('type', ['phone', 'fix'])->take(2)->last()->number }}-->
+                                        <!--{{ $country2 = $partner->phones->whereIn('type', ['phone', 'fix'])->take(2)->last()->country->code }}-->
                                     @else
                                         <!--{{ $phone2 = null }}-->
                                         <!--{{ $country2 = 'Not available' }}-->

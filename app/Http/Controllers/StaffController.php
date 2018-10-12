@@ -274,7 +274,7 @@ class StaffController extends Controller
                                 'Staff delete can\'t be performed !!'
                                 );
         }
-        //$staff->delete();
+        $staff->delete();
         return redirect('staff')
                             ->with(
                                 'success',
@@ -284,6 +284,10 @@ class StaffController extends Controller
 
     public function multiDestroy(Request $request)
     {
+        $request->validate([
+            'staff' => 'required',
+        ]);
+
         foreach($request->staff as $staff)
         {
             $staff = Staff::where('name', $staff)->first();

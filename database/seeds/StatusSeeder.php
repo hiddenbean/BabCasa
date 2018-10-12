@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class StatusSeeder extends Seeder
 {
@@ -11,6 +12,11 @@ class StatusSeeder extends Seeder
      */
     public function run()
     {
-        factory('App\Status', 1)->create();
+        DB::table('pictures')->insert([
+            'is_approved' => '1',
+            'user_id' => '1',
+            'user_type' => 'partner',
+            'staff_id' => 1,
+    ]);
     }
 }

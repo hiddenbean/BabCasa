@@ -29,6 +29,11 @@
     <div class="card ">
         <div class="card-header">
             <h4 class="m-t-0 m-b-0"> <strong>Create new detail</strong> </h4>
+             <label class='error' >
+             @if($errors->count()>0)
+                You have {{$errors->count()}} ERROR(S) !!
+            @endif
+             </label>
         </div>
         <div class="card-body">
             <div class="row">

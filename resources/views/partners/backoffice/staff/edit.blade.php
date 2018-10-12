@@ -28,6 +28,11 @@
     <div class="card ">
         <div class="card-header">
             <h4 class="m-t-0 m-b-0"> <strong>Create new Partner</strong> </h4>
+             <label class='error' >
+             @if($errors->count()>0)
+                You have {{$errors->count()}} ERROR(S) !!
+            @endif
+             </label> 
         </div>
         <div class="card-body">
             <div class="row">
@@ -293,7 +298,7 @@
                                                 <label>Phone two</label>
                                                 <input type="text" id="phone" name="numbers[]" value="{{$number1}}" class="form-control">
                                                 @if ($errors->has('numbers.1'))
-                                                <label class='error' for='phone'>{{ $errors->first('numbers .1') }}</label>
+                                                <label class='error' for='phone'>{{ $errors->first('numbers.1') }}</label>
                                                 @endif
                                             </div>
                                         </div>
