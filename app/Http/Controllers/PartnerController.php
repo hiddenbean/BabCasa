@@ -30,7 +30,7 @@ class PartnerController extends Controller
     protected function validateRequest(Request $request)
     {
         $request->validate([
-            'company_name' => 'required|unique:partners,company_name',
+            'company_name' => 'required',
             'name' => 'required|unique:partners,name',
             'email' => 'required|email|unique:partners,email',
             'password' => 'required|min:6',
@@ -78,6 +78,7 @@ class PartnerController extends Controller
     {
         $this->validateRequest($request);
         
+        
         $AddressController = new AddressController();
         $AddressController->validateRequest($request);
         
@@ -102,7 +103,7 @@ class PartnerController extends Controller
             'trade_registry' => $request->trade_registry,
             'is_register_to_newsletter' => $is_register_to_newsletter,
             'ice' => $request->ice,
-            'taxe_id' => $request->tax_id,
+            'taxe_id' => $request->taxe_id,
             ]);
             $status = new Status();
             $status->is_approved = 1;
@@ -203,8 +204,8 @@ class PartnerController extends Controller
     public function update(Request $request, $partner)
     {
         $request->validate([
-            'company_name' => 'required|unique:partners,company_name,'.$partner,
-            'email' => 'required|email|unique:partners,email,'.$partner,
+            'company_name' => 'required',
+            'email' => 'required|email',
             'about' => 'required',
             'trade_registry' => 'required',
             'ice' => 'required',
@@ -213,7 +214,6 @@ class PartnerController extends Controller
         
         $AddressController = new AddressController();
         $AddressController->validateRequest($request);
-        
         $request->validate([
             'numbers.0' => 'required|numeric|unique:phones,number,'.$request->phone_id[0],
             'numbers.1' => 'nullable|numeric|unique:phones,number,'.$request->phone_id[1],
@@ -259,7 +259,7 @@ class PartnerController extends Controller
             {
                 $phone = Phone::where('id', $request->phone_id[$key])
                                                                 ->whereIn('type', ['phone', 'fix'])
-                                                                ->where('phoneable_id', $business->id)
+                                                                ->where('phoneable_id', $partner->id)
                                                                 ->first();
                 if($phone == null)
                 {
@@ -278,7 +278,7 @@ class PartnerController extends Controller
         {
             $fax = Phone::where('id', $request->fax_id)
                                 ->where('type', 'fax')
-                                ->where('phoneable_id', $business->id)
+                                ->where('phoneable_id', $partner->id)
                                 ->first();
             if($fax == null)
             {
@@ -306,8 +306,46 @@ class PartnerController extends Controller
     public function destroy($partner)
     {
         $partner = Partner::where('name', $partner)->first();
+        $claims = $partner->claims()->where('status', 1)->get();
+        foreach($partner->claims() as $claim)
+        {
+            $claim->status = 0;
+            $claim->save();
+        }
+        if(!$this->stuckPartner($partner))
+        {
+            return redirect()
+                            ->back()
+                            ->with(
+                                'error',
+                                'Partner can\'t be deleted it has unsolved orders/markets !!'
+                            );
+        }
         $partner->delete();
-        return redirect()->back();
+        return redirect('partners')
+                                    ->with(
+                                        'success',
+                                        'Partner has been deleted successfuly !!'
+                                    );
+    }
+
+    public function stuckPartner($partner)
+    {
+        $orderStatus = $partner->orders()->whereIn('status', ['in_progress', 'finished'])->get();
+        //$marketStatus = $partner->markets()->whereIn('status', ['in_progress', 'finished'])->get();
+        return $orderStatus;
+        isset($orderStatus[0]) ? $stuck = true : $stuck = false;
+        return $stuck;
+    }
+
+    public function redirectURL($url, $partner)
+    {
+        $destroy_url = str_after($url, '/'.$partner);
+        if($destroy_url == '/desactivate')
+        {
+            return str_before($url, $partner).''.$partner.'/security';
+        }
+        return str_before($url, '/'.$partner);
     }
 
     /**

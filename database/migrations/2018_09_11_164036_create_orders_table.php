@@ -18,6 +18,7 @@ class CreateOrdersTable extends Migration
             $table->string('reference');
             $table->integer('costumer_id');
             $table->string('costumer_type');
+            $table->string('partner_id');
             $table->string('status');
             $table->integer('paiement_id');
             $table->integer('address_id');

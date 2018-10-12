@@ -54,6 +54,11 @@ class Partner extends Authenticatable
         return $this->hasMany('App\ClaimMessage');
     }
 
+    public function orders()
+    {
+        return $this->hasMany('App\Order');
+    }
+
 
     public function pins()
     {
@@ -70,6 +75,11 @@ class Partner extends Authenticatable
             $partner->address()->delete();
             $partner->picture()->delete();
             $partner->phones()->delete();
+            $partner->orders()->delete();
+            //$partner->markets()->delete();
+            //$partner->products()->delete();
+            //$partner->bundels()->delete();
+            //$partner->offers()->delete();
             
         });
 
@@ -78,6 +88,8 @@ class Partner extends Authenticatable
             $partner->address()->withTrashed()->restore();
             $partner->picture()->withTrashed()->restore();
             $partner->phones()->withTrashed()->restore();
+            //$partner->products()->delete();
+            //$partner->bundels()->delete();
         });
     }
 

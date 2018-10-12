@@ -338,7 +338,7 @@ class BusinessController extends Controller
                             ->back()
                             ->with(
                                 'error',
-                                'Business can\'t be deleted it has unsolved order/markets !!'
+                                'Business can\'t be deleted it has unsolved orders/markets !!'
                             );
         }
         //$business->delete();

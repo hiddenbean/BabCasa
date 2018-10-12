@@ -104,7 +104,7 @@
                                     <!--{{ $number1 = $business->phones()->whereIn('type', ['phone', 'fix'])->get()[1]->number }}-->
                                     <!--{{ $country1_code = $business->phones()->whereIn('type', ['phone', 'fix'])->get()[1]->country->code }}-->
                                 @else
-                                    <!--{{ $number1 = null }}-->
+                                    <!--{{ $number1 = 'Not available' }}-->
                                     <!--{{ $country1_code = null }}-->
                                 @endif
                                 <p>{{ $country1_code }}{{ $number1 }}</p>
@@ -115,7 +115,7 @@
                                     <!--{{ $fax = $business->phones->where('type', 'fax')->first()->number }}-->
                                     <!--{{ $country3_code = $business->phones->where('type', 'fax')->first()->country->code }}-->
                                 @else
-                                    <!--{{ $fax = null }}-->
+                                    <!--{{ $fax = 'Not available' }}-->
                                     <!--{{ $country3_code = null }}-->
                                 @endif
                                 <p>{{ $country3_code }}{{ $fax }}</p>

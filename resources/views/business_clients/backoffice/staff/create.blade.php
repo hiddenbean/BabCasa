@@ -29,7 +29,7 @@
         <div class="card-header">
             <h4 class="m-t-0 m-b-0"> <strong>Create new clients business</strong> </h4>
         </div>
-        <div class="card-body">{{$errors}}
+        <div class="card-body">
             <div class="row">
                 <div class="col-xl-12">
                 <form id="form-personal" action="{{ url('clients/businesses/store') }}" method="post" enctype="multipart/form-data">
@@ -50,7 +50,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Company name</label>
-                                            <input type="text" class="form-control" name="company_name" placeholder="Company name" value="lhjak">
+                                            <input type="text" class="form-control" name="company_name" placeholder="Company name">
                                         </div>
                                     </div>
                                 </div> 
@@ -58,7 +58,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Name</label>
-                                            <input type="text" class="form-control" name="name" placeholder="Name" value="lhjak">
+                                            <input type="text" class="form-control" name="name" placeholder="Name">
                                         </div>
                                     </div>
                                 </div> 
@@ -66,7 +66,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Email</label>
-                                            <input type="email" class="form-control" name="email" placeholder="Email" value="lhjak@j.com">
+                                            <input type="email" class="form-control" name="email" placeholder="Email">
                                         </div>
                                     </div>
                                 </div>
@@ -74,7 +74,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Password</label>
-                                            <input type="passwod" class="form-control" name="password" placeholder="Password" value="lhjak">
+                                            <input type="passwod" class="form-control" name="password" placeholder="Password">
                                         </div>
                                     </div>
                                 </div>
@@ -82,7 +82,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>About</label>
-                                            <textarea name="about" class="form-control" value="lhjak">
+                                            <textarea name="about" class="form-control">
 
                                             </textarea>
                                         </div>
@@ -92,13 +92,13 @@
                                     <div class="col-md-6">
                                         <div class="form-group form-group-default">
                                             <label>Trade registry</label>
-                                            <input type="text" class="form-control" name="trade_registry" placeholder="Trade registry" value="1111">
+                                            <input type="text" class="form-control" name="trade_registry" placeholder="Trade registry">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group form-group-default">
                                             <label>Ice</label>
-                                            <input type="text" class="form-control" name="ice" placeholder="Ice" value="1111">
+                                            <input type="text" class="form-control" name="ice" placeholder="Ice">
                                         </div>
                                     </div>
                                 </div> 
@@ -106,7 +106,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Taxe id</label>
-                                            <input type="passwod" class="form-control" name="taxe_id" placeholder="Taxe id" value="111">
+                                            <input type="passwod" class="form-control" name="taxe_id" placeholder="Taxe id">
                                         </div>
                                     </div>
                                 </div>
@@ -142,7 +142,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Address</label>
-                                            <input type="text" class="form-control" name="address" placeholder="Name" value="lhjak" >
+                                            <input type="text" class="form-control" name="address" placeholder="Name">
                                         </div>
                                     </div>
                                 </div>
@@ -150,7 +150,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Address tow</label>
-                                            <input type="text" class="form-control" name="address_two" placeholder="Name" value="lhjak">
+                                            <input type="text" class="form-control" name="address_two" placeholder="Name">
                                         </div>
                                     </div>
                                 </div>
@@ -158,13 +158,13 @@
                                     <div class="col-md-3">
                                         <div class="form-group form-group-default">
                                             <label>Full name</label>
-                                            <input type="text" class="form-control" name="full_name" placeholder="Full name" value="lhjak">
+                                            <input type="text" class="form-control" name="full_name" placeholder="Full name">
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group form-group-default">
                                             <label>Zip code</label>
-                                            <input type="text" class="form-control" name="zip_code" placeholder="Zip code" value="111">
+                                            <input type="text" class="form-control" name="zip_code" placeholder="Zip code">
                                         </div>
                                     </div>
                                     <div class="col-md-3"> 
@@ -180,7 +180,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group form-group-default">
                                             <label>City</label>
-                                            <input type="text" class="form-control" name="city" placeholder="City" value="lhjak">
+                                            <input type="text" class="form-control" name="city" placeholder="City">
                                         </div>
                                     </div> 
                                 </div> 
