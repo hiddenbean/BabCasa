@@ -273,11 +273,11 @@
                                             <div class="form-input-group flex-1">
                                                 <label>Phone one</label>
                                                 <input type="text" id="phone" name="numbers[]" value="{{ $number0 }}" class="form-control">
+                                            </div>
+                                        </div>
                                                 @if ($errors->has('numbers.0'))
                                                 <label class='error' for='phone'>{{ $errors->first('numbers.0') }}</label>
                                                 @endif
-                                            </div>
-                                        </div>
                                        
                                     </div>
                                     <div class="col-md-4">
@@ -304,11 +304,11 @@
                                             <div class="form-input-group flex-1">
                                                 <label>Phone tow</label>
                                                 <input type="text" id="phone" name="numbers[]" value="{{$number1}}" class="form-control">
-                                                @if ($errors->has('numbers.1'))
-                                                <label class='error' for='phone'>{{ $errors->first('numbers .1') }}</label>
-                                                @endif
                                             </div>
                                         </div>
+                                                @if ($errors->has('numbers.1'))
+                                                <label class='error' for='phone'>{{ $errors->first('numbers.1') }}</label>
+                                                @endif
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group form-group-default input-group">

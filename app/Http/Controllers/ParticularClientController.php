@@ -219,7 +219,6 @@ class ParticularClientController extends Controller
         
         $request->validate([
             'numbers.0' => 'required|numeric|unique:phones,number,'.$request->phone_id[0],
-            'numbers.1' => 'sometimes|numeric|unique:phones,number,'.$request->phone_id[1],
             'code_country.0' => 'required',
             'code_country.1' => 'required',
         ]);      
