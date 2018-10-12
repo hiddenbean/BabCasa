@@ -17,6 +17,9 @@
                 <li class="breadcrumb-item">
                     <a href="{{ url('/support') }}">Claims</a>
                 </li>
+                <li class="breadcrumb-item">
+                    <a href="{{ url('/support/'.$claim->id) }}">{{$claim->title}}</a>
+                </li>
                 <li class="breadcrumb-item active">
                     Create
                 </li>
@@ -29,7 +32,7 @@
 <div class="container-fluid container-fixed-lg">
     <div class="card ">
         <div class="card-header">
-            <h4 class="m-t-0 m-b-0"> <strong>Create new Claim</strong> </h4>
+            <h4 class="m-t-0 m-b-0"> <strong>Create new Message For {{$claim->title}}</strong> </h4>
         </div>
         <div class="card-body">
             <div class="row">
@@ -39,39 +42,10 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-10"> 
-                                        <form action="{{url('support')}}" method="POST"
+                                        <form action="{{url('support/message/'.$claim->id)}}" method="POST"
                                             id="form-work" class="form-horizontal" role="form" autocomplete="on"
                                             novalidate="novalidate">
                                             {{ csrf_field() }}
-
-                                            <div class="form-group row">
-                                                <label for="object" class="col-md-3 control-label">Title</label>
-                                                
-                                                <div class="col-md-9">
-                                                    <input type="text" name="title" class="form-control" name="title" aria-required="true" /> 
-                                                    <label class='error' for='title'>
-                                                            @if ($errors->has('title'))
-                                                                {{ $errors->first('title') }}
-                                                            @endif
-                                                    </label> 
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row">
-                                                <label for="subject" class="col-md-3 control-label">Subject</label>
-                                                <div class="col-md-9"> 
-                                                    <div class="form-group form-group-default"> 
-                                                            <label class="">Subject</label>
-                                                            <select class="form-control attr" name="subject_id" >
-                                                            @foreach ($subjects as $subject)
-                                                                
-                                                                <option value="{{$subject->id}}">{{$subject->title}}</option> 
-                                                            @endforeach
-                                                            
-                                                            </select>
-                                                    </div>
-                                                </div>
-                                            </div>
 
                                             <div class="form-group row">
                                                 <label for="summernote" class="col-md-12 control-label">Message</label>
@@ -117,7 +91,7 @@
 
          $('#summernote').summernote();
             $('#onClick').on('click', function(){ 
-                var chaine = ''+$('#summernote').summernote().code().replace(/<\/?[^>]+(>|$)/g, "");
+                 var chaine = ''+$('#summernote').summernote().code().replace(/<\/?[^>]+(>|$)/g, "");
                 if(chaine=='')
                 {
                     $('#error').html('the message field is required .');
@@ -127,7 +101,6 @@
                     this.form.submit();
 
                 }
-    
             });
             $('#onReste').on('click', function(){ 
                 $('#summernote').summernote().code('');  

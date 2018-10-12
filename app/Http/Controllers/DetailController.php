@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App;
 use App\Detail;
+use App\Category;
 use App\Language;
 use App\DetailLang;
 use Illuminate\Http\Request;
@@ -26,6 +27,7 @@ class DetailController extends Controller
         $request->validate([
             'value' => 'required|unique:detail_langs,value',
         ]);
+        
     }
 
     /**
@@ -47,7 +49,8 @@ class DetailController extends Controller
      */
     public function create()
     {
-        return view('details.backoffice.staff.create');
+        $data['categories'] = Category::all();
+        return view('details.backoffice.staff.create',$data);
     }
     
     /**
@@ -59,7 +62,6 @@ class DetailController extends Controller
     public function store(Request $request)
     {
         $this->validateRequest($request);
-
         $detail = new Detail();
         $detail->save();
 
@@ -68,6 +70,10 @@ class DetailController extends Controller
         $detailLang->detail_id = $detail->id;
         $detailLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
         $detailLang->save();
+        foreach($request->categories as $category)
+        {
+            $detail->categories()->attach($category);
+        } 
         
         return redirect('details');
     }
@@ -95,6 +101,8 @@ class DetailController extends Controller
     {
 
         $data['detail'] = Detail::find($detail);
+        //return $data['detail']->categories()->wherePivot('category_id',1)->first();
+        $data['categories'] = Category::all();
         return view('details.backoffice.staff.edit',$data);
     }
 
@@ -107,8 +115,9 @@ class DetailController extends Controller
      */
     public function update(Request $request, $detail)
     {
-        $this->validateRequest($request);
-        
+        $request->validate([
+            'value' => 'required|unique:detail_langs,value,'.$detail.',detail_id',
+        ]);
         $detail = Detail::find($detail);
         $detailLangId = $detail->detailLang->first()->id;
 
@@ -116,6 +125,11 @@ class DetailController extends Controller
         $detailLang->value = $request->value; 
         $detailLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
         $detailLang->save(); 
+        $detail->categories()->detach();
+        foreach($request->categories as $category)
+        {
+            $detail->categories()->attach($category);
+        } 
         
         return redirect('details');
     }
@@ -130,8 +144,65 @@ class DetailController extends Controller
     {
         // récupérer photo
         $detail = Detail::findOrFail($detail);
-       $detail->delete();
-       return redirect('details');
+       if(isset($detail->detailValue))
+        {return $category->products;
+            return  redirect()
+                        ->back()
+                        ->with(
+                            'error',
+                            'Detail can\'t be deleted it has products !!' 
+                        );
+        }
+        $detail->delete();
+        return redirect('details')->with(
+                            'success',
+                            'Detail has been deleted successfuly !!'
+        );
+
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Detail  $detail
+     * @return \Illuminate\Http\Response
+     */
+    public function multiDestroy(Request $request)
+    {
+        
+
+        $request->validate([
+            'details' => 'required',
+        ]);
+        $error = false;
+        
+        foreach($request->details as $Detail)
+        {
+            $cantDelete = false;
+
+            $detail = Detail::findOrFail($Detail);
+    
+            if(isset($detail->detailValue)) {$cantDelete = true;$error = true;}
+    
+            if(!$cantDelete) 
+                $detail->delete();
+
+        }
+        if(!$error) 
+        {
+            return redirect('details')->with(
+                            'success',
+                            'Detail has been deleted successfuly !!'
+             );
+
+        }
+        else 
+        {
+            return redirect('details')->with(
+                'error',
+                'Detail can\'t be deleted it has a relation with products '
+            );
+        }
 
     }
 }

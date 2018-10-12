@@ -13,10 +13,10 @@
             <div class="col-md-12">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="{{ url('/') }}">DASHBOARD</a>
+                        <a href="{{ url('/') }}">Dashboard</a>
                     </li>
                     <li class="breadcrumb-item active">
-                        Countries
+                        particularClient
                     </li>
                 </ol>
             </div>
@@ -26,24 +26,14 @@
     <div class="container-fluid container-fixed-lg bg-white">
         <div class="card card-transparent">
             <div class="card-header">
-                @if (\Session::has('error'))
-                    <div class="alert alert-danger">
-                        {!! \Session::get('error') !!}
-                    </div>
-                @endif
-                @if (\Session::has('success'))
-                    <div class="alert alert-success">
-                        {!! \Session::get('success') !!}
-                    </div>
-                @endif
-                <div class="card-title">List of Countries</div>
+                <div class="card-title">List of particularClient</div>
                 <div class="pull-right">
                     <div class="col-xs-12">
                         <div class="row">
                             <div class="col-md-6 text-right no-padding">
-                                    @if (auth()->guard('staff')->user()->can('write','country'))
-                            <a href="{{url('countries/create')}}" class="btn btn-primary btn-cons">New Country</a>
-                                    @endif
+                            {{--  @if (auth()->guard('particularClient')->user()->can('write','particularClient'))  --}}
+                            <a href="{{url('particular-clients/create')}}" class="btn btn-primary btn-cons">New particularClient</a>
+                            {{--  @endif  --}}
                             </div>
                             <div class="col-md-6">
                                 <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
@@ -55,45 +45,34 @@
                 
             </div>
             <div class="card-body">
-              <form action="{{route('delete.countries')}}" method="post">
-                        {{ method_field('DELETE') }}
-                            {{ csrf_field() }}
                 <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
                     <thead>
-                     <th style="width:3%" class="text-center">
-                        <button class="btn btn-link" type="submit"><i class="pg-trash"></i></button>
-                        </th>
-                        <th style="width:45%" class="text-center">Name</th>                    
-                        <th style="width:20%" class="text-center">Alpha code</th>                    
-                        <th style="width:20%" class="text-center">Code</th>         
-                        @if (auth()->guard('staff')->user()->can('write','country'))               
-                        <th style="width:10%" class="text-center"></th>           
-                        @endif              
+                        <th style="width:20%" class="text-center">Name</th>
+                        <th style="width:20%" class="text-center">Email</th> 
+                        <th style="width:10%" class="text-center">Creation date</th> 
+                        <th style="width:10%" class="text-center">Status</th> 
+                         {{--  @if (auth()->guard('particularClient')->user()->can('write','particularClient'))                 --}}
+                        <th style="width:10%" class="text-center"></th>            
+                        {{--  @endif      --}}
                     </thead>
             
-                    <tbody>  
-                        @foreach($countries as $country)
+                    <tbody> 
+                        @foreach($particularClients as $particularClient) 
                             <tr class="order-progress"  >
-                            <td class="v-align-middle">
-                                <div class="checkbox text-center">
-                                <input type="checkbox" value="{{$country->id}}" name="countries[]" id="checkbox{{$country->id}}">
-                                <label for="checkbox{{$country->id}}" class="no-padding no-margin"></label>
-                                </div>
-                            </td>
-                                <td class="v-align-middle"><strong>{{$country->name}}</strong></td>            
-                                <td class="v-align-middle"><strong>{{$country->code_alpha}} </strong></td>            
-                                <td class="v-align-middle"><strong>{{$country->code}} </strong></td>            
-                                        @if (auth()->guard('staff')->user()->can('write','country'))
+                                <td class="v-align-middle"><a href="{{url('particular-clients/'.$particularClient->name)}}"><strong> {{$particularClient->first_name.' '.$particularClient->last_name}} </strong></a></td>
+                                <td class="v-align-middle text-center"><strong> {{$particularClient->email}}</strong></td>                
+                                <td class="v-align-middle text-center">{{date('d-m-Y', strtotime($particularClient->created_at))}}</td>      
+                                <td class="v-align-middle text-center"><strong>@if($particularClient->status) Active @else Desactive @endif</strong></td> 
+                                 {{--  @if (auth()->guard('particularClient')->user()->can('write','particularClient'))  --}}
                                 <td class="v-align-middle text-center">
-
-                                        <a href="{{url('countries/'.$country->id.'/edit')}}" class="btn btn-transparent"><i class="fa fa-pencil"></i></a>
-                                        <a href="{{route('delete.country',['country'=>$country->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></a>
-                                </td> 
-                                        @endif
+                                        <a href="{{url('particular-clients/'.$particularClient->name.'/edit')}}" class="btn btn-transparent"><i class="fa fa-pencil"></i></a>
+                                        <a href="{{route('delete.particular-client',['particular'=>$particularClient->name])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></a>
+                                    </td> 
+                                  {{--  @endif  --}}
                             </tr> 
-                        @endforeach
+                            @endforeach
+                            
                     </tbody>
-                    </form>
                 </table>
             </div>
         </div> 
@@ -119,7 +98,7 @@
                 "destroy": true,  
                 "scrollCollapse": true,
                 "order": [
-                    [0, "desc"]
+                    [0, "asc"]
                 ],
                 "iDisplayLength": 10
             };

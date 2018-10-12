@@ -1,4 +1,4 @@
-@extends('layouts.backoffice.staff.app')
+@extends('layouts.backoffice.partner.app')
 @section('css_before')
 <link href="{{ asset('plugins/bootstrap-datepicker/css/datepicker3.css') }}" rel="stylesheet" type="text/css" media="screen">
 <link href="{{ asset('plugins/switchery/css/switchery.min.css') }}" rel="stylesheet" type="text/css" media="screen" />
@@ -15,7 +15,7 @@
                     <a href="{{ url('/') }}">DASHBOARD</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a href="{{ url('/support') }}">Claims</a>
+                    <a href="{{ url('/claims') }}">Claims</a>
                 </li>
                 <li class="breadcrumb-item active">
                     Create
@@ -34,26 +34,23 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-xl-12">
+                    <form id="form-personal">
                         <div class="card card-transparent">
                            
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-10"> 
-                                        <form action="{{url('support')}}" method="POST"
+                                        <form action="" method="POST"
                                             id="form-work" class="form-horizontal" role="form" autocomplete="on"
                                             novalidate="novalidate">
                                             {{ csrf_field() }}
 
                                             <div class="form-group row">
-                                                <label for="object" class="col-md-3 control-label">Title</label>
-                                                
+                                                <label for="object" class="col-md-3 control-label">Object</label>
                                                 <div class="col-md-9">
-                                                    <input type="text" name="title" class="form-control" name="title" aria-required="true" /> 
-                                                    <label class='error' for='title'>
-                                                            @if ($errors->has('title'))
-                                                                {{ $errors->first('title') }}
-                                                            @endif
-                                                    </label> 
+                                                    <input type="text" name="title" value="" class="form-control"
+                                                        id="name" placeholder="" required=""
+                                                        aria-required="true" /> 
                                                 </div>
                                             </div>
 
@@ -62,14 +59,10 @@
                                                 <div class="col-md-9"> 
                                                     <div class="form-group form-group-default"> 
                                                             <label class="">Subject</label>
-                                                            <select class="form-control attr" name="subject_id" >
-                                                            @foreach ($subjects as $subject)
-                                                                
-                                                                <option value="{{$subject->id}}">{{$subject->title}}</option> 
-                                                            @endforeach
-                                                            
+                                                            <select class="form-control attr" name="attr" >
+                                                                <option value="">Subject</option> 
                                                             </select>
-                                                    </div>
+                                                        </div>
                                                 </div>
                                             </div>
 
@@ -82,15 +75,13 @@
                                                         <div id="summernote" class="form-control"></div>
                                                         <input type="hidden" value="" id="message" name="message">
                                                     </div>
-                                                        <label class='error' for='message' id="error">
-                                                        </label> 
                                                     <!-- content end -->
                                                 </div>
                                             </div>
                                             <br>
                                             <div class="row"> 
                                                 <div class="col-md-9">
-                                                    <button class="btn btn-primary" type="button" id="onClick">Save</button> 
+                                                    <button class="btn btn-primary" type="submit" id="onClick">Save</button> 
                                                 </div>
                                             </div>
                                         </form>
@@ -98,6 +89,7 @@
                                 </div>
                             </div>
                         </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -117,17 +109,9 @@
 
          $('#summernote').summernote();
             $('#onClick').on('click', function(){ 
-                var chaine = ''+$('#summernote').summernote().code().replace(/<\/?[^>]+(>|$)/g, "");
-                if(chaine=='')
-                {
-                    $('#error').html('the message field is required .');
-                } else
-                {
-                    ($('#message').val($('#summernote').summernote().code()));
-                    this.form.submit();
-
-                }
+                ($('#message').val($('#summernote').summernote().code()));
     
+                this.form.submit();
             });
             $('#onReste').on('click', function(){ 
                 $('#summernote').summernote().code('');  

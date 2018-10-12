@@ -109,10 +109,10 @@ class CurrencyController extends Controller
     public function update(Request $request, $currency)
     {
         $request->validate([
-            'name' => 'required|unique:currencies,name,'.$currency,
-            'symbole' => 'required|unique:currencies,symbole,'.$currency,
-            'country_id' => 'required|unique:currencies,country_id',
-        ]);
+            'name' => 'required|unique:currencies,name,'.$currency.',id',
+            'symbole' => 'required|unique:currencies,symbole,'.$currency.',id',
+            'country_id' => 'required|unique:currencies,country_id,'.$currency.',id',
+            ]);
         
         $currency = Currency::find($currency);
         $currency->name = $request->name;
@@ -134,12 +134,65 @@ class CurrencyController extends Controller
     {
         // récupérer photo
         $currency = Currency::findOrFail($currency);
+        if(isset($currency->products[0]))
+        {
+            return  redirect()
+            ->back()
+            ->with(
+                'error',
+                'currency can\'t be deleted it has products !!' 
+            );
+        }
        $currency->delete();
        return redirect('currencies')
                                 ->with(
                                     'success',
                                     'Currency deleted successfuly !!'
                                     );
+
+    }
+
+     /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Detail  $detail
+     * @return \Illuminate\Http\Response
+     */
+    public function multiDestroy(Request $request)
+    {
+
+        $request->validate([
+            'currencies' => 'required',
+        ]);
+        $error = false;
+        
+        foreach($request->currencies as $Currency)
+        {
+            $cantDelete = false;
+
+            $currency = Currency::findOrFail($Currency);
+    
+            if(isset($currency->products[0])) {$cantDelete = true;$error = true;}
+    
+            if(!$cantDelete) 
+                $currency->delete();
+
+        }
+        if(!$error) 
+        {
+            return redirect('currencies')->with(
+                            'success',
+                            'Currency has been deleted successfuly !!'
+             );
+
+        }
+        else 
+        {
+            return redirect('currencies')->with(
+                'error',
+                'Currency can\'t be deleted it has a relation with products '
+            );
+        }
 
     }
 }

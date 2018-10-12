@@ -71,10 +71,10 @@ class profileController extends Controller
         $profileLang->reference = $request->reference; 
         $profileLang->description = $request->description; 
         $profileLang->profile_id = $profile->id; 
-        $profileLang->lang_id = Language::where('symbol',App::getLocale())->first()->id;
+        $profileLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
         $profileLang->save();
         
-        return redirect('profiles');
+        return redirect('profiles/'.$profile->id);
     }
 
     /**
@@ -164,7 +164,7 @@ class profileController extends Controller
         $profileLang = ProfileLang::find($profileLangId);
         $profileLang->reference = $request->reference; 
         $profileLang->description = $request->description; 
-        $profileLang->lang_id = Language::where('symbol',App::getLocale())->first()->id;
+        $profileLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
         $profileLang->save(); 
         
         return redirect('profiles');

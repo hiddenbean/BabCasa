@@ -1,6 +1,7 @@
 @extends('layouts.backoffice.staff.app')
 @section('css_before')
-<link href="{{ asset('plugins/bootstrap-datepicker/css/datepicker3.css') }}" rel="stylesheet" type="text/css" media="screen">
+    <link href="{{ asset('plugins/bootstrap-datepicker/css/datepicker3.css') }}" rel="stylesheet" type="text/css" media="screen">
+    <link href="{{ asset('plugins/switchery/css/switchery.min.css') }}" rel="stylesheet" type="text/css" media="screen" />
 @stop
 @section('content')
 <!-- breadcrumb start -->
@@ -11,8 +12,11 @@
                 <li class="breadcrumb-item">
                     <a href="{{ url('/') }}">DASHBOARD</a>
                 </li>
+                <li class="breadcrumb-item">
+                    <a href="{{ url('/particular-clients') }}">particular Clients</a>
+                </li>
                 <li class="breadcrumb-item active">
-                    Account
+                    Create
                 </li>
             </ol>
         </div>
@@ -22,14 +26,14 @@
 <div class="container-fluid container-fixed-lg">
     <div class="card ">
         <div class="card-header">
-            <h4 class="m-t-0 m-b-0"> <strong>My Account</strong> </h4>
+            <h4 class="m-t-0 m-b-0"> <strong>Create new particular-clients</strong> </h4>
         </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-xl-12">
-                    <form id="form-personal"  method="POST" action="{{url('staff/'.$staff->id)}}" enctype="multipart/form-data">
+                    <form id="form-personal"  method="POST" action="{{url('particular-clients')}}" enctype="multipart/form-data">
                         {{ csrf_field() }}
-                         {{ method_field('put') }}
+
                         <ul class="nav nav-tabs nav-tabs-simple nav-tabs-left bg-white" id="tab-3">
                             <li class="nav-item">
                                 <a href="#" class="active show" data-toggle="tab" data-target="#general">General
@@ -46,7 +50,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Name</label>
-                                            <input type="text" class="form-control"  value="{{$staff->name}}" name="name" placeholder="Name" disabled>
+                                            <input type="text" class="form-control"  value="{{ old('name') }}" name="name" placeholder="Name">
                                         </div>
                                         <label class='error' for='name'>
                                                 @if ($errors->has('name'))
@@ -60,7 +64,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group form-group-default">
                                             <label>First name</label>
-                                            <input type="text" class="form-control" value="{{$staff->first_name}}"  name="first_name">
+                                            <input type="text" class="form-control" value="{{ old('first_name') }}"  name="first_name">
                                         </div>
                                         <label class='error' for='first_name'>
                                                 @if ($errors->has('first_name'))
@@ -71,7 +75,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group form-group-default ">
                                             <label>Last name</label>
-                                            <input type="text" class="form-control" value="{{$staff->last_name}}"  name="last_name">
+                                            <input type="text" class="form-control" value="{{ old('last_name') }}"  name="last_name">
                                         </div>
                                         <label class='error' for='last_name'>
                                                 @if ($errors->has('last_name'))
@@ -84,7 +88,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Email</label>
-                                            <input type="email" class="form-control" value="{{$staff->email}}"  name="email" placeholder="Email">
+                                            <input type="email" class="form-control" value="{{ old('email') }}"  name="email" placeholder="Email">
                                         </div>
                                         <label class='error' for='email'>
                                                 @if ($errors->has('email'))
@@ -93,13 +97,25 @@
                                         </label> 
                                     </div>
                                 </div>
-                                
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group form-group-default">
+                                            <label>Password</label>
+                                            <input type="password" class="form-control" name="password" placeholder="Password">
+                                        </div>
+                                        <label class='error' for='password'>
+                                                @if ($errors->has('password'))
+                                                    {{ $errors->first('password') }}
+                                                @endif
+                                        </label> 
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group form-group-default input-group">
                                             <div class="form-input-group">
                                                 <label>Birthday</label>
-                                                <input type="text" name="birthday" value="{{$staff->birthday}}"  class="form-control" placeholder="Birthday"
+                                                <input type="text" name="birthday" value="{{ old('birthday') }}"  class="form-control" placeholder="Birthday"
                                                     id="birthday">
                                             </div>
                                             <label class='error' for='birthday'>
@@ -114,26 +130,17 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group form-group-default">
-                                                <label for="">Profile Type</label> 
-                                                <select class="cs-select cs-skin-slide cs-transparent" value="{{$staff->profile_id}}"  name="profile_id" data-init-plugin="cs-select">
-                                                    @foreach($profiles as $profile)
-                                                   
-                                                <option value="{{$profile->id}}"  @if($staff->profile_id == $profile->id) selected @endif >{{$profile->profileLang->first()->reference}}</option>
-                                                    @endforeach 
-                                                 
-                                                </select> 
-                                            </div>
-                                            
-                                        </div>
+                                    <div class="col-md-12">
+                                        <input type="checkbox" data-init-plugin="switchery" name="is_register_to_newsletter" data-size="small" data-color="primary" checked="checked" /> 
+                                        <label for="">Is register to newsletter</label>
                                     </div>
+                                </div> 
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="radio radio-success">
-                                            <input type="radio" value="1" @if($staff->gender == 1) checked @endif name="gender" id="male">
+                                            <input type="radio" value="1" name="gender" id="male">
                                             <label for="male">Male</label>
-                                            <input type="radio"  value="0" @if($staff->gender == 0) checked @endif name="gender" name="gender" id="female">
+                                            <input type="radio" checked="checked" value="0" name="gender" id="female">
                                             <label for="female">Female</label>
                                         </div>
                                     </div>
@@ -141,7 +148,7 @@
                                 <div class="row">
                                     <div class="col-sm-2">
                                             <div class="form-group form-group-default">
-                                                    <img src="{{ Storage::url($staff->picture->path)}}" id="image_preview_staff"
+                                                    <img src="{{ asset('img/img_placeholder.png') }}" id="image_preview_staff"
                                                         alt="" srcset="" width="100">
                                                     <label for="path_staff" class="choose_photo">
                                                         <span>
@@ -149,11 +156,11 @@
                                                     </label>
                                                     <input type="file" id="path_staff" name="path" class="form-control hide">
                                                 </div>
-                                        {{-- <label class='error' for='path'>
+                                        <label class='error' for='path'>
                                                 @if ($errors->has('path'))
                                                     {{ $errors->first('path') }}
                                                 @endif
-                                        </label>  --}}
+                                        </label> 
                                     </div>
                                 </div>
                             </div> <!-- END FIRST TAB CONTENT GENRAL -->
@@ -163,7 +170,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Address</label>
-                                            <input type="text" class="form-control" name="address" value="{{$staff->address->address}}"  placeholder="Name">
+                                            <input type="text" class="form-control" name="address" value="{{ old('address') }}"  placeholder="Name">
                                         </div>
                                         <label class='error' for='address'>
                                                 @if ($errors->has('address'))
@@ -176,7 +183,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Address tow</label>
-                                            <input type="text" class="form-control" name="address_tow" value="{{$staff->address->address_tow}}"  placeholder="Name">
+                                            <input type="text" class="form-control" name="address_tow" value="{{ old('address_tow') }}"  placeholder="Name">
                                         </div>
                                         <label class='error' for='address_tow'>
                                                 @if ($errors->has('address_tow'))
@@ -189,7 +196,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group form-group-default">
                                             <label>Full name</label>
-                                            <input type="text" class="form-control" name="full_name" value="{{$staff->address->full_name}}"  placeholder="Full name">
+                                            <input type="text" class="form-control" name="full_name" value="{{ old('full_name') }}"  placeholder="Full name">
                                         </div>
                                         <label class='error' for='full_name'>
                                                 @if ($errors->has('full_name'))
@@ -200,7 +207,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group form-group-default">
                                             <label>Zip code</label>
-                                            <input type="text" class="form-control" name="zip_code" value="{{$staff->address->zip_code}}"  maxlength="6"  placeholder="Zip code">
+                                            <input type="text" class="form-control" name="zip_code" value="{{ old('zip_code') }}"  placeholder="Zip code">
                                         </div>
                                         <label class='error' for='zip_code'>
                                                 @if ($errors->has('zip_code'))
@@ -212,8 +219,8 @@
                                         <div class="form-group form-group-default">
                                             <label>Country</label>
                                             <select class="cs-select cs-skin-slide cs-transparent" name="country_id" data-init-plugin="cs-select">
-                                                    @foreach($countries as $Country)
-                                                    <option value="{{$Country->id}}" @if($staff->address->country_id == $Country->id) selected @endif >{{$Country->name}}</option>
+                                                    @foreach($countries as $country)
+                                                    <option value="{{$country->id}}" >{{$country->name}}</option>
                                                         @endforeach 
                                             </select> 
                                             <label class='error' for='country'>
@@ -226,7 +233,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group form-group-default">
                                             <label>City</label>
-                                            <input type="text" class="form-control" name="city" value="{{$staff->address->city}}"  placeholder="City">
+                                            <input type="text" class="form-control" name="city" value="{{ old('city') }}"  placeholder="City">
                                         </div>
                                         <label class='error' for='city'>
                                                 @if ($errors->has('city'))
@@ -239,16 +246,15 @@
                                     <div class="col-md-4">
                                             <div class="form-group form-group-default input-group">
                                                     <div class="cs-input-group-addon input-group-addon d-flex">
-                                                        <select class="cs-select cs-skin-slide cs-transparent" name="code_country[]"  data-init-plugin="cs-select">
+                                                        <select class="cs-select cs-skin-slide cs-transparent" name="code_country[]" data-init-plugin="cs-select">
                                                                 @foreach($countries as $country)
-                                                                <option value="{{$country->id}}"  @if($staff->phones[0]->country->country_id == $country->id && isset($staff->phones[0])) selected @endif >{{$country->code}}</option>
+                                                                <option value="{{$country->id}}" >{{$country->code}}</option>
                                                                     @endforeach 
                                                         </select>
                                                     </div>
-                                                <input type="hidden" name="phone_id[]" value="@if(isset($staff->phones[0])){{$staff->phones[0]->id}}@endif">
                                                     <div class="form-input-group flex-1">
                                                         <label>Phone one</label>
-                                                        <input type="text" id="phone" name="numbers[]" value="@if(isset($staff->phones[0])){{ $staff->phones[0]->number}} @endif" class="form-control">
+                                                        <input type="text" id="phone" name="numbers[]" value="{{ old('numbers.0') }}" class="form-control">
                                                         @if ($errors->has('numbers.0'))
                                                         <label class='error' for='phone'>{{ $errors->first('numbers.0') }}</label>
                                                         @endif
@@ -261,14 +267,13 @@
                                                     <div class="cs-input-group-addon input-group-addon d-flex">
                                                         <select class="cs-select cs-skin-slide cs-transparent" name="code_country[]" data-init-plugin="cs-select">
                                                                 @foreach($countries as $country)
-                                                                <option value="{{$country->id}}"  @if(isset($staff->phones[1]) && $staff->phones[1]->country->country_id == $country->id ) selected @endif >{{$country->code}}</option>
+                                                                <option value="{{$country->id}}" >{{$country->code}}</option>
                                                                     @endforeach 
                                                         </select>
                                                     </div>
-                                                    <input type="hidden" name="phone_id[]" value="@if(isset($staff->phones[1])){{$staff->phones[1]->id}}@endif">
                                                     <div class="form-input-group flex-1">
                                                         <label>Phone tow</label>
-                                                        <input type="text" id="phone" name="numbers[]" value="@if(isset($staff->phones[1])) {{$staff->phones[1]->number}} @endif" class="form-control">
+                                                        <input type="text" id="phone" name="numbers[]" value="{{ old('numbers.1') }}" class="form-control">
                                                         @if ($errors->has('numbers.1'))
                                                         <label class='error' for='phone'>{{ $errors->first('numbers .1') }}</label>
                                                         @endif
@@ -280,14 +285,13 @@
                                                     <div class="cs-input-group-addon input-group-addon d-flex">
                                                         <select class="cs-select cs-skin-slide cs-transparent" name="code_country[]" data-init-plugin="cs-select">
                                                                 @foreach($countries as $country)
-                                                                <option value="{{$country->id}}"  @if(isset($staff->phones[2]) && $staff->phones[2]->country->country_id == $country->id) selected @endif >{{$country->code}}</option>
+                                                                <option value="{{$country->id}}" >{{$country->code}}</option>
                                                                     @endforeach 
                                                         </select>
                                                     </div>
-                                                    <input type="hidden" name="fax_id" value="@if(isset($staff->phones[2])){{$staff->phones[2]->id}}@endif">
                                                     <div class="form-input-group flex-1">
                                                         <label>Fax</label>
-                                                        <input type="text" id="phone" name="fax_number" value="@if(isset($staff->phones[2])) {{$staff->phones[2]->number}} @endif" class="form-control">
+                                                        <input type="text" id="phone" name="fax_number" value="{{ old('fax_number') }}" class="form-control">
                                                         @if ($errors->has('fax_number'))
                                                         <label class='error' for='phone'>{{ $errors->first('fax_number') }}</label>
                                                         @endif
@@ -307,6 +311,7 @@
 @endsection
 
 @section('script')
+     <script src="{{ asset('plugins/switchery/js/switchery.min.js') }}" type="text/javascript"></script>
     <script type="text/javascript" src="{{ asset('plugins/classie/classie.js') }}"></script>
     <script src="{{ asset('plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
     <script>

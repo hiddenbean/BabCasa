@@ -10,9 +10,9 @@ class Currency extends Model
     {
         return $this->belongsTo('App\AttributeValue');
     }
-    public function product()
+    public function products()
     {
-        return $this->belongsTo('App\Product');
+        return $this->hasMany('App\Product');
     }
     public function bundle()
     {

@@ -22,6 +22,7 @@ Route::domain('www.babcasa.com')->group(function (){
 Route::domain('staff.babcasa.com')->group(function (){
     //staff home page
     Route::get('/', 'StaffController@dashboard');
+    Route::get('account', 'StaffController@profile');
     Route::get('passwords/reset', 'Auth\StaffForgotPasswordController@showLinkRequestForm')->name('staff.passwords.reset');
     Route::get('{staff}/password/reset/{token}', 'Auth\StaffResetPasswordController@showResetForm');
     
@@ -41,6 +42,19 @@ Route::domain('staff.babcasa.com')->group(function (){
         });     
         Route::get('{tag}', 'TagController@show'); 
     });
+
+     
+    Route::prefix('support')->group(function() {
+            Route::get('/','ClaimController@all');
+            Route::get('related','ClaimController@related');
+            Route::get('open','ClaimController@open');
+            Route::get('closed','ClaimController@closed');
+            Route::get('create','ClaimController@create');
+            Route::get('{id}','ClaimController@show');
+            Route::prefix('message')->group(function() {
+                Route::get('{claim}/create','ClaimMessageController@create');
+            });
+        });
 
     //////////CATEGORIES
     Route::prefix('categories')->middleware('CanRead:category')->group(function() {
@@ -105,6 +119,17 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::get('{staff}/reset/password', 'StaffController@resetPassword');
         Route::get('{staff}/pin/verification', 'PinController@checkPinForm');
         Route::get('{staff}/password/{password}', 'PinController@showPassword');
+    }); 
+    
+    //////////ParticularClient
+   
+    Route::prefix('particular-clients')->middleware('CanRead:staff')->group(function() {
+        Route::get('/', 'ParticularClientController@index'); 
+          Route::group(['middleware' => ['CanWrite:staff']], function(){
+                Route::get('create', 'ParticularClientController@create'); 
+                Route::get('{particular}/edit', 'ParticularClientController@edit');
+            }); 
+              Route::get('{particular}', 'ParticularClientController@show'); 
     }); 
 
     Route::prefix('partners')->middleware('CanRead:partner')->group(function() {
@@ -227,7 +252,7 @@ Route::domain('partner.babcasa.com')->group(function (){
     Route::prefix('support')->group(function() {
         Route::prefix('{subject}')->group(function() {
             Route::prefix('ticket')->group(function() {
-                Route::post('create','ClaimController@store');
+                Route::post('','ClaimController@store');
             });
         });
         Route::prefix('ticket')->group(function() {
@@ -263,12 +288,22 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::delete('/{tag}', 'TagController@destroy')->name('delete.tag');
     }); 
 
+    //////////CLAIMs
+    Route::prefix('support')->group(function() {
+        Route::post('','ClaimController@store');
+        Route::post('{claim}/close','ClaimController@close');
+        Route::prefix('message')->group(function() {
+            Route::post('{claim}','ClaimMessageController@store');
+        });
+    });
+
     //////////Categories
     Route::prefix('categories')->middleware('CanWrite:category')->group(function() {
 
         Route::post('/','CategoryController@store'); 
         Route::post('{category}', 'CategoryController@update'); 
         Route::delete('{category}', 'CategoryController@destroy')->name('delete.category');
+        Route::delete('delete/multiple', 'CategoryController@multiDestroy')->name('delete.categories');
     }); 
     //////////details
     Route::prefix('details')->middleware('CanWrite:detail')->group(function() {
@@ -276,6 +311,7 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::post('/', 'DetailController@store'); 
         Route::post('{detail}', 'DetailController@update'); 
         Route::delete('{detail}', 'DetailController@destroy')->name('delete.detail');
+        Route::delete('delete/multiple', 'DetailController@multiDestroy')->name('delete.details');
     }); 
     //////////COUNTRIES
     Route::prefix('countries')->middleware('CanWrite:country')->group(function() {
@@ -283,6 +319,7 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::post('/', 'CountryController@store'); 
         Route::post('{country}', 'CountryController@update'); 
         Route::delete('{country}', 'CountryController@destroy')->name('delete.country');
+        Route::delete('delete/multiple', 'CountryController@multiDestroy')->name('delete.countries');
     }); 
     //////////CURRENCIES
     Route::prefix('currencies')->middleware('CanWrite:currency')->group(function() {
@@ -290,6 +327,8 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::post('/', 'CurrencyController@store'); 
         Route::post('{currency}', 'CurrencyController@update'); 
         Route::delete('{currency}', 'CurrencyController@destroy')->name('delete.currency');
+        Route::delete('delete/multiple', 'CurrencyController@multiDestroy')->name('delete.currencies');
+
     }); 
     //////////REASONS
     Route::prefix('reasons')->middleware('CanWrite:reason')->group(function() {
@@ -297,6 +336,7 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::post('/', 'ReasonController@store'); 
         Route::post('{reason}', 'ReasonController@update'); 
         Route::delete('{reason}', 'ReasonController@destroy')->name('delete.reason');
+        Route::delete('delete/multiple', 'ReasonController@multiDestroy')->name('delete.reasons');
     }); 
 
     //////////STATUS
@@ -315,6 +355,12 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::delete('{staff}', 'StaffController@destroy')->name('delete.staff');
         Route::post('{staff}/reset/password', 'PinController@store')->name('reset.password.staff');
         Route::post('{staff}/pin/verification', 'PinController@checkPin');
+    }); 
+    //////////particular-clients
+    Route::prefix('particular-clients')->middleware('CanWrite:staff')->group(function() {
+        Route::post('/', 'ParticularClientController@store'); 
+        Route::put('{particular}', 'ParticularClientController@update'); 
+        Route::delete('{particular}', 'ParticularClientController@destroy')->name('delete.particular-client');
     }); 
 
     Route::prefix('partners')->middleware('CanWrite:partner')->group(function() {

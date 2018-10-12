@@ -36,7 +36,7 @@ class Product extends Model
 
         public function currency()
         {
-                return $this->hasOne('App\Currency');
+                return $this->belongsTo('App\Currency');
         }
 
         public function detailValues()

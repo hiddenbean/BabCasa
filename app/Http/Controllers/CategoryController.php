@@ -13,8 +13,8 @@ class CategoryController extends Controller
 {
     public function __construct()
     {
-         $this->middleware('auth:staff');
-         $this->middleware('CanRead:category'); //->except('index','create');
+        $this->middleware('auth:staff');
+        
     }
      /**
      * Get a validator for an incoming registration request.
@@ -37,6 +37,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        
         $data['categories'] = Category::all();
         return view('categories.backoffice.staff.index',$data);
     }
@@ -196,7 +197,7 @@ class CategoryController extends Controller
         // récupérer photo
         $category = Category::findOrFail($Category);
 
-        if(isset($category->products[0]) || isset($category->bundles[0]) || isset($category->markets[0]))
+        if(isset($category->products[0]) || isset($category->bundles[0]) || isset($category->markets[0])|| isset($category->details[0]) || isset($category->attributes[0]))
         {return $category->products;
             return  redirect()
                         ->back()
@@ -223,6 +224,51 @@ class CategoryController extends Controller
                             'success',
                             'Category has been deleted successfuly !!'
         );
+
+    }
+
+    // 'error',
+    // 'category can\'t be deleted it has a subcategory with products/bundles/markets !!'
+    public function multiDestroy(Request $request)
+    {
+        $request->validate([
+            'categories' => 'required',
+        ]);
+        $error = false;
+        
+        foreach($request->categories as $Category)
+        {
+            $cantDelete = false;
+
+            $category = Category::findOrFail($Category);
+    
+            if(isset($category->products[0]) || isset($category->bundles[0]) || isset($category->markets[0]) ) {$cantDelete = true;$error = true;}
+    
+            foreach($category->subCategories as $sub_category)
+            {
+                if(isset($sub_category->products[0]) || isset($sub_category->bundles[0]) || isset($category->markets[0]) ) {$cantDelete = true;$error = true;}
+    
+            }
+            if(!$cantDelete) 
+                $category->delete();
+
+        }
+        if(!$error) 
+        {
+            return redirect('categories')->with(
+                            'success',
+                            'Category has been deleted successfuly !!'
+             );
+
+        }
+        else 
+        {
+            return redirect('categories')->with(
+                'error',
+                'category can\'t be deleted it has a relation with products / bundles / markets / attributes'
+            );
+        }
+
 
     }
 }
