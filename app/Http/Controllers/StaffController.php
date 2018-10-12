@@ -263,7 +263,7 @@ class StaffController extends Controller
      * @param  \App\Staff  $staff
      * @return \Illuminate\Http\Response
      */
-    public function destroy($staff)
+    public function destroy(Request $request, $staff)
     {
         $staff = Staff::where('name', $staff)->first();
         if(isset($staff->businesses[0]))
@@ -280,6 +280,19 @@ class StaffController extends Controller
                                 'success',
                                 'Staff member deleted successfuly !!'
                                 );
+    }
+
+    public function multiDestroy(Request $request)
+    {
+        foreach($request->staff as $staff)
+        {
+            $staff = Staff::where('name', $staff)->first();
+            if(!isset($staff->businesses[0]))
+            {
+                $staff->delete();
+            }
+        }
+        return redirect('staff');
     }
 
     /**

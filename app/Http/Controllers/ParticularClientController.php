@@ -340,6 +340,19 @@ class ParticularClientController extends Controller
         return str_before($url, '/'.$particular);
     }
 
+    public function multiDestroy(Request $request)
+    {
+        foreach($request->particular_clients as $particular_client)
+        {
+            $particular_client = Business::where('name', $particular_client)->first();
+            if(!$this->stuckParticularClient($particular_client))
+            {
+                $particular_client->delete();
+            }
+        }
+        return redirect('clients/particular');
+    }
+
     /**
      * Show all open sessions for the account.
      * Option to change password and to desable the account.

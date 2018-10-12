@@ -55,8 +55,12 @@
                 
             </div>
             <div class="card-body">
+                <form action="{{route('multi_delete.partners')}}" method="post">
+                {{ method_field('DELETE') }}
+                {{ csrf_field() }}
                 <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
                     <thead>
+                        <th style="width:3%" class="text-center"><button class="btn btn-link" type="submit"><i class="pg-trash"></i></button></th>
                         <th style="width:20%" class="text-center">Name</th>
                         <th style="width:10%" class="text-center">Email</th> 
                         <th style="width:10%" class="text-center">Creation date</th>    
@@ -68,6 +72,12 @@
                     <tbody> 
                         @foreach($partners as $partner) 
                             <tr class="order-progress"  >
+                                <td class="v-align-middle">
+                                    <div class="checkbox text-center">
+                                    <input type="checkbox" value="{{$partner->name}}" name="partners[]" id="checkbox{{$partner->id}}">
+                                    <label for="checkbox{{$partner->id}}" class="no-padding no-margin"></label>
+                                    </div>
+                                </td>
                                 <td class="v-align-middle"><a href="{{url('partners/'.$partner->name)}}"><strong> {{$partner->company_name}} </strong></a></td>
                                 <td class="v-align-middle text-center"><strong> {{$partner->email}}</strong></td>                
                                 <td class="v-align-middle text-center"> {{date('M d, Y',strtotime($partner->created_at))}} </td>       
@@ -83,6 +93,7 @@
                          
                     </tbody>
                 </table>
+                </form>
             </div>
         </div> 
     </div>

@@ -55,8 +55,12 @@
                 
             </div>
             <div class="card-body">
+                <form action="{{route('multi_delete.businesses')}}" method="post">
+                {{ method_field('DELETE') }}
+                {{ csrf_field() }}
                 <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
                     <thead>
+                        <th style="width:3%" class="text-center"><button class="btn btn-link" type="submit"><i class="pg-trash"></i></button></th>
                         <th style="width:20%" class="text-center">Name</th>
                         <th style="width:10%" class="text-center">Email</th> 
                         <th style="width:10%" class="text-center">Creation date</th>                
@@ -67,6 +71,12 @@
                     <tbody>
                         @foreach($businesses as $business)  
                         <tr class="order-progress"  >
+                            <td class="v-align-middle">
+                                <div class="checkbox text-center">
+                                <input type="checkbox" value="{{$business->name}}" name="businesses[]" id="checkbox{{$business->id}}">
+                                <label for="checkbox{{$business->id}}" class="no-padding no-margin"></label>
+                                </div>
+                            </td>
                             <td class="v-align-middle"><a href="{{url('clients/business/'.$business->name)}}"><strong> {{ $business->company_name }} </strong></a></td>
                             <td class="v-align-middle text-center"><strong> {{ $business->email }}</strong></td>                
                             <td class="v-align-middle text-center"> {{ $business->created_at }} </td>
@@ -80,6 +90,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                </form>
             </div>
         </div> 
     </div>

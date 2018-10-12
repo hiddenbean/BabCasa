@@ -308,7 +308,7 @@ class BusinessController extends Controller
      * @param  \App\Business  $business
      * @return \Illuminate\Http\Response
      */
-    public function destroy( $business_name)
+    public function destroy($business_name)
     {
         $business = Business::where('name', $business_name)->first();
         
@@ -355,5 +355,18 @@ class BusinessController extends Controller
             return str_before($url, $business).''.$business.'/security';
         }
         return str_before($url, '/'.$business);
+    }
+
+    public function multiDestroy(Request $request)
+    {
+        foreach($request->businesses as $business)
+        {
+            $business = Business::where('name', $business)->first();
+            if(!$this->stuckBusiness($business))
+            {
+                $business->delete();
+            }
+        }
+        return redirect('clients/business');
     }
 }

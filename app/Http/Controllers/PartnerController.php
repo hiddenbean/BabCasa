@@ -337,6 +337,19 @@ class PartnerController extends Controller
         return $stuck;
     }
 
+    public function multiDestroy(Request $request)
+    {
+        foreach($request->partners as $partner)
+        {
+            $partner = Business::where('name', $partner)->first();
+            if(!$this->stuckPartner($partner))
+            {
+                $partner->delete();
+            }
+        }
+        return redirect('partners');
+    }
+
     public function redirectURL($url, $partner)
     {
         $destroy_url = str_after($url, '/'.$partner);

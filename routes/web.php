@@ -349,6 +349,7 @@ Route::domain('staff.babcasa.com')->group(function (){
 
     Route::prefix('staff')->middleware('CanWrite:staff')->group(function() {
         Route::post('/', 'Auth\StaffRegisterController@store'); 
+        Route::delete('multi-destroy', 'StaffController@multiDestroy')->name('multi_delete.staff');
         Route::put('password', 'StaffController@resetPassword'); 
         Route::put('{staff}', 'StaffController@update'); 
         Route::delete('{staff}', 'StaffController@destroy')->name('delete.staff');
@@ -359,7 +360,7 @@ Route::domain('staff.babcasa.com')->group(function (){
     Route::prefix('partners')->middleware('CanWrite:partner')->group(function() {
 
         Route::post('/', 'PartnerController@store'); 
-        
+        Route::delete('multi-destroy', 'PartnerController@multiDestroy')->name('multi_delete.partners');
         // Route::post('{partner}/active', 'PartnerController@active')->name('active.partner');
         // Route::post('{partner}/desactive', 'PartnerController@desactive')->name('desactive.partner');
         Route::prefix('{partner}')->group(function() {
@@ -372,17 +373,20 @@ Route::domain('staff.babcasa.com')->group(function (){
     Route::prefix('clients')->group(function(){
         Route::prefix('business')->middleware('CanWrite:business_client')->group(function(){
             Route::post('/store', 'BusinessController@store');
+            Route::delete('multi-destroy', 'BusinessController@multiDestroy')->name('multi_delete.businesses');
             Route::prefix('{business}')->group(function(){
                 Route::delete('/destroy', 'BusinessController@destroy')->name('delete.business');
                 Route::post('/reset/password', 'PinController@store')->name('reset.password.business');
                 Route::put('/', 'BusinessController@update');
                 Route::post('/pin/verification', 'PinController@checkPin');
                 
+                
             });
         });
 
         Route::prefix('particular')->middleware('CanWrite:staff')->group(function() {
             Route::post('/', 'ParticularClientController@store');
+            Route::delete('multi-destroy', 'ParticularClientController@multiDestroy')->name('multi_delete.particular_clients');
             Route::put('{particular}', 'ParticularClientController@update');
             Route::delete('{particular}', 'ParticularClientController@destroy')->name('delete.particular-client');
             Route::post('{particular}/reset/password', 'PinController@store')->name('reset.password.particular_client');
