@@ -62,21 +62,21 @@ class Business extends Authenticatable
         parent::boot();    
     
         // cause a delete of a product to cascade to children so they are also deleted
-        static::deleting(function($partner)
+        static::deleting(function($business)
         {
-            $partner->address()->delete();
-            $partner->picture()->delete();
-            $partner->phones()->delete();
-            $partner->orders()->delete();
-            $partner->markets()->delete();
+            $business->address()->delete();
+            $business->picture()->delete();
+            $business->phones()->delete();
+            $business->orders()->delete();
+            //$business->markets()->delete();
             
         });
 
-        static::restoring(function($partner)
+        static::restoring(function($business)
         {
-            $partner->address()->withTrashed()->restore();
-            $partner->picture()->withTrashed()->restore();
-            $partner->phones()->withTrashed()->restore();
+            $business->address()->withTrashed()->restore();
+            $business->picture()->withTrashed()->restore();
+            $business->phones()->withTrashed()->restore();
         });
     }
 }

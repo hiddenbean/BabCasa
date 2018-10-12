@@ -28,7 +28,7 @@ class CreateBusinessesTable extends Migration
             $table->softDeletes();
             $table->timestamps();
         });
-    }Desactive
+    }
 
     /**
      * Reverse the migrations.

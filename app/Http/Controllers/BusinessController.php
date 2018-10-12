@@ -332,7 +332,6 @@ class BusinessController extends Controller
                             );
         }
         $business->delete();
-        return dd($this->stuckBusiness($business));
         return redirect($this
                             ->redirectURL(url()
                             ->current(), 

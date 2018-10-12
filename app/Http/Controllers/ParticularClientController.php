@@ -313,8 +313,8 @@ class ParticularClientController extends Controller
                                 'error',
                                 'Particular can\'t be deleted it has unsolved orders/markets !!'
                             );
-        }return 1;
-        //$particulaClient->delete();
+        }
+        $particulaClient->delete();
         return redirect($this->redirectURL(url()->current(), $particular))
                                 ->with(
                                     'success',
