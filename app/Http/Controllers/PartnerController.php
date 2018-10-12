@@ -246,8 +246,8 @@ class PartnerController extends Controller
         {
             $picture = $partner->picture;
             $picture->name = time().'.'.$request->file('path')->extension();
-            $picture->tag = "partner";
-            $picture->path = $request->path->store('images/partner', 'public');
+            $picture->tag = "partner_avatar";
+            $picture->path = $request->path->store('images/partners', 'public');
             $picture->extension = $request->path->extension();
             $picture->save();
         }
@@ -333,7 +333,6 @@ class PartnerController extends Controller
     {
         $orderStatus = $partner->orders()->whereIn('status', ['in_progress', 'finished'])->get();
         //$marketStatus = $partner->markets()->whereIn('status', ['in_progress', 'finished'])->get();
-        return $orderStatus;
         isset($orderStatus[0]) ? $stuck = true : $stuck = false;
         return $stuck;
     }

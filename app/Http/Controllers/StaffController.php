@@ -14,6 +14,7 @@ use App\Phone;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\PictureController;
 use App\Http\Controllers\PhoneController;
+use Illuminate\Support\Facades\Hash;
 use App\Guest;
 use Illuminate\Http\Request;
 
@@ -166,7 +167,7 @@ class StaffController extends Controller
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'required|email|unique:staff,email,'.$staff,
+            'email' => 'required|email|unique:staff,email,'.$staff.',name',
             'gender' => 'required',
             'birthday' => 'required|date',
             'profile_id' => 'required|exists:profiles,id',
@@ -182,7 +183,7 @@ class StaffController extends Controller
             'code_country.1' => 'required',
         ]);
 
-        $staff = Staff::findOrFail($staff);
+        $staff = Staff::where('name',$staff)->first();
         $staff->first_name = $request->first_name;
         $staff->last_name = $request->last_name;
         $staff->email = $request->email;
@@ -210,9 +211,10 @@ class StaffController extends Controller
             $picture->extension = $request->path->extension();
             $picture->save();
         }
-        
+        $i=0;
         foreach($request->numbers as $key => $number)
         {
+            $i++;
             
             if($number != null)
             {
@@ -272,7 +274,7 @@ class StaffController extends Controller
                                 'Staff delete can\'t be performed !!'
                                 );
         }
-        $staff->delete();
+        //$staff->delete();
         return redirect('staff')
                             ->with(
                                 'success',
@@ -308,5 +310,38 @@ class StaffController extends Controller
     {
         DB::table('sessions')->where('id', $session_id)->delete();
         return redirect(str_before(url()->current(), '.com').'.com/security');
+    }
+
+    public function resetPasswordForm()
+    {
+        return view('system.backoffice.staff.reset_password');
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'old_password' => 'required',
+            'password' => 'required|confirmed'
+        ]);
+
+        $staff = auth()->guard('staff')->user();
+        $hasher = app('hash');
+        if ($hasher->check($request->old_password, $staff->password)) 
+        {
+            $password = Hash::make($request->password);
+            $staff->password = $password;
+            $staff->save();
+            return redirect('security')
+                                    ->with(
+                                        'success',
+                                        'Password has been changed successfuly !!'
+                                    );
+        }
+        return redirect()
+                        ->back()
+                        ->with(
+                            'error',
+                            'Old password is not correct !!'
+                        );
     }
 }

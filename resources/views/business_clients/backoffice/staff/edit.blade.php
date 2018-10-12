@@ -13,7 +13,7 @@
                     <a href="{{ url('/') }}">DASHBOARD</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a href="{{ url('/clients/businesses') }}">Business clients</a>
+                    <a href="{{ url('/clients/business') }}">Business clients</a>
                 </li>
                 <li class="breadcrumb-item active">
                     Update
@@ -32,7 +32,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-xl-12">
-                    <form id="form-personal"  method="post" action="{{url('clients/businesses/'.$business->name)}}" enctype="multipart/form-data">
+                    <form id="form-personal"  method="post" action="{{url('clients/business/'.$business->name)}}" enctype="multipart/form-data">
                         @csrf
                         {{ method_field('put') }}
                         <!-- START TABS -->
@@ -188,7 +188,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Address tow</label>
-                                            <input type="text" class="form-control" name="address_tow" placeholder="Name" value="{{$business->address->address_tow}}">
+                                            <input type="text" class="form-control" name="address_two" placeholder="Name" value="{{$business->address->address_two}}">
                                         </div>
                                     </div>
                                 </div>

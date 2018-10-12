@@ -195,7 +195,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Address tow</label>
-                                            <input type="text" class="form-control" name="address_tow" placeholder="Name" value="{{ old('address_tow') }}">
+                                            <input type="text" class="form-control" name="address_two" placeholder="Name" value="{{ old('address_two') }}">
                                         </div>
                                     </div>
                                 </div>

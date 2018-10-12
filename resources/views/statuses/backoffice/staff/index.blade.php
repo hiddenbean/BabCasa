@@ -26,7 +26,7 @@
     <div class="container-fluid container-fixed-lg bg-white">
         <div class="card card-transparent">
             <div class="card-header">
-                <!-- {{ str_after(str_before(url()->current(), '/'.$user->name), 'statuses/') == 'partner' ? $url_part = 'partners' : $url_part = 'clients/businesses' }} -->
+                <!-- {{ str_after(str_before(url()->current(), '/'.$user->name), 'statuses/') == 'partner' ? $url_part = 'partners' : $url_part = 'clients/business' }} -->
             <div class="card-title">List of statuses for <a href="{{url($url_part.'/'.$user->name)}}"><strong> {{$user->company_name}}  </strong></a></div>
                 <div class="pull-right">
                     <div class="col-xs-12">

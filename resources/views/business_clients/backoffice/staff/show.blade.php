@@ -17,7 +17,7 @@
                     <a href="{{ url('/') }}">DASHBOARD</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a href="{{ url('/clients/businesses') }}">Business clients</a>
+                    <a href="{{ url('/clients/business') }}">Business clients</a>
                 </li>
                 <li class="breadcrumb-item active">
                     Show
@@ -31,6 +31,11 @@
 <div class="container-fluid container-fixed-lg">
     <div class="card ">
         <div class="card-header">
+            @if (\Session::has('error'))
+                <div class="alert alert-danger">
+                    {!! \Session::get('error') !!}
+                </div>
+            @endif
             <h4 class="m-t-0 m-b-0"> <strong>Business client Information</strong> </h4>
         </div>
         <div class="card-body">
@@ -93,7 +98,7 @@
                                     <!--{{ $country0_code = $business->phones()->whereIn('type', ['phone', 'fix'])->get()[0]->country->code }}-->
                                 @else
                                     <!--{{ $number0 = null }}-->
-                                    <!--{{ $country0_code = null }}-->
+                                    <!--{{ $country0_code = 'Not available' }}-->
                                 @endif
 
                             <p>{{ $country0_code }}{{ $number0 }}</p>
@@ -104,8 +109,8 @@
                                     <!--{{ $number1 = $business->phones()->whereIn('type', ['phone', 'fix'])->get()[1]->number }}-->
                                     <!--{{ $country1_code = $business->phones()->whereIn('type', ['phone', 'fix'])->get()[1]->country->code }}-->
                                 @else
-                                    <!--{{ $number1 = 'Not available' }}-->
-                                    <!--{{ $country1_code = null }}-->
+                                    <!--{{ $number1 = null }}-->
+                                    <!--{{ $country1_code = 'Not available' }}-->
                                 @endif
                                 <p>{{ $country1_code }}{{ $number1 }}</p>
                             </div>
@@ -115,8 +120,8 @@
                                     <!--{{ $fax = $business->phones->where('type', 'fax')->first()->number }}-->
                                     <!--{{ $country3_code = $business->phones->where('type', 'fax')->first()->country->code }}-->
                                 @else
-                                    <!--{{ $fax = 'Not available' }}-->
-                                    <!--{{ $country3_code = null }}-->
+                                    <!--{{ $fax = null }}-->
+                                    <!--{{ $country3_code = 'Not available' }}-->
                                 @endif
                                 <p>{{ $country3_code }}{{ $fax }}</p>
                             </div>
@@ -174,7 +179,7 @@
                         <div class="col-md-12">
                             <h3> Deactivate this account</h3>
                             Deactivating your account will disable your profile and remove your name and photo from most things you've shared on Babcasa. Some information may still be visible to others.
-                            <form action="{{ url('clients/businesses/'.$business->name.'/destroy') }}" method="post" class="mt-2">
+                            <form action="{{ url('clients/business/'.$business->name.'/destroy') }}" method="post" class="mt-2">
                                 @csrf
                                 {{method_field('delete')}}
                                 <button type="submit" class="btn btn-danger" >Desactivate</button>

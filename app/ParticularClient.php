@@ -23,6 +23,11 @@ class ParticularClient extends Model
     {
         return $this->morphMany('App\Phone', 'phoneable');
     }
+
+    public function orders()
+    {
+        return $this->morphMany('App\Order', 'costumer');
+    }
    
 
     public static function boot()
@@ -30,19 +35,19 @@ class ParticularClient extends Model
         parent::boot();    
     
         // cause a delete of a product to cascade to children so they are also deleted
-        static::deleting(function($particularClient)
+        static::deleting(function($particular_client)
         {
-            $particularClient->address()->delete();
-            $particularClient->picture()->delete();
-            $particularClient->phones()->delete();
+            $particular_client->address()->delete();
+            $particular_client->picture()->delete();
+            $particular_client->phones()->delete();
             
         });
 
-        static::restoring(function($particularClient)
+        static::restoring(function($particular_client)
         {
-            $particularClient->address()->withTrashed()->restore();
-            $particularClient->picture()->withTrashed()->restore();
-            $particularClient->phones()->withTrashed()->restore();
+            $particular_client->address()->withTrashed()->restore();
+            $particular_client->picture()->withTrashed()->restore();
+            $particular_client->phones()->withTrashed()->restore();
         });
     }
 }

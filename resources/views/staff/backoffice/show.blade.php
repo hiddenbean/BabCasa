@@ -29,6 +29,11 @@
             <h4 class="m-t-0 m-b-0"> <strong>Staff Information</strong> </h4>
         </div>
         <div class="card-body">
+            @if (\Session::has('error'))
+                <div class="alert alert-danger">
+                    {!! \Session::get('error') !!}
+                </div>
+            @endif
             <div class="row">
                 <div class="col-md-9 b-r b-dashed b-grey"> 
                         <div class="row">
@@ -80,25 +85,38 @@
                         {{-- {{$staff->phones[0]->country}} --}}
                         <div class="row">
                             <div class="col-md-4">
-                                    <h5>Phone N1:</h5>
-                                    <p>{{'('.$staff->phones[0]->country->code.') '. $staff->phones[0]->number }}</p>
-                                </div>
+                                @if(count($staff->phones) > 0 && isset($staff->phones->whereIn('type', ['phone', 'fix'])->first()->number))
+                                    <!--{{ $phone1 = $staff->phones->whereIn('type', ['phone', 'fix'])->first()->number }}-->
+                                    <!--{{ $country1 = $staff->phones->whereIn('type', ['phone', 'fix'])->first()->country->code }}-->
+                                @else
+                                    <!--{{ $phone1 = null }}-->
+                                    <!--{{ $country1 = 'Not available' }}-->
+                                @endif
+                                <h5>Phone N1:</h5>
+                                <p>{{'('.$country1.') '. $phone1 }}</p>
+                            </div>
                            
                             <div class="col-md-4">
-                                <h5>phone N2:</h5>
-                                @if(isset($staff->phones[1]))
-                                    <p>{{'('.$staff->phones[1]->country->code.') '. $staff->phones[1]->number }}</p>
+                                @if(count($staff->phones) > 1 && isset($staff->phones->whereIn('type', ['phone', 'fix'])->first()->number))
+                                    <!--{{ $phone2 = $staff->phones->whereIn('type', ['phone', 'fix'])->first()->number }}-->
+                                    <!--{{ $country2 = $staff->phones->whereIn('type', ['phone', 'fix'])->first()->country->code }}-->
                                 @else
-                                    <p>Not available</p>
+                                    <!--{{ $phone2 = null }}-->
+                                    <!--{{ $country2 = 'Not available' }}-->
                                 @endif
+                                <h5>phone N2:</h5>
+                                <p>{{'('.$country2.') '. $phone2 }}</p>
                             </div>
                             <div class="col-md-4">
-                                <h5>Fax:</h5>
-                                @if(isset($staff->phones[2]))
-                                    <p>{{'('.$staff->phones[2]->country->code.') '. $staff->phones[2]->number }}</p>
+                                @if(isset($staff->phones->where('type', 'fax')->first()->number))
+                                    <!--{{ $phone3 = $staff->phones->where('type', 'fax')->first()->number }}-->
+                                    <!--{{ $country3 = $staff->phones->where('type', 'fax')->first()->country->code }}-->
                                 @else
-                                    <p>Not available</p>
+                                    <!--{{ $phone3 = null }}-->
+                                    <!--{{ $country3 = 'Not available' }}-->
                                 @endif
+                                <h5>Fax:</h5>
+                                <p>{{'('.$country3.') '. $phone3 }}</p>
                             </div>
                         </div> 
                 </div>

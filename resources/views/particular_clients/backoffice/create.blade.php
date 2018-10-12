@@ -13,7 +13,7 @@
                     <a href="{{ url('/') }}">DASHBOARD</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a href="{{ url('/particular-clients') }}">particular Clients</a>
+                    <a href="{{ url('/clients/particular') }}">Particular clients</a>
                 </li>
                 <li class="breadcrumb-item active">
                     Create
@@ -26,12 +26,12 @@
 <div class="container-fluid container-fixed-lg">
     <div class="card ">
         <div class="card-header">
-            <h4 class="m-t-0 m-b-0"> <strong>Create new particular-clients</strong> </h4>
+            <h4 class="m-t-0 m-b-0"> <strong>Create new particular clients</strong> </h4>
         </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-xl-12">
-                    <form id="form-personal"  method="POST" action="{{url('particular-clients')}}" enctype="multipart/form-data">
+                    <form id="form-personal"  method="POST" action="{{url('clients/particular')}}" enctype="multipart/form-data">
                         {{ csrf_field() }}
 
                         <ul class="nav nav-tabs nav-tabs-simple nav-tabs-left bg-white" id="tab-3">
@@ -183,11 +183,11 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Address tow</label>
-                                            <input type="text" class="form-control" name="address_tow" value="{{ old('address_tow') }}"  placeholder="Name">
+                                            <input type="text" class="form-control" name="address_two" value="{{ old('address_two') }}"  placeholder="Name">
                                         </div>
-                                        <label class='error' for='address_tow'>
-                                                @if ($errors->has('address_tow'))
-                                                    {{ $errors->first('address_tow') }}
+                                        <label class='error' for='address_two'>
+                                                @if ($errors->has('address_two'))
+                                                    {{ $errors->first('address_two') }}
                                                 @endif
                                         </label> 
                                     </div>
@@ -311,9 +311,9 @@
 @endsection
 
 @section('script')
-     <script src="{{ asset('plugins/switchery/js/switchery.min.js') }}" type="text/javascript"></script>
-    <script type="text/javascript" src="{{ asset('plugins/classie/classie.js') }}"></script>
-    <script src="{{ asset('plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
+<script src="{{ asset('plugins/switchery/js/switchery.min.js') }}" type="text/javascript"></script>
+<script type="text/javascript" src="{{ asset('plugins/classie/classie.js') }}"></script>
+<script src="{{ asset('plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
     <script>
         $(document).ready(function () {
             $('#birthday').datepicker();

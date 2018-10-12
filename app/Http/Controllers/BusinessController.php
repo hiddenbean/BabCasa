@@ -134,7 +134,7 @@ class BusinessController extends Controller
             $phone->phoneable_id = $business->id;
             $phone->save();
         } 
-        return redirect('clients/businesses');
+        return redirect('clients/business');
 
     }
 
@@ -253,7 +253,7 @@ class BusinessController extends Controller
         {
             $picture = $business->picture;
             $picture->name = time().'.'.$request->file('path')->extension();
-            $picture->tag = "business";
+            $picture->tag = "business_avatar";
             $picture->path = $request->path->store('images/businesses', 'public');
             $picture->extension = $request->path->extension();
             $picture->save();
@@ -299,7 +299,7 @@ class BusinessController extends Controller
             $phone->save();
         }
 
-        return redirect('/clients/businesses');
+        return redirect('/clients/business');
     }
 
     /**
@@ -319,16 +319,6 @@ class BusinessController extends Controller
                             ->with(
                                 'error',
                                 'Delete can\'t be performed !!'
-                            );
-        }
-
-        if(isset($business->orders()->where[0]) || isset($business->markets[0]))
-        {
-            return redirect()
-                            ->back()
-                            ->with(
-                                'error',
-                                'Business can\'t be deleted it is in an association with Phones/Addresses/Currency !!'
                             );
         }
 
@@ -353,7 +343,6 @@ class BusinessController extends Controller
     {
         $orderStatus = $business->orders()->whereIn('status', ['in_progress', 'finished'])->get();
         //$marketStatus = $business->markets()->whereIn('status', ['in_progress', 'finished'])->get();
-        return $orderStatus;
         isset($orderStatus[0]) ? $stuck = true : $stuck = false;
         return $stuck;
     }

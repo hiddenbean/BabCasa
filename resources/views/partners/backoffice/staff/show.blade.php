@@ -31,6 +31,11 @@
 <div class="container-fluid container-fixed-lg">
     <div class="card ">
         <div class="card-header">
+            @if (\Session::has('error'))
+                <div class="alert alert-danger">
+                    {!! \Session::get('error') !!}
+                </div>
+            @endif
             <h4 class="m-t-0 m-b-0"> <strong>Partner Information</strong> </h4>
         </div>
         <div class="card-body">
@@ -93,7 +98,7 @@
                                         <!--{{ $phone1 = $partner->phones->whereIn('type', ['phone', 'fix'])->first()->number }}-->
                                         <!--{{ $country1 = $partner->phones->whereIn('type', ['phone', 'fix'])->first()->country->code }}-->
                                     @else
-                                        <!--{{ $phone1 = 'Not available' }}-->
+                                        <!--{{ $phone1 = null }}-->
                                         <!--{{ $country1 = 'Not available' }}-->
                                     @endif
                                     <h5>Phone N1:</h5>
@@ -105,7 +110,7 @@
                                         <!--{{ $phone2 = $partner->phones->whereIn('type', ['phone', 'fix'])->first()->number }}-->
                                         <!--{{ $country2 = $partner->phones->whereIn('type', ['phone', 'fix'])->first()->country->code }}-->
                                     @else
-                                        <!--{{ $phone2 = 'Not available' }}-->
+                                        <!--{{ $phone2 = null }}-->
                                         <!--{{ $country2 = 'Not available' }}-->
                                     @endif
                                     <h5>phone N2:</h5>
@@ -116,7 +121,7 @@
                                         <!--{{ $phone3 = $partner->phones->where('type', 'fax')->first()->number }}-->
                                         <!--{{ $country3 = $partner->phones->where('type', 'fax')->first()->country->code }}-->
                                     @else
-                                        <!--{{ $phone3 = 'Not available' }}-->
+                                        <!--{{ $phone3 = null }}-->
                                         <!--{{ $country3 = 'Not available' }}-->
                                     @endif
                                     <h5>Fax:</h5>

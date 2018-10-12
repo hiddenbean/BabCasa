@@ -11,10 +11,10 @@
                         <a href="{{ url('/') }}">DASHBOARD</a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="{{ url('/clients/businesses') }}">Business clients</a>
+                        <a href="{{ url('/clients/business') }}">Business clients</a>
                     </li>
                     <li class="breadcrumb-item">
-                            <a href="{{ url('/clients/businesses/'.$user->name.'/show') }}">{{$user->name}}</a>
+                            <a href="{{ url('/clients/business/'.$user->name.'/show') }}">{{$user->name}}</a>
                         </li>
                     <li class="breadcrumb-item active">
                         Password

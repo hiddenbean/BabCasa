@@ -24,6 +24,11 @@
 <div class="inner-content full-height padding-20"> 
     <div class="card ">
             <div class="card-header">
+                @if (\Session::has('success'))
+                    <div class="alert alert-success">
+                        {!! \Session::get('success') !!}
+                    </div>
+                @endif
                 <h4 class="m-t-0 m-b-0"> <strong>Security</strong> </h4>
             </div>
             
@@ -113,7 +118,7 @@
                                             <div class="col-md-12">
                                                 <h3>Update password</h3>
                                                 We advise you to use a password you do not use anywhere else.<br>
-                                                <a href="#"><strong>Update password</strong></a>
+                                                <a href="{{ url('staff/password') }}"><strong>Update password</strong></a>
                                             </div>
                                         </div>
                                         <br>

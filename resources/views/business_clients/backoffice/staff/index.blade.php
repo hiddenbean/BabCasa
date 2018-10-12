@@ -42,7 +42,7 @@
                         <div class="row">
                             <div class="col-md-6 text-right no-padding">
                              @if (auth()->guard('staff')->user()->can('write','business_client'))
-                            <a href="{{url('clients/businesses/create')}}" class="btn btn-primary btn-cons">New client business</a>
+                            <a href="{{url('clients/business/create')}}" class="btn btn-primary btn-cons">New client business</a>
                             @endif
                             </div>
                             <div class="col-md-6">
@@ -67,13 +67,13 @@
                     <tbody>
                         @foreach($businesses as $business)  
                         <tr class="order-progress"  >
-                            <td class="v-align-middle"><a href="{{url('clients/businesses/'.$business->name)}}"><strong> {{ $business->company_name }} </strong></a></td>
+                            <td class="v-align-middle"><a href="{{url('clients/business/'.$business->name)}}"><strong> {{ $business->company_name }} </strong></a></td>
                             <td class="v-align-middle text-center"><strong> {{ $business->email }}</strong></td>                
                             <td class="v-align-middle text-center"> {{ $business->created_at }} </td>
                             <!-- {{ $business->status->first()->is_approved ? $status = 'Approved' : $status = 'Not approved' }} -->    
                         <td class="v-align-middle text-center"> <strong>{{ $status }}</strong> </td>       
                             <td class="v-align-middle text-center">
-                                <a href="{{url('clients/businesses/'.$business->name.'/edit')}}" class="btn btn-transparent"><i class="fa fa-pencil"></i></a>
+                                <a href="{{url('clients/business/'.$business->name.'/edit')}}" class="btn btn-transparent"><i class="fa fa-pencil"></i></a>
                                 <a href="{{route('delete.business',['business'=>$business->name])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></a>
                             </td> 
                         </tr> 

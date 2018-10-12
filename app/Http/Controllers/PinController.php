@@ -77,7 +77,7 @@ class PinController extends Controller
         switch ($url_split)
         {
             case 'partners' : return ['App\Partner', 'partner', 'partners.backoffice.staff']; break;
-            case 'clients/businesses' : return ['App\Business', 'business', 'business_clients.backoffice.staff']; break;
+            case 'clients/business' : return ['App\Business', 'business', 'business_clients.backoffice.staff']; break;
             case 'clients' : return 'App\Client'; break;
             case 'staff' : return ['App\Staff', 'staff', 'staff.backoffice']; break;
         }

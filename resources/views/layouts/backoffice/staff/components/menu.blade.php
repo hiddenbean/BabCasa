@@ -40,11 +40,11 @@
             <ul class="sub-menu">
          @if (auth()->guard('staff')->user()->can('read','business_client'))
                 <li>
-                    <a href="{{ url('/clients/businesses') }}">Clients business</a>
+                    <a href="{{ url('/clients/business') }}">Clients business</a>
                     <span class="icon-thumbnail">CB</span>
                 </li>
         @endif
-         @if (auth()->guard('staff')->user()->can('read','particularCostumer'))
+         @if (auth()->guard('staff')->user()->can('read','particular_client'))
                 <li>
                     <a href="{{ url('/clients/particular') }}">Clients particular</a>
                     <span class="icon-thumbnail">CP</span>

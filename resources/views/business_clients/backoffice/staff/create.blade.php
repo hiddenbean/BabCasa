@@ -13,7 +13,7 @@
                     <a href="{{ url('/') }}">DASHBOARD</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a href="{{ url('/clients/businesses') }}">Clients business</a>
+                    <a href="{{ url('/clients/business') }}">Clients business</a>
                 </li>
                 <li class="breadcrumb-item active">
                     Create
@@ -32,7 +32,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-xl-12">
-                <form id="form-personal" action="{{ url('clients/businesses/store') }}" method="post" enctype="multipart/form-data">
+                <form id="form-personal" action="{{ url('clients/business/store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                         <!-- START TABS -->
                         <ul class="nav nav-tabs nav-tabs-simple nav-tabs-left bg-white" id="tab-3">

@@ -67,16 +67,21 @@ class ParticularClientController extends Controller
     public function store(Request $request)
     {
         $this->validateRequest($request);
+
         $AddressController = new AddressController();
         $AddressController->validateRequest($request);
+
+        $PhoneController = new PhoneController();
+        $PhoneController->validateRequest($request);
         
         $request->validate([
             'numbers.0' => 'required|numeric|unique:phones,number,'.$request->phone_id[0],
-            'numbers.1' => 'sometimes|numeric|unique:phones,number,'.$request->phone_id[1],
+            'numbers.1' => 'nullable|numeric|unique:phones,number|digits:9',
+            'numbers.1' => 'nullable|numeric|unique:phones,number|digits:9',
             'code_country.0' => 'required',
             'code_country.1' => 'required',
-        ]); 
-          //return $request->numbers;
+        ]);
+        
         $is_register_to_newsletter = ($request->is_register_to_newsletter=='on') ? 1 : 0;
         $particularClient = new ParticularClient();
         $particularClient->name = $request->name;
@@ -98,7 +103,7 @@ class ParticularClientController extends Controller
                 $phone->number = $number;
                 $phone->type = "phone";
                 $phone->country_id = $request->code_country[$key];
-                $phone->phoneable_type = 'particularClient';
+                $phone->phoneable_type = 'particular_client';
                 $phone->phoneable_id = $particularClient->id;
                 $phone->save();
             }
@@ -111,7 +116,7 @@ class ParticularClientController extends Controller
             $phone->number = $request->fax_number;
             $phone->type = "fix";
             $phone->country_id = $request->code_country[2];
-            $phone->phoneable_type = 'particularClient';
+            $phone->phoneable_type = 'particular_client';
             $phone->phoneable_id = $particularClient->id;
             $phone->save();
         }
@@ -121,12 +126,12 @@ class ParticularClientController extends Controller
         {
             $address = new Address();
             $address->address = $request->address;
-            $address->address_tow = $request->address_tow;
+            $address->address_two = $request->address_two;
             $address->full_name = $request->full_name;
             $address->zip_code = $request->zip_code;
             $address->country_id = $request->country_id;
             $address->city = $request->city;
-            $address->addressable_type = 'particularClient';
+            $address->addressable_type = 'particular_client';
             $address->addressable_id = $particularClient->id;
             $address->save();
             
@@ -135,15 +140,15 @@ class ParticularClientController extends Controller
         {
             $picture = Picture::create([
                 'name' => time().'.'.$request->file('path')->extension(),
-                'tag' => "particularClient",
+                'tag' => "particular_client_avatar",
                 'path' => $request->path->store('images/particular_clients', 'public'),
                 'extension' => $request->path->extension(),
-                'pictureable_type' => 'particularClient',
+                'pictureable_type' => 'particular_client',
                 'pictureable_id' => $particularClient->id,
                 ]);
                 
             }
-            return redirect('particular-clients');
+            return redirect('clients/particular');
 
        
     }
@@ -230,7 +235,7 @@ class ParticularClientController extends Controller
         
         $address = $particularClient->address;
         $address->address = $request->address;
-        $address->address_tow = $request->address_tow;
+        $address->address_two = $request->address_two;
         $address->full_name = $request->full_name;
         $address->zip_code = $request->zip_code;
         $address->country_id = $request->country_id;
@@ -241,7 +246,7 @@ class ParticularClientController extends Controller
         {
             $picture = $particularClient->picture;
             $picture->name = time().'.'.$request->file('path')->extension();
-            $picture->tag = "particularClient";
+            $picture->tag = "particular_client_avatar";
             $picture->path = $request->path->store('images/particular_clients', 'public');
             $picture->extension = $request->path->extension();
             $picture->save();
@@ -252,8 +257,16 @@ class ParticularClientController extends Controller
         {
             if($number != null)
             {
-               
-                $phone = Phone::find($request->phone_id[$key]);
+                $phone = Phone::where('id', $request->phone_id[$key])
+                                                                ->whereIn('type', ['phone', 'fix'])
+                                                                ->where('phoneable_id', $particularClient->id)
+                                                                ->first();
+                if($phone == null)
+                {
+                    $phone = new Phone();
+                    $phone->phoneable_id = $particularClient->id;
+                    $phone->phoneable_type = 'particular_client';
+                }
                 $phone->number = $number;
                 $phone->type = "phone";
                 $phone->country_id = $request->code_country[$key];
@@ -263,14 +276,23 @@ class ParticularClientController extends Controller
 
         if($request->fax_number)
         {
-            
+            $fax = Phone::where('id', $request->fax_id)
+                                ->where('type', 'fax')
+                                ->where('phoneable_id', $partner->id)
+                                ->first();
+            if($fax == null)
+            {
+                $fax = new Phone();
+                $phone->phoneable_id = $partner->id;
+                $phone->phoneable_type = 'particular_client';
+            }
             $phone = Phone::find($request->fax_id);
             $phone->number = $request->fax_number;
             $phone->type = "fix";
             $phone->country_id = $request->code_country[2];
             $phone->save();
         }
-        return redirect('particular-clients');
+        return redirect('clients/particular');
     }
 
 
@@ -283,8 +305,39 @@ class ParticularClientController extends Controller
     public function destroy($particular)
     {
         $particulaClient = ParticularClient::where('name', $particular)->first();
-        $particulaClient->delete();
-        return redirect('particular-clients');
+        if($this->stuckParticularClient($particulaClient))
+        {
+            return redirect()
+                            ->back()
+                            ->with(
+                                'error',
+                                'Particular can\'t be deleted it has unsolved orders/markets !!'
+                            );
+        }return 1;
+        //$particulaClient->delete();
+        return redirect($this->redirectURL(url()->current(), $particular))
+                                ->with(
+                                    'success',
+                                    'Particular has been deleted successfuly !!'
+                                );
+    }
+
+    public function stuckParticularClient($particularClient)
+    {
+        $orderStatus = $particularClient->orders()->whereIn('status', ['in_progress', 'finished'])->get();
+        //$marketStatus = $business->markets()->whereIn('status', ['in_progress', 'finished'])->get();
+        isset($orderStatus[0]) ? $stuck = true : $stuck = false;
+        return $stuck;
+    }
+
+    public function redirectURL($url, $particular)
+    {
+        $destroy_url = str_after($url, '/'.$particular);
+        if($destroy_url == '/desactivate')
+        {
+            return str_before($url, $particular).''.$particular.'/security';
+        }
+        return str_before($url, '/'.$particular);
     }
 
     /**
