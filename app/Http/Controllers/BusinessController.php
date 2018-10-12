@@ -194,9 +194,9 @@ class BusinessController extends Controller
             'company_name' => 'required',
             'email' => 'required',
             'about' => 'required',
-            'trade_registry' => 'required|numeric',
-            'ice' => 'required|numeric',
-            'taxe_id' => 'required|numeric',
+            'trade_registry' => 'required|numeric|digits:6',
+            'ice' => 'required|numeric|digits:10',
+            'taxe_id' => 'required|numeric|digits:10',
         ]);
         
         

@@ -264,9 +264,7 @@ Route::domain('partner.babcasa.com')->group(function (){
 
 Route::domain('staff.babcasa.com')->group(function (){
 
-    Route::post('/', function () {
-        return view('welcome');
-    });
+   
 
     // Reset password
     Route::post('passwords/email', 'Auth\StaffForgotPasswordController@sendResetLinkEmail')->name('staff.password.link.send');

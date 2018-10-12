@@ -264,6 +264,14 @@ class StaffController extends Controller
     public function destroy($staff)
     {
         $staff = Staff::where('name', $staff)->first();
+        if(isset($staff->businesses[0]))
+        {
+            return redirect('staff')
+                            ->with(
+                                'error',
+                                'Staff delete can\'t be performed !!'
+                                );
+        }
         $staff->delete();
         return redirect('staff')
                             ->with(

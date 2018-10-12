@@ -46,7 +46,7 @@ class StaffRegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest:staff');
+        $this->middleware('auth:staff');
     }
 
     /**
@@ -82,10 +82,8 @@ class StaffRegisterController extends Controller
      */
     protected function store(Request $request)
     {
-        
-        
         $this->validateRequest($request);
-        
+
         $AddressController = new AddressController();
         $AddressController->validateRequest($request);
         
@@ -93,7 +91,7 @@ class StaffRegisterController extends Controller
         $PictureController->validateRequest($request);
         
         $PhoneController = new PhoneController();
-        $PhoneController->validateRequest($request);        
+        $PhoneController->validateRequest($request);
 
         $password = bcrypt($request->password);
         $name = $request->name;

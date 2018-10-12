@@ -35,9 +35,9 @@ class PartnerController extends Controller
             'email' => 'required|email|unique:partners,email',
             'password' => 'required|min:6',
             'about' => 'required',
-            'trade_registry' => 'required',
-            'ice' => 'required',
-            'taxe_id' => 'required',
+            'trade_registry' => 'required|numeric|digits:6',
+            'ice' => 'required|numeric|digits:10',
+            'taxe_id' => 'required|numeric|digits:10',
         ]);
     }
 
@@ -207,9 +207,9 @@ class PartnerController extends Controller
             'company_name' => 'required',
             'email' => 'required|email',
             'about' => 'required',
-            'trade_registry' => 'required',
-            'ice' => 'required',
-            'taxe_id' => 'required',
+            'trade_registry' => 'required|numeric|digits:6',
+            'ice' => 'required|numeric|digits:10',
+            'taxe_id' => 'required|numeric|digits:10',
         ]);
         
         $AddressController = new AddressController();

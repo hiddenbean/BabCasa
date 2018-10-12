@@ -52,6 +52,11 @@ class Business extends Authenticatable
         return $this->morphMany('App\Order', 'costumer');
     }
 
+    public function staff()
+    {
+        return $this->belongsTo('App\Staff');
+    }
+
     public static function boot()
     {
         parent::boot();    

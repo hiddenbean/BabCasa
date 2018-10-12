@@ -66,6 +66,11 @@ class Staff extends Authenticatable
         return $this->morphMany('App\Pin', 'Pinable');
     }
 
+    public function businesses()
+    {
+        return $this->hasMany('App\Business');
+    }
+
     public static function boot()
     {
         parent::boot();    
