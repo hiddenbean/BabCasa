@@ -13,7 +13,7 @@ class CategoryController extends Controller
 {
     public function __construct()
     {
-         $this->middleware('guest:staff');
+         $this->middleware('auth:staff');
          $this->middleware('CanRead:category'); //->except('index','create');
     }
      /**

@@ -70,7 +70,7 @@ class StaffController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {return 'hi';
         $this->validateRequest($request);
         
         $staff = new Staff();

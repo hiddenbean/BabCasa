@@ -30,4 +30,9 @@ class Bundle extends Model
     {
         return $this->morphOne('App\Picture', 'pictureable');
     }
+
+    public function orders()
+    {
+            return $this->morphToMany('App\Order', 'orderable');
+    }
 }

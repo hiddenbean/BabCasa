@@ -306,8 +306,63 @@ class BusinessController extends Controller
      * @param  \App\Business  $business
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Business $business)
+    public function destroy( $business_name)
     {
-        //
+        $business = Business::where('name', $business_name)->first();
+        
+        if(!isset($business))
+        {
+            return redirect()
+                            ->back()
+                            ->with(
+                                'error',
+                                'Delete can\'t be performed !!'
+                            );
+        }
+
+        if(isset($business->orders()->where[0]) || isset($business->markets[0]))
+        {
+            return redirect()
+                            ->back()
+                            ->with(
+                                'error',
+                                'Business can\'t be deleted it is in an association with Phones/Addresses/Currency !!'
+                            );
+        }
+
+        if(!$this->stuckBusiness($business))
+        {
+            return redirect()
+                            ->back()
+                            ->with(
+                                'error',
+                                'Business can\'t be deleted it has unsolved order/markets !!'
+                            );
+        }
+        //$business->delete();
+        return redirect($this->redirectURL(url()->current(), $business_name))
+                                ->with(
+                                    'success',
+                                    'Business has been deleted successfuly !!'
+                                );
+    }
+
+    public function stuckBusiness($business)
+    {
+        $orderStatus = $business->orders()->whereIn('status', ['in_progress', 'finished'])->get();
+        //$marketStatus = $business->markets()->whereIn('status', ['in_progress', 'finished'])->get();
+        return $orderStatus;
+        isset($orderStatus[0]) ? $stuck = true : $stuck = false;
+        return $stuck;
+    }
+
+    public function redirectURL($url, $business)
+    {
+        $destroy_url = str_after($url, '/'.$business);
+        if($destroy_url == '/desactivate')
+        {
+            return str_before($url, $business).''.$business.'/security';
+        }
+        return str_before($url, '/'.$business);
     }
 }

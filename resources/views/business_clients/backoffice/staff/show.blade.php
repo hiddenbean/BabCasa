@@ -141,8 +141,10 @@
                         <div class="col-md-12">
                             <h3> Deactivate this account</h3>
                             Deactivating your account will disable your profile and remove your name and photo from most things you've shared on Babcasa. Some information may still be visible to others.
-                            <form action="" method="post" class="mt-2">
-                                <button type="submit" class="btn btn-danger" >Deactivate</button>
+                            <form action="{{ url('clients/businesses/'.$business->name.'/destroy') }}" method="post" class="mt-2">
+                                @csrf
+                                {{method_field('delete')}}
+                                <button type="submit" class="btn btn-danger" >Desactivate</button>
                             </form>
                         </div>
                     </div>  

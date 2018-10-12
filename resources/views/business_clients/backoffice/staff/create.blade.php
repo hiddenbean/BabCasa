@@ -29,7 +29,7 @@
         <div class="card-header">
             <h4 class="m-t-0 m-b-0"> <strong>Create new clients business</strong> </h4>
         </div>
-        <div class="card-body">
+        <div class="card-body">{{$errors}}
             <div class="row">
                 <div class="col-xl-12">
                 <form id="form-personal" action="{{ url('clients/businesses/store') }}" method="post" enctype="multipart/form-data">
