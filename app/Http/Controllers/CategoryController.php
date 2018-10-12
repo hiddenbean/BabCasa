@@ -62,9 +62,10 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validateRequest($request);
-        
-        $trashed_category_lang = CategoryLang::withTrashed()->where('reference', $request->reference)->first();
+       //$this->validateRequest($request);
+        $this->checkReference($request);
+        $trashed_category_lang = CategoryLang::onlyTrashed()->where('reference', $request->reference)->first();
+
         if($trashed_category_lang)
         {
             $category = $trashed_category_lang->category;
@@ -76,8 +77,8 @@ class CategoryController extends Controller
             $category = new Category();
         }
 
-        
         $request->category_id ? $category->category_id = $request->category_id : null ;
+        
         $category->save(); 
         
         if($request->path)
@@ -256,7 +257,7 @@ class CategoryController extends Controller
         {
             return redirect('categories')->with(
                             'success',
-                            'Category has been deleted successfuly !!'
+                            'Categories has been deleted successfuly !!'
              );
 
         }
@@ -269,5 +270,49 @@ class CategoryController extends Controller
         }
 
 
+    }
+
+    public function checkReference($request)
+    {
+        if($request->category_id)
+        {
+            $cats = Category::find($request->category_id)->subCategories;
+            if(isset($cats[0]))
+            {
+                $find = false;
+                foreach($cats as $cat)
+                {
+                    if($cat->categoryLang->first()->reference == $request->reference) $find=true;
+                }
+                if($find) 
+                {
+                     return  redirect('categories')
+                        ->with(
+                            'error',
+                            $request->reference.' has already been taken. id' 
+                        );
+                }
+            }
+        }
+        else 
+        {
+            $cats = Category::where('category_id',NULL)->get();
+            if(isset($cats[0]))
+            {
+                $find = false;
+                foreach($cats as $cat)
+                {
+                    if($cat->categoryLang->first()->reference == $request->reference) $find=true;
+                }
+                if($find) 
+                {
+                     return  redirect('categories')
+                        ->with(
+                            'error',
+                            $request->reference.' has already been taken. null' 
+                        );
+                }
+            }
+        }
     }
 }
