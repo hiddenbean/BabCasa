@@ -65,6 +65,15 @@ Route::domain('staff.babcasa.com')->group(function (){
         });
         Route::get('{Category}', 'CategoryController@show'); 
     });
+    //////////attributes
+    Route::prefix('attributes')->middleware('CanRead:attribute')->group(function() {
+        Route::get('/', 'AttributeController@index'); 
+        Route::group(['middleware' => ['CanWrite:attribute']], function(){
+            Route::get('create', 'AttributeController@create'); 
+            Route::get('{attribute}/edit', 'AttributeController@edit'); 
+        });
+        Route::get('{attribute}', 'AttributeController@show'); 
+    });
 
     //////////DETAILS
     Route::prefix('details')->middleware('CanRead:detail')->group(function() {
@@ -104,6 +113,24 @@ Route::domain('staff.babcasa.com')->group(function (){
                 Route::get('{reason}/edit', 'ReasonController@edit');
             }); 
               Route::get('{reason}', 'ReasonController@show'); 
+    });
+    //////////reasons
+    Route::prefix('reasons')->middleware('CanRead:reason')->group(function() {
+        Route::get('/', 'ReasonController@index'); 
+          Route::group(['middleware' => ['CanWrite:reason']], function(){
+                Route::get('create', 'ReasonController@create'); 
+                Route::get('{reason}/edit', 'ReasonController@edit');
+            }); 
+              Route::get('{reason}', 'ReasonController@show'); 
+    });
+    //////////subjects
+    Route::prefix('subjects')->middleware('CanRead:reason')->group(function() {
+        Route::get('/', 'SubjectController@index'); 
+          Route::group(['middleware' => ['CanWrite:reason']], function(){
+                Route::get('create', 'SubjectController@create'); 
+                Route::get('{subject}/edit', 'SubjectController@edit');
+            }); 
+              Route::get('{subject}', 'SubjectController@show'); 
     });
 
     //////////staff
@@ -303,6 +330,14 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::delete('{category}', 'CategoryController@destroy')->name('delete.category');
         Route::delete('delete/multiple', 'CategoryController@multiDestroy')->name('delete.categories');
     }); 
+    //////////attributes
+    Route::prefix('attributes')->middleware('CanWrite:attribute')->group(function() {
+
+        Route::post('/','AttributeController@store'); 
+        Route::post('{attribute}', 'AttributeController@update'); 
+        Route::delete('{attribute}', 'AttributeController@destroy')->name('delete.attribute');
+        Route::delete('delete/multiple', 'AttributeController@multiDestroy')->name('delete.attributes');
+    }); 
     //////////details
     Route::prefix('details')->middleware('CanWrite:detail')->group(function() {
 
@@ -335,6 +370,14 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::post('{reason}', 'ReasonController@update'); 
         Route::delete('{reason}', 'ReasonController@destroy')->name('delete.reason');
         Route::delete('delete/multiple', 'ReasonController@multiDestroy')->name('delete.reasons');
+    }); 
+    //////////subjects
+    Route::prefix('subjects')->middleware('CanWrite:reason')->group(function() {
+
+        Route::post('/', 'SubjectController@store'); 
+        Route::post('{subject}', 'SubjectController@update'); 
+        Route::delete('{subject}', 'SubjectController@destroy')->name('delete.subject');
+        Route::delete('delete/multiple', 'SubjectController@multiDestroy')->name('delete.subjects');
     }); 
 
     //////////STATUS

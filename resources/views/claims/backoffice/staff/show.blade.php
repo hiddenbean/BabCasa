@@ -53,7 +53,7 @@
                                     Sujet
                                 </div>
                                 <div class="col-md-8">
-                                    <strong> {{$claim->subject->title}}  </strong>
+                                    <strong> {{$claim->subject->subjectLang->first()->reference}}  </strong>
                                 </div>
                             </div>
                             <div class="row">

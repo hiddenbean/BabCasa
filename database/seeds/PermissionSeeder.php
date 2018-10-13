@@ -52,6 +52,12 @@ class PermissionSeeder extends Seeder
         ]);
         DB::table('permissions')->insert([
             'type' => 'dashboard',
+            ]);
+        DB::table('permissions')->insert([
+            'type' => 'subject',
+        ]);
+        DB::table('permissions')->insert([
+            'type' => 'attribute',
         ]);
 
 

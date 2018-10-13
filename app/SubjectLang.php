@@ -4,14 +4,16 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App;
+use App\Language;
 
-class AttributeLang extends Model
+class SubjectLang extends Model
 {
-    use SoftDeletes;  
+    use SoftDeletes;
 
-    public function attribute()
+    function subject()
     {
-        return $this->belongsTo('App\Attribute');
+        return $this->belingsTo('App\Subject');
     }
     public function lang()
     {

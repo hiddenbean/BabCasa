@@ -112,6 +112,26 @@
             </span>
         </li>
         @endif
+         @if (auth()->guard('staff')->user()->can('read','attribute'))
+        <li>
+            <a href="{{ url('/attributes') }}">
+                <span class="title">Attributes</span>
+            </a>
+            <span class="icon-thumbnail">
+                <i class="fa fa-globe"></i>
+            </span>
+        </li>
+        @endif
+         @if (auth()->guard('staff')->user()->can('read','subject'))
+        <li>
+            <a href="{{ url('/subjects') }}">
+                <span class="title">Subjects</span>
+            </a>
+            <span class="icon-thumbnail">
+                <i class="fa fa-globe"></i>
+            </span>
+        </li>
+        @endif
          @if (auth()->guard('staff')->user()->can('read','claim'))
         <li>
                 <a href="javascript:;">

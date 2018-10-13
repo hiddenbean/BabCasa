@@ -1,13 +1,27 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App;
 use App\Subject;
-use App\Partner;
+use App\SubjectLang;
+use App\Language;
 use Illuminate\Http\Request;
 use Auth;
 class SubjectController extends Controller
 {
+    /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  \Illuminate\Http\Request.
+     * @return void.
+     */
+    protected function validateRequest(Request $request)
+    {
+        $request->validate([
+            'reference' => 'required|unique:subject_langs,reference,null,id,deleted_at,null',
+            'description' => 'required|required|max:3000',
+        ]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,12 +29,10 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        // isset($request->partner) ? $partner = $request->partner : $partner = Auth::guard('partner')->user()->name;
-        // $data['partner'] = Partner::where('name', $partner)->firstOrFail();
-        $data['partner'] = Partner::all()->first();
+        
         $data['subjects'] =Subject::all();
 
-        return view('subjects.backoffice.partner.index',$data);
+        return view('subjects.backoffice.staff.index',$data);
     }
 
     /**
@@ -31,7 +43,7 @@ class SubjectController extends Controller
     public function create()
     {
         // pour afficher un formulair
-        return view('subjects.create');
+        return view('subjects.backoffice.staff.create');
     }
 
     /**
@@ -42,15 +54,35 @@ class SubjectController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'titre' => 'required|unique:subjects,title',
-        ]);
-        // ajouter un sujet
-        $subject = new Subject();
-        $subject->title = $request->input('titre');
-        $subject->description = $request->input('description');
+       
+        $this->validateRequest($request);
+
+        $subjectLangTrashed = SubjectLang::withTrashed()->where('reference', $request->reference)->first();
+
+        if($subjectLangTrashed)
+        {
+            $subject = $subjectLangTrashed->subject;
+            $subject->restore();
+            $subjectLang = $subjectLangTrashed;
+        }
+        else
+        {
+            $subject = new Subject();
+        }
+        
         $subject->save();
-        return redirect('sujets');
+        if(!isset($subjectLang))
+        {
+            $subjectLang = new SubjectLang();
+        }
+
+        $subjectLang->reference = $request->reference;
+        $subjectLang->description = $request->description;
+        $subjectLang->subject_id = $subject->id;
+        $subjectLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
+        $subjectLang->save();
+        
+        return redirect('subjects');
     }
 
     /**
@@ -62,13 +94,8 @@ class SubjectController extends Controller
     public function show($subject)
     {
         // Récupérer un sujet
-        isset($request->partner) ? $partner = $request->partner : $partner = Auth::guard('partner')->user()->name;
-        $partner = Partner::where('name', $partner)->firstOrFail();
-        $subject = Subject::where('title',$subject)->firstOrFail();
-        return view('subjects.show', [
-            'title' => $subject->title,
-            'description' => $subject->description , 'partner' => $partner
-        ]);
+        $data['subject'] = Subject::findOrFail($subject);
+        return view('subjects.backoffice.staff.show',$data);
     }
     
     /**
@@ -79,11 +106,8 @@ class SubjectController extends Controller
      */
     public function edit($subject)
     {
-        // Récupérer un sujet
-        isset($request->partner) ? $partner = $request->partner : $partner = Auth::guard('partner')->user()->name;
-        $partner = Partner::where('name', $partner)->firstOrFail();
-        $subject = Subject::where('title',$subject)->firstOrFail();
-        return view('subjects.edit',['subject' => $subject ,'partner'=>$partner]);
+        $data['subject'] = Subject::findOrFail($subject);
+        return view('subjects.backoffice.staff.edit',$data);
     }
 
     /**
@@ -95,20 +119,18 @@ class SubjectController extends Controller
      */
     public function update(Request $request,$subject)
     {
+        $this->validateRequest($request);
         // Récupérer un sujet
-        $subject = Subject::where('title',$subject)->firstOrFail();
-        // condition pour valider le champs de modification
-        if($request->input('titre') != $subject->title){
-            $request->validate([
-                'titre' => 'required|unique:subjects,title',
-            ]);
-        // modification de titre
-        $subject->title = $request->input('titre');
-        }
-        // modification de description
-        $subject->description = $request->input('description');
-        $subject->save();
-        return redirect('sujets/'.$subject->title);
+        $subject = Subject::findOrFail($subject);
+
+        $subjectLangId = $subject->subjectLang->first()->id;
+
+        $subjectLang = SubjectLang::find($subjectLangId);
+        $subjectLang->reference = $request->reference; 
+        $subjectLang->description = $request->description; 
+        $subjectLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
+        $subjectLang->save(); 
+        return redirect('subjects');
     }
 
     /**
@@ -120,10 +142,18 @@ class SubjectController extends Controller
     public function destroy($subject)
     {
         // Récupérer un sujet
-        $subject =Subject::where('title',$subject)->firstOrFail();
-        // La suprission des sujets
+        $subject =Subject::findOrFail($subject);
+        if(isset($subject->claims[0]))
+        {
+            return  redirect()
+            ->back()
+            ->with(
+                'error',
+                'sublect can\'t be deleted it has claim(s) !!' 
+            );
+        }
         $subject->delete();
-        return redirect('sujets');
+        return redirect('subjects');
 
     }
 }

@@ -16,7 +16,7 @@
                         <a href="{{ url('/') }}">DASHBOARD</a>
                     </li>
                     <li class="breadcrumb-item active">
-                        claims
+                        subjects
                     </li>
                 </ol>
             </div>
@@ -26,12 +26,24 @@
     <div class="container-fluid container-fixed-lg bg-white">
         <div class="card card-transparent">
             <div class="card-header">
-                <div class="card-title">List of Claims</div>
+               @if (\Session::has('error'))
+                    <div class="alert alert-danger">
+                        {!! \Session::get('error') !!}
+                    </div>
+                @endif
+                @if (\Session::has('success'))
+                    <div class="alert alert-success">
+                        {!! \Session::get('success') !!}
+                    </div>
+                @endif
+            <div class="card-title">List of Subjects </div>
                 <div class="pull-right">
                     <div class="col-xs-12">
                         <div class="row">
                             <div class="col-md-6 text-right no-padding">
-                            <a href="{{url('support/create')}}" class="btn btn-primary btn-cons">New claim</a>
+                            @if (auth()->guard('staff')->user()->can('write','subject'))
+                            <a href="{{url('subjects/create')}}" class="btn btn-primary btn-cons">New Subject</a>
+                            @endif
                             </div>
                             <div class="col-md-6">
                                 <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
@@ -44,25 +56,31 @@
             </div>
             <div class="card-body">
                 <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
-                        <thead>
-                            <th style="width:20%" class="text-center">Titre</th>
-                            <th style="width:10%" class="text-center">Sujet</th>
-                            <th style="width:10%" class="text-center">Created at</th>
-                            <th style="width:10%" class="text-center">Nombre messages</th>
-                            <th style="width:10%" class="text-center">Etat</th>                
-                        </thead>
-                
-                        <tbody>   
-                        @foreach($claims->sortBy('created_at',false) as $claim)
-                            <tr class="order-progress"  >
-                                <td class="v-align-middle"><a href="{{ url('support/'.$claim->id) }}"><strong> {{ $claim->title}}  </strong></a></td>
-                                <td class="v-align-middle text-center"><strong>  {{$claim->subject->subjectLang->first()->reference}}   </strong></td>                
-                                <td class="v-align-middle text-center">{{date('d-m-Y', strtotime($claim->created_at))}}</td>              
-                                <td class="v-align-middle text-center"> {{$claim->claimMessages->count()}} </td> 
-                                <td class="v-align-middle text-center"><strong> @if($claim->status) Open @else Close @endif </strong></td> 
-                            </tr> 
-                        @endforeach    
-                        </tbody>
+                    <thead>
+                        <th style="width:2%" class="text-center">Id</th>                    
+                        <th style="width:30%" class="text-center">reference</th>                    
+                        <th style="width:30%" class="text-center">description</th>                    
+                         @if (auth()->guard('staff')->user()->can('write','subject'))               
+                        <th style="width:10%" class="text-center"></th>           
+                        @endif                    
+                    </thead>
+            
+                    <tbody>  
+                        @foreach($subjects as $subject)
+                        <tr class="order-progress"  >
+                            <td class="v-align-middle">{{$subject->id}}</a></td>            
+                            <td class="v-align-middle">  {{$subject->subjectLang->first()->reference}} </td>            
+                            <td class="v-align-middle">  {{$subject->subjectLang->first()->description}} </td>            
+                             @if (auth()->guard('staff')->user()->can('write','subject'))               
+                            <td class="v-align-middle text-center">
+                                    <a href="{{url('subjects/'.$subject->id.'/edit')}}" class="btn btn-transparent"><i class="fa fa-pencil"></i></a>
+                                    <a href="{{route('delete.subject',['subject'=>$subject->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></a>
+                           </td> 
+                        @endif           
+                            
+                        </tr> 
+                        @endforeach
+                    </tbody>
                 </table>
             </div>
         </div> 

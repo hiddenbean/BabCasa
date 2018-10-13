@@ -218,6 +218,7 @@ class CategoryController extends Controller
                                 'category can\'t be deleted it has a subcategory with products/bundles/markets !!'
                             );
             }
+            $sub_category->delete();
         }
         $category->delete();
         return redirect('categories')->with(
