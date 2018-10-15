@@ -156,6 +156,11 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::group(['middleware' => ['CanWrite:partner']], function(){
             Route::get('create', 'PartnerController@create'); 
             Route::get('{partner}/edit', 'PartnerController@edit');
+            Route::get('{partner}/orders', 'PartnerController@orders');
+            Route::get('{partner}/discounts', 'PartnerController@discounts');
+            Route::get('{partner}/products', 'PartnerController@products');
+            Route::get('{partner}/bills', 'PartnerController@bills');
+            Route::get('{partner}/statuses', 'PartnerController@statuses');
         }); 
         Route::get('{partner}', 'PartnerController@show');
         Route::get('{partner}/reset/password', 'PartnerController@resetPassword');

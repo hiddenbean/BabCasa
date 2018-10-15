@@ -149,7 +149,7 @@ class SubjectController extends Controller
             ->back()
             ->with(
                 'error',
-                'sublect can\'t be deleted it has claim(s) !!' 
+                'subject can\'t be deleted it has claim(s) !!' 
             );
         }
         $subject->delete();

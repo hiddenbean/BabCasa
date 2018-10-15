@@ -34,4 +34,8 @@ class Discount extends Model
     {
         return $this->morphOne('App\Picture', 'pictureable');
     }
+    public function partner()
+    {
+        return $this->belongsTo('App\Partner');
+    }
 }
