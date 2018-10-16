@@ -138,9 +138,21 @@ class OrderController extends Controller
      * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function show(Order $order)
+    public function show($order)
     {
-        //
+        $data['order'] = Order::find($order);
+        $type = $this->userType();
+         switch ($type) {
+             case 'partner':
+                 $view = 'orders.backoffice.partner.show';
+                 break;
+
+             case 'staff':
+                $view = 'orders.backoffice.staff.show';
+                 break;
+         }
+         return $data;
+         return view($view,$data);
     }
 
     /**
