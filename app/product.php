@@ -36,7 +36,7 @@ class Product extends Model
 
         public function discounts()
         {
-                return $this->belongsToMany('App\Discount');
+                return $this->belongsToMany('App\Discount')->withPivot('quantity');
         }
 
         public function currency()

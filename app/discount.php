@@ -15,7 +15,7 @@ class Discount extends Model
     // Relationship with product table
     public function products()
     {
-        return $this->belongsToMany('App/Product');
+        return $this->belongsToMany('App/Product')->withPivot('quantity');
     }
 
     // Relationship with bundle table

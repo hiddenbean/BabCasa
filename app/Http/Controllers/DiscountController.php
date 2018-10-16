@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Partner;
 use App\Discount;
 use App\Language;
@@ -17,7 +18,21 @@ class DiscountController extends Controller
      */
     public function index()
     {
-        //
+          
+        $type = $this->userType();
+         switch ($type) {
+             case 'partner':
+                 $data['discounts'] =Auth::guard('partner')->user()->discounts;
+                 $view = 'orders.backoffice.partner.all';
+                 break;
+
+             case 'staff':
+                $data['discounts'] = Discount::all();
+                $view = 'orders.backoffice.staff.index';
+                 break;
+         }
+         return $data;
+         return view($view,$data);
     }
 
     /**
@@ -47,35 +62,32 @@ class DiscountController extends Controller
         $size = count($request->product);
         $request->validate([
             'redaction_percentage' => 'required|numeric|digits_between:1,3|max:100',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date',
+            'start_at' => 'required|date',
+            'end_at' => 'required|date|after:start_at',
             'reference' =>'required|unique:discount_langs,reference',
             'description' => 'required',
         ]);return dd($request);
 
         isset($request->partner) ? $partner = $request->partner : $partner = auth()->guard('partner')->user()->name;
         $partner = Partner::where('name', $partner)->firstOrFail();
-
-        // $lang = Language::where('symbole', app()->getLocale())->first();
         
-        $discount = new Discount;
+        $discount = new Discount();
         $discount->redaction_percentage = $request->redaction_percentage;
-        $discount->start_at = $request->start_date;
-        $discount->end_at = $request->end_date;
+        $discount->start_at = $request->start_at;
+        $discount->end_at = $request->end_at;
         $discount->partner_id = $partner->id;
-        // $discount->save();
+         $discount->save();
 
-        $discount_lang = new DiscountLang;
+        $discount_lang = new DiscountLang();
         $discount_lang->reference = $request->reference;
         $discount_lang->description = $request->description;
         $discount_lang->discount_id = $discount->id;
         $discount_lang->lang_id = 1;
-        // $discount_lang->save();
+        $discount_lang->save();
 
         foreach($request->products as $key => $product_id)
-        {echo "1";
-            // $product = Good::where('name',$product_id)->firstOrFail();
-            // $discount->product()->attache($product->id, ['quantity' => $request->input('quantity')[$key]]);
+        {
+            $discount->products()->attache($product_id, ['quantity' => $request->input('quantity')[$key]]);
         }
         // return redirect('discounts');
     }
@@ -88,9 +100,21 @@ class DiscountController extends Controller
      */
     public function show($discount)
     {
-        isset($request->partner) ? $partner = $request->partner : $partner = Auth::guard('partner')->user()->name;
-        $partner = Partner::where('name',$partner)->firstOrFail();
-        $discount = DiscountLang::withTrashed()->where('reference', $discount)->firstOrFail()->discount;
+        $data['discount'] = DiscountLang::where('reference', $discount)->firstOrFail()->discount;
+        $type = $this->userType();
+         switch ($type) {
+             case 'partner':
+                 $view = 'discount.backoffice.partner.show';
+                 break;
+
+             case 'staff':
+                $view = 'discount.backoffice.staff.show';
+                 break;
+         }
+         return $data;
+         return view($view,$data);
+         
+       
         return $discount;
         // return view('discounts.backoffice.show',['discount'=> $discount,'partner'=>$partner]);
     }
@@ -101,9 +125,21 @@ class DiscountController extends Controller
      * @param  \App\discount  $discount
      * @return \Illuminate\Http\Response
      */
-    public function edit(discount $discount)
+    public function edit($discount)
     {
-        //
+        $data['discount'] = DiscountLang::where('reference', $discount)->firstOrFail()->discount;
+        $type = $this->userType();
+         switch ($type) {
+             case 'partner':
+                 $view = 'discount.backoffice.partner.edit';
+                 break;
+
+             case 'staff':
+                $view = 'discount.backoffice.staff.edit';
+                 break;
+         }
+         return $data;
+         return view($view,$data);
     }
 
     /**
@@ -113,10 +149,59 @@ class DiscountController extends Controller
      * @param  \App\discount  $discount
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, discount $discount)
+    public function update(Request $request, $discount)
     {
-        //
+        $request->validate([
+            'redaction_percentage' => 'required|numeric|digits_between:1,3|max:100',
+            'start_at' => 'required|date',
+            'end_at' => 'required|date|after:start_at',
+            'reference' =>'required|unique:discount_langs,reference',
+            'description' => 'required',
+            ]);return dd($request);
+            
+        isset($request->partner) ? $partner = $request->partner : $partner = auth()->guard('partner')->user()->name;
+        $partner = Partner::where('name', $partner)->firstOrFail();
+
+        $discount = DiscountLang::where('reference', $discount)->firstOrFail()->discount;
+        $discount->redaction_percentage = $request->redaction_percentage;
+        $discount->start_at = $request->start_at;
+        $discount->end_at = $request->end_at;
+        $discount->save();
+
+        $discount_lang = $discount->categoryLang->first();
+        $discount_lang->reference = $request->reference;
+        $discount_lang->description = $request->description;
+        $discount_lang->lang_id = 1;
+        $discount_lang->save();
+
+        $discount->products()->detach();
+
+        foreach($request->products as $key => $product_id)
+        {
+            $discount->products()->attache($product_id, ['quantity' => $request->input('quantity')[$key]]);
+        }
+        // return redirect('discounts');
+    
     }
+    public function userType()
+    {
+        $profiles= [ 'partner', 'staff'];
+        for($i=0; $i<2; $i++)
+        {
+            if(auth()->guard($profiles[$i])->check())
+            {
+                break;
+            }
+        }
+        return $profiles[$i];
+    }
+    public function current()
+    {
+        $data['discounts'] = Discount::where('start_at','<',date('Y-m-d'))->where('end_at','>',date('Y-m-d'))->get();
+        return $data;
+    }
+    
+
 
     /**
      * Remove the specified resource from storage.
@@ -124,7 +209,25 @@ class DiscountController extends Controller
      * @param  \App\discount  $discount
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy($discount)
+    {
+        $discount = DiscountLang::where('reference', $discount)->firstOrFail()->discount;
+        if($discount->start_at < date('Y-m-d') && $discount->end_at > date('Y-m-d'))
+        {
+            return 'discount cant delete because it s current';
+        }
+        $discount->products()->detach();
+        $discount->delete();
+        
+        // return redirect('disocunts/upcoming');
+    }
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\discount  $discount
+     * @return \Illuminate\Http\Response
+     */
+    public function muliDestroy(Request $request)
     {
         foreach($request->input('discounts') as $discount_id)
         {

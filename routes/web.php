@@ -236,9 +236,14 @@ Route::prefix('orders')->group(function() {
     Route::get('in-progress', 'OrderController@inProgress'); 
     Route::get('complated', 'OrderController@complated'); 
     Route::get('canceled', 'OrderController@canceled'); 
-    Route::get('create', 'ProductController@create'); 
-    Route::get('{product}/edit', 'ProductController@edit');
-    Route::get('{product}', 'ProductController@show'); 
+    Route::get('{orders}', 'OrderController@show'); 
+});
+// discounts ROUTES
+Route::prefix('discounts')->group(function() {
+    Route::get('/', 'DiscountController@index'); 
+    Route::get('create', 'DiscountController@create'); 
+    Route::get('{discount}/edit', 'DiscountController@edit');
+    Route::get('{discount}', 'DiscountController@show'); 
 });
 
     //client finale gestion support routes start 
