@@ -1,7 +1,12 @@
-@extends('orders.backoffice.partner.app')
+@extends('layouts.backoffice.partner.app')
 
-@section('breadcrumb')
-    <!-- breadcrumb start -->
+@section('css_before')
+<link href="{{ asset('plugins/bootstrap-datepicker/css/datepicker3.css') }}" rel="stylesheet" type="text/css" media="screen">
+<link href="{{ asset('plugins/jquery-dynatree/skin/ui.dynatree.css') }}" rel="stylesheet" type="text/css" media="screen" /> 
+      <link href="{{ asset('plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" media="screen" />
+@stop
+@section('content')
+ <!-- breadcrumb start -->
     <div class="container-fluid container-fixed-lg ">
         <div class="row">
             <div class="col-md-12">
@@ -17,15 +22,7 @@
         </div>
     </div>
     <!-- breadcrumb end -->
-@endsection
-
-@section('table')
 <div class="card card-transparent">
-    <div class="card-header">
-        <div class="card-title">Orders</div>
-        <div class="clearfix"></div>
-        
-    </div>
     <div class="card-block">
         <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
             <thead>

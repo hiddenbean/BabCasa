@@ -24,7 +24,8 @@ class PartnerController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:partner,staff')->only('show');
+        $this->middleware('auth:partner')->only('dashboard','');
+        $this->middleware('auth:staff')->except('dashboard');
     }
     
     protected function validateRequest(Request $request)

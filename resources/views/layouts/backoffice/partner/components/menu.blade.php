@@ -114,9 +114,17 @@
             </span>
             <ul class="sub-menu">
                 <li>
-                    <a href="{{ url('/claims') }}">My tickets</a>
+                    <a href="{{ url('/support') }}">All</a>
                     <span class="icon-thumbnail">MT</span>
-                </li>  
+                </li> 
+                 <li>
+                        <a href="{{ url('/support/open') }}">Open</a>
+                        <span class="icon-thumbnail">Op</span>
+                    </li> 
+                    <li>
+                        <a href="{{ url('/support/closed') }}">close</a>
+                        <span class="icon-thumbnail">Cl</span>
+                    </li>  
             </ul>
         </li>
         <li>

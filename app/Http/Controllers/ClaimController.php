@@ -38,10 +38,22 @@ class ClaimController extends Controller
      */
     public function index()
     {
-        isset($request->partner) ? $partner = $request->partner : $partner = Auth::guard('partner')->user()->name;
-        $data['partner'] = Partner::where('name',$partner)->firstOrFail();
-        $data['claims']=$data['partner']->claims;
-        return view('claims.backoffice.partner.index',$data);  
+         
+        $type = $this->userType();
+         switch ($type) {
+             case 'partner':
+                 $data['claims'] = Auth::guard('partner')->user()->claims;
+                 $view = 'claims.backoffice.partner.index';
+                 break;
+
+             case 'staff':
+                $data['orders'] = Claim::all();
+                $view = 'orders.backoffice.staff.index';
+                 break;
+         }
+         return view($view,$data);
+        
+
     }
     /**
      * Display a list of all claims.
@@ -63,8 +75,19 @@ class ClaimController extends Controller
     public function open()
     {
         
-        $data['claims']=Claim::where('status',true)->get();
-        return view('claims.backoffice.staff.index',$data);  
+        $type = $this->userType();
+        switch ($type) {
+            case 'partner':
+                $data['claims'] = Auth::guard('partner')->user()->claims->where('status',true);
+                $view = 'claims.backoffice.partner.index';
+                break;
+
+            case 'staff':
+               $data['orders'] = Claim::where('status',true);
+               $view = 'claims.backoffice.staff.index';
+                break;
+        }
+        return view($view,$data);
     }
 
     /**
@@ -73,10 +96,20 @@ class ClaimController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function closed()
-    {
-        
-        $data['claims']=Claim::where('status',false)->get();
-        return view('claims.backoffice.staff.index',$data);  
+    {       
+        $type = $this->userType();
+        switch ($type) {
+            case 'partner':
+                $data['claims'] = Auth::guard('partner')->user()->claims->where('status',false);
+                $view = 'claims.backoffice.partner.index';
+                break;
+
+            case 'staff':
+               $data['orders'] = Claim::where('status',false);
+               $view = 'claims.backoffice.staff.index';
+                break;
+        }
+        return view($view,$data);
     }
     /**
      * Display a list of related claims.
@@ -97,11 +130,14 @@ class ClaimController extends Controller
      */
     public function create()
     {
-        //isset($request->partner) ? $partner = $request->partner : $partner = Auth::guard('partner')->user()->name;
-        //$data['partner'] = Partner::where('name',$partner)->firstOrFail();
         $data['subjects']=Subject::all();
-        //$data['Subject']=Subject::where('name',$subject)->firstOrFail();
-        return view('claims.backoffice.staff.create',$data); 
+
+        $type = $this->userType();
+        switch ($type) {
+            case 'partner': $view = 'claims.backoffice.partner.create';break;
+            case 'staff':$view = 'claims.backoffice.staff.create';break;
+        }
+        return view($view,$data);
     }
 
     /**
@@ -142,7 +178,6 @@ class ClaimController extends Controller
          
     }
 
-  
 
     public function userType()
     {
@@ -166,11 +201,13 @@ class ClaimController extends Controller
      */
     public function show($id)
     {
-        
-        $claim=Claim::where('id', $id)->first();
-        return  view('claims.backoffice.staff.show', [
-            'claim' => $claim,
-        ]);
+        $data['claim']=Claim::where('id', $id)->first();
+        $type = $this->userType();
+        switch ($type) {
+            case 'partner': $view = 'claims.backoffice.partner.show';break;
+            case 'staff':$view = 'claims.backoffice.staff.show';break;
+        }
+        return view($view,$data);
     }
     /**
      * Display the claim along with it messages.

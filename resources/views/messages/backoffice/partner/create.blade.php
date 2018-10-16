@@ -15,7 +15,10 @@
                     <a href="{{ url('/') }}">DASHBOARD</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a href="{{ url('/claims') }}">Claims</a>
+                    <a href="{{ url('/support') }}">Claims</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="{{ url('/support/'.$claim->id) }}">{{$claim->title}}</a>
                 </li>
                 <li class="breadcrumb-item active">
                     Create
@@ -29,42 +32,25 @@
 <div class="container-fluid container-fixed-lg">
     <div class="card ">
         <div class="card-header">
-            <h4 class="m-t-0 m-b-0"> <strong>Create new Claim</strong> </h4>
+            <h4 class="m-t-0 m-b-0"> <strong>Create new Message For {{$claim->title}}</strong> </h4>
+             <label class='error' >
+             @if($errors->count()>0)
+                You have {{$errors->count()}} ERROR(S) !!
+            @endif
+             </label>
         </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-xl-12">
-                    <form id="form-personal">
                         <div class="card card-transparent">
                            
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-10"> 
-                                        <form action="" method="POST"
+                                        <form action="{{url('support/message/'.$claim->id)}}" method="POST"
                                             id="form-work" class="form-horizontal" role="form" autocomplete="on"
                                             novalidate="novalidate">
                                             {{ csrf_field() }}
-
-                                            <div class="form-group row">
-                                                <label for="object" class="col-md-3 control-label">Object</label>
-                                                <div class="col-md-9">
-                                                    <input type="text" name="title" value="" class="form-control"
-                                                        id="name" placeholder="" required=""
-                                                        aria-required="true" /> 
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row">
-                                                <label for="subject" class="col-md-3 control-label">Subject</label>
-                                                <div class="col-md-9"> 
-                                                    <div class="form-group form-group-default"> 
-                                                            <label class="">Subject</label>
-                                                            <select class="form-control attr" name="attr" >
-                                                                <option value="">Subject</option> 
-                                                            </select>
-                                                        </div>
-                                                </div>
-                                            </div>
 
                                             <div class="form-group row">
                                                 <label for="summernote" class="col-md-12 control-label">Message</label>
@@ -75,13 +61,15 @@
                                                         <div id="summernote" class="form-control"></div>
                                                         <input type="hidden" value="" id="message" name="message">
                                                     </div>
+                                                        <label class='error' for='message' id="error">
+                                                        </label> 
                                                     <!-- content end -->
                                                 </div>
                                             </div>
                                             <br>
                                             <div class="row"> 
                                                 <div class="col-md-9">
-                                                    <button class="btn btn-primary" type="submit" id="onClick">Save</button> 
+                                                    <button class="btn btn-primary" type="button" id="onClick">Save</button> 
                                                 </div>
                                             </div>
                                         </form>
@@ -89,7 +77,6 @@
                                 </div>
                             </div>
                         </div>
-                    </form>
                 </div>
             </div>
         </div>
@@ -109,9 +96,16 @@
 
          $('#summernote').summernote();
             $('#onClick').on('click', function(){ 
-                ($('#message').val($('#summernote').summernote().code()));
-    
-                this.form.submit();
+                 var chaine = ''+$('#summernote').summernote().code().replace(/<\/?[^>]+(>|$)/g, "");
+                if(chaine=='')
+                {
+                    $('#error').html('the message field is required .');
+                } else
+                {
+                    ($('#message').val($('#summernote').summernote().code()));
+                    this.form.submit();
+
+                }
             });
             $('#onReste').on('click', function(){ 
                 $('#summernote').summernote().code('');  

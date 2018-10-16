@@ -53,6 +53,10 @@ class Partner extends Authenticatable
     {
         return $this->hasMany('App\ClaimMessage');
     }
+    public function products()
+    {
+        return $this->hasMany('App\Product');
+    }
 
     public function orders()
     {

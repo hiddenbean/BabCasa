@@ -14,6 +14,11 @@ class Product extends Model
                 return $this->belongsTo('App/Discount');
         }
         
+        public function partner()
+        {
+                return $this->belongsTo('App/Partner');
+        }
+        
         public function productLangs()
         {
                 return $this->hasMany('App\ProductLang');

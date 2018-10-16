@@ -221,17 +221,41 @@ Route::domain('partner.babcasa.com')->group(function (){
     Route::get('settings', 'PartnerController@edit');
     Route::get('discount/create', function(){return view('discounts.backoffice.create');});
 
+// PRODUCTS ROUTES
+Route::prefix('products')->group(function() {
+    Route::get('/', 'ProductController@index'); 
+    Route::get('create', 'ProductController@create'); 
+    Route::get('{product}/edit', 'ProductController@edit');
+    Route::get('{product}', 'ProductController@show'); 
+});
+
+// ORDERS ROUTES
+Route::prefix('orders')->group(function() {
+    Route::get('/', 'OrderController@index'); 
+    Route::get('waiting', 'OrderController@waiting'); 
+    Route::get('in-progress', 'OrderController@inProgress'); 
+    Route::get('complated', 'OrderController@complated'); 
+    Route::get('canceled', 'OrderController@canceled'); 
+    Route::get('create', 'ProductController@create'); 
+    Route::get('{product}/edit', 'ProductController@edit');
+    Route::get('{product}', 'ProductController@show'); 
+});
+
     //client finale gestion support routes start 
     Route::prefix('support')->group(function() {
-        Route::prefix('ticket')->group(function() {
-            Route::get('/','ClaimController@index');
-            Route::get('{id}','ClaimController@show');
+        Route::get('/','ClaimController@index');
+        Route::get('open','ClaimController@open');
+        Route::get('closed','ClaimController@closed');
+        Route::get('create','ClaimController@create');
+        Route::get('{id}','ClaimController@show');
+        Route::prefix('message')->group(function() {
+            Route::get('{claim}/create','ClaimMessageController@create');
         });
+       
 
-        Route::get('/','SubjectController@index');
+        // Route::get('/','SubjectController@index');
         Route::prefix('{subject}')->group(function() {
             Route::prefix('ticket')->group(function() {
-                Route::get('create','ClaimController@create');
             });
         });
     });
@@ -275,22 +299,22 @@ Route::domain('partner.babcasa.com')->group(function (){
         Route::post('settings/update', 'PartnerController@update');
     });
     
+    Route::prefix('products')->group(function() {
+
+    });
 
     //Discount routes start
     Route::post('discount/create', 'DiscountController@store');
     //Discount routes end
 
-    //client finale gestion support routes start 
+    //////////CLAIMs
     Route::prefix('support')->group(function() {
-        Route::prefix('{subject}')->group(function() {
-            Route::prefix('ticket')->group(function() {
-                Route::post('','ClaimController@store');
-            });
-        });
-        Route::prefix('ticket')->group(function() {
-            Route::post('{id}/close','ClaimController@changeStatus');
+        Route::post('','ClaimController@store');
+        Route::prefix('message')->group(function() {
+            Route::post('{claim}','ClaimMessageController@store');
         });
     });
+
 
 });
 

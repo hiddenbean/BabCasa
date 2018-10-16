@@ -113,7 +113,7 @@
                     </div>
                 </div>
                 <div class="col-md-10">
-                    {{$message->message}}
+                    {!!$message->message!!}
                 </div>
             </div>
 

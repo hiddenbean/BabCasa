@@ -76,10 +76,10 @@
 @endsection
 
 @section('script')
-    <script src="{{ asset('plugins/select2/js/select2.js') }}" type="text/javascript"></script>
     <script src="{{ asset('plugins/switchery/js/switchery.min.js') }}" type="text/javascript"></script>
     <script type="text/javascript" src="{{ asset('plugins/classie/classie.js') }}"></script>
     <script src="{{ asset('plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('plugins/select2/js/select2.js') }}" type="text/javascript"></script>
     <script type="text/javascript" src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
     <script>
         $(document).ready(function () {

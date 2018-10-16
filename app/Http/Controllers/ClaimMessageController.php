@@ -26,7 +26,12 @@ class ClaimMessageController extends Controller
     public function create($claim)
     {
         $data['claim']= Claim::find($claim);
-        return view('messages.backoffice.staff.create',$data); 
+        $type = $this->userType();
+        switch ($type) {
+            case 'partner': $view = 'messages.backoffice.partner.create';break;
+            case 'staff':$view = 'messages.backoffice.staff.create';break;
+        }
+        return view($view,$data);
     }
 
 
