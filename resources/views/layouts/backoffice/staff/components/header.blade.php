@@ -100,12 +100,13 @@
         <span class="thumbnail-wrapper d32 circular inline">
           <img src="{{ Storage::url(Auth::guard('staff')->user()->picture->path) }}" alt="" data-src="{{ Storage::url( Auth::guard('staff')->user()->picture->path) }}"
             data-src-retina="{{ Storage::url( Auth::guard('staff')->user()->picture->path) }}" width="32" height="32">
+            <span><i class="fa fa-lg fa-user text-secondary"></i></span>
         </span>
       </button>
       <div class="dropdown-menu dropdown-menu-right profile-dropdown" role="menu">
         <a href="{{ url('/profile')}}" class="dropdown-item">
           <i class="pg-settings_small"></i> Settings</a>  
-        <a href="{{ url('/logout')}}" class="clearfix bg-master-lighter dropdown-item">
+        <a href="{{ url('/logout')}}" class="clearfix text-danger dropdown-item">
           <span class="pull-left">Logout</span>
           <span class="pull-right">
             <i class="pg-power"></i> 
