@@ -68,7 +68,9 @@ class StaffLoginController extends Controller
         {
             return redirect()->intended('/');
         }
-        return redirect('/');
+        return redirect()->back()->withInput()->withErrors([
+            "faild" => "Your username or password is incorrect",
+        ]);
     }
 
     /**

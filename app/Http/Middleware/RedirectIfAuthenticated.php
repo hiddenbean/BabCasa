@@ -20,7 +20,18 @@ class RedirectIfAuthenticated
         if (Auth::guard($guard)->check()) {
             switch($guard)
             {
-                case 'partner' : $partner=auth()->guard($guard)->user();return redirect('/'); break;
+                case 'partner' : 
+                    auth()
+                        ->guard($guard)
+                        ->user();
+                    return redirect('/'); 
+                    break;
+                case 'staff' : 
+                    auth()
+                        ->guard($guard)
+                        ->user();
+                    return redirect('/');
+                    break;
             }
         }
 

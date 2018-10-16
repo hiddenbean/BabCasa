@@ -16,8 +16,11 @@
                         <li class="breadcrumb-item">
                             <a href="{{ url('/') }}">DASHBOARD</a>
                         </li>
+                        <li class="breadcrumb-item">
+                            <a href="{{ url('/categories') }}">Categories</a>
+                        </li>
                         <li class="breadcrumb-item active">
-                            categories
+                            Trash
                         </li>
                     </ol>
                 </div>
@@ -29,7 +32,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-title">
-                    Categories list 
+                    Removed Categories list 
                     <a 
                         href="javascript:;" 
                         data-toggle="tooltip" 
@@ -45,15 +48,7 @@
                 <div class="pull-right">
                     <div class="col-xs-12">
                         <div class="row">
-                            <div class="col-md-3 text-right no-padding">
-                                    @if (auth()->guard('staff')->user()->can('write','category'))
-                                    <a href="{{url('categories/create')}}" class="btn btn-transparent"><i class="fas fa-plus fa-sm"></i> <strong>Add</strong></a>
-                                    @endif
-                                    </div>
-                            <div class="col-md-3 text-right no-padding">
-                                <a href="#" class="btn btn-transparent-danger"><i class="fas fa-trash-alt fa-sm"></i> <strong>Trash</strong></a>
-                            </div>
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
                             </div>
                         </div>
@@ -65,8 +60,7 @@
             <div class="card-body">
                 <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
                     <thead>
-                        <th class="text-center" style="width:35px"><a href="#"><i class="fas fa-trash-alt"></i></a></th>
-                        <th style="width:62px"></th>
+                        <th class="text-center" style="width:35px"><a href="#"><i class="fas fa-undo-alt fa-lg"></i></a></th>
                         <th style="width:62px"></th>
                         <th style="width:80px">Picture</th>
                         <th style="width:150px">Category name</th>
@@ -74,6 +68,7 @@
                         <th style="width:100px">Parent</th>                
                         <th style="width:80px">Articles</th>             
                         <th style="width:80px">Languages</th>             
+                        <th style="width:150px">Deleted at</th>             
                     </thead>
             
                     <tbody> 
@@ -85,10 +80,8 @@
                                 </div>
                             </td>
                             <td class="v-align-middle text-center p-l-5 p-r-5">
-                                <a href="{{url('categories/create')}}"><i class="fas fa-pen fa-sm"></i> <strong>Edit</strong></a>
-                                </td> 
-                            <td class="v-align-middle text-center p-l-5 p-r-5">
-                                <a href="#" class="text-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a></td>
+                                <a href="{{url('categories/create')}}"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></a>
+                            </td> 
                             <td class="v-align-middle picture">
                                 <a href="#"><img src="https://ae01.alicdn.com/kf/HTB1nN1pXcrrK1Rjy1zeq6xalFXaS.jpg_220x220.jpg" alt="cat1"></a>
                             </td>
@@ -100,55 +93,8 @@
                                 <a href="#" class="btn btn-tag">En</a>
                                 <a href="#" class="btn btn-tag">Fr</a>
                             </td>
-                        </tr>
-                        <tr role="row" id="1" data-parent="0">
-                            <td class="v-align-middle p-l-5 p-r-5 text-center">
-                                <div class="checkbox no-padding no-margin text-center">
-                                    <input type="checkbox" id="checkbox1">
-                                    <label for="checkbox1" class="no-padding no-margin"></label>
-                                </div>
-                            </td>
-                            <td class="v-align-middle text-center p-l-5 p-r-5">
-                                <a href="{{url('categories/create')}}"><i class="fas fa-pen fa-sm"></i> <strong>Edit</strong></a>
-                                </td> 
-                            <td class="v-align-middle text-center p-l-5 p-r-5">
-                                <a href="#" class="text-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a></td>
-                            <td class="v-align-middle picture">
-                                <a href="#"><img src="https://ae01.alicdn.com/kf/HTB1VGbHiZuYBuNkSmRy763A3pXaX.png" alt="cat1-1"></a>
-                            </td>
-                            <td class="v-align-middle "><a href="#"><strong>— Sub cat</strong></a></td>
-                            <td class="v-align-middle ">Desc subcat</td>
-                            <td class="v-align-middle"><a href="#"><strong>Cat</strong></a></td>
-                            <td class="v-align-middle">5</td>
-                            <td class="v-align-middle">
-                                <a href="#" class="btn btn-tag">En</a>
-                                <a href="#" class="btn btn-tag">Fr</a>
-                            </td>
-                        </tr>
-                        <tr role="row" id="2">
-                            <td class="v-align-middle p-l-5 p-r-5 text-center">
-                                <div class="checkbox no-padding no-margin text-center">
-                                    <input type="checkbox" id="checkbox3">
-                                    <label for="checkbox3" class="no-padding no-margin"></label>
-                                </div>
-                            </td>
-                            <td class="v-align-middle text-center p-l-5 p-r-5">
-                                <a href="{{url('categories/create')}}"><i class="fas fa-pen fa-sm"></i> <strong>Edit</strong></a>
-                                </td> 
-                            <td class="v-align-middle text-center p-l-5 p-r-5">
-                                <a href="#" class="text-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a></td>
-                            <td class="v-align-middle picture">
-                                <a href="#"><img src="https://ae01.alicdn.com/kf/HTB1VGbHiZuYBuNkSmRy763A3pXaX.png" alt="cat1-1"></a>
-                            </td>
-                            <td class="v-align-middle "><a href="#"><strong>— — Sub sub cat</strong></a></td>
-                            <td class="v-align-middle ">Desc subsubcat</td>
-                            <td class="v-align-middle"><a href="#"><strong>Sub cat</strong></a></td>
-                            <td class="v-align-middle">1</td>
-                            <td class="v-align-middle">
-                                <a href="#" class="btn btn-tag">En</a>
-                                <a href="#" class="btn btn-tag">Fr</a>
-                            </td>
-                        </tr>                                         
+                            <td class="v-align-middle">10/15/2018 15:23:12</td>
+                        </tr>                                        
                     </tbody>
                 </table>
             </div>
@@ -166,7 +112,7 @@
         <script type="text/javascript" src="{{asset('plugins/datatables-responsive/js/lodash.min.js')}}"></script>
 
         <script>
-        $(document).ready(function () {
+    $(document).ready(function () {
             
 
             var table = $('#tableWithSearch');
@@ -176,12 +122,10 @@
                 "destroy": true,  
                 "scrollCollapse": true,
                 "order": [
-                        [3, "desc"]
+                        [1, "desc"]
                     ],
                     "columnDefs": [
                         { "orderable": false, "targets": 0 },
-                        { "orderable": false, "targets": 1 },
-                        { "orderable": false, "targets": 2 },
                 ],
                 "iDisplayLength": 10
             };
@@ -204,6 +148,6 @@
 
             });
         });
-        </script>
+    </script>
 
 @endsection

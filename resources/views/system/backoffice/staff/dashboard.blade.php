@@ -13,22 +13,21 @@
 @endsection
 @section('content')
 
-<!-- breadcrumb start -->
-<div class="container-fluid container-fixed-lg ">
-    <div class="row">
-        <div class="col-md-12">
+<!-- START JUMBOTRON -->
+<div class="jumbotron" data-pages="parallax">
+    <div class=" container-fluid container-fixed-lg sm-p-l-0 sm-p-r-0">
+        <div class="inner">
+            <!-- START BREADCRUMB -->
             <ol class="breadcrumb">
-                <li class="breadcrumb-item active">
-                    Dashboard
-                </li>
+                <li class="breadcrumb-item active">Dashboard</li>
             </ol>
+            <!-- END BREADCRUMB --> 
         </div>
     </div>
 </div>
-<!-- breadcrumb end -->
 
 <!-- content start -->
-<div class=" container-fluid">
+<div class="container-fluid">
     <div class="row">
         <div class="col-md-4">
             <div class="row">
@@ -114,7 +113,7 @@
                                             <ul>
                                                 <li>
                                                     <a data-toggle="refresh" class="card-refresh text-black" href="#"><i
-                                                            class="card-icon card-icon-refresh"></i></a>
+                                                        class="card-icon card-icon-refresh"></i></a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -408,11 +407,10 @@
         </div>
     </div>
 </div>
-</div>
 @endsection
 
 
-@section('script')  
+@section('script_before')  
 <script src="{{asset('plugins/jquery-ios-list/jquery.ioslist.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('plugins/jquery-actual/jquery.actual.min.js')}}"></script>  
 <script src="{{asset('plugins/classie/classie.js')}}"></script>

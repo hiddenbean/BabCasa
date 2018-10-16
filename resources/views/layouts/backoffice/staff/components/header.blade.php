@@ -100,6 +100,7 @@
         <span class="thumbnail-wrapper d32 circular inline">
           <img src="{{ Storage::url(Auth::guard('staff')->user()->picture->path) }}" alt="" data-src="{{ Storage::url( Auth::guard('staff')->user()->picture->path) }}"
             data-src-retina="{{ Storage::url( Auth::guard('staff')->user()->picture->path) }}" width="32" height="32">
+            <span><i class="fa fa-lg fa-user text-secondary"></i></span>
         </span>
       </button>
       <div class="dropdown-menu dropdown-menu-right profile-dropdown" role="menu">
