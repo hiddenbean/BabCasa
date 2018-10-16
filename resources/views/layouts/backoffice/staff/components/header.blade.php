@@ -106,7 +106,7 @@
       <div class="dropdown-menu dropdown-menu-right profile-dropdown" role="menu">
         <a href="{{ url('/profile')}}" class="dropdown-item">
           <i class="pg-settings_small"></i> Settings</a>  
-        <a href="{{ url('/logout')}}" class="clearfix bg-master-lighter dropdown-item">
+        <a href="{{ url('/logout')}}" class="clearfix text-danger dropdown-item">
           <span class="pull-left">Logout</span>
           <span class="pull-right">
             <i class="pg-power"></i> 
