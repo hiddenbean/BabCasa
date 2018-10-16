@@ -124,6 +124,23 @@ class StaffController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  \App\Staff  $staff
+     * @return \Illuminate\Http\Response
+     */
+    public function profile()
+    {
+        $data['profiles'] = Profile::all();
+        $data['countries'] = Country::all();
+        $data['staff'] =  Auth::guard('staff')->user();
+        //$data['staff'] = Staff::find(Auth::guard('staff')->user()->id);
+
+        return view('system.backoffice.staff.profile',$data);
+       
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Staff  $staff
@@ -217,8 +234,8 @@ class StaffController extends Controller
             $phone->country_id = $request->code_country[2];
             $phone->save();
         }
-            
-        return redirect('staff');
+        $page = Auth::guard('staff')->id() == $staff->id ? 'account' : 'staff';  
+        return redirect($page);
     }
 
 

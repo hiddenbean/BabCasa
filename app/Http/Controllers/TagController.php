@@ -66,7 +66,7 @@ class TagController extends Controller
         $tagLang = new TagLang();
         $tagLang->tag = $request->tag; 
         $tagLang->tag_id = $tag->id; 
-        $tagLang->lang_id = Language::where('symbol',App::getLocale())->first()->id;
+        $tagLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
         $tagLang->save();
         
         return redirect('tags');
@@ -114,7 +114,7 @@ class TagController extends Controller
 
         $tagLang = TagLang::find($tagLangId);
         $tagLang->tag = $request->tag; 
-        $tagLang->lang_id = Language::where('symbol',App::getLocale())->first()->id;
+        $tagLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
         $tagLang->save(); 
         
         return redirect('tags');

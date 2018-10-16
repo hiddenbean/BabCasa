@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App;
 use App\Detail;
+use App\Category;
 use App\Language;
 use App\DetailLang;
 use Illuminate\Http\Request;
@@ -26,6 +27,7 @@ class DetailController extends Controller
         $request->validate([
             'value' => 'required|unique:detail_langs,value',
         ]);
+        
     }
 
     /**
@@ -47,7 +49,8 @@ class DetailController extends Controller
      */
     public function create()
     {
-        return view('details.backoffice.staff.create');
+        $data['categories'] = Category::all();
+        return view('details.backoffice.staff.create',$data);
     }
     
     /**
@@ -59,15 +62,18 @@ class DetailController extends Controller
     public function store(Request $request)
     {
         $this->validateRequest($request);
-
         $detail = new Detail();
         $detail->save(); 
 
         $detailLang = new DetailLang();
         $detailLang->value = $request->value; 
         $detailLang->detail_id = $detail->id; 
-        $detailLang->lang_id = Language::where('symbol',App::getLocale())->first()->id;
+        $detailLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
         $detailLang->save();
+        foreach($request->categories as $category)
+        {
+            $detail->categories()->attach($category);
+        } 
         
         return redirect('details');
     }
@@ -95,6 +101,8 @@ class DetailController extends Controller
     {
 
         $data['detail'] = Detail::find($detail);
+        //return $data['detail']->categories()->wherePivot('category_id',1)->first();
+        $data['categories'] = Category::all();
         return view('details.backoffice.staff.edit',$data);
     }
 
@@ -107,15 +115,21 @@ class DetailController extends Controller
      */
     public function update(Request $request, $detail)
     {
-        $this->validateRequest($request);
-        
+        $request->validate([
+            'value' => 'required|unique:detail_langs,value,'.$detail.',detail_id',
+        ]);
         $detail = Detail::find($detail);
         $detailLangId = $detail->detailLang->first()->id;
 
         $detailLang = DetailLang::find($detailLangId);
         $detailLang->value = $request->value; 
-        $detailLang->lang_id = Language::where('symbol',App::getLocale())->first()->id;
+        $detailLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
         $detailLang->save(); 
+        $detail->categories()->detach();
+        foreach($request->categories as $category)
+        {
+            $detail->categories()->attach($category);
+        } 
         
         return redirect('details');
     }

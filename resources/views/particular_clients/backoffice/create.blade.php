@@ -1,6 +1,7 @@
 @extends('layouts.backoffice.staff.app')
 @section('css_before')
-<link href="{{ asset('plugins/bootstrap-datepicker/css/datepicker3.css') }}" rel="stylesheet" type="text/css" media="screen">
+    <link href="{{ asset('plugins/bootstrap-datepicker/css/datepicker3.css') }}" rel="stylesheet" type="text/css" media="screen">
+    <link href="{{ asset('plugins/switchery/css/switchery.min.css') }}" rel="stylesheet" type="text/css" media="screen" />
 @stop
 @section('content')
 <!-- breadcrumb start -->
@@ -12,7 +13,7 @@
                     <a href="{{ url('/') }}">DASHBOARD</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a href="{{ url('/staff') }}">Staff</a>
+                    <a href="{{ url('/particular-clients') }}">particular Clients</a>
                 </li>
                 <li class="breadcrumb-item active">
                     Create
@@ -25,12 +26,12 @@
 <div class="container-fluid container-fixed-lg">
     <div class="card ">
         <div class="card-header">
-            <h4 class="m-t-0 m-b-0"> <strong>Create new staff</strong> </h4>
+            <h4 class="m-t-0 m-b-0"> <strong>Create new particular-clients</strong> </h4>
         </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-xl-12">
-                    <form id="form-personal"  method="POST" action="{{url('staff')}}" enctype="multipart/form-data">
+                    <form id="form-personal"  method="POST" action="{{url('particular-clients')}}" enctype="multipart/form-data">
                         {{ csrf_field() }}
 
                         <ul class="nav nav-tabs nav-tabs-simple nav-tabs-left bg-white" id="tab-3">
@@ -129,19 +130,11 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group form-group-default">
-                                                <label for="">Profile Type</label> 
-                                                <select class="cs-select cs-skin-slide cs-transparent" value="{{ old('profile_id') }}"  name="profile_id" data-init-plugin="cs-select">
-                                                    @foreach($profiles as $profile)
-                                                <option value="{{$profile->id}}" >{{$profile->profileLang->first()->reference}}</option>
-                                                    @endforeach 
-                                                 
-                                                </select> 
-                                            </div>
-                                            
-                                        </div>
+                                    <div class="col-md-12">
+                                        <input type="checkbox" data-init-plugin="switchery" name="is_register_to_newsletter" data-size="small" data-color="primary" checked="checked" /> 
+                                        <label for="">Is register to newsletter</label>
                                     </div>
+                                </div> 
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="radio radio-success">
@@ -318,6 +311,7 @@
 @endsection
 
 @section('script')
+     <script src="{{ asset('plugins/switchery/js/switchery.min.js') }}" type="text/javascript"></script>
     <script type="text/javascript" src="{{ asset('plugins/classie/classie.js') }}"></script>
     <script src="{{ asset('plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
     <script>

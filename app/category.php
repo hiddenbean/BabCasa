@@ -16,7 +16,7 @@ class Category extends Model
     }
     public function categoryLang()
     {
-        $langId = Language::where('symbol',App::getLocale())->first()->id; 
+        $langId = Language::where('alpha_2_code',App::getLocale())->first()->id; 
         return $this->categoryLangs()->where('lang_id',$langId);
     }
 

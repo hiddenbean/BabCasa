@@ -85,7 +85,7 @@ class CategoryController extends Controller
         $categoryLang->reference = $request->reference; 
         $categoryLang->description = $request->description; 
         $categoryLang->category_id = $category->id; 
-        $categoryLang->lang_id = Language::where('symbol',App::getLocale())->first()->id;
+        $categoryLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
         $categoryLang->save();
         
         return redirect('categories');
@@ -127,7 +127,7 @@ class CategoryController extends Controller
     public function update(Request $request, $category)
     {
         $request->validate([
-            'reference' => 'required|unique:Category_langs,reference,'.$category.',category_id',
+            'reference' => 'required|unique:category_langs,reference,'.$category.',category_id',
             'description' => 'required|required|max:3000',
             'category_id' => 'sometimes',
         ]);
@@ -166,7 +166,7 @@ class CategoryController extends Controller
         $categoryLang = CategoryLang::find($categoryLangId);
         $categoryLang->reference = $request->reference; 
         $categoryLang->description = $request->description; 
-        $categoryLang->lang_id = Language::where('symbol',App::getLocale())->first()->id;
+        $categoryLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
         $categoryLang->save(); 
         
         return redirect('categories');
