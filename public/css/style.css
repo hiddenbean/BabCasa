@@ -1,0 +1,428 @@
+/* 
+    Main Color: #ef1b24
+    Second Color: #fb9318
+*/
+
+.logo_text {
+    color: #252525;
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 0.25em;
+}
+
+.register-container {
+    width: 950px;
+}
+
+.register-staff-width {
+    width: 640px;
+}
+
+@media (max-width: 768px) {
+    .register-container {
+        width: 100%;
+    }
+    .register-staff-width {
+        width: 100%;
+    }
+}
+
+.pointer-e-n {
+    pointer-events: none;
+}
+
+.choose_photo {
+    position: absolute;
+    top: 9px;
+    right: 10px;
+    bottom: 10px;
+    left: 10px;
+}
+
+.choose_photo span {
+    padding: 5px;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.choose_photo:hover {
+    color: rgb(59, 59, 59);
+    cursor: pointer;
+}
+
+.login-wrapper .bg-pic>img {
+    min-height: 100%;
+    min-width: 100%;
+}
+
+.form-group-default textarea.form-control {
+    height: 100%;
+}
+
+.sidebar-logo-black {
+    color: #252525;
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-left: 50px;
+}
+
+.sidebar-logo-white {
+    color: #ffffff;
+    font-size: 1.15rem;
+    font-weight: 700;
+}
+
+
+a {
+    color: #5d5d5d;
+}
+
+a:active,
+a:focus,
+a:hover {
+    color: #ef1b24;
+}
+
+.btn-primary,
+.btn-primary:focus {
+    color: #fff;
+    background-color: #ef1b24;
+    border-color: #ef1b24;
+}
+
+.btn-primary.active,
+.btn-primary:not(:disabled):not(.disabled):active,
+.btn-primary.active:focus,
+.btn-primary:not(:disabled):not(.disabled):active:focus,
+.btn-primary:not(:disabled):not(.disabled):active:hover,
+.show .dropdown-toggle.btn-primary {
+    background-color: #ef1b24;
+    border-color: #ef1b24;
+    color: #fff;
+    box-shadow: none;
+}
+
+.btn-primary.hover,
+.btn-primary:hover,
+.show .dropdown-toggle.btn-primary {
+    background-color: #ef1b24;
+    border-color: #ef1b24;
+    color: #fff;
+}
+
+.btn-primary.active:hover {
+    background: #ef1b24;
+    border-color: #ef1b24;
+}
+
+.btn-primary.disabled,
+.btn-primary[disabled],
+fieldset[disabled] .btn-primary,
+.btn-primary.disabled:hover,
+.btn-primary[disabled]:hover,
+fieldset[disabled] .btn-primary:hover,
+.btn-primary.disabled:focus,
+.btn-primary[disabled]:focus,
+fieldset[disabled] .btn-primary:focus,
+.btn-primary.disabled:active,
+.btn-primary[disabled]:active,
+fieldset[disabled] .btn-primary:active,
+.btn-primary.disabled.active,
+.btn-primary[disabled].active,
+fieldset[disabled] .btn-primary.active {
+    background-color: #ef1b24;
+    border-color: #ef1b24;
+}
+
+.btn-warning,
+.btn-warning:focus {
+    color: #fff;
+    background-color: #fb9318;
+    border-color: #fb9318;
+}
+
+.btn-warning.hover,
+.btn-warning:hover,
+.show .dropdown-toggle.btn-warning {
+    background-color: #f58702;
+    border-color: #f58702;
+    color: #fff;
+}
+
+.btn-warning.active:hover {
+    background: #f58702;
+    border-color: #f58702;
+}
+
+.btn-warning.disabled,
+.btn-warning[disabled],
+fieldset[disabled] .btn-warning,
+.btn-warning.disabled:hover,
+.btn-warning[disabled]:hover,
+fieldset[disabled] .btn-warning:hover,
+.btn-warning.disabled:focus,
+.btn-warning[disabled]:focus,
+fieldset[disabled] .btn-warning:focus,
+.btn-warning.disabled:active,
+.btn-warning[disabled]:active,
+fieldset[disabled] .btn-warning:active,
+.btn-warning.disabled.active,
+.btn-warning[disabled].active,
+fieldset[disabled] .btn-warning.active {
+    background-color: #f58702;
+    border-color: #f58702;
+}
+
+.btn-primary .badge {
+    color: #ef1b24;
+    background-color: #fff;
+}
+
+.btn-transparent {
+    border: none
+}
+
+.btn-transparent:hover {
+    border: none
+}
+
+.bg-primary {
+    background-color: #ef1b24 !important;
+}
+
+.label-success {
+    background-color: #ef1b24;
+}
+
+.badge-primary {
+    background: #ef1b24;
+    color: #fff;
+}
+
+.text-primary {
+    color: #ef1b24 !important;
+}
+
+.text-black {
+    color: #252525 !important;
+}
+
+.login-wrapper {
+    background-color: #ef1b24;
+}
+
+.login-wrapper .bg-pic>img {
+    opacity: 0.9;
+}
+
+.checkbox.check-success input[type=checkbox]:checked+label:before {
+    border-color: #ef1b24;
+}
+
+.form-group-default textarea.form-control {
+    min-height: 150px;
+}
+
+.pg-close {
+    color: red;
+}
+
+.choose_photo {
+    position: absolute;
+    top: 9px;
+    right: 10px;
+    bottom: 10px;
+    left: 10px;
+}
+
+.choose_photo span {
+    padding: 5px;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.choose_photo:hover {
+    color: #ef1b24;
+    cursor: pointer;
+}
+
+.login-wrapper .bg-pic>img {
+    min-height: 100%;
+    min-width: 100%;
+}
+
+.sidebar-logo-black {
+    color: #252525;
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-left: 50px;
+}
+
+.sidebar-logo-white {
+    color: #ffffff;
+    font-size: 1.15rem;
+    font-weight: 700;
+}
+
+.card-scrollable {
+    height: 600px;
+}
+
+.breadcrumb>.breadcrumb-item.active {
+    font-weight: 500;
+    color: #ef1b24;
+    margin-left: 5px;
+    margin-right: 5px;
+    font-size: 10.5px !important;
+    letter-spacing: 0.06em;
+}
+.secondary-sidebar .main-menu > li.active > a {
+    color: #f8921c;
+}
+.secondary-sidebar .main-menu > li.active > a:hover {
+    color: #e47f0d;
+}
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    color: #fff;
+    background-color: #f6931d;
+}
+.nav-pills .nav-link {
+    border-radius: 0;
+}
+
+.datepicker thead tr .dow,
+.datepicker thead tr .next:before, .datepicker thead tr .prev:before,
+.datepicker thead tr .next, .datepicker thead tr .prev
+{
+    color: #ef1b24;
+}
+.datepicker table tr td.active{
+    background-color: #ef1b24 !important;
+}
+.radio.radio-success input[type=radio]:checked + label:before{
+    border-color: #ef1b24;
+}
+
+.nav-tabs-simple > li > a:after{
+    background-color: #e47f0d;
+}
+.table-hover tbody tr:hover{
+    background-color: rgba(247, 247, 247, 0.2) !important;
+}
+.table.table-hover tbody tr:hover td{
+    background-color: rgba(247, 247, 247, 0.2) !important;
+}
+@media (min-width: 768px) {
+    .tree-right{
+        position: fixed;
+        right: 0
+    }
+}
+.m-t-2{
+    margin-top: 2px;
+}
+
+.register-container {
+    height: calc(100% - 70px);
+}
+
+/* Dropup content (Hidden by Default) */
+.dropup-content {
+    display: none;
+    position: absolute;
+    bottom: 50px;
+    right: 30px;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Links inside the dropup */
+.dropup-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropup links on hover */
+.dropup-content a:hover {
+    background-color: #ddd
+}
+
+.btn-transparent-danger {
+    border: none;
+    color: #f55753;
+}
+
+.btn-transparent-danger:hover {
+    border: none;
+    color: #f55753;
+}
+
+.tooltip > .tooltip-inner {
+    color: white;
+    font-size: 11px;
+}
+
+.tooltip-text {
+    text-align:left;
+}
+
+td.picture > a > img{
+    max-height: 80px;
+    max-width: 100px;
+}
+
+.list-group.list-group-root {
+    padding: 0;
+    overflow: hidden;
+}
+
+.list-group.list-group-root .list-group {
+    margin-bottom: 0;
+}
+
+.list-group.list-group-root .list-group-item {
+    border-radius: 0;
+    border-width: 1px 0 0 0;
+}
+
+.list-group.list-group-root > .list-group-item:first-child {
+    border-top-width: 0;
+}
+
+.list-group.list-group-root > .list-group > .list-group-item {
+    padding-left: 35px;
+}
+
+.list-group.list-group-root > .list-group > .list-group > .list-group-item {
+    padding-left: 60px;
+}
+
+.scroll {
+    max-height: 300px;
+    overflow-y: scroll;
+}
+
+.upper-title {
+    font-family: 'Montserrat';
+    text-transform: uppercase;
+    display: inline-block;
+    letter-spacing: 0.06em;
+    font-size: 10.5px;
+    font-weight: 500;
+    margin: 0;
+    padding: 0;
+    line-height: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-text-stroke: 0px;
+    filter: alpha(opacity=40);
+    -webkit-transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease;
+}
+
+.list-group-item.active {
+    background: rgba(239,27,36,.7) !important;
+    border: 0;
+}

@@ -1,0 +1,96 @@
+.sidebar-menu .menu-items>li>a>.title {
+    float: left;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 65%;
+}
+.sidebar-menu .menu-items>li>a {
+    font-family: Arial,sans-serif;
+    display: inline-block;
+    padding-left: 32px;
+    min-height: 40px;
+    line-height: 40px;
+    font-size: 14px;
+    clear: both;
+}
+.sidebar-menu {
+    height: calc(100% - 50px);
+    position: relative;
+    width: 100%;
+}
+.sidebar-menu .menu-items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    height: calc(100% - 10px);
+    width: 100%;
+}
+.sidebar-menu .menu-items>li {
+    display: block;
+    padding: 0;
+    clear: right;
+}
+.m-t-30 {
+    margin-top: 30px;
+}
+.sidebar-menu .menu-items>li>a {
+    font-family: Arial,sans-serif;
+    display: inline-block;
+    padding-left: 32px;
+    min-height: 40px;
+    line-height: 40px;
+    font-size: 14px;
+    clear: both;
+}
+.sidebar-menu .menu-items li>a {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 65%;
+}
+.sidebar-menu .menu-items>li>a>.title {
+    float: left;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 65%;
+}
+.sidebar-menu .menu-items>li>a>.arrow {
+    float: right;
+    padding-right: 30px;
+}
+.sidebar-menu .menu-items li.active>a, .page-sidebar .sidebar-menu .menu-items li.open>a, .page-sidebar .sidebar-menu .menu-items li:hover>a {
+    color: rgb(6, 168, 120);
+}
+.sidebar-menu .menu-items>li ul.sub-menu {
+    display: none;
+    list-style: none;
+    clear: both;
+    margin: 0 0 10px 0;
+    background-color: #21252d;
+    padding: 18px 0 10px 0;
+}
+.sidebar-menu .menu-items>li ul.sub-menu>li {
+    background: 0 0;
+    padding: 0 20px 0 40px;
+    margin-top: 1px;
+}
+.sidebar-menu .menu-items>li ul.sub-menu>li>a {
+    display: inline-block;
+    padding: 5px 0;
+    font-size: 13px;
+    font-family: Arial,sans-serif;
+    white-space: normal;
+}
+.sidebar-menu .menu-items>li ul.sub-menu>li .icon-thumbnail {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    margin: 0;
+    background-color: #2b303b;
+    font-size: 14px;
+}

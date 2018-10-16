@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'BAB Casa'),
 
     /*
     |--------------------------------------------------------------------------
@@ -159,6 +159,9 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Services\Ajax\ServiceProvider::class, 
+        Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider::class,
+        Themsaid\Langman\LangmanServiceProvider::class
 
     ],
 
@@ -208,6 +211,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'Ajax' => \App\Services\Ajax\Facade\Ajax::class,
+        'LaravelLocalization' => Mcamara\LaravelLocalization\Facades\LaravelLocalization::class,
 
     ],
 
