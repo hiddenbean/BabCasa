@@ -27,8 +27,42 @@
     </div>
 </div>
 <!-- breadcrumb end -->
-
-<div class="container-fluid container-fixed-lg">
+<div class="row">
+        <!-- START SECONDARY SIDEBAR -->
+        <div class=" col-md-3">
+                <nav class="secondary-sidebar"> 
+                    <p class="menu-title">Sub menu</p>
+                    <ul class="main-menu"> 
+                        <li class="active">
+                            <a href="{{ url('/') }}">
+                            <span class="title"><i class="pg-folder"></i>Orders</span>
+                            </a> 
+                        </li>
+                        <li>
+                            <a href="{{ url('/') }}">
+                                <span class="title"><i class="pg-sent"></i>Markets</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/') }}">
+                                <span class="title"><i class="pg-sent"></i>offers</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/') }}">
+                                <span class="title"><i class="pg-sent"></i>Support</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/') }}">
+                                <span class="title"><i class="pg-sent"></i>Support</span>
+                            </a>
+                        </li>
+                    </ul> 
+                </nav>
+                </div>
+                <!-- END SECONDARY SIDEBAR  -->
+<div class="container-fluid container-fixed-lg col-md-9">
     <div class="card ">
         <div class="card-header">
             @if (\Session::has('error'))
@@ -38,7 +72,8 @@
             @endif
             <h4 class="m-t-0 m-b-0"> <strong>Business client Information</strong> </h4>
         </div>
-        <div class="card-body">
+        
+        <div class="card-body ">
             <div class="row">
                 <div class="col-md-9 b-r b-dashed b-grey"> 
                         <div class="row">
@@ -188,6 +223,7 @@
                     </div>  
                 </div>
             </div>
+        </div>
         </div>
     </div>
 </div>

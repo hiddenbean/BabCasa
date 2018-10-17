@@ -43,15 +43,15 @@
             </span>
             <ul class="sub-menu">
                 <li>
-                    <a href="#">Add Detail</a>
+                    <a href="{{ url('details/create') }}">Add Detail</a>
                     <span class="icon-thumbnail"><i class="fas fa-plus"></i></span>
                 </li>
                 <li>
-                    <a href="#">All Details</a>
+                    <a href="{{ url('details') }}">All Details</a>
                     <span class="icon-thumbnail"><i class="fa fa-list"></i></span>
                 </li>
                 <li>
-                    <a href="#">Trash</a>
+                    <a href="{{ url('details/trash') }}">Trash</a>
                     <span class="icon-thumbnail"><i class="fas fa-trash"></i></span>
                 </li>
             </ul>

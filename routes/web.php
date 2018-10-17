@@ -59,6 +59,20 @@ function()
             Route::get('{Category}', 'CategoryController@show'); 
         });
 
+        // Staff Details management pages
+        Route::prefix('details')->middleware('CanRead:detail')->group(function() {
+            Route::get('/', 'DetailController@index');
+            Route::get('trash', 'DetailController@trash');
+            Route::group(['middleware' => ['CanWrite:detail']], function(){
+                Route::get('create', 'DetailController@create');
+                Route::prefix('{detail}')->group( function () {
+                    Route::get('edit', 'DetailController@edit'); 
+                    Route::get('translations','DetailController@translations');
+                });
+            });
+            Route::get('{detail}', 'DetailController@show'); 
+        });
+
         //////////TAGS
         Route::prefix('tags')->middleware('CanRead:tag')->group(function() {
             Route::get('/', 'TagController@index'); 
@@ -70,17 +84,6 @@ function()
         });
 
 
-        //////////DETAILS
-        Route::prefix('details')->middleware('CanRead:detail')->group(function() {
-            Route::get('/', 'DetailController@index'); 
-            Route::group(['middleware' => ['CanWrite:detail']], function(){
-                Route::get('create', 'DetailController@create'); 
-                Route::get('{detail}/edit', 'DetailController@edit'); 
-                Route::get('{detail}/trashed', 'DetailController@trashed'); 
-            });
-            Route::get('{detail}', 'DetailController@show'); 
-        });
-        Route::get('{Category}', 'CategoryController@show'); 
 
         //////////attributes
         Route::prefix('attributes')->middleware('CanRead:attribute')->group(function() {
