@@ -9,188 +9,186 @@
             <span class="bg-primary icon-thumbnail"><i class="pg-home"></i></span>
         </li>
         @endif
-         @if (auth()->guard('staff')->user()->can('read','staff'))
         <li>
-            <a href="{{ url('/staff') }}">
-                <span class="title">Staff</span>
-            </a>
-            <span class="icon-thumbnail">
-                <i class="fa fa-users"></i>
-            </span>
-        </li>
-        @endif
-         @if (auth()->guard('staff')->user()->can('read','partner'))
-        <li>
-            <a href="{{ url('/partners') }}">
-                <span class="title">Partner</span>
-            </a>
-            <span class="icon-thumbnail">
-                <i class="fa fa-users"></i>
-            </span>
-        </li>
-        @endif
-        <li>
-            <a href="javascript:;">
-                <span class="title">Clients</span>
+            <a href="#">
+                <span class="title">Categories</span>
                 <span class="arrow"></span>
             </a>
             <span class="icon-thumbnail">
-                <i class="fa fa-user-circle"></i>
+                <i class="fas fa-boxes"></i>
             </span>
             <ul class="sub-menu">
-         @if (auth()->guard('staff')->user()->can('read','business_client'))
                 <li>
-                    <a href="{{ url('/clients/business') }}">Clients business</a>
-                    <span class="icon-thumbnail">CB</span>
+                    <a href="#">Add category</a>
+                    <span class="icon-thumbnail"><i class="fas fa-plus"></i></span>
                 </li>
-        @endif
-         @if (auth()->guard('staff')->user()->can('read','particular_client'))
                 <li>
-                    <a href="{{ url('/clients/particular') }}">Clients particular</a>
-                    <span class="icon-thumbnail">CP</span>
+                    <a href="#">All categories</a>
+                    <span class="icon-thumbnail"><i class="fa fa-list"></i></span>
                 </li>
-        @endif
+                <li>
+                    <a href="#">Trash</a>
+                    <span class="icon-thumbnail"><i class="fas fa-trash"></i></span>
+                </li>
             </ul>
         </li>
-         @if (auth()->guard('staff')->user()->can('read','category'))
         <li>
-            <a href="{{ url('/categories') }}">
-                <span class="title">Categories</span>
+            <a href="#">
+                <span class="title">Catalog</span>
+                <span class="arrow"></span>
             </a>
             <span class="icon-thumbnail">
-                <i class="fa fa-copy"></i>
+                <i class="pg-contact_book"></i>
             </span>
-        </li> 
-        @endif
-         @if (auth()->guard('staff')->user()->can('read','detail'))
-        <li>
-            <a href="{{ url('/details') }}">
-                <span class="title">Details</span>
-            </a>
-            <span class="icon-thumbnail">
-                <i class="fa fa-align-justify"></i>
-            </span>
-        </li>
-        @endif
-         @if (auth()->guard('staff')->user()->can('read','tag'))
-        <li>
-            <a href="{{ url('/tags') }}">
-                <span class="title">Tags</span>
-            </a>
-            <span class="icon-thumbnail">
-                <i class="fa fa-tag"></i>
-            </span>
-        </li>
-        @endif
-         @if (auth()->guard('staff')->user()->can('read','currency'))
-        <li>
-            <a href="{{ url('/currencies') }}">
-                <span class="title">Currencies</span>
-            </a>
-            <span class="icon-thumbnail">
-                <i class="fa fa-dollar"></i>
-            </span>
-        </li>
-        @endif
-         @if (auth()->guard('staff')->user()->can('read','reason'))
-        <li>
-            <a href="{{ url('/reasons') }}">
-                <span class="title">Reasons</span>
-            </a>
-            <span class="icon-thumbnail">
-                <i class="fa fa-file"></i>
-            </span>
-        </li>
-        @endif
-         @if (auth()->guard('staff')->user()->can('read','country'))
-        <li>
-            <a href="{{ url('/countries') }}">
-                <span class="title">Countries</span>
-            </a>
-            <span class="icon-thumbnail">
-                <i class="fa fa-globe"></i>
-            </span>
-        </li>
-        @endif
-         @if (auth()->guard('staff')->user()->can('read','attribute'))
-        <li>
-            <a href="{{ url('/attributes') }}">
-                <span class="title">Attributes</span>
-            </a>
-            <span class="icon-thumbnail">
-                <i class="fa fa-globe"></i>
-            </span>
-        </li>
-        @endif
-         @if (auth()->guard('staff')->user()->can('read','subject'))
-        <li>
-            <a href="{{ url('/subjects') }}">
-                <span class="title">Subjects</span>
-            </a>
-            <span class="icon-thumbnail">
-                <i class="fa fa-globe"></i>
-            </span>
-        </li>
-        @endif
-         @if (auth()->guard('staff')->user()->can('read','claim'))
-        <li>
-                <a href="javascript:;">
-                    <span class="title">support</span>
-                    <span class="arrow"></span>
-                </a>
-                <span class="icon-thumbnail">
-                    <i class="fa fa-question"></i>
-                </span>
-                <ul class="sub-menu">
-                    <li>
-                        <a href="{{ url('/support') }}">All</a>
-                        <span class="icon-thumbnail">Al</span>
-                    </li> 
-                    <li>
-                        <a href="{{ url('/support/related') }}">Related</a>
-                        <span class="icon-thumbnail">Re</span>
-                    </li> 
-                    <li>
-                        <a href="{{ url('/support/open') }}">Open</a>
-                        <span class="icon-thumbnail">Op</span>
-                    </li> 
-                    <li>
-                        <a href="{{ url('/support/closed') }}">close</a>
-                        <span class="icon-thumbnail">Cl</span>
-                    </li> 
-                </ul>
-            </li>
-        @endif
-        <li>
-            <a href="{{ url('/account') }}">
-                <span class="title">Account</span>
-            </a>
-            <span class="icon-thumbnail">
-                <i class="fa fa-user"></i>
-            </span>
+            <ul class="sub-menu">
+                <li>
+                    <a href="#">Categories</a>
+                    <span class="icon-thumbnail"><i class="fas fa-boxes"></i></span>
+                </li>
+                <li>
+                    <a href="#">Tags</a>
+                    <span class="icon-thumbnail"><i class="fa fa-tag"></i></span>
+                </li>
+                <li>
+                    <a href="#">Details</a>
+                    <span class="icon-thumbnail"><i class="fas fa-info-circle"></i></span>
+                </li>
+                <li>
+                    <a href="#">Attributes</a>
+                    <span class="icon-thumbnail"><i class="fas fa-tags"></i></span>
+                </li>
+            </ul>
         </li>
         <li>
-            <a href="javascript:;">
+            <a href="#">
+                <span class="title">Geolocation</span>
+                <span class="arrow"></span>
+            </a>
+            <span class="icon-thumbnail">
+                <i class="fas fa-map-marked-alt"></i>
+            </span>
+            <ul class="sub-menu">
+                <li>
+                    <a href="#">Countries</a>
+                    <span class="icon-thumbnail"><i class="fa fa-flag"></i></span>
+                </li>
+                <li>
+                    <a href="#">Currencies</a>
+                    <span class="icon-thumbnail"><i class="fa fa-dollar"></i></span>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">
+                <span class="title">Marketing</span>
+                <span class="arrow"></span>
+            </a>
+            <span class="icon-thumbnail">
+                <i class="fas fa-warehouse"></i></span>
+            <ul class="sub-menu">
+                <li>
+                    <a href="#">Orders</a>
+                    <span class="icon-thumbnail"><i class="fas fa-clipboard-list"></i></span>
+                </li>
+                <li>
+                    <a href="#">Markets</a>
+                    <span class="icon-thumbnail"><i class="fas fa-shopping-cart"></i></span>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">
+                <span class="title">Financials</span>
+                <span class="arrow"></span>
+            </a>
+            <span class="icon-thumbnail">
+                <i class="fas fa-chart-line"></i>
+            </span>
+            <ul class="sub-menu">
+                <li>
+                    <a href="#">Bills</a>
+                    <span class="icon-thumbnail"><i class="fas fa-file-invoice-dollar"></i></span>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">
+                <span class="title">Staff</span>
+                <span class="arrow"></span>
+            </a>
+            <span class="icon-thumbnail">
+                <i class="fas fa-user-ninja"></i>
+            </span>
+            <ul class="sub-menu">
+                <li>
+                    <a href="#">New staff</a>
+                    <span class="icon-thumbnail"><i class="fas fa-user-plus"></i></span>
+                </li>
+                <li>
+                    <a href="#">Accounts</a>
+                    <span class="icon-thumbnail"><i class="fas fa-list-alt"></i></span>
+                </li>
+                <li>
+                    <a href="#">Profiles</a>
+                    <span class="icon-thumbnail"><i class="fas fa-users-cog"></i></span>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">
+                <span class="title">Business</span>
+                <span class="arrow"></span>
+            </a>
+            <span class="icon-thumbnail">
+                <i class="fas fa-briefcase"></i>
+            </span>
+            <ul class="sub-menu">
+                <li>
+                    <a href="#">Affiliates</a>
+                    <span class="icon-thumbnail">
+                        <i class="fas fa-user-friends"></i>
+                    </span>
+                </li>
+                <li>
+                    <a href="#">Business Clients</a>
+                    <span class="icon-thumbnail">
+                        <i class="fas fa-user-tie"></i>
+                    </span>
+                </li>
+                <li>
+                    <a href="#">Reasons</a>
+                    <span class="icon-thumbnail"><i class="fas fa-question-circle"></i></span>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">
+                <span class="title">Clients</span>
+            </a>
+            <span class="icon-thumbnail">
+                <i class="fa fa-users"></i>
+            </span>
+        </li>
+        <li>
+            <a href="#">
                 <span class="title">Settings</span>
                 <span class="arrow"></span>
             </a>
             <span class="icon-thumbnail">
-                <i class="fa fa-cogs"></i>
+                <i class="fas fa-cogs"></i>
             </span>
             <ul class="sub-menu">
-         @if (auth()->guard('staff')->user()->can('read','profile'))
                 <li>
-                    <a href="{{ url('/profiles') }}">Profiles</a>
-                    <span class="icon-thumbnail">Pr</span>
-                </li>
-                @endif
-                <li>
-                    <a href="{{ url('/security') }}">Security</a>
-                    <span class="icon-thumbnail">Se</span>
+                    <a href="#">Security</a>
+                    <span class="icon-thumbnail">
+                        <i class="fas fa-lock"></i>
+                    </span>
                 </li>
                 <li>
-                    <a href="{{ url('/log') }}">Log</a>
-                    <span class="icon-thumbnail">Lo</span>
+                    <a href="#">Activity log</a>
+                    <span class="icon-thumbnail">
+                        <i class="fas fa-file-alt"></i>
+                    </span>
                 </li>
             </ul>
         </li>
