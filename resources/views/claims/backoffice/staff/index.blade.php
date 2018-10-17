@@ -56,7 +56,7 @@
                         @foreach($claims->sortBy('created_at',false) as $claim)
                             <tr class="order-progress"  >
                                 <td class="v-align-middle"><a href="{{ url('support/'.$claim->id) }}"><strong> {{ $claim->title}}  </strong></a></td>
-                                <td class="v-align-middle text-center"><strong>  {{$claim->subject->title}}   </strong></td>                
+                                <td class="v-align-middle text-center"><strong>  {{$claim->subject->subjectLang->first()->reference}}   </strong></td>                
                                 <td class="v-align-middle text-center">{{date('d-m-Y', strtotime($claim->created_at))}}</td>              
                                 <td class="v-align-middle text-center"> {{$claim->claimMessages->count()}} </td> 
                                 <td class="v-align-middle text-center"><strong> @if($claim->status) Open @else Close @endif </strong></td> 

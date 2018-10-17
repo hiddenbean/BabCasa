@@ -8,6 +8,7 @@
 <link href="{{ asset('plugins/bootstrap-datepicker/css/datepicker3.css') }}" rel="stylesheet" type="text/css" media="screen">
 @stop
 @section('content')
+
 <!-- breadcrumb start -->
 <div class="container-fluid container-fixed-lg ">
     <div class="row">
@@ -27,8 +28,44 @@
     </div>
 </div>
 <!-- breadcrumb end -->
-
-<div class="container-fluid container-fixed-lg">
+<!-- START SECONDARY SIDEBAR -->
+<nav class="secondary-sidebar"> 
+        <p class="menu-title">Sttings</p>
+        <ul class="main-menu"> 
+         <li class="active">
+                <a href="#">
+                <span class="title"><i class="pg-folder"></i>Partner Information</span>
+                </a> 
+            </li>
+             <li>
+                <a href="{{url('partners/'.$partner->name.'/statuses')}}">
+                <span class="title"><i class="pg-folder"></i>Statuses history</span>
+                </a> 
+            </li>
+            <li>
+                <a href="{{url('partners/'.$partner->name.'/products')}}">
+                <span class="title"><i class="pg-folder"></i>products</span>
+                </a> 
+            </li>
+            <li>
+                <a href="{{url('partners/'.$partner->name.'/orders')}}">
+                    <span class="title"><i class="pg-sent"></i>orders</span>
+                </a>
+            </li> 
+            <li>
+                <a href="{{url('partners/'.$partner->name.'/discounts')}}">
+                    <span class="title"><i class="pg-sent"></i>discounts</span>
+                </a>
+            </li> 
+            <li>
+                <a href="{{url('partners/'.$partner->name.'/bills')}}">
+                    <span class="title"><i class="pg-sent"></i>bills</span>
+                </a>
+            </li> 
+        </ul> 
+    </nav>
+<!-- END SECONDARY SIDEBAR  -->
+<div class="inner-content full-height padding-20">
     <div class="card ">
         <div class="card-header">
             @if (\Session::has('error'))

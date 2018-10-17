@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App;
 use App\Tag;
 use App\Product;
 use App\Picture;
+use App\Partner;
 use App\Language;
 use App\Attribute;
-use App\Currencie;
 use App\Category;
 use App\DetailValue;
 use App\Productlang;
@@ -39,7 +40,7 @@ class ProductController extends Controller
             'reference' => 'required|unique:product_langs,reference',
             'short_description' => 'required|required|max:306',
             'description' => 'required|required|max:3000',
-            'lang_id' => 'required',
+            'categories' => 'required',
         ]);
     }
     /**
@@ -49,6 +50,9 @@ class ProductController extends Controller
      */
     public function index()
     {
+       $data['products'] = Auth::guard('partner')->user()->products;
+       return $data;
+       return view('products.backoffice.index');
        
     }
 
@@ -60,12 +64,11 @@ class ProductController extends Controller
     public function create()
     {
         
-        $data['Categories'] = Category::all();
+        $data['categories'] = Category::all();
         $data['tags'] = Tag::all();
         // return $data['tags']->first()->tagLang->first()->tag; 
         $data['languages'] = Language::all();
-        $data['currencies'] = Currencie::all();
-        return view('add_product',$data);
+        return view('products.backoffice.create',$data);
     }
     
     /**
@@ -92,7 +95,15 @@ class ProductController extends Controller
         $product->for_business = ($request->for_business=='on') ? 1 : 0;
         $product->save();
 
-        $product->Categories()->attach($request->Category_id);
+        if($request->categories)
+        {
+            foreach($categories as $category)
+            {
+                $product->Categories()->attach($category);
+
+            }
+
+        }
         
         $productlang = new Productlang();
         $productlang->reference = $request->reference;
@@ -245,9 +256,9 @@ class ProductController extends Controller
         }
         
     }
-    public function show(product $product)
+    public function show($product)
     {
-        //
+        return view('products.backoffice.show');
     }
 
     /**

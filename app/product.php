@@ -14,6 +14,11 @@ class Product extends Model
                 return $this->belongsTo('App/Discount');
         }
         
+        public function partner()
+        {
+                return $this->belongsTo('App/Partner');
+        }
+        
         public function productLangs()
         {
                 return $this->hasMany('App\ProductLang');
@@ -31,7 +36,7 @@ class Product extends Model
 
         public function discounts()
         {
-                return $this->belongsToMany('App\Discount');
+                return $this->belongsToMany('App\Discount')->withPivot('quantity');
         }
 
         public function currency()

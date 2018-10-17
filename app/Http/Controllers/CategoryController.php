@@ -380,6 +380,7 @@ class CategoryController extends Controller
                                 'category can\'t be deleted it has a subcategory with products/bundles/markets !!'
                             );
             }
+            $sub_category->delete();
         }
         $category->delete();
         return redirect('categories')->with(
@@ -420,7 +421,7 @@ class CategoryController extends Controller
             return redirect('categories')->with(
                             'success',
                             'Categories has been deleted successfuly !!'
-             );
+            );
 
         }
         else 

@@ -15,6 +15,11 @@ class Order extends Model
         return $this->morphedByMany('App\Product', 'orderable');
     }
 
+    public function partner()
+    {
+        return $this->belongsTo('App\Partner');
+    }
+
     public function costumer()
     {
         return $this->morphTo();

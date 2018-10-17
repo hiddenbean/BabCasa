@@ -19,6 +19,7 @@ class CreateProductsTable extends Migration
             $table->boolean('for_business');
             $table->integer('quantity')->nullable();
             $table->integer('currency_id');
+            $table->integer('partner_id');
             $table->timestamps();
         });
     }

@@ -60,19 +60,19 @@
                     <span class="icon-thumbnail">Al</span>
                 </li>
                 <li>
-                    <a href="{{ url('/discounts') }}">Current</a>
+                    <a href="{{ url('/discounts/current') }}">Current</a>
                     <span class="icon-thumbnail">Cu</span>
                 </li>
                 <li>
-                    <a href="{{ url('/discounts') }}">Next</a>
+                    <a href="{{ url('/discounts/next') }}">Next</a>
                     <span class="icon-thumbnail">Ne</span>
                 </li>
                 <li>
-                    <a href="{{ url('/discounts') }}">Expired</a>
+                    <a href="{{ url('/discounts/expired') }}">Expired</a>
                     <span class="icon-thumbnail">Ex</span>
                 </li>
                 <li>
-                    <a href="{{ url('/discounts') }}">Create</a>
+                    <a href="{{ url('/discounts/create') }}">Create</a>
                     <span class="icon-thumbnail">Cr</span>
                 </li>
             </ul>
@@ -114,9 +114,17 @@
             </span>
             <ul class="sub-menu">
                 <li>
-                    <a href="{{ url('/claims') }}">My tickets</a>
+                    <a href="{{ url('/support') }}">All</a>
                     <span class="icon-thumbnail">MT</span>
-                </li>  
+                </li> 
+                 <li>
+                        <a href="{{ url('/support/open') }}">Open</a>
+                        <span class="icon-thumbnail">Op</span>
+                    </li> 
+                    <li>
+                        <a href="{{ url('/support/closed') }}">close</a>
+                        <span class="icon-thumbnail">Cl</span>
+                    </li>  
             </ul>
         </li>
         <li>

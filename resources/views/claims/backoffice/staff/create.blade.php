@@ -70,7 +70,7 @@
                                                             <select class="form-control attr" name="subject_id" >
                                                             @foreach ($subjects as $subject)
                                                                 
-                                                                <option value="{{$subject->id}}">{{$subject->title}}</option> 
+                                                                <option value="{{$subject->id}}">{{$subject->subjectLang->first()->reference}}</option> 
                                                             @endforeach
                                                             
                                                             </select>

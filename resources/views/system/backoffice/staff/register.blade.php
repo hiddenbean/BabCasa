@@ -15,7 +15,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div id="rootwizard" class="m-t-5">
-                   <form  action="{{route('staff.register.submit')}}" method="POST" enctype="multipart/form-data" >
+                    <form  action="{{route('staff.register.submit')}}" method="POST" enctype="multipart/form-data" >
                     {{ csrf_field() }}
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs nav-tabs-linetriangle nav-tabs-separator nav-stack-sm" role="tablist" data-init-reponsive-tabs="dropdownfx">
@@ -47,7 +47,7 @@
                                                         <input type="text" id="first_name" name="last_name" value="{{ old('last_name') }}" class="form-control">
                                                         @if ($errors->has('last_name'))
                                                         <label class='error' for='last_name'>{{ $errors->first('last_name') }}</label>
-                                                         @endif
+                                                        @endif
                                                     </div>
                                                 </div> 
                                                 <div class="col-sm-6">

@@ -24,7 +24,8 @@ class PartnerController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:partner,staff')->only('show');
+        $this->middleware('auth:partner')->only('dashboard','');
+        $this->middleware('auth:staff')->except('dashboard');
     }
     
     protected function validateRequest(Request $request)
@@ -176,8 +177,74 @@ class PartnerController extends Controller
     {
         $data['reasons'] = Reason::all();
         $data['partner'] = Partner::where('name',$partner)->first();
-        // return $data['partner']->status->first()->is_approved;
+        //  return $data['partner']->orders;
         return view('partners.backoffice.staff.show',$data);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Partner  $partner
+     * @return \Illuminate\Http\Response
+     */
+    public function orders($partner)
+    {
+        $data['partner'] = Partner::where('name',$partner)->first();
+        $data['orders'] = $data['partner']->orders;
+        return view('partners.backoffice.staff.orders',$data);
+    }
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Partner  $partner
+     * @return \Illuminate\Http\Response
+     */
+    public function products($partner)
+    {
+        $data['partner'] = Partner::where('name',$partner)->first();
+
+        $data['products'] =  $data['partner']->products;
+        return view('partners.backoffice.staff.products',$data);
+    }
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Partner  $partner
+     * @return \Illuminate\Http\Response
+     */
+    public function discounts($partner)
+    {
+        $data['partner'] = Partner::where('name',$partner)->first();
+        //return 'still work on ';
+        $data['discounts'] = $data['partner']->discounts;
+        return view('partners.backoffice.staff.discounts',$data);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Partner  $partner
+     * @return \Illuminate\Http\Response
+     */
+    public function bills($partner)
+    {
+        $data['partner'] = Partner::where('name',$partner)->first();
+
+        // $data['bills'] = $data['partner']->bills;
+        return view('partners.backoffice.staff.bills',$data);
+    }
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Partner  $partner
+     * @return \Illuminate\Http\Response
+     */
+    public function statuses($partner)
+    {
+        $data['partner'] = Partner::where('name',$partner)->first();
+
+         $data['statuses'] = $data['partner']->statuses;
+        return view('partners.backoffice.staff.statuses',$data);
     }
 
     /**

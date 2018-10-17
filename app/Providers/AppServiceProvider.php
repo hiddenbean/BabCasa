@@ -28,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
             'phone' => 'App\Phone',
             'claim' => 'App\Claim',
             'staff' => 'App\Staff',
+            'order' => 'App\Order',
             'particular_client' => 'App\ParticularClient',
             'business' => 'App\Business',
          ]);
