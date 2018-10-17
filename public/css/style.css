@@ -426,3 +426,7 @@ td.picture > a > img{
     background: rgba(239,27,36,.7) !important;
     border: 0;
 }
+
+.uppercase {
+    text-transform: uppercase;
+}
