@@ -61,21 +61,59 @@ class DetailController extends Controller
      */
     public function store(Request $request)
     {
+         $trashedDetailLang = DetailLang::onlyTrashed()->where('value', $request->value)->first();
+        if(isset($trashedDetailLang))
+        {
+            return redirect('details/'.$trashedDetailLang->detail_id.'/trashed');
+        }
         $this->validateRequest($request);
         $detail = new Detail();
         $detail->save();
 
-        $detailLang = new DetailLang();
-        $detailLang->value = $request->value;
-        $detailLang->detail_id = $detail->id;
-        $detailLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
-        $detailLang->save();
+        //// ADD LANGUAGES 
+
+
+        foreach(Language::all() as $lang)
+        {
+            $detailLang = new DetailLang();
+            $detailLang->detail_id = $detail->id;
+            $detailLang->lang_id = $lang->id;
+            if($lang->id == Language::where('alpha_2_code',App::getLocale())->first()->id)
+            {
+                $detailLang->value = $request->value;
+
+            }
+            else{
+                $detailLang->value = ' ';
+               
+            }
+
+            $detailLang->save();
+        }
+       
+
+
         foreach($request->categories as $category)
         {
             $detail->categories()->attach($category);
         } 
         
         return redirect('details');
+    }
+
+    public function trashed($detail)
+    {
+         $data['detail'] = Detail::onlyTrashed()->where('id', $detail)->first();
+       
+         return view('details.backoffice.staff.trashed',$data);
+       
+    }
+    public function restore($detail)
+    {
+         $detail = Detail::onlyTrashed()->where('id', $detail)->first();
+        $detail->restore();
+         return redirect('details');
+       
     }
 
     /**
@@ -205,4 +243,6 @@ class DetailController extends Controller
         }
 
     }
+
+   
 }

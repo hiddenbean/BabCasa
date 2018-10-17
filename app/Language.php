@@ -8,7 +8,7 @@ class Language extends Model
 {
     public function attributeLang()
     {
-        return $this->hasMany('App\Attribute_lang');
+        return $this->hasMany('App\AttributeLang');
     }
     
     public function attributeVarcharValueLang()
@@ -18,7 +18,7 @@ class Language extends Model
 
     public function bundleLangs()
     {
-        return $this->hasMany('App\Bundle_lang');
+        return $this->hasMany('App\BundleLang');
     }
 
     public function categoryLang()
@@ -31,7 +31,7 @@ class Language extends Model
     }
     public function detailLangs()
     {
-        return $this->hasMany('App\Detail_lang');
+        return $this->hasMany('App\DetailLang');
     }
 
     public function detailValueLangs()

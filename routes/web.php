@@ -76,6 +76,7 @@ function()
             Route::group(['middleware' => ['CanWrite:detail']], function(){
                 Route::get('create', 'DetailController@create'); 
                 Route::get('{detail}/edit', 'DetailController@edit'); 
+                Route::get('{detail}/trashed', 'DetailController@trashed'); 
             });
             Route::get('{detail}', 'DetailController@show'); 
         });

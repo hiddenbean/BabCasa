@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DetailLang;
+use App\Language;
 use Illuminate\Http\Request;
 
 class DetailLangController extends Controller
@@ -22,9 +23,9 @@ class DetailLangController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($detail)
     {
-        //
+        $data['languages'] = Language::all();
     }
 
     /**
