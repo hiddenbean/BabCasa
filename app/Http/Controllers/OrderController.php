@@ -30,6 +30,7 @@ class OrderController extends Controller
                 $view = 'orders.backoffice.staff.index';
                  break;
          }
+         return $data;
          return view($view,$data);
         
     }
@@ -69,6 +70,7 @@ class OrderController extends Controller
                 $view = 'orders.backoffice.staff.index';
                  break;
          }
+         return $data;
          return view($view,$data);
         
     }
@@ -88,6 +90,7 @@ class OrderController extends Controller
                 $view = 'orders.backoffice.staff.index';
                  break;
          }
+         return $data;
          return view($view,$data);
         
     }
@@ -107,6 +110,7 @@ class OrderController extends Controller
                 $view = 'orders.backoffice.staff.index';
                  break;
          }
+         return $data;
          return view($view,$data);
         
     }

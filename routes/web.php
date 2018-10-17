@@ -288,6 +288,10 @@ Route::prefix('orders')->group(function() {
 Route::prefix('discounts')->group(function() {
     Route::get('/', 'DiscountController@index'); 
     Route::get('create', 'DiscountController@create'); 
+    Route::get('current', 'DiscountController@current'); 
+    Route::get('next', 'DiscountController@next'); 
+    Route::get('expired', 'DiscountController@expired'); 
+    Route::get('create', 'DiscountController@create'); 
     Route::get('{discount}/edit', 'DiscountController@edit');
     Route::get('{discount}', 'DiscountController@show'); 
 });
