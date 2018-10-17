@@ -26,24 +26,38 @@ function()
         });
     });
 
-    Route::domain('www.babcasa.com')->group(function (){
-        Route::get('/', function () {
-            return view('welcome');
-        });
-    });
-
+    // Staff sub domaine GET routes (staff.babcasa.com)
+    // Staff routes start 
     Route::domain('staff.babcasa.com')->group(function (){
-        //staff home page
+        // Staff home page
         Route::get('/', 'StaffController@dashboard');
+        
+        // Staff passwordrest pages
         Route::get('passwords/reset', 'Auth\StaffForgotPasswordController@showLinkRequestForm')->name('staff.passwords.reset');
         Route::get('{staff}/password/reset/{token}', 'Auth\StaffResetPasswordController@showResetForm');
         
-        //login page
+        // Staff login page
         Route::get('sign-in', 'Auth\StaffLoginController@showLoginForm');
+        
+        // Staff logout link
         Route::get('logout', 'Auth\StaffLoginController@logout');
 
-        // Security
+        // Staff Security page
         Route::get('security', 'StaffController@security');
+
+        // Staff categories managment pages
+        Route::prefix('categories')->middleware('CanRead:category')->group(function() {
+            Route::get('/', 'CategoryController@index');
+            Route::get('trash', 'CategoryController@trash');
+            Route::group(['middleware' => ['CanWrite:category']], function(){
+                Route::get('create', 'CategoryController@create');
+                Route::prefix('{Category}')->group( function () {
+                    Route::get('edit', 'CategoryController@edit');
+                    Route::get('translations','CategoryController@translations');
+                });
+            });
+            Route::get('{Category}', 'CategoryController@show'); 
+        });
 
         //////////TAGS
         Route::prefix('tags')->middleware('CanRead:tag')->group(function() {
@@ -55,21 +69,6 @@ function()
             Route::get('{tag}', 'TagController@show'); 
         });
 
-        //////////CATEGORIES
-        Route::prefix('categories')->middleware('CanRead:category')->group(function() {
-            Route::get('/', 'CategoryController@index');
-            Route::get('trash', function () {
-                return view('categories.backoffice.staff.trash');
-            });
-            Route::group(['middleware' => ['CanWrite:category']], function(){
-                Route::get('create', 'CategoryController@create');
-                Route::get('{Category}/edit', 'CategoryController@edit');
-                Route::get('translation', function () {
-                    return view('categories.backoffice.staff.translation');
-                });
-            });
-            Route::get('{Category}', 'CategoryController@show'); 
-        });
 
         //////////DETAILS
         Route::prefix('details')->middleware('CanRead:detail')->group(function() {
@@ -81,16 +80,16 @@ function()
             Route::get('{detail}', 'DetailController@show'); 
         });
         Route::get('{Category}', 'CategoryController@show'); 
-    });
-    //////////attributes
-    Route::prefix('attributes')->middleware('CanRead:attribute')->group(function() {
-        Route::get('/', 'AttributeController@index'); 
-        Route::group(['middleware' => ['CanWrite:attribute']], function(){
-            Route::get('create', 'AttributeController@create'); 
-            Route::get('{attribute}/edit', 'AttributeController@edit'); 
+
+        //////////attributes
+        Route::prefix('attributes')->middleware('CanRead:attribute')->group(function() {
+            Route::get('/', 'AttributeController@index'); 
+            Route::group(['middleware' => ['CanWrite:attribute']], function(){
+                Route::get('create', 'AttributeController@create'); 
+                Route::get('{attribute}/edit', 'AttributeController@edit'); 
+            });
+            Route::get('{attribute}', 'AttributeController@show'); 
         });
-        Route::get('{attribute}', 'AttributeController@show'); 
-    });
 
         //////////countries
         Route::prefix('countries')->middleware('CanRead:country')->group(function() {
@@ -132,7 +131,9 @@ function()
                     Route::get('{staff}/edit', 'StaffController@edit');
                 }); 
                 Route::get('{staff}', 'StaffController@show'); 
-        }); 
+        });
+    });
+    //Staff routes end
 
         Route::prefix('partners')->middleware('CanRead:partner')->group(function() {
             Route::get('/', 'PartnerController@index'); 

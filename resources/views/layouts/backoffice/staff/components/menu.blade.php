@@ -18,17 +18,16 @@
             <span class="icon-thumbnail">
                 <i class="fas fa-boxes"></i>
             </span>
-            <ul class="sub-menu">
-                <li>
-                    <a href="#">Add Category</a>
+            <li>
+                    <a href="{{ url('categories/create') }}">Add Category</a>
                     <span class="icon-thumbnail"><i class="fas fa-plus"></i></span>
                 </li>
                 <li>
-                    <a href="#">All Categories</a>
+                    <a href="{{ url('categories') }}">All Categories</a>
                     <span class="icon-thumbnail"><i class="fa fa-list"></i></span>
                 </li>
                 <li>
-                    <a href="#">Trash</a>
+                    <a href="{{ url('categories/trash') }}">Trash</a>
                     <span class="icon-thumbnail"><i class="fas fa-trash"></i></span>
                 </li>
             </ul>

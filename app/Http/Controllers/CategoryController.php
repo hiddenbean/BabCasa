@@ -39,7 +39,7 @@ class CategoryController extends Controller
     {
         
         $data['categories'] = Category::all();
-        return view('categories.backoffice.staff.index',$data);
+        return view('categories.backoffice.staff.index', $data);
     }
     
     /**
@@ -51,7 +51,7 @@ class CategoryController extends Controller
     {
         $data['categories'] = Category::all();
 
-        return view('categories.backoffice.staff.create',$data);
+        return view('categories.backoffice.staff.create', $data);
     }
     
     /**
@@ -62,7 +62,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-       //$this->validateRequest($request);
+        //$this->validateRequest($request);
         $this->checkReference($request);
         $trashed_category_lang = CategoryLang::onlyTrashed()->where('reference', $request->reference)->first();
 
@@ -124,7 +124,7 @@ class CategoryController extends Controller
     public function show($category)
     {
         $data['category'] = Category::find($category);
-        return view('categories.backoffice.staff.show',$data);
+        return view('categories.backoffice.staff.show', $data);
     }
     
     /**
@@ -137,7 +137,31 @@ class CategoryController extends Controller
     {
         $data['categories'] = Category::all();
         $data['category'] = Category::find($Category);
-        return view('categories.backoffice.staff.edit',$data);
+        return view('categories.backoffice.staff.edit', $data);
+    }
+
+    /**
+     * Displaying the Trash page
+     * 
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function trash()
+    {
+        $data['categories'] = Category::all();
+        return view('categories.backoffice.staff.trash', $data);
+    }
+
+    /**
+     * Displaying the Trash page
+     * 
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function translations($category)
+    {
+        $data['categories'] = Category::findOrFail($category)->first();
+        return view('categories.backoffice.staff.translations', $data);
     }
 
     /**
@@ -259,7 +283,7 @@ class CategoryController extends Controller
             return redirect('categories')->with(
                             'success',
                             'Categories has been deleted successfuly !!'
-             );
+            );
 
         }
         else 
@@ -287,7 +311,7 @@ class CategoryController extends Controller
                 }
                 if($find) 
                 {
-                     return  redirect('categories')
+                    return  redirect('categories')
                         ->with(
                             'error',
                             $request->reference.' has already been taken. id' 
@@ -307,7 +331,7 @@ class CategoryController extends Controller
                 }
                 if($find) 
                 {
-                     return  redirect('categories')
+                    return  redirect('categories')
                         ->with(
                             'error',
                             $request->reference.' has already been taken. null' 
