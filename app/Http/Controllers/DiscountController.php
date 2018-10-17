@@ -43,12 +43,7 @@ class DiscountController extends Controller
     public function create()
     {
         // Retrieve the partner
-        isset($request->partner) ? $partner = $request->partner : $partner = Auth::guard('partner')->user()->name;
-        $partner = Partner::where('name', $partner)->firstOrFail();
-        //Return the form to create discount
-        return view('discounts.backoffice.create', [
-            'partner' => $partner
-        ]);
+       return 'create';
     }
 
     /**
@@ -198,6 +193,17 @@ class DiscountController extends Controller
     public function current()
     {
         $data['discounts'] = Discount::where('start_at','<',date('Y-m-d'))->where('end_at','>',date('Y-m-d'))->get();
+        return $data;
+    }
+    public function expired()
+    {
+        $data['discounts'] = Discount::where('end_at','<',date('Y-m-d'))->get();
+        return $data;
+    }
+    
+    public function next()
+    {
+        $data['discounts'] = Discount::where('start_at','>',date('Y-m-d'))->get();
         return $data;
     }
     
