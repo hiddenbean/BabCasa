@@ -115,7 +115,8 @@ class PartnerRegisterController extends Controller
             ]);
             $status = new Status();
             $status->is_approved = 0;
-            $status->partner_id = $partner->id;
+            $status->user_id = $partner->id;
+            $status->user_type = 'partner';
             $status->staff_id = 1;//auth()->guard('staff')->user()->id;
             $status->save();
 

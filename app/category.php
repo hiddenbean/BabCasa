@@ -12,7 +12,7 @@ class Category extends Model
 
     public function categoryLangs()
     {
-            return $this->hasMany('App\CategoryLang')->withTrashed();
+            return $this->hasMany('App\CategoryLang');
     }
 
     public function categoryLang()
@@ -23,12 +23,12 @@ class Category extends Model
 
     public function subCategories()
     {
-            return $this->hasMany('App\Category')->withTrashed();
+            return $this->hasMany('App\Category');
     }
 
     public function category()
     {
-        return $this->belongsTo('App\Category')->withTrashed();
+        return $this->belongsTo('App\Category');
     }
     
     public function attributes()
