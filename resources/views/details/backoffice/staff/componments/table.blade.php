@@ -1,3 +1,13 @@
+  @if (\Session::has('error'))
+                        <div class="alert alert-danger">
+                            {!! \Session::get('error') !!}
+                        </div>
+                    @endif
+                    @if (\Session::has('success'))
+                        <div class="alert alert-success">
+                            {!! \Session::get('success') !!}
+                        </div>
+                    @endif  
 <div class="card">
         <div class="card-header">
             <div class="card-title">
@@ -17,14 +27,14 @@
             <div class="pull-right">
                 <div class="col-xs-12">
                     <div class="row">
-                        <div class="col-md-3 text-right no-padding">
-                                @if (auth()->guard('staff')->user()->can('write','category'))
-                                <a href="{{url('details/create')}}" class="btn btn-transparent"><i class="fas fa-plus fa-sm"></i> <strong>Add</strong></a>
-                                @endif
-                                </div>
-                        <div class="col-md-3 text-right no-padding">
+                        @if (auth()->guard('staff')->user()->can('write','detail'))
+                            <div class="col-md-3 text-right no-padding">
+                            <a href="{{url('details/create')}}" class="btn btn-transparent"><i class="fas fa-plus fa-sm"></i> <strong>Add</strong></a>
+                             </div>
+                            <div class="col-md-3 text-right no-padding">
                             <a href="{{url('details/trash')}}" class="btn btn-transparent-danger"><i class="fas fa-trash-alt fa-sm"></i> <strong>Trash</strong></a>
-                        </div>
+                            </div> 
+                        @endif
                         <div class="col-md-6">
                             <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
                         </div>
@@ -35,12 +45,14 @@
             
         </div>
         <div class="card-body">
-                    <form action="{{route('delete.categories')}}" method="post">
+                    <form action="{{route('delete.details')}}" method="post">
                     {{ method_field('DELETE') }}
                         {{ csrf_field() }}
             <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
                 <thead>
-                    <th class="text-center" style="width:35px"><a href="#"><i class="fas fa-trash-alt"></i></a></th>
+                 @if (auth()->guard('staff')->user()->can('write','detail'))
+                    <th class="text-center" style="width:35px"><button class="btn btn-link" type="submit"><i class="fas fa-trash-alt"></i></button></th>
+                @endif
                     <th style="width:62px"></th>
                     <th style="width:62px"></th>
                     <th style="width:150px">Detail name</th>           
@@ -49,29 +61,38 @@
                 </thead>
         
                 <tbody> 
+                @foreach($details as $detail)
                     <tr role="row" id="0">
+                     @if (auth()->guard('staff')->user()->can('write','detail'))
                         <td class="v-align-middle p-l-5 p-r-5">
                             <div class="checkbox no-padding no-margin text-center">
-                                <input type="checkbox" id="checkbox2">
-                                <label for="checkbox2" class="no-padding no-margin"></label>
+                                <input type="checkbox" value="{{$detail->id}}" name="details[]" id="checkbox{{$detail->id}}">
+                                <label for="checkbox{{$detail->id}}" class="no-padding no-margin"></label>
                             </div>
                         </td>
+                       
                         <td class="v-align-middle text-center p-l-5 p-r-5">
-                            <a href="{{url('categories/create')}}"><i class="fas fa-pen fa-sm"></i> <strong>Edit</strong></a>
+                            <a href="{{url('details/'.$detail->id.'/edit')}}"><i class="fas fa-pen fa-sm"></i> <strong>Edit</strong></a>
                             </td> 
                         <td class="v-align-middle text-center p-l-5 p-r-5">
-                            <a href="#" class="text-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a></td>
-                        <td class="v-align-middle"><a href="#"><strong>Detail name</strong></a></td>
+                            <a href="{{route('delete.detail',['detail'=>$detail->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="text-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
+                        </td>
+                     @endif
+                        <td class="v-align-middle"><a href="{{url('details/'.$detail->id)}}"><strong>@if($detail->detailLang->first()->value==' '){{$detail->detailLangNotEmpty->first()->value}} @else {{$detail->detailLang->first()->value }}@endif</strong></a></td>
                         <td class="v-align-middle">
-                            <a href="#" class="btn btn-tag">cat</a>
-                            <a href="#" class="btn btn-tag">subcat1</a>
-                            <a href="#" class="btn btn-tag">sub-subcat1</a>
+                            @foreach($detail->categories as $category)
+                            <a href="{{url('categories/'.$category->id)}}" class="btn btn-tag">{{$category->categoryLang->first()->reference}}</a>
+                            @endforeach
                         </td>
                         <td class="v-align-middle">
-                            <a href="#" class="btn btn-tag">En</a>
-                            <a href="#" class="btn btn-tag">Fr</a>
+                            @foreach($detail->detailLangs as $detailLang)
+                                @if($detailLang->value != " ")
+                                     <a href="#" class="btn btn-tag">{{$detailLang->lang->alpha_2_code}}</a>
+                                @endif
+                            @endforeach
                         </td>
-                    </tr>                                 
+                    </tr> 
+                @endforeach                                
                 </tbody>
             </table>
         </div>

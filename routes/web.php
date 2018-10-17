@@ -444,7 +444,9 @@ Route::prefix('discounts')->group(function() {
     Route::prefix('details')->middleware('CanWrite:detail')->group(function() {
 
         Route::post('/', 'DetailController@store'); 
+        Route::post('/multi-restore', 'DetailController@multiRestore'); 
         Route::post('{detail}', 'DetailController@update'); 
+        Route::post('{detail}/restore', 'DetailController@restore'); 
         Route::delete('{detail}', 'DetailController@destroy')->name('delete.detail');
         Route::delete('delete/multiple', 'DetailController@multiDestroy')->name('delete.details');
     }); 

@@ -58,9 +58,11 @@
                 
             </div>
             <div class="card-body">
+              <form action="{{url('details/multi-restore')}}" method="post">
+                        {{ csrf_field() }}
                 <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
                     <thead>
-                        <th class="text-center" style="width:35px"><a href="#"><i class="fas fa-undo-alt fa-lg"></i></a></th>
+                        <th class="text-center" style="width:35px"><button class="btn btn-link" type="submit"><i class="fas fa-undo-alt fa-lg"></i></button></th>
                         <th style="width:62px"></th>
                         <th style="width:150px">Detail name</th>           
                         <th style="width:300px">Categories using this detail</th>             
@@ -69,30 +71,39 @@
                     </thead>
             
                     <tbody> 
+                    @foreach($details as $detail)
                         <tr role="row" id="0">
-                            <td class="v-align-middle p-l-5 p-r-5">
-                                <div class="checkbox no-padding no-margin text-center">
-                                    <input type="checkbox" id="checkbox2">
-                                    <label for="checkbox2" class="no-padding no-margin"></label>
-                                </div>
-                            </td>
+                           <td class="v-align-middle p-l-5 p-r-5">
+                            <div class="checkbox no-padding no-margin text-center">
+                                <input type="checkbox" value="{{$detail->id}}" name="details[]" id="checkbox{{$detail->id}}">
+                                <label for="checkbox{{$detail->id}}" class="no-padding no-margin"></label>
+                            </div>
+                        </td>
                             <td class="v-align-middle text-center p-l-5 p-r-5">
-                                <a href="{{url('categories/create')}}"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></a>
+                                <form action="{{url('details/'.$detail->id.'/restore')}}" method="POST">
+                                {{ csrf_field() }}
+                                <button class="btn btn-link" type="submit"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></button>
+                                </form>
                             </td> 
-                            <td class="v-align-middle"><a href="#"><strong>Detail name</strong></a></td>
+                            <td class="v-align-middle"><a href="#"><strong>@if($detail->detailLang->first()->value==' '){{$detail->detailLangNotEmpty->first()->value}} @else {{$detail->detailLang->first()->value }}@endif</strong></a></td>
                             <td class="v-align-middle">
-                                <a href="#" class="btn btn-tag">cat</a>
-                                <a href="#" class="btn btn-tag">subcat1</a>
-                                <a href="#" class="btn btn-tag">sub-subcat1</a>
+                                @foreach($detail->categories as $category)
+                            <a href="{{url('categories/'.$category->id)}}" class="btn btn-tag">{{$category->categoryLang->first()->reference}}</a>
+                            @endforeach
                             </td>
                             <td class="v-align-middle">
-                                <a href="#" class="btn btn-tag">En</a>
-                                <a href="#" class="btn btn-tag">Fr</a>
+                                @foreach($detail->detailLangs as $detailLang)
+                                @if($detailLang->value != " ")
+                                     <a href="#" class="btn btn-tag">{{$detailLang->lang->alpha_2_code}}</a>
+                                @endif
+                            @endforeach
                             </td>
-                            <td class="v-align-middle">10/15/2018 15:23:12</td>
-                        </tr>                                        
+                            <td class="v-align-middle">{{$detail->deleted_at}}</td>
+                        </tr> 
+                    @endforeach                                       
                     </tbody>
                 </table>
+            </form>
             </div>
         </div> 
     </div>

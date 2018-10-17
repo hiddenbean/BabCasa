@@ -38,7 +38,6 @@ class DetailController extends Controller
     public function index()
     {
         $data['details'] = Detail::all();
-
         return view('details.backoffice.staff.index',$data);
     }
     
@@ -50,6 +49,7 @@ class DetailController extends Controller
     public function create()
     {
         $data['categories'] = Category::all();
+        $data['languages'] = Language::all();
         return view('details.backoffice.staff.create',$data);
     }
     
@@ -61,10 +61,10 @@ class DetailController extends Controller
      */
     public function store(Request $request)
     {
-         $trashedDetailLang = DetailLang::onlyTrashed()->where('value', $request->value)->first();
+        $trashedDetailLang = DetailLang::onlyTrashed()->where('value', $request->value)->first();
         if(isset($trashedDetailLang))
         {
-            return redirect('details/'.$trashedDetailLang->detail_id.'/trashed');
+            return redirect('details/'.$trashedDetailLang->detail_id);
         }
         $this->validateRequest($request);
         $detail = new Detail();
@@ -78,7 +78,7 @@ class DetailController extends Controller
             $detailLang = new DetailLang();
             $detailLang->detail_id = $detail->id;
             $detailLang->lang_id = $lang->id;
-            if($lang->id == Language::where('alpha_2_code',App::getLocale())->first()->id)
+            if($lang->id == $request->language)
             {
                 $detailLang->value = $request->value;
 
@@ -92,26 +92,38 @@ class DetailController extends Controller
         }
        
 
-
-        foreach($request->categories as $category)
+        if($request->categories)
         {
-            $detail->categories()->attach($category);
-        } 
-        
+
+            foreach($request->categories as $category)
+            {
+                $detail->categories()->attach($category);
+            } 
+            
+        }
+
         return redirect('details');
     }
 
-    public function trashed($detail)
-    {
-         $data['detail'] = Detail::onlyTrashed()->where('id', $detail)->first();
-       
-         return view('details.backoffice.staff.trashed',$data);
-       
-    }
     public function restore($detail)
     {
          $detail = Detail::onlyTrashed()->where('id', $detail)->first();
         $detail->restore();
+         return redirect('details');
+       
+    }
+
+    public function multiRestore(Request $request)
+    {
+        $request->validate([
+            'details' => 'required',
+        ]);
+
+        foreach ($request->details as  $Detail)
+         {
+            $detail = Detail::onlyTrashed()->where('id', $Detail)->first();
+           $detail->restore();
+        }
          return redirect('details');
        
     }
@@ -182,7 +194,7 @@ class DetailController extends Controller
         // récupérer photo
         $detail = Detail::findOrFail($detail);
        if(isset($detail->detailValue))
-        {return $category->products;
+        {
             return  redirect()
                         ->back()
                         ->with(
@@ -253,7 +265,7 @@ class DetailController extends Controller
      */
     public function trash()
     {
-        $data['details'] = Category::all();
+        $data['details'] = Detail::onlyTrashed()->get();
         return view('details.backoffice.staff.trash', $data);
     }
 

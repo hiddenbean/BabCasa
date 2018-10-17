@@ -43,7 +43,7 @@
                                 Name
                             </h5>
                             <p>
-                                Test
+                                @if($detail->detailLang->first()->value==' '){{$detail->detailLangNotEmpty->first()->value}} @else {{$detail->detailLang->first()->value }}@endif
                             </p>
                         </div>
                     </div>
@@ -53,10 +53,10 @@
                                 Categories using this detail
                             </h5>
                             <p>
-                                <a href="#" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">Cat 1</a>
-                                <a href="#" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">Cat 2</a>
-                                <a href="#" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">Cat 3</a>
-                                <a href="#" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">Cat 4</a>
+                             @foreach($detail->categories as $category)
+                            <a href="{{url('categories/'.$category->id)}}" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">{{$category->categoryLang->first()->reference}}</a>
+                            @endforeach
+                                
                             </p>
                         </div>
                     </div>
@@ -85,32 +85,43 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    Status : <strong>Publish</strong>, <strong>Removed</strong>
+                                    Status : <strong>@if($detail->deleted_at == NULL) Publish @else Removed @endif</strong>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    Creation date : <strong>10/18/2018 18:46:11</strong>
+                                    Creation date : <strong>{{$detail->created_at}}</strong>
                                 </div>
                             </div>
+                            @if($detail->updated_at != NULL)
                             <div class="row">
                                 <div class="col-md-12">
-                                    Last update : <strong>10/18/2018 18:48:40</strong>
+                                    Last update : <strong>{{$detail->updated_at}}</strong>
                                 </div>
                             </div>
+                            @endif
+                            @if($detail->deleted_at != NULL)
                             <div class="row">
                                 <div class="col-md-12">
-                                    Remove date : <strong>10/18/2018 18:49:22</strong>
+                                    Remove date : <strong>{{$detail->deleted_at}}</strong>
                                 </div>
                             </div>
+                            @endif
                             <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
                                 <div class="col-md-6">
-                                    <button class="btn btn-block "><i class="fas fa-pen"></i> <strong>Edit</strong></button>                                    
+                                    <a href="{{url('details/'.$detail->id.'/edit')}}" class="btn btn-block "><i class="fas fa-pen"></i> <strong>Edit</strong></a>                                    
                                 </div>
+
                                 <div class="col-md-6">
-                                    <button class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>Remove</strong></button>
-                                    <button class="btn btn-block btn-transparent-danger"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></button>
-                                </div>
+                                @if($detail->deleted_at == NULL)
+                                    <a  href="{{route('delete.detail',['detail'=>$detail->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
+                                @else
+                                      <form action="{{url('details/'.$detail->id.'/restore')}}" method="POST">
+                                        {{ csrf_field() }}
+                                        <button class="btn btn-block btn-transparent-danger" type="submit"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></button>
+                                        </form>
+                                @endif
+                                 </div>
                             </div>
                         </div>
                     </div>
@@ -138,7 +149,12 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    Available in : <strong><a href="#">English</a></strong>, <strong><a href="#">Français</a></strong>  
+                                    Available in : 
+                                     @foreach($detail->detailLangs as $detailLang)
+                                @if($detailLang->value != " ")
+                                    <strong><a href="#">{{$detailLang->lang->name}}</a></strong>
+                                @endif
+                            @endforeach
                                 </div>
                             </div>
                             <div class="row b-t b-dashed b-grey m-t-20 p-t-20">

@@ -74,7 +74,7 @@ class CategoryController extends Controller
             array_push($array, $category);
             $array = $this->toArray($array,$category); 
         }
-        return$data['categories'] = $array;
+        //return$data['categories'] = $array;
         return view('categories.backoffice.staff.create',$data);
     }
     

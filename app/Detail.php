@@ -13,17 +13,22 @@ class Detail extends Model
 
     public function detailLangs()
     {
-            return $this->hasMany('App\DetailLang');
+            return $this->hasMany('App\DetailLang')->withTrashed();
     }
     
     public function detailLang()
     {
         $langId = Language::where('alpha_2_code',App::getLocale())->first()->id; 
-        return $this->detailLangs()->where('lang_id',$langId);
+        return $this->detailLangs()->where('lang_id',$langId)->withTrashed();
+    }
+
+    public function detailLangNotEmpty()
+    {
+        return $this->detailLangs()->where('value','!=',' ')->withTrashed();
     }
     public function categories()
     {
-        return $this->belongsToMany('App\Category');
+        return $this->belongsToMany('App\Category')->withTrashed();
     }
     public function detailValue()
     {
