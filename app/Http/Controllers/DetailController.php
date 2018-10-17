@@ -86,9 +86,8 @@ class DetailController extends Controller
      */
     public function show($detail)
     {
-        
         $data['detail'] = Detail::find($detail);
-        return 1;
+        return view('details.backoffice.staff.show', $data);
     }
     
     /**
@@ -154,10 +153,11 @@ class DetailController extends Controller
                         );
         }
         $detail->delete();
-        return redirect('details')->with(
-                            'success',
-                            'Detail has been deleted successfuly !!'
-        );
+        return redirect('details')
+                    ->with(
+                        'success',
+                        'Detail has been deleted successfuly !!'
+                    );
 
     }
 
@@ -190,19 +190,44 @@ class DetailController extends Controller
         }
         if(!$error) 
         {
-            return redirect('details')->with(
+            return redirect('details')
+                        ->with(
                             'success',
                             'Detail has been deleted successfuly !!'
-             );
+                        );
 
         }
         else 
         {
-            return redirect('details')->with(
-                'error',
-                'Detail can\'t be deleted it has a relation with products '
-            );
+            return redirect('details')
+                        ->with(
+                            'error',
+                            'Detail can\'t be deleted it has a relation with products '
+                        );
         }
+    }
 
+    /**
+     * Displaying the Trash page
+     * 
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function trash()
+    {
+        $data['details'] = Category::all();
+        return view('details.backoffice.staff.trash', $data);
+    }
+
+    /**
+     * Displaying the Trash page
+     * 
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function translations($category)
+    {
+        $data['categories'] = Category::findOrFail($category)->first();
+        return view('details.backoffice.staff.translations', $data);
     }
 }
