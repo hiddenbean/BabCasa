@@ -18,7 +18,8 @@
             <span class="icon-thumbnail">
                 <i class="fas fa-boxes"></i>
             </span>
-            <li>
+            <ul class="sub-menu">
+                <li>
                     <a href="{{ url('categories/create') }}">Add Category</a>
                     <span class="icon-thumbnail"><i class="fas fa-plus"></i></span>
                 </li>
