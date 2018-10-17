@@ -1,4 +1,7 @@
 @extends('layouts.backoffice.staff.app')
+@section('css')
+    <link href="{{ asset('plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" media="screen" />
+@endsection
 @section('css_before')
     <link href="{{ asset('plugins/bootstrap-datepicker/css/datepicker3.css') }}" rel="stylesheet" type="text/css" media="screen">
     <link href="{{ asset('plugins/switchery/css/switchery.min.css') }}" rel="stylesheet" type="text/css" media="screen" />
@@ -56,10 +59,10 @@
                             <div class="col-md-12">
                                 <div class="form-group form-group-default">
                                     <label>Categories parent</label>
-                                    <select class="cs-select cs-skin-slide cs-transparent" name="category_id" data-init-plugin="cs-select">
+                                    <select class="cs-select cs-skin-slide cs-transparent" name="category_parent" data-init-plugin="cs-select">
                                         <option value="0">No category parent</option> 
                                         @foreach($categories as $category)
-                                    <option value="{{$category->id}}">{{$category->categoryLang->first()->reference}}</option> 
+                                            <option value="{{$category->id}}">{{$category->level}}{{$category->categoryLang->first()->reference}}</option>
                                         @endforeach
                                     </select> 
                                 </div>
@@ -91,6 +94,54 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="">Category's children :</label><br>
+                                <select class="full-width select2-hidden-accessible" name="category_children[]" data-init-plugin="select2" multiple="" tabindex="-1" aria-hidden="false">
+                                    @foreach($categories as $cat)
+                                        <option value="{{$cat->id}}" @if($cat->subCategories()->where('category_id', $category->id)->first()) selected @endif>{{$cat->level}}{{$cat->categoryLang()->first()->reference}}</option>
+                                    @endforeach
+                                
+                                </select>
+                                <label class='error' for='category_children'>
+                                        @if ($errors->has('category_children'))
+                                            {{ $errors->first('category_children') }}
+                                        @endif
+                                </label> 
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="">Details :</label><br>
+                                <select class="full-width select2-hidden-accessible" name="details[]" data-init-plugin="select2" multiple="" tabindex="-1" aria-hidden="false">
+                                    @foreach($details as $detail)
+                                        <option value="{{$detail->id}}">{{$detail->detailLang()->first()->value}}</option>
+                                    @endforeach
+                                
+                                </select>
+                                <label class='error' for='details'>
+                                        @if ($errors->has('details'))
+                                            {{ $errors->first('details') }}
+                                        @endif
+                                </label> 
+                            </div>
+                        </div>
+                        <div class="row">
+                                <div class="col-md-12">
+                                    <label for="">Attributes :</label><br>
+                                    <select class="full-width select2-hidden-accessible" name="attribute[]" data-init-plugin="select2" multiple="" tabindex="-1" aria-hidden="false">
+                                        @foreach($attributes as $attribute)
+                                            <option value="{{$attribute->id}}">{{$attribute->attributeLang()->first()->reference}}</option>
+                                        @endforeach
+                                    
+                                    </select>
+                                    <label class='error' for='attribute'>
+                                            @if ($errors->has('attribute'))
+                                                {{ $errors->first('attribute') }}
+                                            @endif
+                                    </label> 
+                                </div>
+                            </div>
                         <button class="btn btn-primary" type="submit">Save</button>
                     </form>
                 </div>
@@ -102,6 +153,7 @@
 
 @section('script')
     <script src="{{ asset('plugins/switchery/js/switchery.min.js') }}" type="text/javascript"></script>
+    <script type="text/javascript" src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('plugins/classie/classie.js') }}"></script>
     <script src="{{ asset('plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
     <script>

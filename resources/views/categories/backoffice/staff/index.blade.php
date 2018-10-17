@@ -75,23 +75,22 @@
                     <tbody> 
                         @foreach($categories as $category)  
                             <tr class="order-progress"  >
-                            <td class="v-align-middle">
-                            <div class="checkbox text-center">
-                            <input type="checkbox" value="{{$category->id}}" name="categories[]" id="checkbox{{$category->id}}">
-                            <label for="checkbox{{$category->id}}" class="no-padding no-margin"></label>
-                            </div>
-                            </td>
+                                <td class="v-align-middle">
+                                <div class="checkbox text-center">
+                                <input type="checkbox" value="{{$category->id}}" name="categories[]" id="checkbox{{$category->id}}">
+                                <label for="checkbox{{$category->id}}" class="no-padding no-margin"></label>
+                                </div>
+                                </td>
                                 <td class="v-align-middle"><a href="{{url('categories/'.$category->id)}}"><strong> {{$category->categoryLang->first()->reference}} </strong></a></td>
                                 <td class="v-align-middle text-center"><strong>{{$category->categoryLang->first()->description}} </strong></td>                
                                 <td class="v-align-middle text-center"> @if(isset($category->category_id)) <a href="{{url('categories/'.$category->category->id)}}"><strong> {{$category->category->categoryLang->first()->reference}} </strong></a> @endif </td>             
-                                        @if (auth()->guard('staff')->user()->can('write','category'))
-                                <td class="v-align-middle text-center">
-
+                                @if (auth()->guard('staff')->user()->can('write','category'))
+                                    <td class="v-align-middle text-center">
                                         <a href="{{url('categories/'.$category->id.'/edit')}}" class="btn btn-transparent"><i class="fa fa-pencil"></i></a>
                                         <a href="{{route('delete.category',['category'=>$category->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></a>
                                     </td> 
-                                        @endif
-                            </tr> 
+                                @endif
+                            </tr>
                             @endforeach 
                     </tbody>
                 </table>
