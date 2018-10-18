@@ -15,10 +15,10 @@
                             <a href="{{ url('/') }}">DASHBOARD</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{{ url('details') }}">Details</a>
+                            <a href="{{ url('attributes') }}">attributes</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{{ url('details/'.$detail->id) }}">ID : {{$detail->id}}</a>
+                            <a href="{{ url('attributes/'.$attribute->id) }}">ID : {{$attribute->id}}</a>
                         </li>
                         <li class="breadcrumb-item active">
                             Tanslations
@@ -38,7 +38,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="card-title">
-                                    Detail translations
+                                    attribute translations
                                     <a 
                                         href="javascript:;" 
                                         data-toggle="tooltip" 
@@ -51,11 +51,11 @@
                                     </a>    
                                 </div>
                             </div>
-                            <form action="{{url('details/'.$detail->id.'/translations')}}" method="POST">
+                            <form action="{{url('attributes/'.$attribute->id.'/translations')}}" method="POST">
                               {{ csrf_field() }}
                             <div class="card-body">
                                 <div class="row">
-                                @foreach($languages as $language)
+                                @foreach($languages as $key => $language)
                                     <div class="col-md-6 b-r b-dashed b-grey">
                                         <h5>
                                             {{$language->name}}
@@ -64,13 +64,18 @@
                                             <div class="col-md-12">
                                                 <div class="form-group form-group-default">
                                                     <label>Category name</label>
-                                                    <input type="text" class="form-control" name="values[]" value="{{ $detail->detailLangs->where('lang_id',$language->id)->first()->value}}">
+                                                    <input type="text" class="form-control" name="references[]" value="{{$attribute->attributeLangs->where('lang_id',$language->id)->first()->reference}}">
                                                     <input type="hidden" name="languages_id[]" value="{{$language->id}}">
-                                                    <label class='error' for='values.0'>
-                                                        @if ($errors->has('values.0'))
-                                                            {{ $errors->first('values.0') }}
-                                                        @endif
-                                                    </label> 
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group form-group-default">
+                                                    <label>Category name</label>
+                                                    <textarea class="form-control" name="descriptions[]">{{$attribute->attributeLangs->where('lang_id',$language->id)->first()->description}}</textarea>
+                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -104,25 +109,25 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            Status : <strong>@if($detail->deleted_at == NULL) Publish @else Removed @endif</strong>
+                                            Status : <strong>@if($attribute->deleted_at == NULL) Publish @else Removed @endif</strong>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            Creation date : <strong>{{$detail->created_at}}</strong>
+                                            Creation date : <strong>{{$attribute->created_at}}</strong>
                                         </div>
                                     </div>
-                                    @if($detail->updated_at != NULL)
+                                    @if($attribute->updated_at != NULL)
                                     <div class="row">
                                         <div class="col-md-12">
-                                            Last update : <strong>{{$detail->updated_at}}</strong>
+                                            Last update : <strong>{{$attribute->updated_at}}</strong>
                                         </div>
                                     </div>
                                     @endif
-                                    @if($detail->deleted_at != NULL)
+                                    @if($attribute->deleted_at != NULL)
                                     <div class="row">
                                         <div class="col-md-12">
-                                            Remove date : <strong>{{$detail->deleted_at}}</strong>
+                                            Remove date : <strong>{{$attribute->deleted_at}}</strong>
                                         </div>
                                     </div>
                                     @endif

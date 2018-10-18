@@ -26,6 +26,7 @@ class Detail extends Model
     {
         return $this->detailLangs()->where('value','!=',' ')->withTrashed();
     }
+    
     public function categories()
     {
         return $this->belongsToMany('App\Category')->withTrashed();

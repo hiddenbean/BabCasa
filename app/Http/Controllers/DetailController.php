@@ -136,13 +136,13 @@ class DetailController extends Controller
      */
     public function show($detail)
     {
-        $data['detail'] = Detail::find($detail);
+        $data['detail'] = Detail::withTrashed()->find($detail);
         return view('details.backoffice.staff.show', $data);
     }
     
     /**
      * Show the form for editing the specified resource.
-     *
+     *  
      * @param  \App\Detail  $detail
      * @return \Illuminate\Http\Response
      */
@@ -166,9 +166,9 @@ class DetailController extends Controller
     {
         $request->validate([
             'value' => 'required|unique:detail_langs,value,'.$detail.',detail_id',
-        ]);
-        $detail = Detail::find($detail);
-        $detailLangId = $detail->detailLang->first()->id;
+            ]);
+            $detail = Detail::find($detail);
+            $detailLangId = $detail->detailLang->first()->id;
 
         $detailLang = DetailLang::find($detailLangId);
         $detailLang->value = $request->value; 
@@ -195,7 +195,7 @@ class DetailController extends Controller
         $detail = Detail::findOrFail($detail);
        if(isset($detail->detailValue))
         {
-            return  redirect()
+            return  redirect('details')
                         ->back()
                         ->with(
                             'error',
@@ -275,9 +275,11 @@ class DetailController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function translations($category)
+    public function translations($detail)
     {
-        $data['categories'] = Category::findOrFail($category)->first();
+        $data['detail'] = Detail::findOrFail($detail);
+        $data['languages'] = Language::all();
+
         return view('details.backoffice.staff.translations', $data);
     }
 

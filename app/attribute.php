@@ -12,17 +12,21 @@ class Attribute extends Model
 
     public function attributeLangs()
     {
-            return $this->hasMany('App\AttributeLang');
+            return $this->hasMany('App\AttributeLang')->withTrashed();
     }
     public function attributeLang()
     {
         $langId = Language::where('alpha_2_code',App::getLocale())->first()->id; 
-        return $this->attributeLangs()->where('lang_id',$langId);
+        return $this->attributeLangs()->where('lang_id',$langId)->withTrashed();
     }
     
     public function attributeValue()
     {
         return $this->hasOne('App\AttributeValue');
+    }
+    public function attributeLangNotEmpty()
+    {
+        return $this->attributeLangs()->where('reference','!=',' ')->withTrashed();
     }
 
     public function categories()

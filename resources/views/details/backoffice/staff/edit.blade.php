@@ -44,6 +44,8 @@
                 </a>
             </div>
         </div>
+        <form action="{{url('details/'.$detail->id)}}" method="POST">
+        {{ csrf_field() }}
         <div class="card-body">
             <div class="row">
                 <div class="col-md-9">
@@ -53,10 +55,10 @@
                                 <div class="col-md-12">
                                     <div class="form-group form-group-default">
                                         <label>Detail name</label>
-                                        <input type="text" class="form-control" name="reference">
-                                        <label class='error' for='reference'>
-                                            @if ($errors->has('reference'))
-                                                {{ $errors->first('reference') }}
+                                        <input type="text" class="form-control" name="value" value="{{$detail->detailLang->first()->value}}">
+                                        <label class='error' for='value'>
+                                            @if ($errors->has('value'))
+                                                {{ $errors->first('value') }}
                                             @endif
                                         </label> 
                                     </div>
@@ -85,20 +87,10 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-5">
-                                            <select name="from" id="lstview" class="form-control" size="13" multiple="multiple">
-                                                <option value="HTML">HTML</option>
-                                                <option value="2">CSS</option>
-                                                <option value="CSS">CSS3</option>
-                                                <option value="jQuery">jQuery</option>
-                                                <option value="JavaScript">JavaScript</option>
-                                                <option value="Bootstrap">Bootstrap</option>
-                                                <option value="MySQL">MySQL</option>
-                                                <option value="PHP">PHP</option>
-                                                <option value="JSP">JSP</option>
-                                                <option value="Rubi on Rails">Rubi on Rails</option>
-                                                <option value="SQL">SQL</option>
-                                                <option value="Java">Java</option>
-                                                <option value="Python">Python</option>
+                                            <select id="lstview" class="form-control" size="13" multiple="multiple">
+                                               @foreach($categories as $category)
+                                                <option value="{{$category->id}}">{{$category->categoryLang->first()->reference}}</option>
+                                               @endforeach
                                             </select>
                                         </div>
                                         <div class="col-md-2">
@@ -110,7 +102,11 @@
                                             <button type="button" id="lstview_redo" class="btn btn-transparent btn-block"><i class="fas fa-sync-alt"></i> redo</button>
                                         </div>
                                         <div class="col-md-5">
-                                            <select name="to" id="lstview_to" class="form-control" size="13" multiple="multiple"></select>
+                                            <select name="categories[]" id="lstview_to" class="form-control" size="13" multiple="multiple">
+                                             @foreach($detail->categories as $category)
+                                                 <option value="{{$category->id}}">{{$category->categoryLang->first()->reference}}</option>
+                                               @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -139,35 +135,41 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            Status : <strong>Publish</strong>, <strong>Removed</strong>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            Creation date : <strong>10/18/2018 18:46:11</strong>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            Last update : <strong>10/18/2018 18:48:40</strong>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            Remove date : <strong>10/18/2018 18:49:22</strong>
-                                        </div>
-                                    </div>
-                                    <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
-                                        <div class="col-md-6">
-                                            <button class="btn btn-block "><i class="fas fa-check"></i> <strong>Save</strong></button>                                    
-                                        </div>
-                                        <div class="col-md-6">
-                                            <button class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>Cancel</strong></button>
-                                        </div>
-                                    </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    Status : <strong>@if($detail->deleted_at == NULL) Publish @else Removed @endif</strong>
                                 </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    Creation date : <strong>{{$detail->created_at}}</strong>
+                                </div>
+                            </div>
+                            @if($detail->updated_at != NULL)
+                            <div class="row">
+                                <div class="col-md-12">
+                                    Last update : <strong>{{$detail->updated_at}}</strong>
+                                </div>
+                            </div>
+                            @endif
+                            @if($detail->deleted_at != NULL)
+                            <div class="row">
+                                <div class="col-md-12">
+                                    Remove date : <strong>{{$detail->deleted_at}}</strong>
+                                </div>
+                            </div>
+                            @endif
+                            <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
+                                <div class="col-md-6">
+                                   <button class="btn btn-block"><i class="fas fa-pen"></i> <strong>Edit</strong></button   >                                    
+                                </div>
+
+                                <div class="col-md-6">
+                                    <a  href="{{route('delete.detail',['detail'=>$detail->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
+                                
+                                 </div>
+                            </div>
+                        </div>
                             </div>
                         </div>
                     </div>
@@ -192,12 +194,17 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            Available in : <strong><a href="#">English</a></strong>, <strong><a href="#">Français</a></strong>  
+                                            Available in : 
+                                             @foreach($detail->detailLangs as $detailLang)
+                                        @if($detailLang->value != " ")
+                                            <strong><a href="#">{{$detailLang->lang->name}}</a></strong>
+                                        @endif
+                                    @endforeach
                                         </div>
                                     </div>
                                     <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
                                         <div class="col-md-12">
-                                            <a class="btn btn-transparent"><i class="fas fa-plus"></i> <strong>Add an other translation</strong></a>                                    
+                                            <a href="{{url('details/'.$detail->id.'/translations')}}" class="btn btn-transparent"><i class="fas fa-plus"></i> <strong>Add an other translation</strong></a>                                    
                                         </div>
                                     </div>
                                 </div>
@@ -207,6 +214,7 @@
                 </div>
             </div>
         </div>
+        </form> 
     </div>
 </div>
 @endsection

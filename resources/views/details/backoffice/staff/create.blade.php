@@ -141,7 +141,7 @@
                                     </div>
                                     <div class="row justify-content-end b-t b-dashed b-grey m-t-20 p-t-20">
                                         <div class="col-md-6">
-                                            <button  type='button' class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>clear all</strong></button>
+                                            <button  type='reset' class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>clear all</strong></button>
                                         </div>
                                     </div>
                                 </div>

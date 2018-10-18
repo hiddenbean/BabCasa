@@ -16,10 +16,10 @@
                     <a href="{{ url('/') }}">DASHBOARD</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a href="{{ url('/categories') }}">Detail</a>
+                    <a href="{{ url('/details') }}">Detail</a>
                 </li>
                 <li class="breadcrumb-item active">
-                    ID : 1
+                    ID : {{$detail->id}}
                 </li>
             </ol>
         </div>
@@ -108,10 +108,11 @@
                             </div>
                             @endif
                             <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
+                             @if($detail->deleted_at == NULL)
                                 <div class="col-md-6">
                                     <a href="{{url('details/'.$detail->id.'/edit')}}" class="btn btn-block "><i class="fas fa-pen"></i> <strong>Edit</strong></a>                                    
                                 </div>
-
+                            @endif
                                 <div class="col-md-6">
                                 @if($detail->deleted_at == NULL)
                                     <a  href="{{route('delete.detail',['detail'=>$detail->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
@@ -151,15 +152,15 @@
                                 <div class="col-md-12">
                                     Available in : 
                                      @foreach($detail->detailLangs as $detailLang)
-                                @if($detailLang->value != " ")
-                                    <strong><a href="#">{{$detailLang->lang->name}}</a></strong>
-                                @endif
-                            @endforeach
+                                        @if($detailLang->value != " ")
+                                            <strong><a href="#">{{$detailLang->lang->name}}</a></strong> ,
+                                        @endif
+                                    @endforeach
                                 </div>
                             </div>
                             <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
                                 <div class="col-md-12">
-                                    <a class="btn btn-transparent"><i class="fas fa-plus"></i> <strong>Add an other translation</strong></a>                                    
+                                    <a href="{{url('details/'.$detail->id.'/translations')}}" class="btn btn-transparent"><i class="fas fa-plus"></i> <strong>Add an other translation</strong></a>                                    
                                 </div>
                             </div>
                         </div>
