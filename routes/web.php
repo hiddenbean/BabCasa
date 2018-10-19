@@ -83,16 +83,16 @@ function()
             Route::get('{tag}', 'TagController@show'); 
         });
 
-
-
-        //////////attributes
-        Route::prefix('attributes')->middleware('CanRead:attribute')->group(function() {
-            Route::get('/', 'AttributeController@index'); 
-            Route::group(['middleware' => ['CanWrite:attribute']], function(){
-                Route::get('create', 'AttributeController@create'); 
-                Route::get('{attribute}/edit', 'AttributeController@edit'); 
-            });
-            Route::get('{attribute}', 'AttributeController@show'); 
+        // Staff Attributes management pages
+        Route::prefix('attributes')->group(function() {
+        Route::get('/', 'AttributeController@index');
+        Route::get('trash', 'AttributeController@trash');
+            Route::get('create', 'AttributeController@create');
+            Route::prefix('{attribute}')->group( function (){
+                Route::get('edit', 'AttributeController@edit');
+                Route::get('translations','AttributeController@translations');
+        });
+        Route::get('{attribute}', 'AttributeController@show'); 
         });
 
         //////////countries
@@ -109,10 +109,10 @@ function()
         Route::prefix('currencies')->middleware('CanRead:currency')->group(function() {
             Route::get('/', 'CurrencyController@index'); 
             Route::group(['middleware' => ['CanWrite:currency']], function(){
-                    Route::get('create', 'CurrencyController@create'); 
-                    Route::get('{currency}/edit', 'CurrencyController@edit');
-                }); 
-                Route::get('{currency}', 'CurrencyController@show'); 
+                Route::get('create', 'CurrencyController@create'); 
+                Route::get('{currency}/edit', 'CurrencyController@edit');
+            }); 
+            Route::get('{currency}', 'CurrencyController@show'); 
         }); 
 
         //////////reasons

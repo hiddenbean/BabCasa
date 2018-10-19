@@ -268,6 +268,4 @@ class DetailController extends Controller
         $data['categories'] = Category::findOrFail($category)->first();
         return view('details.backoffice.staff.translations', $data);
     }
-
-   
 }

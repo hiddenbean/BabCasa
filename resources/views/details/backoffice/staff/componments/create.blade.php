@@ -15,10 +15,10 @@
                         <a href="{{ url('/') }}">DASHBOARD</a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="{{ url('/attributes') }}">Attributes</a>
+                        <a href="{{ url('/details') }}">Details</a>
                     </li>
                     <li class="breadcrumb-item active">
-                        Add
+                        Add 
                     </li>
                 </ol>
             </div>
@@ -31,7 +31,7 @@
     <div class="card card-transparent">
         <div class="card-header">
             <div class="card-title">
-                Add an attributes
+                Create a Detail
                 <a 
                     href="javascript:;" 
                     data-toggle="tooltip" 
@@ -52,7 +52,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group form-group-default">
-                                        <label>Attribute name</label>
+                                        <label>Detail name</label>
                                         <input type="text" class="form-control" name="reference">
                                         <label class='error' for='reference'>
                                             @if ($errors->has('reference'))
@@ -66,19 +66,10 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <label for="summernote" class="upper-title p-t-5 p-b-5 p-l-10">description</label>
-                            <div class="summernote-wrapper bg-white">
-                                <div id="summernote"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header">
                                     <div class="card-title">
-                                        Catrgories using this attribute 
+                                        Catrgories using this detail 
                                         <a 
                                             href="javascript:;" 
                                             data-toggle="tooltip" 
@@ -205,6 +196,27 @@
     <script type="text/javascript" src="{{ asset('plugins/summernote/js/summernote.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('plugins/multiselect/js/multiselect.min.js') }}"></script>
     <script>
+        $(document).ready(function () {
+            $("#path_staff").on("change", function () {
+                var _this = this;
+                var image_preview = $("#image_preview_staff");
+                showImage(_this, image_preview);
+            });
+
+            function showImage(_this, image_preview) {
+                var files = !!_this.files ? _this.files : [];
+                if (!files.length || !window.FileReader) return;
+                if (/^image/.test(files[0].type)) {
+                    var ReaderObj = new FileReader();
+                    ReaderObj.readAsDataURL(files[0]);
+                    ReaderObj.onloadend = function () {
+                        image_preview.attr('src', this.result);
+                    }
+                } else {
+                    alert("Please select an image");
+                }
+            } 
+        });
     $(".list-categories a").click( function () {
         $(".list-categories a").removeClass('active');
         $(this).addClass('active');

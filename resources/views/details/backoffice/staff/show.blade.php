@@ -152,6 +152,7 @@
             </div>
         </div>
     </div>
+    @include('products.backoffice.staff.componments.table')
 </div>
 @endsection
 

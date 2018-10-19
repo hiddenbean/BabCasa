@@ -213,7 +213,29 @@ class AttributeController extends Controller
                 'Attribute can\'t be deleted it has a relation with categories '
             );
         }
-                        
     }
 
+    /**
+     * Displaying the Trash page
+     * 
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function trash()
+    {
+        $data['details'] = Attributes::all();
+        return view('attributes.backoffice.staff.trash', $data);
+    }
+
+    /**
+     * Displaying the Trash page
+     * 
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function translations($attribute)
+    {
+        $data['attributes'] = Category::findOrFail($attribute)->first();
+        return view('attributes.backoffice.staff.translations', $data);
+    }
 }
