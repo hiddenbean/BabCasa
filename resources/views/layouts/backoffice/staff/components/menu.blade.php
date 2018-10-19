@@ -89,15 +89,15 @@
             </span>
             <ul class="sub-menu">
                 <li>
-                    <a href="#">Add Tag</a>
+                    <a href="tags/create">Add Tag</a>
                     <span class="icon-thumbnail"><i class="fas fa-plus"></i></span>
                 </li>
                 <li>
-                    <a href="#">All Tags</a>
+                    <a href="tags">All Tags</a>
                     <span class="icon-thumbnail"><i class="fa fa-list"></i></span>
                 </li>
                 <li>
-                    <a href="#">Trash</a>
+                    <a href="tags/trash">Trash</a>
                     <span class="icon-thumbnail"><i class="fas fa-trash"></i></span>
                 </li>
             </ul>
