@@ -75,6 +75,12 @@ class DetailLangController extends Controller
        foreach($request->values as $key => $value)
        {
         $detailLang = $detail->detailLangs->where('lang_id',$request->languages_id[$key])->first();
+        if(!isset($detailLang))
+            {
+                $detailLang = new DetailLang();
+                $detailLang->detail_id = $detail->id;
+                $detailLang->lang_id = $request->languages_id[$key];
+            }
            if($value != '')
            {
                 $detailLang->value = $value;

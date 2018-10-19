@@ -74,18 +74,27 @@ class AttributeLangController extends Controller
         foreach($request->references as $key => $reference)
         {
             $attributeLang = $attribute->attributeLangs->where('lang_id',$request->languages_id[$key])->first();
+            if(!isset($attributeLang))
+            {
+                $attributeLang = new AttributeLang();
+                $attributeLang->attribute_id = $attribute->id;
+                $attributeLang->lang_id = $request->languages_id[$key];
+            }
+
             if($reference != '')
             {
                 $attributeLang->reference = $reference;
                 $attributeLang->description = $request->descriptions[$key];
-             }
-             else
-             {
+                }
+                else
+                {
                 $attributeLang->reference = ' ';
                 $attributeLang->description = '';
- 
-             }
-             $attributeLang->save();
+    
+                }
+                $attributeLang->save();
+            
+            
         }
         return redirect()->back();
     }

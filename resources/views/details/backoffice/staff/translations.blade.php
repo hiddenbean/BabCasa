@@ -64,7 +64,7 @@
                                             <div class="col-md-12">
                                                 <div class="form-group form-group-default">
                                                     <label>Category name</label>
-                                                    <input type="text" class="form-control" name="values[]" value="{{ $detail->detailLangs->where('lang_id',$language->id)->first()->value}}">
+                                                    <input type="text" class="form-control" name="values[]" value="@if(isset($detail->detailLangs->where('lang_id',$language->id)->first()->value)){{$detail->detailLangs->where('lang_id',$language->id)->first()->value}}@endif">
                                                     <input type="hidden" name="languages_id[]" value="{{$language->id}}">
                                                     <label class='error' for='values.0'>
                                                         @if ($errors->has('values.0'))

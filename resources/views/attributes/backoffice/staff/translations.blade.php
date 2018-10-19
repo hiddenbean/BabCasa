@@ -64,7 +64,7 @@
                                             <div class="col-md-12">
                                                 <div class="form-group form-group-default">
                                                     <label>Category name</label>
-                                                    <input type="text" class="form-control" name="references[]" value="{{$attribute->attributeLangs->where('lang_id',$language->id)->first()->reference}}">
+                                                    <input type="text" class="form-control" name="references[]" value="@if(isset($attribute->attributeLangs->where('lang_id',$language->id)->first()->reference)){{$attribute->attributeLangs->where('lang_id',$language->id)->first()->reference}}@endif">
                                                     <input type="hidden" name="languages_id[]" value="{{$language->id}}">
                                                     
                                                 </div>
@@ -74,7 +74,7 @@
                                             <div class="col-md-12">
                                                 <div class="form-group form-group-default">
                                                     <label>Category name</label>
-                                                    <textarea class="form-control" name="descriptions[]">{{$attribute->attributeLangs->where('lang_id',$language->id)->first()->description}}</textarea>
+                                                    <textarea class="form-control" name="descriptions[]">@if(isset($attribute->attributeLangs->where('lang_id',$language->id)->first()->description)){{$attribute->attributeLangs->where('lang_id',$language->id)->first()->description}}@endif</textarea>
                                                     
                                                 </div>
                                             </div>
