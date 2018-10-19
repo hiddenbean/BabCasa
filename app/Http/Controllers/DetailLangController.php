@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DetailLang;
+use App\Detail;
 use App\Language;
 use Illuminate\Http\Request;
 
@@ -68,9 +69,24 @@ class DetailLangController extends Controller
      * @param  \App\detail_lang  $detail_lang
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, detail_lang $detail_lang)
+    public function update(Request $request, $Detail)
     {
-        //
+        $detail = Detail::find($Detail);
+       foreach($request->values as $key => $value)
+       {
+        $detailLang = $detail->detailLangs->where('lang_id',$request->languages_id[$key])->first();
+           if($value != '')
+           {
+                $detailLang->value = $value;
+            }
+            else
+            {
+                $detailLang->value = ' ';
+
+            }
+            $detailLang->save();
+       }
+       return redirect()->back();
     }
 
     /**

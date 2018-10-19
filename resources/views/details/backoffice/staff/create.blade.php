@@ -44,6 +44,8 @@
                 </a>
             </div>
         </div>
+        <form action="{{url('details')}}" method="POST">
+        {{ csrf_field() }}
         <div class="card-body">
             <div class="row">
                 <div class="col-md-9">
@@ -53,10 +55,10 @@
                                 <div class="col-md-12">
                                     <div class="form-group form-group-default">
                                         <label>Detail name</label>
-                                        <input type="text" class="form-control" name="reference">
-                                        <label class='error' for='reference'>
-                                            @if ($errors->has('reference'))
-                                                {{ $errors->first('reference') }}
+                                        <input type="text" class="form-control" name="value">
+                                        <label class='error' for='value'>
+                                            @if ($errors->has('value'))
+                                                {{ $errors->first('value') }}
                                             @endif
                                         </label> 
                                     </div>
@@ -85,20 +87,10 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-5">
-                                            <select name="from" id="lstview" class="form-control" size="13" multiple="multiple">
-                                                <option value="HTML">HTML</option>
-                                                <option value="2">CSS</option>
-                                                <option value="CSS">CSS3</option>
-                                                <option value="jQuery">jQuery</option>
-                                                <option value="JavaScript">JavaScript</option>
-                                                <option value="Bootstrap">Bootstrap</option>
-                                                <option value="MySQL">MySQL</option>
-                                                <option value="PHP">PHP</option>
-                                                <option value="JSP">JSP</option>
-                                                <option value="Rubi on Rails">Rubi on Rails</option>
-                                                <option value="SQL">SQL</option>
-                                                <option value="Java">Java</option>
-                                                <option value="Python">Python</option>
+                                            <select id="lstview" class="form-control" size="13" multiple="multiple">
+                                                @foreach($categories as $category)
+                                                <option value="{{$category->id}}">{{$category->categoryLang->first()->reference}}</option>
+                                               @endforeach
                                             </select>
                                         </div>
                                         <div class="col-md-2">
@@ -110,7 +102,7 @@
                                             <button type="button" id="lstview_redo" class="btn btn-transparent btn-block"><i class="fas fa-sync-alt"></i> redo</button>
                                         </div>
                                         <div class="col-md-5">
-                                            <select name="to" id="lstview_to" class="form-control" size="13" multiple="multiple"></select>
+                                            <select name="categories[]" id="lstview_to" class="form-control" size="13" multiple="multiple"></select>
                                         </div>
                                     </div>
                                 </div>
@@ -144,12 +136,12 @@
                                             <button class="btn btn-block"><i class="fas fa-check"></i> <strong>save</strong></button>
                                         </div>
                                         <div class="col-md-6">
-                                            <button class="btn btn-block"><strong>save & new</strong></button>
+                                            <button type='button' class="btn btn-block"><strong>save & new</strong></button>
                                         </div>
                                     </div>
                                     <div class="row justify-content-end b-t b-dashed b-grey m-t-20 p-t-20">
                                         <div class="col-md-6">
-                                            <button class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>clear all</strong></button>
+                                            <button  type='reset' class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>clear all</strong></button>
                                         </div>
                                     </div>
                                 </div>
@@ -175,10 +167,10 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <select class="cs-select cs-skin-slide" data-init-plugin="cs-select">
-                                        @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-                                        <option value="">{{ $properties['native'] }} ({{ $properties['regional'] }})</option>
-                                        @endforeach
+                                    <select class="cs-select cs-skin-slide" name="language" data-init-plugin="cs-select">
+                                         @foreach($languages as $language)
+                                                <option value="{{$language->id}}">{{$language->name}}</option>
+                                               @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -187,6 +179,7 @@
                 </div>
             </div>
         </div>
+        </form>
     </div>
 </div>
 @endsection

@@ -83,16 +83,16 @@ function()
             Route::get('{tag}', 'TagController@show'); 
         });
 
-        // Staff Attributes management pages
-        Route::prefix('attributes')->group(function() {
-        Route::get('/', 'AttributeController@index');
-        Route::get('trash', 'AttributeController@trash');
-            Route::get('create', 'AttributeController@create');
-            Route::prefix('{attribute}')->group( function (){
-                Route::get('edit', 'AttributeController@edit');
-                Route::get('translations','AttributeController@translations');
-        });
-        Route::get('{attribute}', 'AttributeController@show'); 
+        //////////attributes
+        Route::prefix('attributes')->middleware('CanRead:attribute')->group(function() {
+            Route::get('/', 'AttributeController@index'); 
+            Route::get('trash', 'AttributeController@trash');
+            Route::group(['middleware' => ['CanWrite:attribute']], function(){
+                Route::get('create', 'AttributeController@create'); 
+                Route::get('{attribute}/edit', 'AttributeController@edit'); 
+                Route::get('{attribute}/translations','AttributeController@translations');
+            });
+            Route::get('{attribute}', 'AttributeController@show'); 
         });
 
         //////////countries
@@ -311,7 +311,6 @@ Route::prefix('discounts')->group(function() {
         Route::prefix('message')->group(function() {
             Route::get('{claim}/create','ClaimMessageController@create');
         });
-       
 
         // Route::get('/','SubjectController@index');
         Route::prefix('{subject}')->group(function() {
@@ -435,8 +434,11 @@ Route::prefix('discounts')->group(function() {
     //////////attributes
     Route::prefix('attributes')->middleware('CanWrite:attribute')->group(function() {
 
-        Route::post('/','AttributeController@store'); 
+        Route::post('/','AttributeController@store');
+        Route::post('/multi-restore', 'AttributeController@multiRestore'); 
         Route::post('{attribute}', 'AttributeController@update'); 
+        Route::post('{detail}/translations','AttributeLangController@update');
+        Route::post('{detail}/restore', 'AttributeController@restore');
         Route::delete('{attribute}', 'AttributeController@destroy')->name('delete.attribute');
         Route::delete('delete/multiple', 'AttributeController@multiDestroy')->name('delete.attributes');
     }); 
@@ -444,7 +446,10 @@ Route::prefix('discounts')->group(function() {
     Route::prefix('details')->middleware('CanWrite:detail')->group(function() {
 
         Route::post('/', 'DetailController@store'); 
+        Route::post('/multi-restore', 'DetailController@multiRestore'); 
         Route::post('{detail}', 'DetailController@update'); 
+        Route::post('{detail}/translations','DetailLangController@update');
+        Route::post('{detail}/restore', 'DetailController@restore'); 
         Route::delete('{detail}', 'DetailController@destroy')->name('delete.detail');
         Route::delete('delete/multiple', 'DetailController@multiDestroy')->name('delete.details');
     }); 

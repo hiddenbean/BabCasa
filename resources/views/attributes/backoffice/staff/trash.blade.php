@@ -17,7 +17,11 @@
                             <a href="{{ url('/') }}">DASHBOARD</a>
                         </li>
                         <li class="breadcrumb-item">
+<<<<<<< HEAD
                             <a href="{{ url('/categories') }}">Categories</a>
+=======
+                            <a href="{{ url('/attributes') }}">attributes</a>
+>>>>>>> 7d67b7a45fedea0bff4e57ef3dcd901cfeccfdd2
                         </li>
                         <li class="breadcrumb-item active">
                             Trash
@@ -32,7 +36,11 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-title">
+<<<<<<< HEAD
                     Removed Categories list 
+=======
+                    Removed attributes list 
+>>>>>>> 7d67b7a45fedea0bff4e57ef3dcd901cfeccfdd2
                     <a 
                         href="javascript:;" 
                         data-toggle="tooltip" 
@@ -58,6 +66,7 @@
                 
             </div>
             <div class="card-body">
+<<<<<<< HEAD
                 <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
                     <thead>
                         <th class="text-center" style="width:35px"><a href="#"><i class="fas fa-undo-alt fa-lg"></i></a></th>
@@ -95,6 +104,58 @@
                         </tr>                                        
                     </tbody>
                 </table>
+=======
+              <form action="{{url('attributes/multi-restore')}}" method="post">
+                        {{ csrf_field() }}
+                <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
+                    <thead>
+                        <th class="text-center" style="width:35px"><button class="btn btn-link" type="submit"><i class="fas fa-undo-alt fa-lg"></i></button></th>
+                        <th style="width:62px"></th>
+                        <th style="width:150px">Attribute name</th>           
+                        <th style="width:150px">Attribute type</th>           
+                        <th style="width:150px">Description</th>           
+                        <th style="width:300px">Categories using this attribute</th>             
+                        <th style="width:100px">Languages</th>
+                        <th style="width:150px"> Deleted at</th>       
+                    </thead>
+            
+                    <tbody> 
+                    @foreach($attributes as $attribute)
+                        <tr role="row" id="0">
+                           <td class="v-align-middle p-l-5 p-r-5">
+                            <div class="checkbox no-padding no-margin text-center">
+                                <input type="checkbox" value="{{$attribute->id}}" name="attribute[]" id="checkbox{{$attribute->id}}">
+                                <label for="checkbox{{$attribute->id}}" class="no-padding no-margin"></label>
+                            </div>
+                        </td>
+                            <td class="v-align-middle text-center p-l-5 p-r-5">
+                                <form action="{{url('attributes/'.$attribute->id.'/restore')}}" method="POST">
+                                {{ csrf_field() }}
+                                <button class="btn btn-link" type="submit"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></button>
+                                </form>
+                            </td> 
+                             <td class="v-align-middle"><a href="{{url('attributes/'.$attribute->id)}}"><strong>@if($attribute->attributeLang->first()->reference==' '){{$attribute->attributeLangNotEmpty->first()->reference}} @else {{$attribute->attributeLang->first()->reference }}@endif</strong></a></td>
+                            <td class="v-align-middle"><strong> {{$attribute->type}}</strong></td>
+                            <td class="v-align-middle"><a href="{{url('attributes/'.$attribute->id)}}"><strong>@if($attribute->attributeLang->first()->description==' '){{$attribute->attributeLangNotEmpty->first()->description}} @else {{$attribute->attributeLang->first()->description }}@endif</strong></a></td>
+                            <td class="v-align-middle">
+                                @foreach($attribute->categories as $category)
+                            <a href="{{url('categories/'.$category->id)}}" class="btn btn-tag">{{$category->categoryLang->first()->reference}}</a>
+                            @endforeach
+                            </td>
+                            <td class="v-align-middle">
+                                @foreach($attribute->attributeLangs as $attributeLang)
+                                @if($attributeLang->value != " ")
+                                     <a href="#" class="btn btn-tag">{{$attributeLang->lang->alpha_2_code}}</a>
+                                @endif
+                            @endforeach
+                            </td>
+                            <td class="v-align-middle">{{$attribute->deleted_at}}</td>
+                        </tr> 
+                    @endforeach                                       
+                    </tbody>
+                </table>
+            </form>
+>>>>>>> 7d67b7a45fedea0bff4e57ef3dcd901cfeccfdd2
             </div>
         </div> 
     </div>

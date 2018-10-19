@@ -17,7 +17,11 @@
                             <a href="{{ url('/') }}">DASHBOARD</a>
                         </li>
                         <li class="breadcrumb-item active">
+<<<<<<< HEAD
                             Attributes
+=======
+                            attributes
+>>>>>>> 7d67b7a45fedea0bff4e57ef3dcd901cfeccfdd2
                         </li>
                     </ol>
                 </div>

@@ -44,6 +44,7 @@ class AttributeController extends Controller
     public function create()
     {
         $data['categories'] = Category::all();
+        $data['languages'] = Language::all();
         return view('attributes.backoffice.staff.create',$data);
     }
 
@@ -55,33 +56,37 @@ class AttributeController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validateRequest($request);
         $attributeLangTrashed = AttributeLang::onlyTrashed()->where('reference', $request->reference)->first();
-
-        if($attributeLangTrashed)
+        if(isset($attributeLangTrashed))
         {
-            $attribute = $attributeLangTrashed->attribute;
-            $attribute->restore();
-            $attributeLang = $attribute->attributeLang->first();
+            return redirect('attributes/'.$attributeLangTrashed->attribute_id);
         }
-        else
-        {
-            $attribute = new Attribute();
-            $attribute->type = $request->type; 
-        }
-        
+        $this->validateRequest($request);
+        // return  $request;
+        $attribute = new Attribute();
+        $attribute->type = $request->type; 
+       
         $attribute->save();
-        if(!isset($attributeLang))
+
+        foreach(Language::all() as $lang)
         {
             $attributeLang = new AttributeLang();
-        }
-
-        $attributeLang->reference = $request->reference;
-        $attributeLang->description = $request->description;
-        $attributeLang->attribute_id = $attribute->id;
-        $attributeLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
-        $attributeLang->save();
-        //return $request->categories;
+            $attributeLang->attribute_id = $attribute->id;
+            $attributeLang->lang_id = $lang->id;
+            if($lang->id == $request->language)
+            {
+                $attributeLang->reference = $request->reference;
+                $attributeLang->description = $request->description;
+            }
+            else
+            {
+                $attributeLang->reference = ' ';
+                 $attributeLang->description = '';
+               
+            }
+            $attributeLang->save();
+       
+        } 
         if($request->categories)
         {
             foreach($request->categories as $category)
@@ -93,6 +98,30 @@ class AttributeController extends Controller
         return redirect('attributes');
     }
 
+
+    public function restore($attribute)
+    {
+         $attribute = Attribute::onlyTrashed()->where('id', $attribute)->first();
+        $attribute->restore();
+         return redirect('attributes');
+       
+    }
+
+    public function multiRestore(Request $request)
+    {
+        $request->validate([
+            'attribute' => 'required',
+        ]);
+
+        foreach ($request->attribute as  $attr)
+         {
+            $attribute = attribute::onlyTrashed()->where('id', $attr)->first();
+           $attribute->restore();
+        }
+         return redirect('attributes');
+       
+    }
+
     /**
      * Display the specified resource.
      *
@@ -101,7 +130,7 @@ class AttributeController extends Controller
      */
     public function show($attribute)
     {
-        $data['attribute'] = Attribute::find($attribute);
+        $data['attribute'] = Attribute::withTrashed()->find($attribute);
         $data['categories'] = Category::all();
         return view('attributes.backoffice.staff.show',$data);
     }
@@ -146,7 +175,6 @@ class AttributeController extends Controller
         $Attribute->categories()->detach();
         if($request->categories)
         {
-            
             foreach($request->categories as $category)
             {
                 $Attribute->categories()->attach($category);
@@ -164,12 +192,12 @@ class AttributeController extends Controller
     public function destroy($Attribute)
     {
         $attribute = Attribute::findOrFail($Attribute);
-        if(isset($attribute->categories[0]))
+        if(isset($attribute->attributeValue[0]))
         {
             return redirect('attributes')
                                 ->with(
                                     'error',
-                                    'attribute can\'t be deleted it is in an association with categories !!'
+                                    'attribute can\'t be deleted it is related with values !!'
                                     );
         }
         $attribute->delete();
@@ -184,15 +212,14 @@ class AttributeController extends Controller
     {
         $request->validate([
             'attribute' => 'required',
-        ]);
+            ]);
         $error = false;
         foreach($request->attribute as $attr)
         {
             $attribute = Attribute::findOrFail($attr);
             $cantDelete = false;
-
             
-            if(isset($attribute->categories[0])) {$cantDelete = true;$error = true;}
+            if(isset($attribute->attributeValue[0])) {$cantDelete = true;$error = true;}
     
             if(!$cantDelete) 
                 $attribute->delete();
@@ -210,21 +237,16 @@ class AttributeController extends Controller
         {
             return redirect('attributes')->with(
                 'error',
-                'Attribute can\'t be deleted it has a relation with categories '
+                'Attribute can\'t be deleted it is related with values '
             );
         }
     }
 
-    /**
-     * Displaying the Trash page
-     * 
-     * 
-     * @return \Illuminate\Http\Response
-     */
     public function trash()
     {
-        $data['details'] = Attributes::all();
-        return view('attributes.backoffice.staff.trash', $data);
+        $data['attributes'] = Attribute::onlyTrashed()->get();
+        return $data;
+        //return view('attributes.backoffice.staff.trash', $data);
     }
 
     /**
@@ -235,7 +257,10 @@ class AttributeController extends Controller
      */
     public function translations($attribute)
     {
-        $data['attributes'] = Category::findOrFail($attribute)->first();
+        $data['attribute'] = Attribute::findOrFail($attribute);
+        $data['languages'] = Language::all();
+
         return view('attributes.backoffice.staff.translations', $data);
     }
+
 }

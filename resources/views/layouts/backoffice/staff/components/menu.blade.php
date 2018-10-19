@@ -66,15 +66,15 @@
             </span>
             <ul class="sub-menu">
                 <li>
-                    <a href="#">Add Attribute</a>
+                    <a href="{{ url('attributes/create') }}">Add Attribute</a>
                     <span class="icon-thumbnail"><i class="fas fa-plus"></i></span>
                 </li>
                 <li>
-                    <a href="#">All Attributes</a>
+                    <a href="{{ url('attributes') }}">All Attributes</a>
                     <span class="icon-thumbnail"><i class="fa fa-list"></i></span>
                 </li>
                 <li>
-                    <a href="#">Trash</a>
+                    <a href="{{ url('attributes/trash') }}">Trash</a>
                     <span class="icon-thumbnail"><i class="fas fa-trash"></i></span>
                 </li>
             </ul>

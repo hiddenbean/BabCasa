@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\AttributeLang;
+use App\Attribute;
 use Illuminate\Http\Request;
 
 class AttributeLangController extends Controller
@@ -67,9 +68,26 @@ class AttributeLangController extends Controller
      * @param  \App\attribute_lang  $attribute_lang
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, attribute_lang $attribute_lang)
+    public function update(Request $request, $attribute)
     {
-        //
+        $attribute = Attribute::find($attribute);
+        foreach($request->references as $key => $reference)
+        {
+            $attributeLang = $attribute->attributeLangs->where('lang_id',$request->languages_id[$key])->first();
+            if($reference != '')
+            {
+                $attributeLang->reference = $reference;
+                $attributeLang->description = $request->descriptions[$key];
+             }
+             else
+             {
+                $attributeLang->reference = ' ';
+                $attributeLang->description = '';
+ 
+             }
+             $attributeLang->save();
+        }
+        return redirect()->back();
     }
 
     /**
