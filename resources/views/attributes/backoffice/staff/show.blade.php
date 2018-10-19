@@ -16,10 +16,17 @@
                     <a href="{{ url('/') }}">DASHBOARD</a>
                 </li>
                 <li class="breadcrumb-item">
+<<<<<<< HEAD
+                    <a href="{{ url('/categories') }}">Attributes</a>
+                </li>
+                <li class="breadcrumb-item active">
+                    ID : 1
+=======
                     <a href="{{ url('/attributes') }}">attribute</a>
                 </li>
                 <li class="breadcrumb-item active">
                     ID : {{$attribute->id}}
+>>>>>>> 7d67b7a45fedea0bff4e57ef3dcd901cfeccfdd2
                 </li>
             </ol>
         </div>
@@ -33,11 +40,51 @@
             <div class="card ">
                 <div class="card-header">
                     <div class="card-title">
+<<<<<<< HEAD
+                        Attribute id : 1 
+=======
                         attribute id : {{$attribute->id}}
+>>>>>>> 7d67b7a45fedea0bff4e57ef3dcd901cfeccfdd2
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="row">
+<<<<<<< HEAD
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h5>
+                                        Name
+                                    </h5>
+                                    <p>
+                                        Test
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h5>
+                                        Description
+                                    </h5>
+                                    <p>
+                                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Temporibus dignissimos quam ipsam, cum assumenda unde hic, quos et fuga quo tenetur, fugiat in nostrum dolore dolorem rerum earum odio dolores?
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h5>  
+                                        Categories using this attribute 
+                                    </h5>
+                                    <p>
+                                        <a href="#" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">Attr 1</a>
+                                        <a href="#" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">Attr 2</a>
+                                        <a href="#" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">Attr 3</a>
+                                        <a href="#" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">Attr 4</a>
+                                    </p>
+                                </div>
+                            </div>
+=======
                         <div class="col-md-12">
                             <h5>
                                 Name
@@ -73,6 +120,7 @@
                             @endforeach
                                 
                             </p>
+>>>>>>> 7d67b7a45fedea0bff4e57ef3dcd901cfeccfdd2
                         </div>
                     </div>
                 </div>
@@ -100,11 +148,37 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
+<<<<<<< HEAD
+                                    Status : <strong>Publish</strong>, <strong>Removed</strong>
+=======
                                     Status : <strong>@if($attribute->deleted_at == NULL) Publish @else Removed @endif</strong>
+>>>>>>> 7d67b7a45fedea0bff4e57ef3dcd901cfeccfdd2
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
+<<<<<<< HEAD
+                                    Creation date : <strong>10/18/2018 18:46:11</strong>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    Last update : <strong>10/18/2018 18:48:40</strong>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    Remove date : <strong>10/18/2018 18:49:22</strong>
+                                </div>
+                            </div>
+                            <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
+                                <div class="col-md-6">
+                                    <button class="btn btn-block "><i class="fas fa-pen"></i> <strong>Edit</strong></button>                                    
+                                </div>
+                                <div class="col-md-6">
+                                    <button class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>Remove</strong></button>
+                                </div>
+=======
                                     Creation date : <strong>{{$attribute->created_at}}</strong>
                                 </div>
                             </div>
@@ -137,6 +211,7 @@
                                         </form>
                                 @endif
                                  </div>
+>>>>>>> 7d67b7a45fedea0bff4e57ef3dcd901cfeccfdd2
                             </div>
                         </div>
                     </div>
@@ -164,6 +239,16 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
+<<<<<<< HEAD
+                                    Available in : <strong><a href="#">English</a></strong>, <strong><a href="#">Français</a></strong>  
+                                </div>
+                            </div>
+                            <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
+                                <div class="col-md-12">
+                                    <a class="btn btn-transparent"><i class="fas fa-plus"></i> <strong>Add an other translation</strong></a>                                    
+                                </div>
+                            </div>
+=======
                                     Available in : 
                                      @foreach($attribute->attributeLangs as $attributeLang)
                                         @if($attributeLang->reference != " ")
@@ -177,12 +262,15 @@
                                     <a href="{{url('attributes/'.$attribute->id.'/translations')}}" class="btn btn-transparent"><i class="fas fa-plus"></i> <strong>Add an other translation</strong></a>                                    
                                 </div>
                             </div>
+>>>>>>> 7d67b7a45fedea0bff4e57ef3dcd901cfeccfdd2
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
+    @include('products.backoffice.staff.componments.table')
 </div>
 @endsection
 

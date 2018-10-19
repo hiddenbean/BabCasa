@@ -282,6 +282,4 @@ class DetailController extends Controller
 
         return view('details.backoffice.staff.translations', $data);
     }
-
-   
 }

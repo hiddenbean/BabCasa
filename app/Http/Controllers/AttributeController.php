@@ -240,7 +240,6 @@ class AttributeController extends Controller
                 'Attribute can\'t be deleted it is related with values '
             );
         }
-                        
     }
 
     public function trash()

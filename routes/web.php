@@ -83,8 +83,6 @@ function()
             Route::get('{tag}', 'TagController@show'); 
         });
 
-
-
         //////////attributes
         Route::prefix('attributes')->middleware('CanRead:attribute')->group(function() {
             Route::get('/', 'AttributeController@index'); 
@@ -111,10 +109,10 @@ function()
         Route::prefix('currencies')->middleware('CanRead:currency')->group(function() {
             Route::get('/', 'CurrencyController@index'); 
             Route::group(['middleware' => ['CanWrite:currency']], function(){
-                    Route::get('create', 'CurrencyController@create'); 
-                    Route::get('{currency}/edit', 'CurrencyController@edit');
-                }); 
-                Route::get('{currency}', 'CurrencyController@show'); 
+                Route::get('create', 'CurrencyController@create'); 
+                Route::get('{currency}/edit', 'CurrencyController@edit');
+            }); 
+            Route::get('{currency}', 'CurrencyController@show'); 
         }); 
 
         //////////reasons
@@ -313,7 +311,6 @@ Route::prefix('discounts')->group(function() {
         Route::prefix('message')->group(function() {
             Route::get('{claim}/create','ClaimMessageController@create');
         });
-       
 
         // Route::get('/','SubjectController@index');
         Route::prefix('{subject}')->group(function() {
