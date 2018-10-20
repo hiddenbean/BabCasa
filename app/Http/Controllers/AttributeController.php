@@ -22,7 +22,6 @@ class AttributeController extends Controller
         $request->validate([
             'reference' => 'required|unique:attribute_langs,reference',
             'type' => 'required',
-            'description' => 'required|required|max:3000',
         ]);
     }
     /**
@@ -33,6 +32,7 @@ class AttributeController extends Controller
     public function index()
     {
         $data['attributes'] = Attribute::all();
+        // return $data;
         return view('attributes.backoffice.staff.index',$data);
     }
 
@@ -80,7 +80,7 @@ class AttributeController extends Controller
             }
             else
             {
-                $attributeLang->reference = ' ';
+                $attributeLang->reference = '';
                  $attributeLang->description = '';
                
             }
@@ -160,7 +160,6 @@ class AttributeController extends Controller
         $request->validate([
             'reference' => 'required|unique:attribute_langs,reference,'.$attribute.',attribute_id',
             'type' => 'required',
-            'description' => 'required|required|max:3000',
         ]);
         $Attribute = Attribute::find($attribute);
         $Attribute->type =  $request->type;

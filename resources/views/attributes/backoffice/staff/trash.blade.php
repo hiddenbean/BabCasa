@@ -82,41 +82,22 @@
                                 </div>
                             </td>
                             <td class="v-align-middle text-center p-l-5 p-r-5">
-                                <a href="{{url('categories/create')}}"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></a>
-                            </td> 
-                            <td class="v-align-middle"><a href="#"><strong>Attr 1</strong></a></td>
-                            <td class="v-align-middle">Desc attr1</td>
-                            <td class="v-align-middle">
-                                <a href="#" class="btn btn-tag">Cat</a>
-                                <a href="#" class="btn btn-tag">subCat</a>
-                                <a href="#" class="btn btn-tag">sub-subCat</a>
-                            </td>
-                            <td class="v-align-middle">
-                                <a href="#" class="btn btn-tag">En</a>
-                                <a href="#" class="btn btn-tag">Fr</a>
-                            </td>
-                            <td class="v-align-middle">10/15/2018 15:23:12</td>
-                        </tr>                                        
-                    </tbody>
-                </table>
-=======
-                                <td class="v-align-middle text-center p-l-5 p-r-5">
                                     <form action="{{url('attributes/'.$attribute->id.'/restore')}}" method="POST">
                                     {{ csrf_field() }}
                                     <button class="btn btn-link" type="submit"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></button>
                                     </form>
                                 </td> 
-                                <td class="v-align-middle"><a href="{{url('attributes/'.$attribute->id)}}"><strong>@if($attribute->attributeLang->first()->reference==' '){{$attribute->attributeLangNotEmpty->first()->reference}} @else {{$attribute->attributeLang->first()->reference }}@endif</strong></a></td>
+                                <td class="v-align-middle"><a href="{{url('attributes/'.$attribute->id)}}"><strong>{{$attribute->attributeLang()->reference }}</strong></a></td>
                                 <td class="v-align-middle"><strong> {{$attribute->type}}</strong></td>
-                                <td class="v-align-middle"><a href="{{url('attributes/'.$attribute->id)}}"><strong>@if($attribute->attributeLang->first()->description==' '){{$attribute->attributeLangNotEmpty->first()->description}} @else {{$attribute->attributeLang->first()->description }}@endif</strong></a></td>
+                                <td class="v-align-middle"><a href="{{url('attributes/'.$attribute->id)}}"><strong>{{$attribute->attributeLang()->description }}</strong></a></td>
                                 <td class="v-align-middle">
                                     @foreach($attribute->categories as $category)
-                                <a href="{{url('categories/'.$category->id)}}" class="btn btn-tag">{{$category->categoryLang->first()->reference}}</a>
+                                <a href="{{url('categories/'.$category->id)}}" class="btn btn-tag">{{$category->categoryLang()->reference}}</a>
                                 @endforeach
                                 </td>
                                 <td class="v-align-middle">
                                     @foreach($attribute->attributeLangs as $attributeLang)
-                                    @if($attributeLang->value != " ")
+                                    @if($attributeLang->reference != "")
                                         <a href="#" class="btn btn-tag">{{$attributeLang->lang->alpha_2_code}}</a>
                                     @endif
                                 @endforeach
@@ -127,7 +108,6 @@
                         </tbody>
                     </table>
                 </form>
->>>>>>> 2c420bc7688569ace097b59a2b7ce705a0a63498
             </div>
         </div> 
     </div>

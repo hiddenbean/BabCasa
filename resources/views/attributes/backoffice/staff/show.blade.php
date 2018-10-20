@@ -53,7 +53,7 @@
                                 <i class="fas fa-question-circle fa-xs"></i>
                             </a>
                             <p>
-                                @if($attribute->attributeLang()->reference==' '){{$attribute->attributeLangNotEmpty->first()->reference}} @else {{$attribute->attributeLang()->reference }}@endif
+                                {{$attribute->attributeLang()->reference }}
                             </p>
                         </div>
                         <div class="col-md-6">
@@ -77,7 +77,7 @@
                                 <i class="fas fa-question-circle fa-xs"></i>
                             </a>
                             <p>
-                                @if($attribute->attributeLang()->description==' '){{$attribute->attributeLangNotEmpty->first()->description}} @else {{$attribute->attributeLang()->description }}@endif
+                             {!!$attribute->attributeLang()->description!!}
                             </p>
                         </div>
                     </div>
@@ -142,9 +142,11 @@
                             </div>
                             @endif
                             <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
+                                @if($attribute->deleted_at == NULL) 
                                 <div class="col-md-6">
                                     <a href="{{url('attributes/'.$attribute->id.'/edit')}}" class="btn btn-block "><i class="fas fa-pen"></i> <strong>Edit</strong></a>                                    
                                 </div>
+                                @endif
 
                                 <div class="col-md-6">
                                 @if($attribute->deleted_at == NULL)
@@ -185,7 +187,7 @@
                                 <div class="col-md-12">
                                     Available in : 
                                     @foreach($attribute->attributeLangs as $attributeLang)
-                                        @if($attributeLang->reference != " ")
+                                        @if($attributeLang->reference != "")
                                             <strong><a href="#">{{$attributeLang->lang->name}}</a></strong> ,
                                         @endif
                                     @endforeach

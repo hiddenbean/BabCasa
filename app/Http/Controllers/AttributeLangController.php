@@ -70,6 +70,7 @@ class AttributeLangController extends Controller
      */
     public function update(Request $request, $attribute)
     {
+        // return $request;
         $attribute = Attribute::find($attribute);
         foreach($request->references as $key => $reference)
         {

@@ -99,6 +99,7 @@ class CategoryLangController extends Controller
      */
     public function update(Request $request, $Category)
     {
+        return $request;
         $category = Category::find($Category);
         foreach($request->references as $key => $reference)
         {
