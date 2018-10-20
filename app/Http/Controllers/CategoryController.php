@@ -75,7 +75,7 @@ class CategoryController extends Controller
             array_push($array, $category);
             $array = $this->toArray($array,$category); 
         }
-        // $data['categories'] = $array;
+        $data['categories'] = $array;
         return view('categories.backoffice.staff.create',$data);
     }
     
@@ -199,7 +199,7 @@ class CategoryController extends Controller
             }
             if($find) 
             {
-                 return  $find;
+                return  $find;
             }
         }
         return $find;

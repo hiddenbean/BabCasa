@@ -52,4 +52,14 @@ class Detail extends Model
             $detail->detailLangs()->withTrashed()->restore();
         });
     }
+
+    /**
+     * 
+     * 
+     */
+    public function currentLang() {
+        $langId = Language::where('alpha_2_code',App::getLocale())->first()->id;
+        $details = self::detailLangs()->where('lang_id', $langId)->first();
+        return $details->value == " " ? self::detailLangs()->first() : $details;
+    }
 }

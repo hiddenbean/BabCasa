@@ -245,7 +245,6 @@ class AttributeController extends Controller
     public function trash()
     {
         $data['attributes'] = Attribute::onlyTrashed()->get();
-        //return $data;
         return view('attributes.backoffice.staff.trash', $data);
     }
 

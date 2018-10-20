@@ -73,19 +73,23 @@ function()
             Route::get('{detail}', 'DetailController@show'); 
         });
 
-        //////////TAGS
+        // Staff tags managment pages
         Route::prefix('tags')->middleware('CanRead:tag')->group(function() {
-            Route::get('/', 'TagController@index'); 
+            Route::get('/', 'TagController@index');
+            Route::get('trash', 'TagController@trash');
             Route::group(['middleware' => ['CanWrite:tag']], function(){
-                Route::get('create', 'TagController@create'); 
-                Route::get('{tag}/edit', 'TagController@edit'); 
+                Route::get('create', 'TagController@create');
+                Route::prefix('{tag}', function () {
+                    Route::get('edit', 'TagController@edit');
+                    Route::get('translations','TagController@translations');
+                });
             });     
             Route::get('{tag}', 'TagController@show'); 
         });
 
         //////////attributes
         Route::prefix('attributes')->middleware('CanRead:attribute')->group(function() {
-            Route::get('/', 'AttributeController@index'); 
+            Route::get('/', 'AttributeController@index');
             Route::get('trash', 'AttributeController@trash');
             Route::group(['middleware' => ['CanWrite:attribute']], function(){
                 Route::get('create', 'AttributeController@create'); 
