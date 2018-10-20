@@ -276,7 +276,6 @@ class ProductController extends Controller
         $data['tags'] = $data['product']->tags;
         $data['detail_values'] = $data['product']->detailValues;
 
-        // return $data['Categorys']->first()->details->first()->detailLang->first()->value;
         return view('edit_product',$data);
     }
 

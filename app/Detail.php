@@ -22,7 +22,8 @@ class Detail extends Model
     public function detailLang()
     {
         $langId = Language::where('alpha_2_code',App::getLocale())->first()->id; 
-        return $this->detailLangs()->where('lang_id',$langId)->withTrashed();
+        $detail = self::detailLangs()->where('lang_id',$langId)->withTrashed()->first();
+        return !$detail->value ? self::detailLangs()->where('value','!=','')->withTrashed()->first() : $detail;
     }
 
     public function detailLangNotEmpty()

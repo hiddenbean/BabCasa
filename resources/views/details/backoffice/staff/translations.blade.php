@@ -45,7 +45,7 @@
                                         data-placement="bottom" 
                                         data-html="true" 
                                         trigger="click" 
-                                        title= "<p class='tooltip-text'>You can use this form to create a new category if you have the right permissions.<br>
+                                        title= "<p class='tooltip-text'>You can use this form to create a new Detail if you have the right permissions.<br>
                                                 If you have any difficulties please <a href='#'>contact the support</a></p>"> 
                                         <i class="fas fa-question-circle"></i>
                                     </a>    
@@ -63,7 +63,7 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group form-group-default">
-                                                    <label>Category name</label>
+                                                    <label>Detail name</label>
                                                     <input type="text" class="form-control" name="values[]" value="@if(isset($detail->detailLangs->where('lang_id',$language->id)->first()->value)){{$detail->detailLangs->where('lang_id',$language->id)->first()->value}}@endif">
                                                     <input type="hidden" name="languages_id[]" value="{{$language->id}}">
                                                     <label class='error' for='values.0'>
@@ -95,7 +95,7 @@
                                             data-placement="bottom" 
                                             data-html="true" 
                                             trigger="click" 
-                                            title= "<p class='tooltip-text'>You can use this form to create a new category if you have the right permissions.<br>
+                                            title= "<p class='tooltip-text'>You can use this form to create a new Detail if you have the right permissions.<br>
                                                     If you have any difficulties please <a href='#'>contact the support</a></p>"> 
                                             <i class="fas fa-question-circle"></i>
                                         </a>

@@ -81,23 +81,23 @@
                                     <label for="checkbox{{$attribute->id}}" class="no-padding no-margin"></label>
                                 </div>
                             </td>
-                                <td class="v-align-middle text-center p-l-5 p-r-5">
+                            <td class="v-align-middle text-center p-l-5 p-r-5">
                                     <form action="{{url('attributes/'.$attribute->id.'/restore')}}" method="POST">
                                     {{ csrf_field() }}
                                     <button class="btn btn-link" type="submit"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></button>
                                     </form>
                                 </td> 
-                                <td class="v-align-middle"><a href="{{url('attributes/'.$attribute->id)}}"><strong>@if($attribute->attributeLang->first()->reference==' '){{$attribute->attributeLangNotEmpty->first()->reference}} @else {{$attribute->attributeLang->first()->reference }}@endif</strong></a></td>
+                                <td class="v-align-middle"><a href="{{url('attributes/'.$attribute->id)}}"><strong>{{$attribute->attributeLang()->reference }}</strong></a></td>
                                 <td class="v-align-middle"><strong> {{$attribute->type}}</strong></td>
-                                <td class="v-align-middle"><a href="{{url('attributes/'.$attribute->id)}}"><strong>@if($attribute->attributeLang->first()->description==' '){{$attribute->attributeLangNotEmpty->first()->description}} @else {{$attribute->attributeLang->first()->description }}@endif</strong></a></td>
+                                <td class="v-align-middle"><a href="{{url('attributes/'.$attribute->id)}}"><strong>{{$attribute->attributeLang()->description }}</strong></a></td>
                                 <td class="v-align-middle">
                                     @foreach($attribute->categories as $category)
-                                <a href="{{url('categories/'.$category->id)}}" class="btn btn-tag">{{$category->categoryLang->first()->reference}}</a>
+                                <a href="{{url('categories/'.$category->id)}}" class="btn btn-tag">{{$category->categoryLang()->reference}}</a>
                                 @endforeach
                                 </td>
                                 <td class="v-align-middle">
                                     @foreach($attribute->attributeLangs as $attributeLang)
-                                    @if($attributeLang->value != " ")
+                                    @if($attributeLang->reference != "")
                                         <a href="#" class="btn btn-tag">{{$attributeLang->lang->alpha_2_code}}</a>
                                     @endif
                                 @endforeach

@@ -52,10 +52,10 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-8">
                                     <div class="form-group form-group-default">
                                         <label>Attribute name</label>
-                                        <input type="text" class="form-control" name="reference" value="{{$attribute->attributeLang->first()->reference}}">
+                                        <input type="text" class="form-control" name="reference" value="{{$attribute->attributeLang()->reference}}">
                                         <label class='error' for='reference'>
                                             @if ($errors->has('reference'))
                                                 {{ $errors->first('reference') }}
@@ -63,42 +63,30 @@
                                         </label> 
                                     </div>
                                 </div>
+                                <div class="col-md-4">
+                            <div class="form-group form-group-default required">
+                                <label>attributes type</label>
+                                <select class="cs-select cs-skin-slide cs-transparent" name="type" data-init-plugin="cs-select">
+                                <option value="numeric" @if($attribute->type == 'numeric') selected @endif>Numeric Values</option> 
+                                <option value="text" @if($attribute->type == 'text') selected @endif>Text Values</option> 
+                                <option value="date"  @if($attribute->type == 'date') selected @endif>Date Values</option> 
+                                </select> 
                             </div>
                         </div>
+                            </div>
+                        </div>
+                        
                     </div>
                      <div class="row">
                         <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-12">
-                                     <div class="form-group form-group-default">
-                                        <label>attributes type</label>
-                                       <select class="cs-select cs-skin-slide cs-transparent" name="type" data-init-plugin="cs-select">
-                                    <option value="numeric" @if($attribute->type == 'numeric') selected @endif>numeric</option> 
-                                    <option value="text" @if($attribute->type == 'text') selected @endif>text</option> 
-                                    <option value="date" @if($attribute->type == 'date') selected @endif>date</option> 
-                                    </select> 
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> 
-                      <div class="row">
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group form-group-default">
-                                        <label>Description</label>
-                                        <textarea type="text" class="form-control" name="description">{{$attribute->attributeLang->first()->description}}</textarea>
-                                        <label class='error' for='description'>
-                                            @if ($errors->has('description'))
-                                                {{ $errors->first('description') }}
-                                            @endif
-                                        </label> 
-                                    </div>
-                                </div>
+                            <label for="summernote" class="upper-title p-t-5 p-b-5 p-l-10">description</label>
+                            <div class="summernote-wrapper bg-white">
+                                <div id="summernote">{!!$attribute->attributeLang()->description!!}</div>
+                                 <input type="hidden" name="description" id="description">
                             </div>
                         </div>
                     </div>
+                    
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card">
@@ -122,7 +110,7 @@
                                         <div class="col-md-5">
                                             <select id="lstview" class="form-control" size="13" multiple="multiple">
                                                @foreach($categories as $category)
-                                                <option value="{{$category->id}}">{{$category->categoryLang->first()->reference}}</option>
+                                                <option value="{{$category->id}}">{{$category->categoryLang()->reference}}</option>
                                                @endforeach
                                             </select>
                                         </div>
@@ -137,7 +125,7 @@
                                         <div class="col-md-5">
                                             <select name="categories[]" id="lstview_to" class="form-control" size="13" multiple="multiple">
                                              @foreach($attribute->categories as $category)
-                                                 <option value="{{$category->id}}">{{$category->categoryLang->first()->reference}}</option>
+                                                 <option value="{{$category->id}}">{{$category->categoryLang()->reference}}</option>
                                                @endforeach
                                             </select>
                                         </div>
@@ -194,7 +182,7 @@
                             @endif
                             <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
                                 <div class="col-md-6">
-                                   <button class="btn btn-block"><i class="fas fa-pen"></i> <strong>Edit</strong></button   >                                    
+                                   <button id="onClick" class="btn btn-block"><i class="fas fa-pen"></i> <strong>Edit</strong></button   >                                    
                                 </div>
 
                                 <div class="col-md-6">
@@ -229,8 +217,8 @@
                                         <div class="col-md-12">
                                             Available in : 
                                              @foreach($attribute->attributeLangs as $attributeLang)
-                                        @if($attributeLang->value != " ")
-                                            <strong><a href="#">{{$attributeLang->lang->name}}</a></strong>
+                                        @if($attributeLang->reference != "")
+                                            <strong><a href="#">{{$attributeLang->lang->name}}</a></strong> ,
                                         @endif
                                     @endforeach
                                         </div>
@@ -265,6 +253,9 @@
     });
     $('#summernote').summernote({height: 250});
     $('#lstview').multiselect();
+    $('#onClick').on('click', function(){ 
+        $('#description').val($('#summernote').summernote().code());
+     });
 
     $('#list-categories-clear').click( function () {
         $('.list-categories a').removeClass('active');

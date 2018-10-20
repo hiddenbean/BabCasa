@@ -169,7 +169,7 @@ class DetailController extends Controller
             'value' => 'required|unique:detail_langs,value,'.$detail.',detail_id',
             ]);
             $detail = Detail::find($detail);
-            $detailLangId = $detail->detailLang->first()->id;
+            $detailLangId = $detail->detailLang()->id;
 
         $detailLang = DetailLang::find($detailLangId);
         $detailLang->value = $request->value; 

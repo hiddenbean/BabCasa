@@ -15,7 +15,10 @@
                             <a href="{{ url('/') }}">DASHBOARD</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{{ url('/categories') }}">categories</a>
+                            <a href="{{ url('categories') }}">categorys</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="{{ url('categories/'.$category->id) }}">ID : {{$category->id}}</a>
                         </li>
                         <li class="breadcrumb-item active">
                             Tanslations
@@ -28,6 +31,8 @@
     <!-- breadcrumb end -->
 
     <div class="container-fluid container-fixed-lg">
+      <form action="{{url('categories/'.$category->id.'/translations')}}" method="POST">
+                              {{ csrf_field() }}
         <div class="card-body">
             <div class="row">
                 <div class="col-md-9">
@@ -35,7 +40,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="card-title">
-                                    Category translations
+                                    category translations
                                     <a 
                                         href="javascript:;" 
                                         data-toggle="tooltip" 
@@ -49,59 +54,39 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-6 b-r b-dashed b-grey">
+                                <div class="row b-b b-dashed b-grey">
+                                    <div class="col-md-12">
                                         <h5>
-                                            English
+                                            category Name value in
                                         </h5>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group form-group-default">
-                                                    <label>Category name</label>
-                                                    <input type="text" class="form-control" name="reference">
-                                                    <label class='error' for='reference'>
-                                                        @if ($errors->has('reference'))
-                                                            {{ $errors->first('reference') }}
-                                                        @endif
-                                                    </label> 
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <label for="summernote1" class="upper-title p-t-5 p-b-5 p-l-15">description</label>
-                                                <div class="summernote-wrapper bg-white">
-                                                    <div id="summernote1"></div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
+                                     @foreach($languages as $key => $language)
                                     <div class="col-md-6">
-                                        <h5>
-                                            Français
-                                        </h5>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group form-group-default">
-                                                    <label>Nom de categorie</label>
-                                                    <input type="text" class="form-control" name="reference">
-                                                    <label class='error' for='reference'>
-                                                        @if ($errors->has('reference'))
-                                                            {{ $errors->first('reference') }}
-                                                        @endif
-                                                    </label> 
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <label for="summernote2" class="upper-title p-t-5 p-b-5 p-l-15">description</label>
-                                                <div class="summernote-wrapper bg-white">
-                                                    <div id="summernote2"></div>
-                                                </div>
-                                            </div>
+                                        <div class="form-group form-group-default">
+                                            <label> {{$language->name}}</label>
+                                            <input type="text" class="form-control"  name="references[]"  value="@if(isset($category->categoryLangs->where('lang_id',$language->id)->first()->reference)){{$category->categoryLangs->where('lang_id',$language->id)->first()->reference}}@endif">
+                                             <input type="hidden" name="languages_id[]" value="{{$language->id}}">
                                         </div>
                                     </div>
+                                    @endforeach
+                                    
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h5>
+                                            category Description value in
+                                        </h5>
+                                    </div>
+                                     <input type="hidden" id="langsCount" value="{{count($languages)}}">
+                                     @foreach($languages as $key => $language)
+                                    <div class="col-md-12 m-b-20">
+                                        <label for="summernote{{$key}}" class="upper-title p-t-5 p-b-5 p-l-15">{{$language->name}}</label>
+                                        <div class="summernote-wrapper bg-white">
+                                            <div id="summernote{{$key}}">@if(isset($category->categoryLangs->where('lang_id',$language->id)->first()->description)){!!$category->categoryLangs->where('lang_id',$language->id)->first()->description!!}@endif</div>
+                                             <input type="hidden" name="descriptions[]" id="description{{$key}}">
+                                        </div>
+                                    </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -127,29 +112,33 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <div class="row">
+                                  <div class="row">
                                         <div class="col-md-12">
-                                            Status : <strong>Publish</strong>, <strong>Removed</strong>
+                                            Status : <strong>@if($category->deleted_at == NULL) Publish @else Removed @endif</strong>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            Creation date : <strong>10/18/2018 18:46:11</strong>
+                                            Creation date : <strong>{{$category->created_at}}</strong>
                                         </div>
                                     </div>
+                                    @if($category->updated_at != NULL)
                                     <div class="row">
                                         <div class="col-md-12">
-                                            Last update : <strong>10/18/2018 18:48:40</strong>
+                                            Last update : <strong>{{$category->updated_at}}</strong>
                                         </div>
                                     </div>
+                                    @endif
+                                    @if($category->deleted_at != NULL)
                                     <div class="row">
                                         <div class="col-md-12">
-                                            Remove date : <strong>10/18/2018 18:49:22</strong>
+                                            Remove date : <strong>{{$category->deleted_at}}</strong>
                                         </div>
                                     </div>
+                                    @endif
                                     <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
                                         <div class="col-md-6">
-                                            <button class="btn btn-block"><i class="fas fa-check"></i> <strong>save</strong></button>
+                                            <button id="onClick" type="button" class="btn btn-block"><i class="fas fa-check"></i> <strong>save</strong></button>
                                         </div>
                                         <div class="col-md-6">
                                             <button class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>cancel</strong></button>
@@ -162,12 +151,29 @@
                 </div>
             </div>
         </div>
+        </form>
     </div>
 @endsection
 
 @section('after_script')
     <script type="text/javascript" src="{{ asset('plugins/summernote/js/summernote.min.js') }}"></script>
     <script>
-        $('#summernote1, #summernote2').summernote({height: 250});
+              var langsCount = $('#langsCount').val();
+              console.log(langsCount);
+              for(var i =0; i< langsCount; i++)
+              {
+                 $('#summernote'+i).summernote({height: 250});
+              }
+          $('#onClick').on('click', function(){ 
+                    
+                var langsCount = $('#langsCount').val();
+                for(var i =0; i< langsCount; i++)
+                {
+                    $('#description'+i).val($('#summernote'+i).summernote().code());
+                    console.log($('#summernote'+i).summernote().code());
+                }
+                    this.form.submit();
+
+                });
     </script>
 @endsection

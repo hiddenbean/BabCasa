@@ -58,9 +58,11 @@
                 
             </div>
             <div class="card-body">
+            <form action="{{url('categories/multi-restore')}}" method="post">
+                        {{ csrf_field() }}
                 <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
                     <thead>
-                        <th class="text-center" style="width:35px"><a href="#"><i class="fas fa-undo-alt fa-lg"></i></a></th>
+                          <th class="text-center" style="width:35px"><button class="btn btn-link" type="submit"><i class="fas fa-undo-alt fa-lg"></i></button></th>
                         <th style="width:62px"></th>
                         <th style="width:80px">Picture</th>
                         <th style="width:150px">Category name</th>
@@ -72,31 +74,40 @@
                     </thead>
             
                     <tbody> 
+                      @foreach($categories as $category)
                         <tr role="row" id="0">
-                            <td class="v-align-middle p-l-5 p-r-5">
-                                <div class="checkbox no-padding no-margin text-center">
-                                    <input type="checkbox" id="checkbox2">
-                                    <label for="checkbox2" class="no-padding no-margin"></label>
-                                </div>
-                            </td>
+                             <td class="v-align-middle p-l-5 p-r-5">
+                            <div class="checkbox no-padding no-margin text-center">
+                                <input type="checkbox" value="{{$category->id}}" name="categories[]" id="checkbox{{$category->id}}">
+                                <label for="checkbox{{$category->id}}" class="no-padding no-margin"></label>
+                            </div>
+                        </td>
                             <td class="v-align-middle text-center p-l-5 p-r-5">
-                                <a href="{{url('categories/create')}}"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></a>
+                                <form action="{{url('categories/'.$category->id.'/restore')}}" method="POST">
+                                {{ csrf_field() }}
+                                <button class="btn btn-link" type="submit"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></button>
+                                </form>
                             </td> 
                             <td class="v-align-middle picture">
-                                <a href="#"><img src="https://ae01.alicdn.com/kf/HTB1nN1pXcrrK1Rjy1zeq6xalFXaS.jpg_220x220.jpg" alt="cat1"></a>
+                                <a href="#"><img src="@if(isset($category->picture->path)) {{Storage::url($category->picture->path)}} @else https://ae01.alicdn.com/kf/HTB1VGbHiZuYBuNkSmRy763A3pXaX.png @endif" alt="cat1"></a>
                             </td>
-                            <td class="v-align-middle"><a href="#"><strong>Cat</strong></a></td>
-                            <td class="v-align-middle">Desc cat</td>
-                            <td class="v-align-middle">-</td>
-                            <td class="v-align-middle">10</td>
-                            <td class="v-align-middle">
-                                <a href="#" class="btn btn-tag">En</a>
-                                <a href="#" class="btn btn-tag">Fr</a>
-                            </td>
-                            <td class="v-align-middle">10/15/2018 15:23:12</td>
-                        </tr>                                        
+                        <td class="v-align-middle"><a href="{{url('categories/'.$category->id)}}"><strong>{{$category->categoryLang()->reference }}</strong></a></td>
+                        <td class="v-align-middle">{!!$category->categoryLang()->description!!}</td>
+                        <td class="v-align-middle">@if(isset($category->category)) {{$category->category->categoryLang()->reference}}@else -@endif</td>
+                        <td class="v-align-middle">{{count($category->products)}}</td>
+                        <td class="v-align-middle">
+                            @foreach($category->categoryLangs as $categoryLang)
+                                    @if($categoryLang->reference != "")
+                                        <a href="#" class="btn btn-tag">{{$categoryLang->lang->alpha_2_code}}</a>
+                                    @endif
+                                @endforeach
+                        </td>
+                            <td class="v-align-middle">{{$category->deleted_at}}</td>
+                        </tr>  
+                    @endforeach                                      
                     </tbody>
                 </table>
+            </form>
             </div>
         </div> 
     </div>

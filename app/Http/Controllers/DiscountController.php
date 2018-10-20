@@ -163,7 +163,7 @@ class DiscountController extends Controller
         $discount->end_at = $request->end_at;
         $discount->save();
 
-        $discount_lang = $discount->categoryLang->first();
+        $discount_lang = $discount->categoryLang();
         $discount_lang->reference = $request->reference;
         $discount_lang->description = $request->description;
         $discount_lang->lang_id = 1;

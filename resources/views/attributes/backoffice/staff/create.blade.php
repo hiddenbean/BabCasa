@@ -81,6 +81,7 @@
                             <label for="summernote" class="upper-title p-t-5 p-b-5 p-l-10">description</label>
                             <div class="summernote-wrapper bg-white">
                                 <div id="summernote"></div>
+                                 <input type="hidden" name="description" id="description">
                             </div>
                         </div>
                     </div>
@@ -108,8 +109,8 @@
                                         <div class="col-md-5">
                                             <select id="lstview" class="form-control" size="13" multiple="multiple">
                                                 @foreach($categories as $category)
-                                                <option value="{{$category->id}}">{{$category->categoryLang->first()->reference}}</option>
-                                                @endforeach
+                                                <option value="{{$category->id}}">{{$category->categoryLang()->reference}}</option>
+                                               @endforeach
                                             </select>
                                         </div>
                                         <div class="col-md-2">
@@ -152,7 +153,7 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <button class="btn btn-block"><i class="fas fa-check"></i> <strong>save</strong></button>
+                                            <button id="onClick" class="btn btn-block"><i class="fas fa-check"></i> <strong>save</strong></button>
                                         </div>
                                         <div class="col-md-6">
                                             <button type='button' class="btn btn-block"><strong>save & new</strong></button>
@@ -221,5 +222,9 @@
         $('.list-categories a').removeClass('active');
         $('#selected-parent-name').html('none');
     });
+
+     $('#onClick').on('click', function(){ 
+        $('#description').val($('#summernote').summernote().code());
+     });
     </script>
 @endsection

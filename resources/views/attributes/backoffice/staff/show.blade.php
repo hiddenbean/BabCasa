@@ -53,11 +53,7 @@
                                 <i class="fas fa-question-circle fa-xs"></i>
                             </a>
                             <p>
-                                <span class="hint-text small">Fançais : </span>  
-                                @if($attribute->attributeLang->first()->reference==' '){{$attribute->attributeLangNotEmpty->first()->reference}} @else {{$attribute->attributeLang->first()->reference }}@endif
-                                <br>
-                                <span class="hint-text small">English : </span>  
-                                @if($attribute->attributeLang->first()->reference==' '){{$attribute->attributeLangNotEmpty->first()->reference}} @else {{$attribute->attributeLang->first()->reference }}@endif
+                                {{$attribute->attributeLang()->reference }}
                             </p>
                         </div>
                         <div class="col-md-6">
@@ -81,8 +77,7 @@
                                 <i class="fas fa-question-circle fa-xs"></i>
                             </a>
                             <p>
-                                <span class="hint-text small">English : </span>  
-                                @if($attribute->attributeLang->first()->description==' '){{$attribute->attributeLangNotEmpty->first()->description}} @else {{$attribute->attributeLang->first()->description }}@endif
+                             {!!$attribute->attributeLang()->description!!}
                             </p>
                         </div>
                     </div>
@@ -93,7 +88,7 @@
                             </h5>
                             <p>
                              @foreach($attribute->categories as $category)
-                            <a href="{{url('categories/'.$category->id)}}" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">{{$category->categoryLang->first()->reference}}</a>
+                            <a href="{{url('categories/'.$category->id)}}" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">{{$category->categoryLang()->reference}}</a>
                             @endforeach
                                 
                             </p>
@@ -147,9 +142,11 @@
                             </div>
                             @endif
                             <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
+                                @if($attribute->deleted_at == NULL) 
                                 <div class="col-md-6">
                                     <a href="{{url('attributes/'.$attribute->id.'/edit')}}" class="btn btn-block "><i class="fas fa-pen"></i> <strong>Edit</strong></a>                                    
                                 </div>
+                                @endif
 
                                 <div class="col-md-6">
                                 @if($attribute->deleted_at == NULL)
@@ -190,7 +187,7 @@
                                 <div class="col-md-12">
                                     Available in : 
                                     @foreach($attribute->attributeLangs as $attributeLang)
-                                        @if($attributeLang->reference != " ")
+                                        @if($attributeLang->reference != "")
                                             <strong><a href="#">{{$attributeLang->lang->name}}</a></strong> ,
                                         @endif
                                     @endforeach

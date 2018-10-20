@@ -55,7 +55,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group form-group-default">
                                         <label>Detail name</label>
-                                        <input type="text" class="form-control" name="value" value="{{$detail->detailLang->first()->value}}">
+                                        <input type="text" class="form-control" name="value" value="{{$detail->detailLang()->value}}">
                                         <label class='error' for='value'>
                                             @if ($errors->has('value'))
                                                 {{ $errors->first('value') }}
@@ -89,7 +89,7 @@
                                         <div class="col-md-5">
                                             <select id="lstview" class="form-control" size="13" multiple="multiple">
                                                @foreach($categories as $category)
-                                                <option value="{{$category->id}}">{{$category->categoryLang->first()->reference}}</option>
+                                                <option value="{{$category->id}}">{{$category->categoryLang()->reference}}</option>
                                                @endforeach
                                             </select>
                                         </div>
@@ -104,7 +104,7 @@
                                         <div class="col-md-5">
                                             <select name="categories[]" id="lstview_to" class="form-control" size="13" multiple="multiple">
                                              @foreach($detail->categories as $category)
-                                                 <option value="{{$category->id}}">{{$category->categoryLang->first()->reference}}</option>
+                                                 <option value="{{$category->id}}">{{$category->categoryLang()->reference}}</option>
                                                @endforeach
                                             </select>
                                         </div>
