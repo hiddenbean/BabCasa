@@ -34,9 +34,9 @@
                 <div class="col-md-9 b-r b-dashed b-grey"> 
                         <div class="row">
                             <div class="col-md-12">
-                                <h5>{{$attribute->attributeLang->first()->reference}}</h5> 
+                                <h5>{{$attribute->attributeLang()->reference}}</h5> 
                                  
-                                <p>{{$attribute->attributeLang->first()->description}} </p> 
+                                <p>{{$attribute->attributeLang()->description}} </p> 
                             </div> 
                         </div>  
                 </div> 
@@ -55,7 +55,7 @@
                         <div class="row">
                         @foreach($attribute->categories as $category)
                             <div class="col-md-3 b-r b-dashed b-grey"> 
-                                {{$category->categoryLang->first()->reference}}
+                                {{$category->categoryLang()->reference}}
                             </div>
                         @endforeach
                         </div>   

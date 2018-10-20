@@ -55,7 +55,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group form-group-default">
                                         <label>Attribute name</label>
-                                        <input type="text" class="form-control" name="reference" value="{{$attribute->attributeLang->first()->reference}}">
+                                        <input type="text" class="form-control" name="reference" value="{{$attribute->attributeLang()->reference}}">
                                         <label class='error' for='reference'>
                                             @if ($errors->has('reference'))
                                                 {{ $errors->first('reference') }}
@@ -88,7 +88,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group form-group-default">
                                         <label>Description</label>
-                                        <textarea type="text" class="form-control" name="description">{{$attribute->attributeLang->first()->description}}</textarea>
+                                        <textarea type="text" class="form-control" name="description">{{$attribute->attributeLang()->description}}</textarea>
                                         <label class='error' for='description'>
                                             @if ($errors->has('description'))
                                                 {{ $errors->first('description') }}
@@ -122,7 +122,7 @@
                                         <div class="col-md-5">
                                             <select id="lstview" class="form-control" size="13" multiple="multiple">
                                                @foreach($categories as $category)
-                                                <option value="{{$category->id}}">{{$category->categoryLang->first()->reference}}</option>
+                                                <option value="{{$category->id}}">{{$category->categoryLang()->reference}}</option>
                                                @endforeach
                                             </select>
                                         </div>
@@ -137,7 +137,7 @@
                                         <div class="col-md-5">
                                             <select name="categories[]" id="lstview_to" class="form-control" size="13" multiple="multiple">
                                              @foreach($attribute->categories as $category)
-                                                 <option value="{{$category->id}}">{{$category->categoryLang->first()->reference}}</option>
+                                                 <option value="{{$category->id}}">{{$category->categoryLang()->reference}}</option>
                                                @endforeach
                                             </select>
                                         </div>

@@ -88,7 +88,7 @@ class AttributeLangController extends Controller
                 }
                 else
                 {
-                $attributeLang->reference = ' ';
+                $attributeLang->reference = '';
                 $attributeLang->description = '';
     
                 }

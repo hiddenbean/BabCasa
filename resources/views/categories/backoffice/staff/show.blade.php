@@ -19,7 +19,7 @@
                     <a href="{{ url('/categories') }}">categories</a>
                 </li>
                 <li class="breadcrumb-item active">
-                    {{ $category->categoryLang->first()->reference }}
+                    {{ $category->categoryLang()->reference}}
                 </li>
             </ol>
         </div>
@@ -42,7 +42,7 @@
                             <h5>
                                 Picture
                             </h5>
-                            <img src="https://ae01.alicdn.com/kf/HTB1nN1pXcrrK1Rjy1zeq6xalFXaS.jpg_220x220.jpg" alt="cat1" width="100%">
+                            <img src="@if(isset($category->picture->path)) {{Storage::url($category->picture->path)}} @else https://ae01.alicdn.com/kf/HTB1VGbHiZuYBuNkSmRy763A3pXaX.png @endif" alt="cat1" width="100%">
                         </div>
                         <div class="col-md-8">
                             <div class="row">
@@ -51,7 +51,7 @@
                                         Name
                                     </h5>
                                     <p>
-                                        Test
+                                        {{$category->categoryLang()->reference}}
                                     </p>
                                 </div>
                             </div>
@@ -61,7 +61,7 @@
                                         Description
                                     </h5>
                                     <p>
-                                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Temporibus dignissimos quam ipsam, cum assumenda unde hic, quos et fuga quo tenetur, fugiat in nostrum dolore dolorem rerum earum odio dolores?
+                                        {!!$category->categoryLang()->description !!}
                                     </p>
                                 </div>
                             </div>
@@ -71,7 +71,7 @@
                                         Parent
                                     </h5>
                                     <p>
-                                        <a href="#">Cat</a>
+                                       @if(isset($category->category)) <a href="{{url('categories/'.$category->category->id)}}"> {{$category->category->categoryLang()->reference}}</a>@else    -@endif
                                     </p>
                                 </div>
                             </div>
@@ -81,10 +81,9 @@
                                         Details
                                     </h5>
                                     <p>
-                                        <a href="#" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">Detail1</a>
-                                        <a href="#" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">Detail2</a>
-                                        <a href="#" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">Detail3</a>
-                                        <a href="#" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">Detail4</a>
+                                        @foreach($category->details as $detail)
+                                             <a href="{{url('details/'.$detail->id)}}" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">{{$detail->detailLang()->value}}</a>
+                                        @endforeach
                                     </p>
                                 </div>
                             </div>
@@ -94,10 +93,9 @@
                                         Attributes
                                     </h5>
                                     <p>
-                                        <a href="#" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">Attr 1</a>
-                                        <a href="#" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">Attr 2</a>
-                                        <a href="#" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">Attr 3</a>
-                                        <a href="#" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">Attr 4</a>
+                                         @foreach($category->attributes as $attribute)
+                                             <a href="{{url('attributes/'.$attribute->id)}}" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">{{$attribute->attributeLang()->reference}}</a>
+                                        @endforeach
                                     </p>
                                 </div>
                             </div>
@@ -119,7 +117,7 @@
                                     data-placement="bottom" 
                                     data-html="true" 
                                     trigger="click" 
-                                    title= "<p class='tooltip-text'>You can use this form to create a new category if you have the right permissions.<br>
+                                    title= "<p class='tooltip-text'>You can use this form to create a new detail if you have the right permissions.<br>
                                             If you have any difficulties please <a href='#'>contact the support</a></p>"> 
                                     <i class="fas fa-question-circle"></i>
                                 </a>
@@ -128,31 +126,44 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    Status : <strong>Publish</strong>, <strong>Removed</strong>
+                                    Status : <strong>@if($category->deleted_at == NULL) Publish @else Removed @endif</strong>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    Creation date : <strong>10/18/2018 18:46:11</strong>
+                                    Creation date : <strong>{{$category->created_at}}</strong>
                                 </div>
                             </div>
+                            @if($category->updated_at != NULL)
                             <div class="row">
                                 <div class="col-md-12">
-                                    Last update : <strong>10/18/2018 18:48:40</strong>
+                                    Last update : <strong>{{$category->updated_at}}</strong>
                                 </div>
                             </div>
+                            @endif
+                            @if($category->deleted_at != NULL)
                             <div class="row">
                                 <div class="col-md-12">
-                                    Remove date : <strong>10/18/2018 18:49:22</strong>
+                                    Remove date : <strong>{{$category->deleted_at}}</strong>
                                 </div>
                             </div>
+                            @endif
                             <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
+                             @if($category->deleted_at == NULL)
                                 <div class="col-md-6">
-                                    <button class="btn btn-block "><i class="fas fa-pen"></i> <strong>Edit</strong></button>                                    
+                                    <a href="{{url('categories/'.$category->id.'/edit')}}" class="btn btn-block "><i class="fas fa-pen"></i> <strong>Edit</strong></a>                                    
                                 </div>
+                            @endif
                                 <div class="col-md-6">
-                                    <button class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>Remove</strong></button>
-                                </div>
+                                @if($category->deleted_at == NULL)
+                                    <a  href="{{route('delete.category',['category'=>$category->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
+                                @else
+                                      <form action="{{url('categories/'.$category->id.'/restore')}}" method="POST">
+                                        {{ csrf_field() }}
+                                        <button class="btn btn-block btn-transparent-danger" type="submit"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></button>
+                                        </form>
+                                @endif
+                                 </div>
                             </div>
                         </div>
                     </div>
@@ -180,12 +191,17 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    Available in : <strong><a href="#">English</a></strong>, <strong><a href="#">Français</a></strong>  
+                                    Available in :
+                                     @foreach($category->categoryLangs as $categoryLang)
+                                        @if($categoryLang->reference != "")
+                                            <strong><a href="#">{{$categoryLang->lang->name}}</a></strong> ,
+                                        @endif
+                                    @endforeach 
                                 </div>
                             </div>
                             <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
                                 <div class="col-md-12">
-                                    <a class="btn btn-transparent"><i class="fas fa-plus"></i> <strong>Add an other translation</strong></a>                                    
+                                    <a href="{{url('categories/'.$category->id.'/translations')}}" class="btn btn-transparent"><i class="fas fa-plus"></i> <strong>Add an other translation</strong></a>                                    
                                 </div>
                             </div>
                         </div>

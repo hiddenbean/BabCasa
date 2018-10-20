@@ -90,7 +90,7 @@
                                 Name
                             </h5>
                             <p>
-                                @if($attribute->attributeLang->first()->reference==' '){{$attribute->attributeLangNotEmpty->first()->reference}} @else {{$attribute->attributeLang->first()->reference }}@endif
+                                @if($attribute->attributeLang()->reference==' '){{$attribute->attributeLangNotEmpty->first()->reference}} @else {{$attribute->attributeLang()->reference }}@endif
                             </p>
                         </div>
                     </div>
@@ -105,7 +105,7 @@
                                 description
                             </h5>
                             <p>
-                                @if($attribute->attributeLang->first()->description==' '){{$attribute->attributeLangNotEmpty->first()->description}} @else {{$attribute->attributeLang->first()->description }}@endif
+                                @if($attribute->attributeLang()->description==' '){{$attribute->attributeLangNotEmpty->first()->description}} @else {{$attribute->attributeLang()->description }}@endif
                             </p>
                         </div>
                     </div>
@@ -116,7 +116,7 @@
                             </h5>
                             <p>
                              @foreach($attribute->categories as $category)
-                            <a href="{{url('categories/'.$category->id)}}" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">{{$category->categoryLang->first()->reference}}</a>
+                            <a href="{{url('categories/'.$category->id)}}" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">{{$category->categoryLang()->reference}}</a>
                             @endforeach
                                 
                             </p>

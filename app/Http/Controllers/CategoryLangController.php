@@ -99,17 +99,33 @@ class CategoryLangController extends Controller
      */
     public function update(Request $request, $Category)
     {
-        $this->validateRequest($request);
-        
-        $Category = Category::find($Category);
-        $CategoryLangId = $Category->CategoryLang->first()->id;
+        $category = Category::find($Category);
+        foreach($request->references as $key => $reference)
+        {
+            $categoryLang = $category->categoryLangs->where('lang_id',$request->languages_id[$key])->first();
+            if(!isset($categoryLang))
+            {
+                $categoryLang = new CategoryLang();
+                $categoryLang->category_id = $category->id;
+                $categoryLang->lang_id = $request->languages_id[$key];
+            }
 
-        $CategoryLang = CategoryLang::find($CategoryLangId);
-        $CategoryLang->Category = $request->Category; 
-        $CategoryLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
-        $CategoryLang->save(); 
-        
-        return redirect('categories');
+            if($reference != '')
+            {
+                $categoryLang->reference = $reference;
+                $categoryLang->description = $request->descriptions[$key];
+                }
+                else
+                {
+                $categoryLang->reference = '';
+                $categoryLang->description = '';
+    
+                }
+                $categoryLang->save();
+            
+            
+        }
+        return redirect()->back();
     }
 
     /**

@@ -47,6 +47,8 @@
                 </a>
             </div>
         </div>
+         <form id="form-personal"  method="POST" action="{{url('categories/'.$category->id)}}"  enctype="multipart/form-data">
+                            {{ csrf_field() }}
         <div class="card-body">
             <div class="row">
                 <div class="col-md-9">
@@ -56,7 +58,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group form-group-default">
                                         <label>Category name</label>
-                                        <input type="text" class="form-control" name="reference">
+                                        <input type="text" class="form-control" name="reference" value="{{$category->categoryLang()->reference}}">
                                         <label class='error' for='reference'>
                                             @if ($errors->has('reference'))
                                                 {{ $errors->first('reference') }}
@@ -71,7 +73,8 @@
                         <div class="col-md-12">
                             <label for="summernote" class="upper-title p-t-5 p-b-5 p-l-10">description</label>
                             <div class="summernote-wrapper bg-white">
-                                <div id="summernote"></div>
+                                <div id="summernote">{!!$category->categoryLang()->description!!}</div>
+                                    <input type="hidden" name="description" id='description'>
                             </div>
                         </div>
                     </div>
@@ -97,32 +100,26 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-5">
-                                            <select name="from" id="lstview" class="form-control" size="13" multiple="multiple">
-                                                <option value="HTML">HTML</option>
-                                                <option value="2">CSS</option>
-                                                <option value="CSS">CSS3</option>
-                                                <option value="jQuery">jQuery</option>
-                                                <option value="JavaScript">JavaScript</option>
-                                                <option value="Bootstrap">Bootstrap</option>
-                                                <option value="MySQL">MySQL</option>
-                                                <option value="PHP">PHP</option>
-                                                <option value="JSP">JSP</option>
-                                                <option value="Rubi on Rails">Rubi on Rails</option>
-                                                <option value="SQL">SQL</option>
-                                                <option value="Java">Java</option>
-                                                <option value="Python">Python</option>
+                                             <select id="lstview1" class="form-control" size="13" multiple="multiple">
+                                                 @foreach($details as $detail)
+                                                <option value="{{$detail->id}}">{{$detail->detailLang()->value}}</option>
+                                               @endforeach
                                             </select>
                                         </div>
                                         <div class="col-md-2">
-                                            <button type="button" id="lstview_undo" class="btn btn-transparent-danger btn-block"><i class="fas fa-ban"></i> <strong>undo</strong></button>
-                                            <button type="button" id="lstview_rightAll" class="btn btn-transparent btn-block"><i class="fas fa-forward"></i></button>
-                                            <button type="button" id="lstview_rightSelected" class="btn btn-transparent btn-block"><i class="fas fa-caret-right fa-lg"></i></button>
-                                            <button type="button" id="lstview_leftSelected" class="btn btn-transparent btn-block"><i class="fas fa-caret-left fa-lg"></i></button>
-                                            <button type="button" id="lstview_leftAll" class="btn btn-transparent btn-block"><i class="fas fa-backward"></i></button>
-                                            <button type="button" id="lstview_redo" class="btn btn-transparent btn-block"><i class="fas fa-sync-alt"></i> redo</button>
+                                            <button type="button" id="lstview1_undo" class="btn btn-transparent-danger btn-block"><i class="fas fa-ban"></i> <strong>undo</strong></button>
+                                            <button type="button" id="lstview1_rightAll" class="btn btn-transparent btn-block"><i class="fas fa-forward"></i></button>
+                                            <button type="button" id="lstview1_rightSelected" class="btn btn-transparent btn-block"><i class="fas fa-caret-right fa-lg"></i></button>
+                                            <button type="button" id="lstview1_leftSelected" class="btn btn-transparent btn-block"><i class="fas fa-caret-left fa-lg"></i></button>
+                                            <button type="button" id="lstview1_leftAll" class="btn btn-transparent btn-block"><i class="fas fa-backward"></i></button>
+                                            <button type="button" id="lstview1_redo" class="btn btn-transparent btn-block"><i class="fas fa-sync-alt"></i> redo</button>
                                         </div>
-                                        <div class="col-md-5">
-                                            <select name="to" id="lstview_to" class="form-control" size="13" multiple="multiple"></select>
+                                         <div class="col-md-5">
+                                            <select name="details[]" id="lstview1_to" class="form-control" size="13" multiple="multiple">
+                                              @foreach($category->details as $detail)
+                                                <option value="{{$detail->id}}">{{$detail->detailLang()->value}}</option>
+                                               @endforeach
+                                               </select>
                                         </div>
                                     </div>
                                 </div>
@@ -150,32 +147,26 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-5">
-                                            <select name="from" id="lstview" class="form-control" size="13" multiple="multiple">
-                                                <option value="HTML">HTML</option>
-                                                <option value="2">CSS</option>
-                                                <option value="CSS">CSS3</option>
-                                                <option value="jQuery">jQuery</option>
-                                                <option value="JavaScript">JavaScript</option>
-                                                <option value="Bootstrap">Bootstrap</option>
-                                                <option value="MySQL">MySQL</option>
-                                                <option value="PHP">PHP</option>
-                                                <option value="JSP">JSP</option>
-                                                <option value="Rubi on Rails">Rubi on Rails</option>
-                                                <option value="SQL">SQL</option>
-                                                <option value="Java">Java</option>
-                                                <option value="Python">Python</option>
+                                           <select id="lstview2" class="form-control" size="13" multiple="multiple">
+                                                 @foreach($attributes as $attribute)
+                                                <option value="{{$attribute->id}}">{{$attribute->attributeLang()->reference}}</option>
+                                               @endforeach
                                             </select>
                                         </div>
                                         <div class="col-md-2">
-                                            <button type="button" id="lstview_undo" class="btn btn-transparent-danger btn-block"><i class="fas fa-ban"></i> <strong>undo</strong></button>
-                                            <button type="button" id="lstview_rightAll" class="btn btn-transparent btn-block"><i class="fas fa-forward"></i></button>
-                                            <button type="button" id="lstview_rightSelected" class="btn btn-transparent btn-block"><i class="fas fa-caret-right fa-lg"></i></button>
-                                            <button type="button" id="lstview_leftSelected" class="btn btn-transparent btn-block"><i class="fas fa-caret-left fa-lg"></i></button>
-                                            <button type="button" id="lstview_leftAll" class="btn btn-transparent btn-block"><i class="fas fa-backward"></i></button>
-                                            <button type="button" id="lstview_redo" class="btn btn-transparent btn-block"><i class="fas fa-sync-alt"></i> redo</button>
+                                            <button type="button" id="lstview2_undo" class="btn btn-transparent-danger btn-block"><i class="fas fa-ban"></i> <strong>undo</strong></button>
+                                            <button type="button" id="lstview2_rightAll" class="btn btn-transparent btn-block"><i class="fas fa-forward"></i></button>
+                                            <button type="button" id="lstview2_rightSelected" class="btn btn-transparent btn-block"><i class="fas fa-caret-right fa-lg"></i></button>
+                                            <button type="button" id="lstview2_leftSelected" class="btn btn-transparent btn-block"><i class="fas fa-caret-left fa-lg"></i></button>
+                                            <button type="button" id="lstview2_leftAll" class="btn btn-transparent btn-block"><i class="fas fa-backward"></i></button>
+                                            <button type="button" id="lstview2_redo" class="btn btn-transparent btn-block"><i class="fas fa-sync-alt"></i> redo</button>
                                         </div>
                                         <div class="col-md-5">
-                                            <select name="to" id="lstview_to" class="form-control" size="13" multiple="multiple"></select>
+                                            <select name="attribute[]" id="lstview2_to" class="form-control" size="13" multiple="multiple">
+                                                 @foreach($category->attributes as $attribute)
+                                                <option value="{{$attribute->id}}">{{$attribute->attributeLang()->reference}}</option>
+                                               @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -206,40 +197,12 @@
                                 <div class="card-body">
                                     <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
                                         <div class="col-md-6">
-                                            <button class="btn btn-block"><i class="fas fa-check"></i> <strong>save</strong></button>
+                                            <button type="submit" id="onClick" class="btn btn-block"><i class="fas fa-check"></i> <strong>save</strong></button>
                                         </div>
                                         <div class="col-md-6">
-                                            <button class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>clear all</strong></button>
+                                            <button type="button" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>clear all</strong></button>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <div class="card-title">
-                                        Category langue
-                                        <a 
-                                            href="javascript:;" 
-                                            data-toggle="tooltip" 
-                                            data-placement="bottom" 
-                                            data-html="true" 
-                                            trigger="click" 
-                                            title= "<p class='tooltip-text'>You can use this form to create a new category if you have the right permissions.<br>
-                                                    If you have any difficulties please <a href='#'>contact the support</a></p>"> 
-                                            <i class="fas fa-question-circle"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <select class="cs-select cs-skin-slide" data-init-plugin="cs-select">
-                                        @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-                                        <option value="">{{ $properties['native'] }} ({{ $properties['regional'] }})</option>
-                                        @endforeach
-                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -304,7 +267,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group form-group-default">
-                                <img src="{{ asset('img/img_placeholder.png') }}" id="image_preview_staff"
+                                <img src="@if(isset($category->picture->path)) {{Storage::url($category->picture->path)}} @else{{ asset('img/img_placeholder.png') }}@endif" id="image_preview_staff"
                                     alt="" srcset="" width="200" style="margin-left: calc(50% - 105px);">
                                 <label for="path_staff" class="choose_photo">
                                     <span>
@@ -314,9 +277,48 @@
                             </div>
                         </div>
                     </div>
+                       <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-title">
+                                        Category translations
+                                        <a 
+                                            href="javascript:;" 
+                                            data-toggle="tooltip" 
+                                            data-placement="bottom" 
+                                            data-html="true" 
+                                            trigger="click" 
+                                            title= "<p class='tooltip-text'>You can use this form to create a new category if you have the right permissions.<br>
+                                                    If you have any difficulties please <a href='#'>contact the support</a></p>"> 
+                                            <i class="fas fa-question-circle"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            Available in : 
+                                             @foreach($category->categoryLangs as $categoryLang)
+                                                @if($categoryLang->reference != "")
+                                                    <strong><a href="#">{{$categoryLang->lang->name}}</a></strong>
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
+                                        <div class="col-md-12">
+                                            <a href="{{url('categories/'.$category->id.'/translations')}}" class="btn btn-transparent"><i class="fas fa-plus"></i> <strong>Add an other translation</strong></a>                                    
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+        </form>
     </div>
 </div>
 @endsection
@@ -347,18 +349,25 @@
                 }
             } 
         });
-    $(".list-categories a").click( function () {
+       $(".list-categories a").click( function () {
         $(".list-categories a").removeClass('active');
         $(this).addClass('active');
-        $('#category_parent').val($(this).text());
+        $('#category_parent').val($(this).data('category-id'));
         $('#selected-parent-name').html($(this).text());
     });
     $('#summernote').summernote({height: 250});
-    $('#lstview').multiselect();
+    $('#lstview1, #lstview2').multiselect();
 
     $('#list-categories-clear').click( function () {
         $('.list-categories a').removeClass('active');
         $('#selected-parent-name').html('none');
     });
+    $('#onClick').on('click', function(){ 
+              
+                    $('#description').val($('#summernote').summernote().code());
+                    console.log($('#summernote').summernote().code());
+                    //this.form.submit();
+
+                });
     </script>
 @endsection

@@ -43,7 +43,7 @@
                                 Name
                             </h5>
                             <p>
-                                @if($detail->detailLang->first()->value==' '){{$detail->detailLangNotEmpty->first()->value}} @else {{$detail->detailLang->first()->value }}@endif
+                               {{$detail->detailLang()->value }}
                             </p>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                             </h5>
                             <p>
                              @foreach($detail->categories as $category)
-                            <a href="{{url('categories/'.$category->id)}}" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">{{$category->categoryLang->first()->reference}}</a>
+                            <a href="{{url('categories/'.$category->id)}}" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">{{$category->categoryLang()->reference}}</a>
                             @endforeach
                                 
                             </p>
@@ -152,7 +152,7 @@
                                 <div class="col-md-12">
                                     Available in : 
                                      @foreach($detail->detailLangs as $detailLang)
-                                        @if($detailLang->value != " ")
+                                        @if($detailLang->value != "")
                                             <strong><a href="#">{{$detailLang->lang->name}}</a></strong> ,
                                         @endif
                                     @endforeach

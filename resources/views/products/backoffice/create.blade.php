@@ -86,7 +86,7 @@
                                         <label>categories</label>
                                         <select class="full-width select2-hidden-accessible" name="categories[]" data-init-plugin="select2" multiple="" tabindex="-1" aria-hidden="true">
                                             @foreach($categories as $category)
-                                                <option value="{{$category->id}}" >{{$category->categoryLang->first()->reference}}</option>
+                                                <option value="{{$category->id}}" >{{$category->categoryLang()->reference}}</option>
                                             @endforeach
                                         
                                         </select>

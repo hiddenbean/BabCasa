@@ -23,7 +23,7 @@
                             @endif
                             </div>
                     <div class="col-md-3 text-right no-padding">
-                        <a href="#" class="btn btn-transparent-danger"><i class="fas fa-trash-alt fa-sm"></i> <strong>Trash</strong></a>
+                        <a href="{{url('categories/trash')}}" class="btn btn-transparent-danger"><i class="fas fa-trash-alt fa-sm"></i> <strong>Trash</strong></a>
                     </div>
                     <div class="col-md-6">
                         <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
@@ -52,78 +52,38 @@
             </thead>
     
             <tbody> 
+            @foreach($categories as $category)
                 <tr role="row" id="0">
-                    <td class="v-align-middle p-l-5 p-r-5">
-                        <div class="checkbox no-padding no-margin text-center">
-                            <input type="checkbox" id="checkbox2">
-                            <label for="checkbox2" class="no-padding no-margin"></label>
-                        </div>
-                    </td>
-                    <td class="v-align-middle text-center p-l-5 p-r-5">
-                        <a href="{{url('categories/create')}}"><i class="fas fa-pen fa-sm"></i> <strong>Edit</strong></a>
-                        </td> 
-                    <td class="v-align-middle text-center p-l-5 p-r-5">
-                        <a href="#" class="text-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a></td>
+                    @if (auth()->guard('staff')->user()->can('write','category'))
+                        <td class="v-align-middle p-l-5 p-r-5">
+                            <div class="checkbox no-padding no-margin text-center">
+                                <input type="checkbox" value="{{$category->id}}" name="categories[]" id="checkbox{{$category->id}}">
+                                <label for="checkbox{{$category->id}}" class="no-padding no-margin"></label>
+                            </div>
+                        </td>
+                       
+                        <td class="v-align-middle text-center p-l-5 p-r-5">
+                            <a href="{{url('categories/'.$category->id.'/edit')}}"><i class="fas fa-pen fa-sm"></i> <strong>Edit</strong></a>
+                            </td> 
+                         <td class="v-align-middle text-center p-l-5 p-r-5">
+                        <a href="{{route('delete.category',['category'=>$category->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="text-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a></td>
+                     @endif  
                     <td class="v-align-middle picture">
-                        <a href="#"><img src="https://ae01.alicdn.com/kf/HTB1nN1pXcrrK1Rjy1zeq6xalFXaS.jpg_220x220.jpg" alt="cat1"></a>
+                        <a href="#"><img src="@if(isset($category->picture->path)) {{Storage::url($category->picture->path)}} @else https://ae01.alicdn.com/kf/HTB1VGbHiZuYBuNkSmRy763A3pXaX.png @endif" alt="cat1"></a>
                     </td>
-                    <td class="v-align-middle"><a href="#"><strong>Cat</strong></a></td>
-                    <td class="v-align-middle">Desc cat</td>
-                    <td class="v-align-middle">-</td>
-                    <td class="v-align-middle">10</td>
+                    <td class="v-align-middle"><a href="{{url('categories/'.$category->id)}}"><strong>{{$category->categoryLang()->reference }}</strong></a></td>
+                    <td class="v-align-middle">{!!$category->categoryLang()->description!!}</td>
+                    <td class="v-align-middle">@if(isset($category->category)) {{$category->category->categoryLang()->reference}}@else -@endif</td>
+                    <td class="v-align-middle">{{count($category->products)}}</td>
                     <td class="v-align-middle">
-                        <a href="#" class="btn btn-tag">En</a>
-                        <a href="#" class="btn btn-tag">Fr</a>
+                         @foreach($category->categoryLangs as $categoryLang)
+                                @if($categoryLang->reference != "")
+                                     <a href="#" class="btn btn-tag">{{$categoryLang->lang->alpha_2_code}}</a>
+                                @endif
+                            @endforeach
                     </td>
                 </tr>
-                <tr role="row" id="1" data-parent="0">
-                    <td class="v-align-middle p-l-5 p-r-5 text-center">
-                        <div class="checkbox no-padding no-margin text-center">
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1" class="no-padding no-margin"></label>
-                        </div>
-                    </td>
-                    <td class="v-align-middle text-center p-l-5 p-r-5">
-                        <a href="{{url('categories/create')}}"><i class="fas fa-pen fa-sm"></i> <strong>Edit</strong></a>
-                        </td> 
-                    <td class="v-align-middle text-center p-l-5 p-r-5">
-                        <a href="#" class="text-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a></td>
-                    <td class="v-align-middle picture">
-                        <a href="#"><img src="https://ae01.alicdn.com/kf/HTB1VGbHiZuYBuNkSmRy763A3pXaX.png" alt="cat1-1"></a>
-                    </td>
-                    <td class="v-align-middle "><a href="#"><strong>— Sub cat</strong></a></td>
-                    <td class="v-align-middle ">Desc subcat</td>
-                    <td class="v-align-middle"><a href="#"><strong>Cat</strong></a></td>
-                    <td class="v-align-middle">5</td>
-                    <td class="v-align-middle">
-                        <a href="#" class="btn btn-tag">En</a>
-                        <a href="#" class="btn btn-tag">Fr</a>
-                    </td>
-                </tr>
-                <tr role="row" id="2">
-                    <td class="v-align-middle p-l-5 p-r-5 text-center">
-                        <div class="checkbox no-padding no-margin text-center">
-                            <input type="checkbox" id="checkbox3">
-                            <label for="checkbox3" class="no-padding no-margin"></label>
-                        </div>
-                    </td>
-                    <td class="v-align-middle text-center p-l-5 p-r-5">
-                        <a href="{{url('categories/create')}}"><i class="fas fa-pen fa-sm"></i> <strong>Edit</strong></a>
-                        </td> 
-                    <td class="v-align-middle text-center p-l-5 p-r-5">
-                        <a href="#" class="text-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a></td>
-                    <td class="v-align-middle picture">
-                        <a href="#"><img src="https://ae01.alicdn.com/kf/HTB1VGbHiZuYBuNkSmRy763A3pXaX.png" alt="cat1-1"></a>
-                    </td>
-                    <td class="v-align-middle "><a href="#"><strong>— — Sub sub cat</strong></a></td>
-                    <td class="v-align-middle ">Desc subsubcat</td>
-                    <td class="v-align-middle"><a href="#"><strong>Sub cat</strong></a></td>
-                    <td class="v-align-middle">1</td>
-                    <td class="v-align-middle">
-                        <a href="#" class="btn btn-tag">En</a>
-                        <a href="#" class="btn btn-tag">Fr</a>
-                    </td>
-                </tr>                                         
+            @endforeach                                        
             </tbody>
         </table>
     </div>

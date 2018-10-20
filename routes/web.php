@@ -427,7 +427,10 @@ Route::prefix('discounts')->group(function() {
     Route::prefix('categories')->middleware('CanWrite:category')->group(function() {
 
         Route::post('/','CategoryController@store'); 
+        Route::post('/multi-restore', 'CategoryController@multiRestore'); 
         Route::post('{category}', 'CategoryController@update'); 
+        Route::post('{detail}/translations','CategoryLangController@update');
+        Route::post('{detail}/restore', 'CategoryController@restore');
         Route::delete('{category}', 'CategoryController@destroy')->name('delete.category');
         Route::delete('delete/multiple', 'CategoryController@multiDestroy')->name('delete.categories');
     }); 

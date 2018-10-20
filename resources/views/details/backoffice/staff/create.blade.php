@@ -89,7 +89,7 @@
                                         <div class="col-md-5">
                                             <select id="lstview" class="form-control" size="13" multiple="multiple">
                                                 @foreach($categories as $category)
-                                                <option value="{{$category->id}}">{{$category->categoryLang->first()->reference}}</option>
+                                                <option value="{{$category->id}}">{{$category->categoryLang()->reference}}</option>
                                                @endforeach
                                             </select>
                                         </div>

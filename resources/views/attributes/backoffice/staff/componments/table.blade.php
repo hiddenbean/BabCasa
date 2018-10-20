@@ -208,12 +208,12 @@
                             <a href="{{route('delete.attribute',['attribute'=>$attribute->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="text-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
                         </td>
                      @endif
-                        <td class="v-align-middle"><a href="{{url('attributes/'.$attribute->id)}}"><strong>@if($attribute->attributeLang->first()->reference==' '){{$attribute->attributeLangNotEmpty->first()->reference}} @else {{$attribute->attributeLang->first()->reference }}@endif</strong></a></td>
+                        <td class="v-align-middle"><a href="{{url('attributes/'.$attribute->id)}}"><strong>@if($attribute->attributeLang()->reference==' '){{$attribute->attributeLangNotEmpty->first()->reference}} @else {{$attribute->attributeLang()->reference }}@endif</strong></a></td>
                         <td class="v-align-middle"><strong> {{$attribute->type}}</strong></td>
-                        <td class="v-align-middle"><a href="{{url('attributes/'.$attribute->id)}}"><strong>@if($attribute->attributeLang->first()->description==' '){{$attribute->attributeLangNotEmpty->first()->description}} @else {{$attribute->attributeLang->first()->description }}@endif</strong></a></td>
+                        <td class="v-align-middle"><a href="{{url('attributes/'.$attribute->id)}}"><strong>@if($attribute->attributeLang()->description==' '){{$attribute->attributeLangNotEmpty->first()->description}} @else {{$attribute->attributeLang()->description }}@endif</strong></a></td>
                         <td class="v-align-middle">
                             @foreach($attribute->categories as $category)
-                            <a href="{{url('categories/'.$category->id)}}" class="btn btn-tag">{{$category->categoryLang->first()->reference}}</a>
+                            <a href="{{url('categories/'.$category->id)}}" class="btn btn-tag">{{$category->categoryLang()->reference}}</a>
                             @endforeach
                         </td>
                         

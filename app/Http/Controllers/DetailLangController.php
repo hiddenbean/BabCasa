@@ -87,7 +87,7 @@ class DetailLangController extends Controller
             }
             else
             {
-                $detailLang->value = ' ';
+                $detailLang->value = '';
 
             }
             $detailLang->save();

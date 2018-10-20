@@ -80,8 +80,8 @@
                             <label for="checkbox{{$attribute->id}}" class="no-padding no-margin"></label>
                             </div>
                             </td>
-                                <td class="v-align-middle"><a href="{{url('attributes/'.$attribute->id)}}"><strong> {{$attribute->attributeLang->first()->reference}} </strong></a></td>
-                                <td class="v-align-middle text-center"><strong>{{$attribute->attributeLang->first()->description}} </strong></td>                
+                                <td class="v-align-middle"><a href="{{url('attributes/'.$attribute->id)}}"><strong> {{$attribute->attributeLang()->reference}} </strong></a></td>
+                                <td class="v-align-middle text-center"><strong>{{$attribute->attributeLang()->description}} </strong></td>                
                                         @if (auth()->guard('staff')->user()->can('write','attribute'))
                                 <td class="v-align-middle text-center">
 

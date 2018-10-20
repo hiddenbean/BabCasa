@@ -12,13 +12,15 @@ class Category extends Model
 
     public function categoryLangs()
     {
-            return $this->hasMany('App\CategoryLang');
+            return $this->hasMany('App\CategoryLang')->withTrashed();
     }
 
     public function categoryLang()
     {
         $langId = Language::where('alpha_2_code',App::getLocale())->first()->id; 
-        return $this->categoryLangs()->where('lang_id',$langId);
+
+        $category = self::categoryLangs()->where('lang_id',$langId)->withTrashed()->first();
+        return !$category->reference ? self::categoryLangs()->where('reference','!=','')->first() : $category;
     }
 
     public function subCategories()
@@ -28,7 +30,7 @@ class Category extends Model
 
     public function category()
     {
-        return $this->belongsTo('App\Category');
+        return $this->belongsTo('App\Category')->withTrashed();
     }
     
     public function attributes()

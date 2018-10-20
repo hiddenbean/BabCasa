@@ -17,7 +17,8 @@ class Attribute extends Model
     public function attributeLang()
     {
         $langId = Language::where('alpha_2_code',App::getLocale())->first()->id; 
-        return $this->attributeLangs()->where('lang_id',$langId)->withTrashed();
+        $attribute = self::attributeLangs()->where('lang_id',$langId)->withTrashed()->first();
+        return ($attribute->reference == ' '|| $attribute->reference == '') ? self::attributeLangs()->where('reference','!=',' ')->withTrashed()->first() : $attribute;
     }
     
     public function attributeValue()

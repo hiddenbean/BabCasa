@@ -78,15 +78,15 @@
                             <a href="{{route('delete.detail',['detail'=>$detail->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="text-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
                         </td>
                      @endif
-                        <td class="v-align-middle"><a href="{{url('details/'.$detail->id)}}"><strong>@if($detail->detailLang->first()->value==' '){{$detail->detailLangNotEmpty->first()->value}} @else {{$detail->detailLang->first()->value }}@endif</strong></a></td>
+                        <td class="v-align-middle"><a href="{{url('details/'.$detail->id)}}"><strong>{{$detail->detailLang()->value }}</strong></a></td>
                         <td class="v-align-middle">
                             @foreach($detail->categories as $category)
-                            <a href="{{url('categories/'.$category->id)}}" class="btn btn-tag">{{$category->categoryLang->first()->reference}}</a>
+                            <a href="{{url('categories/'.$category->id)}}" class="btn btn-tag">{{$category->categoryLang()->reference}}</a>
                             @endforeach
                         </td>
                         <td class="v-align-middle">
                             @foreach($detail->detailLangs as $detailLang)
-                                @if($detailLang->value != " ")
+                                @if($detailLang->value != "")
                                      <a href="#" class="btn btn-tag">{{$detailLang->lang->alpha_2_code}}</a>
                                 @endif
                             @endforeach

@@ -18,7 +18,7 @@
                     <label for="staticEmail2">Category :</label>
                     <select class="form-control" name="category_id" id="staticEmail2">
                         @foreach($categories as $category)
-                        <option value="{{$category->id}}">{{$category->categoryLang->first()->reference}}</option>
+                        <option value="{{$category->id}}">{{$category->categoryLang()->reference}}</option>
                         @endforeach
                     </select>
                 </div>

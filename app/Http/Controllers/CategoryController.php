@@ -28,10 +28,9 @@ class CategoryController extends Controller
     {
         $request->validate([
             'reference' => 'required',
-            'description' => 'required|required|max:3000',
             'category_parent' => 'sometimes',
-            'details' => 'required',
-            'attribute' => 'required',
+            'details' => 'sometimes',
+            'attribute' => 'sometimes',
             'path' => 'sometimes',
         ]);
     }
@@ -52,6 +51,7 @@ class CategoryController extends Controller
             $array = $this->toArray($array,$category); 
         }
         $data['categories'] = $array;
+        // return $data;
         return view('categories.backoffice.staff.index',$data);
     }
     
@@ -62,6 +62,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
+        $data['languages'] = Language::all();
         $data['categories'] = Category::all();
         $data['details'] = Detail::all();
         $data['attributes'] = Attribute::all();
@@ -74,11 +75,7 @@ class CategoryController extends Controller
             array_push($array, $category);
             $array = $this->toArray($array,$category); 
         }
-<<<<<<< HEAD
-        $data['categories'] = $array;
-=======
-        //return$data['categories'] = $array;
->>>>>>> 7d67b7a45fedea0bff4e57ef3dcd901cfeccfdd2
+        // $data['categories'] = $array;
         return view('categories.backoffice.staff.create',$data);
     }
     
@@ -184,9 +181,9 @@ class CategoryController extends Controller
 
     public function checkReference($request)
     {
-        if($request->category_id)
+        if($request->category_parent)
         {
-            $cats = Category::find($request->category_id)->subCategories;
+            $cats = Category::find($request->category_parent)->subCategories;
         }
         else 
         {
@@ -198,7 +195,7 @@ class CategoryController extends Controller
             
             foreach($cats as $cat)
             {
-                if($cat->categoryLang->first()->reference == $request->reference) $find=true;
+                if($cat->categoryLang()->reference == $request->reference) $find=true;
             }
             if($find) 
             {
@@ -208,12 +205,7 @@ class CategoryController extends Controller
         return $find;
     }
 
-    public function restore($category_id)
-    {
-        $category = Category::withTrashed()->findOrFail($category_id);
-        $category->restore();
-    }
-
+  
     /**
      * Display the specified resource.
      *
@@ -283,10 +275,9 @@ class CategoryController extends Controller
     {
         $request->validate([
             'reference' => 'required',
-            'description' => 'required|required|max:3000',
             'category_parent' => 'sometimes',
-            'details' => 'required',
-            'attribute' => 'required',
+            'details' => 'sometimes',
+            'attribute' => 'sometimes',
             'path' => 'sometimes',
         ]);
 
@@ -304,6 +295,8 @@ class CategoryController extends Controller
             else
             {
                 $picture = new Picture();
+                $picture->pictureable_type = 'category';
+                $picture->pictureable_id = $category->id;
             }
             $picture->name =time().'.'.$request->file('path')->extension();
             $picture->tag = "category";
@@ -312,7 +305,7 @@ class CategoryController extends Controller
             $picture->save();
         }
 
-        $category_lang = $category->categoryLang->first();
+        $category_lang = $category->categoryLang();
         $category_lang->reference = $request->reference;
         $category_lang->description = $request->description;
         $category_lang->category_id = $category->id;
@@ -332,23 +325,27 @@ class CategoryController extends Controller
         
         $category->details()->detach();
         $category->attributes()->detach();
-
-        foreach($request->details as $detail)
+        if($request->details)
         {
-            if($detail != null)
+            foreach($request->details as $detail)
             {
-                $category->details()->attach($detail);
+                if($detail != null)
+                {
+                    $category->details()->attach($detail);
+                }
+            }
+
+        }
+        if($request->attribute)
+        {
+            foreach($request->attribute as $attr)
+            {
+                if($attr != null)
+                {
+                    $category->attributes()->attach($attr);
+                }
             }
         }
-
-        foreach($request->attribute as $attr)
-        {
-            if($attr != null)
-            {
-                $category->attributes()->attach($attr);
-            }
-        }
-
         return redirect('categories');
     }
 
@@ -437,6 +434,53 @@ class CategoryController extends Controller
         }
 
 
+    }
+    public function restore($category)
+    {
+         $category = Category::onlyTrashed()->where('id', $category)->first();
+        $category->restore();
+         return redirect('categories');
+       
+    }
+
+    public function multiRestore(Request $request)
+    {
+        $request->validate([
+            'categories' => 'required',
+        ]);
+
+        foreach ($request->categories as  $attr)
+         {
+            $category = Category::onlyTrashed()->where('id', $attr)->first();
+           $category->restore();
+        }
+         return redirect('categories');
+       
+    }
+      /**
+     * Displaying the Trash page
+     * 
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function trash()
+    {
+        $data['categories'] = Category::onlyTrashed()->get();
+        return view('categories.backoffice.staff.trash', $data);
+    }
+
+     /**
+     * Displaying the translations page
+     * 
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function translations($category)
+    {
+        $data['category'] = Category::findOrFail($category);
+        $data['languages'] = Language::all();
+
+        return view('categories.backoffice.staff.translations', $data);
     }
 
     

@@ -85,10 +85,10 @@
                                 <button class="btn btn-link" type="submit"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></button>
                                 </form>
                             </td> 
-                            <td class="v-align-middle"><a href="#"><strong>@if($detail->detailLang->first()->value==' '){{$detail->detailLangNotEmpty->first()->value}} @else {{$detail->detailLang->first()->value }}@endif</strong></a></td>
+                            <td class="v-align-middle"><a href="{{url('details/'.$detail->id)}}"><strong>{{$detail->detailLang()->value }}</strong></a></td>
                             <td class="v-align-middle">
                                 @foreach($detail->categories as $category)
-                            <a href="{{url('categories/'.$category->id)}}" class="btn btn-tag">{{$category->categoryLang->first()->reference}}</a>
+                            <a href="{{url('categories/'.$category->id)}}" class="btn btn-tag">{{$category->categoryLang()->reference}}</a>
                             @endforeach
                             </td>
                             <td class="v-align-middle">

@@ -45,7 +45,7 @@
                             <div class="col-md-12">
                                 <div class="form-group form-group-default">
                                     <label>attribute reference</label>
-                                <input type="text" class="form-control" name="reference" value="{{$attribute->attributeLang->first()->reference}}" placeholder="attribute reference">
+                                <input type="text" class="form-control" name="reference" value="{{$attribute->attributeLang()->reference}}" placeholder="attribute reference">
                                     <label class='error' for='reference'>
                                             @if ($errors->has('reference'))
                                                 {{ $errors->first('reference') }}
@@ -71,7 +71,7 @@
                             <div class="col-md-12">
                                 <div class="form-group form-group-default">
                                     <label>Description</label>
-                                    <textarea name="description" class="form-control">{{$attribute->attributeLang->first()->description}}</textarea>
+                                    <textarea name="description" class="form-control">{{$attribute->attributeLang()->description}}</textarea>
                                     <label class='error' for='description'>
                                             @if ($errors->has('description'))
                                                 {{ $errors->first('description') }}
@@ -87,7 +87,7 @@
                                     <select class="full-width select2-hidden-accessible" name="categories[]" data-init-plugin="select2" multiple="" tabindex="-1" aria-hidden="true">
                                         @foreach($categories as $category)
                                             <option value="{{$category->id}}" 
-                                            @if($attribute->categories()->wherePivot('category_id',$category->id)->first()) selected @endif>{{$category->categoryLang->first()->reference}}</option>
+                                            @if($attribute->categories()->wherePivot('category_id',$category->id)->first()) selected @endif>{{$category->categoryLang()->reference}}</option>
                                         @endforeach
                                     
                                     </select>

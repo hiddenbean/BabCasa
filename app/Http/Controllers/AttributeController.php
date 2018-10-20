@@ -165,7 +165,7 @@ class AttributeController extends Controller
         $Attribute = Attribute::find($attribute);
         $Attribute->type =  $request->type;
         $Attribute->save();
-        $attributeLangId = $Attribute->attributeLang->first()->id;
+        $attributeLangId = $Attribute->attributeLang()->id;
 
         $attributeLang = AttributeLang::find($attributeLangId);
         $attributeLang->reference = $request->reference;
