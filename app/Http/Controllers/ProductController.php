@@ -150,18 +150,19 @@ class ProductController extends Controller
             $product->tags()->attach($tag);
 
         }
-      $variantPictures = $request->variant_pictures;
+        $variantPictures = $request->variant_pictures;
 
-      
-       $this->getGenerations($attributes, $product->id, $variantPictures);
+        $this->getGenerations($attributes, $product->id, $variantPictures);
     }
-   public function getGenerations($attributes, $productId, $variantPictures, $currGeneration = 0, $result = array(), $parentId = null)
+
+    
+    public function getGenerations($attributes, $productId, $variantPictures, $currGeneration = 0, $result = array(), $parentId = null)
     {
         $currGeneration++;
         //    dd($attributes[0]->picture);
-           foreach($attributes as $k => $v) {
-               $attribute = $v;
-               if(isset($attribute->children))
+            foreach($attributes as $k => $v) {
+                $attribute = $v;
+                if(isset($attribute->children))
             {
                 $attributeValue = new AttributeValue();
                 $attributeValue->product_id = $productId;

@@ -44,7 +44,7 @@
                 </a>
             </div>
         </div>
-        <form action="{{url('details')}}" method="POST">
+        <form action="{{url('details')}}" method="POST" id="form">
         {{ csrf_field() }}
         <div class="card-body">
             <div class="row">
@@ -53,13 +53,11 @@
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="form-group form-group-default">
+                                    <div class="form-group form-group-default required">
                                         <label>Detail name</label>
                                         <input type="text" class="form-control" name="value">
-                                        <label class='error' for='value'>
-                                            @if ($errors->has('value'))
-                                                {{ $errors->first('value') }}
-                                            @endif
+                                        <label class="error" for="value">
+                                            {{ $errors->has('value') ? $errors->first('value') : "" }}
                                         </label> 
                                     </div>
                                 </div>
@@ -90,7 +88,7 @@
                                             <select id="lstview" class="form-control" size="13" multiple="multiple">
                                                 @foreach($categories as $category)
                                                 <option value="{{$category->id}}">{{$category->categoryLang->first()->reference}}</option>
-                                               @endforeach
+                                                @endforeach
                                             </select>
                                         </div>
                                         <div class="col-md-2">
@@ -133,15 +131,15 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <button class="btn btn-block"><i class="fas fa-check"></i> <strong>save</strong></button>
+                                            <a href="javascript:;" id="save" class="btn btn-block"><i class="fas fa-check"></i> <strong>save</strong></a>
                                         </div>
                                         <div class="col-md-6">
-                                            <button type='button' class="btn btn-block"><strong>save & new</strong></button>
+                                            <a href="javascript:;" id="save_new" class="btn btn-block"><strong>save & new</strong></a>
                                         </div>
                                     </div>
                                     <div class="row justify-content-end b-t b-dashed b-grey m-t-20 p-t-20">
                                         <div class="col-md-6">
-                                            <button  type='reset' class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>clear all</strong></button>
+                                            <a href="{{ url()->current() }}" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>clear all</strong></a>
                                         </div>
                                     </div>
                                 </div>
@@ -168,9 +166,9 @@
                                 </div>
                                 <div class="card-body">
                                     <select class="cs-select cs-skin-slide" name="language" data-init-plugin="cs-select">
-                                         @foreach($languages as $language)
-                                                <option value="{{$language->id}}">{{$language->name}}</option>
-                                               @endforeach
+                                        @foreach($languages as $language)
+                                            <option value="{{$language->id}}">{{$language->name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -189,27 +187,16 @@
     <script type="text/javascript" src="{{ asset('plugins/summernote/js/summernote.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('plugins/multiselect/js/multiselect.min.js') }}"></script>
     <script>
-        $(document).ready(function () {
-            $("#path_staff").on("change", function () {
-                var _this = this;
-                var image_preview = $("#image_preview_staff");
-                showImage(_this, image_preview);
-            });
+    $("#save").click( function () {
+        $('#form').attr('action', '{{ url('details') }}');
+        $('#form').submit();
+    });
 
-            function showImage(_this, image_preview) {
-                var files = !!_this.files ? _this.files : [];
-                if (!files.length || !window.FileReader) return;
-                if (/^image/.test(files[0].type)) {
-                    var ReaderObj = new FileReader();
-                    ReaderObj.readAsDataURL(files[0]);
-                    ReaderObj.onloadend = function () {
-                        image_preview.attr('src', this.result);
-                    }
-                } else {
-                    alert("Please select an image");
-                }
-            } 
-        });
+    $("#save_new").click( function () {
+        $('#form').attr('action', '{{ url('details')."/create" }}');
+        $('#form').submit();
+    });
+
     $(".list-categories a").click( function () {
         $(".list-categories a").removeClass('active');
         $(this).addClass('active');

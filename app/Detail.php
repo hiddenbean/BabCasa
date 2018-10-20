@@ -11,6 +11,9 @@ class Detail extends Model
 {
     use SoftDeletes;
 
+    /**
+     * 
+     */
     public function detailLangs()
     {
             return $this->hasMany('App\DetailLang')->withTrashed();
@@ -31,14 +34,16 @@ class Detail extends Model
     {
         return $this->belongsToMany('App\Category')->withTrashed();
     }
-    public function detailValue()
+
+    public function detailValues()
     {
-            return $this->hasOne('App\DetailValue');
+        return $this->hasMany('App\DetailValue');
     }
+
     public static function boot()
     {
         parent::boot();    
-    
+
         // cause a delete of a detail to cascade to children so they are also deleted
         static::deleting(function($detail)
         {

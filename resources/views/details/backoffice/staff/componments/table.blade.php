@@ -1,13 +1,17 @@
-  @if (\Session::has('error'))
-                        <div class="alert alert-danger">
-                            {!! \Session::get('error') !!}
-                        </div>
-                    @endif
-                    @if (\Session::has('success'))
-                        <div class="alert alert-success">
-                            {!! \Session::get('success') !!}
-                        </div>
-                    @endif  
+
+
+@if (isset(Session::get('messages')['success']))
+<div class="alert alert-success" role="alert">
+    <button class="close" data-dismiss="alert"></button>
+    <strong>Success: </strong>{{ Session::get('messages')['success'] }}
+</div>
+@endif
+@if (isset(Session::get('messages')['error']))
+<div class="alert alert-danger" role="alert">
+    <button class="close" data-dismiss="alert"></button>
+    <strong>Error: </strong>{{ Session::get('messages')['error'] }}
+</div>
+@endif
 <div class="card">
         <div class="card-header">
             <div class="card-title">
@@ -29,10 +33,10 @@
                     <div class="row">
                         @if (auth()->guard('staff')->user()->can('write','detail'))
                             <div class="col-md-3 text-right no-padding">
-                            <a href="{{url('details/create')}}" class="btn btn-transparent"><i class="fas fa-plus fa-sm"></i> <strong>Add</strong></a>
-                             </div>
+                                <a href="{{url('details/create')}}" class="btn btn-transparent"><i class="fas fa-plus fa-sm"></i> <strong>Add</strong></a>
+                            </div>
                             <div class="col-md-3 text-right no-padding">
-                            <a href="{{url('details/trash')}}" class="btn btn-transparent-danger"><i class="fas fa-trash-alt fa-sm"></i> <strong>Trash</strong></a>
+                                <a href="{{url('details/trash')}}" class="btn btn-transparent-danger"><i class="fas fa-trash-alt fa-sm"></i> <strong>Trash</strong></a>
                             </div> 
                         @endif
                         <div class="col-md-6">
@@ -50,7 +54,7 @@
                         {{ csrf_field() }}
             <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
                 <thead>
-                 @if (auth()->guard('staff')->user()->can('write','detail'))
+                @if (auth()->guard('staff')->user()->can('write','detail'))
                     <th class="text-center" style="width:35px"><button class="btn btn-link" type="submit"><i class="fas fa-trash-alt"></i></button></th>
                 @endif
                     <th style="width:62px"></th>

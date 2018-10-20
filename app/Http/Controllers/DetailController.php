@@ -13,9 +13,10 @@ class DetailController extends Controller
 {
     public function __construct()
     {
-         $this->middleware('auth:staff');
-         $this->middleware('CanRead:detail'); //->except('index','create');
+        $this->middleware('auth:staff');
+        $this->middleware('CanRead:detail'); //->except('index','create');
     }
+
      /**
      * Get a validator for an incoming registration request.
      *
@@ -66,51 +67,52 @@ class DetailController extends Controller
         {
             return redirect('details/'.$trashedDetailLang->detail_id);
         }
+
         $this->validateRequest($request);
+        
         $detail = new Detail();
         $detail->save();
 
-        //// ADD LANGUAGES 
-
-
+        // Add LANGUAGES 
         foreach(Language::all() as $lang)
         {
             $detailLang = new DetailLang();
             $detailLang->detail_id = $detail->id;
             $detailLang->lang_id = $lang->id;
-            if($lang->id == $request->language)
-            {
-                $detailLang->value = $request->value;
-
-            }
-            else{
-                $detailLang->value = ' ';
-               
-            }
-
+            $detailLang->value = ($lang->id == $request->language) ? $request->value : "";
             $detailLang->save();
         }
-       
 
-        if($request->categories)
+        $categories[] = $request->categories;
+
+        foreach($categories as $category)
         {
-
-            foreach($request->categories as $category)
-            {
-                $detail->categories()->attach($category);
-            } 
-            
+            $detail->categories()->attach($category);
         }
-
-        return redirect('details');
+        return $detail;
     }
 
+    /**
+     * 
+     */
+    public function storeWithRedirect(Request $request) {
+        $detail = self::store($request);
+        return redirect('details/'.$detail->id);
+    }
+
+    /**
+     * 
+     */
+    public function storeAndNew(Request $request) {
+        $detail = self::store($request);
+        return redirect('details/create');
+    }
+    
     public function restore($detail)
     {
-         $detail = Detail::onlyTrashed()->where('id', $detail)->first();
+        $detail = Detail::onlyTrashed()->where('id', $detail)->first();
         $detail->restore();
-         return redirect('details');
-       
+        return redirect('details');
     }
 
     public function multiRestore(Request $request)
@@ -120,12 +122,11 @@ class DetailController extends Controller
         ]);
 
         foreach ($request->details as  $Detail)
-         {
+        {
             $detail = Detail::onlyTrashed()->where('id', $Detail)->first();
-           $detail->restore();
+            $detail->restore();
         }
-         return redirect('details');
-       
+        return redirect('details');
     }
 
     /**
@@ -193,7 +194,7 @@ class DetailController extends Controller
     {
         // récupérer photo
         $detail = Detail::findOrFail($detail);
-       if(isset($detail->detailValue))
+        if(isset($detail->detailValue))
         {
             return  redirect('details')
                         ->back()
@@ -219,42 +220,28 @@ class DetailController extends Controller
      */
     public function multiDestroy(Request $request)
     {
-        
-
         $request->validate([
             'details' => 'required',
         ]);
-        $error = false;
-        
+        $e=$s=0;
+        $messages = [];
         foreach($request->details as $Detail)
         {
-            $cantDelete = false;
-
             $detail = Detail::findOrFail($Detail);
-    
-            if(isset($detail->detailValue)) {$cantDelete = true;$error = true;}
-    
-            if(!$cantDelete) 
+            if(!isset($detail->detailValues[0])) {
+                $s++;
                 $detail->delete();
+                $messages['success'] = $s. ($s == 1 ? ' detail' :' details') .' has been deleted successfuly';
+            }
+            else 
+            {
+                $e++;
+                $messages['error'] = $e . ($e == 1 ? ' detail' : ' details') . ' can\'t be deleted it has a relation with products';
+            }
+        }
 
-        }
-        if(!$error) 
-        {
-            return redirect('details')
-                        ->with(
-                            'success',
-                            'Detail has been deleted successfuly !!'
-                        );
-
-        }
-        else 
-        {
-            return redirect('details')
-                        ->with(
-                            'error',
-                            'Detail can\'t be deleted it has a relation with products '
-                        );
-        }
+        return redirect('details')
+                        ->with('messages', $messages);
     }
 
     /**

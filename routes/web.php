@@ -345,13 +345,6 @@ Route::prefix('discounts')->group(function() {
                         Route::get('/','ClaimController@index');
                         Route::get('{id}','ClaimController@show');
                     });
-
-                    Route::get('/','SubjectController@index');
-                    Route::prefix('{subject}')->group(function() {
-                        Route::prefix('ticket')->group(function() {
-                            Route::get('create','ClaimController@create');
-                        });
-                    });
                 });
                 
             });
@@ -449,7 +442,8 @@ Route::prefix('discounts')->group(function() {
     //////////details
     Route::prefix('details')->middleware('CanWrite:detail')->group(function() {
 
-        Route::post('/', 'DetailController@store'); 
+        Route::post('/', 'DetailController@storeWithRedirect');
+        Route::post('/create', 'DetailController@storeAndNew');
         Route::post('/multi-restore', 'DetailController@multiRestore'); 
         Route::post('{detail}', 'DetailController@update'); 
         Route::post('{detail}/translations','DetailLangController@update');
