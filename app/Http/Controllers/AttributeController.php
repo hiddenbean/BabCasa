@@ -95,7 +95,22 @@ class AttributeController extends Controller
             } 
         }
         
-        return redirect('attributes');
+        return $attribute;
+    }
+    /**
+     * 
+     */
+    public function storeWithRedirect(Request $request) {
+        $attribute = self::store($request);
+        return redirect('attributes/'.$attribute->id);
+    }
+
+    /**
+     * 
+     */
+    public function storeAndNew(Request $request) {
+        $attribute = self::store($request);
+        return redirect('attributes/create');
     }
     /**
      * Display the specified resource.

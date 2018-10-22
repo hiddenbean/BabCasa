@@ -24,7 +24,6 @@ class CurrencyController extends Controller
         $request->validate([
             'name' => 'required|unique:currencies,name',
             'symbole' => 'required|unique:currencies,symbole',
-            'country_id' => 'required|unique:currencies,country_id',
         ]);
     }
 
@@ -60,17 +59,34 @@ class CurrencyController extends Controller
     {
         $this->validateRequest($request);
 
+
+        $trashedCurrency = Currency::onlyTrashed()->where('name', $request->name)->first();
+        if(isset($trashedCurrency))
+        {
+            return redirect('currencies/'.$trashedCurrency->id);
+        }
+
         $currency = new Currency();
         $currency->name = $request->name;
         $currency->symbole = $request->symbole;
-        $currency->country_id = $request->country_id;
         $currency->save(); 
         
-        return redirect('currencies')
-                                ->with(
-                                    'success',
-                                    'Currency added successfuly !!'
-                                    );
+        return $currency;
+    }
+     /**
+     * 
+     */
+    public function storeWithRedirect(Request $request) {
+        $currency = self::store($request);
+        return redirect('currencies/'.$currency->id);
+    }
+
+    /**
+     * 
+     */
+    public function storeAndNew(Request $request) {
+        $currency = self::store($request);
+        return redirect('currencies/create');
     }
 
     /**
@@ -136,19 +152,16 @@ class CurrencyController extends Controller
         $currency = Currency::findOrFail($currency);
         if(isset($currency->products[0]))
         {
-            return  redirect()
-            ->back()
-            ->with(
-                'error',
-                'currency can\'t be deleted it has products !!' 
-            );
+            $messages['error'] = 'Currency can\'t be deleted it has products !!';
+            return  redirect('currencies')
+                        ->with('messages',$messages);
+         
         }
-       $currency->delete();
-       return redirect('currencies')
-                                ->with(
-                                    'success',
-                                    'Currency deleted successfuly !!'
-                                    );
+        
+        $currency->delete();
+        $messages['success'] = 'Currency deleted successfuly !!';
+        return  redirect('currencies')
+                    ->with('messages',$messages);
 
     }
 
@@ -164,35 +177,66 @@ class CurrencyController extends Controller
         $request->validate([
             'currencies' => 'required',
         ]);
-        $error = false;
+        $e=$s=0;
+        $messages = [];
         
         foreach($request->currencies as $Currency)
         {
-            $cantDelete = false;
 
             $currency = Currency::findOrFail($Currency);
     
-            if(isset($currency->products[0])) {$cantDelete = true;$error = true;}
-    
-            if(!$cantDelete) 
+            if(!isset($currency->products[0]) && !isset($currency->countries[0])) 
+            {
+                $s++;
                 $currency->delete();
+                $messages['success'] = $s. ($s == 1 ? ' currency' :' currencies') .' has been deleted successfuly';
+            }
+            else 
+            {
+                $e++;
+                $messages['error'] = $e . ($e == 1 ? ' currency' : ' currencies') . ' can\'t be deleted it has a relation with products';
+            }
+            return redirect('currencies')->with('messages', $messages);
 
         }
-        if(!$error) 
-        {
-            return redirect('currencies')->with(
-                            'success',
-                            'Currency has been deleted successfuly !!'
-             );
-
-        }
-        else 
-        {
-            return redirect('currencies')->with(
-                'error',
-                'Currency can\'t be deleted it has a relation with products '
-            );
-        }
-
     }
+ 
+
+    public function restore($Currency)
+    {
+        $currency = Currency::onlyTrashed()->where('id', $Currency)->first();
+        $currency->restore();
+        $messages['success'] = 'Currency has been restored successfuly !!';
+        return redirect('currencies')->with('messages',$messages);
+    }
+
+    public function multiRestore(Request $request)
+    {
+        $request->validate([
+            'details' => 'required',
+        ]);
+        $s=0;
+        $messages = [];
+        foreach ($request->currencies as  $Currency)
+        {
+            $currency = Currency::onlyTrashed()->where('id', $Currency)->first();
+            $currency->restore();
+            $s++;
+            $messages['success'] = $s. ($s == 1 ? ' currency' :' currencies') .' has been restored successfuly';
+        }
+        return redirect('currencies')->with('messages',$messages);
+    }
+
+    /**
+     * Displaying the Trash page
+     * 
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function trash()
+    {
+        $data['currency'] = Currency::onlyTrashed()->get();
+        return view('currencies.backoffice.staff.trash', $data);
+    }
+
 }

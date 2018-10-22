@@ -18,8 +18,8 @@ class Currency extends Model
     {
         return $this->belongsTo('App\Bundles');
     }
-    public function country()
+    public function countries()
     {
-        return $this->belongsTo('App\Country');
+        return $this->hasMany('App\Country');
     }
 }

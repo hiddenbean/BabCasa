@@ -44,7 +44,7 @@
                 </a>
             </div>
         </div>
-        <form action="{{url('attributes')}}" method="POST">
+        <form action="{{url('attributes')}}" method="POST" id="form">
         {{ csrf_field() }}
         <div class="card-body">
             <div class="row">
@@ -152,11 +152,11 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-md-6">
-                                            <button id="onClick" class="btn btn-block"><i class="fas fa-check"></i> <strong>save</strong></button>
+                                       <div class="col-md-6">
+                                            <a href="javascript:;" id="save" class="btn btn-block"><i class="fas fa-check"></i> <strong>save</strong></a>
                                         </div>
                                         <div class="col-md-6">
-                                            <button type='button' class="btn btn-block"><strong>save & new</strong></button>
+                                            <a href="javascript:;" id="save_new" class="btn btn-block"><strong>save & new</strong></a>
                                         </div>
                                     </div>
                                     <div class="row justify-content-end b-t b-dashed b-grey m-t-20 p-t-20">
@@ -209,6 +209,15 @@
     <script type="text/javascript" src="{{ asset('plugins/summernote/js/summernote.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('plugins/multiselect/js/multiselect.min.js') }}"></script>
     <script>
+      $("#save").click( function () {
+        $('#form').attr('action', '{{ url('attributes') }}');
+        $('#form').submit();
+    });
+
+    $("#save_new").click( function () {
+        $('#form').attr('action', '{{ url('attributes')."/create" }}');
+        $('#form').submit();
+    });
     $(".list-categories a").click( function () {
         $(".list-categories a").removeClass('active');
         $(this).addClass('active');

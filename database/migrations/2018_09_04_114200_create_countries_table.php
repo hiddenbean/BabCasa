@@ -18,6 +18,7 @@ class CreateCountriesTable extends Migration
             $table->string('name');
             $table->string('code_alpha');
             $table->string('code');
+            $table->integer('currency_id');
             $table->softDeletes();
             $table->timestamps();
         });
