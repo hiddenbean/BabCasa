@@ -117,6 +117,13 @@ class DetailController extends Controller
     public function show($detail)
     {
         $data['detail'] = Detail::withTrashed()->find($detail);
+        $data['products']=[];
+        foreach($data['detail']->detailValues()->distinct()->get(['product_id']) as $detailValue)
+        {
+            array_push($data['products'], $detailValue->product);
+        }
+        // return $data['products'][0]->attributeValues()->distinct()->get();
+        $data['languages'] = Language::all();
         return view('details.backoffice.staff.show', $data);
     }
     

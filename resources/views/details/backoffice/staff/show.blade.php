@@ -46,13 +46,18 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <span class="hint-text">Français : </span>
-                                </div>
-                                <div class="col-md-9">
-                                </div>
-                            </div>
+                         @foreach($languages as $language)
+                                @if(isset($detail->detailLangs->where('lang_id',$language->id)->first()->value))
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <span class="hint-text">{{$language->name}} : </span>
+                                        </div>
+                                        <div class="col-md-9">
+                                            {{$detail->detailLangs->where('lang_id',$language->id)->first()->value}}
+                                        </div>
+                                    </div>
+                                @endif
+                            @endforeach
                         </div>
                     </div>
                     <div class="row">

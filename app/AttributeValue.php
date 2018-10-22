@@ -18,6 +18,11 @@ class AttributeValue extends Model
         return $this->belongsTo('App\Attribute');
     }
 
+    public function product()
+	{
+		return $this->belongsTo('App\Product');
+    }
+    
     public function currency()
     {
         return $this->hasOne('App\Currency');
@@ -36,10 +41,12 @@ class AttributeValue extends Model
     {
         return $this->hasOne('App\AttributeVarcharValue');
     }
+
     public function attributeDateValue()
     {
         return $this->hasOne('App\AttributeDateValue');
     }
+
     public function attributeDoubleValue()
     {
         return $this->hasOne('App\AttributeDoubleValue');

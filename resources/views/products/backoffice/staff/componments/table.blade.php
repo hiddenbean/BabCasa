@@ -32,45 +32,51 @@
                     </thead>
             
                     <tbody> 
+                    @foreach($products as $product)
                         <tr role="row">
                             <td class="v-align-middle picture">
                                 <a href="#">
-                                    <img src="https://ae01.alicdn.com/kf/HTB1nN1pXcrrK1Rjy1zeq6xalFXaS.jpg_220x220.jpg" alt="cat1">
+                                    <img src="@if(isset($product->picture->path)) {{Storage::url($product->picture->path)}} @else https://ae01.alicdn.com/kf/HTB1VGbHiZuYBuNkSmRy763A3pXaX.png @endif" alt="cat1">
                                 </a>
                             </td>
                             <td class="v-align-middle">
                                 <a href="#">
-                                    <strong>Shirt</strong>
+                                    <strong>{{$product->productLang()->reference}}</strong>
                                 </a>
                             </td>
-                            <td class="v-align-middle">15 $</td>
-                            <td class="v-align-middle">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas distinctio beatae odit recusandae harum itaque, corrupti commodi, fugit sunt earum tempore quibusdam vel consequatur a delectus aut laboriosam totam deserunt.</td>
+                            <td class="v-align-middle">{{$product->price}}</td>
+                            <td class="v-align-middle">{{$product->productLang()->short_description}}</td>
                             <td class="v-align-middle">
-                                <a href="#" class="btn btn-tag">Color</a>
-                                <a href="#" class="btn btn-tag">size</a>
+                                @foreach($product->attributeValues()->distinct()->get(['attribute_id']) as $attributeValue)
+                                <a href="#" class="btn btn-tag">{{$attributeValue->attribute->attributeLang()->reference}}</a>
+                                @endforeach
                             </td>
                             <td class="v-align-middle">
-                                <a href="#">
-                                    <strong>Cat1</strong>
-                                </a>
+                                @foreach($product->categories as $category)
+                                    <a href="#" class="btn btn-tag"><strong>{{$category->categoryLang()->reference}}</strong></a>
+                                @endforeach
                             </td>
                             <td class="v-align-middle">
                                 <a href="#" class="btn btn-tag">grey</a>
                                 <a href="#" class="btn btn-tag">summer</a>
                             </td>
                             <td class="v-align-middle">
-                                <a href="#" class="btn btn-tag">En</a>
-                                <a href="#" class="btn btn-tag">Fr</a>
+                             @foreach($product->productLangs as $productLang)
+                                        @if($productLang->reference != "")
+                                            <a href="#" class="btn btn-tag">{{$productLang->lang->alpha_2_code}}</a>
+                                        @endif
+                                    @endforeach
                             </td>
                             <td class="v-align-middle">
                                 <a href="#">
-                                <strong>Adibs sport</strong>
+                                <strong>{{$product->partner->company_name}}</strong>
                                 </a>
                             </td>
                             <td class="v-align-middle">
-                                10/16/2018 16:31:15
+                                {{$product->created_at}}
                             </td>
-                        </tr>                           
+                        </tr>  
+                    @endforeach                         
                     </tbody>
                 </table>
             </div>
