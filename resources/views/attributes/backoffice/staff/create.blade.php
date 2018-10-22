@@ -232,7 +232,7 @@
         $('#selected-parent-name').html('none');
     });
 
-     $('#onClick').on('click', function(){ 
+     $('#form').on('click', function(){ 
         $('#description').val($('#summernote').summernote().code());
      });
     </script>
