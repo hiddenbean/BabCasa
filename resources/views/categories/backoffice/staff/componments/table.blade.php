@@ -1,3 +1,15 @@
+@if (isset(Session::get('messages')['success']))
+<div class="alert alert-success" role="alert">
+    <button class="close" data-dismiss="alert"></button>
+    <strong>Success: </strong>{{ Session::get('messages')['success'] }}
+</div>
+@endif
+@if (isset(Session::get('messages')['error']))
+<div class="alert alert-danger" role="alert">
+    <button class="close" data-dismiss="alert"></button>
+    <strong>Error: </strong>{{ Session::get('messages')['error'] }}
+</div>
+@endif
 <div class="card">
     <div class="card-header">
         <div class="card-title">
@@ -35,12 +47,12 @@
         
     </div>
     <div class="card-body">
-                <form action="{{route('delete.categories')}}" method="post">
-                {{ method_field('DELETE') }}
-                    {{ csrf_field() }}
+        <form action="{{route('delete.categories')}}" method="post">
+        {{ method_field('DELETE') }}
+        {{ csrf_field() }}
         <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
             <thead>
-                <th class="text-center" style="width:35px"><a href="#"><i class="fas fa-trash-alt"></i></a></th>
+                <th class="text-center" style="width:35px"><button type="submit" class="btn btn-link"><i class="fas fa-trash-alt"></i></button></th>
                 <th style="width:62px"></th>
                 <th style="width:62px"></th>
                 <th style="width:80px">Picture</th>
@@ -66,19 +78,19 @@
                             <a href="{{url('categories/'.$category->id.'/edit')}}"><i class="fas fa-pen fa-sm"></i> <strong>Edit</strong></a>
                             </td> 
                          <td class="v-align-middle text-center p-l-5 p-r-5">
-                        <a href="{{route('delete.category',['category'=>$category->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="text-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a></td>
+                        <a href="{{route('delete.category',['category'=>$category->id])}}" data-method="DELETE"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="text-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a></td>
                      @endif  
                     <td class="v-align-middle picture">
                         <a href="#"><img src="@if(isset($category->picture->path)) {{Storage::url($category->picture->path)}} @else https://ae01.alicdn.com/kf/HTB1VGbHiZuYBuNkSmRy763A3pXaX.png @endif" alt="cat1"></a>
                     </td>
                     <td class="v-align-middle"><a href="{{url('categories/'.$category->id)}}"><strong>{{$category->categoryLang()->reference }}</strong></a></td>
                     <td class="v-align-middle">{!!$category->categoryLang()->description!!}</td>
-                    <td class="v-align-middle">@if(isset($category->category)) {{$category->category->categoryLang()->reference}}@else -@endif</td>
+                    <td class="v-align-middle">@if(isset($category->category)) {{$category->category->categoryLang()->reference}}@else - @endif</td>
                     <td class="v-align-middle">{{count($category->products)}}</td>
                     <td class="v-align-middle">
                          @foreach($category->categoryLangs as $categoryLang)
                                 @if($categoryLang->reference != "")
-                                     <a href="#" class="btn btn-tag">{{$categoryLang->lang->alpha_2_code}}</a>
+                                     <a href="javascript:;" class="btn btn-tag">{{$categoryLang->lang->alpha_2_code}}</a>
                                 @endif
                             @endforeach
                     </td>

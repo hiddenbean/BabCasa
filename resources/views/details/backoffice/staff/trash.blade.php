@@ -80,11 +80,8 @@
                             </div>
                         </td>
                             <td class="v-align-middle text-center p-l-5 p-r-5">
-                                <form action="{{url('details/'.$detail->id.'/restore')}}" method="POST">
-                                {{ csrf_field() }}
-                                <button class="btn btn-link" type="submit"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></button>
-                                </form>
-                            </td> 
+                                <a href="{{url('details/'.$detail->id.'/restore')}}" data-method="POST"  data-token="{{csrf_token()}}" class="text-danger"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></a></td>
+                            </td>
                             <td class="v-align-middle"><a href="{{url('details/'.$detail->id)}}"><strong>{{$detail->detailLang()->value }}</strong></a></td>
                             <td class="v-align-middle">
                                 @foreach($detail->categories as $category)
