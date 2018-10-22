@@ -16,10 +16,10 @@
                     <a href="{{ url('/') }}">DASHBOARD</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a href="{{ url('/details') }}">Detail</a>
+                    <a href="{{ url('/tags') }}">tags</a>
                 </li>
                 <li class="breadcrumb-item active">
-                    ID : {{ $detail->id }}
+                    ID : 1
                 </li>
             </ol>
         </div>
@@ -33,39 +33,22 @@
             <div class="card ">
                 <div class="card-header">
                     <div class="card-title">
-                        Detail id : 1
+                        Tag id : 1
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">
                             <h5>
-                                Name
+                                Name in
                             </h5>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <span class="hint-text">Français : </span>
-                                </div>
-                                <div class="col-md-9">
-                                </div>
-                            </div>
+                        <div class="col-md-3">
+                            <span class="hint-text">Enlish : </span>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h5>
-                                Categories using this detail
-                            </h5>
-                            <p>
-                            @foreach( $detail->categories as $category )
-                                <a href="{{url('categories/'.$category->id)}}" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">{{$category->categoryLang()->reference}}</a>
-                            @endforeach
-                                
-                            </p>
+                        <div class="col-md-9">
                         </div>
                     </div>
                 </div>
@@ -93,43 +76,34 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    Status : <strong>@if($detail->deleted_at == NULL) Publish @else Removed @endif</strong>
+                                    Status : 
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    Creation date : <strong>{{$detail->created_at}}</strong>
+                                    Creation date : 
                                 </div>
                             </div>
-                            @if($detail->updated_at != NULL)
                             <div class="row">
                                 <div class="col-md-12">
-                                    Last update : <strong>{{$detail->updated_at}}</strong>
+                                    Last update :
                                 </div>
                             </div>
-                            @endif
-                            @if($detail->deleted_at != NULL)
                             <div class="row">
                                 <div class="col-md-12">
-                                    Remove date : <strong>{{$detail->deleted_at}}</strong>
+                                    Remove date : 
                                 </div>
                             </div>
-                            @endif
                             <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
-                            @if($detail->deleted_at == NULL)
                                 <div class="col-md-6">
-                                    <a href="{{url('details/'.$detail->id.'/edit')}}" class="btn btn-block "><i class="fas fa-pen"></i> <strong>Edit</strong></a>                                    
+                                    <a href="" class="btn btn-block "><i class="fas fa-pen"></i> <strong>Edit</strong></a>                                    
                                 </div>
-                            @endif
                                 <div class="col-md-6">
-                                @if($detail->deleted_at == NULL)
-                                    <a  href="{{route('delete.detail',['detail'=>$detail->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
-                                @else
-                                    <form action="{{url('details/'.$detail->id.'/restore')}}" method="POST">
+                                    <a  href="" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
+                                    <form action="" method="POST">
                                         {{ csrf_field() }}
                                         <button class="btn btn-block btn-transparent-danger" type="submit"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></button>
-                                        </form>
-                                @endif
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -158,17 +132,12 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    Available in : 
-                                    @foreach($detail->detailLangs as $detailLang)
-                                        @if($detailLang->value != "")
-                                            <strong><a href="#">{{$detailLang->lang->name}}</a></strong> ,
-                                        @endif
-                                    @endforeach
+                                    Available in :
                                 </div>
                             </div>
                             <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
                                 <div class="col-md-12">
-                                    <a href="{{url('details/'.$detail->id.'/translations')}}" class="btn btn-transparent"><strong><i class="fas fa-language p-r-10 fa-lg"></i>Add or Edit translations</strong></a>                                    
+                                    <a href="" class="btn btn-block btn-transparent"><strong><i class="fas fa-language p-r-10 fa-lg"></i>Add or Edit translations</strong></a>                                    
                                 </div>
                             </div>
                         </div>
@@ -177,7 +146,7 @@
             </div>
         </div>
     </div>
-    @include('products.backoffice.staff.componments.table')
+    @include('tags.backoffice.staff.componments.table')
 </div>
 @endsection
 
@@ -215,7 +184,6 @@
             $('#tableWithSearch input[type=checkbox]').click(function() {
             if ($(this).is(':checked')) {
                 $(this).closest('tr').addClass('selected');
-                console.log($(this).closest('tr').html());
 
             } else {
                 $(this).closest('tr').removeClass('selected');
@@ -225,3 +193,4 @@
     });
     </script>
 @endsection
+        

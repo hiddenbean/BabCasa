@@ -9,6 +9,7 @@
     <button class="close" data-dismiss="alert"></button>
     <strong>Error: </strong>{{ Session::get('messages')['error'] }}
 </div>
+
 @endif
 <div class="card">
     <div class="card-header">
@@ -59,7 +60,7 @@
                 <th style="width:150px">Category name</th>
                 <th style="width:250px">Description</th> 
                 <th style="width:100px">Parent</th>                
-                <th style="width:80px">Articles</th>             
+                <th style="width:80px">Products</th>          
                 <th style="width:80px">Languages</th>             
             </thead>
     

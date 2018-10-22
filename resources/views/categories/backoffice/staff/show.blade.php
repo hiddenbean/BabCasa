@@ -48,11 +48,13 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <h5>
-                                        Name
+                                        Name In
                                     </h5>
-                                    <p>
-                                        {{$category->categoryLang()->reference}}
-                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    
                                 </div>
                             </div>
                             <div class="row">
@@ -71,7 +73,7 @@
                                         Parent
                                     </h5>
                                     <p>
-                                       @if(isset($category->category)) <a href="{{url('categories/'.$category->category->id)}}"> {{$category->category->categoryLang()->reference}}</a>@else    -@endif
+                                        @if(isset($category->category)) <a href="{{url('categories/'.$category->category->id)}}"> {{$category->category->categoryLang()->reference}}</a>@else    -@endif
                                     </p>
                                 </div>
                             </div>
@@ -82,7 +84,7 @@
                                     </h5>
                                     <p>
                                         @foreach($category->details as $detail)
-                                             <a href="{{url('details/'.$detail->id)}}" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">{{$detail->detailLang()->value}}</a>
+                                            <a href="{{url('details/'.$detail->id)}}" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">{{$detail->detailLang()->value}}</a>
                                         @endforeach
                                     </p>
                                 </div>
@@ -93,8 +95,8 @@
                                         Attributes
                                     </h5>
                                     <p>
-                                         @foreach($category->attributes as $attribute)
-                                             <a href="{{url('attributes/'.$attribute->id)}}" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">{{$attribute->attributeLang()->reference}}</a>
+                                        @foreach($category->attributes as $attribute)
+                                            <a href="{{url('attributes/'.$attribute->id)}}" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">{{$attribute->attributeLang()->reference}}</a>
                                         @endforeach
                                     </p>
                                 </div>
@@ -149,7 +151,7 @@
                             </div>
                             @endif
                             <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
-                             @if($category->deleted_at == NULL)
+                            @if($category->deleted_at == NULL)
                                 <div class="col-md-6">
                                     <a href="{{url('categories/'.$category->id.'/edit')}}" class="btn btn-block "><i class="fas fa-pen"></i> <strong>Edit</strong></a>                                    
                                 </div>
@@ -158,12 +160,12 @@
                                 @if($category->deleted_at == NULL)
                                     <a  href="{{route('delete.category',['category'=>$category->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
                                 @else
-                                      <form action="{{url('categories/'.$category->id.'/restore')}}" method="POST">
+                                    <form action="{{url('categories/'.$category->id.'/restore')}}" method="POST">
                                         {{ csrf_field() }}
                                         <button class="btn btn-block btn-transparent-danger" type="submit"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></button>
-                                        </form>
+                                    </form>
                                 @endif
-                                 </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -201,7 +203,7 @@
                             </div>
                             <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
                                 <div class="col-md-12">
-                                    <a href="{{url('categories/'.$category->id.'/translations')}}" class="btn btn-transparent"><i class="fas fa-plus"></i> <strong>Add an other translation</strong></a>                                    
+                                    <a href="{{url('categories/'.$category->id.'/translations')}}" class="btn btn-transparent"><strong><i class="fas fa-language p-r-10 fa-lg"></i>Add or Edit translations</strong></a>                                    
                                 </div>
                             </div>
                         </div>

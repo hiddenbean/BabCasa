@@ -308,7 +308,7 @@
                                     </div>
                                     <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
                                         <div class="col-md-12">
-                                            <a href="{{url('categories/'.$category->id.'/translations')}}" class="btn btn-transparent"><i class="fas fa-plus"></i> <strong>Add an other translation</strong></a>                                    
+                                            <a href="{{url('categories/'.$category->id.'/translations')}}" class="btn btn-transparent"><strong><i class="fas fa-language p-r-10 fa-lg"></i>Add or Edit translations</strong></a>                                    
                                         </div>
                                     </div>
                                 </div>

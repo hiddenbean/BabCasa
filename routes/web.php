@@ -83,8 +83,7 @@ function()
                     Route::get('edit', 'TagController@edit');
                     Route::get('translations','TagController@translations');
                 });
-            });     
-            Route::get('{tag}', 'TagController@show'); 
+            });
         });
 
         //////////attributes

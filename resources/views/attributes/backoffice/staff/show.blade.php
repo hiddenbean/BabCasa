@@ -52,13 +52,26 @@
                                     If you have any difficulties please <a href='#'>contact the support</a></p>"> 
                                 <i class="fas fa-question-circle fa-xs"></i>
                             </a>
-                            <p>
-                                {{$attribute->attributeLang()->reference }}
-                            </p>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <span class="hint-text">Français : </span>
+                                </div>
+                                <div class="col-md-9">
+                                    {!!$attribute->attributeLang()->reference!!}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <span class="hint-text">English : </span>
+                                </div>
+                                <div class="col-md-9">
+                                    {!!$attribute->attributeLang()->reference!!}
+                                </div>
+                            </div>
                         </div>
                         <div class="col-md-6">
                             <h5 class="no-margin">Type </h5>
-                            {{$attribute->type}}
+                            {{ $attribute->type }}
                         </div>
                     </div>
                     <div class="row">
@@ -76,9 +89,22 @@
                                     If you have any difficulties please <a href='#'>contact the support</a></p>"> 
                                 <i class="fas fa-question-circle fa-xs"></i>
                             </a>
-                            <p>
-                            {!!$attribute->attributeLang()->description!!}
-                            </p>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <span class="hint-text">Français : </span>
+                                </div>
+                                <div class="col-md-9">
+                                    {!!$attribute->attributeLang()->description!!}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <span class="hint-text">English : </span>
+                                </div>
+                                <div class="col-md-9">
+                                    {!!$attribute->attributeLang()->description!!}
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -195,7 +221,7 @@
                             </div>
                             <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
                                 <div class="col-md-12">
-                                    <a href="{{url('attributes/'.$attribute->id.'/translations')}}" class="btn btn-transparent"><i class="fas fa-plus"></i> <strong>Add an other translation</strong></a>                                    
+                                    <a href="{{url('attributes/'.$attribute->id.'/translations')}}" class="btn btn-block btn-transparent"><strong><i class="fas fa-language p-r-10 fa-lg"></i>Add or Edit translations</strong></a>                                    
                                 </div>
                             </div>
                         </div>
