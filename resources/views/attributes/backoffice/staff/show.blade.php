@@ -40,7 +40,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <h5 style="display: inline;">
-                                Attribute Name Value in 
+                                Name in 
                             </h5>
                             <a 
                                 href="javascript:;" 
@@ -64,7 +64,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <h5 style="display: inline;">
-                                Attribute Description value in
+                                Description in
                             </h5>
                             <a 
                                 href="javascript:;" 
@@ -77,7 +77,7 @@
                                 <i class="fas fa-question-circle fa-xs"></i>
                             </a>
                             <p>
-                             {!!$attribute->attributeLang()->description!!}
+                            {!!$attribute->attributeLang()->description!!}
                             </p>
                         </div>
                     </div>
@@ -87,7 +87,7 @@
                                 Categories using this attribute
                             </h5>
                             <p>
-                             @foreach($attribute->categories as $category)
+                            @foreach($attribute->categories as $category)
                             <a href="{{url('categories/'.$category->id)}}" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">{{$category->categoryLang()->reference}}</a>
                             @endforeach
                                 
