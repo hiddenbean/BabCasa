@@ -59,7 +59,7 @@
             </div>
             <div class="card-body">
             <form action="{{url('categories/multi-restore')}}" method="post">
-                        {{ csrf_field() }}
+                {{ csrf_field() }}
                 <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
                     <thead>
                           <th class="text-center" style="width:35px"><button class="btn btn-link" type="submit"><i class="fas fa-undo-alt fa-lg"></i></button></th>
@@ -83,10 +83,7 @@
                             </div>
                         </td>
                             <td class="v-align-middle text-center p-l-5 p-r-5">
-                                <form action="{{url('categories/'.$category->id.'/restore')}}" method="POST">
-                                {{ csrf_field() }}
-                                <button class="btn btn-link" type="submit"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></button>
-                                </form>
+                                <a href="{{url('categories/'.$category->id.'/restore')}}" data-method="POST"  data-token="{{csrf_token()}}" class="text-danger"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></a></td>
                             </td> 
                             <td class="v-align-middle picture">
                                 <a href="#"><img src="@if(isset($category->picture->path)) {{Storage::url($category->picture->path)}} @else https://ae01.alicdn.com/kf/HTB1VGbHiZuYBuNkSmRy763A3pXaX.png @endif" alt="cat1"></a>

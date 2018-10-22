@@ -86,7 +86,7 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {return $request;
         $this->validateRequest($request);
         if($this->checkReference($request))
         {
@@ -355,40 +355,19 @@ class CategoryController extends Controller
      * @param  \App\Category  $Category
      * @return \Illuminate\Http\Response
      */
-    public function destroy($Category)
+    public function destroy($category)
     {
-        // récupérer photo
-        $category = Category::findOrFail($Category);
-
-        if(isset($category->products[0]) || isset($category->bundles[0]) || isset($category->markets[0]))
-        {
-            return  redirect()
-                        ->back()
-                        ->with(
-                            'error',
-                            'category can\'t be deleted it has products/bundles/markets !!' 
-                        );
+        $category = Category::findOrFail($category);
+        if(!isset($category->products[0]) && !isset($category->bundles[0]) && !isset($category->markets[0]) && !isset($category->subCategories[0])) {
+            $category->delete();
+            $messages['success'] = 'Category has been deleted successfuly';
         }
-
-        foreach($category->subCategories as $sub_category)
+        else 
         {
-            if(isset($sub_category->products[0]) || isset($sub_category->bundles[0]) || isset($category->markets[0]))
-            {
-                return  redirect()
-                            ->back()
-                            ->with(
-                                'error',
-                                'category can\'t be deleted it has a subcategory with products/bundles/markets !!'
-                            );
-            }
-            $sub_category->delete();
+            $messages['error'] = 'Category can\'t be deleted it has a relation with products';
         }
-        $category->delete();
-        return redirect('categories')->with(
-                            'success',
-                            'Category has been deleted successfuly !!'
-        );
-
+        return redirect('categories')
+                        ->with('messages', $messages);
     }
 
     // 'error',
@@ -398,48 +377,36 @@ class CategoryController extends Controller
         $request->validate([
             'categories' => 'required',
         ]);
-        $error = false;
-        
-        foreach($request->categories as $Category)
-        {
-            $cantDelete = false;
 
-            $category = Category::findOrFail($Category);
-    
-            if(isset($category->products[0]) || isset($category->bundles[0]) || isset($category->markets[0]) ) {$cantDelete = true;$error = true;}
-    
-            foreach($category->subCategories as $sub_category)
-            {
-                if(isset($sub_category->products[0]) || isset($sub_category->bundles[0]) || isset($category->markets[0]) ) {$cantDelete = true;$error = true;}
-    
-            }
-            if(!$cantDelete) 
+        $e=$s=0;
+        $messages = [];
+        foreach($request->categories as $category_id)
+        {
+            $category = Category::findOrFail($category_id);
+            if(!isset($category->products[0]) && !isset($category->bundles[0]) && !isset($category->markets[0]) && !isset($category->subCategories[0])) {
+                $s++;
                 $category->delete();
-
+                $messages['success'] = $s. ($s == 1 ? ' category' :' categories') .' has been deleted successfuly';
+            }
+            else 
+            {
+                $e++;
+                $messages['error'] = $e . ($e == 1 ? ' category' : ' categories') . ' can\'t be deleted it has a relation with products';
+            }
+            
         }
-        if(!$error) 
-        {
-            return redirect('categories')->with(
-                            'success',
-                            'Categories has been deleted successfuly !!'
-            );
-
-        }
-        else 
-        {
-            return redirect('categories')->with(
-                'error',
-                'category can\'t be deleted it has a relation with products / bundles / markets / attributes'
-            );
-        }
-
-
+        
+        return redirect('categories')
+                        ->with('messages', $messages);
     }
+
     public function restore($category)
     {
-         $category = Category::onlyTrashed()->where('id', $category)->first();
+        $category = Category::onlyTrashed()->where('id', $category)->first();
         $category->restore();
-         return redirect('categories');
+        $messages['success'] = 'Category has been restored successfuly';
+        return redirect('categories')
+                        ->with('messages', $messages);
        
     }
 
@@ -448,13 +415,16 @@ class CategoryController extends Controller
         $request->validate([
             'categories' => 'required',
         ]);
-
+        $iteration = 0;
         foreach ($request->categories as  $attr)
          {
             $category = Category::onlyTrashed()->where('id', $attr)->first();
-           $category->restore();
+            $category->restore();
+            $iteration++;
         }
-         return redirect('categories');
+        $messages['success'] = $iteration. ($iteration > 1 ? ' categories' : ' category'). ' has been restored successfuly';
+        return redirect('categories')
+                        ->with('messages', $messages);
        
     }
       /**

@@ -426,8 +426,8 @@ Route::prefix('discounts')->group(function() {
         Route::post('/','CategoryController@store'); 
         Route::post('/multi-restore', 'CategoryController@multiRestore'); 
         Route::post('{category}', 'CategoryController@update'); 
-        Route::post('{detail}/translations','CategoryLangController@update');
-        Route::post('{detail}/restore', 'CategoryController@restore');
+        Route::post('{category}/translations','CategoryLangController@update');
+        Route::post('{category}/restore', 'CategoryController@restore');
         Route::delete('{category}', 'CategoryController@destroy')->name('delete.category');
         Route::delete('delete/multiple', 'CategoryController@multiDestroy')->name('delete.categories');
     }); 
@@ -437,8 +437,8 @@ Route::prefix('discounts')->group(function() {
         Route::post('/','AttributeController@store');
         Route::post('/multi-restore', 'AttributeController@multiRestore'); 
         Route::post('{attribute}', 'AttributeController@update'); 
-        Route::post('{detail}/translations','AttributeLangController@update');
-        Route::post('{detail}/restore', 'AttributeController@restore');
+        Route::post('{attribute}/translations','AttributeLangController@update');
+        Route::post('{attribute}/restore', 'AttributeController@restore');
         Route::delete('{attribute}', 'AttributeController@destroy')->name('delete.attribute');
         Route::delete('delete/multiple', 'AttributeController@multiDestroy')->name('delete.attributes');
     }); 
