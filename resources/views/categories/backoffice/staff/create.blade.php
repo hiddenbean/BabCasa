@@ -251,25 +251,11 @@
                                     <div class="row">
                                         <div class="col-md-12 scroll b-t b-b b-dashed b-grey p-t-5 p-b-5">
                                             <div class="list-group list-group-root well list-categories">
-                                                <a href="#" class="list-group-item list-group-item-action">Cras justo odio</a>
                                                 <div class="list-group">
-                                                    <a href="#" data-category-id="" class="list-group-item list-group-item-action">Cras justo odio</a>
-                                                    <div class="list-group">
-                                                        <a href="#" data-category-id="1" class="list-group-item list-group-item-action">Cras justo odio</a>
-                                                        <a href="#" data-category-id="2" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
-                                                        <a href="#" data-category-id="3" class="list-group-item list-group-item-action">Morbi leo risus</a>
-                                                        <a href="#" data-category-id="4" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
-                                                        <a href="#" data-category-id="5" class="list-group-item list-group-item-action ">Vestibulum at eros</a>
-                                                    </div>
-                                                    <a href="#" data-category-id="" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
-                                                    <a href="#" data-category-id="" class="list-group-item list-group-item-action">Morbi leo risus</a>
-                                                    <a href="#" data-category-id="" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
-                                                    <a href="#" data-category-id="" class="list-group-item list-group-item-action ">Vestibulum at eros</a>
+                                                    @foreach($categories as $category)
+                                                        <a href="#" data-category-id="{{ $category->id }}" class="list-group-item list-group-item-action">{{ $category->level }}{{ $category->categoryLang()->reference }}</a>
+                                                    @endforeach
                                                 </div>
-                                                <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
-                                                <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
-                                                <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
-                                                <a href="#" class="list-group-item list-group-item-action ">Vestibulum at eros</a>
                                             </div>
                                         </div>
                                     </div>
@@ -278,7 +264,7 @@
                                             Parent : <span id="selected-parent-name">none<span>
                                         </div>
                                         <div class="col-md-4 text-right">
-                                            <button id="list-categories-clear" class="btn btn-transparent-danger"><i class="fas fa-times"></i> <strong>clear</strong></button>
+                                            <button type="button" id="list-categories-clear" class="btn btn-transparent-danger"><i class="fas fa-times"></i> <strong>clear</strong></button>
                                         </div>
                                     </div>
                                 </div>
@@ -344,15 +330,13 @@
 
     $('#list-categories-clear').click( function () {
         $('.list-categories a').removeClass('active');
+        $('#category_parent').val('');
         $('#selected-parent-name').html('none');
     });
-    $('#onClick').on('click', function(){ 
-              
-                    $('#description').val($('#summernote').summernote().code());
-                    console.log($('#summernote').summernote().code());
-                    //this.form.submit();
-
-                });
+    $('#onClick').on('click', function(){       
+        $('#description').val($('#summernote').summernote().code());
+        //this.form.submit();
+    });
     
           
     </script>

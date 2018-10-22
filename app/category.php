@@ -18,9 +18,8 @@ class Category extends Model
     public function categoryLang()
     {
         $langId = Language::where('alpha_2_code',App::getLocale())->first()->id; 
-
         $category = self::categoryLangs()->where('lang_id',$langId)->withTrashed()->first();
-        return !$category->reference ? self::categoryLangs()->where('reference','!=','')->first() : $category;
+        return !isset($category->reference) ? self::categoryLangs()->where('reference','!=','')->first() : $category;
     }
 
     public function subCategories()

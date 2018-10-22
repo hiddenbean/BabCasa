@@ -31,8 +31,8 @@
     <!-- breadcrumb end -->
 
     <div class="container-fluid container-fixed-lg">
-      <form action="{{url('categories/'.$category->id.'/translations')}}" method="POST">
-                              {{ csrf_field() }}
+    <form action="{{url('categories/'.$category->id.'/translations')}}" method="POST">
+        {{ csrf_field() }}
         <div class="card-body">
             <div class="row">
                 <div class="col-md-9">
@@ -60,14 +60,14 @@
                                             category Name value in
                                         </h5>
                                     </div>
-                                     @foreach($languages as $key => $language)
-                                    <div class="col-md-6">
-                                        <div class="form-group form-group-default">
-                                            <label> {{$language->name}}</label>
-                                            <input type="text" class="form-control"  name="references[]"  value="@if(isset($category->categoryLangs->where('lang_id',$language->id)->first()->reference)){{$category->categoryLangs->where('lang_id',$language->id)->first()->reference}}@endif">
-                                             <input type="hidden" name="languages_id[]" value="{{$language->id}}">
+                                    @foreach($languages as $key => $language)
+                                        <div class="col-md-6">
+                                            <div class="form-group form-group-default">
+                                                <label> {{$language->name}}</label>
+                                                <input type="text" class="form-control"  name="references[]"  value="@if(isset($category->categoryLangs->where('lang_id',$language->id)->first()->reference)){{$category->categoryLangs->where('lang_id',$language->id)->first()->reference}}@endif">
+                                                <input type="hidden" name="languages_id[]" value="{{$language->id}}">
+                                            </div>
                                         </div>
-                                    </div>
                                     @endforeach
                                     
                                 </div>
@@ -141,7 +141,7 @@
                                             <button id="onClick" type="button" class="btn btn-block"><i class="fas fa-check"></i> <strong>save</strong></button>
                                         </div>
                                         <div class="col-md-6">
-                                            <button class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>cancel</strong></button>
+                                            <a href="{{ url(url()->current()) }}" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>cancel</strong></a>
                                         </div>
                                     </div>
                                 </div>
@@ -158,22 +158,22 @@
 @section('after_script')
     <script type="text/javascript" src="{{ asset('plugins/summernote/js/summernote.min.js') }}"></script>
     <script>
-              var langsCount = $('#langsCount').val();
-              console.log(langsCount);
-              for(var i =0; i< langsCount; i++)
-              {
-                 $('#summernote'+i).summernote({height: 250});
-              }
-          $('#onClick').on('click', function(){ 
-                    
-                var langsCount = $('#langsCount').val();
-                for(var i =0; i< langsCount; i++)
-                {
-                    $('#description'+i).val($('#summernote'+i).summernote().code());
-                    console.log($('#summernote'+i).summernote().code());
-                }
-                    this.form.submit();
+            var langsCount = $('#langsCount').val();
+            console.log(langsCount);
+            for(var i =0; i< langsCount; i++)
+            {
+                $('#summernote'+i).summernote({height: 250});
+            }
 
-                });
+            $('#onClick').on('click', function(){ 
+            var langsCount = $('#langsCount').val();
+            for(var i =0; i< langsCount; i++)
+            {
+                $('#description'+i).val($('#summernote'+i).summernote().code());
+                console.log($('#summernote'+i).summernote().code());
+            }
+                this.form.submit();
+
+            });
     </script>
 @endsection

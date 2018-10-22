@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\CategorieLang;
+use App\Category;
+use App\Language;
 use Illuminate\Http\Request;
 
 class CategoryLangController extends Controller
@@ -99,32 +101,14 @@ class CategoryLangController extends Controller
      */
     public function update(Request $request, $Category)
     {
-        return $request;
-        $category = Category::find($Category);
+        $category = Category::withTrashed()->findOrFail($Category);
+        $languages = Language::all();
         foreach($request->references as $key => $reference)
         {
-            $categoryLang = $category->categoryLangs->where('lang_id',$request->languages_id[$key])->first();
-            if(!isset($categoryLang))
-            {
-                $categoryLang = new CategoryLang();
-                $categoryLang->category_id = $category->id;
-                $categoryLang->lang_id = $request->languages_id[$key];
-            }
-
-            if($reference != '')
-            {
-                $categoryLang->reference = $reference;
-                $categoryLang->description = $request->descriptions[$key];
-                }
-                else
-                {
-                $categoryLang->reference = '';
-                $categoryLang->description = '';
-    
-                }
-                $categoryLang->save();
-            
-            
+            $category_lang = $category->categoryLangs()->where('lang_id',$languages[$key]->id)->first();
+            $category_lang->reference = $reference;
+            $category_lang->description = $request->descriptions[$key];
+            $category_lang->save();
         }
         return redirect()->back();
     }
