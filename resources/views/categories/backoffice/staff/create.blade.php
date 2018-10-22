@@ -98,9 +98,9 @@
                                     <div class="row">
                                         <div class="col-md-5">
                                             <select id="lstview1" class="form-control" size="13" multiple="multiple">
-                                                 @foreach($details as $detail)
+                                                @foreach($details as $detail)
                                                 <option value="{{$detail->id}}">{{$detail->detailLang()->value}}</option>
-                                               @endforeach
+                                                @endforeach
                                             </select>
                                         </div>
                                         <div class="col-md-2">

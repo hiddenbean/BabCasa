@@ -19,7 +19,7 @@
                     <a href="{{ url('/details') }}">Detail</a>
                 </li>
                 <li class="breadcrumb-item active">
-                    ID : {{$detail->id}}
+                    ID : {{ $detail->id }}
                 </li>
             </ol>
         </div>
@@ -42,9 +42,17 @@
                             <h5>
                                 Name
                             </h5>
-                            <p>
-                               {{$detail->detailLang()->value }}
-                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <span class="hint-text">Français : </span>
+                                </div>
+                                <div class="col-md-9">
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -53,8 +61,8 @@
                                 Categories using this detail
                             </h5>
                             <p>
-                             @foreach($detail->categories as $category)
-                            <a href="{{url('categories/'.$category->id)}}" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">{{$category->categoryLang()->reference}}</a>
+                            @foreach( $detail->categories as $category )
+                                <a href="{{url('categories/'.$category->id)}}" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">{{$category->categoryLang()->reference}}</a>
                             @endforeach
                                 
                             </p>
@@ -108,7 +116,7 @@
                             </div>
                             @endif
                             <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
-                             @if($detail->deleted_at == NULL)
+                            @if($detail->deleted_at == NULL)
                                 <div class="col-md-6">
                                     <a href="{{url('details/'.$detail->id.'/edit')}}" class="btn btn-block "><i class="fas fa-pen"></i> <strong>Edit</strong></a>                                    
                                 </div>
@@ -117,12 +125,12 @@
                                 @if($detail->deleted_at == NULL)
                                     <a  href="{{route('delete.detail',['detail'=>$detail->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
                                 @else
-                                      <form action="{{url('details/'.$detail->id.'/restore')}}" method="POST">
+                                    <form action="{{url('details/'.$detail->id.'/restore')}}" method="POST">
                                         {{ csrf_field() }}
                                         <button class="btn btn-block btn-transparent-danger" type="submit"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></button>
                                         </form>
                                 @endif
-                                 </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -151,7 +159,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     Available in : 
-                                     @foreach($detail->detailLangs as $detailLang)
+                                    @foreach($detail->detailLangs as $detailLang)
                                         @if($detailLang->value != "")
                                             <strong><a href="#">{{$detailLang->lang->name}}</a></strong> ,
                                         @endif
@@ -160,7 +168,7 @@
                             </div>
                             <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
                                 <div class="col-md-12">
-                                    <a href="{{url('details/'.$detail->id.'/translations')}}" class="btn btn-transparent"><i class="fas fa-plus"></i> <strong>Add an other translation</strong></a>                                    
+                                    <a href="{{url('details/'.$detail->id.'/translations')}}" class="btn btn-transparent"><strong><i class="fas fa-language p-r-10 fa-lg"></i>Add or Edit translations</strong></a>                                    
                                 </div>
                             </div>
                         </div>
@@ -217,4 +225,3 @@
     });
     </script>
 @endsection
-        

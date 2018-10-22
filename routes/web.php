@@ -84,8 +84,7 @@ function()
                     Route::get('edit', 'TagController@edit');
                     Route::get('translations','TagController@translations');
                 });
-            });     
-            Route::get('{tag}', 'TagController@show'); 
+            });
         });
 
         //////////attributes
@@ -435,7 +434,8 @@ Route::prefix('discounts')->group(function() {
     //////////attributes
     Route::prefix('attributes')->middleware('CanWrite:attribute')->group(function() {
 
-        Route::post('/','AttributeController@store');
+        Route::post('/', 'AttributeController@storeWithRedirect');
+        Route::post('/create', 'AttributeController@storeAndNew');
         Route::post('/multi-restore', 'AttributeController@multiRestore'); 
         Route::post('{attribute}', 'AttributeController@update'); 
         Route::post('{attribute}/translations','AttributeLangController@update');
@@ -458,14 +458,16 @@ Route::prefix('discounts')->group(function() {
     //////////COUNTRIES
     Route::prefix('countries')->middleware('CanWrite:country')->group(function() {
 
-        Route::post('/', 'CountryController@store'); 
+        Route::post('/', 'CountryController@storeWithRedirect');
+        Route::post('/create', 'CountryController@storeAndNew'); 
         Route::post('{country}', 'CountryController@update'); 
         Route::delete('{country}', 'CountryController@destroy')->name('delete.country');
         Route::delete('delete/multiple', 'CountryController@multiDestroy')->name('delete.countries');
     }); 
     //////////CURRENCIES
     Route::prefix('currencies')->middleware('CanWrite:currency')->group(function() {
-
+        Route::post('/', 'CurrencyController@storeWithRedirect');
+        Route::post('/create', 'CurrencyController@storeAndNew');
         Route::post('/', 'CurrencyController@store'); 
         Route::post('{currency}', 'CurrencyController@update'); 
         Route::delete('{currency}', 'CurrencyController@destroy')->name('delete.currency');

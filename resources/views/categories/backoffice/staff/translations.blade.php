@@ -15,7 +15,7 @@
                             <a href="{{ url('/') }}">DASHBOARD</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{{ url('categories') }}">categorys</a>
+                            <a href="{{ url('categories') }}">Categories</a>
                         </li>
                         <li class="breadcrumb-item">
                             <a href="{{ url('categories/'.$category->id) }}">ID : {{$category->id}}</a>
@@ -35,29 +35,29 @@
         {{ csrf_field() }}
         <div class="card-body">
             <div class="row">
-                <div class="col-md-9">
-                    <div class="row">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="card-title">
-                                    category translations
-                                    <a 
-                                        href="javascript:;" 
-                                        data-toggle="tooltip" 
-                                        data-placement="bottom" 
-                                        data-html="true" 
-                                        trigger="click" 
-                                        title= "<p class='tooltip-text'>You can use this form to create a new category if you have the right permissions.<br>
-                                                If you have any difficulties please <a href='#'>contact the support</a></p>"> 
-                                        <i class="fas fa-question-circle"></i>
-                                    </a>    
-                                </div>
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                Category translations
+                                <a 
+                                    href="javascript:;" 
+                                    data-toggle="tooltip" 
+                                    data-placement="bottom" 
+                                    data-html="true" 
+                                    trigger="click" 
+                                    title= "<p class='tooltip-text'>You can use this form to create a new category if you have the right permissions.<br>
+                                            If you have any difficulties please <a href='#'>contact the support</a></p>"> 
+                                    <i class="fas fa-question-circle"></i>
+                                </a>    
                             </div>
-                            <div class="card-body">
-                                <div class="row b-b b-dashed b-grey">
+                        </div>
+                        <div class="card-body">
+                            <div class="row b-b b-dashed b-grey">
+                                <div class="row">
                                     <div class="col-md-12">
                                         <h5>
-                                            category Name value in
+                                            Name in
                                         </h5>
                                     </div>
                                     @foreach($languages as $key => $language)
@@ -69,25 +69,26 @@
                                             </div>
                                         </div>
                                     @endforeach
-                                    
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <h5>
-                                            category Description value in
-                                        </h5>
-                                    </div>
-                                     <input type="hidden" id="langsCount" value="{{count($languages)}}">
-                                     @foreach($languages as $key => $language)
-                                    <div class="col-md-12 m-b-20">
-                                        <label for="summernote{{$key}}" class="upper-title p-t-5 p-b-5 p-l-15">{{$language->name}}</label>
-                                        <div class="summernote-wrapper bg-white">
-                                            <div id="summernote{{$key}}">@if(isset($category->categoryLangs->where('lang_id',$language->id)->first()->description)){!!$category->categoryLangs->where('lang_id',$language->id)->first()->description!!}@endif</div>
-                                             <input type="hidden" name="descriptions[]" id="description{{$key}}">
-                                        </div>
-                                    </div>
-                                    @endforeach
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h5>
+                                        Description in
+                                    </h5>
                                 </div>
+                            </div>
+                            <div class="row">
+                                <input type="hidden" id="langsCount" value="{{ count($languages) }}">
+                                @foreach($languages as $key => $language)
+                                <div class="col-md-12 m-b-20">
+                                    <label for="summernote{{$key}}" class="upper-title p-t-5 p-b-5 p-l-15">{{$language->name}}</label>
+                                    <div class="summernote-wrapper bg-white">
+                                        <div id="summernote{{$key}}">@if(isset($category->categoryLangs->where('lang_id',$language->id)->first()->description)){!!$category->categoryLangs->where('lang_id',$language->id)->first()->description!!}@endif</div>
+                                            <input type="hidden" name="descriptions[]" id="description{{$key}}">
+                                    </div>
+                                </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -112,7 +113,7 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                  <div class="row">
+                                    <div class="row">
                                         <div class="col-md-12">
                                             Status : <strong>@if($category->deleted_at == NULL) Publish @else Removed @endif</strong>
                                         </div>
@@ -159,21 +160,17 @@
     <script type="text/javascript" src="{{ asset('plugins/summernote/js/summernote.min.js') }}"></script>
     <script>
             var langsCount = $('#langsCount').val();
-            console.log(langsCount);
             for(var i =0; i< langsCount; i++)
             {
                 $('#summernote'+i).summernote({height: 250});
             }
-
-            $('#onClick').on('click', function(){ 
+            $('#onClick').on('click', function(){
             var langsCount = $('#langsCount').val();
             for(var i =0; i< langsCount; i++)
             {
                 $('#description'+i).val($('#summernote'+i).summernote().code());
-                console.log($('#summernote'+i).summernote().code());
             }
                 this.form.submit();
-
             });
     </script>
 @endsection

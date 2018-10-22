@@ -17,7 +17,6 @@ class CreateCurrenciesTable extends Migration
             $table->increments('id');
             $table->string('symbole')->unique();
             $table->string('name')->unique();
-            $table->integer('country_id')->unique();
             $table->timestamps();
         });
     }

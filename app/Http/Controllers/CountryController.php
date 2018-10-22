@@ -26,6 +26,7 @@ class CountryController extends Controller
             'name' => 'required|unique:countries,name,null,id,deleted_at,null',
             'code_alpha' => 'required',
             'code' => 'required',
+            'currency_id' => 'required',
         ]);
     }
 
@@ -60,28 +61,35 @@ class CountryController extends Controller
     {
         $this->validateRequest($request);
 
-        $trashed_country = Country::withTrashed()->where('name', $request->name)->first();
+        $trashedCountry = Country::onlyTrashed()->where('name', $request->name)->first();
+        if(isset($trashedCountry))
+        {
+            return redirect('countries/'.$trashedCountry->id);
+        }
 
-        if($trashed_country)
-        {
-            $country = $trashed_country;
-            $country->restore();
-        }
-        else
-        {
-            $country = new Country();
-            $country->name = $request->name;
-        }
-        
+        $country = new Country();
+        $country->name = $request->name;
         $country->code_alpha = $request->code_alpha;
         $country->code = $request->code;
+        $country->currency_id = $request->currency_id;
         $country->save(); 
         
-        return redirect('countries')
-                                ->with(
-                                    'success',
-                                    'Country has been deleted successfuly !!'
-                                );
+        return $country;
+    }
+       /**
+     * 
+     */
+    public function storeWithRedirect(Request $request) {
+        $country = self::store($request);
+        return redirect('countriies/'.$country->id);
+    }
+
+    /**
+     * 
+     */
+    public function storeAndNew(Request $request) {
+        $country = self::store($request);
+        return redirect('countriies/create');
     }
 
     /**
@@ -94,7 +102,7 @@ class CountryController extends Controller
     {
         
         $data['Country'] = Country::find($Country);
-        return 1;
+        return view('countries.backoffice.staff.show',$data);
     }
     
     /**
@@ -145,20 +153,14 @@ class CountryController extends Controller
     {
         // récupérer photo
         $country = Country::findOrFail($Country);
-        if(isset($country->phones[0]) || isset($country->addresses[0]) || isset($country->currency[0]))
+        if(isset($country->phones[0]) || isset($country->addresses[0]))
         {
-            return redirect('countries')
-                                    ->with(
-                                        'error',
-                                        'Country can\'t be deleted it is in an association with Phones/Addresses/Currency !!'
-                                    );
+            $messages['error'] = 'Country can\'t be deleted it is in an association with Phones/Addresses !!';
+            return redirect('countries')->with('messages',$messages);
         }
         $country->delete();
-        return redirect('countries')
-                                ->with(
-                                    'success',
-                                    'Country has been deleted successfuly !!'
-                                );
+        $messages['success'] = 'Country has been deleted successfuly !!';
+        return redirect('countries')->with('messages',$messages);
 
     }
     /**
@@ -174,7 +176,8 @@ class CountryController extends Controller
         $request->validate([
             'countries' => 'required',
         ]);
-        $error = false;
+        $e=$s=0;
+        $messages = [];
         
         foreach($request->countries as $Country)
         {
@@ -182,27 +185,56 @@ class CountryController extends Controller
 
             $country = Country::findOrFail($Country);
     
-            if(isset($country->phones[0]) || isset($country->addresses[0]) || isset($country->currency[0])) {$cantDelete = true;$error = true;}
-    
-            if(!$cantDelete) 
+            if(!isset($country->phones[0]) || !isset($country->addresses[0])) 
+            {
+                $s++;
                 $country->delete();
-
+                $messages['success'] = $s. ($s == 1 ? ' country' :' countries') .' has been deleted successfuly';
+            }
+    
+            else 
+            {
+                $e++;
+                $messages['error'] = $e . ($e == 1 ? ' country' : ' countries') . ' can\'t be deleted it has a relation with products';
+            }
+            return redirect('countries')->with('messages', $messages);
         }
-        if(!$error) 
+    }
+    
+    public function restore($Country)
+    {
+        $country = Country::onlyTrashed()->where('id', $Country)->first();
+        $country->restore();
+        $messages['success'] = 'Country has been restored successfuly !!';
+        return redirect('countries')->with('messages',$messages);
+    }
+
+    public function multiRestore(Request $request)
+    {
+        $request->validate([
+            'details' => 'required',
+        ]);
+        $s=0;
+        $messages = [];
+        foreach ($request->countries as  $Country)
         {
-            return redirect('countries')->with(
-                            'success',
-                            'Country has been deleted successfuly !!'
-             );
-
+            $country = Country::onlyTrashed()->where('id', $Country)->first();
+            $country->restore();
+            $s++;
+            $messages['success'] = $s. ($s == 1 ? ' Country' :' countries') .' has been restored successfuly';
         }
-        else 
-        {
-            return redirect('countries')->with(
-                'error',
-                'Country can\'t be deleted it has a relation with products '
-            );
-        }
+        return redirect('countries')->with('messages',$messages);
+    }
 
+    /**
+     * Displaying the Trash page
+     * 
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function trash()
+    {
+        $data['details'] = Detail::onlyTrashed()->get();
+        return view('details.backoffice.staff.trash', $data);
     }
 }

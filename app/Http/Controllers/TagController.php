@@ -36,8 +36,7 @@ class TagController extends Controller
     public function index()
     {
         $data['tags'] = Tag::all();
-
-        return view('tags.backoffice.index',$data);
+        return view('tags.backoffice.staff.index', $data);
     }
     
     /**
@@ -47,7 +46,8 @@ class TagController extends Controller
      */
     public function create()
     {
-        return view('tags.backoffice.create');
+        $data['languages'] = Language::all();
+        return view('tags.backoffice.staff.create', $data);
     }
     
     /**
@@ -80,9 +80,7 @@ class TagController extends Controller
      */
     public function show($tag)
     {
-        
-        $data['tag'] = Tag::find($tag);
-        return 1;
+        return view('tags.backoffice.staff.show');
     }
     
     /**
@@ -130,9 +128,32 @@ class TagController extends Controller
     {
         // récupérer photo
         $tag = Tag::findOrFail($tag);
-       $tag->delete();
-       return redirect('tags');
+        $tag->delete();
+        return redirect('tags');
+    }
 
+    /**
+     * Displaying the Trash page
+     * 
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function trash()
+    {
+        $data['tags'] = Tag::onlyTrashed()->get();
+        return view('tags.backoffice.staff.trash', $data);
+    }
+
+    /**
+     * Displaying the Trash page
+     * 
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function translations()
+    {
+        $data['languages'] = Language::all();
+        return view('tags.backoffice.staff.translations', $data);
     }
     
 }

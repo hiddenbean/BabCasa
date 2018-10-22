@@ -16,6 +16,7 @@ class CountrySeeder extends Seeder
             'name' => 'Morocco',
             'code_alpha' => 'MA',
             'code' => '+212',
+            'currency_id' =>1,
         ]);
     }
 }
