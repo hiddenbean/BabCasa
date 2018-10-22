@@ -107,27 +107,6 @@ class DetailController extends Controller
         $detail = self::store($request);
         return redirect('details/create');
     }
-    
-    public function restore($detail)
-    {
-        $detail = Detail::onlyTrashed()->where('id', $detail)->first();
-        $detail->restore();
-        return redirect('details');
-    }
-
-    public function multiRestore(Request $request)
-    {
-        $request->validate([
-            'details' => 'required',
-        ]);
-
-        foreach ($request->details as  $Detail)
-        {
-            $detail = Detail::onlyTrashed()->where('id', $Detail)->first();
-            $detail->restore();
-        }
-        return redirect('details');
-    }
 
     /**
      * Display the specified resource.
@@ -196,19 +175,14 @@ class DetailController extends Controller
         $detail = Detail::findOrFail($detail);
         if(isset($detail->detailValue))
         {
+            $messages['error'] = 'Detail can\'t be deleted it has products !!';
             return  redirect('details')
-                        ->back()
-                        ->with(
-                            'error',
-                            'Detail can\'t be deleted it has products !!' 
-                        );
+                        ->with('messages',$messages);
         }
         $detail->delete();
+        $messages['success'] = 'Detail has been deleted successfuly !!';
         return redirect('details')
-                    ->with(
-                        'success',
-                        'Detail has been deleted successfuly !!'
-                    );
+                    ->with('messages', $messages);
 
     }
 
@@ -242,6 +216,31 @@ class DetailController extends Controller
 
         return redirect('details')
                         ->with('messages', $messages);
+    }
+
+    public function restore($detail)
+    {
+        $detail = Detail::onlyTrashed()->where('id', $detail)->first();
+        $detail->restore();
+        $messages['success'] = 'Detail has been restored successfuly !!';
+        return redirect('details')->with('messages',$messages);
+    }
+
+    public function multiRestore(Request $request)
+    {
+        $request->validate([
+            'details' => 'required',
+        ]);
+        $s=0;
+        $messages = [];
+        foreach ($request->details as  $Detail)
+        {
+            $detail = Detail::onlyTrashed()->where('id', $Detail)->first();
+            $detail->restore();
+            $s++;
+            $messages['success'] = $s. ($s == 1 ? ' detail' :' details') .' has been restored successfuly';
+        }
+        return redirect('details')->with('messages',$messages);
     }
 
     /**
