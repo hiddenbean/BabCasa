@@ -52,11 +52,12 @@ function()
             Route::group(['middleware' => ['CanWrite:category']], function(){
                 Route::get('create', 'CategoryController@create');
                 Route::prefix('{Category}')->group( function () {
+                    Route::get('/', 'CategoryController@show');
                     Route::get('edit', 'CategoryController@edit');
                     Route::get('translations','CategoryController@translations');
                 });
             });
-            Route::get('{Category}', 'CategoryController@show'); 
+            
         });
 
         // Staff Details management pages

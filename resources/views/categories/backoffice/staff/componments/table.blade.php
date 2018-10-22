@@ -82,9 +82,9 @@
                         <a href="{{route('delete.category',['category'=>$category->id])}}" data-method="DELETE"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="text-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a></td>
                      @endif  
                     <td class="v-align-middle picture">
-                        <a href="#"><img src="@if(isset($category->picture->path)) {{Storage::url($category->picture->path)}} @else https://ae01.alicdn.com/kf/HTB1VGbHiZuYBuNkSmRy763A3pXaX.png @endif" alt="cat1"></a>
+                        <a href="{{url('categories/'.$category->id)}}"><img src="@if(isset($category->picture->path)) {{Storage::url($category->picture->path)}} @else https://ae01.alicdn.com/kf/HTB1VGbHiZuYBuNkSmRy763A3pXaX.png @endif" alt="cat1"></a>
                     </td>
-                    <td class="v-align-middle"><a href="{{url('categories/'.$category->id)}}"><strong>{{$category->categoryLang()->reference }}</strong></a></td>
+                    <td class="v-align-middle"><a href="{{url('categories/'.$category->id)}}"><strong>{{ $category->level }}{{$category->categoryLang()->reference }}</strong></a></td>
                     <td class="v-align-middle">{!!$category->categoryLang()->description!!}</td>
                     <td class="v-align-middle">@if(isset($category->category)) {{$category->category->categoryLang()->reference}}@else - @endif</td>
                     <td class="v-align-middle">{{count($category->products)}}</td>

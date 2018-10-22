@@ -28,6 +28,7 @@ class CategoryController extends Controller
     {
         $request->validate([
             'reference' => 'required',
+            'description' => 'required',
             'category_parent' => 'sometimes',
             'details' => 'sometimes',
             'attribute' => 'sometimes',
@@ -63,10 +64,8 @@ class CategoryController extends Controller
     public function create()
     {
         $data['languages'] = Language::all();
-        $data['categories'] = Category::all();
         $data['details'] = Detail::all();
         $data['attributes'] = Attribute::all();
-        
         $data['children_categories'] = Category::where('category_id', null)->get();
         $array = [];
         foreach($data['children_categories'] as $category)
@@ -86,41 +85,16 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {return $request;
+    {
         $this->validateRequest($request);
         if($this->checkReference($request))
         {
+            $messages['error'] = $request->reference.' already exists on the same level.';
             return redirect('categories')
-                                        ->with(
-                                            'error',
-                                            $request->reference.' already exists on the same level.' 
-                                        );
+                                    ->with('messages', $messages);
         }
-        $trashed_category_lang = CategoryLang::onlyTrashed()->where('reference', $request->reference)->first();
-        if($trashed_category_lang)
-        {
-            $category = $trashed_category_lang->category;
-            if($category->category_id == $request->category_parent)
-            {
-                $this->restore($category->id);
-                return redirect('categories')
-                                            ->with(
-                                                'success',
-                                                'Category has been restored from archive successfuly !!'
-                                            );
-            }
-            else
-            {
-                $category = new Category();
-            }
-        }
-        else
-        {   
-            $category = new Category();
-        }
+        $category = new Category();
         $request->category_parent ? $category->category_id = $request->category_parent : null ;
-        
-        
         $category->save(); 
 
         if($request->hasFile('path')) 
@@ -134,21 +108,25 @@ class CategoryController extends Controller
                 'pictureable_id' => $category->id,
             ]);
         }
-        if(!isset($category_lang))
+        $languages = Language::all();
+        foreach($languages as $language)
         {
             $category_lang = new CategoryLang();
+            if($language->id == $request->language)
+            {
+                $category_lang->reference = $request->reference;
+                $category_lang->description = $request->description;
+            }
             $category_lang->category_id = $category->id;
-            $category_lang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
+            $category_lang->lang_id = $language->id;
+            $category_lang->save();
         }
-        $category_lang->reference = $request->reference;
-        $category_lang->description = $request->description;
-        $category_lang->save();
-
+        
         if(isset($request->category_children))
         {
             foreach($request->category_children as $child)
             {
-                if($child != $request->category_parent)
+                if($child != $request->category_parent && $child != $this->getSuperParent($request->category_parent))
                 {
                     $sub_category = Category::findOrFail($child);
                     $sub_category->category_id = $category->id;
@@ -179,20 +157,26 @@ class CategoryController extends Controller
         );
     }
 
-    public function checkReference($request)
+    /**
+     * Check if there is a category on the same level with the same reference
+     * This function checks the trashed once as well
+     * 
+     * @param Illuminte\Http\Request $request
+     * @return boolean;
+     */
+    public function checkReference(Request $request)
     {
         if($request->category_parent)
         {
-            $cats = Category::find($request->category_parent)->subCategories;
+            $cats = Category::withTrashed()->findOrFail($request->category_parent)->subCategories;
         }
         else 
         {
-            $cats = Category::where('category_id',NULL)->get();
+            $cats = Category::withTrashed()->where('category_id',NULL)->get();
         }
         $find = false;
         if(isset($cats[0]))
         {
-            
             foreach($cats as $cat)
             {
                 if($cat->categoryLang()->reference == $request->reference) $find=true;
@@ -205,6 +189,22 @@ class CategoryController extends Controller
         return $find;
     }
 
+    /**
+     * Gets the category parent or the terminal of the category.
+     * 
+     * @param $category_id
+     * @return integer
+     */
+    public function getSuperParent($parent)
+    {
+        $categopry = Category::findOrFail($parent);
+        if(!$category->category_id)
+        {
+            $this->getSuperParent($category->category_id);
+        }
+        return $category->id;
+    }
+
   
     /**
      * Display the specified resource.
@@ -214,7 +214,7 @@ class CategoryController extends Controller
      */
     public function show($category)
     {
-        $data['category'] = Category::find($category);
+        $data['category'] = Category::withTrashed()->findOrFail($category);
         $data['sub_categories'] = $data['category']->subCategories;
         $array = [];
         foreach($data['sub_categories'] as $category)
@@ -235,7 +235,7 @@ class CategoryController extends Controller
      */
     public function edit($category)
     {
-        $data['category'] = Category::find($category);
+        $data['category'] = Category::withTrashed()->findOrFail($category);
         $data['details'] = Detail::all();
         $data['attributes'] = Attribute::all();
         $data['root_categories'] = Category::where('id', '!=', $data['category']['id'])->where('category_id', null)->get();
@@ -254,7 +254,7 @@ class CategoryController extends Controller
 
     public function toArray($array, $category, $level = '')
     {
-        $level = $level.'-';
+        $level = $level.'– ';
         foreach($category->subCategories()->get() as $subCategory)
         {
             $subCategory['level'] = $level;
@@ -275,13 +275,14 @@ class CategoryController extends Controller
     {
         $request->validate([
             'reference' => 'required',
+            'description' => 'required',
             'category_parent' => 'sometimes',
             'details' => 'sometimes',
             'attribute' => 'sometimes',
             'path' => 'sometimes',
         ]);
 
-        $category = Category::find($category);
+        $category = Category::withTrashed()->findOrFail($category);
         $request->category_parent == 0 ? $category_parent = null : $category_parent = $request->category_parent;
         $category->category_id = $category_parent; 
         $category->save();
@@ -324,7 +325,7 @@ class CategoryController extends Controller
         }
         
         $category->details()->detach();
-        $category->attributes()->detach();
+        
         if($request->details)
         {
             foreach($request->details as $detail)
@@ -336,6 +337,8 @@ class CategoryController extends Controller
             }
 
         }
+
+        $category->attributes()->detach();
         if($request->attribute)
         {
             foreach($request->attribute as $attr)
@@ -447,7 +450,7 @@ class CategoryController extends Controller
      */
     public function translations($category)
     {
-        $data['category'] = Category::findOrFail($category);
+        $data['category'] = Category::withTrashed()->findOrFail($category);
         $data['languages'] = Language::all();
 
         return view('categories.backoffice.staff.translations', $data);

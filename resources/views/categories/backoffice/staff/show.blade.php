@@ -63,7 +63,7 @@
                                         Description
                                     </h5>
                                     <p>
-                                        {!!$category->categoryLang()->description !!}
+                                        {!! $category->categoryLang()->description !!}
                                     </p>
                                 </div>
                             </div>
@@ -73,7 +73,7 @@
                                         Parent
                                     </h5>
                                     <p>
-                                        @if(isset($category->category)) <a href="{{url('categories/'.$category->category->id)}}"> {{$category->category->categoryLang()->reference}}</a>@else    -@endif
+                                       @if(isset($category->category)) <a href="{{url('categories/'.$category->category->id)}}"> {{$category->category->categoryLang()->reference}}</a>@else  -  @endif
                                     </p>
                                 </div>
                             </div>
