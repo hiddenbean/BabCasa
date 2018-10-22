@@ -97,31 +97,6 @@ class AttributeController extends Controller
         
         return redirect('attributes');
     }
-
-
-    public function restore($attribute)
-    {
-         $attribute = Attribute::onlyTrashed()->where('id', $attribute)->first();
-        $attribute->restore();
-         return redirect('attributes');
-       
-    }
-
-    public function multiRestore(Request $request)
-    {
-        $request->validate([
-            'attribute' => 'required',
-        ]);
-
-        foreach ($request->attribute as  $attr)
-         {
-            $attribute = attribute::onlyTrashed()->where('id', $attr)->first();
-           $attribute->restore();
-        }
-         return redirect('attributes');
-       
-    }
-
     /**
      * Display the specified resource.
      *
@@ -193,18 +168,14 @@ class AttributeController extends Controller
         $attribute = Attribute::findOrFail($Attribute);
         if(isset($attribute->attributeValue[0]))
         {
+            $messages['error'] = 'attribute can\'t be deleted it has products !!';
             return redirect('attributes')
-                                ->with(
-                                    'error',
-                                    'attribute can\'t be deleted it is related with values !!'
-                                    );
+                             ->with('messages',$messages);
         }
         $attribute->delete();
+        $messages['success'] = 'Detail has been deleted successfuly !!';
         return redirect('/attributes')
-                            ->with(
-                                'success',
-                                'attribute deleted successfuly !!'
-                                );
+                            ->with('messages',$messages);
     }
 
     public function multiDestroy(Request $request)
@@ -212,33 +183,56 @@ class AttributeController extends Controller
         $request->validate([
             'attribute' => 'required',
             ]);
-        $error = false;
+        $e=$s=0;
+        $messages = [];
         foreach($request->attribute as $attr)
         {
             $attribute = Attribute::findOrFail($attr);
             $cantDelete = false;
             
-            if(isset($attribute->attributeValue[0])) {$cantDelete = true;$error = true;}
-    
-            if(!$cantDelete) 
+            if(!isset($attribute->attributeValue[0]))
+             {
+                $s++;
                 $attribute->delete();
+                $messages['success'] = $s. ($s == 1 ? ' Attribute' :' Attributes') .' has been deleted successfuly';
+                
+            }
+            else 
+            {
+                $e++;
+                $messages['error'] = $e . ($e == 1 ? ' Attribute' : ' Attributes') . ' can\'t be deleted it has a relation with products';
+            }
+        }
+            
+        return redirect('attributes')
+                ->with('messages', $messages);
+    }
 
-        }
-        if(!$error) 
-        {
-            return redirect('attributes')->with(
-                            'success',
-                            'Attribute has been deleted successfuly !!'
-                );
+    public function restore($attribute)
+    {
+         $attribute = Attribute::onlyTrashed()->where('id', $attribute)->first();
+        $attribute->restore();
+        $messages['success'] = 'Attribute has been restored successfuly !!';
+        return redirect('attributes')->with('messages',$messages);
+       
+    }
 
+    public function multiRestore(Request $request)
+    {
+        $request->validate([
+            'attribute' => 'required',
+        ]);
+        $s=0;
+        $messages = [];
+        foreach ($request->attribute as  $attr)
+         {
+            $attribute = attribute::onlyTrashed()->where('id', $attr)->first();
+           $attribute->restore();
+           $s++;
+           $messages['success'] = $s. ($s == 1 ? ' attributes' :' attributess') .' has been restored successfuly';
         }
-        else 
-        {
-            return redirect('attributes')->with(
-                'error',
-                'Attribute can\'t be deleted it is related with values '
-            );
-        }
+         return redirect('attributes')->with('messages',$messages);
+       
     }
 
     public function trash()
