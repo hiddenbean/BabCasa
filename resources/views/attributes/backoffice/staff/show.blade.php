@@ -53,7 +53,7 @@
                                 <i class="fas fa-question-circle fa-xs"></i>
                             </a>
                             @foreach($languages as $language)
-                                @if(isset($attribute->attributeLangs->where('lang_id',$language->id)->first()->reference))
+                                @if(isset($attribute->attributeLangs->where('lang_id',$language->id)->first()->reference)&& !empty($attribute->attributeLangs->where('lang_id',$language->id)->first()->reference))
                                     <div class="row">
                                         <div class="col-md-3">
                                             <span class="hint-text">{{$language->name}} : </span>
@@ -86,7 +86,7 @@
                                 <i class="fas fa-question-circle fa-xs"></i>
                             </a>
                             @foreach($languages as $language)
-                                @if(isset($attribute->attributeLangs->where('lang_id',$language->id)->first()->reference))
+                                @if(isset($attribute->attributeLangs->where('lang_id',$language->id)->first()->reference)&& !empty($attribute->attributeLangs->where('lang_id',$language->id)->first()->description))
                                     <div class="row">
                                         <div class="col-md-3">
                                             <span class="hint-text">{{$language->name}} : </span>

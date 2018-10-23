@@ -59,6 +59,19 @@ function()
             });
             
         });
+         // Staff tags managment pages
+         Route::prefix('tags')->middleware('CanRead:tag')->group(function() {
+            Route::get('/', 'TagController@index');
+            Route::get('trash', 'TagController@trash');
+            Route::group(['middleware' => ['CanWrite:tag']], function(){
+                Route::get('create', 'TagController@create');
+                Route::prefix('{tag}')->group( function () {
+                    Route::get('translations','TagController@translations');
+                    Route::get('edit', 'TagController@edit');
+                });
+            });
+            Route::get('{tag}', 'TagController@show');
+        });
 
         // Staff Details management pages
         Route::prefix('details')->middleware('CanRead:detail')->group(function() {
@@ -72,19 +85,6 @@ function()
                 });
             });
             Route::get('{detail}', 'DetailController@show'); 
-        });
-
-        // Staff tags managment pages
-        Route::prefix('tags')->middleware('CanRead:tag')->group(function() {
-            Route::get('/', 'TagController@index');
-            Route::get('trash', 'TagController@trash');
-            Route::group(['middleware' => ['CanWrite:tag']], function(){
-                Route::get('create', 'TagController@create');
-                Route::prefix('{tag}', function () {
-                    Route::get('edit', 'TagController@edit');
-                    Route::get('translations','TagController@translations');
-                });
-            });
         });
 
         //////////attributes
@@ -455,6 +455,18 @@ Route::prefix('discounts')->group(function() {
         Route::delete('{detail}', 'DetailController@destroy')->name('delete.detail');
         Route::delete('delete/multiple', 'DetailController@multiDestroy')->name('delete.details');
     }); 
+    //////////tags
+    Route::prefix('tags')->middleware('CanWrite:tag')->group(function() {
+
+        Route::post('/', 'TagController@storeWithRedirect');
+        Route::post('/create', 'TagController@storeAndNew');
+        Route::post('/multi-restore', 'TagController@multiRestore'); 
+        Route::post('{tag}', 'TagController@update'); 
+        Route::post('{tag}/translations','TagLangController@update');
+        Route::post('{tag}/restore', 'TagController@restore'); 
+        Route::delete('{tag}', 'TagController@destroy')->name('delete.tag');
+        Route::delete('delete/multiple', 'TagController@multiDestroy')->name('delete.tags');
+    }); 
     //////////COUNTRIES
     Route::prefix('countries')->middleware('CanWrite:country')->group(function() {
 
@@ -483,7 +495,7 @@ Route::prefix('discounts')->group(function() {
         Route::delete('delete/multiple', 'ReasonController@multiDestroy')->name('delete.reasons');
     }); 
     //////////subjects
-    Route::prefix('subjects')->middleware('CanWrite:reason')->group(function() {
+    Route::prefix('subjects')->middleware('CanWrite:subject')->group(function() {
 
         Route::post('/', 'SubjectController@store'); 
         Route::post('{subject}', 'SubjectController@update'); 

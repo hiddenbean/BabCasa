@@ -58,7 +58,7 @@
                 
             </div>
             <div class="card-body">
-                <form action="" method="post">
+                <form action="{{url('tags/multi-restore')}}" method="post">
                     {{ csrf_field() }}
                     <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
                         <thead>
@@ -69,8 +69,31 @@
                             <th style="width:100px">Languages</th>
                             <th style="width:150px">Deleted at</th>       
                         </thead>
-                
-                        <tbody>                                     
+                        <tbody>  
+                    
+                         @foreach($tags as $tag)                                   
+                           <tr>
+                                <td class="v-align-middle p-l-5 p-r-5">
+                                    <div class="checkbox no-padding no-margin text-center">
+                                        <input type="checkbox" value="{{$tag->id}}" name="tags[]" id="checkbox{{$tag->id}}">
+                                        <label for="checkbox{{$tag->id}}" class="no-padding no-margin"></label>
+                                    </div>
+                                </td>
+                                <td class="v-align-middle text-center p-l-5 p-r-5">
+                                        <a href="{{url('tags/'.$tag->id.'/restore')}}" data-method="POST"  data-token="{{csrf_token()}}" class="text-danger"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></a></td>
+                                </td> 
+                                <td class="v-align-middle"><a href="{{url('tags/'.$tag->id)}}"><strong>{{$tag->tagLang()->tag}}</strong></a> </td>
+                                <td class="v-align-middle">{{$tag->products()->count()}}</td>
+                                <td class="v-align-middle">
+                                    @foreach($tag->tagLangs as $tagLang)
+                                            @if($tagLang->tag != "")
+                                                <a href="javascript:;" class="btn btn-tag">{{$tagLang->lang->alpha_2_code}}</a>
+                                            @endif
+                                        @endforeach
+                                </td>
+                                <td class="v-align-middle">{{$tag->deleted_at}}</td>
+                            </tr>
+                        @endforeach 
                         </tbody>
                     </table>
                 </form>

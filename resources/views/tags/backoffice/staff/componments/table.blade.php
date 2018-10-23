@@ -49,7 +49,7 @@
             
         </div>
         <div class="card-body">
-            <form action="" method="post">
+            <form action="{{route('delete.tags')}}" method="post">
             {{ method_field('DELETE') }}
             {{ csrf_field() }}
             <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
@@ -57,12 +57,40 @@
                 @if (auth()->guard('staff')->user()->can('write','detail'))
                     <th class="text-center" style="width:35px"><button class="btn btn-link" type="submit"><i class="fas fa-trash-alt"></i></button></th>
                 @endif
+                
                     <th style="width:62px"></th>
                     <th style="width:62px"></th>
                     <th style="width:150px">Name</th>           
                     <th style="width:100px">Products</th>             
                     <th style="width:100px">Languages</th>
                 </thead>
+                @foreach($tags as $tag)
+                    <tr>
+                     @if (auth()->guard('staff')->user()->can('write','tag'))
+                        <td class="v-align-middle p-l-5 p-r-5">
+                            <div class="checkbox no-padding no-margin text-center">
+                                <input type="checkbox" value="{{$tag->id}}" name="tags[]" id="checkbox{{$tag->id}}">
+                                <label for="checkbox{{$tag->id}}" class="no-padding no-margin"></label>
+                            </div>
+                        </td>
+                       
+                        <td class="v-align-middle text-center p-l-5 p-r-5">
+                            <a href="{{url('tags/'.$tag->id.'/edit')}}"><i class="fas fa-pen fa-sm"></i> <strong>Edit</strong></a>
+                            </td> 
+                         <td class="v-align-middle text-center p-l-5 p-r-5">
+                        <a href="{{route('delete.tag',['tag'=>$tag->id])}}" data-method="DELETE"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="text-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a></td>
+                     @endif  
+                        <td class="v-align-middle"><a href="{{url('tags/'.$tag->id)}}"><strong>{{$tag->tagLang()->tag}}</strong></a> </td>
+                        <td class="v-align-middle">{{$tag->products()->count()}}</td>
+                        <td class="v-align-middle">
+                            @foreach($tag->tagLangs as $tagLang)
+                                    @if($tagLang->tag != "")
+                                        <a href="javascript:;" class="btn btn-tag">{{$tagLang->lang->alpha_2_code}}</a>
+                                    @endif
+                                @endforeach
+                        </td>
+                    </tr>
+                @endforeach
         
                 <tbody>                               
                 </tbody>
