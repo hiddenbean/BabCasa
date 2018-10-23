@@ -18,7 +18,7 @@
                             <a href="{{ url('tags') }}">Tags</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{{ url('tags/') }}">ID : </a>
+                            <a href="{{ url('tags/'.$tag->id) }}">ID :{{$tag->id}} </a>
                         </li>
                         <li class="breadcrumb-item active">
                             Tanslations
@@ -45,13 +45,13 @@
                                         data-placement="bottom" 
                                         data-html="true" 
                                         trigger="click" 
-                                        title= "<p class='tooltip-text'>You can use this form to create a new Detail if you have the right permissions.<br>
+                                        title= "<p class='tooltip-text'>You can use this form to create a new tag if you have the right permissions.<br>
                                                 If you have any difficulties please <a href='#'>contact the support</a></p>"> 
                                         <i class="fas fa-question-circle"></i>
                                     </a>    
                                 </div>
                             </div>
-                            <form action="" method="POST">
+                            <form action="{{url('tags/'.$tag->id.'/translations')}}" method="POST">
                               {{ csrf_field() }}
                             <div class="card-body">
                                 <div class="row">
@@ -60,32 +60,17 @@
                                     </h5>
                                 </div>
                                 <div class="row">
+                                 @foreach($languages as $language)
                                     <div class="col-md-6">
                                         <div class="col-md-12">
                                             <div class="form-group form-group-default">
-                                                <label>English</label>
-                                                <input type="text" class="form-control" name="values[]">
-                                                <label class='error' for='values.0'>
-                                                    @if ($errors->has('values.0'))
-                                                        {{ $errors->first('values.0') }}
-                                                    @endif
-                                                </label> 
+                                                <label>{{$language->name}}</label>
+                                                <input type="text" class="form-control" name="tags[]" value="@if(isset($tag->tagLangs->where('lang_id',$language->id)->first()->tag)){{$tag->tagLangs->where('lang_id',$language->id)->first()->tag}}@endif">
+                                                 <input type="hidden" name="languages_id[]" value="{{$language->id}}">
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="col-md-12">
-                                            <div class="form-group form-group-default">
-                                                <label>Français</label>
-                                                <input type="text" class="form-control" name="values[]">
-                                                <label class='error' for='values.0'>
-                                                    @if ($errors->has('values.0'))
-                                                        {{ $errors->first('values.0') }}
-                                                    @endif
-                                                </label> 
-                                            </div>
-                                        </div>
-                                    </div>
+                                @endforeach
                                 </div>
                             </div>
                             
@@ -105,33 +90,37 @@
                                             data-placement="bottom" 
                                             data-html="true" 
                                             trigger="click" 
-                                            title= "<p class='tooltip-text'>You can use this form to create a new Detail if you have the right permissions.<br>
+                                            title= "<p class='tooltip-text'>You can use this form to create a new tag if you have the right permissions.<br>
                                                     If you have any difficulties please <a href='#'>contact the support</a></p>"> 
                                             <i class="fas fa-question-circle"></i>
                                         </a>
                                     </div>
                                 </div>
-                                <div class="card-body">
+                               <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            Status : <strong></strong>
+                                            Status : <strong>@if($tag->deleted_at == NULL) Publish @else Removed @endif</strong>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            Creation date : <strong></strong>
+                                            Creation date : <strong>{{$tag->created_at}}</strong>
                                         </div>
                                     </div>
+                                    @if($tag->updated_at != NULL)
                                     <div class="row">
                                         <div class="col-md-12">
-                                            Last update : <strong></strong>
+                                            Last update : <strong>{{$tag->updated_at}}</strong>
                                         </div>
                                     </div>
+                                    @endif
+                                    @if($tag->deleted_at != NULL)
                                     <div class="row">
                                         <div class="col-md-12">
-                                            Remove date : <strong></strong>
+                                            Remove date : <strong>{{$tag->deleted_at}}</strong>
                                         </div>
                                     </div>
+                                    @endif
                                     <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
                                         <div class="col-md-6">
                                             <button class="btn btn-block"><i class="fas fa-check"></i> <strong>save</strong></button>

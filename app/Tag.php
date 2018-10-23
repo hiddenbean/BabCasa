@@ -17,13 +17,14 @@ class Tag extends Model
     }
     public function tagLangs()
     {
-        return $this->hasMany('App\TagLang');
+        return $this->hasMany('App\TagLang')->withTrashed();
     } 
     
     public function tagLang()
     {
         $langId = Language::where('alpha_2_code',App::getLocale())->first()->id; 
-        return $this->tagLangs()->where('lang_id',$langId);
+        $tag = self::tagLangs()->where('lang_id',$langId)->withTrashed()->first();
+        return !$tag->tag ? self::tagLangs()->where('tag','!=','')->withTrashed()->first() : $tag;
 
     }
 

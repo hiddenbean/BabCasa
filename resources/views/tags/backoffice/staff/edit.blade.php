@@ -15,7 +15,7 @@
                         <a href="{{ url('/') }}">DASHBOARD</a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="{{ url('/details') }}">Details</a>
+                        <a href="{{ url('/tags') }}">tags</a>
                     </li>
                     <li class="breadcrumb-item active">
                         Edit 
@@ -31,7 +31,7 @@
     <div class="card card-transparent">
         <div class="card-header">
             <div class="card-title">
-                Create a Detail
+                Update tag
                 <a 
                     href="javascript:;" 
                     data-toggle="tooltip" 
@@ -44,7 +44,7 @@
                 </a>
             </div>
         </div>
-        <form action="{{url('details/'.$detail->id)}}" method="POST">
+        <form action="{{url('tags/'.$tag->id)}}" method="POST">
         {{ csrf_field() }}
         <div class="card-body">
             <div class="row">
@@ -54,11 +54,11 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group form-group-default">
-                                        <label>Detail name</label>
-                                        <input type="text" class="form-control" name="value" value="{{$detail->detailLang()->value}}">
-                                        <label class='error' for='value'>
-                                            @if ($errors->has('value'))
-                                                {{ $errors->first('value') }}
+                                        <label>tag name</label>
+                                        <input type="text" class="form-control" name="tag" value="{{$tag->tagLang()->tag}}">
+                                        <label class='error' for='tag'>
+                                            @if ($errors->has('tag'))
+                                                {{ $errors->first('tag') }}
                                             @endif
                                         </label> 
                                     </div>
@@ -66,53 +66,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <div class="card-title">
-                                        Catrgories using this detail 
-                                        <a 
-                                            href="javascript:;" 
-                                            data-toggle="tooltip" 
-                                            data-placement="bottom" 
-                                            data-html="true" 
-                                            trigger="click" 
-                                            title= "<p class='tooltip-text'>You can use this form to create a new category if you have the right permissions.<br>
-                                                    If you have any difficulties please <a href='#'>contact the support</a></p>"> 
-                                            <i class="fas fa-question-circle"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-5">
-                                            <select id="lstview" class="form-control" size="13" multiple="multiple">
-                                               @foreach($categories as $category)
-                                                <option value="{{$category->id}}">{{$category->categoryLang()->reference}}</option>
-                                               @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <button type="button" id="lstview_undo" class="btn btn-transparent-danger btn-block"><i class="fas fa-ban"></i> <strong>undo</strong></button>
-                                            <button type="button" id="lstview_rightAll" class="btn btn-transparent btn-block"><i class="fas fa-forward"></i></button>
-                                            <button type="button" id="lstview_rightSelected" class="btn btn-transparent btn-block"><i class="fas fa-caret-right fa-lg"></i></button>
-                                            <button type="button" id="lstview_leftSelected" class="btn btn-transparent btn-block"><i class="fas fa-caret-left fa-lg"></i></button>
-                                            <button type="button" id="lstview_leftAll" class="btn btn-transparent btn-block"><i class="fas fa-backward"></i></button>
-                                            <button type="button" id="lstview_redo" class="btn btn-transparent btn-block"><i class="fas fa-sync-alt"></i> redo</button>
-                                        </div>
-                                        <div class="col-md-5">
-                                            <select name="categories[]" id="lstview_to" class="form-control" size="13" multiple="multiple">
-                                             @foreach($detail->categories as $category)
-                                                 <option value="{{$category->id}}">{{$category->categoryLang()->reference}}</option>
-                                               @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                 
                 </div>
                 
                 <div class="col-md-3">
@@ -137,35 +91,35 @@
                                 <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    Status : <strong>@if($detail->deleted_at == NULL) Publish @else Removed @endif</strong>
+                                    Status : <strong>@if($tag->deleted_at == NULL) Publish @else Removed @endif</strong>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    Creation date : <strong>{{$detail->created_at}}</strong>
+                                    Creation date : <strong>{{$tag->created_at}}</strong>
                                 </div>
                             </div>
-                            @if($detail->updated_at != NULL)
+                            @if($tag->updated_at != NULL)
                             <div class="row">
                                 <div class="col-md-12">
-                                    Last update : <strong>{{$detail->updated_at}}</strong>
+                                    Last update : <strong>{{$tag->updated_at}}</strong>
                                 </div>
                             </div>
                             @endif
-                            @if($detail->deleted_at != NULL)
+                            @if($tag->deleted_at != NULL)
                             <div class="row">
                                 <div class="col-md-12">
-                                    Remove date : <strong>{{$detail->deleted_at}}</strong>
+                                    Remove date : <strong>{{$tag->deleted_at}}</strong>
                                 </div>
                             </div>
                             @endif
                             <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
                                 <div class="col-md-6">
-                                   <button class="btn btn-block"><i class="fas fa-pen"></i> <strong>Edit</strong></button   >                                    
+                                   <button class="btn btn-block"><i class="fas fa-pen"></i> <strong>Edit</strong></button >                                    
                                 </div>
 
                                 <div class="col-md-6">
-                                    <a  href="{{route('delete.detail',['detail'=>$detail->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
+                                    <a  href="{{route('delete.tag',['tag'=>$tag->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
                                 
                                  </div>
                             </div>
@@ -195,16 +149,16 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             Available in : 
-                                             @foreach($detail->detailLangs as $detailLang)
-                                        @if($detailLang->value != " ")
-                                            <strong><a href="#">{{$detailLang->lang->name}}</a></strong>
+                                             @foreach($tag->tagLangs as $tagLang)
+                                        @if($tagLang->value != " ")
+                                            <strong><a href="#">{{$tagLang->lang->name}}</a></strong>
                                         @endif
                                     @endforeach
                                         </div>
                                     </div>
                                     <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
                                         <div class="col-md-12">
-                                            <a href="{{url('details/'.$detail->id.'/translations')}}" class="btn btn-transparent"><strong><i class="fas fa-language p-r-10 fa-lg"></i>Add or Edit translations</strong></a>                                    
+                                            <a href="{{url('tags/'.$tag->id.'/translations')}}" class="btn btn-transparent"><strong><i class="fas fa-language p-r-10 fa-lg"></i>Add or Edit translations</strong></a>                                    
                                         </div>
                                     </div>
                                 </div>

@@ -11,7 +11,7 @@
         </li>
         @endif
         <li>
-            <a href="#">
+            <a href="javascript:;">
                 <span class="title">Categories</span>
                 <span class="arrow"></span>
             </a>
@@ -34,7 +34,7 @@
             </ul>
         </li>
         <li>
-            <a href="#">
+            <a href="javascript:;">
                 <span class="title">Details</span>
                 <span class="arrow"></span>
             </a>
@@ -57,7 +57,7 @@
             </ul>
         </li>
         <li>
-            <a href="#">
+            <a href="javascript:;">
                 <span class="title">Attributes</span>
                 <span class="arrow"></span>
             </a>
@@ -80,7 +80,7 @@
             </ul>
         </li>
         <li>
-            <a href="#">
+            <a href="javascript:;">
                 <span class="title">Tags</span>
                 <span class="arrow"></span>
             </a>
@@ -89,21 +89,21 @@
             </span>
             <ul class="sub-menu">
                 <li>
-                    <a href="tags/create">Add Tag</a>
+                    <a href="{{ url('tags/create') }}">Add Tag</a>
                     <span class="icon-thumbnail"><i class="fas fa-plus"></i></span>
                 </li>
                 <li>
-                    <a href="tags">All Tags</a>
+                    <a href="{{ url('tags') }}">All Tags</a>
                     <span class="icon-thumbnail"><i class="fa fa-list"></i></span>
                 </li>
                 <li>
-                    <a href="tags/trash">Trash</a>
+                    <a href="{{ url('tags/trash') }}">Trash</a>
                     <span class="icon-thumbnail"><i class="fas fa-trash"></i></span>
                 </li>
             </ul>
         </li>
         <li>
-            <a href="#">
+            <a href="javascript:;">
                 <span class="title">Geolocations</span>
                 <span class="arrow"></span>
             </a>
@@ -112,21 +112,21 @@
             </span>
             <ul class="sub-menu">
                 <li>
-                    <a href="#">Countries</a>
+                    <a href="javascript:;">Countries</a>
                     <span class="icon-thumbnail"><i class="fa fa-flag"></i></span>
                 </li>
                 <li>
-                    <a href="#">Currencies</a>
+                    <a href="javascript:;">Currencies</a>
                     <span class="icon-thumbnail"><i class="fa fa-dollar"></i></span>
                 </li>
                 <li>
-                    <a href="#">Languages</a>
+                    <a href="javascript:;">Languages</a>
                     <span class="icon-thumbnail"><i class="fas fa-language"></i></span>
                 </li>
             </ul>
         </li>
         <li>
-            <a href="#">
+            <a href="javascript:;">
                 <span class="title">Clients Orders</span>
                 <span class="arrow"></span>
             </a>
@@ -135,25 +135,25 @@
             </span>
             <ul class="sub-menu">
                 <li>
-                    <a href="#">New Orders</a>
+                    <a href="javascript:;">New Orders</a>
                     <span class="icon-thumbnail"><i class="fas fa-plus"></i></span>
                 </li>
                 <li>
-                    <a href="#">Orders in Progress</a>
+                    <a href="javascript:;">Orders in Progress</a>
                     <span class="icon-thumbnail"><i class="fas fa-clock"></i></span>
                 </li>
                 <li>
-                    <a href="#">Finished Orders</a>
+                    <a href="javascript:;">Finished Orders</a>
                     <span class="icon-thumbnail"><i class="fas fa-check"></i></span>
                 </li>
                 <li>
-                    <a href="#">All Orders</a>
+                    <a href="javascript:;">All Orders</a>
                     <span class="icon-thumbnail"><i class="fa fa-list"></i></span>
                 </li>
             </ul>
         </li>
         <li>
-            <a href="#">
+            <a href="javascript:;">
                 <span class="title">Pro Orders</span>
                 <span class="arrow"></span>
             </a>
@@ -162,25 +162,25 @@
             </span>
             <ul class="sub-menu">
                 <li>
-                    <a href="#">New Orders</a>
+                    <a href="javascript:;">New Orders</a>
                     <span class="icon-thumbnail"><i class="fas fa-plus"></i></span>
                 </li>
                 <li>
-                    <a href="#">Orders in Progress</a>
+                    <a href="javascript:;">Orders in Progress</a>
                     <span class="icon-thumbnail"><i class="fas fa-clock"></i></span>
                 </li>
                 <li>
-                    <a href="#">Finished Orders</a>
+                    <a href="javascript:;">Finished Orders</a>
                     <span class="icon-thumbnail"><i class="fas fa-check"></i></span>
                 </li>
                 <li>
-                    <a href="#">All Orders</a>
+                    <a href="javascript:;">All Orders</a>
                     <span class="icon-thumbnail"><i class="fa fa-list"></i></span>
                 </li>
             </ul>
         </li>
         <li>
-            <a href="#">
+            <a href="javascript:;">
                 <span class="title">Markets</span>
                 <span class="arrow"></span>
             </a>
@@ -189,25 +189,25 @@
             </span>
             <ul class="sub-menu">
                 <li>
-                    <a href="#">New Markets</a>
+                    <a href="javascript:;">New Markets</a>
                     <span class="icon-thumbnail"><i class="fas fa-plus"></i></span>
                 </li>
                 <li>
-                    <a href="#">Markets in Progress</a>
+                    <a href="javascript:;">Markets in Progress</a>
                     <span class="icon-thumbnail"><i class="fas fa-clock"></i></span>
                 </li>
                 <li>
-                    <a href="#">Finished Markets</a>
+                    <a href="javascript:;">Finished Markets</a>
                     <span class="icon-thumbnail"><i class="fas fa-check"></i></span>
                 </li>
                 <li>
-                    <a href="#">All Markets</a>
+                    <a href="javascript:;">All Markets</a>
                     <span class="icon-thumbnail"><i class="fa fa-list"></i></span>
                 </li>
             </ul>
         </li>
         <li>
-            <a href="#">
+            <a href="javascript:;">
                 <span class="title">Financials</span>
                 <span class="arrow"></span>
             </a>
@@ -216,17 +216,17 @@
             </span>
             <ul class="sub-menu">
                 <li>
-                    <a href="#">Bills</a>
+                    <a href="javascript:;">Bills</a>
                     <span class="icon-thumbnail"><i class="fas fa-file-invoice-dollar"></i></span>
                 </li>
                 <li>
-                    <a href="#">Reports</a>
+                    <a href="javascript:;">Reports</a>
                     <span class="icon-thumbnail"><i class="fas fa-file-contract"></i></i></span>
                 </li>
             </ul>
         </li>
         <li>
-            <a href="#">
+            <a href="javascript:;">
                 <span class="title">Staff</span>
                 <span class="arrow"></span>
             </a>
@@ -235,15 +235,15 @@
             </span>
             <ul class="sub-menu">
                 <li>
-                    <a href="#">Add Staff</a>
+                    <a href="javascript:;">Add Staff</a>
                     <span class="icon-thumbnail"><i class="fas fa-user-plus"></i></span>
                 </li>
                 <li>
-                    <a href="#">Staff Accounts</a>
+                    <a href="javascript:;">Staff Accounts</a>
                     <span class="icon-thumbnail"><i class="fas fa-list-alt"></i></span>
                 </li>
                 <li>
-                    <a href="#">Staff Profiles</a>
+                    <a href="javascript:;">Staff Profiles</a>
                     <span class="icon-thumbnail"><i class="fas fa-users-cog"></i></span>
                 </li>
             </ul>
@@ -268,7 +268,7 @@
             </ul>
         </li>
         <li>
-            <a href="#">
+            <a href="javascript:;">
                 <span class="title">Business Clients</span>
                 <span class="arrow"></span>
             </a>
@@ -277,17 +277,17 @@
             </span>
             <ul class="sub-menu">
                 <li>
-                    <a href="#">Add Business Clients</a>
+                    <a href="javascript:;">Add Business Clients</a>
                     <span class="icon-thumbnail"><i class="fas fa-user-plus"></i></span>
                 </li>
                 <li>
-                    <a href="#">BCs Accounts</a>
+                    <a href="javascript:;">BCs Accounts</a>
                     <span class="icon-thumbnail"><i class="fas fa-list-alt"></i></span>
                 </li>
             </ul>
         </li>
         <li>
-            <a href="#">
+            <a href="javascript:;">
                 <span class="title">Clients</span>
             </a>
             <span class="icon-thumbnail">
@@ -295,7 +295,7 @@
             </span>
         </li>
         <li>
-            <a href="#">
+            <a href="javascript:;">
                 <span class="title">Requests</span>
                 <span class="arrow"></span>
             </a>
@@ -304,19 +304,19 @@
             </span>
             <ul class="sub-menu">
                 <li>
-                    <a href="#">Subscription Requests</a>
+                    <a href="javascript:;">Subscription Requests</a>
                     <span class="icon-thumbnail">
                         <i class="fas fa-user-plus"></i>
                     </span>
                 </li>
                 <li>
-                    <a href="#">Update Requests</a>
+                    <a href="javascript:;">Update Requests</a>
                     <span class="icon-thumbnail">
                         <i class="fas fa-user-edit"></i>
                     </span>
                 </li>
                 <li>
-                    <a href="#">Requests Reasons</a>
+                    <a href="javascript:;">Requests Reasons</a>
                     <span class="icon-thumbnail">
                         <i class="fas fa-exclamation-circle"></i>
                     </span>
@@ -324,7 +324,7 @@
             </ul>
         </li>
         <li>
-            <a href="#">
+            <a href="javascript:;">
                 <span class="title">Settings</span>
                 <span class="arrow"></span>
             </a>
@@ -333,13 +333,13 @@
             </span>
             <ul class="sub-menu">
                 <li>
-                    <a href="#">Security</a>
+                    <a href="javascript:;">Security</a>
                     <span class="icon-thumbnail">
                         <i class="fas fa-lock"></i>
                     </span>
                 </li>
                 <li>
-                    <a href="#">Activity log</a>
+                    <a href="javascript:;">Activity log</a>
                     <span class="icon-thumbnail">
                         <i class="fas fa-file-alt"></i>
                     </span>
