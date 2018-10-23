@@ -14,7 +14,7 @@ class LanguageController extends Controller
      */
     public function index()
     {
-        //
+        return view('languages.backoffice.staff.index');
     }
 
     /**
@@ -24,7 +24,7 @@ class LanguageController extends Controller
      */
     public function create()
     {
-        //
+        return view('languages.backoffice.staff.create');
     }
 
     /**
@@ -44,9 +44,9 @@ class LanguageController extends Controller
      * @param  \App\Language  $language
      * @return \Illuminate\Http\Response
      */
-    public function show(Language $language)
+    public function show($language)
     {
-        //
+        return view('languages.backoffice.staff.show');
     }
 
     /**
@@ -55,9 +55,9 @@ class LanguageController extends Controller
      * @param  \App\Language  $language
      * @return \Illuminate\Http\Response
      */
-    public function edit(Language $language)
+    public function edit($language)
     {
-        //
+        return view('languages.backoffice.staff.edit');
     }
 
     /**
@@ -81,5 +81,16 @@ class LanguageController extends Controller
     public function destroy(Language $language)
     {
         //
+    }
+
+    /**
+     * Display a listing of the removed languages.
+     *
+     * @param  \App\Language  $language
+     * @return \Illuminate\Http\Response
+     */
+    public function trash()
+    {
+        return view('languages.backoffice.staff.trash');
     }
 }

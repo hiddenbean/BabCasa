@@ -59,7 +59,7 @@ function()
             });
             
         });
-        
+
         // Staff tags managment pages
         Route::prefix('tags')->middleware('CanRead:tag')->group(function() {
             Route::get('/', 'TagController@index');
@@ -115,23 +115,27 @@ function()
         });
 
         //////////countries
-        Route::prefix('currencies')->middleware('CanRead:currency')->group(function() {
-            Route::get('/', 'CurrencyController@index'); 
-            Route::group(['middleware' => ['CanWrite:currency']], function(){
-                Route::get('create', 'CurrencyController@create'); 
-                Route::get('{currency}/edit', 'CurrencyController@edit');
+        Route::prefix('languages')->middleware('CanRead:language')->group(function() {
+            Route::get('/', 'LanguageController@index');
+            Route::get('trash', 'LanguageController@trash');
+            Route::group(['middleware' => ['CanWrite:language']], function(){
+                Route::get('create', 'LanguageController@create');
+                Route::prefix('{language}')->group(function () {
+                    Route::get('edit', 'LanguageController@edit');
+                    Route::get('translations', 'LanguageController@translations');
+                });
             }); 
-            Route::get('{currency}', 'CurrencyController@show'); 
+            Route::get('{language}', 'LanguageController@show'); 
         }); 
 
         //////////reasons
         Route::prefix('reasons')->middleware('CanRead:reason')->group(function() {
             Route::get('/', 'ReasonController@index'); 
             Route::group(['middleware' => ['CanWrite:reason']], function(){
-                    Route::get('create', 'ReasonController@create'); 
-                    Route::get('{reason}/edit', 'ReasonController@edit');
-                }); 
-                Route::get('{reason}', 'ReasonController@show'); 
+                Route::get('create', 'ReasonController@create'); 
+                Route::get('{reason}/edit', 'ReasonController@edit');
+            }); 
+            Route::get('{reason}', 'ReasonController@show'); 
         });
 
         //////////staff
