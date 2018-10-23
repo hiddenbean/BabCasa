@@ -21,13 +21,9 @@ class Attribute extends Model
         return ($attribute->reference == ' '|| $attribute->reference == '') ? self::attributeLangs()->where('reference','!=',' ')->withTrashed()->first() : $attribute;
     }
     
-    public function attributeValue()
+    public function attributeValues()
     {
-        return $this->hasOne('App\AttributeValue');
-    }
-    public function attributeLangNotEmpty()
-    {
-        return $this->attributeLangs()->where('reference','!=',' ')->withTrashed();
+        return $this->hasMany('App\AttributeValue');
     }
 
     public function categories()

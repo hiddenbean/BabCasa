@@ -7,6 +7,14 @@
     <link href="{{ asset('plugins/switchery/css/switchery.min.css') }}" rel="stylesheet" type="text/css" media="screen" />
 @stop
 @section('content')
+
+@if (isset(Session::get('messages')['error']))
+    <div class="alert alert-danger" role="alert">
+        <button class="close" data-dismiss="alert"></button>
+        <strong>Error: </strong>{{ Session::get('messages')['error'] }}
+    </div>
+@endif
+
 <!-- breadcrumb start -->
 <div class="container-fluid container-fixed-lg ">
     <div class="row">
@@ -50,6 +58,9 @@
                                     <h5>
                                         Name In
                                     </h5>
+                                    <p>
+                                        {{ $category->categoryLang()->reference }}
+                                    </p>
                                 </div>
                             </div>
                             <div class="row">
@@ -63,7 +74,7 @@
                                         Description
                                     </h5>
                                     <p>
-                                        {!!$category->categoryLang()->description !!}
+                                        {!! $category->categoryLang()->description !!}
                                     </p>
                                 </div>
                             </div>
@@ -73,7 +84,7 @@
                                         Parent
                                     </h5>
                                     <p>
-                                        @if(isset($category->category)) <a href="{{url('categories/'.$category->category->id)}}"> {{$category->category->categoryLang()->reference}}</a>@else    -@endif
+                                       @if(isset($category->category)) <a href="{{url('categories/'.$category->category->id)}}"> {{$category->category->categoryLang()->reference}}</a>@else  -  @endif
                                     </p>
                                 </div>
                             </div>

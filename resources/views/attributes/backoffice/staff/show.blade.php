@@ -52,22 +52,18 @@
                                     If you have any difficulties please <a href='#'>contact the support</a></p>"> 
                                 <i class="fas fa-question-circle fa-xs"></i>
                             </a>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <span class="hint-text">Français : </span>
-                                </div>
-                                <div class="col-md-9">
-                                    {!!$attribute->attributeLang()->reference!!}
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <span class="hint-text">English : </span>
-                                </div>
-                                <div class="col-md-9">
-                                    {!!$attribute->attributeLang()->reference!!}
-                                </div>
-                            </div>
+                            @foreach($languages as $language)
+                                @if(isset($attribute->attributeLangs->where('lang_id',$language->id)->first()->reference)&& !empty($attribute->attributeLangs->where('lang_id',$language->id)->first()->reference))
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <span class="hint-text">{{$language->name}} : </span>
+                                        </div>
+                                        <div class="col-md-9">
+                                            {{$attribute->attributeLangs->where('lang_id',$language->id)->first()->reference}}
+                                        </div>
+                                    </div>
+                                @endif
+                            @endforeach
                         </div>
                         <div class="col-md-6">
                             <h5 class="no-margin">Type </h5>
@@ -89,22 +85,19 @@
                                     If you have any difficulties please <a href='#'>contact the support</a></p>"> 
                                 <i class="fas fa-question-circle fa-xs"></i>
                             </a>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <span class="hint-text">Français : </span>
-                                </div>
-                                <div class="col-md-9">
-                                    {!!$attribute->attributeLang()->description!!}
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <span class="hint-text">English : </span>
-                                </div>
-                                <div class="col-md-9">
-                                    {!!$attribute->attributeLang()->description!!}
-                                </div>
-                            </div>
+                            @foreach($languages as $language)
+                                @if(isset($attribute->attributeLangs->where('lang_id',$language->id)->first()->reference)&& !empty($attribute->attributeLangs->where('lang_id',$language->id)->first()->description))
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <span class="hint-text">{{$language->name}} : </span>
+                                        </div>
+                                        <div class="col-md-9">
+                                            {!!$attribute->attributeLangs->where('lang_id',$language->id)->first()->description!!}
+                                        </div>
+                                    </div>
+                                @endif
+                            @endforeach
+                           
                         </div>
                     </div>
                     <div class="row">

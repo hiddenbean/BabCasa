@@ -122,6 +122,12 @@ class AttributeController extends Controller
     {
         $data['attribute'] = Attribute::withTrashed()->find($attribute);
         $data['categories'] = Category::all();
+        $data['languages'] = Language::all();
+        $data['products']=[];
+        foreach($data['attribute']->attributeValues()->distinct()->get(['product_id']) as $attributeValue)
+        {
+            array_push($data['products'], $attributeValue->product);
+        }
         return view('attributes.backoffice.staff.show',$data);
     }
 

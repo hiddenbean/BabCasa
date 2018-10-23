@@ -44,7 +44,7 @@
                 </a>
             </div>
         </div>
-        <form action="{{url('details')}}" method="POST" id="form">
+        <form action="{{url('tags')}}" method="POST" id="form">
         {{ csrf_field() }}
         <div class="card-body">
             <div class="row">
@@ -55,9 +55,9 @@
                                 <div class="col-md-12">
                                     <div class="form-group form-group-default required">
                                         <label>Tag name</label>
-                                        <input type="text" class="form-control" name="value">
-                                        <label class="error" for="value">
-                                            {{ $errors->has('value') ? $errors->first('value') : "" }}
+                                        <input type="text" class="form-control" name="tag">
+                                        <label class="error" for="tag">
+                                            {{ $errors->has('tag') ? $errors->first('tag') : "" }}
                                         </label> 
                                     </div>
                                 </div>
@@ -145,12 +145,12 @@
     <script type="text/javascript" src="{{ asset('plugins/multiselect/js/multiselect.min.js') }}"></script>
     <script>
     $("#save").click( function () {
-        $('#form').attr('action', '{{ url('details') }}');
+        $('#form').attr('action', '{{ url('tags') }}');
         $('#form').submit();
     });
 
     $("#save_new").click( function () {
-        $('#form').attr('action', '{{ url('details')."/create" }}');
+        $('#form').attr('action', '{{ url('tags')."/create" }}');
         $('#form').submit();
     });
 

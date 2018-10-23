@@ -19,9 +19,9 @@ class DetailValue extends Model
 
 	}
 
-	public function prodcut()
+	public function product()
 	{
-		return $this->belongsTo('App\Products');
+		return $this->belongsTo('App\Product');
 	}
 
 	public function detail()

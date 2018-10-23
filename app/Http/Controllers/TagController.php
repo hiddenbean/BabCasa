@@ -36,6 +36,7 @@ class TagController extends Controller
     public function index()
     {
         $data['tags'] = Tag::all();
+        // return $data['tags'][0]->tagLang();
         return view('tags.backoffice.staff.index', $data);
     }
     
@@ -60,16 +61,41 @@ class TagController extends Controller
     {
         $this->validateRequest($request);
 
+        $trashedTagLang = TagLang::onlyTrashed()->where('tag', $request->tag)->first();
+        if(isset($trashedTagLang))
+        {
+            return redirect('tags/'.$trashedTagLang->Tag_id);
+        }
+
         $tag = new Tag();
         $tag->save(); 
 
-        $tagLang = new TagLang();
-        $tagLang->tag = $request->tag; 
-        $tagLang->tag_id = $tag->id; 
-        $tagLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
-        $tagLang->save();
+         // Add LANGUAGES 
+         foreach(Language::all() as $lang)
+         {
+            $tagLang = new TagLang();
+            $tagLang->tag = ($lang->id == $request->language) ? $request->tag : ""; 
+            $tagLang->tag_id = $tag->id; 
+            $tagLang->lang_id = $lang->id;
+            $tagLang->save();
+         }
         
-        return redirect('tags');
+        return  $tag;
+    }
+     /**
+     * 
+     */
+    public function storeWithRedirect(Request $request) {
+        $tag = self::store($request);
+        return redirect('tags/'.$tag->id);
+    }
+
+    /**
+     * 
+     */
+    public function storeAndNew(Request $request) {
+        $tag = self::store($request);
+        return redirect('tags/create');
     }
 
     /**
@@ -80,7 +106,10 @@ class TagController extends Controller
      */
     public function show($tag)
     {
-        return view('tags.backoffice.staff.show');
+        $data['tag'] = Tag::findOrFail($tag);
+        $data['languages'] = Language::all();
+        $data['products'] = $data['tag']->products;
+        return view('tags.backoffice.staff.show',$data);
     }
     
     /**
@@ -91,9 +120,8 @@ class TagController extends Controller
      */
     public function edit($tag)
     {
-
-        $data['tag'] = Tag::find($tag);
-        return view('tags.backoffice.edit',$data);
+        $data['tag'] = Tag::findOrFail($tag);
+        return view('tags.backoffice.staff.edit',$data);
     }
 
     /**
@@ -103,14 +131,14 @@ class TagController extends Controller
      * @param  \App\tag  $tag
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $tag)
+    public function update(Request $request, $Tag)
     {
-        $this->validateRequest($request);
-        
-        $tag = Tag::find($tag);
-        $tagLangId = $tag->tagLang->first()->id;
-
-        $tagLang = TagLang::find($tagLangId);
+        $request->validate([
+            'tag' => 'required|unique:tag_langs,tag,'.$Tag.',tag_id',
+            ]);
+        $tag = Tag::findOrFail($Tag);
+        $tagLangId = $tag->tagLang()->id;
+        $tagLang = TagLang::findOrFail($tagLangId);
         $tagLang->tag = $request->tag; 
         $tagLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
         $tagLang->save(); 
@@ -128,8 +156,74 @@ class TagController extends Controller
     {
         // récupérer photo
         $tag = Tag::findOrFail($tag);
+        if(isset($tag->product[0]))
+        {
+            $messages['error'] = 'tag can\'t be deleted it has products !!';
+            return  redirect('tags')
+                        ->with('messages',$messages);
+        }
         $tag->delete();
-        return redirect('tags');
+        $messages['success'] = 'tag has been deleted successfuly !!';
+        return redirect('tags')
+                    ->with('messages', $messages);
+
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\tag  $tag
+     * @return \Illuminate\Http\Response
+     */
+    public function multiDestroy(Request $request)
+    {
+        $request->validate([
+            'tags' => 'required',
+        ]);
+        $e=$s=0;
+        $messages = [];
+        foreach($request->tags as $tag)
+        {
+            $tag = Tag::findOrFail($tag);
+            if(!isset($tag->products[0])) {
+                $s++;
+                $tag->delete();
+                $messages['success'] = $s. ($s == 1 ? ' tag' :' tags') .' has been deleted successfuly';
+            }
+            else 
+            {
+                $e++;
+                $messages['error'] = $e . ($e == 1 ? ' tag' : ' tags') . ' can\'t be deleted it has a relation with products';
+            }
+        }
+
+        return redirect('tags')
+                        ->with('messages', $messages);
+    }
+
+    public function restore($tag)
+    {
+        $tag = Tag::onlyTrashed()->where('id', $tag)->first();
+        $tag->restore();
+        $messages['success'] = 'tag has been restored successfuly !!';
+        return redirect('tags')->with('messages',$messages);
+    }
+
+    public function multiRestore(Request $request)
+    {
+        $request->validate([
+            'tags' => 'required',
+        ]);
+        $s=0;
+        $messages = [];
+        foreach ($request->tags as  $tag)
+        {
+            $tag = Tag::onlyTrashed()->where('id', $tag)->first();
+            $tag->restore();
+            $s++;
+            $messages['success'] = $s. ($s == 1 ? ' tag' :' tags') .' has been restored successfuly';
+        }
+        return redirect('tags')->with('messages',$messages);
     }
 
     /**
@@ -150,9 +244,10 @@ class TagController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function translations()
+    public function translations($tag)
     {
         $data['languages'] = Language::all();
+        $data['tag'] = Tag::findOrFail($tag);
         return view('tags.backoffice.staff.translations', $data);
     }
     

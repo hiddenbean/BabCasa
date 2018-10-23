@@ -56,7 +56,7 @@
                     <tbody>
                         @foreach($tags as $tag)  
                             <tr class="order-progress"  >
-                                <td class="v-align-middle"><strong> {{$tag->tagLang->first()->tag}} </strong></td>  
+                                <td class="v-align-middle"><strong> {{$tag->tagLang()->tag}} </strong></td>  
                                 @if (auth()->guard('staff')->user()->can('write','tag'))               
                                 <td class="v-align-middle text-center">
                                     <a href="{{url('tags/'.$tag->id.'/edit')}}" class="btn btn-transparent"><i class="fa fa-pencil"></i></a>

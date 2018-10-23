@@ -60,16 +60,14 @@
                                             Name in
                                         </h5>
                                     </div>
-                                </div>
-                                <div class="row">
                                     @foreach($languages as $key => $language)
-                                    <div class="col-md-6">
-                                        <div class="form-group form-group-default">
-                                            <label> {{$language->name}}</label>
-                                            <input type="text" class="form-control"  name="references[]"  value="@if(isset($category->categoryLangs->where('lang_id',$language->id)->first()->reference)){{$category->categoryLangs->where('lang_id',$language->id)->first()->reference}}@endif">
+                                        <div class="col-md-6">
+                                            <div class="form-group form-group-default">
+                                                <label> {{$language->name}}</label>
+                                                <input type="text" class="form-control"  name="references[]"  value="@if(isset($category->categoryLangs->where('lang_id',$language->id)->first()->reference)){{$category->categoryLangs->where('lang_id',$language->id)->first()->reference}}@endif">
                                                 <input type="hidden" name="languages_id[]" value="{{$language->id}}">
+                                            </div>
                                         </div>
-                                    </div>
                                     @endforeach
                                 </div>
                             </div>
@@ -144,7 +142,7 @@
                                             <button id="onClick" type="button" class="btn btn-block"><i class="fas fa-check"></i> <strong>save</strong></button>
                                         </div>
                                         <div class="col-md-6">
-                                            <button class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>cancel</strong></button>
+                                            <a href="{{ url(url()->current()) }}" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>cancel</strong></a>
                                         </div>
                                     </div>
                                 </div>
