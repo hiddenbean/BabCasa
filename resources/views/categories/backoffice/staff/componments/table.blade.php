@@ -1,15 +1,15 @@
 @if (isset(Session::get('messages')['success']))
-<div class="alert alert-success" role="alert">
-    <button class="close" data-dismiss="alert"></button>
-    <strong>Success: </strong>{{ Session::get('messages')['success'] }}
-</div>
+    <div class="alert alert-success" role="alert">
+        <button class="close" data-dismiss="alert"></button>
+        <strong>Success: </strong>{{ Session::get('messages')['success'] }}
+    </div>
 @endif
 @if (isset(Session::get('messages')['error']))
-<div class="alert alert-danger" role="alert">
-    <button class="close" data-dismiss="alert"></button>
-    <strong>Error: </strong>{{ Session::get('messages')['error'] }}
-</div>
-
+    <div class="alert alert-danger" role="alert">
+        <button class="close" data-dismiss="alert"></button>
+        <strong>Error: </strong>{{ Session::get('messages')['error'] }}
+    </div>
+    
 @endif
 <div class="card">
     <div class="card-header">

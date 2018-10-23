@@ -249,7 +249,7 @@
             </ul>
         </li>
         <li>
-            <a href="#">
+            <a href="javascript:;">
                 <span class="title">Affiliates</span>
                 <span class="arrow"></span>
             </a>
@@ -258,11 +258,11 @@
             </span>
             <ul class="sub-menu">
                 <li>
-                    <a href="#">Add Affiliate</a>
+                    <a href="{{ url('partners/create') }}">Add Affiliate</a>
                     <span class="icon-thumbnail"><i class="fas fa-user-plus"></i></span>
                 </li>
                 <li>
-                    <a href="#">Affiliates Accounts</a>
+                    <a href="{{ url('partners') }}">Affiliates Accounts</a>
                     <span class="icon-thumbnail"><i class="fas fa-list-alt"></i></span>
                 </li>
             </ul>

@@ -20,7 +20,8 @@ class CreateAttributeValuesTable extends Migration
             $table->double('price')->nullable();
             $table->integer('product_id');
             $table->integer('attribute_id');
-            $table->integer('attribute_value_id')->nullable();;
+            $table->integer('attribute_value_id')->nullable();
+            $table->string('attribute_value_type')->nullable();
             $table->timestamps();
         });
     }

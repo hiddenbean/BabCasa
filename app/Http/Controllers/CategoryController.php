@@ -87,10 +87,11 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $this->validateRequest($request);
-        if($this->checkReference($request))
+        $reference_check = $this->checkReference($request);
+        if($reference_check)
         {
             $messages['error'] = $request->reference.' already exists on the same level.';
-            return redirect('categories')
+            return redirect('categories/'.$reference_check)
                                     ->with('messages', $messages);
         }
         $category = new Category();
@@ -134,20 +135,25 @@ class CategoryController extends Controller
                 }
             }
         }
-
-        foreach($request->details as $detail)
+        if($request->details)
         {
-            if($detail != null)
+            foreach($request->details as $detail)
             {
-                $category->details()->attach($detail);
+                if($detail != null)
+                {
+                    $category->details()->attach($detail);
+                }
             }
         }
 
-        foreach($request->attribute as $attr)
+        if($request->attribute)
         {
-            if($attr != null)
+            foreach($request->attribute as $attr)
             {
-                $category->attributes()->attach($attr);
+                if($attr != null)
+                {
+                    $category->attributes()->attach($attr);
+                }
             }
         }
         
@@ -174,19 +180,14 @@ class CategoryController extends Controller
         {
             $cats = Category::withTrashed()->where('category_id',NULL)->get();
         }
-        $find = false;
         if(isset($cats[0]))
         {
             foreach($cats as $cat)
             {
-                if($cat->categoryLang()->reference == $request->reference) $find=true;
-            }
-            if($find) 
-            {
-                return  $find;
+                $cat->categoryLang()->reference == $request->reference ? $found = $cat->id : $found = false;
             }
         }
-        return $find;
+        return $found;
     }
 
     /**
@@ -224,6 +225,7 @@ class CategoryController extends Controller
             $array = $this->toArray($array,$category, $category['level']); 
         }
         $data['sub_categories'] = $array;
+        $data['products'] = $data['category']->products;
         return view('categories.backoffice.staff.show',$data);
     }
     

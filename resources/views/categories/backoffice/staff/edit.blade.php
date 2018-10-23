@@ -18,7 +18,7 @@
                         <a href="{{ url('/categories') }}">categories</a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="{{ url('/categories/1') }}">ID : 1</a>
+                        <a href="{{ url('/categories/1') }}">ID : {{ $category->id }}</a>
                     </li>
                     <li class="breadcrumb-item active">
                         Edit
@@ -230,8 +230,8 @@
                                         <div class="col-md-12 scroll b-t b-b b-dashed b-grey p-t-5 p-b-5">
                                             <div class="list-group list-group-root well list-categories">
                                                 <div class="list-group">
-                                                    @foreach($categories as $category)
-                                                        <a href="#" data-category-id="{{ $category->id }}" class="list-group-item list-group-item-action">{{ $category->level }}{{ $category->categoryLang()->reference }}</a>
+                                                    @foreach($categories as $cat)
+                                                        <a href="#" data-category-id="{{ $cat->id }}" class="list-group-item list-group-item-action">{{ $cat->level }}{{ $cat->categoryLang()->reference }}</a>
                                                     @endforeach
                                                 </div>
                                             </div>
