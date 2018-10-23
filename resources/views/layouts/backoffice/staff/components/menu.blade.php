@@ -116,11 +116,7 @@
                     <span class="icon-thumbnail"><i class="fa fa-flag"></i></span>
                 </li>
                 <li>
-                    <a href="javascript:;">Currencies</a>
-                    <span class="icon-thumbnail"><i class="fa fa-dollar"></i></span>
-                </li>
-                <li>
-                    <a href="javascript:;">Languages</a>
+                    <a href="{{url('languages')}}">Languages</a>
                     <span class="icon-thumbnail"><i class="fas fa-language"></i></span>
                 </li>
             </ul>
