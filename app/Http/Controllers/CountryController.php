@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App;
 use App\Country;
+use App\Language;
 use App\CodeCountry;
 use Illuminate\Http\Request;
 
@@ -11,8 +12,8 @@ class CountryController extends Controller
 {
     public function __construct()
     {
-         $this->middleware('auth:staff');
-         $this->middleware('CanRead:country'); //->except('index','create');
+        $this->middleware('auth:staff');
+        $this->middleware('CanRead:country'); //->except('index','create');
     }
     /**
      * Get a validator for an incoming registration request.
@@ -38,7 +39,7 @@ class CountryController extends Controller
     public function index()
     {
         $data['countries'] = Country::all();
-        return view('countries.backoffice.staff.index',$data);
+        return view('countries.backoffice.staff.index', $data);
     }
     
     /**
@@ -234,7 +235,6 @@ class CountryController extends Controller
      */
     public function trash()
     {
-        $data['details'] = Detail::onlyTrashed()->get();
-        return view('details.backoffice.staff.trash', $data);
+        return view('countries.backoffice.staff.trash');
     }
 }

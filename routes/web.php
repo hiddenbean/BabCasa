@@ -84,7 +84,7 @@ function()
                     Route::get('translations','TagController@translations');
                 });
             });
-        });
+        });  
 
         //////////attributes
         Route::prefix('attributes')->middleware('CanRead:attribute')->group(function() {
@@ -100,12 +100,16 @@ function()
 
         //////////countries
         Route::prefix('countries')->middleware('CanRead:country')->group(function() {
-            Route::get('/', 'CountryController@index'); 
+            Route::get('/', 'CountryController@index');
+            Route::get('trash', 'CountryController@trash');
             Route::group(['middleware' => ['CanWrite:country']], function(){
-                    Route::get('create', 'CountryController@create'); 
-                    Route::get('{country}/edit', 'CountryController@edit');
-                }); 
-                Route::get('{country}', 'CountryController@show'); 
+                Route::get('create', 'CountryController@create');
+                Route::prefix('{country}')->group(function () {
+                    Route::get('edit', 'CountryController@edit');
+                    Route::get('translations', 'CountryController@translations');
+                });
+            }); 
+            Route::get('{country}', 'CountryController@show');
         });
 
         //////////countries
