@@ -14,9 +14,10 @@ class CountrySeeder extends Seeder
     {
         DB::table('countries')->insert([
             'name' => 'Morocco',
-            'code_alpha' => 'MA',
-            'code' => '+212',
-            'currency_id' =>1,
+            'alpha_2_code' => 'MA',
+            'phone_code' => '+212',
+            'currency' =>'mad',
+            'currency_symbole' =>'$',
         ]);
     }
 }

@@ -15,7 +15,10 @@
                         <a href="{{ url('/') }}">DASHBOARD</a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="{{ url('/tags') }}">Countries</a>
+                        <a href="{{ url('/countries') }}">Countries</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="{{ url('/countries/'.$country->id) }}">ID :{{ $country->id}}</a>
                     </li>
                     <li class="breadcrumb-item active">
                         Add 
@@ -44,7 +47,7 @@
                 </a>
             </div>
         </div>
-        <form action="{{url('details')}}" method="POST" id="form">
+        <form action="{{url('countries/'.$country->id)}}" method="POST" id="form">
         {{ csrf_field() }}
         <div class="card-body">
             <div class="row">
@@ -55,9 +58,9 @@
                                 <div class="col-md-12">
                                     <div class="form-group form-group-default required">
                                         <label>Country name</label>
-                                        <input type="text" class="form-control" name="value">
-                                        <label class="error" for="value">
-                                            {{ $errors->has('value') ? $errors->first('value') : "" }}
+                                        <input type="text" class="form-control" name="name" value="{{ $country->name}}">
+                                        <label class="error" for="name">
+                                            {{ $errors->has('name') ? $errors->first('name') : "" }}
                                         </label> 
                                     </div>
                                 </div>
@@ -66,18 +69,18 @@
                                 <div class="col-md-6">
                                     <div class="form-group form-group-default required">
                                         <label>Alpha 2 code</label>
-                                        <input type="text" class="form-control" name="value">
-                                        <label class="error" for="value">
-                                            {{ $errors->has('value') ? $errors->first('value') : "" }}
+                                        <input type="text" class="form-control" name="alpha_2_code" value="{{ $country->alpha_2_code}}">
+                                        <label class="error" for="alpha_2_code">
+                                            {{ $errors->has('alpha_2_code') ? $errors->first('alpha_2_code') : "" }}
                                         </label> 
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group form-group-default required">
                                         <label>phone code</label>
-                                        <input type="text" class="form-control" name="value">
-                                        <label class="error" for="value">
-                                            {{ $errors->has('value') ? $errors->first('value') : "" }}
+                                        <input type="text" class="form-control" name="phone_code" value="{{ $country->phone_code}}">
+                                        <label class="error" for="phone_code">
+                                            {{ $errors->has('phone_code') ? $errors->first('phone_code') : "" }}
                                         </label> 
                                     </div>
                                 </div>
@@ -91,18 +94,18 @@
                                 <div class="col-md-8">
                                     <div class="form-group form-group-default required">
                                         <label>Name</label>
-                                        <input type="text" class="form-control" name="value">
-                                        <label class="error" for="value">
-                                            {{ $errors->has('value') ? $errors->first('value') : "" }}
+                                        <input type="text" class="form-control" name="currency" value="{{ $country->currency}}">
+                                        <label class="error" for="currency">
+                                            {{ $errors->has('currency') ? $errors->first('currency') : "" }}
                                         </label> 
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group form-group-default required">
                                         <label>Symbole</label>
-                                        <input type="text" class="form-control" name="value">
-                                        <label class="error" for="value">
-                                            {{ $errors->has('value') ? $errors->first('value') : "" }}
+                                        <input type="text" class="form-control" name="currency_symbole" value="{{ $country->currency_symbole}}">
+                                        <label class="error" for="currency_symbole">
+                                            {{ $errors->has('currency_symbole') ? $errors->first('currency_symbole') : "" }}
                                         </label> 
                                     </div>
                                 </div>
@@ -130,39 +133,41 @@
                                         </a>
                                     </div>
                                 </div>
-                                <div class="card-body">
+                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            Status : 
+                                            Status : <strong>@if($country->deleted_at == NULL) Publish @else Removed @endif</strong>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            Creation date : 
+                                            Creation date : <strong>{{$country->created_at}}</strong>
                                         </div>
                                     </div>
+                                    @if($country->updated_at != NULL)
                                     <div class="row">
                                         <div class="col-md-12">
-                                            Last update :
+                                            Last update : <strong>{{$country->updated_at}}</strong>
                                         </div>
                                     </div>
+                                    @endif
+                                    @if($country->deleted_at != NULL)
                                     <div class="row">
                                         <div class="col-md-12">
-                                            Remove date : 
+                                            Remove date : <strong>{{$country->deleted_at}}</strong>
                                         </div>
                                     </div>
-                                    <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
+                                    @endif
+                                    <<div class="row b-t b-dashed b-grey m-t-20 p-t-20">
                                         <div class="col-md-6">
-                                            <a href="" class="btn btn-block "><i class="fas fa-pen"></i> <strong>Edit</strong></a>                                    
+                                        <button id="onClick" class="btn btn-block"><i class="fas fa-pen"></i> <strong>Edit</strong></button   >                                    
                                         </div>
+
                                         <div class="col-md-6">
-                                            <a  href="" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
-                                            <form action="" method="POST">
-                                                {{ csrf_field() }}
-                                                <button class="btn btn-block btn-transparent-danger" type="submit"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></button>
-                                            </form>
+                                            <a  href="{{route('delete.country',['country'=>$country->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
+                                        
                                         </div>
-                                    </div>
+                            </div>
                                 </div>
                             </div>
                         </div>
@@ -181,12 +186,12 @@
     <script type="text/javascript" src="{{ asset('plugins/multiselect/js/multiselect.min.js') }}"></script>
     <script>
     $("#save").click( function () {
-        $('#form').attr('action', '{{ url('details') }}');
+        $('#form').attr('action', '{{ url('countries') }}');
         $('#form').submit();
     });
 
     $("#save_new").click( function () {
-        $('#form').attr('action', '{{ url('details')."/create" }}');
+        $('#form').attr('action', '{{ url('countries')."/create" }}');
         $('#form').submit();
     });
 

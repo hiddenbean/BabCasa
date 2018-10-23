@@ -112,7 +112,7 @@
             </span>
             <ul class="sub-menu">
                 <li>
-                    <a href="javascript:;">Countries</a>
+                    <a href="{{url('countries')}}">Countries</a>
                     <span class="icon-thumbnail"><i class="fa fa-flag"></i></span>
                 </li>
                 <li>

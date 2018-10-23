@@ -171,14 +171,6 @@ function()
                 Route::get('{profile}', 'profileController@show'); 
         }); 
 
-                //////////countries
-                Route::prefix('countries')->group(function() {
-                    Route::get('/', 'CountryController@index'); 
-                    Route::get('create', 'CountryController@create'); 
-                    Route::get('{country}', 'CountryController@show'); 
-                    Route::get('{country}/edit', 'CountryController@edit'); 
-                });
-
     Route::domain('partner.babcasa.com')->group(function (){
         Route::get('{product}/edit', 'ProductController@edit'); 
     });
@@ -481,7 +473,9 @@ Route::prefix('discounts')->group(function() {
 
         Route::post('/', 'CountryController@storeWithRedirect');
         Route::post('/create', 'CountryController@storeAndNew'); 
+        Route::post('/multi-restore', 'CountryController@multiRestore'); 
         Route::post('{country}', 'CountryController@update'); 
+        Route::post('{tag}/restore', 'CountryController@restore');
         Route::delete('{country}', 'CountryController@destroy')->name('delete.country');
         Route::delete('delete/multiple', 'CountryController@multiDestroy')->name('delete.countries');
     }); 
