@@ -138,11 +138,16 @@ function()
             Route::get('{reason}', 'ReasonController@show'); 
         });
 
-        //////////staff
+        // Staff login page
         Route::get('/sign-in', 'Auth\StaffLoginController@showLoginForm');
+
+        // Staff logout link 
         Route::get('/logout', 'Auth\StaffLoginController@logout');
+        
+        // Staff managment pages
         Route::prefix('staff')->middleware('CanRead:staff')->group(function() {
-            Route::get('/', 'StaffController@index'); 
+            Route::get('/', 'StaffController@index');
+            Route::get('/trash', 'StaffController@trash');
             Route::group(['middleware' => ['CanWrite:staff']], function(){
                     Route::get('create', 'StaffController@create'); 
                     Route::get('{staff}/edit', 'StaffController@edit');

@@ -141,9 +141,9 @@
                                     <div class="row">
                                         <div class="col-md-5">
                                             <select id="lstview2" class="form-control" size="13" multiple="multiple">
-                                                 @foreach($attributes as $attribute)
+                                                @foreach($attributes as $attribute)
                                                 <option value="{{$attribute->id}}">{{$attribute->attributeLang()->reference}}</option>
-                                               @endforeach
+                                                @endforeach
                                             </select>
                                         </div>
                                         <div class="col-md-2">
@@ -221,9 +221,9 @@
                                 </div>
                                 <div class="card-body">
                                     <select class="cs-select cs-skin-slide" name="language" data-init-plugin="cs-select">
-                                         @foreach($languages as $language)
-                                                <option value="{{$language->id}}">{{$language->name}}</option>
-                                               @endforeach
+                                        @foreach($languages as $language)
+                                            <option value="{{$language->id}}">{{$language->name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -288,7 +288,7 @@
                 </div>
             </div>
         </div>
-        </foem>
+        </form>
     </div>
 </div>
 @endsection
