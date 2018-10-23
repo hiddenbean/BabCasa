@@ -25,9 +25,10 @@ class CountryController extends Controller
     {
         $request->validate([
             'name' => 'required|unique:countries,name,null,id,deleted_at,null',
-            'code_alpha' => 'required',
-            'code' => 'required',
-            'currency_id' => 'required',
+            'alpha_2_code' => 'required',
+            'phone_code' => 'required',
+            'currency' =>'required',
+            'currency_symbole' =>'required',
         ]);
     }
 
@@ -70,9 +71,10 @@ class CountryController extends Controller
 
         $country = new Country();
         $country->name = $request->name;
-        $country->code_alpha = $request->code_alpha;
-        $country->code = $request->code;
-        $country->currency_id = $request->currency_id;
+        $country->alpha_2_code = $request->alpha_2_code;
+        $country->phone_code = $request->phone_code;
+        $country->currency = $request->currency;
+        $country->currency_symbole = $request->currency_symbole;
         $country->save(); 
         
         return $country;
@@ -82,7 +84,7 @@ class CountryController extends Controller
      */
     public function storeWithRedirect(Request $request) {
         $country = self::store($request);
-        return redirect('countriies/'.$country->id);
+        return redirect('countries/'.$country->id);
     }
 
     /**
@@ -90,7 +92,7 @@ class CountryController extends Controller
      */
     public function storeAndNew(Request $request) {
         $country = self::store($request);
-        return redirect('countriies/create');
+        return redirect('countries/create');
     }
 
     /**
@@ -102,7 +104,7 @@ class CountryController extends Controller
     public function show($Country)
     {
         
-        $data['Country'] = Country::find($Country);
+        $data['country'] = Country::withTrashed()->find($Country);;
         return view('countries.backoffice.staff.show',$data);
     }
     
@@ -130,14 +132,18 @@ class CountryController extends Controller
     {
         $request->validate([
             'name' => 'required|unique:countries,name,'.$country,
-            'code_alpha' => 'required',
-            'code' => 'required|unique:countries,code,'.$country,
+            'alpha_2_code' => 'required|unique:countries,alpha_2_code,'.$country,
+            'phone_code' => 'required',
+            'currency' =>'required',
+            'currency_symbole' =>'required',
         ]);
         
         $country = Country::find($country);
         $country->name = $request->name;
-        $country->code_alpha = $request->code_alpha;
-        $country->code = $request->code; 
+        $country->alpha_2_code = $request->alpha_2_code;
+        $country->phone_code = $request->phone_code;
+        $country->currency = $request->currency;
+        $country->currency_symbole = $request->currency_symbole;
         $country->save();
         
         
@@ -173,7 +179,6 @@ class CountryController extends Controller
     public function multiDestroy(Request $request)
     {
         
-
         $request->validate([
             'countries' => 'required',
         ]);
@@ -182,8 +187,6 @@ class CountryController extends Controller
         
         foreach($request->countries as $Country)
         {
-            $cantDelete = false;
-
             $country = Country::findOrFail($Country);
     
             if(!isset($country->phones[0]) || !isset($country->addresses[0])) 
@@ -213,7 +216,7 @@ class CountryController extends Controller
     public function multiRestore(Request $request)
     {
         $request->validate([
-            'details' => 'required',
+            'countries' => 'required',
         ]);
         $s=0;
         $messages = [];
@@ -235,6 +238,7 @@ class CountryController extends Controller
      */
     public function trash()
     {
-        return view('countries.backoffice.staff.trash');
+        $data['countries'] = Country::onlyTrashed()->get();
+        return view('countries.backoffice.staff.trash',$data);
     }
 }

@@ -31,12 +31,12 @@
             <div class="pull-right">
                 <div class="col-xs-12">
                     <div class="row">
-                        @if (auth()->guard('staff')->user()->can('write','detail'))
+                        @if (auth()->guard('staff')->user()->can('write','country'))
                             <div class="col-md-3 text-right no-padding">
-                                <a href="{{url('tags/create')}}" class="btn btn-transparent"><i class="fas fa-plus fa-sm"></i> <strong>Add</strong></a>
+                                <a href="{{url('countries/create')}}" class="btn btn-transparent"><i class="fas fa-plus fa-sm"></i> <strong>Add</strong></a>
                             </div>
                             <div class="col-md-3 text-right no-padding">
-                                <a href="{{url('tags/trash')}}" class="btn btn-transparent-danger"><i class="fas fa-trash-alt fa-sm"></i> <strong>Trash</strong></a>
+                                <a href="{{url('countries/trash')}}" class="btn btn-transparent-danger"><i class="fas fa-trash-alt fa-sm"></i> <strong>Trash</strong></a>
                             </div> 
                         @endif
                         <div class="col-md-6">
@@ -49,12 +49,12 @@
             
         </div>
         <div class="card-body">
-            <form action="" method="post">
+            <form action="{{route('delete.countries')}}" method="post">
             {{ method_field('DELETE') }}
             {{ csrf_field() }}
             <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
                 <thead>
-                @if (auth()->guard('staff')->user()->can('write','detail'))
+                @if (auth()->guard('staff')->user()->can('write','country'))
                     <th class="text-center" style="width:35px"><button class="btn btn-link" type="submit"><i class="fas fa-trash-alt"></i></button></th>
                 @endif
                     <th style="width:62px"></th>
@@ -66,9 +66,33 @@
                     <th style="width:100px">Currency Symbole</th>
                 </thead>
         
-                <tbody>                               
+                <tbody>  
+                @foreach($countries as $country)
+                <tr> 
+                 @if (auth()->guard('staff')->user()->can('write','country'))
+                        <td class="v-align-middle p-l-5 p-r-5">
+                            <div class="checkbox no-padding no-margin text-center">
+                                <input type="checkbox" value="{{$country->id}}" name="countries[]" id="checkbox{{$country->id}}">
+                                <label for="checkbox{{$country->id}}" class="no-padding no-margin"></label>
+                            </div>
+                        </td>
+                       
+                        <td class="v-align-middle text-center p-l-5 p-r-5">
+                            <a href="{{url('countries/'.$country->id.'/edit')}}"><i class="fas fa-pen fa-sm"></i> <strong>Edit</strong></a>
+                            </td> 
+                         <td class="v-align-middle text-center p-l-5 p-r-5">
+                        <a href="{{route('delete.country',['country'=>$country->id])}}" data-method="DELETE"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="text-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a></td>
+                     @endif  
+                      <td class="v-align-middle"><a href="{{url('countries/'.$country->id)}}"><strong>{{$country->name}}</strong></a> </td>
+                        <td class="v-align-middle">{{$country->alpha_2_code}}</td> 
+                        <td class="v-align-middle">{{$country->phone_code}}</td> 
+                        <td class="v-align-middle">{{$country->currency}}</td> 
+                        <td class="v-align-middle">{{$country->currency_symbole}}</td> 
+                </tr>
+                @endforeach                           
                 </tbody>
             </table>
+            </form>
         </div>
     </div> 
     

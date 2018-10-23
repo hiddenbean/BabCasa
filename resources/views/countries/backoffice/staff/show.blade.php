@@ -16,10 +16,10 @@
                     <a href="{{ url('/') }}">DASHBOARD</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a href="{{ url('/tags') }}">Countries</a>
+                    <a href="{{ url('/countries') }}">Countries</a>
                 </li>
                 <li class="breadcrumb-item active">
-                    ID : 1
+                    ID : {{$country->id}}
                 </li>
             </ol>
         </div>
@@ -33,7 +33,7 @@
             <div class="card ">
                 <div class="card-header">
                     <div class="card-title">
-                        Country id : 1
+                        Country id : {{$country->id}}
                     </div>
                 </div>
                 <div class="card-body">
@@ -46,7 +46,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            xx
+                            {{$country->name}}
                         </div>
                     </div>
                     <div class="row">
@@ -58,7 +58,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            xx
+                            {{$country->alpha_2_code}}
                         </div>
                     </div>
                     <div class="row">
@@ -70,7 +70,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            +212
+                            {{$country->phone_code}}
                         </div>
                     </div>
                     <div class="row">
@@ -82,7 +82,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            Dirham
+                            {{$country->currency}}
                         </div>
                     </div>
                     <div class="row">
@@ -94,7 +94,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            DH
+                            {{$country->currency_symbole}}
                         </div>
                     </div>
                 </div>
@@ -122,34 +122,43 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    Status : 
+                                    Status : <strong>@if($country->deleted_at == NULL) Publish @else Removed @endif</strong>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    Creation date : 
+                                    Creation date : <strong>{{$country->created_at}}</strong>
                                 </div>
                             </div>
+                            @if($country->updated_at != NULL)
                             <div class="row">
                                 <div class="col-md-12">
-                                    Last update :
+                                    Last update : <strong>{{$country->updated_at}}</strong>
                                 </div>
                             </div>
+                            @endif
+                            @if($country->deleted_at != NULL)
                             <div class="row">
                                 <div class="col-md-12">
-                                    Remove date : 
+                                    Remove date : <strong>{{$country->deleted_at}}</strong>
                                 </div>
                             </div>
+                            @endif
                             <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
+                            @if($country->deleted_at == NULL)
                                 <div class="col-md-6">
-                                    <a href="" class="btn btn-block "><i class="fas fa-pen"></i> <strong>Edit</strong></a>                                    
+                                    <a href="{{url('countries/'.$country->id.'/edit')}}" class="btn btn-block "><i class="fas fa-pen"></i> <strong>Edit</strong></a>                                    
                                 </div>
+                            @endif
                                 <div class="col-md-6">
-                                    <a  href="" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
-                                    <form action="" method="POST">
+                                @if($country->deleted_at == NULL)
+                                    <a  href="{{route('delete.country',['country'=>$country->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
+                                @else
+                                    <form action="{{url('countries/'.$country->id.'/restore')}}" method="POST">
                                         {{ csrf_field() }}
                                         <button class="btn btn-block btn-transparent-danger" type="submit"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></button>
-                                    </form>
+                                        </form>
+                                @endif
                                 </div>
                             </div>
                         </div>
@@ -158,7 +167,6 @@
             </div>
         </div>
     </div>
-    @include('tags.backoffice.staff.componments.table')
 </div>
 @endsection
 
