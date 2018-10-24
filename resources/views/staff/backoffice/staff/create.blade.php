@@ -2,6 +2,7 @@
 
 @section('before_css')
 <link media="screen" type="text/css" rel="stylesheet" href="{{ asset('plugins/bootstrap-datepicker/css/datepicker3.css') }}">
+<link media="screen" type="text/css" rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
 @endsection
 
 @section('content')
@@ -15,7 +16,7 @@
                         <a href="{{ url('/') }}">DASHBOARD</a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="{{ url('/tags') }}">Staff</a>
+                        <a href="{{ url('/staff') }}">Staff</a>
                     </li>
                     <li class="breadcrumb-item active">
                         Add 
@@ -89,26 +90,7 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group form-group-default required">
-                                        <label>Create new password</label>
-                                        <input type="password" class="form-control" name="tag">
-                                        <label class="error" for="tag">
-                                            {{ $errors->has('tag') ? $errors->first('tag') : "" }}
-                                        </label> 
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group form-group-default required">
-                                        <label>Confirm password</label>
-                                        <input type="password" class="form-control" name="tag">
-                                        <label class="error" for="tag">
-                                            {{ $errors->has('tag') ? $errors->first('tag') : "" }}
-                                        </label> 
-                                    </div>
-                                </div>
-                            </div>
+
                             <div class="row">
                                 <div class="col-md-12">
                                     <h5>
@@ -155,6 +137,75 @@
                                             <option value="">         </option>
                                             <option value="1">male</option>
                                         </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h5>
+                                        Address
+                                    </h5>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group form-group-default form-group-default-select2 required">
+                                    <label class="">Country</label>
+                                    <select class="full-width" data-placeholder="Select Country" data-init-plugin="select2">
+                                        <option value="NV">Morocco (MA)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group form-group-default required">
+                                    <label>Address</label>
+                                    <input type="text" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group form-group-default">
+                                    <label>Line 2</label>
+                                    <input type="text" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group form-group-default required">
+                                        <label>City</label>
+                                        <input type="text" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group form-group-default">
+                                        <label>ZIP code</label>
+                                        <input type="text" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h5>
+                                        Phone
+                                    </h5>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group form-group-default form-group-default-select2 required">
+                                        <label class="">Code country</label>
+                                        <select class="full-width" data-placeholder="Select Country" data-init-plugin="select2">
+                                            <option value="NV">Morocco (+212)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group form-group-default required">
+                                        <label>Phone number</label>
+                                        <input type="text" class="form-control" />
                                     </div>
                                 </div>
                             </div>
@@ -228,7 +279,7 @@
                                         </div>
                                         <div class="row m-t-15">
                                             <div class="col-md-8 m-t-5">
-                                                Parent : <span id="selected-parent-name">none<span>
+                                                Profile : <span id="selected-parent-name">none<span>
                                             </div>
                                             <div class="col-md-4 text-right">
                                                 <button type="button" id="list-categories-clear" class="btn btn-transparent-danger"><i class="fas fa-times"></i> <strong>clear</strong></button>
@@ -261,33 +312,8 @@
 </div>
 @endsection
 
-@section('after_script')
+@section('before_script')
+    <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}" type="text/javascript"></script>    
     <script type="text/javascript" src="{{ asset('plugins/classie/classie.js') }}"></script>
     <script type="text/javascript" src="{{ asset('plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('plugins/multiselect/js/multiselect.min.js') }}"></script>
-    <script>
-    $("#save").click( function () {
-        $('#form').attr('action', '{{ url('tags') }}');
-        $('#form').submit();
-    });
-
-    $("#save_new").click( function () {
-        $('#form').attr('action', '{{ url('tags')."/create" }}');
-        $('#form').submit();
-    });
-
-    $(".list-categories a").click( function () {
-        $(".list-categories a").removeClass('active');
-        $(this).addClass('active');
-        $('#category_parent').val($(this).text());
-        $('#selected-parent-name').html($(this).text());
-    });
-
-    $('#list-categories-clear').click( function () {
-        $('.list-categories a').removeClass('active');
-        $('#selected-parent-name').html('none');
-    });
-
-    $('#myDatepicker').datepicker();
-    </script>
 @endsection
