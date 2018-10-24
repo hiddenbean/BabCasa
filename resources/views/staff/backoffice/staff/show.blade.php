@@ -55,69 +55,117 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <h5>
-                                        Username
+                                        Account informations
                                     </h5>
-                                    <p>
-                                        xx
-                                    </p>
                                 </div>
                             </div>
-                            <div class="row">
+
+                            <div class="row m-b-10">
+                                <div class="col-md-3 uppercase">
+                                    username
+                                </div>
+                                <div class="col-md-9">
+                                    <strong>
+                                        xx
+                                    </strong>
+                                </div>
+                            </div>
+
+                            <div class="row m-b-10">
+                                <div class="col-md-3 uppercase">
+                                    Email
+                                </div>
+                                <div class="col-md-9">
+                                    <strong>
+                                        <a href="mailto:xx@babcasa.com">xx@babcasa.com</a>
+                                    </strong>
+                                </div>
+                            </div>
+
+                            <div class="row m-t-20">
                                 <div class="col-md-12">
                                     <h5>
-                                        Email
+                                        Generale informations
                                     </h5>
-                                    <p>
-                                        xx
-                                    </p>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h5>
-                                        First name
-                                    </h5>
-                                    <p>
-                                        xx
-                                    </p>
+
+                            <div class="row m-b-10">
+                                <div class="col-md-3 uppercase">
+                                    First name
                                 </div>
-                                <div class="col-md-6">
-                                    <h5>
-                                        Last name
-                                    </h5>
-                                    <p>
+                                <div class="col-md-9">
+                                    <strong>
                                         xx
-                                    </p>
+                                    </strong>
                                 </div>
                             </div>
-                            <div class="row">
+
+                            <div class="row m-b-10">
+                                <div class="col-md-3 uppercase">
+                                    Last name
+                                </div>
+                                <div class="col-md-9">
+                                    <strong>
+                                        xx
+                                    </strong>
+                                </div>
+                            </div>
+
+                            <div class="row m-b-10">
+                                <div class="col-md-3 uppercase">
+                                    Birthday
+                                </div>
+                                <div class="col-md-9">
+                                    <strong>
+                                        xx may 199x
+                                    </strong>
+                                </div>
+                            </div>
+
+                            <div class="row m-b-10">
+                                <div class="col-md-3 uppercase">
+                                    Gender
+                                </div>
+                                <div class="col-md-9">
+                                    <strong>
+                                        Male
+                                    </strong>
+                                </div>
+                            </div>
+                            
+                            <div class="row m-b-10">
+                                <div class="col-md-3 uppercase">
+                                    Address
+                                </div>
+                                <div class="col-md-9">
+                                    <address>
+                                        xx
+                                    </address>
+                                </div>
+                            </div>
+                            <div class="row m-b-10">
+                                <div class="col-md-3 uppercase">
+                                    Phone number
+                                </div>
+                                <div class="col-md-9">
+                                    <strong><a href="tel:+212xx">(+212) 06 76 75 27 60</a></strong>
+                                </div>
+                            </div>
+
+                            <div class="row m-t-20">
                                 <div class="col-md-12">
                                     <h5>
-                                        Birthday
+                                        Permissions set
                                     </h5>
-                                    <p>
-                                        xx
-                                    </p>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <h5>
-                                        Gender
-                                    </h5>
-                                    <p>
-                                        xx
-                                    </p>
+                            <div class="row m-b-10">
+                                <div class="col-md-3 uppercase">
+                                    Profile
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <h5>
-                                        Profile
-                                    </h5>
-                                    <p>
-                                        xx
-                                    </p>
+                                <div class="col-md-9">
+                                    <strong>test</strong>
                                 </div>
                             </div>
                         </div>
@@ -207,7 +255,7 @@
                             </div>
                             <div class="row m-t-10">
                                 <div class="col-md-12">
-                                    <a href="" class="btn btn-block text-danger"><strong>generate a new password</strong></a>
+                                    <a href="javascript:;" data-toggle="modal" data-target="#modalSlideUp" class="btn btn-block text-danger"><strong>generate a new password</strong></a>
                                 </div>
                             </div>
                         </div>
@@ -216,75 +264,9 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">
-                        Activity Log
-                        <a 
-                            href="javascript:;" 
-                            data-toggle="tooltip" 
-                            data-placement="bottom" 
-                            data-html="true" 
-                            trigger="click" 
-                            title= "<p class='tooltip-text'>You can use this form to create a new detail if you have the right permissions.<br>
-                                    If you have any difficulties please <a href='#'>contact the support</a></p>"> 
-                            <i class="fas fa-question-circle"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="card-body">
 
-                </div>
-            </div>
-        </div>
-    </div>
+    @include('logs.backoffice.componments.table')
 </div>
+
+@include('staff.backoffice.staff.componments.modal_password_gen')
 @endsection
-
-@section('after_script')
-    <script src="{{asset('plugins/jquery-datatable/media/js/jquery.dataTables.min.js')}}" type="text/javascript"></script>
-    <script src="{{asset('plugins/jquery-datatable/extensions/TableTools/js/dataTables.tableTools.min.js')}}" type="text/javascript"></script>
-    <script src="{{asset('plugins/jquery-datatable/media/js/dataTables.bootstrap.js')}}" type="text/javascript"></script>
-    <script src="{{asset('plugins/jquery-datatable/extensions/Bootstrap/jquery-datatable-bootstrap.js')}}" type="text/javascript"></script>
-    <script type="text/javascript" src="{{asset('plugins/datatables-responsive/js/datatables.responsive.js')}}"></script>
-    <script type="text/javascript" src="{{asset('plugins/datatables-responsive/js/lodash.min.js')}}"></script>
-
-    <script>
-    $(document).ready(function () {
-        
-
-        var table = $('#tableWithSearch');
-
-        var settings = {
-            "sDom": "<t><'row'<p i>>",
-            "destroy": true,  
-            "scrollCollapse": true,
-            "order": [
-                    [0, "desc"]
-                ],
-            "iDisplayLength": 10
-        };
-
-        table.dataTable(settings);
-
-        // search box for table
-        $('#search-table').keyup(function() {
-            table.fnFilter($(this).val());
-        });
-
-            $('#tableWithSearch input[type=checkbox]').click(function() {
-            if ($(this).is(':checked')) {
-                $(this).closest('tr').addClass('selected');
-                console.log($(this).closest('tr').html());
-
-            } else {
-                $(this).closest('tr').removeClass('selected');
-            }
-
-        });
-    });
-    </script>
-@endsection
-        

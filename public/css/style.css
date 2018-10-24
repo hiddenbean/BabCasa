@@ -430,3 +430,7 @@ td.picture > a > img{
 .uppercase {
     text-transform: uppercase;
 }
+
+.form-group-default-select2 {
+    z-index: 5;
+}

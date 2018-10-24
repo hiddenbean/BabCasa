@@ -33,7 +33,6 @@
 
         @yield('body')
 
-        @yield('before_script')
         <!-- BEGIN VENDOR JS -->
         <script src="{{ asset('plugins/pace/pace.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('plugins/jquery/jquery-3.2.1.min.js') }}" type="text/javascript"></script>
@@ -46,6 +45,8 @@
         <script src="{{ asset('plugins/jquery-ios-list/jquery.ioslist.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('plugins/jquery-actual/jquery.actual.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('plugins/jquery-scrollbar/jquery.scrollbar.min.js') }}"></script>
+        @yield('before_script')
+        
         <!-- END VENDOR JS -->
         <script src="{{ asset('js/laravel.ajax.js') }}"></script>
         <script src="{{ asset('js/laravel.js') }}"></script>
