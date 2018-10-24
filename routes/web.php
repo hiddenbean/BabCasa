@@ -59,7 +59,7 @@ function()
             });
             
         });
-        
+
         // Staff tags managment pages
         Route::prefix('tags')->middleware('CanRead:tag')->group(function() {
             Route::get('/', 'TagController@index');
@@ -114,21 +114,40 @@ function()
             Route::get('{country}', 'CountryController@show');
         });
 
+        //////////countries
+        Route::prefix('languages')->middleware('CanRead:language')->group(function() {
+            Route::get('/', 'LanguageController@index');
+            Route::get('trash', 'LanguageController@trash');
+            Route::group(['middleware' => ['CanWrite:language']], function(){
+                Route::get('create', 'LanguageController@create');
+                Route::prefix('{language}')->group(function () {
+                    Route::get('edit', 'LanguageController@edit');
+                    Route::get('translations', 'LanguageController@translations');
+                });
+            }); 
+            Route::get('{language}', 'LanguageController@show'); 
+        }); 
+
         //////////reasons
         Route::prefix('reasons')->middleware('CanRead:reason')->group(function() {
             Route::get('/', 'ReasonController@index'); 
             Route::group(['middleware' => ['CanWrite:reason']], function(){
-                    Route::get('create', 'ReasonController@create'); 
-                    Route::get('{reason}/edit', 'ReasonController@edit');
-                }); 
-                Route::get('{reason}', 'ReasonController@show'); 
+                Route::get('create', 'ReasonController@create'); 
+                Route::get('{reason}/edit', 'ReasonController@edit');
+            }); 
+            Route::get('{reason}', 'ReasonController@show'); 
         });
 
-        //////////staff
+        // Staff login page
         Route::get('/sign-in', 'Auth\StaffLoginController@showLoginForm');
+
+        // Staff logout link 
         Route::get('/logout', 'Auth\StaffLoginController@logout');
+        
+        // Staff managment pages
         Route::prefix('staff')->middleware('CanRead:staff')->group(function() {
-            Route::get('/', 'StaffController@index'); 
+            Route::get('/', 'StaffController@index');
+            Route::get('/trash', 'StaffController@trash');
             Route::group(['middleware' => ['CanWrite:staff']], function(){
                     Route::get('create', 'StaffController@create'); 
                     Route::get('{staff}/edit', 'StaffController@edit');

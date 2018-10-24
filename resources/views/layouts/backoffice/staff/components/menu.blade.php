@@ -116,11 +116,7 @@
                     <span class="icon-thumbnail"><i class="fa fa-flag"></i></span>
                 </li>
                 <li>
-                    <a href="javascript:;">Currencies</a>
-                    <span class="icon-thumbnail"><i class="fa fa-dollar"></i></span>
-                </li>
-                <li>
-                    <a href="javascript:;">Languages</a>
+                    <a href="{{url('languages')}}">Languages</a>
                     <span class="icon-thumbnail"><i class="fas fa-language"></i></span>
                 </li>
             </ul>
@@ -235,15 +231,15 @@
             </span>
             <ul class="sub-menu">
                 <li>
-                    <a href="javascript:;">Add Staff</a>
+                    <a href="{{ url('staff/create') }}">Add Staff</a>
                     <span class="icon-thumbnail"><i class="fas fa-user-plus"></i></span>
                 </li>
                 <li>
-                    <a href="javascript:;">Staff Accounts</a>
+                    <a href="{{ url('staff') }}">Staff Accounts</a>
                     <span class="icon-thumbnail"><i class="fas fa-list-alt"></i></span>
                 </li>
                 <li>
-                    <a href="javascript:;">Staff Profiles</a>
+                    <a href="{{ url('proficles') }}">Staff Profiles</a>
                     <span class="icon-thumbnail"><i class="fas fa-users-cog"></i></span>
                 </li>
             </ul>

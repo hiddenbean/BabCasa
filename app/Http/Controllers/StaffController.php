@@ -43,9 +43,14 @@ class StaffController extends Controller
      */
     public function index()
     {
-        $data['staffs'] = Staff::where('id','!=',0)->get();
-        // return $data;
-        return view('staff.backoffice.index',$data);
+        return view('staff.backoffice.staff.index');
+    }
+
+    /**
+     * 
+     */
+    public function trash() {
+        return view('staff.backoffice.staff.trash');
     }
     
     public function dashboard()
@@ -59,9 +64,7 @@ class StaffController extends Controller
      */
     public function create()
     {
-        $data['profiles'] = Profile::all();
-        $data['countries'] = Country::all();
-        return view('staff.backoffice.create',$data);
+        return view('staff.backoffice.staff.create');
     }
 
     /**
@@ -119,9 +122,7 @@ class StaffController extends Controller
      */
     public function show($staff)
     {
-        $data['staff'] = Staff::where('name',$staff)->first();
-        // return $data['staff']->phones[0]->country; 
-        return view('staff.backoffice.show',$data);
+        return view('staff.backoffice.staff.show');
     }
 
     /**
@@ -148,10 +149,7 @@ class StaffController extends Controller
      */
     public function edit($staff)
     {
-        $data['profiles'] = Profile::all();
-        $data['countries'] = Country::all();
-        $data['staff'] = Staff::where('name',$staff)->first();
-        return view('staff.backoffice.edit',$data);
+        return view('staff.backoffice.staff.edit');
       
     }
 
