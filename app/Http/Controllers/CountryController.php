@@ -178,7 +178,6 @@ class CountryController extends Controller
      */
     public function multiDestroy(Request $request)
     {
-        
         $request->validate([
             'countries' => 'required',
         ]);
@@ -189,7 +188,7 @@ class CountryController extends Controller
         {
             $country = Country::findOrFail($Country);
     
-            if(!isset($country->phones[0]) || !isset($country->addresses[0])) 
+            if(!isset($country->phones[0]) && !isset($country->addresses[0])) 
             {
                 $s++;
                 $country->delete();
@@ -201,8 +200,8 @@ class CountryController extends Controller
                 $e++;
                 $messages['error'] = $e . ($e == 1 ? ' country' : ' countries') . ' can\'t be deleted it has a relation with products';
             }
-            return redirect('countries')->with('messages', $messages);
         }
+        return redirect('countries')->with('messages', $messages);
     }
     
     public function restore($Country)
