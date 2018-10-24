@@ -273,7 +273,7 @@
                                         <div class="row">
                                             <div class="col-md-12 scroll b-t b-b b-dashed b-grey p-b-5">
                                                 <div class="list-group list-group-root well list-categories">
-                                                    <a href="#" data-category-id="" class="list-group-item list-group-item-action">test</a>
+                                                    <a href="javascript:;" data-category-id="" class="list-group-item list-group-item-action">test</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -316,4 +316,40 @@
     <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}" type="text/javascript"></script>    
     <script type="text/javascript" src="{{ asset('plugins/classie/classie.js') }}"></script>
     <script type="text/javascript" src="{{ asset('plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}"></script>
+    <script>
+            $(document).ready(function () {
+                $("#path_staff").on("change", function () {
+                    var _this = this;
+                    var image_preview = $("#image_preview_staff");
+                    showImage(_this, image_preview);
+                });
+    
+                function showImage(_this, image_preview) {
+                    var files = !!_this.files ? _this.files : [];
+                    if (!files.length || !window.FileReader) return;
+                    if (/^image/.test(files[0].type)) {
+                        var ReaderObj = new FileReader();
+                        ReaderObj.readAsDataURL(files[0]);
+                        ReaderObj.onloadend = function () {
+                            image_preview.attr('src', this.result);
+                        }
+                    } else {
+                        alert("Please select an image");
+                    }
+                } 
+            });
+        $(".list-categories a").click( function () {
+            $(".list-categories a").removeClass('active');
+            $(this).addClass('active');
+            $('#category_parent').val($(this).data('category-id'));
+            $('#selected-parent-name').html($(this).text());
+        });
+    
+        $('#list-categories-clear').click( function () {
+            $('.list-categories a').removeClass('active');
+            $('#category_parent').val('');
+            $('#selected-parent-name').html('none');
+        });
+              
+        </script>
 @endsection
