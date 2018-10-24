@@ -180,6 +180,7 @@ class CategoryController extends Controller
         {
             $cats = Category::withTrashed()->where('category_id',NULL)->get();
         }
+        $found = false;
         if(isset($cats[0]))
         {
             foreach($cats as $cat)

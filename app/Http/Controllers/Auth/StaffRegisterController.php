@@ -64,7 +64,7 @@ class StaffRegisterController extends Controller
             'first_name' => 'required',
             'last_name' => 'required',
             'birthday' => 'required',
-            'gender' => 'required',
+            'gender_id' => 'required',
             'profile_id' => 'required',
         ]);
     }
@@ -105,7 +105,7 @@ class StaffRegisterController extends Controller
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'birthday' => date('Y-m-d H:i:s',strtotime($request->birthday)),
-            'gender' => $request->gender,
+            'gender_id' => $request->gender_id,
             'profile_id' => $request->profile_id,
             ]);
 
@@ -160,7 +160,23 @@ class StaffRegisterController extends Controller
                 $phone->save();
             }
             
-        return redirect('staff');
+        return $staff;
+    }
+
+         /**
+     * 
+     */
+    public function storeWithRedirect(Request $request) {
+        $staff = self::store($request);
+        return redirect('staff/'.$staff->id);
+    }
+
+    /**
+     * 
+     */
+    public function storeAndNew(Request $request) {
+        $staff = self::store($request);
+        return redirect('staff/create');
     }
 
      /**

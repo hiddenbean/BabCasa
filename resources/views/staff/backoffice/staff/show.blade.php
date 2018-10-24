@@ -24,10 +24,10 @@
                     <a href="{{ url('/') }}">DASHBOARD</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a href="{{ url('/categories') }}">Staff</a>
+                    <a href="{{ url('/staff') }}">Staff</a>
                 </li>
                 <li class="breadcrumb-item active">
-                    ID : 
+                    ID : {{$staff->id}}
                 </li>
             </ol>
         </div>
@@ -41,7 +41,7 @@
             <div class="card ">
                 <div class="card-header">
                     <div class="card-title">
-                        Member  id : 
+                        Member  id :  {{$staff->id}}
                     </div>
                 </div>
                 <div class="card-body">
@@ -50,6 +50,7 @@
                             <h5>
                                 Picture
                             </h5>
+                            <img src="@if(isset($staff->picture->path)) {{Storage::url($staff->picture->path)}} @else https://ae01.alicdn.com/kf/HTB1VGbHiZuYBuNkSmRy763A3pXaX.png @endif" alt="cat1">
                         </div>
                         <div class="col-md-8">
                             <div class="row">
@@ -58,7 +59,7 @@
                                         Username
                                     </h5>
                                     <p>
-                                        xx
+                                         {{$staff->name}}
                                     </p>
                                 </div>
                             </div>
@@ -68,7 +69,7 @@
                                         Email
                                     </h5>
                                     <p>
-                                        xx
+                                         {{$staff->email}}
                                     </p>
                                 </div>
                             </div>
@@ -78,7 +79,7 @@
                                         First name
                                     </h5>
                                     <p>
-                                        xx
+                                         {{$staff->first_name}}
                                     </p>
                                 </div>
                                 <div class="col-md-6">
@@ -86,7 +87,7 @@
                                         Last name
                                     </h5>
                                     <p>
-                                        xx
+                                         {{$staff->last_name}}
                                     </p>
                                 </div>
                             </div>
@@ -96,7 +97,7 @@
                                         Birthday
                                     </h5>
                                     <p>
-                                        xx
+                                         {{$staff->birthday}}
                                     </p>
                                 </div>
                             </div>
@@ -106,7 +107,7 @@
                                         Gender
                                     </h5>
                                     <p>
-                                        xx
+                                         {{$staff->gender->genderLang()->reference}}
                                     </p>
                                 </div>
                             </div>
@@ -116,7 +117,7 @@
                                         Profile
                                     </h5>
                                     <p>
-                                        xx
+                                         {{$staff->profile->profileLang()->reference}}
                                     </p>
                                 </div>
                             </div>
@@ -138,43 +139,52 @@
                                     data-placement="bottom" 
                                     data-html="true" 
                                     trigger="click" 
-                                    title= "<p class='tooltip-text'>You can use this form to create a new detail if you have the right permissions.<br>
+                                    title= "<p class='tooltip-text'>You can use this form to create a new staff if you have the right permissions.<br>
                                             If you have any difficulties please <a href='#'>contact the support</a></p>"> 
                                     <i class="fas fa-question-circle"></i>
                                 </a>
                             </div>
                         </div>
-                        <div class="card-body">
+                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    Status : <strong></strong>
+                                    Status : <strong>@if($staff->deleted_at == NULL) Publish @else Removed @endif</strong>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    Creation date : <strong></strong>
+                                    Creation date : <strong>{{$staff->created_at}}</strong>
                                 </div>
                             </div>
+                            @if($staff->updated_at != NULL)
                             <div class="row">
                                 <div class="col-md-12">
-                                    Last update : <strong></strong>
+                                    Last update : <strong>{{$staff->updated_at}}</strong>
                                 </div>
                             </div>
+                            @endif
+                            @if($staff->deleted_at != NULL)
                             <div class="row">
                                 <div class="col-md-12">
-                                    Remove date : <strong></strong>
+                                    Remove date : <strong>{{$staff->deleted_at}}</strong>
                                 </div>
                             </div>
+                            @endif
                             <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
+                            @if($staff->deleted_at == NULL)
                                 <div class="col-md-6">
-                                    <a href="" class="btn btn-block "><i class="fas fa-pen"></i> <strong>Edit</strong></a>                                    
+                                    <a href="{{url('staff/'.$staff->id.'/edit')}}" class="btn btn-block "><i class="fas fa-pen"></i> <strong>Edit</strong></a>                                    
                                 </div>
+                            @endif
                                 <div class="col-md-6">
-                                    <a  href="" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
-                                    <form action="" method="POST">
+                                @if($staff->deleted_at == NULL)
+                                    <a  href="{{route('delete.staff',['staff'=>$staff->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
+                                @else
+                                    <form action="{{url('staff/'.$staff->id.'/restore')}}" method="POST">
                                         {{ csrf_field() }}
                                         <button class="btn btn-block btn-transparent-danger" type="submit"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></button>
-                                    </form>
+                                        </form>
+                                @endif
                                 </div>
                             </div>
                         </div>
@@ -193,7 +203,7 @@
                                     data-placement="bottom" 
                                     data-html="true" 
                                     trigger="click" 
-                                    title= "<p class='tooltip-text'>You can use this form to create a new detail if you have the right permissions.<br>
+                                    title= "<p class='tooltip-text'>You can use this form to create a new staff if you have the right permissions.<br>
                                             If you have any difficulties please <a href='#'>contact the support</a></p>"> 
                                     <i class="fas fa-question-circle"></i>
                                 </a>
@@ -228,7 +238,7 @@
                             data-placement="bottom" 
                             data-html="true" 
                             trigger="click" 
-                            title= "<p class='tooltip-text'>You can use this form to create a new detail if you have the right permissions.<br>
+                            title= "<p class='tooltip-text'>You can use this form to create a new staff if you have the right permissions.<br>
                                     If you have any difficulties please <a href='#'>contact the support</a></p>"> 
                             <i class="fas fa-question-circle"></i>
                         </a>

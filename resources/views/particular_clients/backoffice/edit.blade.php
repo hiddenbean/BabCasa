@@ -144,9 +144,9 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="radio radio-success">
-                                            <input type="radio" value="1" @if($particularClient->gender_id == 1) checked @endif name="gender" id="male">
+                                            <input type="radio" value="1" @if($particularClient->gender_id_id == 1) checked @endif name="gender_id" id="male">
                                             <label for="male">Male</label>
-                                            <input type="radio"  value="0" @if($particularClient->gender_id == 0) checked @endif name="gender" name="gender" id="female">
+                                            <input type="radio"  value="0" @if($particularClient->gender_id_id == 0) checked @endif name="gender_id" name="gender_id" id="female">
                                             <label for="female">Female</label>
                                         </div>
                                     </div>

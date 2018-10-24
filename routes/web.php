@@ -202,14 +202,14 @@ function()
     Route::get('/sign-in', 'Auth\StaffLoginController@showLoginForm');
     Route::get('/logout', 'Auth\StaffLoginController@logout');
 
-    Route::prefix('staff')->middleware('CanRead:staff')->group(function() {
+    Route::prefix(' ')->middleware('CanRead:staff')->group(function() {
         Route::get('/', 'StaffController@index'); 
         Route::group(['middleware' => ['CanWrite:staff']], function(){
             Route::get('create', 'StaffController@create'); 
             Route::get('{staff}/edit', 'StaffController@edit');
+            Route::get('{staff}', 'StaffController@show');
         }); 
         Route::get('password', 'StaffController@resetPasswordForm');
-        Route::get('{staff}', 'StaffController@show');
         Route::get('{staff}/reset/password', 'StaffController@resetPassword');
         Route::get('{staff}/pin/verification', 'PinController@checkPinForm');
         Route::get('{staff}/password/{password}', 'PinController@showPassword');
@@ -480,7 +480,7 @@ Route::prefix('discounts')->group(function() {
         Route::post('/create', 'CountryController@storeAndNew'); 
         Route::post('/multi-restore', 'CountryController@multiRestore'); 
         Route::post('{country}', 'CountryController@update'); 
-        Route::post('{tag}/restore', 'CountryController@restore');
+        Route::post('{country}/restore', 'CountryController@restore');
         Route::delete('{country}', 'CountryController@destroy')->name('delete.country');
         Route::delete('delete/multiple', 'CountryController@multiDestroy')->name('delete.countries');
     }); 
@@ -522,7 +522,10 @@ Route::prefix('discounts')->group(function() {
     Route::post('sign-in', 'Auth\StaffLoginController@login')->name('staff.login.submit');
 
     Route::prefix('staff')->middleware('CanWrite:staff')->group(function() {
-        Route::post('/', 'Auth\StaffRegisterController@store'); 
+        Route::post('/', 'Auth\StaffRegisterController@storeWithRedirect');
+        Route::post('/create', 'Auth\StaffRegisterController@storeAndNew');
+        Route::post('/multi-restore', 'StaffController@multiRestore'); 
+        Route::post('{staff}/restore', 'StaffController@restore'); 
         Route::delete('multi-destroy', 'StaffController@multiDestroy')->name('multi_delete.staff');
         Route::put('password', 'StaffController@resetPassword'); 
         Route::put('{staff}', 'StaffController@update'); 

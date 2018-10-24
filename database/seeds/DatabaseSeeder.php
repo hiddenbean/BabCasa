@@ -15,6 +15,8 @@ class DatabaseSeeder extends Seeder
         $this->call(PhoneSeeder::class);
         $this->call(StaffSeeder::class);
         $this->call(LangSeeder::class);
+        $this->call(GenderSeeder::class);
+        $this->call(GenderLangSeeder::class);
         $this->call(CountrySeeder::class);
         $this->call(ProfileSeeder::class);
         $this->call(ProfileLangSeeder::class);

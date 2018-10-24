@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateStaffTable extends Migration
+class CreateGenderLangsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,11 @@ class CreateStaffTable extends Migration
      */
     public function up()
     {
-        Schema::create('staff', function (Blueprint $table) {
+        Schema::create('gender_langs', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->string('name');
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->date('birthday');
+            $table->string('reference');
             $table->integer('gender_id');
-            $table->integer('profile_id');
-            $table->rememberToken();
+            $table->integer('lang_id');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -36,6 +30,6 @@ class CreateStaffTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('staff');
+        Schema::dropIfExists('gender_langs');
     }
 }

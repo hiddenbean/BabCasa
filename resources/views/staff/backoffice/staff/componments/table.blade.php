@@ -23,7 +23,7 @@
                     data-html="true" 
                     trigger="click" 
                     title= "<p class='tooltip-text'>This table is containing all the categories in the BABCasa platforme.
-                            <br> You can (add, edit or remove) a category if you have the right permissions.
+                            <br> You can (add, edit or remove) a staff if you have the right permissions.
                             If you have any difficulties please <a href='#'>contact the support</a></p>"> 
                     <i class="fas fa-question-circle"></i>
                 </a>
@@ -49,7 +49,7 @@
             
         </div>
         <div class="card-body">
-            <form action="{{route('delete.tags')}}" method="post">
+            <form action="{{route('multi_delete.staff')}}" method="post">
             {{ method_field('DELETE') }}
             {{ csrf_field() }}
             <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
@@ -69,6 +69,32 @@
                 </thead> 
 
                 <tbody>  
+                 @foreach($staffs as $staff)
+                <tr> 
+                    @if (auth()->guard('staff')->user()->can('write','staff'))
+                    <td class="v-align-middle p-l-5 p-r-5">
+                        <div class="checkbox no-padding no-margin text-center">
+                            <input type="checkbox" value="{{$staff->id}}" name="staffs[]" id="checkbox{{$staff->id}}">
+                            <label for="checkbox{{$staff->id}}" class="no-padding no-margin"></label>
+                        </div>
+                    </td>
+                    
+                    <td class="v-align-middle text-center p-l-5 p-r-5">
+                        <a href="{{url('staff/'.$staff->id.'/edit')}}"><i class="fas fa-pen fa-sm"></i> <strong>Edit</strong></a>
+                        </td> 
+                        <td class="v-align-middle text-center p-l-5 p-r-5">
+                    <a href="{{route('delete.staff',['staff'=>$staff->id])}}" data-method="DELETE"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="text-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a></td>
+                    @endif 
+                    <td class="v-align-middle picture">
+                        <a href="{{url('staff/'.$staff->id)}}"><img src="@if(isset($staff->picture->path)) {{Storage::url($staff->picture->path)}} @else https://ae01.alicdn.com/kf/HTB1VGbHiZuYBuNkSmRy763A3pXaX.png @endif" alt="cat1"></a>
+                    </td>
+                    <td class="v-align-middle">{{$staff->name}}</td>
+                    <td class="v-align-middle">{{$staff->email}}</td>
+                    <td class="v-align-middle">{{$staff->first_name}}</td>
+                    <td class="v-align-middle">{{$staff->last_name}}</td>
+                    <td class="v-align-middle">{{$staff->profile->profileLang()->reference}}</td>
+                </tr>
+                @endforeach
                 </tbody>
             </table>
         </div>
