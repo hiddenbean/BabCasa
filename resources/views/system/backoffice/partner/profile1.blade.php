@@ -95,9 +95,9 @@
                                   <div class="row">
                                       <div class="col-md-12"> 
                                         <div class="radio radio-success">
-                                          <input type="radio" value="male" name="gender" id="male">
+                                          <input type="radio" value="male" name="gender_id" id="male">
                                           <label for="male">Male</label>
-                                          <input type="radio" checked="checked" value="female" name="gender" id="female">
+                                          <input type="radio" checked="checked" value="female" name="gender_id" id="female">
                                           <label for="female">Female</label>
                                         </div>
                                       </div>

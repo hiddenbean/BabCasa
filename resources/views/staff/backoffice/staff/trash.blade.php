@@ -74,6 +74,29 @@
                         </thead>
 
                         <tbody> 
+                         @foreach($staffs as $staff)                                   
+                           <tr>
+                                <td class="v-align-middle p-l-5 p-r-5">
+                                    <div class="checkbox no-padding no-margin text-center">
+                                        <input type="checkbox" value="{{$staff->id}}" name="staffs[]" id="checkbox{{$staff->id}}">
+                                        <label for="checkbox{{$staff->id}}" class="no-padding no-margin"></label>
+                                    </div>
+                                </td>
+                                <td class="v-align-middle text-center p-l-5 p-r-5">
+                                        <a href="{{url('staff/'.$staff->id.'/restore')}}" data-method="POST"  data-token="{{csrf_token()}}" class="text-danger"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></a></td>
+                                </td> 
+                                 <td class="v-align-middle picture">
+                                    <a href="{{url('staff/'.$staff->id)}}"><img src="@if(isset($staff->picture->path)) {{Storage::url($staff->picture->path)}} @else https://ae01.alicdn.com/kf/HTB1VGbHiZuYBuNkSmRy763A3pXaX.png @endif" alt="cat1"></a>
+                                </td>
+                                <td class="v-align-middle">{{$staff->name}}</td>
+                                <td class="v-align-middle">{{$staff->email}}</td>
+                                <td class="v-align-middle">{{$staff->first_name}}</td>
+                                <td class="v-align-middle">{{$staff->last_name}}</td>
+                                <td class="v-align-middle">{{$staff->profile->profileLang()->reference}}</td>
+                                <td class="v-align-middle">{{$staff->deleted_at}}</td>
+
+                            </tr>
+                        @endforeach
                         </tbody>
                     </table>
                 </form>

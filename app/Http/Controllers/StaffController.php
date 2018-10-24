@@ -8,7 +8,6 @@ use DB;
 use App\Staff;
 use App\Profile;
 use App\Language;
-use App\Country;
 use App\Adress;
 use App\Phone;
 use App\Http\Controllers\AddressController;
@@ -31,7 +30,7 @@ class StaffController extends Controller
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => 'required|email|unique:staff,email',
-            'gender' => 'required',
+            'gender_id' => 'required',
             'birthday' => 'required|date',
             'password' => 'required|min:6',
         ]);
@@ -43,14 +42,16 @@ class StaffController extends Controller
      */
     public function index()
     {
-        return view('staff.backoffice.staff.index');
+        $data['staffs'] = Staff::where('id','!=',0)->get();
+        return view('staff.backoffice.staff.index',$data);
     }
 
     /**
      * 
      */
     public function trash() {
-        return view('staff.backoffice.staff.trash');
+        $data['staffs'] = Staff::onlyTrashed()->get();
+        return view('staff.backoffice.staff.trash',$data);
     }
     
     public function dashboard()
@@ -82,7 +83,7 @@ class StaffController extends Controller
         $staff->first_name = $request->first_name;
         $staff->last_name = $request->last_name;
         $staff->email = $request->email;
-        $staff->gender = $request->gender;
+        $staff->gender_id = $request->gender_id;
         $staff->birthday = date('Y-m-d H:i:s',strtotime($request->birthday));
         $staff->password = bcrypt($request->password);
         $staff->profile_id = $request->profile_id;
@@ -122,7 +123,8 @@ class StaffController extends Controller
      */
     public function show($staff)
     {
-        return view('staff.backoffice.staff.show');
+        $data['staff'] = Staff::findOrFail($staff);
+        return view('staff.backoffice.staff.show',$data);
     }
 
     /**
@@ -134,7 +136,7 @@ class StaffController extends Controller
     public function profile()
     {
         $data['profiles'] = Profile::all();
-        $data['countries'] = Country::all();
+        $data['countries'] = staff::all();
         $data['staff'] =  Auth::guard('staff')->user();
         //$data['staff'] = Staff::find(Auth::guard('staff')->user()->id);
         return view('system.backoffice.staff.profile',$data);
@@ -149,7 +151,8 @@ class StaffController extends Controller
      */
     public function edit($staff)
     {
-        return view('staff.backoffice.staff.edit');
+        $data['staff'] = Staff::findOrFail($staff);
+        return view('staff.backoffice.staff.edit',$data);
       
     }
 
@@ -166,7 +169,7 @@ class StaffController extends Controller
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => 'required|email|unique:staff,email,'.$staff.',name',
-            'gender' => 'required',
+            'gender_id' => 'required',
             'birthday' => 'required|date',
             'profile_id' => 'required|exists:profiles,id',
         ]);
@@ -177,15 +180,15 @@ class StaffController extends Controller
         $request->validate([
             'numbers.0' => 'required|numeric|unique:phones,number,'.$request->phone_id[0],
             'numbers.1' => 'nullable|numeric|unique:phones,number,'.$request->phone_id[1],
-            'code_country.0' => 'required',
-            'code_country.1' => 'required',
+            'code_staff.0' => 'required',
+            'code_staff.1' => 'required',
         ]);
 
         $staff = Staff::where('name',$staff)->first();
         $staff->first_name = $request->first_name;
         $staff->last_name = $request->last_name;
         $staff->email = $request->email;
-        $staff->gender = $request->gender;
+        $staff->gender_id = $request->gender_id;
         $staff->profile_id = $request->profile_id;
         $staff->birthday = date('Y-m-d H:i:s',strtotime($request->birthday));
         $staff->save();
@@ -196,7 +199,7 @@ class StaffController extends Controller
         $address->address_two = $request->address_two;
         $address->full_name = $request->full_name;
         $address->zip_code = $request->zip_code;
-        $address->country_id = $request->country_id;
+        $address->staff_id = $request->staff_id;
         $address->city = $request->city;
         $address->save();
         
@@ -228,7 +231,7 @@ class StaffController extends Controller
                 }
                 $phone->number = $number;
                 $phone->type = "phone";
-                $phone->country_id = $request->code_country[$key];
+                $phone->staff_id = $request->code_staff[$key];
                 $phone->save();
             }
         }
@@ -247,7 +250,7 @@ class StaffController extends Controller
             }
             $fax->number = $request->fax_number;
             $fax->type = "fax";
-            $fax->country_id = $request->code_country[2];
+            $fax->staff_id = $request->code_staff[2];
             $fax->save();
         }
         $page = Auth::guard('staff')->id() == $staff->id ? 'account' : 'staff';  
@@ -261,40 +264,81 @@ class StaffController extends Controller
      * @param  \App\Staff  $staff
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $staff)
+    public function destroy($Staff)
     {
-        $staff = Staff::where('name', $staff)->first();
-        if(isset($staff->businesses[0]))
+        $staff = Staff::findOrFail($Staff);
+        if(isset($staff->claims[0]))
         {
-            return redirect('staff')
-                            ->with(
-                                'error',
-                                'Staff delete can\'t be performed !!'
-                                );
+            $messages['error'] = 'Staff can\'t be deleted he is in an association with claim !!';
+            return redirect('staff')->with('messages',$messages);
         }
         $staff->delete();
-        return redirect('staff')
-                            ->with(
-                                'success',
-                                'Staff member deleted successfuly !!'
-                                );
+        $messages['success'] = 'Staff has been deleted successfuly !!';
+        return redirect('staff')->with('messages',$messages);
+
     }
 
+
+    /**
+     *
+     * 
+     */
     public function multiDestroy(Request $request)
     {
         $request->validate([
-            'staff' => 'required',
-        ]);
-
-        foreach($request->staff as $staff)
+            'staffs' => 'required',
+            ]);
+        $e=$s=0;
+        $messages = [];
+        
+        foreach($request->staffs as $Staff)
         {
-            $staff = Staff::where('name', $staff)->first();
-            if(!isset($staff->businesses[0]))
+            $staff = Staff::findOrFail($Staff);
+    
+            if(!isset($staff->claims[0])) 
             {
+                $s++;
                 $staff->delete();
+                $messages['success'] = $s. ($s == 1 ? ' staff' :' Staff') .' has been deleted successfuly';
+            }
+    
+            else 
+            {
+                $e++;
+                $messages['error'] = $e . ($e == 1 ? ' staff' : ' Staff') . ' can\'t be deleted he has claims';
             }
         }
-        return redirect('staff');
+        return redirect('staff')->with('messages', $messages);
+    }
+    /**
+     * 
+     * 
+     */
+    public function restore($Staff)
+    {
+        $staff = Staff::onlyTrashed()->where('id', $Staff)->first();
+        $staff->restore();
+        $messages['success'] = 'staff has been restored successfuly !!';
+        return redirect('staff')->with('messages',$messages);
+    }
+    /**
+     * 
+     */
+    public function multiRestore(Request $request)
+    {
+        $request->validate([
+            'staffs' => 'required',
+        ]);
+        $s=0;
+        $messages = [];
+        foreach ($request->staffs as  $Staff)
+        {
+            $staff = Staff::onlyTrashed()->where('id', $Staff)->first();
+            $staff->restore();
+            $s++;
+            $messages['success'] = $s. ($s == 1 ? ' staff' :' staff') .' has been restored successfuly';
+        }
+        return redirect('staff')->with('messages',$messages);
     }
 
     /**

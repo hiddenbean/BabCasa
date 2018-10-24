@@ -109,7 +109,7 @@
                                                 <div class="col-sm-8">
                                                     <div class="form-group form-group-default required">
                                                         <label for="about">Genre</label>
-                                                        <textarea type="text" id="about" name="gender"  class="form-control" rows="15">{{ old('about') }}</textarea>
+                                                        <textarea type="text" id="about" name="gender_id"  class="form-control" rows="15">{{ old('about') }}</textarea>
                                                          @if ($errors->has('about'))
                                                         <label class='error' for='about'>{{ $errors->first('about') }}</label>
                                                          @endif
