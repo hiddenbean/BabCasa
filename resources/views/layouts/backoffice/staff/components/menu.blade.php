@@ -231,7 +231,7 @@
             </span>
             <ul class="sub-menu">
                 <li>
-                    <a href="{{ url('staff/create') }}">Add Staff</a>
+                    <a href="{{ url('staff/create') }}">Add Staff Member</a>
                     <span class="icon-thumbnail"><i class="fas fa-user-plus"></i></span>
                 </li>
                 <li>
@@ -239,7 +239,7 @@
                     <span class="icon-thumbnail"><i class="fas fa-list-alt"></i></span>
                 </li>
                 <li>
-                    <a href="{{ url('proficles') }}">Staff Profiles</a>
+                    <a href="{{ url('profiles') }}">Staff Profiles</a>
                     <span class="icon-thumbnail"><i class="fas fa-users-cog"></i></span>
                 </li>
             </ul>

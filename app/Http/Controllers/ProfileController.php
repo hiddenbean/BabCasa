@@ -32,6 +32,7 @@ class profileController extends Controller
             'description' => 'required|required|max:3000',
         ]);
     }
+    
     /**
      * Display a listing of the resource.
      *
@@ -39,8 +40,17 @@ class profileController extends Controller
      */
     public function index()
     {       
-        $data['profiles'] = Profile::all();
-        return view('profiles.backoffice.index',$data);
+        return view('profiles.backoffice.index');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function trash()
+    {       
+        return view('profiles.backoffice.trash');
     }
     
     /**

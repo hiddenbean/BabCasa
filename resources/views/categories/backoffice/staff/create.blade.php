@@ -333,9 +333,9 @@
         $('#category_parent').val('');
         $('#selected-parent-name').html('none');
     });
+    
     $('#onClick').on('click', function(){       
         $('#description').val($('#summernote').summernote().code());
-        //this.form.submit();
     });
     
           

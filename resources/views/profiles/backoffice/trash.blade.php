@@ -16,8 +16,11 @@
                         <li class="breadcrumb-item">
                             <a href="{{ url('/') }}">DASHBOARD</a>
                         </li>
+                        <li class="breadcrumb-item">
+                            <a href="{{ url('/profiles') }}">Staff Profiles</a>
+                        </li>
                         <li class="breadcrumb-item active">
-                            Staff Profiles
+                            Trash
                         </li>
                     </ol>
                 </div>
@@ -57,15 +60,7 @@
                 <div class="pull-right">
                     <div class="col-xs-12">
                         <div class="row">
-                            @if (auth()->guard('staff')->user()->can('write','detail'))
-                                <div class="col-md-3 text-right no-padding">
-                                    <a href="{{url('profiles/create')}}" class="btn btn-transparent"><i class="fas fa-plus fa-sm"></i> <strong>Add</strong></a>
-                                </div>
-                                <div class="col-md-3 text-right no-padding">
-                                    <a href="{{url('profiles/trash')}}" class="btn btn-transparent-danger"><i class="fas fa-trash-alt fa-sm"></i> <strong>Trash</strong></a>
-                                </div> 
-                            @endif
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
                             </div>
                         </div>
@@ -78,16 +73,13 @@
                     {{ csrf_field() }}
                     <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
                         <thead>
-                        @if (auth()->guard('staff')->user()->can('write','detail'))
-                            <th class="text-center" style="width:35px"><button class="btn btn-link" type="submit"><i class="fas fa-trash-alt"></i></button></th>
-                        @endif
-                        
-                            <th style="width:62px"></th>
+                            <th class="text-center" style="width:35px"><button class="btn btn-link" type="submit"><i class="fas fa-undo-alt fa-lg"></i></button></th>
                             <th style="width:62px"></th>
                             <th style="width:150px">Profile</th>           
                             <th style="width:100px">Description</th>
                             <th style="width:100px">Accounts</th>
                             <th style="width:100px">Languages</th>
+                            <th style="width:150px">Deleted at</th>
                         </thead> 
                         <tbody>                   
                         </tbody>

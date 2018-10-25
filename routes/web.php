@@ -169,11 +169,15 @@ function()
         //////////profiles
         Route::prefix('profiles')->middleware('CanRead:profile')->group(function() {
             Route::get('/', 'ProfileController@index');
+            Route::get('/trash', 'ProfileController@trash');
             Route::group(['middleware' => ['CanWrite:profile']], function(){
-                    Route::get('create', 'ProfileController@create'); 
-                    Route::get('{profile}/edit', 'ProfileController@edit');
-                }); 
-                Route::get('{profile}', 'profileController@show'); 
+                Route::get('create', 'ProfileController@create');
+                Route::prefix('{profile}')->group(function () {
+                    Route::get('edit', 'ProfileController@edit');
+                    Route::get('translations', 'ProfileController@translations');
+                });
+            }); 
+            Route::get('{profile}', 'profileController@show'); 
         }); 
 
     Route::domain('partner.babcasa.com')->group(function (){
