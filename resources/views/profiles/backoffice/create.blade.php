@@ -72,6 +72,37 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row m-t-15">
+                                <div class="col-md-12">
+                                    <h5>Permissions</h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-6 p-t-5">
+                                            <span class="uppercase">Categories</span> 
+                                            <a 
+                                                href="javascript:;" 
+                                                data-toggle="tooltip" 
+                                                data-placement="bottom" 
+                                                data-html="true" 
+                                                trigger="click" 
+                                                title= "<p class='tooltip-text'>You can use this form to create a new category if you have the right permissions.<br>
+                                                        If you have any difficulties please <a href='#'>contact the support</a></p>"> 
+                                                <i class="fas fa-question-circle"></i>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <select class="cs-select cs-skin-slide" name="language" data-init-plugin="cs-select">
+                                                <option value="0">none</option>
+                                                <option value="0">read</option>
+                                                <option value="0">read/wright</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

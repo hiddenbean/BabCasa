@@ -42,17 +42,24 @@ class profileController extends Controller
         $data['profiles'] = Profile::all();
         return view('profiles.backoffice.index',$data);
     }
+
     /**
-     * Displaying the Trash page
-     * 
-     * 
+     * Display a listing of the resource.
+     *
      * @return \Illuminate\Http\Response
      */
+<<<<<<< HEAD
     public function trash()
     {
         $data['profiles'] = Profile::onlyTrashed()->get();
         return view('profiles.backoffice.trash', $data);
+=======
+    public function translations()
+    {       
+        return view('profiles.backoffice.translations');
+>>>>>>> 34eaad8b2fca462981c194653e78d6c16f63c7b5
     }
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -172,9 +179,7 @@ class profileController extends Controller
      */
     public function edit($profile)
     {
-        $data['profile'] = Profile::find($profile);
-        // return $data;
-        return view('profiles.backoffice.edit',$data);
+        return view('profiles.backoffice.edit');
     }
 
     /**
@@ -283,19 +288,5 @@ class profileController extends Controller
             $messages['success'] = $s. ($s == 1 ? ' profile' :' profiles') .' has been restored successfuly';
         }
         return redirect('profiles')->with('messages',$messages);
-    }
-
-    /**
-     * Displaying the translation page
-     * 
-     * 
-     * @return \Illuminate\Http\Response
-     */
-    public function translations($profile)
-    {
-        $data['profile'] = Profile::findOrFail($profile);
-        $data['languages'] = Language::all();
-
-        return view('profiles.backoffice.staff.translations', $data);
     }
 }
