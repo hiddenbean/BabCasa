@@ -19,7 +19,7 @@
                         <a href="{{ url('staff') }}">Staff</a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="{{ url('staff/') }}">ID : </a>
+                        <a href="{{ url('staff/') }}">ID : {{$staff->id}}</a>
                     </li>
                     <li class="breadcrumb-item active">
                         edit 
@@ -48,8 +48,9 @@
                 </a>
             </div>
         </div>
-        <form action="{{url('tags')}}" method="POST" id="form">
+        <form action="{{url('staff/'.$staff->id)}}" method="POST" id="form" enctype="multipart/form-data">
         {{ csrf_field() }}
+        {{ method_field('put') }}
         <div class="card-body">
             <div class="row">
                 <div class="col-md-9">
@@ -66,9 +67,9 @@
                                 <div class="col-md-12">
                                     <div class="form-group form-group-default required">
                                         <label>Username</label>
-                                        <input type="text" class="form-control" name="tag">
-                                        <label class="error" for="tag">
-                                            {{ $errors->has('tag') ? $errors->first('tag') : "" }}
+                                        <input type="text" class="form-control" name="name" value="{{$staff->name}}">
+                                        <label class="error" for="name">
+                                            {{ $errors->has('name') ? $errors->first('name') : "" }}
                                         </label> 
                                     </div>
                                 </div>
@@ -78,7 +79,7 @@
                                     <div class="form-group form-group-default input-group no-margin required">
                                         <div class="form-input-group">
                                             <label>Email</label>
-                                            <input type="email" class="form-control">
+                                            <input type="text" class="form-control" name="email" value="{{$staff->email}}">
                                         </div>
                                         <div class="input-group-append ">
                                             <span class="input-group-text">@babcasa.com</span>
@@ -88,11 +89,12 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <label class="error p-l-15" for="tag">
-                                        {{ $errors->has('tag') ? $errors->first('tag') : "" }}
+                                    <label class="error p-l-15" for="email">
+                                        {{ $errors->has('email') ? $errors->first('email') : "" }}
                                     </label>
                                 </div>
                             </div>
+
                             <div class="row">
                                 <div class="col-md-12">
                                     <h5>
@@ -104,18 +106,18 @@
                                 <div class="col-md-6">
                                     <div class="form-group form-group-default required">
                                         <label>First Name</label>
-                                        <input type="text" class="form-control" name="tag">
-                                        <label class="error" for="tag">
-                                            {{ $errors->has('tag') ? $errors->first('tag') : "" }}
+                                        <input type="text" class="form-control" name="first_name" value="{{$staff->first_name}}">
+                                        <label class="error" for="first_name">
+                                            {{ $errors->has('first_name') ? $errors->first('first_name') : "" }}
                                         </label> 
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group form-group-default required">
                                         <label>Last Name</label>
-                                        <input type="text" class="form-control" name="tag">
-                                        <label class="error" for="tag">
-                                            {{ $errors->has('tag') ? $errors->first('tag') : "" }}
+                                        <input type="text" class="form-control" name="last_name" value="{{$staff->last_name}}">
+                                        <label class="error" for="last_name">
+                                            {{ $errors->has('last_name') ? $errors->first('last_name') : "" }}
                                         </label> 
                                     </div>
                                 </div>
@@ -125,7 +127,7 @@
                                     <div class="form-group form-group-default input-group required">
                                         <div class="form-input-group">
                                             <label>Birthday</label>
-                                            <input type="email" class="form-control" placeholder="Pick a date" id="myDatepicker">
+                                            <input type="date" class="form-control" name="birthday" placeholder="Pick a date" id="myDatepicker" value="{{$staff->irthday}}">
                                         </div>
                                         <div class="input-group-append ">
                                             <span class="input-group-text"><i class="fa fa-calendar"></i></span>
@@ -135,13 +137,19 @@
                                 <div class="col-md-4">
                                     <div class="form-group form-group-default required">
                                         <label>gender</label>
-                                        <select class="cs-select cs-skin-slide" data-init-plugin="cs-select">
+                                        <select class="cs-select cs-skin-slide" data-init-plugin="cs-select" name="gender_id">
                                             <option value="">         </option>
-                                            <option value="1">male</option>
+                                            @foreach($genders as $gender)
+                                            <option value="{{$gender->id}}" {{$staff->gender_id == $gender->id ? 'selected' : ''}}>{{$gender->genderLang()->reference}}</option>
+                                            @endforeach
                                         </select>
+                                         <label class="error" for="gender_id">
+                                            {{ $errors->has('gender_id') ? $errors->first('gender_id') : "" }}
+                                        </label> 
                                     </div>
                                 </div>
                             </div>
+
                             <div class="row">
                                 <div class="col-md-12">
                                     <h5>
@@ -153,36 +161,50 @@
                             <div class="row">
                                 <div class="form-group form-group-default form-group-default-select2 required">
                                     <label class="">Country</label>
-                                    <select class="full-width" data-placeholder="Select Country" data-init-plugin="select2">
-                                        <option value="NV">Morocco (MA)</option>
+                                    <select class="full-width" data-placeholder="Select Country" name="country_id" data-init-plugin="select2">
+                                         @foreach($countries as $country)
+                                            <option value="{{$country->id}}" {{$staff->country_id == $country->id ? 'selected' : ''}}>{{$country->name}} ({{$country->alpha_2_code}})</option>
+                                            @endforeach
                                     </select>
+                                      <label class="error p-l-15" for="country_id">
+                                        {{ $errors->has('country_id') ? $errors->first('country_id') : "" }}
+                                    </label>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="form-group form-group-default required">
                                     <label>Address</label>
-                                    <input type="text" class="form-control" />
+                                    <input type="text" class="form-control" name="address" value="{{$staff->address->address}}" />
                                 </div>
+                                 <label class="error p-l-15" for="address">
+                                        {{ $errors->has('address') ? $errors->first('address') : "" }}
+                                    </label>
                             </div>
                             <div class="row">
                                 <div class="form-group form-group-default">
                                     <label>Line 2</label>
-                                    <input type="text" class="form-control" />
+                                    <input type="text" class="form-control" name="address_two" value="{{$staff->address->address_two}}" />
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group form-group-default required">
                                         <label>City</label>
-                                        <input type="text" class="form-control" />
+                                        <input type="text" class="form-control" name="city" value="{{$staff->address->city}}" />
                                     </div>
+                                     <label class="error p-l-15" for="city">
+                                        {{ $errors->has('city') ? $errors->first('city') : "" }}
+                                    </label>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group form-group-default">
                                         <label>ZIP code</label>
-                                        <input type="text" class="form-control" />
+                                        <input type="text" class="form-control" name="zip_code" value="{{$staff->address->zip_code}}" />
                                     </div>
+                                     <label class="error p-l-15" for="zip_code">
+                                        {{ $errors->has('zip_code') ? $errors->first('zip_code') : "" }}
+                                    </label>
                                 </div>
                             </div>
 
@@ -198,15 +220,21 @@
                                 <div class="col-md-4">
                                     <div class="form-group form-group-default form-group-default-select2 required">
                                         <label class="">Code country</label>
-                                        <select class="full-width" data-placeholder="Select Country" data-init-plugin="select2">
-                                            <option value="NV">Morocco (+212)</option>
+                                        <select class="full-width" data-placeholder="Select Country" name="code_country" data-init-plugin="select2">
+                                             @foreach($countries as $country)
+                                            <option value="{{$country->id}}" {{$staff->code_country == $country->id ? 'selected' : ''}}>{{$country->name}} ({{$country->phone_code}})</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-8">
                                     <div class="form-group form-group-default required">
                                         <label>Phone number</label>
-                                        <input type="text" class="form-control" />
+                                        <input type="text" class="form-control" name="number" value="{{$staff->phones[0]->number}}" />
+                                         <input type="hidden" name="phone_id" value="{{$staff->phones[0]->id}}">
+                                        <label class="error p-l-15" for="number">
+                                        {{ $errors->has('number') ? $errors->first('number') : "" }}
+                                    </label>
                                     </div>
                                 </div>
                             </div>
@@ -227,7 +255,7 @@
                                             data-placement="bottom" 
                                             data-html="true" 
                                             trigger="click" 
-                                            title= "<p class='tooltip-text'>You can use this form to create a new detail if you have the right permissions.<br>
+                                            title= "<p class='tooltip-text'>You can use this form to create a new category if you have the right permissions.<br>
                                                     If you have any difficulties please <a href='#'>contact the support</a></p>"> 
                                             <i class="fas fa-question-circle"></i>
                                         </a>
@@ -235,68 +263,11 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-md-12">
-                                            Status : <strong></strong>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            Creation date : <strong></strong>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            Last update : <strong></strong>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            Remove date : <strong></strong>
-                                        </div>
-                                    </div>
-                                    <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
-                                        <div class="col-md-6">                                    
-                                        </div>
                                         <div class="col-md-6">
-                                            <a  href="" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
-                                            <form action="" method="POST">
-                                                {{ csrf_field() }}
-                                                <button class="btn btn-block btn-transparent-danger" type="submit"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></button>
-                                            </form>
+                                            <button type="submit" class="btn btn-block"><i class="fas fa-check"></i> <strong>save</strong></button>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <div class="card-title">
-                                        Rest password
-                                        <a 
-                                            href="javascript:;" 
-                                            data-toggle="tooltip" 
-                                            data-placement="bottom" 
-                                            data-html="true" 
-                                            trigger="click" 
-                                            title= "<p class='tooltip-text'>You can use this form to create a new detail if you have the right permissions.<br>
-                                                    If you have any difficulties please <a href='#'>contact the support</a></p>"> 
-                                            <i class="fas fa-question-circle"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <a href="" class="btn btn-block btn-transparent"><strong>send password rest link</strong></a>                                    
-                                        </div>
-                                    </div>
-                                    <div class="row m-t-10">
-                                        <div class="col-md-12">
-                                            <a href="javascript:;" data-toggle="modal" data-target="#modalSlideUp" class="btn btn-block text-danger"><strong>generate a new password</strong></a>
+                                         <div class="col-md-6">
+                                            <a href="{{ url()->current() }}" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>clear all</strong></a>
                                         </div>
                                     </div>
                                 </div>
@@ -326,20 +297,25 @@
                                         <div class="row">
                                             <div class="col-md-12 scroll b-t b-b b-dashed b-grey p-b-5">
                                                 <div class="list-group list-group-root well list-categories">
-                                                    <a href="javascript:;" data-category-id="" class="list-group-item list-group-item-action">test</a>
+                                                @foreach($profiles as $Profile)
+                                                    <a href="javascript:;" data-category-id="{{$Profile->id}}" class="list-group-item list-group-item-action {{$staff->profile_id == $Profile->id ? 'active' : ''}}">{{$Profile->profileLang()->reference}}</a>
+                                                @endforeach
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row m-t-15">
                                             <div class="col-md-8 m-t-5">
-                                                Profile : <span id="selected-parent-name">none<span>
+                                                Profile : <span id="selected-parent-name">{{$staff->profile->profileLang()->reference}}<span>
+                                                <label class="error p-l-15" for="profile_id">
+                                                    {{ $errors->has('profile_id') ? $errors->first('profile_id') : "" }}
+                                                </label>
                                             </div>
                                             <div class="col-md-4 text-right">
                                                 <button type="button" id="list-categories-clear" class="btn btn-transparent-danger"><i class="fas fa-times"></i> <strong>clear</strong></button>
                                             </div>
                                         </div>
                                     </div>
-                                    <input type="hidden" name="category_parent" id="category_parent" />
+                                    <input type="hidden" name="profile_id" id="profile_id" value="{{$staff->profile_id}}" />
                                 </div>
                             </div>
                         </div>
@@ -347,7 +323,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group form-group-default">
-                                <img src="{{ asset('img/img_placeholder.png') }}" id="image_preview_staff"
+                                <img src="@if(isset($staff->picture->path)) {{Storage::url($staff->picture->path)}} @else {{asset('img/img_placeholder.png')}} @endif " id="image_preview_staff"
                                     alt="" srcset="" width="200" style="margin-left: calc(50% - 105px);">
                                 <label for="path_staff" class="choose_photo">
                                     <span>

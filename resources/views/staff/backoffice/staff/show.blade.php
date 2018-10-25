@@ -50,7 +50,7 @@
                             <h5>
                                 Picture
                             </h5>
-                            <img src="@if(isset($staff->picture->path)) {{Storage::url($staff->picture->path)}} @else https://ae01.alicdn.com/kf/HTB1VGbHiZuYBuNkSmRy763A3pXaX.png @endif" alt="cat1">
+                            <img src="@if(isset($staff->picture->path)) {{Storage::url($staff->picture->path)}} @else {{asset('img/img_placeholder.png')}} @endif" alt="cat1">
                         </div>
                         <div class="col-md-8">
                             <div class="row">
@@ -274,11 +274,10 @@
             </div>
         </div>
     </div>
-<<<<<<< HEAD
     <div class="row">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">
+                {{--  <div class="card-header">
                     <div class="card-title">
                         Activity Log
                         <a 
@@ -292,10 +291,8 @@
                             <i class="fas fa-question-circle"></i>
                         </a>
                     </div>
-                </div>
+                </div>  --}}
                 <div class="card-body">
-=======
->>>>>>> 46bf8348d0fd4705bb0e93b9083509e217851f21
 
     @include('logs.backoffice.componments.table')
 </div>

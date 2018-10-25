@@ -86,9 +86,9 @@
                     <a href="{{route('delete.staff',['staff'=>$staff->id])}}" data-method="DELETE"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="text-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a></td>
                     @endif 
                     <td class="v-align-middle picture">
-                        <a href="{{url('staff/'.$staff->id)}}"><img src="@if(isset($staff->picture->path)) {{Storage::url($staff->picture->path)}} @else https://ae01.alicdn.com/kf/HTB1VGbHiZuYBuNkSmRy763A3pXaX.png @endif" alt="cat1"></a>
+                        <a href="{{url('staff/'.$staff->id)}}"><img src="@if(isset($staff->picture->path)) {{Storage::url($staff->picture->path)}} @else {{asset('img/img_placeholder.png')}} @endif" alt="cat1"></a>
                     </td>
-                    <td class="v-align-middle">{{$staff->name}}</td>
+                    <td class="v-align-middle"> <a href="{{url('staff/'.$staff->id)}}"><strong>{{$staff->name}}</strong></a></td>
                     <td class="v-align-middle">{{$staff->email}}</td>
                     <td class="v-align-middle">{{$staff->first_name}}</td>
                     <td class="v-align-middle">{{$staff->last_name}}</td>

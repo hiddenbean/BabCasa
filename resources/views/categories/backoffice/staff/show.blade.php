@@ -50,7 +50,7 @@
                             <h5>
                                 Picture
                             </h5>
-                            <img src="@if(isset($category->picture->path)) {{Storage::url($category->picture->path)}} @else https://ae01.alicdn.com/kf/HTB1VGbHiZuYBuNkSmRy763A3pXaX.png @endif" alt="cat1" width="100%">
+                            <img src="@if(isset($category->picture->path)) {{Storage::url($category->picture->path)}} @else {{asset('img/img_placeholder.png')}} @endif" alt="cat1" width="100%">
                         </div>
                         <div class="col-md-8">
                             <div class="row">

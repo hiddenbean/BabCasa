@@ -7,8 +7,9 @@ use Auth;
 use DB;
 use App\Staff;
 use App\Profile;
+use App\Picture;
 use App\Language;
-use App\Adress;
+use App\Address;
 use App\Country;
 use App\Gender;
 use App\Phone;
@@ -156,6 +157,9 @@ class StaffController extends Controller
      */
     public function edit($staff)
     {
+        $data['profiles'] = Profile::all();
+        $data['countries'] = Country::all();
+        $data['genders'] = Gender::all();
         $data['staff'] = Staff::findOrFail($staff);
         return view('staff.backoffice.staff.edit',$data);
       
@@ -170,10 +174,12 @@ class StaffController extends Controller
      */
     public function update(Request $request,$staff)
     {
+        $full_name= $request->first_name.' '.$request->last_name;
+        $request['full_name'] = $full_name;
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'required|email|unique:staff,email,'.$staff.',name',
+            'email' => 'required|unique:staff,email,'.$staff.',id',
             'gender_id' => 'required',
             'birthday' => 'required|date',
             'profile_id' => 'required|exists:profiles,id',
@@ -183,80 +189,63 @@ class StaffController extends Controller
 
         
         $request->validate([
-            'numbers.0' => 'required|numeric|unique:phones,number,'.$request->phone_id[0],
-            'numbers.1' => 'nullable|numeric|unique:phones,number,'.$request->phone_id[1],
-            'code_staff.0' => 'required',
-            'code_staff.1' => 'required',
-        ]);
-
-        $staff = Staff::where('name',$staff)->first();
-        $staff->first_name = $request->first_name;
-        $staff->last_name = $request->last_name;
-        $staff->email = $request->email;
-        $staff->gender_id = $request->gender_id;
-        $staff->profile_id = $request->profile_id;
-        $staff->birthday = date('Y-m-d H:i:s',strtotime($request->birthday));
-        $staff->save();
-        
-        
-        $address = $staff->address;
-        $address->address = $request->address;
-        $address->address_two = $request->address_two;
-        $address->full_name = $request->full_name;
-        $address->zip_code = $request->zip_code;
-        $address->staff_id = $request->staff_id;
-        $address->city = $request->city;
-        $address->save();
-        
-        if($request->hasFile('path')) 
-        {
-            $picture = $staff->picture;
-            $picture->name = time().'.'.$request->file('path')->extension();
-            $picture->tag = "staff_avatar";
-            $picture->path = $request->path->store('images/staff', 'public');
-            $picture->extension = $request->path->extension();
-            $picture->save();
-        }
-        $i=0;
-        foreach($request->numbers as $key => $number)
-        {
-            $i++;
+            'number' => 'required|numeric|unique:phones,number,'.$staff.',phoneable_id,phoneable_type,staff|digits:9',
+            'code_country' => 'sometimes',
+            ]);
             
-            if($number != null)
+            $staff = Staff::findOrFail($staff);
+            $staff->name = $request->name;
+            $staff->first_name = $request->first_name;
+            $staff->last_name = $request->last_name;
+            $staff->email = $request->email;
+            $staff->gender_id = $request->gender_id;
+            $staff->profile_id = $request->profile_id;
+            $staff->birthday = date('Y-m-d H:i:s',strtotime($request->birthday));
+            $staff->save();
+            
+            
+            $address = $staff->address;
+            $address->address = $request->address;
+            $address->address_two = $request->address_two;
+            $address->full_name = $request->full_name;
+            $address->zip_code = $request->zip_code;
+            $address->country_id = $request->country_id;
+            $address->city = $request->city;
+            $address->save();
+            
+
+            if($request->hasFile('path')) 
             {
-                $phone = Phone::where('id', $request->phone_id[$key])
-                                    ->whereIn('type', ['phone', 'fix'])
-                                    ->where('phoneable_id', $staff->id)
-                                    ->first();
+                $picture = $staff->picture;
+                if(!$staff->picture)
+                {   
+                    $picture = new Picture();
+                    $picture->pictureable_id = $staff->id;
+                    $picture->pictureable_type = 'staff';
+                }
+                $picture->name = time().'.'.$request->file('path')->extension();
+                $picture->tag = "staff_avatar";
+                $picture->path = $request->path->store('images/staff', 'public');
+                $picture->extension = $request->path->extension();
+                $picture->save();
+            }
+            if($request->number)
+            {
+                
+                $phone = Phone::where('id', $request->phone_id)
+                ->whereIn('type', ['phone', 'fix'])
+                ->where('phoneable_id', $staff->id)
+                ->first();
                 if($phone == null)
                 {
                     $phone = new Phone();
                     $phone->phoneable_id = $staff->id;
                     $phone->phoneable_type = 'staff';
                 }
-                $phone->number = $number;
+                $phone->number = $request->number;
                 $phone->type = "phone";
-                $phone->staff_id = $request->code_staff[$key];
                 $phone->save();
-            }
-        }
-
-        if($request->fax_number)
-        {
-            $fax = Phone::where('id', $request->fax_id)
-                                ->where('type', 'fax')
-                                ->where('phoneable_id', $staff->id)
-                                ->first();
-            if($fax == null)
-            {
-                $fax = new Phone();
-                $fax->phoneable_id = $staff->id;
-                $fax->phoneable_type = 'staff';
-            }
-            $fax->number = $request->fax_number;
-            $fax->type = "fax";
-            $fax->staff_id = $request->code_staff[2];
-            $fax->save();
+            
         }
         $page = Auth::guard('staff')->id() == $staff->id ? 'account' : 'staff';  
         return redirect($page);

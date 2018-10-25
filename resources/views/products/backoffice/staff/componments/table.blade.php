@@ -36,7 +36,7 @@
                         <tr role="row">
                             <td class="v-align-middle picture">
                                 <a href="#">
-                                    <img src="@if(isset($product->picture->path)) {{Storage::url($product->picture->path)}} @else https://ae01.alicdn.com/kf/HTB1VGbHiZuYBuNkSmRy763A3pXaX.png @endif" alt="cat1">
+                                    <img src="@if(isset($product->picture->path)) {{Storage::url($product->picture->path)}} @else {{asset('img/img_placeholder.png')}} @endif" alt="cat1">
                                 </a>
                             </td>
                             <td class="v-align-middle">
