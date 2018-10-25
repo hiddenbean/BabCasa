@@ -34,7 +34,7 @@ class Staff extends Authenticatable
         'name',
         'last_name',
         'first_name',
-        'gender',
+        'gender_id',
         'birthday',
         'profile_id',
     ];
@@ -49,6 +49,10 @@ class Staff extends Authenticatable
         return $this->hasMany('App\ClaimMessage');
     }
 
+    public function gender()
+    {
+        return $this->belongsTo('App\Gender');
+    }
     public function claims()
     {
         return $this->hasMany('App\Claim');

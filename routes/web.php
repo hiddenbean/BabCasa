@@ -44,6 +44,7 @@ function()
 
         // Staff Security page
         Route::get('security', 'StaffController@security');
+        Route::get('/logs', 'StaffController@log'); 
 
         // Staff categories managment pages
         Route::prefix('categories')->middleware('CanRead:category')->group(function() {
@@ -59,8 +60,9 @@ function()
             });
             
         });
-         // Staff tags managment pages
-         Route::prefix('tags')->middleware('CanRead:tag')->group(function() {
+
+        // Staff tags managment pages
+        Route::prefix('tags')->middleware('CanRead:tag')->group(function() {
             Route::get('/', 'TagController@index');
             Route::get('trash', 'TagController@trash');
             Route::group(['middleware' => ['CanWrite:tag']], function(){
@@ -101,39 +103,52 @@ function()
 
         //////////countries
         Route::prefix('countries')->middleware('CanRead:country')->group(function() {
-            Route::get('/', 'CountryController@index'); 
+            Route::get('/', 'CountryController@index');
+            Route::get('trash', 'CountryController@trash');
             Route::group(['middleware' => ['CanWrite:country']], function(){
-                    Route::get('create', 'CountryController@create'); 
-                    Route::get('{country}/edit', 'CountryController@edit');
-                }); 
-                Route::get('{country}', 'CountryController@show'); 
+                Route::get('create', 'CountryController@create');
+                Route::prefix('{country}')->group(function () {
+                    Route::get('edit', 'CountryController@edit');
+                    Route::get('translations', 'CountryController@translations');
+                });
+            }); 
+            Route::get('{country}', 'CountryController@show');
         });
 
         //////////countries
-        Route::prefix('currencies')->middleware('CanRead:currency')->group(function() {
-            Route::get('/', 'CurrencyController@index'); 
-            Route::group(['middleware' => ['CanWrite:currency']], function(){
-                Route::get('create', 'CurrencyController@create'); 
-                Route::get('{currency}/edit', 'CurrencyController@edit');
+        Route::prefix('languages')->middleware('CanRead:language')->group(function() {
+            Route::get('/', 'LanguageController@index');
+            Route::get('trash', 'LanguageController@trash');
+            Route::group(['middleware' => ['CanWrite:language']], function(){
+                Route::get('create', 'LanguageController@create');
+                Route::prefix('{language}')->group(function () {
+                    Route::get('edit', 'LanguageController@edit');
+                    Route::get('translations', 'LanguageController@translations');
+                });
             }); 
-            Route::get('{currency}', 'CurrencyController@show'); 
+            Route::get('{language}', 'LanguageController@show'); 
         }); 
 
         //////////reasons
         Route::prefix('reasons')->middleware('CanRead:reason')->group(function() {
             Route::get('/', 'ReasonController@index'); 
             Route::group(['middleware' => ['CanWrite:reason']], function(){
-                    Route::get('create', 'ReasonController@create'); 
-                    Route::get('{reason}/edit', 'ReasonController@edit');
-                }); 
-                Route::get('{reason}', 'ReasonController@show'); 
+                Route::get('create', 'ReasonController@create'); 
+                Route::get('{reason}/edit', 'ReasonController@edit');
+            }); 
+            Route::get('{reason}', 'ReasonController@show'); 
         });
 
-        //////////staff
+        // Staff login page
         Route::get('/sign-in', 'Auth\StaffLoginController@showLoginForm');
+
+        // Staff logout link 
         Route::get('/logout', 'Auth\StaffLoginController@logout');
+        
+        // Staff managment pages
         Route::prefix('staff')->middleware('CanRead:staff')->group(function() {
-            Route::get('/', 'StaffController@index'); 
+            Route::get('/', 'StaffController@index');
+            Route::get('/trash', 'StaffController@trash');
             Route::group(['middleware' => ['CanWrite:staff']], function(){
                     Route::get('create', 'StaffController@create'); 
                     Route::get('{staff}/edit', 'StaffController@edit');
@@ -162,14 +177,6 @@ function()
                 Route::get('{profile}', 'profileController@show'); 
         }); 
 
-                //////////countries
-                Route::prefix('countries')->group(function() {
-                    Route::get('/', 'CountryController@index'); 
-                    Route::get('create', 'CountryController@create'); 
-                    Route::get('{country}', 'CountryController@show'); 
-                    Route::get('{country}/edit', 'CountryController@edit'); 
-                });
-
     Route::domain('partner.babcasa.com')->group(function (){
         Route::get('{product}/edit', 'ProductController@edit'); 
     });
@@ -196,15 +203,14 @@ function()
     Route::get('/sign-in', 'Auth\StaffLoginController@showLoginForm');
     Route::get('/logout', 'Auth\StaffLoginController@logout');
     
-    Route::get('/logs', 'StaffController@log'); 
     Route::prefix('staff')->middleware('CanRead:staff')->group(function() {
         Route::get('/', 'StaffController@index'); 
         Route::group(['middleware' => ['CanWrite:staff']], function(){
             Route::get('create', 'StaffController@create'); 
             Route::get('{staff}/edit', 'StaffController@edit');
+            Route::get('{staff}', 'StaffController@show');
         }); 
         Route::get('password', 'StaffController@resetPasswordForm');
-        Route::get('{staff}', 'StaffController@show');
         Route::get('{staff}/reset/password', 'StaffController@resetPassword');
         Route::get('{staff}/pin/verification', 'PinController@checkPinForm');
         Route::get('{staff}/password/{password}', 'PinController@showPassword');
@@ -352,16 +358,6 @@ Route::prefix('discounts')->group(function() {
         }
     );
 
-    // POST DOMAINs
-    Route::domain('www.babcasa.com')->group(function (){
-
-        Route::post('/', function () {
-            return view('welcome');
-        }); 
-
-        
-    });
-
     // Partner register route
     Route::post('register', 'Auth\PartnerRegisterController@store')->name('partner.register.submit');
     // Partner auth route, sign in    
@@ -392,34 +388,36 @@ Route::prefix('discounts')->group(function() {
             // Desactivate partner account
             Route::delete('/desactivate', 'PartnerController@destroy');
 
-    //////////CLAIMs
-    Route::prefix('support')->group(function() {
-        Route::post('','ClaimController@store');
-        Route::prefix('message')->group(function() {
-            Route::post('{claim}','ClaimMessageController@store');
-        });
-    });
+            //////////CLAIMs
+            Route::prefix('support')->group(function() {
+                Route::post('','ClaimController@store');
+                Route::prefix('message')->group(function() {
+                    Route::post('{claim}','ClaimMessageController@store');
+                });
+            });
 
 
 });
 
-    Route::domain('staff.babcasa.com')->group(function (){
+Route::domain('staff.babcasa.com')->group(function (){
 
-        Route::post('/', function () {
-            return view('welcome');
-        });
+    // Reset password
+    Route::post('sign-in', 'Auth\StaffLoginController@login')->name('staff.login.submit');
+    Route::post('passwords/email', 'Auth\StaffForgotPasswordController@sendResetLinkEmail')->name('staff.password.link.send');
+    Route::post('password/reset', 'Auth\StaffResetPasswordController@reset')->name('staff.password.reset');
 
-        // Reset password
-        Route::post('passwords/email', 'Auth\StaffForgotPasswordController@sendResetLinkEmail')->name('staff.password.link.send');
-        Route::post('password/reset', 'Auth\StaffResetPasswordController@reset')->name('staff.password.reset');
-
-        Route::prefix('{staff}')->group(function() {
-            // Staff secutiry
-            Route::delete('security/{session}', 'StaffController@sessionDestroy');
-
-            // Desactivate staff account
-            Route::delete('/desactivate', 'StaffController@destroy');
-        });
+    Route::prefix('staff')->middleware('CanWrite:staff')->group(function() {
+        Route::post('/', 'Auth\StaffRegisterController@storeWithRedirect');
+        Route::post('/create', 'Auth\StaffRegisterController@storeAndNew');
+        Route::post('/multi-restore', 'StaffController@multiRestore'); 
+        Route::post('{staff}/restore', 'StaffController@restore'); 
+        Route::delete('multi-destroy', 'StaffController@multiDestroy')->name('multi_delete.staff');
+        Route::put('password', 'StaffController@resetPassword'); 
+        Route::put('{staff}', 'StaffController@update'); 
+        Route::delete('{staff}', 'StaffController@destroy')->name('delete.staff');
+        Route::post('{staff}/reset/password', 'PinController@store')->name('reset.password.staff');
+        Route::post('{staff}/pin/verification', 'PinController@checkPin');
+    });
 
     //////////Categories
     Route::prefix('categories')->middleware('CanWrite:category')->group(function() {
@@ -432,6 +430,7 @@ Route::prefix('discounts')->group(function() {
         Route::delete('{category}', 'CategoryController@destroy')->name('delete.category');
         Route::delete('delete/multiple', 'CategoryController@multiDestroy')->name('delete.categories');
     }); 
+    
     //////////attributes
     Route::prefix('attributes')->middleware('CanWrite:attribute')->group(function() {
 
@@ -473,7 +472,9 @@ Route::prefix('discounts')->group(function() {
 
         Route::post('/', 'CountryController@storeWithRedirect');
         Route::post('/create', 'CountryController@storeAndNew'); 
+        Route::post('/multi-restore', 'CountryController@multiRestore'); 
         Route::post('{country}', 'CountryController@update'); 
+        Route::post('{country}/restore', 'CountryController@restore');
         Route::delete('{country}', 'CountryController@destroy')->name('delete.country');
         Route::delete('delete/multiple', 'CountryController@multiDestroy')->name('delete.countries');
     }); 
@@ -510,22 +511,8 @@ Route::prefix('discounts')->group(function() {
         Route::post('{reason}', 'StatusController@update'); 
         Route::delete('{reason}', 'StatusController@destroy')->name('delete.status');
     }); 
-    //////////STAFF
-    
-    Route::post('sign-in', 'Auth\StaffLoginController@login')->name('staff.login.submit');
-
-    Route::prefix('staff')->middleware('CanWrite:staff')->group(function() {
-        Route::post('/', 'Auth\StaffRegisterController@store'); 
-        Route::delete('multi-destroy', 'StaffController@multiDestroy')->name('multi_delete.staff');
-        Route::put('password', 'StaffController@resetPassword'); 
-        Route::put('{staff}', 'StaffController@update'); 
-        Route::delete('{staff}', 'StaffController@destroy')->name('delete.staff');
-        Route::post('{staff}/reset/password', 'PinController@store')->name('reset.password.staff');
-        Route::post('{staff}/pin/verification', 'PinController@checkPin');
-    }); 
 
     Route::prefix('partners')->middleware('CanWrite:partner')->group(function() {
-
         Route::post('/', 'PartnerController@store'); 
         Route::delete('multi-destroy', 'PartnerController@multiDestroy')->name('multi_delete.partners');
         // Route::post('{partner}/active', 'PartnerController@active')->name('active.partner');
@@ -537,28 +524,6 @@ Route::prefix('discounts')->group(function() {
             Route::post('/pin/verification', 'PinController@checkPin');
         });
     });
-    Route::prefix('clients')->group(function(){
-        Route::prefix('business')->middleware('CanWrite:business_client')->group(function(){
-            Route::post('/store', 'BusinessController@store');
-            Route::delete('multi-destroy', 'BusinessController@multiDestroy')->name('multi_delete.businesses');
-            Route::prefix('{business}')->group(function(){
-                Route::delete('/destroy', 'BusinessController@destroy')->name('delete.business');
-                Route::post('/reset/password', 'PinController@store')->name('reset.password.business');
-                Route::put('/', 'BusinessController@update');
-                Route::post('/pin/verification', 'PinController@checkPin');
-                
-                
-            });
-        });
-
-        Route::prefix('particular')->middleware('CanWrite:staff')->group(function() {
-            Route::post('/', 'ParticularClientController@store');
-            Route::delete('multi-destroy', 'ParticularClientController@multiDestroy')->name('multi_delete.particular_clients');
-            Route::put('{particular}', 'ParticularClientController@update');
-            Route::delete('{particular}', 'ParticularClientController@destroy')->name('delete.particular-client');
-            Route::post('{particular}/reset/password', 'PinController@store')->name('reset.password.particular_client');
-        }); 
-    });
 
         //////////profiles
         Route::prefix('profiles')->middleware('CanWrite:profile')->group(function() {
@@ -568,21 +533,4 @@ Route::prefix('discounts')->group(function() {
             Route::post('{profile}/permissions', 'ProfileController@permissions'); 
             Route::delete('{profile}', 'ProfileController@destroy')->name('delete.profile');
         });
-
-    // Staff register route
-    //Route::post('register', 'auth\StaffRegisparticular_clientterController@store')->name('staff.register.submit'); 
-
-    
-    
-
-    /*Route::get('/clients/particular', function () { 
-        return view('clients_particular.backoffice.staff.index');
-    }); 
-    Route::get('/clients/particular/create', function () { 
-        return view('clients_particular.backoffice.staff.create');
-    }); 
-    Route::get('/clients/particular/show', function () { 
-        return view('clients_particular.backoffice.staff.show');
-    });
-*/
 });

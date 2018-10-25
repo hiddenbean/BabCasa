@@ -26,21 +26,23 @@ class Profile extends Model
 	
     public function profileLangs()
     {
-            return $this->hasMany('App\ProfileLang');
+            return $this->hasMany('App\ProfileLang')->withTrashed();
     }
 
     public function profileLang()
     {
-            $langId = Language::where('alpha_2_code',App::getLocale())->first()->id; 
-            return $this->profileLangs()->where('lang_id',$langId);
+        $langId = Language::where('alpha_2_code',App::getLocale())->first()->id; 
+        $profile = self::profileLangs()->where('lang_id',$langId)->first();
+
+        return !$profile->reference ? self::profileLangs()->where('reference','!=','')->first() : $profile;
     }
 
     public function permissions()
     {
-            return $this->belongsToMany('App\Permission')->withPivot('can_read', 'can_write');
+        return $this->belongsToMany('App\Permission')->withPivot('can_read', 'can_write');
     }
     public function staff()
     {
-            return $this->hasMany('App\Staff');
+        return $this->hasMany('App\Staff');
     }
 }

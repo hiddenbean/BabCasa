@@ -63,7 +63,8 @@
                     <th style="width:150px">Name</th>           
                     <th style="width:100px">Products</th>             
                     <th style="width:100px">Languages</th>
-                </thead>
+                </thead> 
+                <tbody>  
                 @foreach($tags as $tag)
                     <tr>
                      @if (auth()->guard('staff')->user()->can('write','tag'))
@@ -92,7 +93,7 @@
                     </tr>
                 @endforeach
         
-                <tbody>                               
+                                            
                 </tbody>
             </table>
         </div>

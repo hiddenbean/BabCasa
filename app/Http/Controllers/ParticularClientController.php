@@ -26,7 +26,7 @@ class ParticularClientController extends Controller
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => 'required|email|unique:particular_clients,email',
-            'gender' => 'required',
+            'gender_id' => 'required',
             'birthday' => 'required|date',
             'password' => 'required|min:6',
         ]);
@@ -88,7 +88,7 @@ class ParticularClientController extends Controller
         $particularClient->first_name = $request->first_name;
         $particularClient->last_name = $request->last_name;
         $particularClient->email = $request->email;
-        $particularClient->gender_id = $request->gender;
+        $particularClient->gender_id_id = $request->gender_id;
         $particularClient->birthday = date('Y-m-d H:i:s',strtotime($request->birthday));
         $particularClient->password = bcrypt($request->password);
         $particularClient->is_register_to_newsletter = $is_register_to_newsletter;
@@ -211,7 +211,7 @@ class ParticularClientController extends Controller
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => 'required|email|unique:particular_clients,email,'.$particulaClient,
-            'gender' => 'required',
+            'gender_id' => 'required',
             'birthday' => 'required|date',
         ]);
         $AddressController = new AddressController();
@@ -227,7 +227,7 @@ class ParticularClientController extends Controller
         $particularClient->first_name = $request->first_name;
         $particularClient->last_name = $request->last_name;
         $particularClient->email = $request->email;
-        $particularClient->gender_id = $request->gender;
+        $particularClient->gender_id = $request->gender_id;
         $particularClient->birthday = date('Y-m-d H:i:s',strtotime($request->birthday));
         $particularClient->is_register_to_newsletter = $is_register_to_newsletter;
         $particularClient->save();

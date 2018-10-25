@@ -12,7 +12,7 @@ class StatusSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('pictures')->insert([
+        DB::table('statuses')->insert([
             'is_approved' => '1',
             'user_id' => '1',
             'user_type' => 'partner',
