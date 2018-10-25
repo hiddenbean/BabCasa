@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class PermissionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:staff');
+        
+    }
+    
     /**
      * Display a listing of the resource.
      *

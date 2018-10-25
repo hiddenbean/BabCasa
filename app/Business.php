@@ -4,12 +4,23 @@ namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Model;
 
 class Business extends Authenticatable
 {
 
     use SoftDeletes;
+    use LogsActivity;
+
+    protected static $recordEvents = ['deleted', 'created', 'updated'];
+
+    protected static $logFillable = true;
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "This model has been ". $eventName;
+    }
     
     protected $guard = 'business';
 

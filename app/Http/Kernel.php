@@ -36,6 +36,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            'access' => \App\Http\Middleware\AccessControl::class,
         ],
 
         'api' => [
@@ -62,6 +63,8 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'CanRead' => \App\Http\Middleware\CanRead::class,
         'CanWrite' => \App\Http\Middleware\CanWrite::class,
+        'access' => \App\Http\Middleware\AccessControl::class,
+        'LogActivity' => \App\Http\Middleware\LogsActivity::class,
         'localize' => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRoutes::class,
 		'localizationRedirect' => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRedirectFilter::class,
 		'localeSessionRedirect' => \Mcamara\LaravelLocalization\Middleware\LocaleSessionRedirect::class,

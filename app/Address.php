@@ -9,7 +9,8 @@ class Address extends Model
 {
     use SoftDeletes;  
 
-    protected $fillable = ['address', 'address_two', 'full_name', 'country_id   ', 'city', 'zip_code', 'longitude', 'latitude', 'addressable_type', 'addressable_id'];
+    protected $fillable = ['address', 'address_two', 'full_name', 'country_id', 'city', 'zip_code', 'longitude', 'latitude', 'addressable_type', 'addressable_id'];
+    
     public function addressable()
     {
         return $this->morphTo();

@@ -5,11 +5,25 @@ namespace App;
 use App;
 use App\Language;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Profile extends Model
 {
-    use SoftDeletes;
+	use SoftDeletes;
+	use LogsActivity;
+
+	protected $fillable = [];
+
+	protected static $recordEvents = ['deleted', 'created', 'updated'];
+
+	protected static $logFillable = true;
+
+	public function getDescriptionForEvent(string $eventName): string
+	{
+		return "This model has been ". $eventName;
+	}
+	
     public function profileLangs()
     {
             return $this->hasMany('App\ProfileLang')->withTrashed();

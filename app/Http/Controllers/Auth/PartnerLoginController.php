@@ -62,6 +62,9 @@ class PartnerLoginController extends Controller
         
         if(Auth::guard('partner')->attempt($request->only('email', 'password'), $request->remember))
         {
+            activity()
+                    ->causedBy(auth()->guard('partner')->user())
+                    ->log("logged in");
             return redirect()->intended('/');
         }
         return redirect()->back();
@@ -89,6 +92,10 @@ class PartnerLoginController extends Controller
      */
    public function logout(Request $request)
    {
+       $partner = auth()->guard('partner')->user();
+        activity()
+                ->causedBy($partner)
+                ->log("logged out");
        Auth::guard('partner')->logout();
        $request->session()->invalidate();
        return redirect('/sign-in');

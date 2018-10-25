@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Hash;
 
 class PinController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:staff,business,partner');
+        
+    }
+
     /**
      * Display a listing of the resource.
      *

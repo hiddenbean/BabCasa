@@ -7,6 +7,13 @@ use Illuminate\Http\Request;
 
 class DetailValueLangController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:partner');
+        
+    }
+
     /**
      * Display a listing of the resource.
      *

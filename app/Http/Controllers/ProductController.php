@@ -27,7 +27,12 @@ use App\Http\Controllers\AttributeValueController;
 class ProductController extends Controller
 {
 
-    
+    public function __construct()
+    {
+        $this->middleware('auth:staff,partner,business');
+        
+    }
+
     /**
      * Get a validator for an incoming registration request.
      *

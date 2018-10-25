@@ -3,17 +3,29 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\Traits\CausesActivity;
+use Illuminate\Database\Eloquent\SoftDeletes;
 //use this notification to sen an email to a specific user
 use App\Notifications\StaffPasswordNotification;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Staff extends Authenticatable
 {
-
     use Notifiable;
+    use CausesActivity;
     use SoftDeletes;
+    use LogsActivity;
+
+    protected static $recordEvents = ['deleted', 'created', 'updated'];
+
+    protected static $logFillable = true;
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "This model has been ". $eventName;
+    }
     protected $guard = 'staff';
 
     protected $fillable = [

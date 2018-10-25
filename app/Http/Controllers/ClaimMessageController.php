@@ -13,9 +13,10 @@ use Illuminate\Http\Request;
 
 class ClaimMessageController extends Controller
 {
-    public function __construst()
+    public function __construct()
     {
-        //
+        $this->middleware('auth:staff,partner');
+        
     }
 
       /**
