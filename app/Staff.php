@@ -41,7 +41,6 @@ class Staff extends Authenticatable
     {
         return $this->belongsTo('App\Gender');
     }
-
     public function claims()
     {
         return $this->hasMany('App\Claim');

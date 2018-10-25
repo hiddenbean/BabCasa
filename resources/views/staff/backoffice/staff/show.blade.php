@@ -67,7 +67,7 @@
                                 </div>
                                 <div class="col-md-9">
                                     <strong>
-                                        xx
+                                        {{$staff->name}}
                                     </strong>
                                 </div>
                             </div>
@@ -78,7 +78,7 @@
                                 </div>
                                 <div class="col-md-9">
                                     <strong>
-                                        <a href="mailto:xx@babcasa.com">xx@babcasa.com</a>
+                                        <a href="mailto:{{$staff->email}}@babcasa.com">{{$staff->email}}</a>
                                     </strong>
                                 </div>
                             </div>
@@ -97,7 +97,7 @@
                                 </div>
                                 <div class="col-md-9">
                                     <strong>
-                                        xx
+                                        {{$staff->first_name}}
                                     </strong>
                                 </div>
                             </div>
@@ -108,7 +108,7 @@
                                 </div>
                                 <div class="col-md-9">
                                     <strong>
-                                        xx
+                                        {{$staff->last_name}}
                                     </strong>
                                 </div>
                             </div>
@@ -119,7 +119,7 @@
                                 </div>
                                 <div class="col-md-9">
                                     <strong>
-                                        xx may 199x
+                                        {{$staff->birthday}} 
                                     </strong>
                                 </div>
                             </div>
@@ -130,7 +130,7 @@
                                 </div>
                                 <div class="col-md-9">
                                     <strong>
-                                        Male
+                                        {{$staff->gender->genderLang()->reference}}
                                     </strong>
                                 </div>
                             </div>
@@ -141,7 +141,7 @@
                                 </div>
                                 <div class="col-md-9">
                                     <address>
-                                        xx
+                                        {{$staff->address->address}}
                                     </address>
                                 </div>
                             </div>
@@ -150,7 +150,7 @@
                                     Phone number
                                 </div>
                                 <div class="col-md-9">
-                                    <strong><a href="tel:+212xx">(+212) 06 76 75 27 60</a></strong>
+                                    <strong><a href="tel:+{{$staff->phones[0]->country->phone_code.$staff->phones[0]->number}}">({{$staff->phones[0]->country->phone_code}}) {{$staff->phones[0]->number}}</a></strong>
                                 </div>
                             </div>
 
@@ -166,7 +166,7 @@
                                     Profile
                                 </div>
                                 <div class="col-md-9">
-                                    <strong>test</strong>
+                                    <strong>{{$staff->profile->profileLang()->reference}}</strong>
                                 </div>
                             </div>
                         </div>

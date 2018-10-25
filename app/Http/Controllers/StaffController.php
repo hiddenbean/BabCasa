@@ -9,6 +9,8 @@ use App\Staff;
 use App\Profile;
 use App\Language;
 use App\Adress;
+use App\Country;
+use App\Gender;
 use App\Phone;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\PictureController;
@@ -65,7 +67,10 @@ class StaffController extends Controller
      */
     public function create()
     {
-        return view('staff.backoffice.staff.create');
+        $data['profiles'] = Profile::all();
+        $data['countries'] = Country::all();
+        $data['genders'] = Gender::all();
+        return view('staff.backoffice.staff.create',$data);
     }
 
     /**
@@ -75,7 +80,7 @@ class StaffController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {return 'hi';
+    {
         $this->validateRequest($request);
         
         $staff = new Staff();

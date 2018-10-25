@@ -202,7 +202,7 @@ function()
     Route::get('/sign-in', 'Auth\StaffLoginController@showLoginForm');
     Route::get('/logout', 'Auth\StaffLoginController@logout');
 
-    Route::prefix(' ')->middleware('CanRead:staff')->group(function() {
+    Route::prefix('satff')->middleware('CanRead:staff')->group(function() {
         Route::get('/', 'StaffController@index'); 
         Route::group(['middleware' => ['CanWrite:staff']], function(){
             Route::get('create', 'StaffController@create'); 
@@ -357,16 +357,6 @@ Route::prefix('discounts')->group(function() {
         }
     );
 
-    // POST DOMAINs
-    Route::domain('www.babcasa.com')->group(function (){
-
-        Route::post('/', function () {
-            return view('welcome');
-        }); 
-
-        
-    });
-
     // Partner register route
     Route::post('register', 'Auth\PartnerRegisterController@store')->name('partner.register.submit');
     // Partner auth route, sign in    
@@ -397,34 +387,36 @@ Route::prefix('discounts')->group(function() {
             // Desactivate partner account
             Route::delete('/desactivate', 'PartnerController@destroy');
 
-    //////////CLAIMs
-    Route::prefix('support')->group(function() {
-        Route::post('','ClaimController@store');
-        Route::prefix('message')->group(function() {
-            Route::post('{claim}','ClaimMessageController@store');
-        });
-    });
+            //////////CLAIMs
+            Route::prefix('support')->group(function() {
+                Route::post('','ClaimController@store');
+                Route::prefix('message')->group(function() {
+                    Route::post('{claim}','ClaimMessageController@store');
+                });
+            });
 
 
 });
 
-    Route::domain('staff.babcasa.com')->group(function (){
+Route::domain('staff.babcasa.com')->group(function (){
 
-        Route::post('/', function () {
-            return view('welcome');
-        });
+    // Reset password
+    Route::post('sign-in', 'Auth\StaffLoginController@login')->name('staff.login.submit');
+    Route::post('passwords/email', 'Auth\StaffForgotPasswordController@sendResetLinkEmail')->name('staff.password.link.send');
+    Route::post('password/reset', 'Auth\StaffResetPasswordController@reset')->name('staff.password.reset');
 
-        // Reset password
-        Route::post('passwords/email', 'Auth\StaffForgotPasswordController@sendResetLinkEmail')->name('staff.password.link.send');
-        Route::post('password/reset', 'Auth\StaffResetPasswordController@reset')->name('staff.password.reset');
-
-        Route::prefix('{staff}')->group(function() {
-            // Staff secutiry
-            Route::delete('security/{session}', 'StaffController@sessionDestroy');
-
-            // Desactivate staff account
-            Route::delete('/desactivate', 'StaffController@destroy');
-        });
+    Route::prefix('staff')->middleware('CanWrite:staff')->group(function() {
+        Route::post('/', 'Auth\StaffRegisterController@storeWithRedirect');
+        Route::post('/create', 'Auth\StaffRegisterController@storeAndNew');
+        Route::post('/multi-restore', 'StaffController@multiRestore'); 
+        Route::post('{staff}/restore', 'StaffController@restore'); 
+        Route::delete('multi-destroy', 'StaffController@multiDestroy')->name('multi_delete.staff');
+        Route::put('password', 'StaffController@resetPassword'); 
+        Route::put('{staff}', 'StaffController@update'); 
+        Route::delete('{staff}', 'StaffController@destroy')->name('delete.staff');
+        Route::post('{staff}/reset/password', 'PinController@store')->name('reset.password.staff');
+        Route::post('{staff}/pin/verification', 'PinController@checkPin');
+    });
 
     //////////Categories
     Route::prefix('categories')->middleware('CanWrite:category')->group(function() {
@@ -437,6 +429,7 @@ Route::prefix('discounts')->group(function() {
         Route::delete('{category}', 'CategoryController@destroy')->name('delete.category');
         Route::delete('delete/multiple', 'CategoryController@multiDestroy')->name('delete.categories');
     }); 
+    
     //////////attributes
     Route::prefix('attributes')->middleware('CanWrite:attribute')->group(function() {
 
@@ -517,25 +510,8 @@ Route::prefix('discounts')->group(function() {
         Route::post('{reason}', 'StatusController@update'); 
         Route::delete('{reason}', 'StatusController@destroy')->name('delete.status');
     }); 
-    //////////STAFF
-    
-    Route::post('sign-in', 'Auth\StaffLoginController@login')->name('staff.login.submit');
-
-    Route::prefix('staff')->middleware('CanWrite:staff')->group(function() {
-        Route::post('/', 'Auth\StaffRegisterController@storeWithRedirect');
-        Route::post('/create', 'Auth\StaffRegisterController@storeAndNew');
-        Route::post('/multi-restore', 'StaffController@multiRestore'); 
-        Route::post('{staff}/restore', 'StaffController@restore'); 
-        Route::delete('multi-destroy', 'StaffController@multiDestroy')->name('multi_delete.staff');
-        Route::put('password', 'StaffController@resetPassword'); 
-        Route::put('{staff}', 'StaffController@update'); 
-        Route::delete('{staff}', 'StaffController@destroy')->name('delete.staff');
-        Route::post('{staff}/reset/password', 'PinController@store')->name('reset.password.staff');
-        Route::post('{staff}/pin/verification', 'PinController@checkPin');
-    }); 
 
     Route::prefix('partners')->middleware('CanWrite:partner')->group(function() {
-
         Route::post('/', 'PartnerController@store'); 
         Route::delete('multi-destroy', 'PartnerController@multiDestroy')->name('multi_delete.partners');
         // Route::post('{partner}/active', 'PartnerController@active')->name('active.partner');
@@ -547,28 +523,6 @@ Route::prefix('discounts')->group(function() {
             Route::post('/pin/verification', 'PinController@checkPin');
         });
     });
-    Route::prefix('clients')->group(function(){
-        Route::prefix('business')->middleware('CanWrite:business_client')->group(function(){
-            Route::post('/store', 'BusinessController@store');
-            Route::delete('multi-destroy', 'BusinessController@multiDestroy')->name('multi_delete.businesses');
-            Route::prefix('{business}')->group(function(){
-                Route::delete('/destroy', 'BusinessController@destroy')->name('delete.business');
-                Route::post('/reset/password', 'PinController@store')->name('reset.password.business');
-                Route::put('/', 'BusinessController@update');
-                Route::post('/pin/verification', 'PinController@checkPin');
-                
-                
-            });
-        });
-
-        Route::prefix('particular')->middleware('CanWrite:staff')->group(function() {
-            Route::post('/', 'ParticularClientController@store');
-            Route::delete('multi-destroy', 'ParticularClientController@multiDestroy')->name('multi_delete.particular_clients');
-            Route::put('{particular}', 'ParticularClientController@update');
-            Route::delete('{particular}', 'ParticularClientController@destroy')->name('delete.particular-client');
-            Route::post('{particular}/reset/password', 'PinController@store')->name('reset.password.particular_client');
-        }); 
-    });
 
         //////////profiles
         Route::prefix('profiles')->middleware('CanWrite:profile')->group(function() {
@@ -578,21 +532,4 @@ Route::prefix('discounts')->group(function() {
             Route::post('{profile}/permissions', 'ProfileController@permissions'); 
             Route::delete('{profile}', 'ProfileController@destroy')->name('delete.profile');
         });
-
-    // Staff register route
-    //Route::post('register', 'auth\StaffRegisparticular_clientterController@store')->name('staff.register.submit'); 
-
-    
-    
-
-    /*Route::get('/clients/particular', function () { 
-        return view('clients_particular.backoffice.staff.index');
-    }); 
-    Route::get('/clients/particular/create', function () { 
-        return view('clients_particular.backoffice.staff.create');
-    }); 
-    Route::get('/clients/particular/show', function () { 
-        return view('clients_particular.backoffice.staff.show');
-    });
-*/
 });
