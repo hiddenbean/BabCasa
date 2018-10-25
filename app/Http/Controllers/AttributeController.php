@@ -6,11 +6,19 @@ use App\Attribute;
 use App\Category;
 use App\AttributeLang;
 use App\Language;
+use App\Staff;
 use App;
 use Illuminate\Http\Request;
 
 class AttributeController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:staff');
+        
+    }
+
      /**
      * Get a validator for an incoming registration request.
      *
@@ -65,7 +73,6 @@ class AttributeController extends Controller
         // return  $request;
         $attribute = new Attribute();
         $attribute->type = $request->type; 
-       
         $attribute->save();
 
         foreach(Language::all() as $lang)
@@ -157,23 +164,27 @@ class AttributeController extends Controller
             'reference' => 'required|unique:attribute_langs,reference,'.$attribute.',attribute_id',
             'type' => 'required',
         ]);
-        $Attribute = Attribute::find($attribute);
-        $Attribute->type =  $request->type;
-        $Attribute->save();
-        $attributeLangId = $Attribute->attributeLang()->id;
+        $attribute = Attribute::find($attribute);
+        $attribute->update([
+            'type' => $request->type,
+        ]);
 
-        $attributeLang = AttributeLang::find($attributeLangId);
-        $attributeLang->reference = $request->reference;
-        $attributeLang->description = $request->description;
-        $attributeLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
-        $attributeLang->save();
-        $Attribute->categories()->detach();
+        $attribute_langId = $attribute->attributeLang()->id;
+
+        $attribute_lang = AttributeLang::find($attribute_langId);
+        $attribute_lang->update([
+            'reference' => $request->reference,
+            'description' => $request->description,
+            'lang_id' => Language::where('alpha_2_code',App::getLocale())->first()->id,
+        ]);
+
+        $attribute->categories()->detach();
         if($request->categories)
         {
             foreach($request->categories as $category)
             {
-                $Attribute->categories()->attach($category);
-            } 
+                $attribute->categories()->attach($category);
+            }
         }
         return redirect('attributes');
     }

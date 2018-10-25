@@ -86,7 +86,7 @@
                                         <a href="{{url('staff/'.$staff->id.'/restore')}}" data-method="POST"  data-token="{{csrf_token()}}" class="text-danger"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></a></td>
                                 </td> 
                                  <td class="v-align-middle picture">
-                                    <a href="{{url('staff/'.$staff->id)}}"><img src="@if(isset($staff->picture->path)) {{Storage::url($staff->picture->path)}} @else https://ae01.alicdn.com/kf/HTB1VGbHiZuYBuNkSmRy763A3pXaX.png @endif" alt="cat1"></a>
+                                    <a href="{{url('staff/'.$staff->id)}}"><img src="@if(isset($staff->picture->path)) {{Storage::url($staff->picture->path)}} @else {{asset('img/img_placeholder.png')}} @endif" alt="cat1"></a>
                                 </td>
                                 <td class="v-align-middle">{{$staff->name}}</td>
                                 <td class="v-align-middle">{{$staff->email}}</td>

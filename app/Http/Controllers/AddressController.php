@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class AddressController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:staff,partner,business');
+        
+    }
+
       /**
      * Get a validator for an incoming registration request.
      *

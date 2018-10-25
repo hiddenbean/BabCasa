@@ -11,7 +11,6 @@ use App\Phone;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\PictureController;
-use App\Http\Controllers\PhoneController;
 use App\Http\Controllers\Controller;
 // use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -60,7 +59,6 @@ class StaffRegisterController extends Controller
         $request->validate([
             'name' => 'required|unique:staff,name',
             'email' => 'required|unique:staff,email',
-            'password' => 'required|min:6',
             'first_name' => 'required',
             'last_name' => 'required',
             'birthday' => 'required',
@@ -83,15 +81,13 @@ class StaffRegisterController extends Controller
     protected function store(Request $request)
     {
         $this->validateRequest($request);
-
+       
         $AddressController = new AddressController();
         $AddressController->validateRequest($request);
         
         $PictureController = new PictureController();
         $PictureController->validateRequest($request);
         
-        $PhoneController = new PhoneController();
-        $PhoneController->validateRequest($request);
 
         $password = bcrypt($request->password);
         $name = $request->name;
@@ -132,34 +128,21 @@ class StaffRegisterController extends Controller
                 'pictureable_id' => $staff->id,
             ]);
         }
-        
 
-        foreach($request->numbers as $key => $number)
-        {
-            if($number != null)
-            {
-                
-                $phone = new Phone();
-                $phone->number = $number;
-                $phone->type = "phone";
-                $phone->country_id = $request->code_country[$key];
-                $phone->phoneable_type = 'staff';
-                $phone->phoneable_id = $staff->id;
-                $phone->save();
-            }
-        }
+        $request->validate([
+            'number' => 'required|numeric|unique:phones,number|digits:9',
+            'code_country' => 'sometimes',
+        ]);
+    
+          
+        $phone = new Phone();
+        $phone->number = $request->number;
+        $phone->type = "phone";
+        $phone->country_id = $request->code_country;
+        $phone->phoneable_type = 'staff';
+        $phone->phoneable_id = $staff->id;
+        $phone->save();
 
-        if($request->fax_number)
-            {
-                $phone = new Phone();
-                $phone->number = $request->fax_number;
-                $phone->type = "fax";
-                $phone->country_id = $request->code_country[2];
-                $phone->phoneable_type = 'staff';
-                $phone->phoneable_id = $staff->id;
-                $phone->save();
-            }
-            
         return $staff;
     }
 
@@ -167,6 +150,8 @@ class StaffRegisterController extends Controller
      * 
      */
     public function storeWithRedirect(Request $request) {
+        $full_name= $request->first_name.' '.$request->last_name;
+        $request['full_name'] =$full_name;
         $staff = self::store($request);
         return redirect('staff/'.$staff->id);
     }

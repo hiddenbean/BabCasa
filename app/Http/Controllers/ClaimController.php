@@ -12,6 +12,7 @@ Use Auth;
 
 class ClaimController extends Controller
 {
+
     /**
      * Create a new partner controller instance.
      * Call te auth middleware and pecify the partner guard.

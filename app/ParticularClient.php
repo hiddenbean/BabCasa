@@ -3,11 +3,26 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ParticularClient extends Model
 {
-    use SoftDeletes;  
+    use SoftDeletes;
+    use LogsActivity;
+
+    protected $fillable = ['name', 'email', 'password', 'first_name', 'last_name', 'birthday', 'gender_id', 'is_register_to_newsletter'];
+
+    protected $hidden = ['password', 'remember_token'];
+
+    protected static $recordEvents = ['deleted', 'created', 'updated'];
+
+    protected static $logFillable = true;
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "This model has been ". $eventName;
+    }
 
     public function address()
     {

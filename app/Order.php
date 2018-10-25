@@ -3,12 +3,23 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 class Order extends Model
 {
     use SoftDeletes;
+    use LogsActivity;
 
-    protected $fillable = ['reference', 'costumer_type', 'status', 'costumer_id', 'paiement_id', 'address_id'];
+    protected static $recordEvents = ['deleted', 'created', 'updated'];
+
+    protected static $logFillable = true;
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "This model has been ". $eventName;
+    }
+
+    protected $fillable = ['costumer_id', 'costumer_type', 'status', 'paiement_id', 'address_id', 'partner_id'];
     
     public function products()
     {

@@ -50,7 +50,7 @@
                             <h5>
                                 Picture
                             </h5>
-                            <img src="@if(isset($staff->picture->path)) {{Storage::url($staff->picture->path)}} @else https://ae01.alicdn.com/kf/HTB1VGbHiZuYBuNkSmRy763A3pXaX.png @endif" alt="cat1">
+                            <img src="@if(isset($staff->picture->path)) {{Storage::url($staff->picture->path)}} @else {{asset('img/img_placeholder.png')}} @endif" alt="cat1">
                         </div>
                         <div class="col-md-8">
                             <div class="row">
@@ -67,7 +67,7 @@
                                 </div>
                                 <div class="col-md-9">
                                     <strong>
-                                        xx
+                                        {{$staff->name}}
                                     </strong>
                                 </div>
                             </div>
@@ -78,7 +78,7 @@
                                 </div>
                                 <div class="col-md-9">
                                     <strong>
-                                        <a href="mailto:xx@babcasa.com">xx@babcasa.com</a>
+                                        <a href="mailto:{{$staff->email}}@babcasa.com">{{$staff->email}}</a>
                                     </strong>
                                 </div>
                             </div>
@@ -97,7 +97,7 @@
                                 </div>
                                 <div class="col-md-9">
                                     <strong>
-                                        xx
+                                        {{$staff->first_name}}
                                     </strong>
                                 </div>
                             </div>
@@ -108,7 +108,7 @@
                                 </div>
                                 <div class="col-md-9">
                                     <strong>
-                                        xx
+                                        {{$staff->last_name}}
                                     </strong>
                                 </div>
                             </div>
@@ -119,7 +119,7 @@
                                 </div>
                                 <div class="col-md-9">
                                     <strong>
-                                        xx may 199x
+                                        {{$staff->birthday}} 
                                     </strong>
                                 </div>
                             </div>
@@ -130,7 +130,7 @@
                                 </div>
                                 <div class="col-md-9">
                                     <strong>
-                                        Male
+                                        {{$staff->gender->genderLang()->reference}}
                                     </strong>
                                 </div>
                             </div>
@@ -141,7 +141,7 @@
                                 </div>
                                 <div class="col-md-9">
                                     <address>
-                                        xx
+                                        {{$staff->address->address}}
                                     </address>
                                 </div>
                             </div>
@@ -150,7 +150,7 @@
                                     Phone number
                                 </div>
                                 <div class="col-md-9">
-                                    <strong><a href="tel:+212xx">(+212) 06 76 75 27 60</a></strong>
+                                    <strong><a href="tel:+{{$staff->phones[0]->country->phone_code.$staff->phones[0]->number}}">({{$staff->phones[0]->country->phone_code}}) {{$staff->phones[0]->number}}</a></strong>
                                 </div>
                             </div>
 
@@ -166,7 +166,7 @@
                                     Profile
                                 </div>
                                 <div class="col-md-9">
-                                    <strong>test</strong>
+                                    <strong>{{$staff->profile->profileLang()->reference}}</strong>
                                 </div>
                             </div>
                         </div>
@@ -274,11 +274,10 @@
             </div>
         </div>
     </div>
-<<<<<<< HEAD
     <div class="row">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">
+                {{--  <div class="card-header">
                     <div class="card-title">
                         Activity Log
                         <a 
@@ -292,10 +291,8 @@
                             <i class="fas fa-question-circle"></i>
                         </a>
                     </div>
-                </div>
+                </div>  --}}
                 <div class="card-body">
-=======
->>>>>>> 46bf8348d0fd4705bb0e93b9083509e217851f21
 
     @include('logs.backoffice.componments.table')
 </div>

@@ -329,7 +329,7 @@
             </span>
             <ul class="sub-menu">
                 <li>
-                    <a href="javascript:;">Security</a>
+                <a href="{{ url('security') }}">Security</a>
                     <span class="icon-thumbnail">
                         <i class="fas fa-lock"></i>
                     </span>

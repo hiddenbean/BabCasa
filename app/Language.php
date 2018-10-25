@@ -3,9 +3,23 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Language extends Model
 {
+    use LogsActivity;
+
+    protected $fillable = ['name', 'alpha_2_code'];
+
+    protected static $recordEvents = ['deleted', 'created', 'updated'];
+
+    protected static $logFillable = true;
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "This model has been ". $eventName;
+    }
+
     public function attributeLang()
     {
         return $this->hasMany('App\AttributeLang');

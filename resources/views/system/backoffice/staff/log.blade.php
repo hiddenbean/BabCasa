@@ -27,35 +27,26 @@
                 <h4 class="m-t-0 m-b-0"> <strong>Log</strong> </h4>
             </div>
             <div class="card-body">
+                @foreach($activities as $activity)
                     <div class="card">
                             <div class="card-header">
-                                <strong>YESTERDAY</strong> 
+                            <strong>{{ date_format($activity->created_at, 'y-m-d') }}</strong> 
                             </div>
                             <div class="card-body p-l-15 p-r-15 p-b-15">
                                 <div class="row border-bottom">
                                     <div class="col-md-12 m-t-10 m-b-10">
                                         <div class="email-content-header "> 
                                             <div class="sender inline m-l-10">
-                                                <p class="name no-margin bold">Mohammed Kassab</p>
-                                                <p class="datetime no-margin">Update user Faris Adnan Shamoun</p>
+                                                <p class="name no-margin bold">{{ $activity->causer->first_name }} {{ $activity->causer->last_name }}</p>
+                                                <p class="datetime no-margin">{!! $activity->description !!}</p>
                                             </div> 
-                                            <div class="subject m-l-10 semi-bold"> at 12:23am </div> 
+                                            <div class="subject m-l-10 semi-bold"> {{ date_format($activity->created_at, 'H:i') }} </div> 
                                         </div>
                                     </div>   
-                                </div>  
-                                <div class="row">
-                                    <div class="col-md-12 m-t-10 m-b-10">
-                                        <div class="email-content-header "> 
-                                            <div class="sender inline m-l-10">
-                                                <p class="name no-margin bold">Zaki Shahid</p>
-                                                <p class="datetime no-margin">Create new Client</p>
-                                            </div> 
-                                            <div class="subject m-l-10 semi-bold"> at 11:23am </div> 
-                                        </div>
-                                    </div>   
-                                </div>  
+                                </div> 
                             </div>
-                        </div>  
+                        </div> 
+                    @endforeach
                         <div class="card">
                             <div class="card-header">
                                 <strong>10 JUIN</strong> 
