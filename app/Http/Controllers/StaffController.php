@@ -17,6 +17,8 @@ use App\Http\Controllers\PhoneController;
 use Illuminate\Support\Facades\Hash;
 use App\Guest;
 use Illuminate\Http\Request;
+use Spatie\Activitylog\Models\Activity;
+
 
 class StaffController extends Controller
 {
@@ -360,5 +362,20 @@ class StaffController extends Controller
                             'error',
                             'Old password is not correct !!'
                         );
+    }
+
+    public function log()
+    {
+        $activities = Activity::where('causer_id', auth()->guard('staff')->user()->id)->where('causer_type', 'staff')->latest()->limit(100)->get();
+        return view('system.backoffice.staff.log', ['activities' => $activities]);
+        return dd(Activity::where('causer_id', auth()->guard('staff')->user()->id)->where('causer_type', 'staff')->latest()->limit(100)->get());
+        return Activity::all()->first()->subject;
+        return App\Staff::find(2)->with('activity')->first();
+        // return Activity::where('causer_id', Staff::find(2)->id)->where('causer_type', 'staff' )->get();
+        // return Activity::where('causer_id', Staff::find(2)->id)->where('causer_type', 'staff' )->get();
+        return activity()
+                        ->causedBy(Staff::find(2))
+                        ->log('default');
+        return Activity::all()->last();
     }
 }

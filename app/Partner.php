@@ -2,8 +2,9 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 //use this notification to sen an email to a specific user
 use App\Notifications\ResetPasswordNotification;
@@ -14,9 +15,20 @@ class Partner extends Authenticatable
 
     //
     
-    use SoftDeletes;  
+    use SoftDeletes;
+    use LogsActivity;
 
-    protected $fillable = ['company_name', 'email','password', 'name', 'about', 'trade_registry', 'ice', 'taxe_id'];
+
+    protected static $recordEvents = ['deleted', 'created', 'updated'];
+
+    protected static $logFillable = true;
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "This model has been ". $eventName;
+    }  
+
+    protected $fillable = ['company_name', 'email','password', 'name', 'about', 'trade_registry', 'ice', 'taxe_id', 'is_register_to_newsletter'];
 
     protected $hidden = ['password', 'remember_token'];
 

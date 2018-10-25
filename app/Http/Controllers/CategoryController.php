@@ -16,7 +16,6 @@ class CategoryController extends Controller
     public function __construct()
     {
         $this->middleware('auth:staff');
-        
     }
      /**
      * Get a validator for an incoming registration request.
@@ -180,11 +179,16 @@ class CategoryController extends Controller
         {
             $cats = Category::withTrashed()->where('category_id',NULL)->get();
         }
+        $found = false;
         if(isset($cats[0]))
         {
             foreach($cats as $cat)
             {
-                $cat->categoryLang()->reference == $request->reference ? $found = $cat->id : $found = false;
+                if($cat->categoryLang()->reference == $request->reference)
+                {
+                    $found = $cat->id;
+                    break;
+                }
             }
         }
         return $found;
@@ -286,8 +290,9 @@ class CategoryController extends Controller
 
         $category = Category::withTrashed()->findOrFail($category);
         $request->category_parent == 0 ? $category_parent = null : $category_parent = $request->category_parent;
-        $category->category_id = $category_parent; 
-        $category->save();
+        $category->update([
+            'category_id' =>$category_parent,
+        ]);
         
         if($request->hasFile('path')) 
         {

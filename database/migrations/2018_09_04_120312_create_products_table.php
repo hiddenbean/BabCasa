@@ -18,8 +18,9 @@ class CreateProductsTable extends Migration
             $table->double('price')->nullable();
             $table->boolean('for_business');
             $table->integer('quantity')->nullable();
-            $table->integer('currency_id');
+            $table->integer('country_id');
             $table->integer('partner_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

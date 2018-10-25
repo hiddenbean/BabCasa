@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 class ProductLangController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->middleware('auth:staff,partner');
+        
+    }
+
      /**
      * Get a validator for an incoming registration request.
      *

@@ -14,7 +14,6 @@ class DetailController extends Controller
     public function __construct()
     {
         $this->middleware('auth:staff');
-        $this->middleware('CanRead:detail'); //->except('index','create');
     }
 
      /**

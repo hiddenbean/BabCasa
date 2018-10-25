@@ -66,6 +66,9 @@ class StaffLoginController extends Controller
         $remember = $request->remember === "on" ? true : false;
         if(Auth::guard('staff')->attempt($loginRequest, $remember))
         {
+            activity()
+                    ->causedBy(auth()->guard('staff')->user())
+                    ->log("logged in");
             return redirect()->intended('/');
         }
         return redirect()->back()->withInput()->withErrors([
@@ -95,6 +98,10 @@ class StaffLoginController extends Controller
      */
     public function logout(Request $request)
     {
+        $staff = auth()->guard('staff')->user();
+        activity()
+                ->causedBy($staff)
+                ->log("logged out");
         Auth::guard('staff')->logout();
         $request->session()->invalidate();
         return redirect('sign-in');

@@ -16,7 +16,7 @@ class ParticularClientController extends Controller
 {
     public function __construct()
     {
-         //$this->middleware('auth:particular_clients');
+        //$this->middleware('auth:particular_clients, staff');
     }
 
     protected function validateRequest(Request $request)

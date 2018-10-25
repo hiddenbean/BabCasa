@@ -16,6 +16,11 @@ use App\Http\Controllers\PhoneController;
 
 class BusinessController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:staff,business');
+    }
+
     /**
      * Display a listing of the resource.
      *

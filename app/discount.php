@@ -3,9 +3,23 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Discount extends Model
 {
+    use LogsActivity;
+
+    protected $fillable = ['redaction_percentage', 'start_at', 'end_at', 'partner_id'];
+
+    protected static $recordEvents = ['deleted', 'created', 'updated'];
+
+    protected static $logFillable = true;
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "This model has been ". $eventName;
+    }
+
     // Relationship with discount langs table
     public function discountLangs()
     {

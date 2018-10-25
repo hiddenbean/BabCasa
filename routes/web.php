@@ -28,7 +28,7 @@ function()
 
     // Staff sub domaine GET routes (staff.babcasa.com)
     // Staff routes start 
-    Route::domain('staff.babcasa.com')->group(function (){
+    Route::domain('staff.babcasa.com')->middleware('LogActivity')->group(function (){
         // Staff home page
         Route::get('/', 'StaffController@dashboard');
         
@@ -195,7 +195,8 @@ function()
     //////////staff
     Route::get('/sign-in', 'Auth\StaffLoginController@showLoginForm');
     Route::get('/logout', 'Auth\StaffLoginController@logout');
-
+    
+    Route::get('/logs', 'StaffController@log'); 
     Route::prefix('staff')->middleware('CanRead:staff')->group(function() {
         Route::get('/', 'StaffController@index'); 
         Route::group(['middleware' => ['CanWrite:staff']], function(){
