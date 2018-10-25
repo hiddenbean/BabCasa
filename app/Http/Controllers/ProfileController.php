@@ -39,17 +39,8 @@ class profileController extends Controller
      */
     public function index()
     {       
-        return view('profiles.backoffice.index');
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function trash()
-    {       
-        return view('profiles.backoffice.trash');
+        $data['profiles'] = Profile::all();
+        return view('profiles.backoffice.index',$data);
     }
     /**
      * Displaying the Trash page
@@ -60,7 +51,7 @@ class profileController extends Controller
     public function trash()
     {
         $data['profiles'] = Profile::onlyTrashed()->get();
-        return view('profiles.backoffice.staff.trash', $data);
+        return view('profiles.backoffice.trash', $data);
     }
     /**
      * Show the form for creating a new resource.

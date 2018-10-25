@@ -521,7 +521,6 @@ Route::domain('staff.babcasa.com')->group(function (){
 
         //////////profiles
         Route::prefix('profiles')->middleware('CanWrite:profile')->group(function() {
-
             Route::post('/', 'ProfileController@storeWithRedirect');
             Route::post('/create', 'ProfileController@storeAndNew'); 
             Route::post('/multi-restore', 'ProfileController@multiRestore'); 
@@ -530,6 +529,6 @@ Route::domain('staff.babcasa.com')->group(function (){
             Route::post('{profile}/restore', 'ProfileController@restore');
             Route::post('{profile}/permissions', 'ProfileController@permissions'); 
             Route::delete('{profile}', 'ProfileController@destroy')->name('delete.profile');
-            Route::delete('delete/multiple', 'ProfileController@multiDestroy')->name('delete.countries');
+            Route::delete('delete/multiple', 'ProfileController@multiDestroy')->name('delete.profiles');
         });
 });

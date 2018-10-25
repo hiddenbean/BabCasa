@@ -68,8 +68,7 @@
                 </div>
 
                 <div class="card-body">
-                    <form action="{{route('delete.tags')}}" method="post">
-                    {{ method_field('DELETE') }}
+                    <form action="{{url('profiles/multi-restore')}}" method="post">
                     {{ csrf_field() }}
                     <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
                         <thead>
@@ -81,7 +80,33 @@
                             <th style="width:100px">Languages</th>
                             <th style="width:150px">Deleted at</th>
                         </thead> 
-                        <tbody>                   
+                        <tbody>    
+                          @foreach($profiles as $profile)
+                        <tr role="row" id="0">
+                           <td class="v-align-middle p-l-5 p-r-5">
+                                <div class="checkbox no-padding no-margin text-center">
+                                    <input type="checkbox" value="{{$profile->id}}" name="profiles[]" id="checkbox{{$profile->id}}">
+                                    <label for="checkbox{{$profile->id}}" class="no-padding no-margin"></label>
+                                </div>
+                            </td>
+                            <td class="v-align-middle text-center p-l-5 p-r-5">
+                                <a href="{{url('profiles/'.$profile->id.'/restore')}}" data-method="POST"  data-token="{{csrf_token()}}" class="text-danger"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></a></td>
+                            </td>
+                              <td class="v-align-middle"><a href="{{url('profiles/'.$profile->id)}}"><strong>{{$profile->profileLang()->reference }}</strong></a></td>
+                            <td class="v-align-middle">{{$profile->profileLang()->description }}</td>
+                            <td class="v-align-middle">{{$profile->staff()->count() }}</td>
+                            <td class="v-align-middle">
+                                @foreach($profile->profileLangs as $profileLang)
+                                    @if($profileLang->reference != "")
+                                        <a href="#" class="btn btn-tag">{{$profileLang->lang->alpha_2_code}}</a>
+                                    @endif
+                                @endforeach
+                            </td>
+                            <td class="v-align-middle">{{$profile->delete_at}}</td>
+
+                        </tr>
+                        @endforeach
+
                         </tbody>
                     </table>
                 </div>
