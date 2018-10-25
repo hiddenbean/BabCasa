@@ -51,6 +51,17 @@ class profileController extends Controller
     {       
         return view('profiles.backoffice.trash');
     }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function translations()
+    {       
+        return view('profiles.backoffice.translations');
+    }
+    
     
     /**
      * Show the form for creating a new resource.
@@ -146,9 +157,7 @@ class profileController extends Controller
      */
     public function edit($profile)
     {
-        $data['profile'] = Profile::find($profile);
-        // return $data;
-        return view('profiles.backoffice.edit',$data);
+        return view('profiles.backoffice.edit');
     }
 
     /**

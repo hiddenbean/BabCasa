@@ -257,16 +257,6 @@ function()
         }); 
     });
 
-    //////////profiles
-    Route::prefix('profiles')->middleware('CanRead:profile')->group(function() {
-        Route::get('/', 'ProfileController@index');
-        Route::group(['middleware' => ['CanWrite:profile']], function(){
-            Route::get('create', 'ProfileController@create'); 
-            Route::get('{profile}/edit', 'ProfileController@edit');
-        }); 
-        Route::get('{profile}', 'profileController@show'); 
-    }); 
-
     //////////STATUS
     Route::prefix('statuses')->group(function() {
         Route::get('{type}/{user}','StatusController@index');
