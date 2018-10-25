@@ -472,16 +472,6 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::delete('{country}', 'CountryController@destroy')->name('delete.country');
         Route::delete('delete/multiple', 'CountryController@multiDestroy')->name('delete.countries');
     }); 
-    //////////CURRENCIES
-    Route::prefix('currencies')->middleware('CanWrite:currency')->group(function() {
-        Route::post('/', 'CurrencyController@storeWithRedirect');
-        Route::post('/create', 'CurrencyController@storeAndNew');
-        Route::post('/', 'CurrencyController@store'); 
-        Route::post('{currency}', 'CurrencyController@update'); 
-        Route::delete('{currency}', 'CurrencyController@destroy')->name('delete.currency');
-        Route::delete('delete/multiple', 'CurrencyController@multiDestroy')->name('delete.currencies');
-
-    }); 
     //////////REASONS
     Route::prefix('reasons')->middleware('CanWrite:reason')->group(function() {
 
@@ -522,9 +512,14 @@ Route::domain('staff.babcasa.com')->group(function (){
         //////////profiles
         Route::prefix('profiles')->middleware('CanWrite:profile')->group(function() {
 
-            Route::post('/', 'ProfileController@store'); 
+            Route::post('/', 'ProfileController@storeWithRedirect');
+            Route::post('/create', 'ProfileController@storeAndNew'); 
+            Route::post('/multi-restore', 'ProfileController@multiRestore'); 
             Route::post('{profile}', 'ProfileController@update'); 
+            Route::post('{profile}/translations','ProfileLangController@update');
+            Route::post('{profile}/restore', 'ProfileController@restore');
             Route::post('{profile}/permissions', 'ProfileController@permissions'); 
             Route::delete('{profile}', 'ProfileController@destroy')->name('delete.profile');
+            Route::delete('delete/multiple', 'ProfileController@multiDestroy')->name('delete.countries');
         });
 });
