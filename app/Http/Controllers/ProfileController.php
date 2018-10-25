@@ -41,7 +41,17 @@ class profileController extends Controller
         $data['profiles'] = Profile::all();
         return view('profiles.backoffice.index',$data);
     }
-    
+    /**
+     * Displaying the Trash page
+     * 
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function trash()
+    {
+        $data['profiles'] = Profile::onlyTrashed()->get();
+        return view('profiles.backoffice.staff.trash', $data);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -49,8 +59,8 @@ class profileController extends Controller
      */
     public function create()
     {
-
-        return view('profiles.backoffice.create');
+        $data['languages'] = Language::all();
+        return view('profiles.backoffice.create',$data);
     }
     
     /**
@@ -61,21 +71,46 @@ class profileController extends Controller
      */
     public function store(Request $request)
     {
+        $trashedProfileLang = ProfileLang::onlyTrashed()->where('reference', $request->reference)->first();
+        if(isset($trashedProfileLang))
+        {
+            return redirect('profiles/'.$trashedProfileLang->profile_id);
+        }
         $this->validateRequest($request);
 
         $profile = new Profile();
         $profile->save(); 
+
+          // Add LANGUAGES 
+          foreach(Language::all() as $lang)
+          {
+              $profileLang = new ProfileLang();
+              $profileLang->profile_id = $profile->id;
+              $profileLang->lang_id = $lang->id;
+              $profileLang->reference = ($lang->id == $request->language) ? $request->reference : "";
+              $profileLang->description = ($lang->id == $request->language) ? $request->description : "";
+              $profileLang->save();
+          }
+
+          return $profile;
         
-        $profileLang = new ProfileLang();
-        $profileLang->reference = $request->reference; 
-        $profileLang->description = $request->description; 
-        $profileLang->profile_id = $profile->id; 
-        $profileLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
-        $profileLang->save();
-        
+    }
+
+      /**
+     * 
+     */
+    public function storeWithRedirect(Request $request) {
+        $profile = self::store($request);
         return redirect('profiles/'.$profile->id);
     }
 
+    /**
+     * 
+     */
+    public function storeAndNew(Request $request) {
+        $profile = self::store($request);
+        return redirect('profiles/create');
+    }
     /**
      * Display the specified resource.
      *
@@ -169,7 +204,7 @@ class profileController extends Controller
         return redirect('profiles');
     }
 
-    /**
+     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\profile  $profile
@@ -179,8 +214,87 @@ class profileController extends Controller
     {
         // récupérer photo
         $profile = Profile::findOrFail($profile);
-       $profile->delete();
-       return redirect('profiles');
+        if(isset($profile->staff[0]))
+        {
+            $messages['error'] = 'profile can\'t be deleted it related with staff !!';
+            return  redirect('profiles')
+                        ->with('messages',$messages);
+        }
+        $profile->delete();
+        $messages['success'] = 'profile has been deleted successfuly !!';
+        return redirect('profiles')
+                    ->with('messages', $messages);
 
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\profile  $profile
+     * @return \Illuminate\Http\Response
+     */
+    public function multiDestroy(Request $request)
+    {
+        $request->validate([
+            'profiles' => 'required',
+        ]);
+        $e=$s=0;
+        $messages = [];
+        foreach($request->profiles as $profile)
+        {
+            $profile = Profile::findOrFail($profile);
+            if(!isset($profile->staff[0])) {
+                $s++;
+                $profile->delete();
+                $messages['success'] = $s. ($s == 1 ? ' profile' :' profiles') .' has been deleted successfuly';
+            }
+            else 
+            {
+                $e++;
+                $messages['error'] = $e . ($e == 1 ? ' profile' : ' profiles') . ' can\'t be deleted it has a relation with staff';
+            }
+        }
+
+        return redirect('profiles')
+                        ->with('messages', $messages);
+    }
+
+    public function restore($Profile)
+    {
+        $profile = Profile::onlyTrashed()->where('id', $Profile)->first();
+        $profile->restore();
+        $messages['success'] = 'profile has been restored successfuly !!';
+        return redirect('profiles')->with('messages',$messages);
+    }
+
+    public function multiRestore(Request $request)
+    {
+        $request->validate([
+            'profiles' => 'required',
+        ]);
+        $s=0;
+        $messages = [];
+        foreach ($request->profiles as  $Profile)
+        {
+            $profile = Profile::onlyTrashed()->where('id', $Profile)->first();
+            $profile->restore();
+            $s++;
+            $messages['success'] = $s. ($s == 1 ? ' profile' :' profiles') .' has been restored successfuly';
+        }
+        return redirect('profiles')->with('messages',$messages);
+    }
+
+    /**
+     * Displaying the translation page
+     * 
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function translations($profile)
+    {
+        $data['profile'] = Profile::findOrFail($profile);
+        $data['languages'] = Language::all();
+
+        return view('profiles.backoffice.staff.translations', $data);
     }
 }

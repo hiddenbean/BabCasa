@@ -40,6 +40,17 @@ class DetailController extends Controller
         $data['details'] = Detail::all();
         return view('details.backoffice.staff.index',$data);
     }
+    /**
+     * Displaying the Trash page
+     * 
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function trash()
+    {
+        $data['details'] = Detail::onlyTrashed()->get();
+        return view('details.backoffice.staff.trash', $data);
+    }
     
     /**
      * Show the form for creating a new resource.
@@ -250,19 +261,7 @@ class DetailController extends Controller
     }
 
     /**
-     * Displaying the Trash page
-     * 
-     * 
-     * @return \Illuminate\Http\Response
-     */
-    public function trash()
-    {
-        $data['details'] = Detail::onlyTrashed()->get();
-        return view('details.backoffice.staff.trash', $data);
-    }
-
-    /**
-     * Displaying the Trash page
+     * Displaying the translation page
      * 
      * 
      * @return \Illuminate\Http\Response
