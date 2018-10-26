@@ -8,11 +8,18 @@
 @stop
 @section('content')
 
+@if (isset(Session::get('messages')['success']))
+    <div class="alert alert-success" role="alert">
+        <button class="close" data-dismiss="alert"></button>
+        <strong>Success: </strong>{{ Session::get('messages')['success'] }}
+    </div>
+@endif
 @if (isset(Session::get('messages')['error']))
     <div class="alert alert-danger" role="alert">
         <button class="close" data-dismiss="alert"></button>
         <strong>Error: </strong>{{ Session::get('messages')['error'] }}
     </div>
+    
 @endif
 
 <!-- breadcrumb start -->
@@ -260,7 +267,11 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <a href="" class="btn btn-block btn-transparent"><strong>send password rest link</strong></a>                                    
+                                    <form action="{{ url('passwords/email') }}" method="post">
+                                        @csrf
+                                        <input type="hidden" name="email" value="{{ $staff->email }}">
+                                        <button class="btn btn-block btn-transparent"><strong>send password rest link</strong></button>
+                                    </form>
                                 </div>
                             </div>
                             <div class="row m-t-10">

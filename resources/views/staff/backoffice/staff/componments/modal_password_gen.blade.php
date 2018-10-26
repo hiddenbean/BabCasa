@@ -10,32 +10,35 @@
                 <h5>Generated <span class="semi-bold">Password</span></h5>
                 <p class="p-b-10 hint-text">We recommend using the generated password, but feel free to change it to an easier one</p>
             </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="input-group">
-                            <input type="text" class="form-control">
-                            <div class="input-group-append">
-                                <span class="input-group-text"><a href=""><i class="fas fa-copy"></a></i>
-                                </span>
+            <form action="{{url('staff/'.$staff->name.'/password/reset')}}" method="post">
+                @csrf
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="input-group">
+                            <input type="text" name="password" class="form-control" value="{{ str_random(10) }}">
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><a href="javascript:;"><i class="fas fa-copy"></i></a>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="checkbox">
-                            <input type="checkbox" value="1" id="checkbox1">
-                            <label for="checkbox1">i've comunicate the new password to the account owner</label>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="checkbox">
+                                <input type="checkbox" name="password_communicated" id="checkbox1">
+                                <label for="checkbox1">i've comunicate the new password to the account owner</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-end">
+                        <div class="col-md-6">
+                            <button class="btn btn-block text-danger"><i class="fas fa-check"></i> save password</button>
                         </div>
                     </div>
                 </div>
-                <div class="row justify-content-end">
-                    <div class="col-md-6">
-                        <button class="btn btn-block text-danger"><i class="fas fa-check"></i> save password</button>
-                    </div>
-                </div>
-            </div>
+            </form>
         </div>
         </div>
         <!-- /.modal-content -->

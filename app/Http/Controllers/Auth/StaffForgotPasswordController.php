@@ -32,7 +32,7 @@ class StaffForgotPasswordController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest:staff');
+        $this->middleware('guest:staff')->only('showLinkRequestForm');
     }
 
     /**
