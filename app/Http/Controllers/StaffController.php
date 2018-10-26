@@ -21,7 +21,6 @@ use App\Guest;
 use Illuminate\Http\Request;
 use Spatie\Activitylog\Models\Activity;
 
-
 class StaffController extends Controller
 {
     public function __construct()
@@ -398,6 +397,33 @@ class StaffController extends Controller
                             'error',
                             'Old password is not correct !!'
                         );
+    }
+
+    public function reset(Request $request, $staff)
+    {
+        $password_communicated = ($request->password_communicated=='on') ? 1 : 0;
+        if($password_communicated)
+        {
+            $password = Hash::make($request->password);
+            $staff = Staff::where('name', $staff)->first();
+            if($staff)
+            {
+                $staff->password = $password;
+                $staff->save();
+                $messages['success'] = 'Password reset has been done successfuly !!';
+            }
+            else
+            {
+                $messages['error'] = 'Staff member doesn\'t exist !!';
+            }
+        }
+        else
+        {
+            $messages['error'] = 'Please communicate the password !!';
+        }
+        return redirect()
+                        ->back()
+                        ->with('messages', $messages);
     }
 
     public function log()

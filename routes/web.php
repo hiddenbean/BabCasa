@@ -53,12 +53,11 @@ function()
             Route::group(['middleware' => ['CanWrite:category']], function(){
                 Route::get('create', 'CategoryController@create');
                 Route::prefix('{Category}')->group( function () {
-                    Route::get('/', 'CategoryController@show');
                     Route::get('edit', 'CategoryController@edit');
                     Route::get('translations','CategoryController@translations');
                 });
             });
-            
+            Route::get('{Category}', 'CategoryController@show');
         });
 
         // Staff tags managment pages
@@ -399,12 +398,14 @@ Route::domain('staff.babcasa.com')->group(function (){
     Route::post('sign-in', 'Auth\StaffLoginController@login')->name('staff.login.submit');
     Route::post('passwords/email', 'Auth\StaffForgotPasswordController@sendResetLinkEmail')->name('staff.password.link.send');
     Route::post('password/reset', 'Auth\StaffResetPasswordController@reset')->name('staff.password.reset');
+    
 
     Route::prefix('staff')->middleware('CanWrite:staff')->group(function() {
         Route::post('/', 'Auth\StaffRegisterController@storeWithRedirect');
         Route::post('/create', 'Auth\StaffRegisterController@storeAndNew');
         Route::post('/multi-restore', 'StaffController@multiRestore'); 
         Route::post('{staff}/restore', 'StaffController@restore'); 
+        Route::post('{staff}/password/reset', 'StaffController@reset');
         Route::delete('multi-destroy', 'StaffController@multiDestroy')->name('multi_delete.staff');
         Route::put('password', 'StaffController@resetPassword'); 
         Route::put('{staff}', 'StaffController@update'); 
