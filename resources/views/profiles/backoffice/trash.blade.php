@@ -16,8 +16,11 @@
                         <li class="breadcrumb-item">
                             <a href="{{ url('/') }}">DASHBOARD</a>
                         </li>
+                        <li class="breadcrumb-item">
+                            <a href="{{ url('/profiles') }}">Staff Profiles</a>
+                        </li>
                         <li class="breadcrumb-item active">
-                            Staff Profiles
+                            Trash
                         </li>
                     </ol>
                 </div>
@@ -57,15 +60,7 @@
                 <div class="pull-right">
                     <div class="col-xs-12">
                         <div class="row">
-                            @if (auth()->guard('staff')->user()->can('write','profile'))
-                                <div class="col-md-3 text-right no-padding">
-                                    <a href="{{url('profiles/create')}}" class="btn btn-transparent"><i class="fas fa-plus fa-sm"></i> <strong>Add</strong></a>
-                                </div>
-                                <div class="col-md-3 text-right no-padding">
-                                    <a href="{{url('profiles/trash')}}" class="btn btn-transparent-danger"><i class="fas fa-trash-alt fa-sm"></i> <strong>Trash</strong></a>
-                                </div> 
-                            @endif
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
                             </div>
                         </div>
@@ -73,53 +68,45 @@
                 </div>
 
                 <div class="card-body">
-                    <form action="{{route('delete.profiles')}}" method="post">
-                    {{ method_field('DELETE') }}
+                    <form action="{{url('profiles/multi-restore')}}" method="post">
                     {{ csrf_field() }}
                     <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
                         <thead>
-                        @if (auth()->guard('staff')->user()->can('write','profile'))
-                            <th class="text-center" style="width:35px"><button class="btn btn-link" type="submit"><i class="fas fa-trash-alt"></i></button></th>
-                        @endif
-                        
-                            <th style="width:62px"></th>
+                            <th class="text-center" style="width:35px"><button class="btn btn-link" type="submit"><i class="fas fa-undo-alt fa-lg"></i></button></th>
                             <th style="width:62px"></th>
                             <th style="width:150px">Profile</th>           
                             <th style="width:100px">Description</th>
                             <th style="width:100px">Accounts</th>
                             <th style="width:100px">Languages</th>
+                            <th style="width:150px">Deleted at</th>
                         </thead> 
-                        <tbody>      
-                        @foreach($profiles as $profile) 
-                         <tr role="row" id="0">
-                            @if (auth()->guard('staff')->user()->can('write','profile'))
-                                <td class="v-align-middle p-l-5 p-r-5">
-                                    <div class="checkbox no-padding no-margin text-center">
-                                        <input type="checkbox" value="{{$profile->id}}" name="profiles[]" id="checkbox{{$profile->id}}">
-                                        <label for="checkbox{{$profile->id}}" class="no-padding no-margin"></label>
-                                    </div>
-                                </td>
-                            
-                                <td class="v-align-middle text-center p-l-5 p-r-5">
-                                    <a href="{{url('profiles/'.$profile->id.'/edit')}}"><i class="fas fa-pen fa-sm"></i> <strong>Edit</strong></a>
-                                    </td> 
-                                <td class="v-align-middle text-center p-l-5 p-r-5">
-                                    <a href="{{route('delete.profile',['profile'=>$profile->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="text-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
-                                </td>
-                            @endif
-                                <td class="v-align-middle"><a href="{{url('profiles/'.$profile->id)}}"><strong>{{$profile->profileLang()->reference }}</strong></a></td>
-                                <td class="v-align-middle">{{$profile->profileLang()->description }}</td>
-                                <td class="v-align-middle">{{$profile->staff()->count() }}</td>
-                                <td class="v-align-middle">
-                                    @foreach($profile->profileLangs as $profileLang)
-                                        @if($profileLang->reference != "")
-                                            <a href="#" class="btn btn-tag">{{$profileLang->lang->alpha_2_code}}</a>
-                                        @endif
-                                    @endforeach
-                                </td>
+                        <tbody>    
+                          @foreach($profiles as $profile)
+                        <tr role="row" id="0">
+                           <td class="v-align-middle p-l-5 p-r-5">
+                                <div class="checkbox no-padding no-margin text-center">
+                                    <input type="checkbox" value="{{$profile->id}}" name="profiles[]" id="checkbox{{$profile->id}}">
+                                    <label for="checkbox{{$profile->id}}" class="no-padding no-margin"></label>
+                                </div>
+                            </td>
+                            <td class="v-align-middle text-center p-l-5 p-r-5">
+                                <a href="{{url('profiles/'.$profile->id.'/restore')}}" data-method="POST"  data-token="{{csrf_token()}}" class="text-danger"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></a></td>
+                            </td>
+                              <td class="v-align-middle"><a href="{{url('profiles/'.$profile->id)}}"><strong>{{$profile->profileLang()->reference }}</strong></a></td>
+                            <td class="v-align-middle">{{$profile->profileLang()->description }}</td>
+                            <td class="v-align-middle">{{$profile->staff()->count() }}</td>
+                            <td class="v-align-middle">
+                                @foreach($profile->profileLangs as $profileLang)
+                                    @if($profileLang->reference != "")
+                                        <a href="#" class="btn btn-tag">{{$profileLang->lang->alpha_2_code}}</a>
+                                    @endif
+                                @endforeach
+                            </td>
+                            <td class="v-align-middle">{{$profile->delete_at}}</td>
 
                         </tr>
-                        @endforeach            
+                        @endforeach
+
                         </tbody>
                     </table>
                 </div>
