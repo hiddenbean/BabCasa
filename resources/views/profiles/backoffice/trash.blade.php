@@ -93,7 +93,7 @@
                                 <a href="{{url('profiles/'.$profile->id.'/restore')}}" data-method="POST"  data-token="{{csrf_token()}}" class="text-danger"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></a></td>
                             </td>
                               <td class="v-align-middle"><a href="{{url('profiles/'.$profile->id)}}"><strong>{{$profile->profileLang()->reference }}</strong></a></td>
-                            <td class="v-align-middle">{{$profile->profileLang()->description }}</td>
+                            <td class="v-align-middle">{!!$profile->profileLang()->description!!}</td>
                             <td class="v-align-middle">{{$profile->staff()->count() }}</td>
                             <td class="v-align-middle">
                                 @foreach($profile->profileLangs as $profileLang)

@@ -207,7 +207,7 @@ class CountryController extends Controller
     {
         $country = Country::onlyTrashed()->where('id', $Country)->first();
         $country->restore();
-        $messages['success'] = 'Country has been restored successfuly !!';
+        $messages['success'] = 'Country has been restored successfuly';
         return redirect('countries')->with('messages',$messages);
     }
 
