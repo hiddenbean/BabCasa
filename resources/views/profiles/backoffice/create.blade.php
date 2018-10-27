@@ -46,7 +46,6 @@
         </div>
         <form action="{{url('profiles')}}" method="POST" id="form">
         {{ csrf_field() }}
-        {{$errors}}
         <div class="card-body">
             <div class="row">
                 <div class="col-md-9">
