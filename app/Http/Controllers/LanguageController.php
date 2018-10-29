@@ -54,7 +54,23 @@ class LanguageController extends Controller
        $language = new Language();
        $language->name = $request->name;
        $language->alpha_2_code = $request->alpha_2_code;
-       $language->save();
+
+       return $language;
+    }
+    /**
+     * 
+     */
+    public function storeWithRedirect(Request $request) {
+        $language = self::store($request);
+        return redirect('languages/'.$language->id);
+    }
+
+    /**
+     * 
+     */
+    public function storeAndNew(Request $request) {
+        $language = self::store($request);
+        return redirect('languages/create');
     }
 
     /**
