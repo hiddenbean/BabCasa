@@ -425,6 +425,16 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::delete('{category}', 'CategoryController@destroy')->name('delete.category');
         Route::delete('delete/multiple', 'CategoryController@multiDestroy')->name('delete.categories');
     }); 
+    //////////languages
+    Route::prefix('languages')->middleware('CanWrite:Language')->group(function() {
+
+        Route::post('/','LanguageController@store'); 
+        Route::post('/multi-restore', 'LanguageController@multiRestore'); 
+        Route::post('{language}', 'LanguageController@update'); 
+        Route::post('{language}/restore', 'LanguageController@restore');
+        Route::delete('{language}', 'LanguageController@destroy')->name('delete.language');
+        Route::delete('delete/multiple', 'LanguageController@multiDestroy')->name('delete.languages');
+    }); 
     
     //////////attributes
     Route::prefix('attributes')->middleware('CanWrite:attribute')->group(function() {

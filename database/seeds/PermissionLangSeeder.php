@@ -104,5 +104,11 @@ class PermissionLangSeeder extends Seeder
             'permission_id' => 15,
             'lang_id' => 1,
         ]);
+        DB::table('permission_langs')->insert([
+            'reference' => 'language',
+            'description' => 'language permision',
+            'permission_id' => 16,
+            'lang_id' => 1,
+        ]);
     }
 }
