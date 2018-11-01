@@ -19,7 +19,7 @@
                     <a href="{{ url('/languages') }}">Languages</a>
                 </li>
                 <li class="breadcrumb-item active">
-                    ID : 1
+                    ID : {{$language->id}}
                 </li>
             </ol>
         </div>
@@ -33,7 +33,7 @@
             <div class="card ">
                 <div class="card-header">
                     <div class="card-title">
-                        languages id : 1
+                        languages id : {{$language->id}}
                     </div>
                 </div>
                 <div class="card-body">
@@ -46,14 +46,14 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    xx
+                                    {{$language->name}}
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="row">
                                 <div class="col-md-12">
-                                    Alpha 2 code
+                                    {{$language->alpha_2_code}}
                                 </div>
                             </div>
                         </div>
@@ -81,39 +81,48 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    Status : <strong></strong>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        Status : <strong>@if($language->deleted_at == NULL) Publish @else Removed @endif</strong>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        Creation date : <strong>{{$language->created_at}}</strong>
+                                    </div>
+                                </div>
+                                @if($language->updated_at != NULL)
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        Last update : <strong>{{$language->updated_at}}</strong>
+                                    </div>
+                                </div>
+                                @endif
+                                @if($language->deleted_at != NULL)
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        Remove date : <strong>{{$language->deleted_at}}</strong>
+                                    </div>
+                                </div>
+                                @endif
+                                <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
+                                @if($language->deleted_at == NULL)
+                                    <div class="col-md-6">
+                                        <a href="{{url('languages/'.$language->id.'/edit')}}" class="btn btn-block "><i class="fas fa-pen"></i> <strong>Edit</strong></a>                                    
+                                    </div>
+                                @endif
+                                    <div class="col-md-6">
+                                    @if($language->deleted_at == NULL)
+                                        <a  href="{{route('delete.language',['language'=>$language->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
+                                    @else
+                                        <form action="{{url('languages/'.$language->id.'/restore')}}" method="POST">
+                                            {{ csrf_field() }}
+                                            <button class="btn btn-block btn-transparent-danger" type="submit"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></button>
+                                            </form>
+                                    @endif
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    Creation date : <strong></strong>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    Last update : <strong></strong>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    Remove date : <strong></strong>
-                                </div>
-                            </div>
-                            <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
-                                <div class="col-md-6">
-                                    <a href="" class="btn btn-block "><i class="fas fa-pen"></i> <strong>Edit</strong></a>                                    
-                                </div>
-                                <div class="col-md-6">
-                                    <a  href="" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
-                                    <form action="" method="POST">
-                                        {{ csrf_field() }}
-                                        <button class="btn btn-block btn-transparent-danger" type="submit"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></button>
-                                        </form>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

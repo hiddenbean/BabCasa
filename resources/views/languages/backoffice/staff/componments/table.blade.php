@@ -14,7 +14,7 @@
 <div class="card">
         <div class="card-header">
             <div class="card-title">
-                Tags list 
+                languages list 
                 <a 
                     href="javascript:;" 
                     data-toggle="tooltip" 
@@ -48,7 +48,7 @@
             
         </div>
         <div class="card-body">
-            <form action="{{route('delete.tags')}}" method="post">
+            <form action="{{route('delete.languages')}}" method="post">
             {{ method_field('DELETE') }}
             {{ csrf_field() }}
             <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
@@ -63,7 +63,27 @@
                     <th style="width:100px">Alpha 2 Code</th>
                 </thead>
 
-                <tbody>                               
+                <tbody>   
+                        @foreach($languages as $language)
+                        <tr> 
+                         @if (auth()->guard('staff')->user()->can('write','language'))
+                                <td class="v-align-middle p-l-5 p-r-5">
+                                    <div class="checkbox no-padding no-margin text-center">
+                                        <input type="checkbox" value="{{$language->id}}" name="languages[]" id="checkbox{{$language->id}}">
+                                        <label for="checkbox{{$language->id}}" class="no-padding no-margin"></label>
+                                    </div>
+                                </td>
+                               
+                                <td class="v-align-middle text-center p-l-5 p-r-5">
+                                    <a href="{{url('languages/'.$language->id.'/edit')}}"><i class="fas fa-pen fa-sm"></i> <strong>Edit</strong></a>
+                                    </td> 
+                                 <td class="v-align-middle text-center p-l-5 p-r-5">
+                                <a href="{{route('delete.language',['language'=>$language->id])}}" data-method="DELETE"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="text-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a></td>
+                             @endif  
+                             <td class="v-align-middle"><a href="{{url('languages/'.$language->id)}}"><strong>{{$language->name}}</strong></a> </td>
+                             <td class="v-align-middle">{{$language->alpha_2_code}}</td> 
+                        </tr>
+                        @endforeach                            
                 </tbody>
             </table>
         </div>

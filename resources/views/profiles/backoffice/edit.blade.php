@@ -178,7 +178,7 @@
                             <div class="card">
                                 <div class="card-header">
                                     <div class="card-title">
-                                        Category translations
+                                        Profile translations
                                         <a 
                                             href="javascript:;" 
                                             data-toggle="tooltip" 
@@ -196,7 +196,7 @@
                                         <div class="col-md-12">
                                             Available in :
                                             @foreach($profile->profileLangs as $profileLang)
-                                                @if($profileLang->reference != " ")
+                                                @if($profileLang->reference != "")
                                                     <strong><a href="#">{{$profileLang->lang->name}}</a></strong>,
                                                 @endif
                                             @endforeach

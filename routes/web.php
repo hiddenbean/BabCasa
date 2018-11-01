@@ -427,7 +427,7 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::delete('delete/multiple', 'CategoryController@multiDestroy')->name('delete.categories');
     }); 
     //////////languages
-    Route::prefix('languages')->middleware('CanWrite:Language')->group(function() {
+    Route::prefix('languages')->middleware('CanWrite:language')->group(function() {
         
         Route::post('/', 'LanguageController@storeWithRedirect');
         Route::post('/create', 'LanguageController@storeAndNew');

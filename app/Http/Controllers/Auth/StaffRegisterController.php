@@ -79,9 +79,13 @@ class StaffRegisterController extends Controller
      * @return \Illuminate\Http\Response.
      */
     protected function store(Request $request)
-    {
+    { 
+        
         $this->validateRequest($request);
-       
+        
+        $full_name= $request->first_name.' '.$request->last_name;
+        $request['full_name'] =$full_name;
+
         $AddressController = new AddressController();
         $AddressController->validateRequest($request);
         
@@ -122,7 +126,7 @@ class StaffRegisterController extends Controller
             $picture = Picture::create([
                 'name' =>  time().'.'.$request->file('path')->extension(),
                 'tag' => "staff_avatar",
-                'path' => $request->file('path')->store('images/staffs', 'public'),
+                'path' => $request->file('path')->store('images/staff', 'public'),
                 'extension' => $request->file('path')->extension(),
                 'pictureable_type' => 'staff',
                 'pictureable_id' => $staff->id,
@@ -150,8 +154,7 @@ class StaffRegisterController extends Controller
      * 
      */
     public function storeWithRedirect(Request $request) {
-        $full_name= $request->first_name.' '.$request->last_name;
-        $request['full_name'] =$full_name;
+        // return dd($request->hasFile('path'));
         $staff = self::store($request);
         return redirect('staff/'.$staff->id);
     }
