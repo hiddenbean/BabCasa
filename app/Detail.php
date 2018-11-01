@@ -36,7 +36,7 @@ class Detail extends Model
     {
         $langId = Language::where('alpha_2_code',App::getLocale())->first()->id; 
         $detail = self::detailLangs()->where('lang_id',$langId)->withTrashed()->first();
-        return !$detail->value ? self::detailLangs()->where('value','!=','')->withTrashed()->first() : $detail;
+        return !isset($detail->value) ? self::detailLangs()->where('value','!=','')->withTrashed()->first() : $detail;
     }
     
     public function categories()

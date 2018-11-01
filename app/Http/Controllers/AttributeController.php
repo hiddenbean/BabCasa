@@ -220,7 +220,6 @@ class AttributeController extends Controller
         foreach($request->attribute as $attr)
         {
             $attribute = Attribute::findOrFail($attr);
-            $cantDelete = false;
             
             if(!isset($attribute->attributeValue[0]))
              {

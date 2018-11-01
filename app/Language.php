@@ -20,12 +20,12 @@ class Language extends Model
         return "This model has been ". $eventName;
     }
 
-    public function attributeLang()
+    public function attributeLangs()
     {
         return $this->hasMany('App\AttributeLang');
     }
     
-    public function attributeVarcharValueLang()
+    public function attributeVarcharValueLangs()
     {
         return $this->hasMany('App\AttributeVarcharValueLang');
     }
@@ -35,7 +35,7 @@ class Language extends Model
         return $this->hasMany('App\BundleLang');
     }
 
-    public function categoryLang()
+    public function categoryLangs()
     {
         return $this->hasMany('App\CategoryLang');
     }
@@ -56,7 +56,7 @@ class Language extends Model
     {
         return $this->hasMany('App\ProductLang');
     }
-    public function tagLang()
+    public function tagLangs()
     {
         return $this->hasMany('App\TagLang');
     } 

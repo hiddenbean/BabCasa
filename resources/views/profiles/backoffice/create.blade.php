@@ -44,7 +44,7 @@
                 </a>
             </div>
         </div>
-        <form action="{{url('tags')}}" method="POST" id="form">
+        <form action="{{url('profiles')}}" method="POST" id="form">
         {{ csrf_field() }}
         <div class="card-body">
             <div class="row">
@@ -55,9 +55,9 @@
                                 <div class="col-md-12">
                                     <div class="form-group form-group-default required">
                                         <label>Profile name</label>
-                                        <input type="text" class="form-control" name="tag">
-                                        <label class="error" for="tag">
-                                            {{ $errors->has('tag') ? $errors->first('tag') : "" }}
+                                        <input type="text" class="form-control" name="reference">
+                                        <label class="error" for="reference">
+                                            {{ $errors->has('reference') ? $errors->first('reference') : "" }}
                                         </label> 
                                     </div>
                                 </div>
@@ -78,30 +78,34 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-4">
+                             @foreach($permissions as $permission)
+                                <div class="col-md-4 m-t-10">
                                     <div class="row">
                                         <div class="col-md-6 p-t-5">
-                                            <span class="uppercase">Categories</span> 
+                                        <input type="hidden" name="permissions[]" value="{{$permission->id}}">
+                                            <span class="uppercase"> {{$permission->permissionLang()->reference}}</span> 
                                             <a 
                                                 href="javascript:;" 
                                                 data-toggle="tooltip" 
                                                 data-placement="bottom" 
                                                 data-html="true" 
                                                 trigger="click" 
-                                                title= "<p class='tooltip-text'>You can use this form to create a new category if you have the right permissions.<br>
+                                                title= "<p class='tooltip-text'>{{$permission->permissionLang()->description}}.<br>
                                                         If you have any difficulties please <a href='#'>contact the support</a></p>"> 
                                                 <i class="fas fa-question-circle"></i>
                                             </a>
                                         </div>
                                         <div class="col-md-6">
-                                            <select class="cs-select cs-skin-slide" name="language" data-init-plugin="cs-select">
+                                            <select class="cs-select cs-skin-slide"  name="can[]" data-init-plugin="cs-select">
                                                 <option value="0">none</option>
-                                                <option value="0">read</option>
-                                                <option value="0">read/wright</option>
+                                                <option value="1">read</option>
+                                                <option value="2">read/wright</option>
+                                               
                                             </select>
                                         </div>
                                     </div>
                                 </div>
+                            @endforeach
                             </div>
                         </div>
                     </div>
@@ -164,7 +168,9 @@
                                 </div>
                                 <div class="card-body">
                                     <select class="cs-select cs-skin-slide" name="language" data-init-plugin="cs-select">
-                                        <option value=""></option>
+                                        @foreach($languages as $language)
+                                            <option value="{{$language->id}}">{{$language->name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -184,19 +190,18 @@
     <script type="text/javascript" src="{{ asset('plugins/multiselect/js/multiselect.min.js') }}"></script>
     <script>
     $("#save").click( function () {
+         $('#description').val($('#summernote').summernote().code());
         $('#form').attr('action', '{{ url('profiles') }}');
         $('#form').submit();
     });
 
     $("#save_new").click( function () {
+         $('#description').val($('#summernote').summernote().code());
         $('#form').attr('action', '{{ url('profiles')."/create" }}');
         $('#form').submit();
     });
 
     $('#summernote').summernote({height: 250});
 
-    $('#onClick').on('click', function(){       
-        $('#description').val($('#summernote').summernote().code());
-    });
     </script>
 @endsection

@@ -28,7 +28,6 @@ class profileController extends Controller
     {
         $request->validate([
             'reference' => 'required|unique:profile_langs,reference',
-            'description' => 'required|required|max:3000',
         ]);
     }
     
@@ -48,16 +47,10 @@ class profileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-<<<<<<< HEAD
     public function trash()
     {
         $data['profiles'] = Profile::onlyTrashed()->get();
         return view('profiles.backoffice.trash', $data);
-=======
-    public function translations()
-    {       
-        return view('profiles.backoffice.translations');
->>>>>>> 34eaad8b2fca462981c194653e78d6c16f63c7b5
     }
     
     /**
@@ -68,6 +61,7 @@ class profileController extends Controller
     public function create()
     {
         $data['languages'] = Language::all();
+        $data['permissions'] = Permission::all();
         return view('profiles.backoffice.create',$data);
     }
     
@@ -100,6 +94,27 @@ class profileController extends Controller
               $profileLang->save();
           }
 
+          foreach($request->permissions as $key =>$permission)
+          {
+              switch ($request->can[$key]) {
+                  case 0:
+                  $canRead = 0;
+                  $canWrite = 0;
+                      break;
+                  
+                  case 1:
+                  $canRead = 1;
+                  $canWrite = 0;
+                      break;
+                  
+                  case 2:
+                  $canRead = 1;
+                  $canWrite = 1;
+                      break;
+              }
+              $profile->permissions()->attach($permission,['can_read'=>$canRead,'can_write'=>$canWrite]);
+          }
+
           return $profile;
         
     }
@@ -130,6 +145,7 @@ class profileController extends Controller
         
         $data['profile'] = Profile::find($profile);
         $data['permissions'] = Permission::all();
+        $data['languages'] = Language::all();
         return view('profiles.backoffice.show',$data);
     }
     /**
@@ -140,7 +156,6 @@ class profileController extends Controller
      */
     public function permissions(Request $request,$profile)
     {
-        //return $request->can;
         $profile = Profile::find($profile);
         $profile->permissions()->detach();
 
@@ -165,10 +180,7 @@ class profileController extends Controller
             $profile->permissions()->attach($permission,['can_read'=>$canRead,'can_write'=>$canWrite]);
 
         }
-        return redirect()->back();
-        
-        $data['permissions'] = Permission::all();
-        return view('profiles.backoffice.show',$data);
+        return true;
     }
     
     /**
@@ -179,7 +191,9 @@ class profileController extends Controller
      */
     public function edit($profile)
     {
-        return view('profiles.backoffice.edit');
+        $data['profile'] = Profile::findOrFail($profile);
+        $data['permissions'] = Permission::all();
+        return view('profiles.backoffice.edit',$data);
     }
 
     /**
@@ -193,19 +207,20 @@ class profileController extends Controller
     {
         $request->validate([
             'reference' => 'required|unique:profile_langs,reference,'.$profile.',profile_id',
-            'description' => 'required|required|max:3000',
         ]);
         
-        $profile = Profile::find($profile);
+        $profile = Profile::findOrFail($profile);
         $profile->save();
         
-        $profileLangId = $profile->profileLang->first()->id;
+        $profileLangId = $profile->profileLang()->id;
         
         $profileLang = ProfileLang::find($profileLangId);
         $profileLang->reference = $request->reference; 
         $profileLang->description = $request->description; 
         $profileLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
         $profileLang->save(); 
+
+       self::permissions($request,$profile->id);
         
         return redirect('profiles');
     }
@@ -289,4 +304,17 @@ class profileController extends Controller
         }
         return redirect('profiles')->with('messages',$messages);
     }
+      /**
+     * Displaying the Trash page
+     * 
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function translations($profile)
+    {
+        $data['languages'] = Language::all();
+        $data['profile'] = Profile::findOrFail($profile);
+        return view('profiles.backoffice.translations', $data);
+    }
+    
 }

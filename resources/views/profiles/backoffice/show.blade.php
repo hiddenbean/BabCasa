@@ -27,7 +27,7 @@
                     <a href="{{ url('/profiles') }}">profiles</a>
                 </li>
                 <li class="breadcrumb-item active">
-                    ID : 
+                    ID : {{$profile->id}}
                 </li>
             </ol>
         </div>
@@ -41,7 +41,7 @@
             <div class="card ">
                 <div class="card-header">
                     <div class="card-title">
-                        Member  id :  
+                        Member  id :  {{$profile->id}}
                     </div>
                 </div>
                 <div class="card-body">
@@ -50,45 +50,54 @@
                             <span class="uppercase">Name</span> in
                         </div>
                     </div>
+                     
                     
+                   @foreach($languages as $language)
+                        @if(isset($profile->profileLangs->where('lang_id',$language->id)->first()->reference) && !empty($profile->profileLangs->where('lang_id',$language->id)->first()->reference))
                     <div class="row">
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-2">
                                     <span class="hint-text small">
-                                        English
+                                        {{$language->name}}
                                     </span>
                                 </div>
                                 <div class="col-md-10">
                                     <strong>
-                                        xx
+                                        {{$profile->profileLangs->where('lang_id',$language->id)->first()->reference}}
                                     </strong>
                                 </div>
                             </div>
                         </div>
                     </div>
-
+                        @endif
+                    @endforeach
                     <div class="row m-t-20">
                         <div class="col-md-12">
                             <span class="uppercase">Description</span> in
                         </div>
                     </div>
+
+                     @foreach($languages as $language)
+                        @if(isset($profile->profileLangs->where('lang_id',$language->id)->first()->description) && !empty($profile->profileLangs->where('lang_id',$language->id)->first()->description))
                     <div class="row">
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-2">
                                     <span class="hint-text small">
-                                        English
+                                        {{$language->name}}
                                     </span>
                                 </div>
                                 <div class="col-md-10">
                                     <strong>
-                                        xx
+                                         {!!$profile->profileLangs->where('lang_id',$language->id)->first()->description!!}
                                     </strong>
                                 </div>
                             </div>
                         </div>
                     </div>
+                        @endif
+                    @endforeach
 
                     <div class="row m-t-20">
                         <div class="col-md-12">
@@ -98,24 +107,30 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4">
+                      @foreach($permissions as $permission)
+                        <div class="col-md-6 m-t-10">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <span class="uppercase">categories</span> 
+                                    <span class="uppercase">{{$permission->permissionLang()->reference}}</span> 
                                     <a 
                                         href="javascript:;" 
                                         data-toggle="tooltip" 
                                         data-placement="bottom" 
                                         data-html="true" 
                                         trigger="click" 
-                                        title= "<p class='tooltip-text'>You can use this form to create a new staff if you have the right permissions.<br>
+                                        title= "<p class='tooltip-text'>{{$permission->permissionLang()->description}}<br>
                                                 If you have any difficulties please <a href='#'>contact the support</a></p>"> 
                                         <i class="fas fa-question-circle"></i>
                                     </a>
-                                    : <strong>read</strong>  
+                                    : <strong>
+                                    {{$profile->permissions()->where('permission_id',$permission->id)->where('can_read',0)->where('can_write',0)->first() ? 'none' :''}}
+                                    {{$profile->permissions()->where('permission_id',$permission->id)->where('can_read',1)->where('can_write',0)->first() ? 'read' :''}}
+                                    {{$profile->permissions()->where('permission_id',$permission->id)->where('can_read',1)->where('can_write',1)->first() ? 'read/write' :''}}
+                                    </strong>  
                                 </div>
                             </div>
                         </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -142,34 +157,43 @@
                          <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    Status : <strong></strong>
+                                    Status : <strong>@if($profile->deleted_at == NULL) Publish @else Removed @endif</strong>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    Creation date : <strong></strong>
+                                    Creation date : <strong>{{$profile->created_at}}</strong>
                                 </div>
                             </div>
+                            @if($profile->updated_at != NULL)
                             <div class="row">
                                 <div class="col-md-12">
-                                    Last update : <strong></strong>
+                                    Last update : <strong>{{$profile->updated_at}}</strong>
                                 </div>
                             </div>
+                            @endif
+                            @if($profile->deleted_at != NULL)
                             <div class="row">
                                 <div class="col-md-12">
-                                    Remove date : <strong></strong>
+                                    Remove date : <strong>{{$profile->deleted_at}}</strong>
                                 </div>
                             </div>
+                            @endif
                             <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
+                            @if($profile->deleted_at == NULL)
                                 <div class="col-md-6">
-                                    <a href="" class="btn btn-block "><i class="fas fa-pen"></i> <strong>Edit</strong></a>                                    
+                                    <a href="{{url('profiles/'.$profile->id.'/edit')}}" class="btn btn-block "><i class="fas fa-pen"></i> <strong>Edit</strong></a>                                    
                                 </div>
+                            @endif
                                 <div class="col-md-6">
-                                    <a  href="" data-method="delete"  data-token="" data-confirm="Are you sure?" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
-                                    <form action="" method="POST">
+                                @if($profile->deleted_at == NULL)
+                                    <a  href="{{route('delete.profile',['profile'=>$profile->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
+                                @else
+                                    <form action="{{url('profiles/'.$profile->id.'/restore')}}" method="POST">
                                         {{ csrf_field() }}
                                         <button class="btn btn-block btn-transparent-danger" type="submit"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></button>
-                                    </form>
+                                        </form>
+                                @endif
                                 </div>
                             </div>
                         </div>

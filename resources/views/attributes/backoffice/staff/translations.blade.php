@@ -112,7 +112,7 @@
                                         </div>
                                     </div>
                                     <div class="card-body">
-                                    <div class="row">
+                                         <div class="row">
                                             <div class="col-md-12">
                                                 Status : <strong>@if($attribute->deleted_at == NULL) Publish @else Removed @endif</strong>
                                             </div>

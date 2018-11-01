@@ -89,41 +89,41 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    Status : <strong>@if($tag->deleted_at == NULL) Publish @else Removed @endif</strong>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    Creation date : <strong>{{$tag->created_at}}</strong>
-                                </div>
-                            </div>
-                            @if($tag->updated_at != NULL)
-                            <div class="row">
-                                <div class="col-md-12">
-                                    Last update : <strong>{{$tag->updated_at}}</strong>
-                                </div>
-                            </div>
-                            @endif
-                            @if($tag->deleted_at != NULL)
-                            <div class="row">
-                                <div class="col-md-12">
-                                    Remove date : <strong>{{$tag->deleted_at}}</strong>
-                                </div>
-                            </div>
-                            @endif
-                            <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
-                                <div class="col-md-6">
-                                   <button class="btn btn-block"><i class="fas fa-pen"></i> <strong>Edit</strong></button >                                    
-                                </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            Status : <strong>@if($tag->deleted_at == NULL) Publish @else Removed @endif</strong>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            Creation date : <strong>{{$tag->created_at}}</strong>
+                                        </div>
+                                    </div>
+                                    @if($tag->updated_at != NULL)
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            Last update : <strong>{{$tag->updated_at}}</strong>
+                                        </div>
+                                    </div>
+                                    @endif
+                                    @if($tag->deleted_at != NULL)
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            Remove date : <strong>{{$tag->deleted_at}}</strong>
+                                        </div>
+                                    </div>
+                                    @endif
+                                    <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
+                                        <div class="col-md-6">
+                                        <button class="btn btn-block"><i class="fas fa-pen"></i> <strong>Edit</strong></button >                                    
+                                        </div>
 
-                                <div class="col-md-6">
-                                    <a  href="{{route('delete.tag',['tag'=>$tag->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
-                                
-                                 </div>
-                            </div>
-                        </div>
+                                        <div class="col-md-6">
+                                            <a  href="{{route('delete.tag',['tag'=>$tag->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
+                                        
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -149,11 +149,11 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             Available in : 
-                                             @foreach($tag->tagLangs as $tagLang)
-                                        @if($tagLang->value != " ")
-                                            <strong><a href="#">{{$tagLang->lang->name}}</a></strong>
-                                        @endif
-                                    @endforeach
+                                            @foreach($tag->tagLangs as $tagLang)
+                                                @if($tagLang->value != " ")
+                                                    <strong><a href="#">{{$tagLang->lang->name}}</a></strong>
+                                                @endif
+                                            @endforeach
                                         </div>
                                     </div>
                                     <div class="row b-t b-dashed b-grey m-t-20 p-t-20">

@@ -160,6 +160,7 @@ function()
 
         Route::prefix('partners')->middleware('CanRead:partner')->group(function() {
             Route::get('/', 'PartnerController@index'); 
+            Route::get('/trash', 'PartnerController@trash');
             Route::group(['middleware' => ['CanWrite:partner']], function(){
                     Route::get('create', 'PartnerController@create'); 
                     Route::get('{partner}/edit', 'PartnerController@edit');
@@ -426,6 +427,17 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::delete('{category}', 'CategoryController@destroy')->name('delete.category');
         Route::delete('delete/multiple', 'CategoryController@multiDestroy')->name('delete.categories');
     }); 
+    //////////languages
+    Route::prefix('languages')->middleware('CanWrite:Language')->group(function() {
+        
+        Route::post('/', 'LanguageController@storeWithRedirect');
+        Route::post('/create', 'LanguageController@storeAndNew');
+        Route::post('/multi-restore', 'LanguageController@multiRestore'); 
+        Route::post('{language}', 'LanguageController@update'); 
+        Route::post('{language}/restore', 'LanguageController@restore');
+        Route::delete('{language}', 'LanguageController@destroy')->name('delete.language');
+        Route::delete('delete/multiple', 'LanguageController@multiDestroy')->name('delete.languages');
+    }); 
     
     //////////attributes
     Route::prefix('attributes')->middleware('CanWrite:attribute')->group(function() {
@@ -499,12 +511,13 @@ Route::domain('staff.babcasa.com')->group(function (){
     }); 
 
     Route::prefix('partners')->middleware('CanWrite:partner')->group(function() {
-        Route::post('/', 'PartnerController@store'); 
+        Route::post('/', 'PartnerController@storeWithRedirect');
+        Route::post('/create', 'PartnerController@storeAndNew');
         Route::delete('multi-destroy', 'PartnerController@multiDestroy')->name('multi_delete.partners');
-        // Route::post('{partner}/active', 'PartnerController@active')->name('active.partner');
-        // Route::post('{partner}/desactive', 'PartnerController@desactive')->name('desactive.partner');
+        Route::post('/multi-restore', 'CountryController@multiRestore'); 
         Route::prefix('{partner}')->group(function() {
             Route::put('/', 'PartnerController@update'); 
+            Route::post('/restore', 'PartnerController@restore');
             Route::delete('/', 'PartnerController@destroy')->name('delete.partner');
             Route::post('/reset/password', 'PinController@store')->name('reset.password.partner');
             Route::post('/pin/verification', 'PinController@checkPin');

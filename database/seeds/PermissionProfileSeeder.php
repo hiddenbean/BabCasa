@@ -103,5 +103,11 @@ class PermissionProfileSeeder extends Seeder
             'can_read' => 1,
             'can_write' => 1,
         ]);
+        DB::table('permission_profile')->insert([
+            'profile_id' => 1,
+            'permission_id' => 16,
+            'can_read' => 1,
+            'can_write' => 1,
+        ]);
     }
 }

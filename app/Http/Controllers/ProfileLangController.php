@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\ProfileLang;
+use App\Profile;
 use Illuminate\Http\Request;
 
 class ProfileLangController extends Controller
@@ -75,20 +76,20 @@ class ProfileLangController extends Controller
      */
     public function update(Request $request,$Profile)
     {
-        $profile = Profile::find($Profile);
+        $profile = Profile::findOrFail($Profile);
         foreach($request->references as $key => $reference)
         {
          $profileLang = $profile->profileLangs->where('lang_id',$request->languages_id[$key])->first();
-         if(!isset($profileLang))
-             {
-                 $profileLang = new profileLang();
-                 $profileLang->profile_id = $profile->id;
-                 $profileLang->lang_id = $request->languages_id[$key];
-             }
+            if(!isset($profileLang))
+            {
+                $profileLang = new profileLang();
+                $profileLang->profile_id = $profile->id;
+                $profileLang->lang_id = $request->languages_id[$key];
+            }
             if($reference != '')
             {
                  $profileLang->reference = $reference;
-                 $profileLang->description = $descriptions[$key];
+                 $profileLang->description = $request->descriptions[$key];
              }
              else
              {

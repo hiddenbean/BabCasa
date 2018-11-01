@@ -30,9 +30,10 @@ class Permission extends Model
     }
 
     public function permissionLang()
-    {
-	    $langId = Language::where('alpha_2_code',App::getLocale())->first()->id; 
-	    return $this->permissionLangs()->where('lang_id',$langId);
+    {        
+        $langId = Language::where('alpha_2_code',App::getLocale())->first()->id; 
+        $permission = self::permissionLangs()->where('lang_id',$langId)->withTrashed()->first();
+        return !isset($permission->reference) ? self::permissionLangs()->where('reference','!=','')->withTrashed()->first() : $permission;
     }
 
     public function profiles()
