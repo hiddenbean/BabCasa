@@ -29,6 +29,7 @@ function()
     // Staff sub domaine GET routes (staff.babcasa.com)
     // Staff routes start 
     Route::domain('staff.babcasa.com')->middleware('LogActivity')->group(function (){
+        Route::get('notification', 'StaffController@notification');
         // Staff home page
         Route::get('/', 'StaffController@dashboard');
         

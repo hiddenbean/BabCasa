@@ -3,13 +3,19 @@
 namespace App\Http\Controllers;
 
 use App;
+use Auth;
+use App\Detail;
 use App\Picture;
+use App\Partner;
+use App\Staff;
+use App\Product;
 use App\Category;
 use App\Language;
-use App\Detail;
 use App\Attribute;
 use App\CategoryLang;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\CategoryNotification;
 
 class CategoryController extends Controller
 {
@@ -95,7 +101,9 @@ class CategoryController extends Controller
         }
         $category = new Category();
         $request->category_parent ? $category->category_id = $request->category_parent : null ;
-        $category->save(); 
+        $category->save();
+
+        $this->notify($category, ' has added a new category ');
 
         if($request->hasFile('path')) 
         {
@@ -162,6 +170,20 @@ class CategoryController extends Controller
         );
     }
 
+    public function notify($category, $data)
+    {
+         $partners = Partner::whereIn('id', function($query) use ($category) {
+            $query->select('partner_id')->from('products')->whereIn('id', function($query) use ($category) {
+                $query->select('product_id')->from('category_product')->whereIn('category_id', [$category->id, $category->category_id]);
+            })->get();  
+        })->get();
+
+        $staff = Auth::guard('staff')->user();
+        
+        Notification::send($partners, new CategoryNotification($staff, $data, $category));
+        $staff->notify(new CategoryNotification($staff, $data, $category));
+    }
+
     /**
      * Check if there is a category on the same level with the same reference
      * This function checks the trashed once as well
@@ -220,6 +242,7 @@ class CategoryController extends Controller
     public function show($category)
     {
         $data['category'] = Category::withTrashed()->findOrFail($category);
+        // return $data['category']->products->groupBy();
         $data['sub_categories'] = $data['category']->subCategories;
         $array = [];
         foreach($data['sub_categories'] as $category)
@@ -293,6 +316,8 @@ class CategoryController extends Controller
         $category->update([
             'category_id' =>$category_parent,
         ]);
+        
+        return $this->notify($category, ' has updated the category ');
         
         if($request->hasFile('path')) 
         {
@@ -370,6 +395,7 @@ class CategoryController extends Controller
         $category = Category::findOrFail($category);
         if(!isset($category->products[0]) && !isset($category->bundles[0]) && !isset($category->markets[0]) && !isset($category->subCategories[0])) {
             $category->delete();
+            $this->notify($category, ' has deleted the category ');
             $messages['success'] = 'Category has been deleted successfuly';
         }
         else 
@@ -396,6 +422,7 @@ class CategoryController extends Controller
             if(!isset($category->products[0]) && !isset($category->bundles[0]) && !isset($category->markets[0]) && !isset($category->subCategories[0])) {
                 $s++;
                 $category->delete();
+                $this->notify($category, ' has deleted the category ');
                 $messages['success'] = $s. ($s == 1 ? ' category' :' categories') .' has been deleted successfuly';
             }
             else 
@@ -414,6 +441,7 @@ class CategoryController extends Controller
     {
         $category = Category::onlyTrashed()->where('id', $category)->first();
         $category->restore();
+        $this->notify($category, ' has restored the category ');
         $messages['success'] = 'Category has been restored successfuly';
         return redirect('categories')
                         ->with('messages', $messages);
@@ -430,6 +458,7 @@ class CategoryController extends Controller
          {
             $category = Category::onlyTrashed()->where('id', $attr)->first();
             $category->restore();
+            $this->notify($category, ' has restored the category ');
             $iteration++;
         }
         $messages['success'] = $iteration. ($iteration > 1 ? ' categories' : ' category'). ' has been restored successfuly';

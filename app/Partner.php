@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\Traits\CausesActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 //use this notification to sen an email to a specific user
@@ -17,6 +18,7 @@ class Partner extends Authenticatable
     
     use SoftDeletes;
     use LogsActivity;
+    use CausesActivity;
 
 
     protected static $recordEvents = ['deleted', 'created', 'updated'];
