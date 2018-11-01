@@ -56,6 +56,7 @@ class StaffRegisterController extends Controller
      */
     protected function validateRequest(Request $request)
     {
+        $request['email'] .= '@babcasa.com';
         $request->validate([
             'name' => 'required|unique:staff,name',
             'email' => 'required|unique:staff,email',
