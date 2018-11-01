@@ -67,7 +67,7 @@ class DiscountController extends Controller
             'end_at' => 'required|date|after:start_at',
             'reference' =>'required|unique:discount_langs,reference',
             'description' => 'required',
-        ]);return dd($request);
+        ]);
 
         isset($request->partner) ? $partner = $request->partner : $partner = auth()->guard('partner')->user()->name;
         $partner = Partner::where('name', $partner)->firstOrFail();
@@ -77,7 +77,7 @@ class DiscountController extends Controller
         $discount->start_at = $request->start_at;
         $discount->end_at = $request->end_at;
         $discount->partner_id = $partner->id;
-         $discount->save();
+        $discount->save();
 
         $discount_lang = new DiscountLang();
         $discount_lang->reference = $request->reference;

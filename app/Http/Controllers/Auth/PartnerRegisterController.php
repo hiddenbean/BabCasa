@@ -10,6 +10,7 @@ use App\Address;
 use App\Picture;
 use App\Status;
 use Illuminate\Http\Request;
+use App\Notifications\PartnerNotification;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\PictureController;
 use App\Http\Controllers\PhoneController;
@@ -112,24 +113,27 @@ class PartnerRegisterController extends Controller
             'is_register_to_newsletter' => $is_register_to_newsletter,
             'ice' => $request->ice,
             'taxe_id' => $request->tax_id,
-            ]);
-            $status = new Status();
-            $status->is_approved = 0;
-            $status->user_id = $partner->id;
-            $status->user_type = 'partner';
-            $status->staff_id = 1;//auth()->guard('staff')->user()->id;
-            $status->save();
+        ]);
+            
+        $partner->notify(new PartnerNotification($partner));
 
-            $address = new  Address();
-            $address->address = $request->address;
-            $address->address_two = $request->address_two;
-            $address->full_name = $request->full_name;
-            $address->zip_code = $request->zip_code;
-            $address->country_id = $request->country_id;
-            $address->city = $request->city;
-            $address->addressable_type = 'partner';
-            $address->addressable_id = $partner->id;
-            $address->save();
+        $status = new Status();
+        $status->is_approved = 0;
+        $status->user_id = $partner->id;
+        $status->user_type = 'partner';
+        $status->staff_id = 1;//auth()->guard('staff')->user()->id;
+        $status->save();
+
+        $address = new  Address();
+        $address->address = $request->address;
+        $address->address_two = $request->address_two;
+        $address->full_name = $request->full_name;
+        $address->zip_code = $request->zip_code;
+        $address->country_id = $request->country_id;
+        $address->city = $request->city;
+        $address->addressable_type = 'partner';
+        $address->addressable_id = $partner->id;
+        $address->save();
             
 
         if($request->hasFile('path')) 
