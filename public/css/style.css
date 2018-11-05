@@ -214,10 +214,6 @@ fieldset[disabled] .btn-warning.active {
     opacity: 0.9;
 }
 
-.checkbox.check-success input[type=checkbox]:checked+label:before {
-    border-color: #ef1b24;
-}
-
 .form-group-default textarea.form-control {
     min-height: 150px;
 }

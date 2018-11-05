@@ -157,8 +157,9 @@ function()
     });
     //Staff routes end
 
-        Route::prefix('partners')->middleware('CanRead:partner')->group(function() {
-            Route::get('/', 'PartnerController@index'); 
+        Route::prefix('affiliates')->middleware('CanRead:partner')->group(function() {
+            Route::get('/', 'PartnerController@index');
+            Route::get('/trash', 'PartnerController@trash');
             Route::group(['middleware' => ['CanWrite:partner']], function(){
                     Route::get('create', 'PartnerController@create'); 
                     Route::get('{partner}/edit', 'PartnerController@edit');
@@ -218,23 +219,6 @@ function()
         Route::get('{staff}/pin/verification', 'PinController@checkPinForm');
         Route::get('{staff}/password/{password}', 'PinController@showPassword');
         
-    }); 
-
-    Route::prefix('partners')->middleware('CanRead:partner')->group(function() {
-        Route::get('/', 'PartnerController@index'); 
-        Route::group(['middleware' => ['CanWrite:partner']], function(){
-            Route::get('create', 'PartnerController@create'); 
-            Route::get('{partner}/edit', 'PartnerController@edit');
-            Route::get('{partner}/orders', 'PartnerController@orders');
-            Route::get('{partner}/discounts', 'PartnerController@discounts');
-            Route::get('{partner}/products', 'PartnerController@products');
-            Route::get('{partner}/bills', 'PartnerController@bills');
-            Route::get('{partner}/statuses', 'PartnerController@statuses');
-        }); 
-        Route::get('{partner}', 'PartnerController@show');
-        Route::get('{partner}/reset/password', 'PartnerController@resetPassword');
-        Route::get('{partner}/pin/verification', 'PinController@checkPinForm');
-        Route::get('{partner}/password/{password}', 'PinController@showPassword');
     });
 
     Route::prefix('clients')->group(function(){
@@ -507,11 +491,9 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::delete('{reason}', 'StatusController@destroy')->name('delete.status');
     }); 
 
-    Route::prefix('partners')->middleware('CanWrite:partner')->group(function() {
+    Route::prefix('affiliates')->middleware('CanWrite:partner')->group(function() {
         Route::post('/', 'PartnerController@store'); 
-        Route::delete('multi-destroy', 'PartnerController@multiDestroy')->name('multi_delete.partners');
-        // Route::post('{partner}/active', 'PartnerController@active')->name('active.partner');
-        // Route::post('{partner}/desactive', 'PartnerController@desactive')->name('desactive.partner');
+        Route::delete('multi-destroy', 'PartnerController@multiDestroy')->name('multi_delete.affiliates');
         Route::prefix('{partner}')->group(function() {
             Route::put('/', 'PartnerController@update'); 
             Route::delete('/', 'PartnerController@destroy')->name('delete.partner');

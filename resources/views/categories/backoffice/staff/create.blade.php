@@ -337,7 +337,5 @@
     $('#onClick').on('click', function(){       
         $('#description').val($('#summernote').summernote().code());
     });
-    
-          
     </script>
 @endsection
