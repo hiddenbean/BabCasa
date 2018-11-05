@@ -82,12 +82,12 @@
                                 <label for="checkbox{{$category->id}}" class="no-padding no-margin"></label>
                             </div>
                         </td>
-                            <td class="v-align-middle text-center p-l-5 p-r-5">
-                                <a href="{{url('categories/'.$category->id.'/restore')}}" data-method="POST"  data-token="{{csrf_token()}}" class="text-danger"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></a></td>
-                            </td> 
-                            <td class="v-align-middle picture">
-                                <a href="#"><img src="@if(isset($category->picture->path)) {{Storage::url($category->picture->path)}} @else {{asset('img/img_placeholder.png')}} @endif" alt="cat1"></a>
-                            </td>
+                        <td class="v-align-middle text-center p-l-5 p-r-5">
+                            <a href="{{url('categories/'.$category->id.'/restore')}}" data-method="POST"  data-token="{{csrf_token()}}" class="text-danger"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></a></td>
+                        </td> 
+                        <td class="v-align-middle picture">
+                            <a href="#"><img src="@if(isset($category->picture->path)) {{Storage::url($category->picture->path)}} @else {{asset('img/img_placeholder.png')}} @endif" alt="cat1"></a>
+                        </td>
                         <td class="v-align-middle"><a href="{{url('categories/'.$category->id)}}"><strong>{{$category->categoryLang()->reference }}</strong></a></td>
                         <td class="v-align-middle">{!!$category->categoryLang()->description!!}</td>
                         <td class="v-align-middle">@if(isset($category->category)) {{$category->category->categoryLang()->reference}}@else -@endif</td>

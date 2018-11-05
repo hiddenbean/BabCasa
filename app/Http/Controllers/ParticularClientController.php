@@ -31,6 +31,18 @@ class ParticularClientController extends Controller
             'password' => 'required|min:6',
         ]);
     }
+
+    /**
+     * Display a trashed listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function trashIndex()
+    {
+        $particular_clients = ParticularClient::onlyTrashed()->get();
+        return view('clients_particular.backoffice.staff.trash', ['particular_clients' => $particular_clients]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -380,5 +392,33 @@ class ParticularClientController extends Controller
     {
         DB::table('sessions')->where('id', $session_id)->delete();
         return redirect(str_before(url()->current(), '.com').'.com/security');
+    }
+
+    public function restore($particular_client)
+    {
+        $particular_client = ParticularClient::onlyTrashed()->where('name', $particular_client)->first();
+        $particular_client->restore();
+        $messages['success'] = 'Particular client has been restored successfuly !!';
+        return redirect('clients/particular')->with('messages',$messages);
+    }
+
+    public function multiRestore()
+    {
+        $request->validate([
+            'particular_clients' => 'required',
+        ]);
+        $s=0;
+        $messages = [];
+        foreach ($request->particular_clients as  $particular_client)
+        {
+            if($particular_client != null)
+            {
+                $particular_client = Business::onlyTrashed()->where('name', $particular_client)->first();
+                $particular_client->restore();
+                $s++;
+                $messages['success'] = $s. ($s == 1 ? ' particular client' :' particular clients') .' has been restored successfuly';
+            }
+        }
+        return redirect('clients/particular')->with('messages',$messages);
     }
 }

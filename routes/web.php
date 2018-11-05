@@ -242,6 +242,7 @@ function()
     Route::prefix('clients')->group(function(){
         Route::prefix('business')->middleware('CanRead:business_client')->group(function(){
             Route::get('/', 'BusinessController@index');
+            Route::get('/trash', 'BusinessController@trashIndex');
             Route::get('/create', 'BusinessController@create');
             Route::get('/{business}', 'BusinessController@show');
             Route::get('/{business}/edit', 'BusinessController@edit');
@@ -250,6 +251,7 @@ function()
         });
         Route::prefix('particular')->middleware('CanRead:particular_client')->group(function() {
             Route::get('/', 'ParticularClientController@index'); 
+            Route::get('/trash', 'ParticularClientController@trashIndex'); 
             Route::group(['middleware' => ['CanWrite:staff']], function(){
                 Route::get('create', 'ParticularClientController@create'); 
                 Route::get('{particular}/edit', 'ParticularClientController@edit');
@@ -527,13 +529,22 @@ Route::domain('staff.babcasa.com')->group(function (){
         //////////profiles
         Route::prefix('profiles')->middleware('CanWrite:profile')->group(function() {
             Route::post('/', 'ProfileController@storeWithRedirect');
-            Route::post('/create', 'ProfileController@storeAndNew'); 
-            Route::post('/multi-restore', 'ProfileController@multiRestore'); 
-            Route::post('{profile}', 'ProfileController@update'); 
+            Route::post('/create', 'ProfileController@storeAndNew');
+            Route::post('/multi-restore', 'ProfileController@multiRestore');
+            Route::post('{profile}', 'ProfileController@update');
             Route::post('{profile}/translations','ProfileLangController@update');
             Route::post('{profile}/restore', 'ProfileController@restore');
-            Route::post('{profile}/permissions', 'ProfileController@permissions'); 
+            Route::post('{profile}/permissions', 'ProfileController@permissions');
             Route::delete('{profile}', 'ProfileController@destroy')->name('delete.profile');
             Route::delete('delete/multiple', 'ProfileController@multiDestroy')->name('delete.profiles');
         });
+    
+    Route::prefix('clients')->group(function(){
+        Route::prefix('business')->middleware('CanRead:profile')->group( function(){
+            Route::delete('multi-destroy', 'BusinessController@multiDestroy')->name('multi_delete.businesses');
+            Route::delete('{business}/destroy', 'BusinessController@destroy')->name('delete.business');
+            Route::post('multi-restore', 'BusinessController@multiRestore')->name('multi_restore.businesses');
+            Route::post('{business}/restore', 'BusinessController@restore')->name('restore.business');
+        });
+    });
 });
