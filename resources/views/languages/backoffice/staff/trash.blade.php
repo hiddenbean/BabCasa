@@ -58,7 +58,7 @@
                 
             </div>
             <div class="card-body">
-                <form action="{{url('tags/multi-restore')}}" method="post">
+                <form action="{{url('languages/multi-restore')}}" method="post">
                     {{ csrf_field() }}
                     <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
                         <thead>
@@ -70,6 +70,25 @@
                         </thead>
 
                         <tbody> 
+                                @foreach($languages as $language)
+                                <tr> 
+                                    <td class="v-align-middle p-l-5 p-r-5">
+                                        <div class="checkbox no-padding no-margin text-center">
+                                            <input type="checkbox" value="{{$language->id}}" name="languages[]" id="checkbox{{$language->id}}">
+                                            <label for="checkbox{{$language->id}}" class="no-padding no-margin"></label>
+                                        </div>
+                                    </td> 
+                                    <td class="v-align-middle text-center p-l-5 p-r-5">
+                                        <form action="{{url('languages/'.$language->id.'/restore')}}" method="POST">
+                                        {{ csrf_field() }}
+                                        <button class="btn btn-link" type="submit"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></button>
+                                        </form>
+                                    </td> 
+                                    <td class="v-align-middle"><a href="{{url('languages/'.$language->id)}}"><strong>{{$language->name}}</strong></a> </td>
+                                    <td class="v-align-middle">{{$language->alpha_2_code}}</td> 
+                                    
+                                <td class="v-align-middle">{{$language->deleted_at}}</td>
+                                @endforeach
                         </tbody>
                     </table>
                 </form>

@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\ClaimMessageController;
+Use Auth;
 use App\Claim;
 use App\Subject;
 use App\Partner;
 use App\ClaimMessage;
 use Illuminate\Http\Request;
-Use Auth;
+use App\Notifications\ClaimNotification;
+use Illuminate\Support\Facades\Notification;
+use App\Http\Controllers\ClaimMessageController;
 
 class ClaimController extends Controller
 {
@@ -133,8 +135,8 @@ class ClaimController extends Controller
     {
         $data['subjects']=Subject::all();
 
-        $type = $this->userType();
-        switch ($type) {
+        $user_type = $this->userType();
+        switch ($user_type) {
             case 'partner': $view = 'claims.backoffice.partner.create';break;
             case 'staff':$view = 'claims.backoffice.staff.create';break;
         }
@@ -153,19 +155,22 @@ class ClaimController extends Controller
         $this->validateClaim($request);
         
 
-        $user = $this->userType();
-        $complainer=auth()->guard($user)->user();
+        $userType = $this->userType();
+        $user=auth()->guard($userType)->user();
         
         $claim = new Claim();
         
         $claim->title = $request->title;
         $claim->status = true;
         $claim->subject_id = $request->subject_id;
-        $claim->staff_id = 1;
-        $claim->claimable_type = $user;
-        $claim->claimable_id = $complainer->id;
+        $claim->staff_id = 2;
+        $claim->claimable_type = $userType;
+        $claim->claimable_id = $user->id;
         $claim->save();
-        
+
+        $array = [Staff::find(2), $user];
+        Notification::send($array, new ClaimNotification($user, " has added a new claim ", $claim));
+
         $message = new ClaimMessage();
         
         $message->message = $request->message;
@@ -203,8 +208,8 @@ class ClaimController extends Controller
     public function show($id)
     {
         $data['claim']=Claim::where('id', $id)->first();
-        $type = $this->userType();
-        switch ($type) {
+        $user_type = $this->userType();
+        switch ($user_type) {
             case 'partner': $view = 'claims.backoffice.partner.show';break;
             case 'staff':$view = 'claims.backoffice.staff.show';break;
         }
@@ -218,10 +223,13 @@ class ClaimController extends Controller
      */
     public function close($id)
     {
-        
+        $user_type = $this->userType();
+        $user=auth()->guard($user_type)->user();
         $claim=Claim::where('id', $id)->first();
         $claim->status = 0;
         $claim->save();
+        $array = [$claim->staff, $claim->claimable];
+        Notification::send($array, new ClaimNotification($user, " has closed claim ", $claim));
         return redirect()->back();
     }
 
@@ -235,17 +243,19 @@ class ClaimController extends Controller
     public function saveReply(Request $request)
     {
         $this->validateMessage($request);
-        $userType = $this->userType();
-        $user = auth()->guard($user)->user();
+        $user_type = $this->userType();
+        $user = auth()->guard($user_type)->user();
         $claim_id = $request->input('claim_id');
         $message = $request->input('message');
         $claim_message=ClaimMessage::create([
             'message' => $message,
             'status' => true,
-            'claim_messageable_type' => $userType,
+            'claim_messageable_type' => $user_type,
             'claim_messageable_id' => $user->id,
             'claim_id' => $claim_id,
         ]);
+        $array = [$claim->staff, $claim->claimable];
+        Notification::send($array, new ClaimNotification($user, " has added a new message to the claim ", $claim));
         return redirect('/support/ticket/'.$claim_id);   
     }
 
@@ -258,8 +268,12 @@ class ClaimController extends Controller
     
     public function destroy( $id)
     {
+        $user_type = $this->userType();
+        $user = auth()->guard($user_type)->user();
         $claim = Claim::findOrFail($id);
+        $array = [$claim->staff, $claim->claimable];
         $claim->delete();
+        Notification::send($array, new ClaimNotification($user, " has deleted the claim ", $claim));
         return redirect('support/ticket');
     }
 

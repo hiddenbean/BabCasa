@@ -63,6 +63,7 @@ class AppServiceProvider extends ServiceProvider
             'subject_lang' => 'App\SubjectLang',
             'tag' => 'App\Tag',
             'tag_lang' => 'App\TagLang',
+            'ClaimNotification' => 'App\Notifications\ClaimNotification',
          ]);
     }
 

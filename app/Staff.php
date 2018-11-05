@@ -41,7 +41,8 @@ class Staff extends Authenticatable
 
     protected $hidden = [
         'password',
-        'remember_token'
+        'remember_token',
+        'profile'
     ];
 
     public function claimMessages()

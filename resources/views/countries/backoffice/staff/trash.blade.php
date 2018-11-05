@@ -91,7 +91,7 @@
                                 <td class="v-align-middle">{{$country->alpha_2_code}}</td> 
                                 <td class="v-align-middle">{{$country->phone_code}}</td> 
                                 <td class="v-align-middle">{{$country->currency}}</td> 
-                                <td class="v-align-middle">{{$country->currency_symbole}}</td> 
+                                <td class="v-align-middle">{{$country->currency_symbole}}</td>
                                 <td class="v-align-middle">{{$country->deleted_at}}</td> 
 
                             </tr>

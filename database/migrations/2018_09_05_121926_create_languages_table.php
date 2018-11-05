@@ -17,6 +17,7 @@ class CreateLanguagesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('alpha_2_code');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

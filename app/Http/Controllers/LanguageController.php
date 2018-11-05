@@ -27,7 +27,7 @@ class LanguageController extends Controller
      */
     public function index()
     {
-        $data['language'] = Language::all();
+        $data['languages'] = Language::all();
         return view('languages.backoffice.staff.index',$data);
     }
 
@@ -55,6 +55,24 @@ class LanguageController extends Controller
        $language->name = $request->name;
        $language->alpha_2_code = $request->alpha_2_code;
        $language->save();
+
+       return $language;
+    }
+    /**
+     * 
+     */
+    public function storeWithRedirect(Request $request) {
+        $language = self::store($request);
+        return redirect('languages/'.$language->id);
+    }
+
+    /**
+     * 
+     */
+    public function storeAndNew(Request $request) {
+        $language = self::store($request);
+        return redirect('languages/create');
+        
     }
 
     /**
@@ -98,6 +116,9 @@ class LanguageController extends Controller
         $language->alpha_2_code = $request->alpha_2_code;
         $language->save();
         //
+        $messages['success'] = 'Language updated with success !!';
+            return redirect('languages')
+                             ->with('messages',$messages);
     }
 
     /**
@@ -110,8 +131,7 @@ class LanguageController extends Controller
     {
         $language = Language::findOrFail($Language);
         if(
-              isset($language->languageLangs[0])
-            ||isset($language->languageVarcharValueLangs[0])
+            isset($language->languageVarcharValueLangs[0])
             ||isset($language->bundleLangs[0])
             ||isset($language->categoryLangs[0])
             ||isset($language->discountLangs[0])
@@ -119,8 +139,9 @@ class LanguageController extends Controller
             ||isset($language->detailValueLangs[0])
             ||isset($language->productLangs[0])
             ||isset($language->tagLangs[0])
-        )
-        {
+            )
+         {
+                
             $messages['error'] = 'Language can\'t be deleted it has relation !!';
             return redirect('languages')
                              ->with('messages',$messages);
@@ -142,7 +163,7 @@ class LanguageController extends Controller
         {
             $language = Language::findOrFail($Language);
             if(
-                isset($language->languageLangs[0])
+                   !isset($language->languageLangs[0])
                 && !isset($language->languageVarcharValueLangs[0])
                 && !isset($language->bundleLangs[0])
                 && !isset($language->categoryLangs[0])
@@ -171,7 +192,7 @@ class LanguageController extends Controller
 
     public function restore($Language)
     {
-         $language = Language::onlyTrashed()->where('id', $Language)->first();
+        $language = Language::onlyTrashed()->where('id', $Language)->first();
         $language->restore();
         $messages['success'] = 'language has been restored successfuly !!';
         return redirect('languages')->with('messages',$messages);

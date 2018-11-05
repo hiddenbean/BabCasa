@@ -44,7 +44,7 @@
                 </a>
             </div>
         </div>
-        <form action="{{url('tags')}}" method="POST" id="form">
+        <form action="{{url('languages/'.$language->id)}}" method="POST" id="form">
         {{ csrf_field() }}
         <div class="card-body">
             <div class="row">
@@ -55,18 +55,18 @@
                                 <div class="col-md-8">
                                     <div class="form-group form-group-default required">
                                         <label>Language name</label>
-                                        <input type="text" class="form-control" name="tag">
-                                        <label class="error" for="tag">
-                                            {{ $errors->has('tag') ? $errors->first('tag') : "" }}
+                                    <input type="text" class="form-control" name="name" value="{{$language->name}}">
+                                        <label class="error" for="name">
+                                            {{ $errors->has('name') ? $errors->first('name') : "" }}
                                         </label> 
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group form-group-default required">
                                         <label>Alpha 2 code</label>
-                                        <input type="text" class="form-control" name="tag">
-                                        <label class="error" for="tag">
-                                            {{ $errors->has('tag') ? $errors->first('tag') : "" }}
+                                        <input type="text" class="form-control" name="alpha_2_code" value="{{$language->alpha_2_code}}">
+                                        <label class="error" for="alpha_2_code">
+                                            {{ $errors->has('alpha_2_code') ? $errors->first('alpha_2_code') : "" }}
                                         </label> 
                                     </div>
                                 </div>
@@ -95,39 +95,48 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            Status : <strong></strong>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                Status : <strong>@if($language->deleted_at == NULL) Publish @else Removed @endif</strong>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                Creation date : <strong>{{$language->created_at}}</strong>
+                                            </div>
+                                        </div>
+                                        @if($language->updated_at != NULL)
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                Last update : <strong>{{$language->updated_at}}</strong>
+                                            </div>
+                                        </div>
+                                        @endif
+                                        @if($language->deleted_at != NULL)
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                Remove date : <strong>{{$language->deleted_at}}</strong>
+                                            </div>
+                                        </div>
+                                        @endif
+                                        <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
+                                        @if($language->deleted_at == NULL)
+                                            <div class="col-md-6">
+                                                <button class="btn btn-block "><i class="fas fa-pen"></i> <strong>Edit</strong></button>                                    
+                                            </div>
+                                        @endif
+                                            <div class="col-md-6">
+                                            @if($language->deleted_at == NULL)
+                                                <a  href="{{route('delete.language',['language'=>$language->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
+                                            @else
+                                                <form action="{{url('languages/'.$language->id.'/restore')}}" method="POST">
+                                                    {{ csrf_field() }}
+                                                    <button class="btn btn-block btn-transparent-danger" c><i class="fas fa-undo-alt"></i> <strong>Restore</strong></button>
+                                                    </form>
+                                            @endif
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            Creation date : <strong></strong>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            Last update : <strong></strong>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            Remove date : <strong></strong>
-                                        </div>
-                                    </div>
-                                    <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
-                                        <div class="col-md-6">
-                                            <a href="" class="btn btn-block "><i class="fas fa-pen"></i> <strong>Edit</strong></a>                                    
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a  href="" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
-                                            <form action="" method="POST">
-                                                {{ csrf_field() }}
-                                                <button class="btn btn-block btn-transparent-danger" type="submit"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></button>
-                                                </form>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -144,15 +153,7 @@
     <script type="text/javascript" src="{{ asset('plugins/summernote/js/summernote.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('plugins/multiselect/js/multiselect.min.js') }}"></script>
     <script>
-    $("#save").click( function () {
-        $('#form').attr('action', '{{ url('tags') }}');
-        $('#form').submit();
-    });
 
-    $("#save_new").click( function () {
-        $('#form').attr('action', '{{ url('tags')."/create" }}');
-        $('#form').submit();
-    });
 
     $(".list-categories a").click( function () {
         $(".list-categories a").removeClass('active');

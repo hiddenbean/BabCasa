@@ -58,6 +58,14 @@ class PartnerController extends Controller
         $data['partners'] = Partner::all();
         return view('partners.backoffice.staff.index',$data);
     }
+    
+    /**
+     * 
+     */
+    public function trash() {
+        $data['partnerss'] = Partner::onlyTrashed()->get();
+        return view('partners.backoffice.staff.trash',$data);
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -165,7 +173,25 @@ class PartnerController extends Controller
             $phone->save();
         }  
             
-            return redirect('partners');
+            return $partner;
+    }
+
+        /**
+     * 
+     */
+    public function storeWithRedirect(Request $request) {
+        $full_name= $request->first_name.' '.$request->last_name;
+        $request['full_name'] =$full_name;
+        $partner = self::store($request);
+        return redirect('partners/'.$partner->id);
+    }
+
+    /**
+     * 
+     */
+    public function storeAndNew(Request $request) {
+        $partner = self::store($request);
+        return redirect('partners/create');
     }
 
     /**
@@ -364,39 +390,97 @@ class PartnerController extends Controller
             
         return redirect('partners');
     }
-
-    /**
+     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Partner  $partner
+     * @param  \App\partner  $partner
      * @return \Illuminate\Http\Response
      */
-    public function destroy($partner)
+    public function destroy($Partner)
     {
-        $partner = Partner::where('name', $partner)->first();
-        $claims = $partner->claims()->where('status', 1)->get();
-        foreach($partner->claims() as $claim)
+        $partner = Partner::findOrFail($Partner);
+        if(
+            isset($partner->claims[0])
+            || isset($partner->orders()->whereIn('status', ['in_progress', 'waiting'])->first()->id)
+            || isset($partner->products[0])
+        )
         {
-            $claim->status = 0;
-            $claim->save();
-        }
-        if($this->stuckPartner($partner))
-        {
-            return redirect()
-                            ->back()
-                            ->with(
-                                'error',
-                                'Partner can\'t be deleted it has unsolved orders/markets !!'
-                            );
+            $messages['error'] = 'partner can\'t be deleted he is in an association with product/claim/order !!';
+            return redirect('partners')->with('messages',$messages);
         }
         $partner->delete();
-        return redirect('partners')
-                                    ->with(
-                                        'success',
-                                        'Partner has been deleted successfuly !!'
-                                    );
+        $messages['success'] = 'partner has been deleted successfuly !!';
+        return redirect('partners')->with('messages',$messages);
+
+    }
+     /**
+     *
+     * 
+     */
+    public function multiDestroy(Request $request)
+    {
+        $request->validate([
+            'partners' => 'required',
+            ]);
+        $e=$s=0;
+        $messages = [];
+        
+        foreach($request->partners as $Partner)
+        {
+            $partner = Partner::findOrFail($Partner);
+    
+            if(
+                isset($partner->claims[0])
+                && !isset($partner->orders()->whereIn('status', ['in_progress', 'waiting'])->first()->id)
+                && !isset($partner->products[0])
+            ) 
+            {
+                $s++;
+                $partner->delete();
+                $messages['success'] = $s. ($s == 1 ? ' partner' :' partner') .' has been deleted successfuly';
+            }
+    
+            else 
+            {
+                $e++;
+                $messages['error'] = $e . ($e == 1 ? ' partner' : ' partner') . ' can\'t be deleted he has product/claim/order';
+            }
+        }
+        return redirect('partners')->with('messages', $messages);
     }
 
+     /**
+     * 
+     * 
+     */
+    public function restore($Partner)
+    {
+        $partner = Partner::onlyTrashed()->where('id', $Partner)->first();
+        $partner->restore();
+        $messages['success'] = 'partner has been restored successfuly !!';
+        return redirect('partners')->with('messages',$messages);
+    }
+    /**
+     * 
+     */
+    public function multiRestore(Request $request)
+    {
+        $request->validate([
+            'partners' => 'required',
+        ]);
+        $s=0;
+        $messages = [];
+        foreach ($request->partners as  $Partner)
+        {
+            $partner = Partner::onlyTrashed()->where('id', $Partner)->first();
+            $partner->restore();
+            $s++;
+            $messages['success'] = $s. ($s == 1 ? ' partner' :' partner') .' has been restored successfuly';
+        }
+        return redirect('partners')->with('messages',$messages);
+    }
+
+   
     public function stuckPartner($partner)
     {
         $orderStatus = $partner->orders()->whereIn('status', ['in_progress', 'finished'])->get();
@@ -405,18 +489,6 @@ class PartnerController extends Controller
         return $stuck;
     }
 
-    public function multiDestroy(Request $request)
-    {
-        foreach($request->partners as $partner)
-        {
-            $partner = Partner::where('name', $partner)->first();
-            if(!$this->stuckPartner($partner))
-            {
-                $partner->delete();
-            }
-        }
-        return redirect('partners');
-    }
 
     public function redirectURL($url, $partner)
     {

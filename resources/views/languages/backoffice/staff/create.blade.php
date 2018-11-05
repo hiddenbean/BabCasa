@@ -44,7 +44,7 @@
                 </a>
             </div>
         </div>
-        <form action="{{url('tags')}}" method="POST" id="form">
+        <form action="{{url('languages')}}" method="POST" id="form">
         {{ csrf_field() }}
         <div class="card-body">
             <div class="row">
@@ -55,18 +55,18 @@
                                 <div class="col-md-8">
                                     <div class="form-group form-group-default required">
                                         <label>Language name</label>
-                                        <input type="text" class="form-control" name="tag">
-                                        <label class="error" for="tag">
-                                            {{ $errors->has('tag') ? $errors->first('tag') : "" }}
+                                        <input type="text" class="form-control" name="name">
+                                        <label class="error" for="name">
+                                            {{ $errors->has('name') ? $errors->first('name') : "" }}
                                         </label> 
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group form-group-default required">
                                         <label>Alpha 2 code</label>
-                                        <input type="text" class="form-control" name="tag">
-                                        <label class="error" for="tag">
-                                            {{ $errors->has('tag') ? $errors->first('tag') : "" }}
+                                        <input type="text" class="form-control" name="alpha_2_code">
+                                        <label class="error" for="alpha_2_code">
+                                            {{ $errors->has('alpha_2_code') ? $errors->first('alpha_2_code') : "" }}
                                         </label> 
                                     </div>
                                 </div>
@@ -126,12 +126,12 @@
     <script type="text/javascript" src="{{ asset('plugins/multiselect/js/multiselect.min.js') }}"></script>
     <script>
     $("#save").click( function () {
-        $('#form').attr('action', '{{ url('tags') }}');
+        $('#form').attr('action', '{{ url('languages') }}');
         $('#form').submit();
     });
 
     $("#save_new").click( function () {
-        $('#form').attr('action', '{{ url('tags')."/create" }}');
+        $('#form').attr('action', '{{ url('languages')."/create" }}');
         $('#form').submit();
     });
 

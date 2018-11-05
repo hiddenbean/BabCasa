@@ -13,6 +13,12 @@ use App\Address;
 use App\Country;
 use App\Gender;
 use App\Phone;
+use App\Claim;
+use App\Partner;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\ClaimNotification;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\PictureController;
 use App\Http\Controllers\PhoneController;
@@ -22,7 +28,7 @@ use Illuminate\Http\Request;
 use Spatie\Activitylog\Models\Activity;
 
 class StaffController extends Controller
-{
+{use Queueable;
     public function __construct()
     {
          $this->middleware('auth:staff');
@@ -177,6 +183,7 @@ class StaffController extends Controller
     {
         $full_name= $request->first_name.' '.$request->last_name;
         $request['full_name'] = $full_name;
+        $request['email'] .= '@babcasa.com';
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
@@ -430,14 +437,17 @@ class StaffController extends Controller
     {
         $activities = Activity::where('causer_id', auth()->guard('staff')->user()->id)->where('causer_type', 'staff')->latest()->limit(100)->get();
         return view('system.backoffice.staff.log', ['activities' => $activities]);
-        return dd(Activity::where('causer_id', auth()->guard('staff')->user()->id)->where('causer_type', 'staff')->latest()->limit(100)->get());
-        return Activity::all()->first()->subject;
-        return App\Staff::find(2)->with('activity')->first();
-        // return Activity::where('causer_id', Staff::find(2)->id)->where('causer_type', 'staff' )->get();
-        // return Activity::where('causer_id', Staff::find(2)->id)->where('causer_type', 'staff' )->get();
-        return activity()
-                        ->causedBy(Staff::find(2))
-                        ->log('default');
-        return Activity::all()->last();
+    }
+
+    public function notification()
+    {   $array = [Staff::find(2), Partner::find(1)];
+        $staff = Staff::find(2);
+        $partner = Partner::find(1);
+        // $test = $staff->merge($partner);
+        //return $test = array_merge($staff->toArray(), $partner->toArray());
+        $claim = Claim::find(1);
+        Notification::send($staff, new ClaimNotification($partner, " has added a new claim ", $claim));
+        // Notification::send($array, new ClaimNotification($partner, " has added a new claim ", $claim));
+        return 'hkji';
     }
 }

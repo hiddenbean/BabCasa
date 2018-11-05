@@ -167,7 +167,7 @@ function()
                 Route::get('{partner}', 'PartnerController@show'); 
         }); 
 
-        //////////profiles
+        // profiles
         Route::prefix('profiles')->middleware('CanRead:profile')->group(function() {
             Route::get('/', 'ProfileController@index');
             Route::get('/trash', 'ProfileController@trash');
