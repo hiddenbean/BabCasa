@@ -17,7 +17,7 @@
                             <a href="{{ url('/') }}">DASHBOARD</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{{ url('/countries') }}">Countries</a>
+                            <a href="{{ url('/staff') }}">Staff</a>
                         </li>
                         <li class="breadcrumb-item active">
                             Trash
@@ -32,7 +32,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-title">
-                    Removed Countries list 
+                    Removed Staff members list 
                     <a 
                         href="javascript:;" 
                         data-toggle="tooltip" 
@@ -58,44 +58,23 @@
                 
             </div>
             <div class="card-body">
-                <form action="{{url('countries/multi-restore')}}" method="post">
+                <form action="{{url('staff/multi-restore')}}" method="post">
                     {{ csrf_field() }}
                     <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
                         <thead>
                             <th class="text-center" style="width:35px"><button class="btn btn-link" type="submit"><i class="fas fa-undo-alt fa-lg"></i></button></th>
                             <th style="width:62px"></th>
-                            <th style="width:120px">Name</th>           
-                            <th style="width:100px">Alpha 2 code</th>             
-                            <th style="width:100px">Phone Code</th>             
-                            <th style="width:120px">Currency</th>
-                            <th style="width:100px">Currency Symbole</th>
+                            <th style="width:80px">Picture</th>           
+                            <th style="width:100px">Company name</th>         
+                            <th style="width:80px">username</th>
+                            <th style="width:150px">email</th>
+                            <th style="width:100px">Admin</th>          
+                            <th style="width:100px">Admin phone</th>
+                            <th style="width:100px">Account status</th>
                             <th style="width:150px">Deleted at</th>       
                         </thead>
-                
-                        <tbody>  
-                          @foreach($countries as $country)
-                            <tr> 
-                                <td class="v-align-middle p-l-5 p-r-5">
-                                    <div class="checkbox no-padding no-margin text-center">
-                                        <input type="checkbox" value="{{$country->id}}" name="countries[]" id="checkbox{{$country->id}}">
-                                        <label for="checkbox{{$country->id}}" class="no-padding no-margin"></label>
-                                    </div>
-                                </td> 
-                                <td class="v-align-middle text-center p-l-5 p-r-5">
-                                    <form action="{{url('countries/'.$country->id.'/restore')}}" method="POST">
-                                    {{ csrf_field() }}
-                                    <button class="btn btn-link" type="submit"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></button>
-                                    </form>
-                                </td>  
-                                <td class="v-align-middle"><a href="{{url('countries/'.$country->id)}}"><strong>{{$country->name}}</strong></a> </td>
-                                <td class="v-align-middle">{{$country->alpha_2_code}}</td> 
-                                <td class="v-align-middle">{{$country->phone_code}}</td> 
-                                <td class="v-align-middle">{{$country->currency}}</td> 
-                                <td class="v-align-middle">{{$country->currency_symbole}}</td>
-                                <td class="v-align-middle">{{$country->deleted_at}}</td> 
 
-                            </tr>
-                            @endforeach                                 
+                        <tbody>
                         </tbody>
                     </table>
                 </form>

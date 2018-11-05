@@ -183,6 +183,7 @@ class StaffController extends Controller
     {
         $full_name= $request->first_name.' '.$request->last_name;
         $request['full_name'] = $full_name;
+        $request['email'] .= '@babcasa.com';
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',

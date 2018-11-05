@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\CategorieLang;
+use App\CategoryLang;
 use App\Category;
 use App\Language;
 use Illuminate\Http\Request;
@@ -112,6 +112,12 @@ class CategoryLangController extends Controller
         foreach($request->references as $key => $reference)
         {
             $category_lang = $category->categoryLangs()->where('lang_id',$languages[$key]->id)->first();
+            if(!isset($category_lang))
+            {
+                $category_lang = new CategoryLang();
+                $category_lang->category_id = $category->id;
+                $category_lang->lang_id = $request->languages_id[$key];
+            }
             $category_lang->reference = $reference;
             $category_lang->description = $request->descriptions[$key];
             $category_lang->save();

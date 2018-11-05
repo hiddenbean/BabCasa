@@ -60,7 +60,7 @@ class PermissionSeeder extends Seeder
             'type' => 'attribute',
         ]);
         DB::table('permissions')->insert([
-            'type' => 'Language',
+            'type' => 'language',
         ]);
 
 

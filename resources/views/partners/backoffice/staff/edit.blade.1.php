@@ -3,7 +3,6 @@
 @section('before_css')
 <link media="screen" type="text/css" rel="stylesheet" href="{{ asset('plugins/bootstrap-datepicker/css/datepicker3.css') }}">
 <link media="screen" type="text/css" rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
-<link type="text/css" rel="stylesheet" href="{{ asset('plugins/summernote/css/summernote.css') }}">
 @endsection
 
 @section('content')
@@ -17,10 +16,13 @@
                         <a href="{{ url('/') }}">DASHBOARD</a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="{{ url('/affiliates') }}">affiliate</a>
+                        <a href="{{ url('staff') }}">Staff</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="{{ url('staff/') }}">ID : {{$staff->id}}</a>
                     </li>
                     <li class="breadcrumb-item active">
-                        Add 
+                        edit 
                     </li>
                 </ol>
             </div>
@@ -33,7 +35,7 @@
     <div class="card card-transparent">
         <div class="card-header">
             <div class="card-title">
-                Add a new affiliate
+                Create a new staff member
                 <a 
                     href="javascript:;" 
                     data-toggle="tooltip" 
@@ -46,8 +48,9 @@
                 </a>
             </div>
         </div>
-        <form action="{{url('staff')}}" method="POST" id="form">
+        <form action="{{url('staff/'.$staff->id)}}" method="POST" id="form" enctype="multipart/form-data">
         {{ csrf_field() }}
+        {{ method_field('put') }}
         <div class="card-body">
             <div class="row">
                 <div class="col-md-9">
@@ -64,7 +67,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group form-group-default required">
                                         <label>Username</label>
-                                        <input type="text" class="form-control" name="name" value="{{old('name')}}">
+                                        <input type="text" class="form-control" name="name" value="{{$staff->name}}">
                                         <label class="error" for="name">
                                             {{ $errors->has('name') ? $errors->first('name') : "" }}
                                         </label> 
@@ -73,9 +76,14 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="form-group form-group-default required">
-                                        <label>Email</label>
-                                        <input type="email" class="form-control" name="email" value="{{old('email')}}">
+                                    <div class="form-group form-group-default input-group no-margin required">
+                                        <div class="form-input-group">
+                                            <label>Email</label>
+                                            <input type="text" class="form-control" name="email" value="{{$staff->email}}">
+                                        </div>
+                                        <div class="input-group-append ">
+                                            <span class="input-group-text">@babcasa.com</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -90,7 +98,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <h5>
-                                        Administrator informations
+                                        General informations
                                     </h5>
                                 </div>
                             </div>
@@ -98,7 +106,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group form-group-default required">
                                         <label>First Name</label>
-                                        <input type="text" class="form-control" name="first_name" value="{{old('first_name')}}">
+                                        <input type="text" class="form-control" name="first_name" value="{{$staff->first_name}}">
                                         <label class="error" for="first_name">
                                             {{ $errors->has('first_name') ? $errors->first('first_name') : "" }}
                                         </label> 
@@ -107,7 +115,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group form-group-default required">
                                         <label>Last Name</label>
-                                        <input type="text" class="form-control" name="last_name" value="{{old('last_name')}}">
+                                        <input type="text" class="form-control" name="last_name" value="{{$staff->last_name}}">
                                         <label class="error" for="last_name">
                                             {{ $errors->has('last_name') ? $errors->first('last_name') : "" }}
                                         </label> 
@@ -115,29 +123,29 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group form-group-default required">
-                                        <label>Email</label>
-                                        <input type="email" class="form-control" name="email" value="{{old('email')}}">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group form-group-default form-group-default-select2 required">
-                                        <label class="">Code country</label>
-                                        <select class="full-width" data-placeholder="Select Country" name="code_country" data-init-plugin="select2">
-                                            <option value=""></option>
-                                        </select>
-                                    </div>
-                                </div>
                                 <div class="col-md-8">
+                                    <div class="form-group form-group-default input-group required">
+                                        <div class="form-input-group">
+                                            <label>Birthday</label>
+                                            <input type="date" class="form-control" name="birthday" placeholder="Pick a date" id="myDatepicker" value="{{$staff->irthday}}">
+                                        </div>
+                                        <div class="input-group-append ">
+                                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
                                     <div class="form-group form-group-default required">
-                                        <label>Phone number</label>
-                                            <input type="text" class="form-control" name="number" value="{{old('number')}}" />
-                                            <label class="error p-l-15" for="number">
-                                            {{ $errors->has('number') ? $errors->first('number') : "" }}
-                                        </label>
+                                        <label>gender</label>
+                                        <select class="cs-select cs-skin-slide" data-init-plugin="cs-select" name="gender_id">
+                                            <option value="">         </option>
+                                            @foreach($genders as $gender)
+                                            <option value="{{$gender->id}}" {{$staff->gender_id == $gender->id ? 'selected' : ''}}>{{$gender->genderLang()->reference}}</option>
+                                            @endforeach
+                                        </select>
+                                         <label class="error" for="gender_id">
+                                            {{ $errors->has('gender_id') ? $errors->first('gender_id') : "" }}
+                                        </label> 
                                     </div>
                                 </div>
                             </div>
@@ -145,40 +153,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <h5>
-                                        Company informations
-                                    </h5>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group form-group-default required">
-                                        <label>Company name</label>
-                                        <input type="text" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row m-b-10">
-                                <div class="col-md-12">
-                                    <label for="summernote" class="upper-title p-t-5 p-b-5 p-l-10">About company activities</label>
-                                    <div class="summernote-wrapper bg-white">
-                                        <div id="summernote"></div>
-                                        <input type="hidden" name="about" id="description">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group form-group-default">
-                                        <label>Taxe ID</label>
-                                        <input type="text" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                                
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <h5>
-                                        Company Address
+                                        Address
                                     </h5>
                                 </div>
                             </div>
@@ -187,9 +162,11 @@
                                 <div class="form-group form-group-default form-group-default-select2 required">
                                     <label class="">Country</label>
                                     <select class="full-width" data-placeholder="Select Country" name="country_id" data-init-plugin="select2">
-                                        <option value=""></option>
+                                         @foreach($countries as $country)
+                                            <option value="{{$country->id}}" {{$staff->country_id == $country->id ? 'selected' : ''}}>{{$country->name}} ({{$country->alpha_2_code}})</option>
+                                            @endforeach
                                     </select>
-                                    <label class="error p-l-15" for="country_id">
+                                      <label class="error p-l-15" for="country_id">
                                         {{ $errors->has('country_id') ? $errors->first('country_id') : "" }}
                                     </label>
                                 </div>
@@ -198,34 +175,34 @@
                             <div class="row">
                                 <div class="form-group form-group-default required">
                                     <label>Address</label>
-                                    <input type="text" class="form-control" name="address" value="{{old('address')}}" />
+                                    <input type="text" class="form-control" name="address" value="{{$staff->address->address}}" />
                                 </div>
-                                <label class="error p-l-15" for="address">
+                                 <label class="error p-l-15" for="address">
                                         {{ $errors->has('address') ? $errors->first('address') : "" }}
                                     </label>
                             </div>
                             <div class="row">
                                 <div class="form-group form-group-default">
                                     <label>Line 2</label>
-                                    <input type="text" class="form-control" name="address_two" value="{{old('address_two')}}" />
+                                    <input type="text" class="form-control" name="address_two" value="{{$staff->address->address_two}}" />
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group form-group-default required">
                                         <label>City</label>
-                                        <input type="text" class="form-control" name="city" value="{{old('city')}}" />
+                                        <input type="text" class="form-control" name="city" value="{{$staff->address->city}}" />
                                     </div>
-                                    <label class="error p-l-15" for="city">
+                                     <label class="error p-l-15" for="city">
                                         {{ $errors->has('city') ? $errors->first('city') : "" }}
                                     </label>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group form-group-default">
                                         <label>ZIP code</label>
-                                        <input type="text" class="form-control" name="zip_code" value="{{old('zip_code')}}" />
+                                        <input type="text" class="form-control" name="zip_code" value="{{$staff->address->zip_code}}" />
                                     </div>
-                                    <label class="error p-l-15" for="zip_code">
+                                     <label class="error p-l-15" for="zip_code">
                                         {{ $errors->has('zip_code') ? $errors->first('zip_code') : "" }}
                                     </label>
                                 </div>
@@ -234,7 +211,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <h5>
-                                        Company phones
+                                        Phone
                                     </h5>
                                 </div>
                             </div>
@@ -244,59 +221,23 @@
                                     <div class="form-group form-group-default form-group-default-select2 required">
                                         <label class="">Code country</label>
                                         <select class="full-width" data-placeholder="Select Country" name="code_country" data-init-plugin="select2">
-                                            <option value=""></option>
+                                             @foreach($countries as $country)
+                                            <option value="{{$country->id}}" {{$staff->code_country == $country->id ? 'selected' : ''}}>{{$country->name}} ({{$country->phone_code}})</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-8">
                                     <div class="form-group form-group-default required">
                                         <label>Phone number</label>
-                                            <input type="text" class="form-control" name="number" value="{{old('number')}}" />
-                                            <label class="error p-l-15" for="number">
-                                            {{ $errors->has('number') ? $errors->first('number') : "" }}
-                                        </label>
+                                        <input type="text" class="form-control" name="number" value="{{$staff->phones[0]->number}}" />
+                                         <input type="hidden" name="phone_id" value="{{$staff->phones[0]->id}}">
+                                        <label class="error p-l-15" for="number">
+                                        {{ $errors->has('number') ? $errors->first('number') : "" }}
+                                    </label>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group form-group-default form-group-default-select2">
-                                        <label class="">Code country</label>
-                                        <select class="full-width" data-placeholder="Select Country" name="code_country" data-init-plugin="select2">
-                                            <option value=""></option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="form-group form-group-default">
-                                        <label>Phone number 2</label>
-                                            <input type="text" class="form-control" name="number" value="{{old('number')}}" />
-                                            <label class="error p-l-15" for="number">
-                                            {{ $errors->has('number') ? $errors->first('number') : "" }}
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group form-group-default form-group-default-select2">
-                                        <label class="">Code country</label>
-                                        <select class="full-width" data-placeholder="Select Country" name="code_country" data-init-plugin="select2">
-                                            <option value=""></option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="form-group form-group-default">
-                                        <label>Fax number</label>
-                                            <input type="text" class="form-control" name="number" value="{{old('number')}}" />
-                                            <label class="error p-l-15" for="number">
-                                            {{ $errors->has('number') ? $errors->first('number') : "" }}
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            
                         </div>
                     </div>
                 </div>
@@ -322,28 +263,10 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-md-12">
-                                            Check if the affiliate had approve on the terms and conditions of babcasa.com
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="checkbox check-success">
-                                                <input type="checkbox" id="checkbox2">
-                                                <label for="checkbox2">Affiliate approval</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
                                         <div class="col-md-6">
-                                            <a href="javascript:;" id="save" class="btn btn-block"><i class="fas fa-check"></i> <strong>save</strong></a>
+                                            <button type="submit" class="btn btn-block"><i class="fas fa-check"></i> <strong>save</strong></button>
                                         </div>
-                                        <div class="col-md-6">
-                                            <a href="javascript:;" id="save_new" class="btn btn-block"><strong>save & new</strong></a>
-                                        </div>
-                                    </div>
-                                    <div class="row justify-content-end b-t b-dashed b-grey m-t-20 p-t-20">
-                                        <div class="col-md-6">
+                                         <div class="col-md-6">
                                             <a href="{{ url()->current() }}" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>clear all</strong></a>
                                         </div>
                                     </div>
@@ -353,9 +276,54 @@
                     </div>
 
                     <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="card-title">
+                                            Staff Profile 
+                                            <a 
+                                                href="javascript:;" 
+                                                data-toggle="tooltip" 
+                                                data-placement="bottom" 
+                                                data-html="true" 
+                                                trigger="click" 
+                                                title= "<p class='tooltip-text'>You can use this form to create a new category if you have the right permissions.<br>
+                                                        If you have any difficulties please <a href='#'>contact the support</a></p>"> 
+                                                <i class="fas fa-question-circle"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-12 scroll b-t b-b b-dashed b-grey p-b-5">
+                                                <div class="list-group list-group-root well list-categories">
+                                                @foreach($profiles as $Profile)
+                                                    <a href="javascript:;" data-category-id="{{$Profile->id}}" class="list-group-item list-group-item-action {{$staff->profile_id == $Profile->id ? 'active' : ''}}">{{$Profile->profileLang()->reference}}</a>
+                                                @endforeach
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row m-t-15">
+                                            <div class="col-md-8 m-t-5">
+                                                Profile : <span id="selected-parent-name">{{$staff->profile->profileLang()->reference}}<span>
+                                                <label class="error p-l-15" for="profile_id">
+                                                    {{ $errors->has('profile_id') ? $errors->first('profile_id') : "" }}
+                                                </label>
+                                            </div>
+                                            <div class="col-md-4 text-right">
+                                                <button type="button" id="list-categories-clear" class="btn btn-transparent-danger"><i class="fas fa-times"></i> <strong>clear</strong></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="profile_id" id="profile_id" value="{{$staff->profile_id}}" />
+                                </div>
+                            </div>
+                        </div>
+
+                    <div class="row">
                         <div class="col-md-12">
                             <div class="form-group form-group-default">
-                                <img src="{{ asset('img/img_placeholder.png') }}" id="image_preview_staff"
+                                <img src="@if(isset($staff->picture->path)) {{Storage::url($staff->picture->path)}} @else {{asset('img/img_placeholder.png')}} @endif " id="image_preview_staff"
                                     alt="" srcset="" width="200" style="margin-left: calc(50% - 105px);">
                                 <label for="path_staff" class="choose_photo">
                                     <span>
@@ -365,44 +333,19 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="row">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="card-title">
-                                    Newsletter
-                                    <a 
-                                    href="javascript:;" 
-                                    data-toggle="tooltip" 
-                                    data-placement="bottom" 
-                                    data-html="true" 
-                                    trigger="click" 
-                                    title= "<p class='tooltip-text'>You can use this form to create a new category if you have the right permissions.<br>
-                                            If you have any difficulties please <a href='#'>contact the support</a></p>"> 
-                                    <i class="fas fa-question-circle"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="checkbox check-success">
-                                    <input type="checkbox" id="checkbox">
-                                    <label for="checkbox">Enable newsletter subscription for this affiliate</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
         </form>
     </div>
 </div>
+
+@include('staff.backoffice.staff.componments.modal_password_gen')
 @endsection
 
 @section('before_script')
     <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}" type="text/javascript"></script>    
     <script type="text/javascript" src="{{ asset('plugins/classie/classie.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('plugins/summernote/js/summernote.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}"></script>
     <script>
             $(document).ready(function () {
@@ -426,20 +369,18 @@
                     }
                 } 
             });
-        $("#save").click( function () {
-            $('#form').attr('action', '{{ url('staff') }}');
-            $('#form').submit();
+        $(".list-categories a").click( function () {
+            $(".list-categories a").removeClass('active');
+            $(this).addClass('active');
+            $('#category_parent').val($(this).data('category-id'));
+            $('#selected-parent-name').html($(this).text());
         });
-
-        $("#save_new").click( function () {
-            $('#form').attr('action', '{{ url('staff')."/create" }}');
-            $('#form').submit();
+    
+        $('#list-categories-clear').click( function () {
+            $('.list-categories a').removeClass('active');
+            $('#category_parent').val('');
+            $('#selected-parent-name').html('none');
         });
-
-        $('#summernote').summernote({height: 250});
-
-        $('#onClick').on('click', function(){       
-            $('#description').val($('#summernote').summernote().code());
-        });
+              
         </script>
 @endsection
