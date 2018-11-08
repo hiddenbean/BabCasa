@@ -35,11 +35,13 @@ class PartnerController extends Controller
             'company_name' => 'required',
             'name' => 'required|unique:partners,name',
             'email' => 'required|email|unique:partners,email',
-            'password' => 'required|min:6',
-            'about' => 'required',
-            'trade_registry' => 'required|numeric|digits:6',
-            'ice' => 'required|numeric|digits:10',
-            'taxe_id' => 'required|numeric|digits:10',
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'admin_number' => 'required|numeric|unique:phones,number|digits:9',
+            'country_code' => 'required|numeric|exists:countries,id',
+            'password' => 'nullable|min:6',
+            'about' => 'nullable',
+            'taxe_id' => 'nullable|numeric|digits:10',
         ]);
     }
 
@@ -62,8 +64,8 @@ class PartnerController extends Controller
     /**
      * 
      */
-    public function trash() {
-        $data['partnerss'] = Partner::onlyTrashed()->get();
+    public function trashIndex() {
+        $data['partners'] = Partner::onlyTrashed()->get();
         return view('partners.backoffice.staff.trash',$data);
     }
 
@@ -87,8 +89,7 @@ class PartnerController extends Controller
     public function store(Request $request)
     {
         $this->validateRequest($request);
-        
-        
+
         $AddressController = new AddressController();
         $AddressController->validateRequest($request);
         
@@ -109,29 +110,34 @@ class PartnerController extends Controller
             'name' => $name,
             'email' =>  $request->email,
             'password' => $password,
+            'first_name' => $request->first_name,
+            'last_name' =>$request->last_name,
+            'admin_email' => $request->admin_email,
             'about' => $request->about,
             'trade_registry' => $request->trade_registry,
             'is_register_to_newsletter' => $is_register_to_newsletter,
-            'ice' => $request->ice,
             'taxe_id' => $request->taxe_id,
-            ]);
-            $status = new Status();
-            $status->is_approved = 1;
-            $status->user_id = $partner->id;
-            $status->user_type = 'partner';
-            $status->staff_id = auth()->guard('staff')->user()->id;
-            $status->save();
+        ]);
 
-            $address = new  Address();
-            $address->address = $request->address;
-            $address->address_two = $request->address_two;
-            $address->full_name = $request->full_name;
-            $address->zip_code = $request->zip_code;
-            $address->country_id = $request->country_id;
-            $address->city = $request->city;
-            $address->addressable_type = 'partner';
-            $address->addressable_id = $partner->id;
-            $address->save();
+        $approve = ($request->approve =='on') ? 1 : 0;
+
+        $status = new Status();
+        $status->is_approved = $approve;
+        $status->user_id = $partner->id;
+        $status->user_type = 'partner';
+        $status->staff_id = auth()->guard('staff')->user()->id;
+        $status->save();
+
+        $address = new  Address();
+        $address->address = $request->address;
+        $address->address_two = $request->address_two;
+        $address->full_name = $request->first_name.' '.$request->last_name;
+        $address->zip_code = $request->zip_code;
+        $address->country_id = $request->country_id;
+        $address->city = $request->city;
+        $address->addressable_type = 'partner';
+        $address->addressable_id = $partner->id;
+        $address->save();
             
 
         if($request->hasFile('path')) 
@@ -146,6 +152,13 @@ class PartnerController extends Controller
             ]);
         }
         
+        $phone = new Phone();
+        $phone->number = $request->admin_number;
+        $phone->type = "admin_phone";
+        $phone->country_id = $request->country_code;
+        $phone->phoneable_type = 'partner';
+        $phone->phoneable_id = $partner->id;
+        $phone->save();
 
         foreach($request->numbers as $key => $number)
         {
@@ -172,8 +185,12 @@ class PartnerController extends Controller
             $phone->phoneable_id = $partner->id;
             $phone->save();
         }  
-            
-            return $partner;
+        $messages['success'] = 'Affiiate has been added successfuly !!';
+            return redirect('affiliates')
+                                        ->with(
+                                            'message',
+                                            $messages
+                                        );
     }
 
         /**
@@ -398,7 +415,7 @@ class PartnerController extends Controller
      */
     public function destroy($Partner)
     {
-        $partner = Partner::findOrFail($Partner);
+        $partner = Partner::where('name', $Partner)->first();
         if(
             isset($partner->claims[0])
             || isset($partner->orders()->whereIn('status', ['in_progress', 'waiting'])->first()->id)
@@ -410,7 +427,7 @@ class PartnerController extends Controller
         }
         $partner->delete();
         $messages['success'] = 'partner has been deleted successfuly !!';
-        return redirect('partners')->with('messages',$messages);
+        return redirect('affiliates')->with('messages',$messages);
 
     }
      /**
@@ -420,33 +437,33 @@ class PartnerController extends Controller
     public function multiDestroy(Request $request)
     {
         $request->validate([
-            'partners' => 'required',
+            'afiliates' => 'required',
             ]);
         $e=$s=0;
         $messages = [];
         
-        foreach($request->partners as $Partner)
+        foreach($request->affiliates as $affiliate)
         {
-            $partner = Partner::findOrFail($Partner);
+            $affiliate = Partner::findOrFail($affiliate);
     
             if(
-                isset($partner->claims[0])
-                && !isset($partner->orders()->whereIn('status', ['in_progress', 'waiting'])->first()->id)
-                && !isset($partner->products[0])
+                isset($affiliate->claims[0])
+                && !isset($affiliate->orders()->whereIn('status', ['in_progress', 'waiting'])->first()->id)
+                && !isset($affiliate->products[0])
             ) 
             {
                 $s++;
-                $partner->delete();
-                $messages['success'] = $s. ($s == 1 ? ' partner' :' partner') .' has been deleted successfuly';
+                $affiliate->delete();
+                $messages['success'] = $s. ($s == 1 ? ' affiliate' :' affiliates') .' has been deleted successfuly';
             }
     
             else 
             {
                 $e++;
-                $messages['error'] = $e . ($e == 1 ? ' partner' : ' partner') . ' can\'t be deleted he has product/claim/order';
+                $messages['error'] = $e . ($e == 1 ? ' affiliate' : ' affiliates') . ' can\'t be deleted he has product/claim/order';
             }
         }
-        return redirect('partners')->with('messages', $messages);
+        return redirect('affiliates')->with('messages', $messages);
     }
 
      /**
@@ -455,10 +472,10 @@ class PartnerController extends Controller
      */
     public function restore($Partner)
     {
-        $partner = Partner::onlyTrashed()->where('id', $Partner)->first();
+        $partner = Partner::onlyTrashed()->where('name', $Partner)->first();
         $partner->restore();
         $messages['success'] = 'partner has been restored successfuly !!';
-        return redirect('partners')->with('messages',$messages);
+        return redirect('affiliates')->with('messages',$messages);
     }
     /**
      * 
@@ -466,18 +483,18 @@ class PartnerController extends Controller
     public function multiRestore(Request $request)
     {
         $request->validate([
-            'partners' => 'required',
+            'affiliate' => 'required',
         ]);
         $s=0;
         $messages = [];
-        foreach ($request->partners as  $Partner)
+        foreach ($request->affiliates as  $affiliate)
         {
-            $partner = Partner::onlyTrashed()->where('id', $Partner)->first();
-            $partner->restore();
+            $affiliate = Partner::onlyTrashed()->where('id', $affiliate)->first();
+            $affiliate->restore();
             $s++;
-            $messages['success'] = $s. ($s == 1 ? ' partner' :' partner') .' has been restored successfuly';
+            $messages['success'] = $s. ($s == 1 ? ' affiliate' :' affiliates') .' has been restored successfuly';
         }
-        return redirect('partners')->with('messages',$messages);
+        return redirect('affiliates')->with('messages',$messages);
     }
 
    

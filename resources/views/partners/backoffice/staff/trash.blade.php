@@ -58,7 +58,7 @@
                 
             </div>
             <div class="card-body">
-                <form action="{{url('staff/multi-restore')}}" method="post">
+                <form action="{{url('affiliates/multi-restore')}}" method="post">
                     {{ csrf_field() }}
                     <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
                         <thead>
@@ -75,6 +75,31 @@
                         </thead>
 
                         <tbody>
+                            @foreach($partners as $partner)
+                                <tr> 
+                                    @if (auth()->guard('staff')->user()->can('write','partner'))
+                                    <td class="v-align-middle p-l-5 p-r-5">
+                                        <div class="checkbox no-padding no-margin text-center">
+                                            <input type="checkbox" value="{{$partner->id}}" name="staffs[]" id="checkbox{{$partner->id}}">
+                                            <label for="checkbox{{$partner->id}}" class="no-padding no-margin"></label>
+                                        </div>
+                                    </td> 
+                                    <td class="v-align-middle text-center p-l-5 p-r-5">
+                                        <a href="{{url('affiliates/'.$partner->name)}}" data-method="POST"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="text-danger"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></a>
+                                    </td>
+                                    @endif 
+                                    <td class="v-align-middle picture">
+                                        <a href="{{url('staff/'.$partner->id)}}"><img src="@if(isset($partner->picture->path)) {{Storage::url($partner->picture->path)}} @else {{asset('img/img_placeholder.png')}} @endif" alt="cat1"></a>
+                                    </td>
+                                    <td class="v-align-middle"> <a href="{{url('affiliates/'.$partner->name)}}"><strong>{{$partner->company_name}}</strong></a></td>
+                                    <td class="v-align-middle"> <a href="{{url('affiliates/'.$partner->name)}}"><strong>{{$partner->name}}</strong></a></td>
+                                    <td class="v-align-middle">{{$partner->email}}</td>
+                                    <td class="v-align-middle">{{$partner->first_name}} {{$partner->last_name}}</td>
+                                    <td class="v-align-middle">{{$partner->admin_email}}</td>
+                                    <td class="v-align-middle">@if($partner->status->first()->is_approved) Approved @else Not approved @endif</td>
+                                    <td class="v-align-middle">{{ $partner->deleted_at }}</td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </form>

@@ -25,9 +25,9 @@ class PhoneController extends Controller
             'numbers.0' => 'required|numeric|unique:phones,number|digits:9',
             'numbers.1' => 'nullable|numeric|unique:phones,number|digits:9',
             'fax_number' => 'nullable|numeric|unique:phones,number|digits:9',
-            'code_country.0' => 'sometimes',
-            'code_country.1' => 'sometimes',
-            'code_country.2' => 'sometimes',
+            'code_country.0' => 'required|exists:countries,id',
+            'code_country.1' => 'nullable|exists:countries,id',
+            'code_country.2' => 'nullable|exists:countries,id',
         ]);
     }
     /**
@@ -56,9 +56,15 @@ class PhoneController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $type, $country_id, $owner, $owner_id)
     {
-        //
+        $phone = new Phone();
+        $phone->number = $request->admin_number;
+        $phone->type = $type;
+        $phone->country_id = $country_id;
+        $phone->phoneable_type = $owner;
+        $phone->phoneable_id = $ownerid;
+        $phone->save();
     }
 
     /**

@@ -45,6 +45,7 @@ function()
         // Staff Security page
         Route::get('security', 'StaffController@security');
         Route::get('/logs', 'StaffController@log'); 
+        Route::get('/notification', 'StaffController@notification'); 
 
         // Staff categories managment pages
         Route::prefix('categories')->middleware('CanRead:category')->group(function() {
@@ -159,7 +160,7 @@ function()
 
         Route::prefix('affiliates')->middleware('CanRead:partner')->group(function() {
             Route::get('/', 'PartnerController@index');
-            Route::get('/trash', 'PartnerController@trash');
+            Route::get('/trash', 'PartnerController@trashIndex');
             Route::group(['middleware' => ['CanWrite:partner']], function(){
                     Route::get('create', 'PartnerController@create'); 
                     Route::get('{partner}/edit', 'PartnerController@edit');
@@ -496,9 +497,11 @@ Route::domain('staff.babcasa.com')->group(function (){
     Route::prefix('affiliates')->middleware('CanWrite:partner')->group(function() {
         Route::post('/', 'PartnerController@store'); 
         Route::delete('multi-destroy', 'PartnerController@multiDestroy')->name('multi_delete.affiliates');
+        Route::delete('multi-restore', 'PartnerController@multiRestore');
         Route::prefix('{partner}')->group(function() {
             Route::put('/', 'PartnerController@update'); 
             Route::delete('/', 'PartnerController@destroy')->name('delete.partner');
+            Route::post('/', 'PartnerController@restore')->name('delete.partner');
             Route::post('/reset/password', 'PinController@store')->name('reset.password.partner');
             Route::post('/pin/verification', 'PinController@checkPin');
         });
