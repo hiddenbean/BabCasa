@@ -128,7 +128,7 @@ function()
             Route::get('{language}', 'LanguageController@show'); 
         }); 
 
-        //////////reasons
+        // Reasons
         Route::prefix('reasons')->middleware('CanRead:reason')->group(function() {
             Route::get('/', 'ReasonController@index'); 
             Route::group(['middleware' => ['CanWrite:reason']], function(){
@@ -184,7 +184,7 @@ function()
     Route::domain('partner.babcasa.com')->group(function (){
         Route::get('{product}/edit', 'ProductController@edit'); 
     });
-    //////////reasons
+    // reasons
     Route::prefix('reasons')->middleware('CanRead:reason')->group(function() {
         Route::get('/', 'ReasonController@index'); 
         Route::group(['middleware' => ['CanWrite:reason']], function(){
@@ -193,7 +193,7 @@ function()
         }); 
         Route::get('{reason}', 'ReasonController@show'); 
     });
-    //////////subjects
+    // subjects
     Route::prefix('subjects')->middleware('CanRead:reason')->group(function() {
         Route::get('/', 'SubjectController@index'); 
         Route::group(['middleware' => ['CanWrite:reason']], function(){
@@ -203,7 +203,7 @@ function()
         Route::get('{subject}', 'SubjectController@show'); 
     });
 
-    //////////staff
+    // staff
     Route::get('/sign-in', 'Auth\StaffLoginController@showLoginForm');
     Route::get('/logout', 'Auth\StaffLoginController@logout');
     

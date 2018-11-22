@@ -62,7 +62,7 @@
                 {{ csrf_field() }}
                 <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
                     <thead>
-                          <th class="text-center" style="width:35px"><button class="btn btn-link" type="submit"><i class="fas fa-undo-alt fa-lg"></i></button></th>
+                        <th class="text-center" style="width:35px"><button class="btn btn-link" type="submit"><i class="fas fa-undo-alt fa-lg"></i></button></th>
                         <th style="width:62px"></th>
                         <th style="width:80px">Picture</th>
                         <th style="width:150px">Category name</th>
@@ -74,9 +74,9 @@
                     </thead>
             
                     <tbody> 
-                      @foreach($categories as $category)
+                    @foreach($categories as $category)
                         <tr role="row" id="0">
-                             <td class="v-align-middle p-l-5 p-r-5">
+                            <td class="v-align-middle p-l-5 p-r-5">
                             <div class="checkbox no-padding no-margin text-center">
                                 <input type="checkbox" value="{{$category->id}}" name="categories[]" id="checkbox{{$category->id}}">
                                 <label for="checkbox{{$category->id}}" class="no-padding no-margin"></label>
@@ -130,11 +130,13 @@
                 "destroy": true,  
                 "scrollCollapse": true,
                 "order": [
-                        [1, "desc"]
+                        [3, "desc"]
                     ],
                     "columnDefs": [
                         { "orderable": false, "targets": 0 },
-                ],
+                        { "orderable": false, "targets": 1 },
+                        { "orderable": false, "targets": 2 },
+                    ],
                 "iDisplayLength": 10
             };
 
@@ -153,7 +155,6 @@
                 } else {
                     $(this).closest('tr').removeClass('selected');
                 }
-
             });
         });
     </script>
