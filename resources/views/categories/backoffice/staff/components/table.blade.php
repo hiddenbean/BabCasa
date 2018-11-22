@@ -31,10 +31,10 @@
             <div class="col-xs-12">
                 <div class="row">
                     <div class="col-md-3 text-right no-padding">
-                            @if (auth()->guard('staff')->user()->can('write','category'))
-                            <a href="{{url('categories/create')}}" class="btn btn-transparent"><i class="fas fa-plus fa-sm"></i> <strong>Add</strong></a>
-                            @endif
-                            </div>
+                        @if (auth()->guard('staff')->user()->can('write','category'))
+                        <a href="{{url('categories/create')}}" class="btn btn-transparent"><i class="fas fa-plus fa-sm"></i> <strong>Add</strong></a>
+                        @endif
+                    </div>
                     <div class="col-md-3 text-right no-padding">
                         <a href="{{url('categories/trash')}}" class="btn btn-transparent-danger"><i class="fas fa-trash-alt fa-sm"></i> <strong>Trash</strong></a>
                     </div>

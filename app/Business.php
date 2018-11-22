@@ -80,6 +80,7 @@ class Business extends Authenticatable
             $business->phones()->delete();
             $business->orders()->delete();
             //$business->markets()->delete();
+            //$business->offers()->delete();
             
         });
 

@@ -16,7 +16,7 @@
                         <a href="{{ url('/') }}">DASHBOARD</a>
                     </li>
                     <li class="breadcrumb-item active">
-                        Business clients
+                        Client Particular
                     </li>
                 </ol>
             </div>
@@ -26,27 +26,14 @@
     <div class="container-fluid container-fixed-lg bg-white">
         <div class="card card-transparent">
             <div class="card-header">
-                @if (\Session::has('error'))
-                    <div class="alert alert-danger">
-                        {!! \Session::get('error') !!}
-                    </div>
-                @endif
-                @if (\Session::has('success'))
-                    <div class="alert alert-success">
-                        {!! \Session::get('success') !!}
-                    </div>
-                @endif
-                <div class="card-title">Business clients list</div>
+                <div class="card-title">List of Client Particular</div>
                 <div class="pull-right">
                     <div class="col-xs-12">
                         <div class="row">
-                            <div class="col-md-4 text-right no-padding">
-                                @if (auth()->guard('staff')->user()->can('write','business_client'))
-                                    <a href="{{url('clients/business/create')}}" class="btn btn-primary btn-cons">New client business</a>
-                                @endif
-                            </div>
-                            <div class="col-md-2 text-right no-padding">
-                                <a href="{{url('clients/business/trash')}}" class="btn btn-transparent-danger"><i class="fas fa-trash-alt fa-sm"></i> <strong>Trash</strong></a>
+                            <div class="col-md-6 text-right no-padding">
+                             @if (auth()->guard('staff')->user()->can('write','particular_client'))
+                            <a href="{{url('clients/particular/create')}}" class="btn btn-primary btn-cons">New client particular</a>
+                            @endif
                             </div>
                             <div class="col-md-6">
                                 <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
@@ -58,42 +45,37 @@
                 
             </div>
             <div class="card-body">
-                <form action="{{route('multi_delete.businesses')}}" method="post">
-                {{ method_field('DELETE') }}
+                <form action="{{url('/clients/business/multi-restore')}}" method="post">
                 {{ csrf_field() }}
                 <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
                     <thead>
-                        <th style="width:3%" class="text-center"><button class="btn btn-link" type="submit"><i class="pg-trash"></i></button></th>
+                        <th style="width:10%" class="text-center"><button class="btn btn-link" type="submit"><i class="fas fa-undo-alt fa-lg"></i></button></th>
+                        <th style="width:10%"></th>
                         <th style="width:20%" class="text-center">Name</th>
                         <th style="width:10%" class="text-center">Email</th> 
-                        <th style="width:10%" class="text-center">Creation date</th>                
-                        <th style="width:10%" class="text-center">Status</th>                
+                        <th style="width:10%" class="text-center">Creation date</th>              
                         <th style="width:10%" class="text-center"></th>                
                     </thead>
             
-                    <tbody>
-                        @foreach($businesses as $business)  
-                        <tr class="order-progress"  >
-                            <td class="v-align-middle">
-                                <div class="checkbox text-center">
-                                <input type="checkbox" value="{{$business->name}}" name="businesses[]" id="checkbox{{$business->id}}">
-                                <label for="checkbox{{$business->id}}" class="no-padding no-margin"></label>
-                                </div>
-                            </td>
-                            <td class="v-align-middle"><a href="{{url('clients/business/'.$business->name)}}"><strong> {{ $business->company_name }} </strong></a></td>
-                            <td class="v-align-middle text-center"><strong> {{ $business->email }}</strong></td>                
-                            <td class="v-align-middle text-center"> {{ $business->created_at }} </td>
-                            <!-- {{ $business->status->first()->is_approved ? $status = 'Approved' : $status = 'Not approved' }} -->    
-                        <td class="v-align-middle text-center"> <strong>{{ $status }}</strong> </td>       
-                            <td class="v-align-middle text-center">
-                                <a href="{{url('clients/business/'.$business->name.'/edit')}}" class="btn btn-transparent"><i class="fa fa-pencil"></i></a>
-                                <a href="{{route('delete.business',['business'=>$business->name])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></a>
-                            </td> 
-                        </tr> 
-                        @endforeach
+                    <tbody>  
+                        @foreach($particular_clients as $particular_client)  
+                            <tr class="order-progress"  >
+                                <td class="v-align-middle">
+                                    <div class="checkbox text-center">
+                                    <input type="checkbox" value="{{$particular_client->name}}" name="businesses[]" id="checkbox{{$particular_client->id}}">
+                                    <label for="checkbox{{$particular_client->id}}" class="no-padding no-margin"></label>
+                                    </div>
+                                </td>
+                                <td class="v-align-middle text-center p-l-5 p-r-5">
+                                    <a href="{{url('/clients/business/'.$particular_client->name.'/restore')}}" data-method="post"  data-token="{{csrf_token()}}" class="text-danger"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></a></td>
+                                </td>
+                                <td class="v-align-middle"><a href="{{url('clients/business/'.$particular_client->name)}}"><strong> {{ $particular_client->first_name }} {{ $particular_client->last_name }} </strong></a></td>
+                                <td class="v-align-middle text-center"><strong> {{ $particular_client->email }}</strong></td>                
+                                <td class="v-align-middle text-center"> {{ $particular_client->created_at }} </td>      
+                            </tr> 
+                        @endforeach 
                     </tbody>
                 </table>
-                </form>
             </div>
         </div> 
     </div>
