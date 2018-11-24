@@ -90,8 +90,8 @@
                                 <td class="v-align-middle picture">
                                         <a href="{{url('affiliates/'.$partner->name)}}"><img src="@if(isset($partner->picture->path)) {{Storage::url($partner->picture->path)}} @else {{asset('img/img_placeholder.png')}} @endif" alt="cat1"></a>
                                     </td>
-                                <td class="v-align-middle"><a href="{{url('partners/'.$partner->id)}}"><strong>{{$partner->company_name }}</strong></a></td>
-                                <td class="v-align-middle"><a href="{{url('partners/'.$partner->id)}}"><strong>{{$partner->name }}</strong></a></td>
+                                <td class="v-align-middle"><a href="{{url('affiliates/'.$partner->id)}}"><strong>{{$partner->company_name }}</strong></a></td>
+                                <td class="v-align-middle"><a href="{{url('affiliates/'.$partner->id)}}"><strong>{{$partner->name }}</strong></a></td>
                                 <td class="v-align-middle">{{$partner->email }}</td>
                                 <td class="v-align-middle"><strong>{{$partner->first_name.' '.$partner->last_name }}</strong></td>
                                 <td class="v-align-middle">{{$partner->phones()->where('tag','admin')->first()->country->phone_code.' '.$partner->phones()->where('tag','admin')->first()->number}}</td>

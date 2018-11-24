@@ -34,7 +34,7 @@ class Profile extends Model
         $langId = Language::where('alpha_2_code',App::getLocale())->first()->id; 
         $profile = self::profileLangs()->where('lang_id',$langId)->first();
 
-        return !isset($profile->reference) ? self::profileLangs()->where('reference','!=','')->first() : $profile;
+        return !isset($profile->reference)||$profile->reference=='' ? self::profileLangs()->where('reference','!=','')->first() : $profile;
     }
 
     public function permissions()

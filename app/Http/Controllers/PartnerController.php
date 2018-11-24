@@ -204,7 +204,7 @@ class PartnerController extends Controller
     public function show($partner)
     {
         $data['reasons'] = Reason::all();
-        $data['partner'] = Partner::findOrFail($partner);
+        $data['partner'] = Partner::where('name',$partner)->first();
         return view('partners.backoffice.staff.show',$data);
     }
 

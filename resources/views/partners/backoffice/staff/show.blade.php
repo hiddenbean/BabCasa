@@ -34,7 +34,7 @@
                         <a href="{{ url('/affiliates') }}">affiliate</a>
                     </li>
                     <li class="breadcrumb-item active">
-                        ID :  
+                        ID : {{$partner->id}}
                     </li>
                 </ol>
             </div>
@@ -49,7 +49,7 @@
             <div class="card ">
                 <div class="card-header">
                     <div class="card-title">
-                        Member  id : 
+                        Member  id : {{$partner->id}}
                     </div>
                 </div>
                 <div class="card-body">
@@ -58,7 +58,7 @@
                             <h5>
                                 Picture
                             </h5>
-                            <img src="" alt="cat1">
+                            <img src="@if(isset($partner->picture->path)) {{Storage::url($partner->picture->path)}} @else {{asset('img/img_placeholder.png')}} @endif" style="max-width:300px" alt="cat1">
                         </div>
                         <div class="col-md-8">
                             <div class="row">
@@ -71,10 +71,11 @@
 
                             <div class="row m-b-10">
                                 <div class="col-md-3 uppercase">
-                                    username
+                                    username 
                                 </div>
                                 <div class="col-md-9">
                                     <strong>
+                                            {{$partner->name}}
                                     </strong>
                                 </div>
                             </div>
@@ -85,7 +86,7 @@
                                 </div>
                                 <div class="col-md-9">
                                     <strong>
-                                        <a href="mailto:"></a>
+                                        <a href="mailto:{{$partner->email}}"> {{$partner->email}}</a>
                                     </strong>
                                 </div>
                             </div>
@@ -104,6 +105,7 @@
                                 </div>
                                 <div class="col-md-9">
                                     <strong>
+                                            {{$partner->firs_name}}
                                     </strong>
                                 </div>
                             </div>
@@ -114,6 +116,7 @@
                                 </div>
                                 <div class="col-md-9">
                                     <strong>
+                                            {{$partner->last_name}}
                                     </strong>
                                 </div>
                             </div>
@@ -124,7 +127,7 @@
                                 </div>
                                 <div class="col-md-9">
                                     <strong>
-                                        <a href="mailto:"></a>
+                                        <a href="mailto: {{$partner->admin_email}}"> {{$partner->admin_email}}</a>
                                     </strong>
                                 </div>
                             </div>
@@ -135,7 +138,7 @@
                                 </div>
                                 <div class="col-md-9">
                                     <strong>
-                                        <a href="tel:+"></a>
+                                        <a href="tel:+ {{$partner->phones()->where('tag','admin')->first()->country->phone_code.' '.$partner->phones()->where('tag','admin')->first()->number}}"> {{$partner->phones()->where('tag','admin')->first()->country->phone_code.' '.$partner->phones()->where('tag','admin')->first()->number}}</a>
                                     </strong>
                                 </div>
                             </div>
@@ -149,10 +152,10 @@
                             </div>
                             <div class="row m-b-10">
                                 <div class="col-md-3 uppercase">
-                                    Profile
+                                    Company name
                                 </div>
                                 <div class="col-md-9">
-                                    <strong></strong>
+                                    <strong> {{$partner->company_name}}</strong>
                                 </div>
                             </div>
                         </div>
@@ -179,37 +182,46 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="card-body">
+                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    Status : <strong>Publish Removed</strong>
+                                    Status : <strong>@if($partner->deleted_at == NULL) Publish @else Removed @endif</strong>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    Creation date : <strong></strong>
+                                    Creation date : <strong>{{$partner->created_at}}</strong>
                                 </div>
                             </div>
+                            @if($partner->updated_at != NULL)
                             <div class="row">
                                 <div class="col-md-12">
-                                    Last update : <strong></strong>
+                                    Last update : <strong>{{$partner->updated_at}}</strong>
                                 </div>
                             </div>
+                            @endif
+                            @if($partner->deleted_at != NULL)
                             <div class="row">
                                 <div class="col-md-12">
-                                    Remove date : <strong></strong>
+                                    Remove date : <strong>{{$partner->deleted_at}}</strong>
                                 </div>
                             </div>
+                            @endif
                             <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
+                            @if($partner->deleted_at == NULL)
                                 <div class="col-md-6">
-                                    <a href="" class="btn btn-block "><i class="fas fa-pen"></i> <strong>Edit</strong></a>                                    
+                                    <a href="{{url('affiliates/'.$partner->name.'/edit')}}" class="btn btn-block "><i class="fas fa-pen"></i> <strong>Edit</strong></a>                                    
                                 </div>
+                            @endif
                                 <div class="col-md-6">
-                                    <a  href="" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
-                                    <form action="" method="POST">
+                                @if($partner->deleted_at == NULL)
+                                    <a  href="{{route('delete.partner',['partner'=>$partner->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
+                                @else
+                                    <form action="{{url('affiliates/'.$partner->name.'/restore')}}" method="POST">
                                         {{ csrf_field() }}
                                         <button class="btn btn-block btn-transparent-danger" type="submit"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></button>
-                                    </form>
+                                        </form>
+                                @endif
                                 </div>
                             </div>
                         </div>

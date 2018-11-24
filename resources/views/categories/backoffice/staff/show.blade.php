@@ -47,36 +47,37 @@
                 <div class="card-body">
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs">
-                        <li class="active">
-                            <a data-toggle="tab" href="#slide1">
-                                <span>English</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a data-toggle="tab" href="#slide2">
-                                <span>Français</span>
-                            </a>
-                        </li>
+                        @foreach($languages as $key=>$language)
+                        @if(isset($category->categoryLangs->where('lang_id',$language->id)->first()->reference)&& !empty($category->categoryLangs->where('lang_id',$language->id)->first()->reference))
+                            <li>
+                                <a data-toggle="tab" href="#{{$language->id}}">
+                                    <span>{{$language->name}}</span>
+                                    </a>
+                                </li>
+                                @endif
+                        @endforeach
                     </ul>
                     <!-- Tab panes -->
                     <div class="tab-content">
-                        <!-- silde 1 start -->
-                        <div class="tab-pane slide-left active" id="slide1">
+                         @foreach($languages as $key=> $language)
+                         <!-- silde  {{$key}} start -->
+                         <div class="tab-pane slide-left {{$language->id==$category->categoryLang()->lang_id ? 'active' : ''}}" id="{{$language->id}}">
+                                @if(isset($category->categoryLangs->where('lang_id',$language->id)->first()->reference)&& !empty($category->categoryLangs->where('lang_id',$language->id)->first()->reference))
                             <div class="row">
-                                <div class="col-md-4 b-r b-dashed b-grey p-b-15">
+                             <div class="col-md-4 b-r b-dashed b-grey p-b-15">
                                     <h5>
                                         Picture
                                     </h5>
                                     <img src="@if(isset($category->picture->path)) {{Storage::url($category->picture->path)}} @else {{asset('img/img_placeholder.png')}} @endif" alt="cat1" width="100%">
                                 </div>
-                                <div class="col-md-8">
+                                 <div class="col-md-8">
                                     <div class="row m-b-10">
                                         <div class="col-md-3 uppercase">
                                             Name
                                         </div>
                                         <div class="col-md-9">
                                             <strong>
-                                                {{ $category->categoryLang()->reference }}
+                                                {{ $category->categoryLangs->where('lang_id',$language->id)->first()->reference}}
                                             </strong>
                                         </div>
                                     </div>
@@ -85,7 +86,7 @@
                                             Description
                                         </div>
                                         <div class="col-md-8">
-                                            {!! $category->categoryLang()->description !!}
+                                            {!! $category->categoryLangs->where('lang_id',$language->id)->first()->description !!}
                                         </div>
                                     </div>
                                     <div class="row m-b-10">
@@ -94,43 +95,40 @@
                                         </div>
                                         <div class="col-md-8">
                                             <strong>
-                                                @if(isset($category->category)) <a href="{{url('categories/'.$category->category->id)}}"> {{$category->category->categoryLang()->reference}}</a>@else  -  @endif
+                                                @if(isset($category->category)) <a href="{{url('categories/'.$category->category->id)}}"> {{$category->category->categoryLangs->where('lang_id',$language->id)->first()->reference}}</a>@else  -  @endif
                                             </strong>
                                         </div>
                                     </div>
                                     <div class="row m-b-10">
                                         <div class="col-md-3 uppercase">
-                                            Details
+                                            Details 
                                         </div>
                                         <div class="col-md-8">
                                             <strong>
                                             @foreach($category->details as $detail)
-                                                <a href="{{url('details/'.$detail->id)}}" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">{{$detail->detailLang()->value}}</a>
+                                                <a href="{{url('details/'.$detail->id)}}" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">{{$detail->detailLangs->where('lang_id',$language->id)->first()->value ? $detail->detailLangs->where('lang_id',$language->id)->first()->value : $detail->detailLang()->value }}</a>
                                             @endforeach
                                             </strong>
                                         </div>
                                     </div>
                                     <div class="row m-b-10">
                                         <div class="col-md-3 uppercase">
-                                            Attributes
+                                            categorys
                                         </div>
                                         <div class="col-md-8">
                                             <strong>
-                                                @foreach($category->attributes as $attribute)
-                                                    <a href="{{url('attributes/'.$attribute->id)}}" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">{{$attribute->attributeLang()->reference}}</a>
+                                                @foreach($category->subCategories as $Category)
+                                                    <a href="{{url('categories/'.$Category->id)}}" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">{{$Category->categoryLangs->where('lang_id',$language->id)->first()->reference ?$Category->categoryLangs->where('lang_id',$language->id)->first()->reference :$Category->categoryLang()->reference}}</a>
                                                 @endforeach
                                             </strong>
                                         </div>
                                     </div>
-                                </div>
+                                </div> 
                             </div>
+                            @endif
                         </div>
-                        <!-- silde 1 end -->
-                        <!-- silde 2 start -->
-                        <div class="tab-pane slide-right" id="slide2">
-                            ...
-                        </div>
-                        <!-- silde 2 end -->
+                        <!-- silde {{$key}} end -->
+                        @endforeach
                     </div>
                 </div>
             </div>

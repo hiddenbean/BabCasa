@@ -37,81 +37,63 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h5 style="display: inline;">
-                                Name in 
-                            </h5>
-                            <a 
-                                href="javascript:;" 
-                                data-toggle="tooltip" 
-                                data-placement="bottom" 
-                                data-html="true" 
-                                trigger="click" 
-                                title= "<p class='tooltip-text'>You can use this form to create a new category if you have the right permissions.<br>
-                                    If you have any difficulties please <a href='#'>contact the support</a></p>"> 
-                                <i class="fas fa-question-circle fa-xs"></i>
-                            </a>
-                            @foreach($languages as $language)
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs">
+                        @foreach($languages as $key=>$language)
+                        @if(isset($attribute->attributeLangs->where('lang_id',$language->id)->first()->reference)&& !empty($attribute->attributeLangs->where('lang_id',$language->id)->first()->reference))
+                            <li >
+                                <a data-toggle="tab" href="#{{$language->id}}">
+                                    <span>{{$language->name}}</span>
+                                    </a>
+                                </li>
+                                @endif
+                        @endforeach
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                            @foreach($languages as $key=> $language)
+                            <!-- silde  {{$key}} start -->
+                            <div class="tab-pane slide-left {{$language->id==$attribute->attributeLang()->lang_id ? 'active' : ''}}" id="{{$language->id}}">
                                 @if(isset($attribute->attributeLangs->where('lang_id',$language->id)->first()->reference)&& !empty($attribute->attributeLangs->where('lang_id',$language->id)->first()->reference))
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <span class="hint-text">{{$language->name}} : </span>
+                            <div class="row">
+                            
+                                    <div class="col-md-12">
+                                    <div class="row m-b-10">
+                                        <div class="col-md-3 uppercase">
+                                            Name
                                         </div>
                                         <div class="col-md-9">
-                                            {{$attribute->attributeLangs->where('lang_id',$language->id)->first()->reference}}
+                                            <strong>
+                                                {{ $attribute->attributeLangs->where('lang_id',$language->id)->first()->reference}}
+                                            </strong>
                                         </div>
                                     </div>
-                                @endif
-                            @endforeach
-                        </div>
-                        <div class="col-md-6">
-                            <h5 class="no-margin">Type </h5>
-                            {{ $attribute->type }}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h5 style="display: inline;">
-                                Description in
-                            </h5>
-                            <a 
-                                href="javascript:;" 
-                                data-toggle="tooltip" 
-                                data-placement="bottom" 
-                                data-html="true" 
-                                trigger="click" 
-                                title= "<p class='tooltip-text'>You can use this form to create a new category if you have the right permissions.<br>
-                                    If you have any difficulties please <a href='#'>contact the support</a></p>"> 
-                                <i class="fas fa-question-circle fa-xs"></i>
-                            </a>
-                            @foreach($languages as $language)
-                                @if(isset($attribute->attributeLangs->where('lang_id',$language->id)->first()->reference)&& !empty($attribute->attributeLangs->where('lang_id',$language->id)->first()->description))
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <span class="hint-text">{{$language->name}} : </span>
+                                    <div class="row m-b-10">
+                                        <div class="col-md-3 uppercase">
+                                            Description
                                         </div>
-                                        <div class="col-md-9">
-                                            {!!$attribute->attributeLangs->where('lang_id',$language->id)->first()->description!!}
+                                        <div class="col-md-8">
+                                            {!! $attribute->attributeLangs->where('lang_id',$language->id)->first()->description !!}
                                         </div>
                                     </div>
-                                @endif
-                            @endforeach
-                           
+                                    <div class="row m-b-10">
+                                        <div class="col-md-3 uppercase">
+                                            categorys
+                                        </div>
+                                        <div class="col-md-8">
+                                            <strong>
+                                                @foreach($attribute->categories as $Category)
+                                                    <a href="{{url('categories/'.$Category->id)}}" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">{{$Category->categoryLangs->where('lang_id',$language->id)->first()->reference ?$Category->categoryLangs->where('lang_id',$language->id)->first()->reference :$Category->categoryLang()->reference}}</a>
+                                                @endforeach
+                                            </strong>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </div>
+                            @endif
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h5>
-                                Categories using this attribute
-                            </h5>
-                            <p>
-                            @foreach($attribute->categories as $category)
-                            <a href="{{url('categories/'.$category->id)}}" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">{{$category->categoryLang()->reference}}</a>
-                            @endforeach
-                                
-                            </p>
-                        </div>
+                        <!-- silde {{$key}} end -->
+                        @endforeach
                     </div>
                 </div>
             </div>

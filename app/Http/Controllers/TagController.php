@@ -35,7 +35,7 @@ class TagController extends Controller
     public function index()
     {
         $data['tags'] = Tag::all();
-        // return $data['tags'][0]->tagLang();
+        //  return $data['tags'][0]->tagLang();
         return view('tags.backoffice.staff.index', $data);
     }
     

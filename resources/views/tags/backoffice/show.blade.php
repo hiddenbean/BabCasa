@@ -27,20 +27,48 @@
 <div class="container-fluid container-fixed-lg">
     <div class="card ">
         <div class="card-header">
-            <h4 class="m-t-0 m-b-0"> <strong>Tags</strong> </h4>
+            <h4 class="m-t-0 m-b-0"> <strong>Tags</strong>{{$tag->id}} </h4>
         </div>
         <div class="card-body">
-            <div class="row">
-                <div class="col-md-9 b-r b-dashed b-grey"> 
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs">
+                    @foreach($languages as $key=>$language)
+                    @if(isset($tag->tagLangs->where('lang_id',$language->id)->first()->tag)&& !empty($tag->tagLangs->where('lang_id',$language->id)->first()->tag))
+                        <li >
+                            <a data-toggle="tab" href="#{{$language->id}}">
+                                <span>{{$language->name}}</span>
+                                </a>
+                            </li>
+                            @endif
+                    @endforeach
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                     @foreach($languages as $key=> $language)
+                     <!-- silde  {{$key}} start -->
+                     <div class="tab-pane slide-left {{$language->id==$tag->tagLang()->lang_id ? 'active' : ''}}" id="{{$language->id}}">
+                            @if(isset($tag->tagLangs->where('lang_id',$language->id)->first()->tag)&& !empty($tag->tagLangs->where('lang_id',$language->id)->first()->tag))
                         <div class="row">
-                            <div class="col-md-12">
-                                <h5>Name</h5>
-                                <p>Lorem ipsum </p> 
+                     
+                             <div class="col-md-12">
+                                <div class="row m-b-10">
+                                    <div class="col-md-3 uppercase">
+                                        Name
+                                    </div>
+                                    <div class="col-md-9">
+                                        <strong>
+                                            {{ $tag->tagLangs->where('lang_id',$language->id)->first()->tag}}
+                                        </strong>
+                                    </div>
+                                </div>
                             </div> 
-                        </div>   
-                </div> 
+                        </div>
+                        @endif
+                    </div>
+                    <!-- silde {{$key}} end -->
+                    @endforeach
+                </div>
             </div>
-        </div>
     </div>
 </div>
 @endsection

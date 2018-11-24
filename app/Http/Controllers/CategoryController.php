@@ -241,6 +241,7 @@ class CategoryController extends Controller
      */
     public function show($category)
     {
+        $data['languages'] = Language::all();
         $data['category'] = Category::withTrashed()->findOrFail($category);
         // return $data['category']->products->groupBy();
         $data['sub_categories'] = $data['category']->subCategories;

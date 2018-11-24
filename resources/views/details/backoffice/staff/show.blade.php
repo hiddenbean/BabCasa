@@ -37,27 +37,57 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="row m-b-10">
-                        <div class="col-md-3 uppercase">
-                            Name
-                        </div>
-                        <div class="col-md-9">
-                            <strong>
-                                xx
-                            </strong>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3 uppercase">
-                            Categories using this detail
-                        </div>
-                        <div class="col-md-9">
-                            @foreach( $detail->categories as $category )
-                                <a href="{{url('categories/'.$category->id)}}" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">{{$category->categoryLang()->reference}}</a>
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs">
+                            @foreach($languages as $key=>$language)
+                            @if(isset($detail->detailLangs->where('lang_id',$language->id)->first()->value)&& !empty($detail->detailLangs->where('lang_id',$language->id)->first()->value))
+                                <li >
+                                    <a data-toggle="tab" href="#{{$language->id}}">
+                                        <span>{{$language->name}}</span>
+                                        </a>
+                                    </li>
+                                    @endif
+                            @endforeach
+                        </ul>
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                             @foreach($languages as $key=> $language)
+                             <!-- silde  {{$key}} start -->
+                             <div class="tab-pane slide-left {{$language->id==$detail->detailLang()->lang_id ? 'active' : ''}}" id="{{$language->id}}">
+                                    @if(isset($detail->detailLangs->where('lang_id',$language->id)->first()->value)&& !empty($detail->detailLangs->where('lang_id',$language->id)->first()->value))
+                                <div class="row">
+                             
+                                     <div class="col-md-12">
+                                        <div class="row m-b-10">
+                                            <div class="col-md-3 uppercase">
+                                                Name
+                                            </div>
+                                            <div class="col-md-9">
+                                                <strong>
+                                                    {{ $detail->detailLangs->where('lang_id',$language->id)->first()->value}}
+                                                </strong>
+                                            </div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-md-3 uppercase">
+                                                categorys
+                                            </div>
+                                            <div class="col-md-8">
+                                                <strong>
+                                                    @foreach($detail->categories as $Category)
+                                                        <a href="{{url('categories/'.$Category->id)}}" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">{{$Category->categoryLangs->where('lang_id',$language->id)->first()->reference ?$Category->categoryLangs->where('lang_id',$language->id)->first()->reference :$Category->categoryLang()->reference}}</a>
+                                                    @endforeach
+                                                </strong>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                </div>
+                                @endif
+                            </div>
+                            <!-- silde {{$key}} end -->
                             @endforeach
                         </div>
                     </div>
-                </div>
             </div>
         </div>
         <div class="col-md-3">

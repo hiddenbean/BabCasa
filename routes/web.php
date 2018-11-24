@@ -413,7 +413,7 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::delete('delete/multiple', 'CategoryController@multiDestroy')->name('delete.categories');
     }); 
     //////////languages
-    Route::prefix('languages')->middleware('CanWrite:Language')->group(function() {
+    Route::prefix('languages')->middleware('CanWrite:language')->group(function() {
 
         Route::post('/','LanguageController@store'); 
         Route::post('/multi-restore', 'LanguageController@multiRestore'); 
@@ -513,14 +513,9 @@ Route::domain('staff.babcasa.com')->group(function (){
         //////////profiles
         Route::prefix('profiles')->middleware('CanWrite:profile')->group(function() {
             Route::post('/', 'ProfileController@storeWithRedirect');
-<<<<<<< HEAD
-            Route::post('/create', 'ProfileController@storeAndNew'); 
-            Route::post('{profile}', 'ProfileController@update'); 
-=======
             Route::post('/create', 'ProfileController@storeAndNew');
             Route::post('/multi-restore', 'ProfileController@multiRestore');
             Route::post('{profile}', 'ProfileController@update');
->>>>>>> b637cc333a81e739a7c661a63dc34cceb7064dfd
             Route::post('{profile}/translations','ProfileLangController@update');
             Route::post('{profile}/restore', 'ProfileController@restore');
             Route::post('{profile}/permissions', 'ProfileController@permissions');

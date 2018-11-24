@@ -37,27 +37,45 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h5>
-                                Name in
-                            </h5>
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs">
+                            @foreach($languages as $key=>$language)
+                            @if(isset($tag->tagLangs->where('lang_id',$language->id)->first()->tag)&& !empty($tag->tagLangs->where('lang_id',$language->id)->first()->tag))
+                                <li >
+                                    <a data-toggle="tab" href="#{{$language->id}}">
+                                        <span>{{$language->name}}</span>
+                                        </a>
+                                    </li>
+                                    @endif
+                            @endforeach
+                        </ul>
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                             @foreach($languages as $key=> $language)
+                             <!-- silde  {{$key}} start -->
+                             <div class="tab-pane slide-left {{$language->id==$tag->tagLang()->lang_id ? 'active' : ''}}" id="{{$language->id}}">
+                                    @if(isset($tag->tagLangs->where('lang_id',$language->id)->first()->tag)&& !empty($tag->tagLangs->where('lang_id',$language->id)->first()->tag))
+                                <div class="row">
+                             
+                                     <div class="col-md-12">
+                                        <div class="row m-b-10">
+                                            <div class="col-md-3 uppercase">
+                                                Name
+                                            </div>
+                                            <div class="col-md-9">
+                                                <strong>
+                                                    {{ $tag->tagLangs->where('lang_id',$language->id)->first()->tag}}
+                                                </strong>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                </div>
+                                @endif
+                            </div>
+                            <!-- silde {{$key}} end -->
+                            @endforeach
                         </div>
                     </div>
-                    @foreach($languages as $language)
-                        @if(isset($tag->tagLangs->where('lang_id',$language->id)->first()->tag) && !empty($tag->tagLangs->where('lang_id',$language->id)->first()->tag))
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <span class="hint-text">{{$language->name}} : </span>
-                                </div>
-                                <div class="col-md-9">
-                                    {{$tag->tagLangs->where('lang_id',$language->id)->first()->tag}}
-                                </div>
-                            </div>
-                        @endif
-                    @endforeach
-                     
-                </div>
             </div>
         </div>
         <div class="col-md-3">

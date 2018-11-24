@@ -44,95 +44,88 @@
                         Member  id :  {{$profile->id}}
                     </div>
                 </div>
+                
                 <div class="card-body">
-                    <div class="row m-b-10">
-                        <div class="col-md-12">
-                            <span class="uppercase">Name</span> in
-                        </div>
-                    </div>
-                     
-                    
-                   @foreach($languages as $language)
-                        @if(isset($profile->profileLangs->where('lang_id',$language->id)->first()->reference) && !empty($profile->profileLangs->where('lang_id',$language->id)->first()->reference))
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-2">
-                                    <span class="hint-text small">
-                                        {{$language->name}}
-                                    </span>
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs">
+                            @foreach($languages as $key=>$language)
+                            @if(isset($profile->profileLangs->where('lang_id',$language->id)->first()->reference)&& !empty($profile->profileLangs->where('lang_id',$language->id)->first()->reference))
+                                <li >
+                                    <a data-toggle="tab" href="#{{$language->id}}">
+                                        <span>{{$language->name}}</span>
+                                        </a>
+                                    </li>
+                                    @endif
+                            @endforeach
+                        </ul>
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                                @foreach($languages as $key=> $language)
+                                <!-- silde  {{$key}} start -->
+                                <div class="tab-pane slide-left {{$language->id==$profile->profileLang()->lang_id ? 'active' : ''}}" id="{{$language->id}}">
+                                    @if(isset($profile->profileLangs->where('lang_id',$language->id)->first()->reference)&& !empty($profile->profileLangs->where('lang_id',$language->id)->first()->reference))
+                                <div class="row">
+                                
+                                        <div class="col-md-12">
+                                        <div class="row m-b-10">
+                                            <div class="col-md-3 uppercase">
+                                                Name
+                                            </div>
+                                            <div class="col-md-9">
+                                                <strong>
+                                                    {{ $profile->profileLangs->where('lang_id',$language->id)->first()->reference}}
+                                                </strong>
+                                            </div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-md-3 uppercase">
+                                                Description
+                                            </div>
+                                            <div class="col-md-8">
+                                                {!! $profile->profileLangs->where('lang_id',$language->id)->first()->description !!}
+                                            </div>
+                                        </div>
+                                    </div> 
                                 </div>
-                                <div class="col-md-10">
-                                    <strong>
-                                        {{$profile->profileLangs->where('lang_id',$language->id)->first()->reference}}
-                                    </strong>
-                                </div>
+                                @endif
                             </div>
-                        </div>
-                    </div>
-                        @endif
-                    @endforeach
-                    <div class="row m-t-20">
-                        <div class="col-md-12">
-                            <span class="uppercase">Description</span> in
-                        </div>
-                    </div>
-
-                     @foreach($languages as $language)
-                        @if(isset($profile->profileLangs->where('lang_id',$language->id)->first()->description) && !empty($profile->profileLangs->where('lang_id',$language->id)->first()->description))
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-2">
-                                    <span class="hint-text small">
-                                        {{$language->name}}
-                                    </span>
+                            <!-- silde {{$key}} end -->
+                            @endforeach
+                            <div class="row m-t-20">
+                                    <div class="col-md-12">
+                                        <h5>
+                                            Permissions
+                                        </h5>
+                                    </div>
                                 </div>
-                                <div class="col-md-10">
-                                    <strong>
-                                         {!!$profile->profileLangs->where('lang_id',$language->id)->first()->description!!}
-                                    </strong>
+                                <div class="row">
+                                  @foreach($permissions as $permission)
+                                    <div class="col-md-6 m-t-10">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <span class="uppercase">{{$permission->permissionLang()->reference}}</span> 
+                                                <a 
+                                                    href="javascript:;" 
+                                                    data-toggle="tooltip" 
+                                                    data-placement="bottom" 
+                                                    data-html="true" 
+                                                    trigger="click" 
+                                                    title= "<p class='tooltip-text'>{{$permission->permissionLang()->description}}<br>
+                                                            If you have any difficulties please <a href='#'>contact the support</a></p>"> 
+                                                    <i class="fas fa-question-circle"></i>
+                                                </a>
+                                                : <strong>
+                                                {{$profile->permissions()->where('permission_id',$permission->id)->where('can_read',0)->where('can_write',0)->first() ? 'none' :''}}
+                                                {{$profile->permissions()->where('permission_id',$permission->id)->where('can_read',1)->where('can_write',0)->first() ? 'read' :''}}
+                                                {{$profile->permissions()->where('permission_id',$permission->id)->where('can_read',1)->where('can_write',1)->first() ? 'read/write' :''}}
+                                                </strong>  
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endforeach
                                 </div>
-                            </div>
                         </div>
                     </div>
-                        @endif
-                    @endforeach
-
-                    <div class="row m-t-20">
-                        <div class="col-md-12">
-                            <h5>
-                                Permissions
-                            </h5>
-                        </div>
-                    </div>
-                    <div class="row">
-                      @foreach($permissions as $permission)
-                        <div class="col-md-6 m-t-10">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <span class="uppercase">{{$permission->permissionLang()->reference}}</span> 
-                                    <a 
-                                        href="javascript:;" 
-                                        data-toggle="tooltip" 
-                                        data-placement="bottom" 
-                                        data-html="true" 
-                                        trigger="click" 
-                                        title= "<p class='tooltip-text'>{{$permission->permissionLang()->description}}<br>
-                                                If you have any difficulties please <a href='#'>contact the support</a></p>"> 
-                                        <i class="fas fa-question-circle"></i>
-                                    </a>
-                                    : <strong>
-                                    {{$profile->permissions()->where('permission_id',$permission->id)->where('can_read',0)->where('can_write',0)->first() ? 'none' :''}}
-                                    {{$profile->permissions()->where('permission_id',$permission->id)->where('can_read',1)->where('can_write',0)->first() ? 'read' :''}}
-                                    {{$profile->permissions()->where('permission_id',$permission->id)->where('can_read',1)->where('can_write',1)->first() ? 'read/write' :''}}
-                                    </strong>  
-                                </div>
-                            </div>
-                        </div>
-                        @endforeach
-                    </div>
-                </div>
             </div>
         </div>
         <div class="col-md-3">
