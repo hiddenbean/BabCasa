@@ -17,6 +17,7 @@ use DateTime;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\PictureController;
 use App\Http\Controllers\PhoneController;
+use App\Notifications\NewPartner;
 use Illuminate\Http\Request;
 
 class PartnerController extends Controller
@@ -35,10 +36,10 @@ class PartnerController extends Controller
             'company_name' => 'required',
             'name' => 'required|unique:partners,name',
             'email' => 'required|email|unique:partners,email',
-            'password' => 'required|min:6',
+            'admin_email' => 'required|email|unique:partners,admin_email',
+            'first_name' => 'required',
+            'last_name' => 'required',
             'about' => 'required',
-            'trade_registry' => 'required|numeric|digits:6',
-            'ice' => 'required|numeric|digits:10',
             'taxe_id' => 'required|numeric|digits:10',
         ]);
     }
@@ -56,6 +57,7 @@ class PartnerController extends Controller
     public function index()
     {
         $data['partners'] = Partner::all();
+
         return view('partners.backoffice.staff.index',$data);
     }
     
@@ -63,7 +65,7 @@ class PartnerController extends Controller
      * 
      */
     public function trash() {
-        $data['partnerss'] = Partner::onlyTrashed()->get();
+        $data['partners'] = Partner::onlyTrashed()->get();
         return view('partners.backoffice.staff.trash',$data);
     }
 
@@ -97,22 +99,18 @@ class PartnerController extends Controller
         
         $phone = new PhoneController();
         $phone->validateRequest($request);
-        
-        $password = bcrypt($request->password);
-        $name = $request->company_name;
-        while(Partner::where('name', $request->company_name)->first()){
-            $name = $name.'_'.rand(0,9);
-        }
+
         $is_register_to_newsletter = ($request->is_register_to_newsletter=='on') ? 1 : 0;
         $partner = Partner::create([
+            'first_name' =>  $request->first_name,
+            'last_name' =>  $request->last_name,
             'company_name' => $request->company_name,
-            'name' => $name,
+            'name' => $request->name,
+            'password' => bcrypt(str_random(8)),
             'email' =>  $request->email,
-            'password' => $password,
+            'admin_email' =>  $request->admin_email,
             'about' => $request->about,
-            'trade_registry' => $request->trade_registry,
             'is_register_to_newsletter' => $is_register_to_newsletter,
-            'ice' => $request->ice,
             'taxe_id' => $request->taxe_id,
             ]);
             $status = new Status();
@@ -153,25 +151,18 @@ class PartnerController extends Controller
             {
                 $phone = new Phone();
                 $phone->number = $number;
-                $phone->type = "phone";
+                $phone->type = $key==3 ? "fix" : "phone";
+                $phone->is_default =$key==1||$key==0 ? true: false;
+                $phone->verify = false;
+                $phone->tag = $key==0 ? 'admin': 'company';
                 $phone->country_id = $request->code_country[$key];
                 $phone->phoneable_type = 'partner';
                 $phone->phoneable_id = $partner->id;
                 $phone->save();
             }
         }
-
-        if($request->fax_number)
-        {
-
-            $phone = new Phone();
-            $phone->number = $request->fax_number;
-            $phone->type = "fix";
-            $phone->country_id = $request->code_country[2];
-            $phone->phoneable_type = 'partner';
-            $phone->phoneable_id = $partner->id;
-            $phone->save();
-        }  
+        
+        $partner->notify(new NewPartner());
             
             return $partner;
     }
@@ -182,8 +173,9 @@ class PartnerController extends Controller
     public function storeWithRedirect(Request $request) {
         $full_name= $request->first_name.' '.$request->last_name;
         $request['full_name'] =$full_name;
+        // return $request->first_name;
         $partner = self::store($request);
-        return redirect('partners/'.$partner->id);
+        return redirect('affiliates/'.$partner->id);
     }
 
     /**
@@ -191,7 +183,7 @@ class PartnerController extends Controller
      */
     public function storeAndNew(Request $request) {
         $partner = self::store($request);
-        return redirect('partners/create');
+        return redirect('affiliates/create');
     }
 
     /**
@@ -203,8 +195,7 @@ class PartnerController extends Controller
     public function show($partner)
     {
         $data['reasons'] = Reason::all();
-        $data['partner'] = Partner::where('name',$partner)->first();
-        //  return $data['partner']->orders;
+        $data['partner'] = Partner::findOrFail($partner);
         return view('partners.backoffice.staff.show',$data);
     }
 
@@ -388,7 +379,7 @@ class PartnerController extends Controller
         }
 
             
-        return redirect('partners');
+        return redirect('affiliates');
     }
      /**
      * Remove the specified resource from storage.
@@ -406,11 +397,11 @@ class PartnerController extends Controller
         )
         {
             $messages['error'] = 'partner can\'t be deleted he is in an association with product/claim/order !!';
-            return redirect('partners')->with('messages',$messages);
+            return redirect('affiliates')->with('messages',$messages);
         }
         $partner->delete();
         $messages['success'] = 'partner has been deleted successfuly !!';
-        return redirect('partners')->with('messages',$messages);
+        return redirect('affiliates')->with('messages',$messages);
 
     }
      /**
@@ -430,7 +421,7 @@ class PartnerController extends Controller
             $partner = Partner::findOrFail($Partner);
     
             if(
-                isset($partner->claims[0])
+                !isset($partner->claims[0])
                 && !isset($partner->orders()->whereIn('status', ['in_progress', 'waiting'])->first()->id)
                 && !isset($partner->products[0])
             ) 
@@ -446,7 +437,7 @@ class PartnerController extends Controller
                 $messages['error'] = $e . ($e == 1 ? ' partner' : ' partner') . ' can\'t be deleted he has product/claim/order';
             }
         }
-        return redirect('partners')->with('messages', $messages);
+        return redirect('affiliates')->with('messages', $messages);
     }
 
      /**
@@ -458,7 +449,7 @@ class PartnerController extends Controller
         $partner = Partner::onlyTrashed()->where('id', $Partner)->first();
         $partner->restore();
         $messages['success'] = 'partner has been restored successfuly !!';
-        return redirect('partners')->with('messages',$messages);
+        return redirect('affiliates')->with('messages',$messages);
     }
     /**
      * 
@@ -477,7 +468,7 @@ class PartnerController extends Controller
             $s++;
             $messages['success'] = $s. ($s == 1 ? ' partner' :' partner') .' has been restored successfuly';
         }
-        return redirect('partners')->with('messages',$messages);
+        return redirect('affiliates')->with('messages',$messages);
     }
 
    

@@ -46,7 +46,7 @@
                 </a>
             </div>
         </div>
-        <form action="{{url('staff')}}" method="POST" id="form">
+        <form action="{{url('affiliates')}}" method="POST" id="form" enctype="multipart/form-data">
         {{ csrf_field() }}
         <div class="card-body">
             <div class="row">
@@ -56,7 +56,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <h5>
-                                        Account informations
+                                        Account informations {{$errors}}
                                     </h5>
                                 </div>
                             </div>
@@ -118,7 +118,10 @@
                                 <div class="col-md-12">
                                     <div class="form-group form-group-default required">
                                         <label>Email</label>
-                                        <input type="email" class="form-control" name="email" value="{{old('email')}}">
+                                        <input type="email" class="form-control" name="admin_email" value="{{old('admin_email')}}">
+                                        <label class="error" for="admin_email">
+                                            {{ $errors->has('admin_email') ? $errors->first('admin_email') : "" }}
+                                        </label> 
                                     </div>
                                 </div>
                             </div>
@@ -126,17 +129,19 @@
                                 <div class="col-md-4">
                                     <div class="form-group form-group-default form-group-default-select2 required">
                                         <label class="">Code country</label>
-                                        <select class="full-width" data-placeholder="Select Country" name="code_country" data-init-plugin="select2">
-                                            <option value=""></option>
+                                        <select class="full-width" data-placeholder="Select Country" name="code_country[]" data-init-plugin="select2">
+                                            @foreach($countries as $country)
+                                            <option value="{{$country->id}}" {{old('code_country.0') == $country->id ? 'selected' : ''}}>{{$country->name}} ({{$country->phone_code}})</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-8">
                                     <div class="form-group form-group-default required">
                                         <label>Phone number</label>
-                                            <input type="text" class="form-control" name="number" value="{{old('number')}}" />
-                                            <label class="error p-l-15" for="number">
-                                            {{ $errors->has('number') ? $errors->first('number') : "" }}
+                                            <input type="text" class="form-control" name="numbers[]" value="{{old('numbers.0')}}" />
+                                            <label class="error p-l-15" for="numbers.0">
+                                            {{ $errors->has('numbers.0') ? $errors->first('numbers.0') : "" }}
                                         </label>
                                     </div>
                                 </div>
@@ -153,7 +158,10 @@
                                 <div class="col-md-12">
                                     <div class="form-group form-group-default required">
                                         <label>Company name</label>
-                                        <input type="text" class="form-control">
+                                        <input type="text" class="form-control" name="company_name" value="{{old('company_name')}}">
+                                        <label class="error" for="company_name">
+                                            {{ $errors->has('company_name') ? $errors->first('company_name') : "" }}
+                                        </label> 
                                     </div>
                                 </div>
                             </div>
@@ -161,8 +169,8 @@
                                 <div class="col-md-12">
                                     <label for="summernote" class="upper-title p-t-5 p-b-5 p-l-10">About company activities</label>
                                     <div class="summernote-wrapper bg-white">
-                                        <div id="summernote"></div>
-                                        <input type="hidden" name="about" id="description">
+                                        <div id="summernote">{!!old('about')!!} </div>
+                                        <input type="hidden" name="about" id="description"  value="{{old('about')}}">
                                     </div>
                                 </div>
                             </div>
@@ -170,7 +178,10 @@
                                 <div class="col-md-12">
                                     <div class="form-group form-group-default">
                                         <label>Taxe ID</label>
-                                        <input type="text" class="form-control">
+                                    <input type="text" class="form-control" name="taxe_id" value="{{old('taxe_id')}}">
+                                    <label class="error" for="taxe_id">
+                                        {{ $errors->has('taxe_id') ? $errors->first('taxe_id') : "" }}
+                                    </label> 
                                     </div>
                                 </div>
                             </div>
@@ -187,7 +198,9 @@
                                 <div class="form-group form-group-default form-group-default-select2 required">
                                     <label class="">Country</label>
                                     <select class="full-width" data-placeholder="Select Country" name="country_id" data-init-plugin="select2">
-                                        <option value=""></option>
+                                        @foreach($countries as $country)
+                                            <option value="{{$country->id}}" {{old('country_id') == $country->id ? 'selected' : ''}}>{{$country->name}} ({{$country->alpha_2_code}})</option>
+                                            @endforeach
                                     </select>
                                     <label class="error p-l-15" for="country_id">
                                         {{ $errors->has('country_id') ? $errors->first('country_id') : "" }}
@@ -243,17 +256,19 @@
                                 <div class="col-md-4">
                                     <div class="form-group form-group-default form-group-default-select2 required">
                                         <label class="">Code country</label>
-                                        <select class="full-width" data-placeholder="Select Country" name="code_country" data-init-plugin="select2">
-                                            <option value=""></option>
+                                        <select class="full-width" data-placeholder="Select Country" name="code_country[]" data-init-plugin="select2">
+                                            @foreach($countries as $country)
+                                            <option value="{{$country->id}}" {{old('code_country.1') == $country->id ? 'selected' : ''}}>{{$country->name}} ({{$country->phone_code}})</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-8">
                                     <div class="form-group form-group-default required">
                                         <label>Phone number</label>
-                                            <input type="text" class="form-control" name="number" value="{{old('number')}}" />
-                                            <label class="error p-l-15" for="number">
-                                            {{ $errors->has('number') ? $errors->first('number') : "" }}
+                                            <input type="text" class="form-control" name="numbers[]" value="{{old('numbers.1')}}" />
+                                            <label class="error p-l-15" for="numbers.1">
+                                            {{ $errors->has('numbers.1') ? $errors->first('numbers.1') : "" }}
                                         </label>
                                     </div>
                                 </div>
@@ -262,17 +277,19 @@
                                 <div class="col-md-4">
                                     <div class="form-group form-group-default form-group-default-select2">
                                         <label class="">Code country</label>
-                                        <select class="full-width" data-placeholder="Select Country" name="code_country" data-init-plugin="select2">
-                                            <option value=""></option>
+                                        <select class="full-width" data-placeholder="Select Country" name="code_country[]" data-init-plugin="select2">
+                                            @foreach($countries as $country)
+                                            <option value="{{$country->id}}" {{old('code_country.2') == $country->id ? 'selected' : ''}}>{{$country->name}} ({{$country->phone_code}})</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-8">
                                     <div class="form-group form-group-default">
                                         <label>Phone number 2</label>
-                                            <input type="text" class="form-control" name="number" value="{{old('number')}}" />
-                                            <label class="error p-l-15" for="number">
-                                            {{ $errors->has('number') ? $errors->first('number') : "" }}
+                                            <input type="text" class="form-control" name="numbers[]" value="{{old('numbers.2')}}" />
+                                            <label class="error p-l-15" for="numbers.2">
+                                            {{ $errors->has('numbers.2') ? $errors->first('numbers.2') : "" }}
                                         </label>
                                     </div>
                                 </div>
@@ -281,17 +298,19 @@
                                 <div class="col-md-4">
                                     <div class="form-group form-group-default form-group-default-select2">
                                         <label class="">Code country</label>
-                                        <select class="full-width" data-placeholder="Select Country" name="code_country" data-init-plugin="select2">
-                                            <option value=""></option>
+                                        <select class="full-width" data-placeholder="Select Country" name="code_country[]" data-init-plugin="select2">
+                                            @foreach($countries as $country)
+                                            <option value="{{$country->id}}" {{old('code_country.3') == $country->id ? 'selected' : ''}}>{{$country->name}} ({{$country->phone_code}})</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-8">
                                     <div class="form-group form-group-default">
                                         <label>Fax number</label>
-                                            <input type="text" class="form-control" name="number" value="{{old('number')}}" />
-                                            <label class="error p-l-15" for="number">
-                                            {{ $errors->has('number') ? $errors->first('number') : "" }}
+                                            <input type="text" class="form-control" name="numbers[]" value="{{old('numbers.3')}}" />
+                                            <label class="error p-l-15" for="numbers.3">
+                                            {{ $errors->has('numbers.3') ? $errors->first('numbers.3') : "" }}
                                         </label>
                                     </div>
                                 </div>
@@ -385,7 +404,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="checkbox check-success">
-                                    <input type="checkbox" id="checkbox">
+                                    <input type="checkbox" id="checkbox" name="is_register_to_newsletter">
                                     <label for="checkbox">Enable newsletter subscription for this affiliate</label>
                                 </div>
                             </div>
@@ -427,19 +446,18 @@
                 } 
             });
         $("#save").click( function () {
-            $('#form').attr('action', '{{ url('staff') }}');
+            $('#description').val($('#summernote').summernote().code());
+            $('#form').attr('action', '{{ url('affiliates') }}');
             $('#form').submit();
         });
 
         $("#save_new").click( function () {
-            $('#form').attr('action', '{{ url('staff')."/create" }}');
+            $('#description').val($('#summernote').summernote().code());
+            $('#form').attr('action', '{{ url('affiliates')."/create" }}');
             $('#form').submit();
         });
 
         $('#summernote').summernote({height: 250});
 
-        $('#onClick').on('click', function(){       
-            $('#description').val($('#summernote').summernote().code());
-        });
         </script>
 @endsection

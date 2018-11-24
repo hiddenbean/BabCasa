@@ -23,7 +23,7 @@
                     data-html="true" 
                     trigger="click" 
                     title= "<p class='tooltip-text'>This table is containing all the categories in the BABCasa platforme.
-                            <br> You can (add, edit or remove) a staff if you have the right permissions.
+                            <br> You can (add, edit or remove) a partner if you have the right permissions.
                             If you have any difficulties please <a href='#'>contact the support</a></p>"> 
                     <i class="fas fa-question-circle"></i>
                 </a>
@@ -49,12 +49,12 @@
             
         </div>
         <div class="card-body">
-            <form action="{{route('multi_delete.staff')}}" method="post">
+            <form action="{{route('multi_delete.affiliates')}}" method="post">
                 {{ method_field('DELETE') }}
                 {{ csrf_field() }}
                 <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
                     <thead>
-                    @if (auth()->guard('staff')->user()->can('write','staff'))
+                    @if (auth()->guard('staff')->user()->can('write','partner'))
                         <th class="text-center" style="width:35px"><button class="btn btn-link" type="submit"><i class="fas fa-trash-alt"></i></button></th>
                     @endif
                     
@@ -70,6 +70,35 @@
                     </thead> 
 
                     <tbody>
+                            @foreach($partners as $partner)
+                            <tr role="row" id="0">
+                                @if (auth()->guard('staff')->user()->can('write','partner'))
+                                <td class="v-align-middle p-l-5 p-r-5">
+                                    <div class="checkbox no-padding no-margin text-center">
+                                        <input type="checkbox" value="{{$partner->id}}" name="partners[]" id="checkbox{{$partner->id}}">
+                                        <label for="checkbox{{$partner->id}}" class="no-padding no-margin"></label>
+                                    </div>
+                                </td>
+                                
+                                <td class="v-align-middle text-center p-l-5 p-r-5">
+                                    <a href="{{url('affiliates/'.$partner->name.'/edit')}}"><i class="fas fa-pen fa-sm"></i> <strong>Edit</strong></a>
+                                    </td> 
+                                <td class="v-align-middle text-center p-l-5 p-r-5">
+                                    <a href="{{route('delete.partner',['partner'=>$partner->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="text-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
+                                </td>
+                                @endif
+                                <td class="v-align-middle picture">
+                                        <a href="{{url('affiliates/'.$partner->name)}}"><img src="@if(isset($partner->picture->path)) {{Storage::url($partner->picture->path)}} @else {{asset('img/img_placeholder.png')}} @endif" alt="cat1"></a>
+                                    </td>
+                                <td class="v-align-middle"><a href="{{url('partners/'.$partner->id)}}"><strong>{{$partner->company_name }}</strong></a></td>
+                                <td class="v-align-middle"><a href="{{url('partners/'.$partner->id)}}"><strong>{{$partner->name }}</strong></a></td>
+                                <td class="v-align-middle">{{$partner->email }}</td>
+                                <td class="v-align-middle"><strong>{{$partner->first_name.' '.$partner->last_name }}</strong></td>
+                                <td class="v-align-middle">{{$partner->phones()->where('tag','admin')->first()->country->phone_code.' '.$partner->phones()->where('tag','admin')->first()->number}}</td>
+                                <td class="v-align-middle"><strong> {{$partner->status->first()->is_approved ? 'approves' : 'rejected'}}</strong></td>
+                            </tr>
+                            @endforeach
+                        
                     </tbody>
                 </table>
             </form>

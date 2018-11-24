@@ -20,6 +20,9 @@ class CreatePhonesTable extends Migration
             $table->integer('phoneable_id');
             $table->string('phoneable_type');
             $table->integer('country_id');
+            $table->boolean('is_default');
+            $table->boolean('verify');
+            $table->string('tag');
             $table->softDeletes();
             $table->timestamps();
         });

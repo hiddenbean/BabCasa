@@ -37,7 +37,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-xl-12">
-                    <form id="form-personal"  method="POST" action="{{url('partners/'.$partner->name)}}" enctype="multipart/form-data">
+                    <form id="form-personal"  method="POST" action="{{url('affiliates/'.$partner->id)}}" enctype="multipart/form-data">
                         @csrf
                         {{ method_field('put') }}
                         <!-- START TABS -->

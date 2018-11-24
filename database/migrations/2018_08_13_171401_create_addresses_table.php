@@ -20,6 +20,7 @@ class CreateAddressesTable extends Migration
             $table->string('address_two')->nullable();
             $table->string('full_name');
             $table->Integer('zip_code');
+            $table->boolean('is_default');
             $table->double('latitude')->nullable();
             $table->double('longitude')->nullable();     
             $table->Integer('addressable_id')->unsigned();

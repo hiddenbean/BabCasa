@@ -29,15 +29,67 @@ class DiscountController extends Controller
          switch ($type) {
              case 'partner':
                  $data['discounts'] =Auth::guard('partner')->user()->discounts;
-                 $view = 'orders.backoffice.partner.all';
+                 $view = 'discounts.backoffice.partner.all';
                  break;
 
              case 'staff':
                 $data['discounts'] = Discount::all();
-                $view = 'orders.backoffice.staff.index';
+                $view = 'discounts.backoffice.staff.index';
                  break;
          }
          return $data;
+         return view($view,$data);
+    }
+
+    public function current()
+    {
+        $type = $this->userType();
+         switch ($type) {
+             case 'partner':
+                 $data['discounts'] = Auth::guard('partner')->user()->discounts()->where('start_at','<',date('Y-m-d'))->where('end_at','>',date('Y-m-d'))->get();
+                 $view = 'discounts.backoffice.partner.all';
+                 break;
+
+             case 'staff':
+                $data['discounts'] = Discount::where('start_at','<',date('Y-m-d'))->where('end_at','>',date('Y-m-d'))->get();
+                $view = 'discounts.backoffice.staff.index';
+                 break;
+         }
+         return $data;
+        return view($view,$data);
+    }
+    public function expired()
+    {
+        $type = $this->userType();
+         switch ($type) {
+             case 'partner':
+                 $data['discounts'] = Auth::guard('partner')->user()->discounts()->where('end_at','<',date('Y-m-d'))->get();
+                 $view = 'discounts.backoffice.partner.all';
+                 break;
+
+             case 'staff':
+                $data['discounts'] = Discount::where('end_at','<',date('Y-m-d'))->get();
+                $view = 'discounts.backoffice.staff.index';
+                 break;
+         }
+         return view($view,$data);
+    }
+    
+    public function next()
+    {
+        
+        $type = $this->userType();
+         switch ($type) {
+             case 'partner':
+                 $data['discounts'] = Auth::guard('partner')->user()->discounts()->where('start_at','>',date('Y-m-d'))->get();
+                 $view = 'discounts.backoffice.partner.all';
+                 break;
+
+             case 'staff':
+                $data['discounts'] = Discount::where('start_at','>',date('Y-m-d'))->get();
+                $view = 'discounts.backoffice.staff.index';
+                 break;
+         }
          return view($view,$data);
     }
 
@@ -49,7 +101,7 @@ class DiscountController extends Controller
     public function create()
     {
         // Retrieve the partner
-       return 'create';
+       return view('discounts.backoffice.partner.create');
     }
 
     /**
@@ -68,25 +120,26 @@ class DiscountController extends Controller
             'reference' =>'required|unique:discount_langs,reference',
             'description' => 'required',
         ]);
-
-        isset($request->partner) ? $partner = $request->partner : $partner = auth()->guard('partner')->user()->name;
-        $partner = Partner::where('name', $partner)->firstOrFail();
         
         $discount = new Discount();
         $discount->redaction_percentage = $request->redaction_percentage;
         $discount->start_at = $request->start_at;
         $discount->end_at = $request->end_at;
-        $discount->partner_id = $partner->id;
+        $discount->partner_id = Auth::guard('partner')->user()->id;
         $discount->save();
+          // Add LANGUAGES 
+          foreach(Language::all() as $lang)
+          {
+              $discountLang = new DiscountLang();
+              $discountLang->detail_id = $discount->id;
+              $discountLang->lang_id = $lang->id;
+              $discountLang->reference = ($lang->id == $request->language) ? $request->reference : "";
+             $discountLang->description = ($lang->id == $request->language) ? $request->description : "";
+              $discountLang->save();
+          }
 
-        $discount_lang = new DiscountLang();
-        $discount_lang->reference = $request->reference;
-        $discount_lang->description = $request->description;
-        $discount_lang->discount_id = $discount->id;
-        $discount_lang->lang_id = 1;
-        $discount_lang->save();
-
-        foreach($request->products as $key => $product_id)
+        $products[] = $request->products;
+        foreach($products as $key => $product_id)
         {
             $discount->products()->attache($product_id, ['quantity' => $request->input('quantity')[$key]]);
         }
@@ -156,13 +209,10 @@ class DiscountController extends Controller
             'redaction_percentage' => 'required|numeric|digits_between:1,3|max:100',
             'start_at' => 'required|date',
             'end_at' => 'required|date|after:start_at',
-            'reference' =>'required|unique:discount_langs,reference',
+            'reference' =>'required|unique:discount_langs,reference,'.$discount.',discount_id',
             'description' => 'required',
-            ]);return dd($request);
+            ]);
             
-        isset($request->partner) ? $partner = $request->partner : $partner = auth()->guard('partner')->user()->name;
-        $partner = Partner::where('name', $partner)->firstOrFail();
-
         $discount = DiscountLang::where('reference', $discount)->firstOrFail()->discount;
         $discount->redaction_percentage = $request->redaction_percentage;
         $discount->start_at = $request->start_at;
@@ -196,25 +246,7 @@ class DiscountController extends Controller
         }
         return $profiles[$i];
     }
-    public function current()
-    {
-        $data['discounts'] = Discount::where('start_at','<',date('Y-m-d'))->where('end_at','>',date('Y-m-d'))->get();
-        return $data;
-    }
-    public function expired()
-    {
-        $data['discounts'] = Discount::where('end_at','<',date('Y-m-d'))->get();
-        return $data;
-    }
-    
-    public function next()
-    {
-        $data['discounts'] = Discount::where('start_at','>',date('Y-m-d'))->get();
-        return $data;
-    }
-    
-
-
+   
     /**
      * Remove the specified resource from storage.
      *

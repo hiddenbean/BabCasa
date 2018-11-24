@@ -23,11 +23,13 @@ class PhoneController extends Controller
     {
         $request->validate([
             'numbers.0' => 'required|numeric|unique:phones,number|digits:9',
-            'numbers.1' => 'nullable|numeric|unique:phones,number|digits:9',
-            'fax_number' => 'nullable|numeric|unique:phones,number|digits:9',
-            'code_country.0' => 'sometimes',
-            'code_country.1' => 'sometimes',
+            'numbers.1' => 'required|numeric|unique:phones,number|digits:9',
+            'numbers.2' => 'nullable|numeric|unique:phones,number|digits:9',
+            'numbers.3' => 'nullable|numeric|unique:phones,number|digits:9',
+            'code_country.0' => 'required',
+            'code_country.1' => 'required',
             'code_country.2' => 'sometimes',
+            'code_country.3' => 'sometimes',
         ]);
     }
     /**

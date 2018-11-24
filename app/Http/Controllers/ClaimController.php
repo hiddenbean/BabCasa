@@ -14,6 +14,9 @@ use App\Http\Controllers\ClaimMessageController;
 
 class ClaimController extends Controller
 {
+        // $data['causer']=['id'=>1, 'type'=>'partner'];
+        // $data['link'] = 'http://staff.babcasa.com/fr/languages';
+        // Auth::guard('staff')->user()->notify(new NewClaim($data));
 
     /**
      * Create a new partner controller instance.

@@ -66,7 +66,7 @@ class Staff extends Authenticatable
 
     public function picture()
     {
-        return $this->morphOne('App\Picture', 'pictureable');
+        return $this->morphOne('App\Picture', 'pictureable')->withTrashed();
     }
 
     public function phones()

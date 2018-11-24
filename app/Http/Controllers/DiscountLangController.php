@@ -72,9 +72,31 @@ class DiscountLangController extends Controller
      * @param  \App\discount_lang  $discount_lang
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, discount_lang $discount_lang)
+    public function update(Request $request, $Discount)
     {
-        //
+        $discount = Discount::find($Discount);
+       foreach($request->values as $key => $value)
+       {
+        $discountLang = $discount->discountLangs->where('lang_id',$request->languages_id[$key])->first();
+        if(!isset($discountLang))
+            {
+                $discountLang = new discountLang();
+                $discountLang->discount_id = $discount->id;
+                $discountLang->lang_id = $request->languages_id[$key];
+            }
+           if($reference != '')
+           {
+                $discountLang->reference = $reference;
+                $discountLang->description = $description;
+            }
+            else
+            {
+                $discountLang->reference = '';
+                $discountLang->description = '';
+            }
+            $discountLang->save();
+       }
+       return redirect()->back();
     }
 
     /**

@@ -11,7 +11,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 class ClaimNotification extends Notification
 {
     use Queueable;
-    public $causer,$subject, $data;
+    public $causer, $subject, $data;
     /**
      * Create a new notification instance.
      *

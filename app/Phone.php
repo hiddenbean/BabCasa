@@ -20,7 +20,7 @@ class Phone extends Model
         return "This model has been ". $eventName;
     } 
 
-    protected $fillable = ['number', 'type', 'country_id', 'phoneable_type', 'phoneable_id'];
+    protected $fillable = ['number','tag','is_default','verify', 'type', 'country_id', 'phoneable_type', 'phoneable_id'];
     //
     public function phoneable()
     {

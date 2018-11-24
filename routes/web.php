@@ -492,9 +492,12 @@ Route::domain('staff.babcasa.com')->group(function (){
     }); 
 
     Route::prefix('affiliates')->middleware('CanWrite:partner')->group(function() {
-        Route::post('/', 'PartnerController@store'); 
+        Route::post('/', 'PartnerController@storeWithRedirect');
+        Route::post('/create', 'PartnerController@storeAndNew'); 
+        Route::post('/multi-restore', 'PartnerController@multiRestore'); 
         Route::delete('multi-destroy', 'PartnerController@multiDestroy')->name('multi_delete.affiliates');
         Route::prefix('{partner}')->group(function() {
+            Route::post('/restore', 'PartnerController@restore');
             Route::put('/', 'PartnerController@update'); 
             Route::delete('/', 'PartnerController@destroy')->name('delete.partner');
             Route::post('/reset/password', 'PinController@store')->name('reset.password.partner');
@@ -506,7 +509,6 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::prefix('profiles')->middleware('CanWrite:profile')->group(function() {
             Route::post('/', 'ProfileController@storeWithRedirect');
             Route::post('/create', 'ProfileController@storeAndNew'); 
-            Route::post('/multi-restore', 'ProfileController@multiRestore'); 
             Route::post('{profile}', 'ProfileController@update'); 
             Route::post('{profile}/translations','ProfileLangController@update');
             Route::post('{profile}/restore', 'ProfileController@restore');

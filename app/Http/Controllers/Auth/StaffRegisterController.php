@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\PictureController;
 use App\Http\Controllers\Controller;
+use App\Notifications\NewStaff;
 // use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -56,7 +57,6 @@ class StaffRegisterController extends Controller
      */
     protected function validateRequest(Request $request)
     {
-        $request['email'] .= '@babcasa.com';
         $request->validate([
             'name' => 'required|unique:staff,name',
             'email' => 'required|unique:staff,email',
@@ -81,9 +81,9 @@ class StaffRegisterController extends Controller
      */
     protected function store(Request $request)
     { 
-        
+      
+        $request['email'] .= '@babcasa.com';
         $this->validateRequest($request);
-        
         $full_name= $request->first_name.' '.$request->last_name;
         $request['full_name'] =$full_name;
 
@@ -147,7 +147,7 @@ class StaffRegisterController extends Controller
         $phone->phoneable_type = 'staff';
         $phone->phoneable_id = $staff->id;
         $phone->save();
-
+        $staff->notify(new NewStaff());
         return $staff;
     }
 
@@ -155,7 +155,6 @@ class StaffRegisterController extends Controller
      * 
      */
     public function storeWithRedirect(Request $request) {
-        // return dd($request->hasFile('path'));
         $staff = self::store($request);
         return redirect('staff/'.$staff->id);
     }

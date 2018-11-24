@@ -30,7 +30,7 @@ class Partner extends Authenticatable
         return "This model has been ". $eventName;
     }  
 
-    protected $fillable = ['company_name', 'email','password', 'name', 'about', 'trade_registry', 'ice', 'taxe_id', 'is_register_to_newsletter'];
+    protected $fillable = ['company_name', 'email','password', 'name', 'about', 'first_name', 'last_name', 'admin_email', 'taxe_id', 'is_register_to_newsletter'];
 
     protected $hidden = ['password', 'remember_token'];
 
@@ -38,12 +38,12 @@ class Partner extends Authenticatable
 
     public function address()
     {
-        return $this->morphOne('App\Address', 'addressable');
+        return $this->morphOne('App\Address', 'addressable')->withTrashed();
     }
 
     public function picture()
     {
-        return $this->morphOne('App\Picture', 'pictureable');
+        return $this->morphOne('App\Picture', 'pictureable')->withTrashed();
     }
     
     public function claims()
@@ -53,7 +53,7 @@ class Partner extends Authenticatable
 
     public function phones()
     {
-        return $this->morphMany('App\Phone', 'phoneable');
+        return $this->morphMany('App\Phone', 'phoneable')->withTrashed();
     }
     public function statuses()
     {

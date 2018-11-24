@@ -32,7 +32,7 @@
     <div class="card card-transparent">
         <div class="card-header">
             <div class="card-title">
-                Create a new staff member
+                Create a new staff member 
                 <a 
                     href="javascript:;" 
                     data-toggle="tooltip" 
@@ -45,7 +45,7 @@
                 </a>
             </div>
         </div>
-        <form action="{{url('staff')}}" method="POST" id="form">
+        <form action="{{url('staff')}}" method="POST" id="form" enctype="multipart/form-data">
         {{ csrf_field() }}
         <div class="card-body">
             <div class="row">
@@ -75,7 +75,7 @@
                                     <div class="form-group form-group-default input-group no-margin required">
                                         <div class="form-input-group">
                                             <label>Email</label>
-                                            <input type="text" class="form-control" name="email" value="{{old('email')}}">
+                                            <input type="text" class="form-control" name="email" value="{{explode('@', old('email'))[0]}}">
                                         </div>
                                         <div class="input-group-append ">
                                             <span class="input-group-text">@babcasa.com</span>
@@ -123,7 +123,7 @@
                                     <div class="form-group form-group-default input-group required">
                                         <div class="form-input-group">
                                             <label>Birthday</label>
-                                            <input type="date" class="form-control" name="birthday" placeholder="Pick a date" id="myDatepicker" value="{{old('irthday')}}">
+                                            <input type="date" class="form-control" name="birthday" placeholder="Pick a date" id="myDatepicker" value="{{old('birthday')}}">
                                         </div>
                                         <div class="input-group-append ">
                                             <span class="input-group-text"><i class="fa fa-calendar"></i></span>
@@ -298,7 +298,7 @@
                                             <div class="col-md-12 scroll b-t b-b b-dashed b-grey p-b-5">
                                                 <div class="list-group list-group-root well list-categories">
                                                 @foreach($profiles as $Profile)
-                                                    <a href="javascript:;" data-category-id="{{$Profile->id}}" class="list-group-item list-group-item-action">{{$Profile->profileLang()->reference}}</a>
+                                                    <a href="javascript:;" data-category-id="{{$Profile->id}}" class="list-group-item list-group-item-action {{old('profile_id') == $Profile->id ? 'active' : ''}}">{{$Profile->profileLang()->reference}}</a>
                                                 @endforeach
                                                 </div>
                                             </div>
@@ -315,7 +315,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <input type="hidden" name="profile_id" id="profile_id" />
+                                    <input type="hidden" name="profile_id" id="profile_id" value="{{old('profile_id')}}" />
                                 </div>
                             </div>
                         </div>
@@ -330,6 +330,9 @@
                                         <i class="fa fa-image"></i> Click here to uploade picture</span>
                                 </label>
                                 <input type="file" id="path_staff" name="path" class="form-control hide">
+                                <label class="error p-l-15" for="path_staff">
+                                    {{ $errors->has('path') ? $errors->first('path') : "" }}
+                                </label>
                             </div>
                         </div>
                     </div>
