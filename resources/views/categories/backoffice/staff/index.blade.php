@@ -17,7 +17,7 @@
                             <a href="{{ url('/') }}">DASHBOARD</a>
                         </li>
                         <li class="breadcrumb-item active">
-                            categories
+                            Categories
                         </li>
                     </ol>
                 </div>
@@ -26,7 +26,7 @@
     </div>
     <!-- breadcrumb end -->
     <div class="container-fluid container-fixed-lg">
-        @include('categories.backoffice.staff.componments.table')
+        @include('categories.backoffice.staff.components.table')
     </div>
     
 @endsection

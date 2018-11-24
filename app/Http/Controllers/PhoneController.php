@@ -58,9 +58,15 @@ class PhoneController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $type, $country_id, $owner, $owner_id)
     {
-        //
+        $phone = new Phone();
+        $phone->number = $request->admin_number;
+        $phone->type = $type;
+        $phone->country_id = $country_id;
+        $phone->phoneable_type = $owner;
+        $phone->phoneable_id = $ownerid;
+        $phone->save();
     }
 
     /**

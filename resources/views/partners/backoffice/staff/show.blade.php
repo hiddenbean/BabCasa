@@ -1,240 +1,262 @@
 @extends('layouts.backoffice.staff.app')
-@section('css')
-    <link href="{{ asset('plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" media="screen" />
-    <link class="main-stylesheet" href="{{ asset('pages/css/pages.css') }}" rel="stylesheet" type="text/css" />
-@endsection
-
-@section('css_before')
-<link href="{{ asset('plugins/bootstrap-datepicker/css/datepicker3.css') }}" rel="stylesheet" type="text/css" media="screen">
+@section('before_css')
+    <link href="{{asset('plugins/jquery-datatable/media/css/dataTables.bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('plugins/jquery-datatable/extensions/FixedColumns/css/dataTables.fixedColumns.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('plugins/datatables-responsive/css/datatables.responsive.css') }}" rel="stylesheet" type="text/css" media="screen" /> 
+    <link href="{{ asset('plugins/bootstrap-datepicker/css/datepicker3.css') }}" rel="stylesheet" type="text/css" media="screen">
+    <link href="{{ asset('plugins/switchery/css/switchery.min.css') }}" rel="stylesheet" type="text/css" media="screen" />
 @stop
 @section('content')
 
-<!-- breadcrumb start -->
-<div class="container-fluid container-fixed-lg ">
-    <div class="row">
-        <div class="col-md-12">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                    <a href="{{ url('/') }}">DASHBOARD</a>
-                </li>
-                <li class="breadcrumb-item">
-                    <a href="{{ url('/partners') }}">Partner</a>
-                </li>
-                <li class="breadcrumb-item active">
-                    Show
-                </li>
-            </ol>
-        </div>
+@if (isset(Session::get('messages')['success']))
+    <div class="alert alert-success" role="alert">
+        <button class="close" data-dismiss="alert"></button>
+        <strong>Success: </strong>{{ Session::get('messages')['success'] }}
     </div>
-</div>
-<!-- breadcrumb end -->
-<!-- START SECONDARY SIDEBAR -->
-<nav class="secondary-sidebar"> 
-        <p class="menu-title">Sttings</p>
-        <ul class="main-menu"> 
-         <li class="active">
-                <a href="#">
-                <span class="title"><i class="pg-folder"></i>Partner Information</span>
-                </a> 
-            </li>
-             <li>
-                <a href="{{url('partners/'.$partner->name.'/statuses')}}">
-                <span class="title"><i class="pg-folder"></i>Statuses history</span>
-                </a> 
-            </li>
-            <li>
-                <a href="{{url('partners/'.$partner->name.'/products')}}">
-                <span class="title"><i class="pg-folder"></i>products</span>
-                </a> 
-            </li>
-            <li>
-                <a href="{{url('partners/'.$partner->name.'/orders')}}">
-                    <span class="title"><i class="pg-sent"></i>orders</span>
-                </a>
-            </li> 
-            <li>
-                <a href="{{url('partners/'.$partner->name.'/discounts')}}">
-                    <span class="title"><i class="pg-sent"></i>discounts</span>
-                </a>
-            </li> 
-            <li>
-                <a href="{{url('partners/'.$partner->name.'/bills')}}">
-                    <span class="title"><i class="pg-sent"></i>bills</span>
-                </a>
-            </li> 
-        </ul> 
-    </nav>
-<!-- END SECONDARY SIDEBAR  -->
-<div class="inner-content full-height padding-20">
-    <div class="card ">
-        <div class="card-header">
-            @if (\Session::has('error'))
-                <div class="alert alert-danger">
-                    {!! \Session::get('error') !!}
-                </div>
-            @endif
-            <h4 class="m-t-0 m-b-0"> <strong>Partner Information</strong> </h4>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                    <div class="col-md-9 b-r b-dashed b-grey"> 
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <h5>Name</h5>
-                                    <p>{{$partner->name}}</p>
+@endif
+@if (isset(Session::get('messages')['error']))
+    <div class="alert alert-danger" role="alert">
+        <button class="close" data-dismiss="alert"></button>
+        <strong>Error: </strong>{{ Session::get('messages')['error'] }}
+    </div>
     
-                                    <h5 class="p-t-15">Email</h5>
-                                    <p>{{$partner->email}}</p>
-
-                                    <h5 class="p-t-15">Ice</h5>
-                                    <p>{{$partner->ice}}</p>
-                                   
-                                </div>
-                                <div class="col-md-4">
-                                    <h5>Company name</h5>
-                                    <p>{{$partner->company_name}}</p>
-    
-                                    <h5 class="p-t-15"> Trade registry</h5>
-                                    <p>{{$partner->trade_registry}}</p> 
-                                    <h5 class="p-t-15"> Taxe id</h5>
-                                    <p>{{$partner->taxe_id}}</p> 
-                                </div>
-                                <div class="col-md-4">
-                                    <img src="{{ Storage::url($partner->picture->path)}}" alt="" srcset="" width="350">
-                                </div>
-                            </div>  
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <h5>Adresse:</h5>
-                                    <p>{{$partner->address->address}}
-                                        <br>{{$partner->address->address_two}}</p>
-                                </div>
-                                <div class="col-md-4">
-                                    <h5>Country:</h5>
-                                    <p>{{$partner->address->country->name}}</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <h5>City:</h5>
-                                    <p>{{$partner->address->city}}</p>
-                                </div>
-                                <div class="col-md-4">
-                                    <h5>Full name:</h5>
-                                    <p>{{$partner->address->full_name}}</p>
-                                </div>
-                                <div class="col-md-4">
-                                    <h5>Zip code:</h5>
-                                    <p>{{$partner->address->zip_code}}</p>
-                                </div>
-                            </div>
-                            {{-- {{$partner->phones[0]->country}} --}}
-                            <div class="row">
-                                <div class="col-md-4">
-                                    @if(count($partner->phones) > 0 && isset($partner->phones->whereIn('type', ['phone', 'fix'])->first()->number))
-                                        <!--{{ $phone1 = $partner->phones->whereIn('type', ['phone', 'fix'])->first()->number }}-->
-                                        <!--{{ $country1 = $partner->phones->whereIn('type', ['phone', 'fix'])->first()->country->code }}-->
-                                    @else
-                                        <!--{{ $phone1 = null }}-->
-                                        <!--{{ $country1 = 'Not available' }}-->
-                                    @endif
-                                    <h5>Phone N1:</h5>
-                                    <p>{{'('.$country1.') '. $phone1 }}</p>
-                                </div>
-                               
-                                <div class="col-md-4">
-                                    @if(count($partner->phones) > 1 && isset($partner->phones->whereIn('type', ['phone', 'fix'])->take(2)->last()->number))
-                                        <!--{{ $phone2 = $partner->phones->whereIn('type', ['phone', 'fix'])->take(2)->last()->number }}-->
-                                        <!--{{ $country2 = $partner->phones->whereIn('type', ['phone', 'fix'])->take(2)->last()->country->code }}-->
-                                    @else
-                                        <!--{{ $phone2 = null }}-->
-                                        <!--{{ $country2 = 'Not available' }}-->
-                                    @endif
-                                    <h5>phone N2:</h5>
-                                    <p>{{'('.$country2.') '. $phone2 }}</p>
-                                </div>
-                                <div class="col-md-4">
-                                    @if(isset($partner->phones->where('type', 'fax')->first()->number))
-                                        <!--{{ $phone3 = $partner->phones->where('type', 'fax')->first()->number }}-->
-                                        <!--{{ $country3 = $partner->phones->where('type', 'fax')->first()->country->code }}-->
-                                    @else
-                                        <!--{{ $phone3 = null }}-->
-                                        <!--{{ $country3 = 'Not available' }}-->
-                                    @endif
-                                    <h5>Fax:</h5>
-                                    <p>{{'('.$country3.') '. $phone3 }}</p>
-                                </div>
-                            </div> 
-                    </div>
-                <div class="col-md-3">
-                    <div class="row">
-                        <div class="col-md-12">
-                                @if($partner->status->first()->is_approved)
-                                <span class="label label-success">Approuve</span>  
-                                @else 
-                                     <span class="label label-danger">Rejeter</span>  
-                                @endif
-                                <a href="{{url('statuses/partner/'.$partner->name)}}" class="float-right"> Statuses history</a>
-                                <br>
-                                <div id="approve">
-
-                                
-                            <h3> Approve this account</h3>
-                            When a user submits a self-registration form, it can be reviewed and approved.
-                        <form action="{{url('statuses')}}" method="post" class="mt-2">
-                                @csrf
-                        <input type="hidden" name="user_name" value="{{$partner->name}}">
-                        <input type="hidden" name="user_type" value="partner">
-                                <input type="checkbox" data-init-plugin="switchery" data-size="small" name="is_approved" data-color="primary" @if($partner->status->first()->is_approved) checked @endif /> 
-                                <label for="">Approve</label><br>
-                                <label for="">
-                                        @if($partner->status->first())
-                                            @foreach($partner->status->first()->reasons as $key => $reason)
-                                            {{$reason->reference}} 
-                                            @if(count($partner->status->first()->reasons)-1!=$key) / @endif
-                                            @endforeach
-                                        @endif
-                               
-                                </label>
-                                <select class="full-width select2-hidden-accessible" name="reasons[]" data-init-plugin="select2" multiple="" tabindex="-1" aria-hidden="true">
-                                    @foreach($reasons as $reason)
-                                        <option value="{{$reason->id}}">{{$reason->reference}}</option>
-                                    @endforeach
-                                
-                                </select>
-                                <label class='error' for='reasons'>
-                                        @if ($errors->has('reasons'))
-                                            {{ $errors->first('reasons') }}
-                                        @endif
-                                </label> 
-                                <button type="submit"  class="btn btn-danger mt-2">Submit</button>
-                            </form>
-                        </div>
-                        </div>
-                        
-                        <div class="col-md-12">
-                            <h3>Update password</h3>
-                            We advise you to use a password you do not use anywhere else.<br>
-                            <form action="{{route('reset.password.partner',['partner'=>$partner->name])}}" method="post">
-                                @csrf
-                                <button type="submit">Update password</button>
-                            </form>
-                        </div> 
-                        <div class="col-md-12">
-                            <h3> Deactivate this account</h3>
-                            Deactivating your account will disable your profile and remove your name and photo from most things you've shared on Babcasa. Some information may still be visible to others.
-                          <br>
-                                <a href="{{route('delete.partner',['partner'=>$partner->name])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-danger">Deactivate</a>
-                        </div>
-                    </div>  
-                </div>
+@endif
+<!-- breadcrumb start -->
+<div class="jumbotron">
+    <div class="container-fluid container-fixed-lg ">
+        <div class="row">
+            <div class="col-md-12">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{{ url('/') }}">DASHBOARD</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="{{ url('/affiliates') }}">affiliate</a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        ID :  
+                    </li>
+                </ol>
             </div>
         </div>
     </div>
 </div>
+<!-- breadcrumb end -->
+
+<div class="container-fluid container-fixed-lg">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="card ">
+                <div class="card-header">
+                    <div class="card-title">
+                        Member  id : 
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 b-r b-dashed b-grey p-b-15">
+                            <h5>
+                                Picture
+                            </h5>
+                            <img src="" alt="cat1">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h5>
+                                        Account informations
+                                    </h5>
+                                </div>
+                            </div>
+
+                            <div class="row m-b-10">
+                                <div class="col-md-3 uppercase">
+                                    username
+                                </div>
+                                <div class="col-md-9">
+                                    <strong>
+                                    </strong>
+                                </div>
+                            </div>
+
+                            <div class="row m-b-10">
+                                <div class="col-md-3 uppercase">
+                                    Email
+                                </div>
+                                <div class="col-md-9">
+                                    <strong>
+                                        <a href="mailto:"></a>
+                                    </strong>
+                                </div>
+                            </div>
+
+                            <div class="row m-t-20">
+                                <div class="col-md-12">
+                                    <h5>
+                                        Administrator informations
+                                    </h5>
+                                </div>
+                            </div>
+
+                            <div class="row m-b-10">
+                                <div class="col-md-3 uppercase">
+                                    First name
+                                </div>
+                                <div class="col-md-9">
+                                    <strong>
+                                    </strong>
+                                </div>
+                            </div>
+
+                            <div class="row m-b-10">
+                                <div class="col-md-3 uppercase">
+                                    Last name
+                                </div>
+                                <div class="col-md-9">
+                                    <strong>
+                                    </strong>
+                                </div>
+                            </div>
+
+                            <div class="row m-b-10">
+                                <div class="col-md-3 uppercase">
+                                    Email
+                                </div>
+                                <div class="col-md-9">
+                                    <strong>
+                                        <a href="mailto:"></a>
+                                    </strong>
+                                </div>
+                            </div>
+
+                            <div class="row m-b-10">
+                                <div class="col-md-3 uppercase">
+                                    Phone
+                                </div>
+                                <div class="col-md-9">
+                                    <strong>
+                                        <a href="tel:+"></a>
+                                    </strong>
+                                </div>
+                            </div>
+                        
+                            <div class="row m-t-20">
+                                <div class="col-md-12">
+                                    <h5>
+                                        Company informations
+                                    </h5>
+                                </div>
+                            </div>
+                            <div class="row m-b-10">
+                                <div class="col-md-3 uppercase">
+                                    Profile
+                                </div>
+                                <div class="col-md-9">
+                                    <strong></strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                Publish
+                                <a 
+                                    href="javascript:;" 
+                                    data-toggle="tooltip" 
+                                    data-placement="bottom" 
+                                    data-html="true" 
+                                    trigger="click" 
+                                    title= "<p class='tooltip-text'>You can use this form to create a new staff if you have the right permissions.<br>
+                                            If you have any difficulties please <a href='#'>contact the support</a></p>"> 
+                                    <i class="fas fa-question-circle"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    Status : <strong>Publish Removed</strong>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    Creation date : <strong></strong>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    Last update : <strong></strong>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    Remove date : <strong></strong>
+                                </div>
+                            </div>
+                            <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
+                                <div class="col-md-6">
+                                    <a href="" class="btn btn-block "><i class="fas fa-pen"></i> <strong>Edit</strong></a>                                    
+                                </div>
+                                <div class="col-md-6">
+                                    <a  href="" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
+                                    <form action="" method="POST">
+                                        {{ csrf_field() }}
+                                        <button class="btn btn-block btn-transparent-danger" type="submit"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                Rest password
+                                <a 
+                                    href="javascript:;" 
+                                    data-toggle="tooltip" 
+                                    data-placement="bottom" 
+                                    data-html="true" 
+                                    trigger="click" 
+                                    title= "<p class='tooltip-text'>You can use this form to create a new staff if you have the right permissions.<br>
+                                            If you have any difficulties please <a href='#'>contact the support</a></p>"> 
+                                    <i class="fas fa-question-circle"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <form action="{{ url('passwords/email') }}" method="post">
+                                        @csrf
+                                        <input type="hidden" name="email" value="">
+                                        <button class="btn btn-block btn-transparent"><strong>send password rest link</strong></button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="row m-t-10">
+                                <div class="col-md-12">
+                                    <a href="javascript:;" data-toggle="modal" data-target="#modalSlideUp" class="btn btn-block text-danger"><strong>generate a new password</strong></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @include('logs.backoffice.componments.table')
+</div>
 @endsection
-
-@section('script')
-<script type="text/javascript" src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
-
-@stop

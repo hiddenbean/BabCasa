@@ -81,9 +81,10 @@
                         
                         <td class="v-align-middle text-center p-l-5 p-r-5">
                             <a href="{{url('staff/'.$staff->id.'/edit')}}"><i class="fas fa-pen fa-sm"></i> <strong>Edit</strong></a>
-                            </td> 
-                            <td class="v-align-middle text-center p-l-5 p-r-5">
-                        <a href="{{route('delete.staff',['staff'=>$staff->id])}}" data-method="DELETE"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="text-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a></td>
+                        </td> 
+                        <td class="v-align-middle text-center p-l-5 p-r-5">
+                            <a href="{{route('delete.staff',['staff'=>$staff->id])}}" data-method="DELETE"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="text-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
+                        </td>
                         @endif 
                         <td class="v-align-middle picture">
                             <a href="{{url('staff/'.$staff->id)}}"><img src="@if(isset($staff->picture->path)) {{Storage::url($staff->picture->path)}} @else {{asset('img/img_placeholder.png')}} @endif" alt="cat1"></a>

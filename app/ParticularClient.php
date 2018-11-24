@@ -55,6 +55,7 @@ class ParticularClient extends Model
             $particular_client->address()->delete();
             $particular_client->picture()->delete();
             $particular_client->phones()->delete();
+            // $particular_client->orders()->delete();
             
         });
 

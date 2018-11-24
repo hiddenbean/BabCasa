@@ -33,6 +33,17 @@ class BusinessController extends Controller
     }
 
     /**
+     * Display a trashed listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function trashIndex()
+    {
+        $businesses = Business::onlyTrashed()->get();
+        return view('business_clients.backoffice.staff.trash', ['businesses' => $businesses]);
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -337,14 +348,13 @@ class BusinessController extends Controller
                             );
         }
         $business->delete();
-        return redirect($this
-                            ->redirectURL(url()
-                            ->current(), 
-                        $business_name))
-                                ->with(
-                                    'success',
-                                    'Business has been deleted successfuly !!'
-                                );
+        return redirect(
+                        $this->redirectURL(url()->current(), $business_name)
+                        )
+                        ->with(
+                            'success',
+                            'Business has been deleted successfuly !!'
+                        );
     }
 
     public function stuckBusiness($business)
@@ -370,11 +380,39 @@ class BusinessController extends Controller
         foreach($request->businesses as $business)
         {
             $business = Business::where('name', $business)->first();
-            if($this->stuckBusiness($business))
+            if(!$this->stuckBusiness($business))
             {
-                $business->delete();
+                $this->destroy($business->name);
             }
         }
         return redirect('clients/business');
+    }
+
+    public function restore($business)
+    {
+        $business = Business::onlyTrashed()->where('name', $business)->first();
+        $business->restore();
+        $messages['success'] = 'Business has been restored successfuly !!';
+        return redirect('clients/business')->with('messages',$messages);
+    }
+
+    public function multiRestore(Request $request)
+    {
+        $request->validate([
+            'businesses' => 'required',
+        ]);
+        $s=0;
+        $messages = [];
+        foreach ($request->businesses as  $business)
+        {
+            if($business != null)
+            {
+                $business = Business::onlyTrashed()->where('name', $business)->first();
+                $business->restore();
+                $s++;
+                $messages['success'] = $s. ($s == 1 ? ' business' :' businesses') .' has been restored successfuly';
+            }
+        }
+        return redirect('clients/business')->with('messages',$messages);
     }
 }

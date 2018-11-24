@@ -24,7 +24,7 @@ class AddressController extends Controller
         $request->validate([
             'address' => 'required',
             'address_two' => 'sometimes',
-            'full_name' => 'required',
+            'full_name' => 'sometimes',
             'country_id' => 'required',
             'city' => 'required',
             'zip_code' => 'required|numeric',

@@ -32,7 +32,7 @@ class ClaimNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['database', 'broadcast'];
+        return ['database'];
     }
 
     /**
@@ -48,13 +48,5 @@ class ClaimNotification extends Notification
             'data' => $this->data,
             'subject' => $this->subject
         ];
-    }
-
-    public function toBroadcast($notifiable) 
-    {
-        return new BroadcastMessage([ 
-            'invoice_id' => $this->invoice->id, 
-            'amount' => $this->invoice->amount, 
-            ]);
     }
 }

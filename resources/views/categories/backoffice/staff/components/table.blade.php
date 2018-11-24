@@ -31,10 +31,10 @@
             <div class="col-xs-12">
                 <div class="row">
                     <div class="col-md-3 text-right no-padding">
-                            @if (auth()->guard('staff')->user()->can('write','category'))
-                            <a href="{{url('categories/create')}}" class="btn btn-transparent"><i class="fas fa-plus fa-sm"></i> <strong>Add</strong></a>
-                            @endif
-                            </div>
+                        @if (auth()->guard('staff')->user()->can('write','category'))
+                        <a href="{{url('categories/create')}}" class="btn btn-transparent"><i class="fas fa-plus fa-sm"></i> <strong>Add</strong></a>
+                        @endif
+                    </div>
                     <div class="col-md-3 text-right no-padding">
                         <a href="{{url('categories/trash')}}" class="btn btn-transparent-danger"><i class="fas fa-trash-alt fa-sm"></i> <strong>Trash</strong></a>
                     </div>
@@ -74,13 +74,12 @@
                                 <label for="checkbox{{$category->id}}" class="no-padding no-margin"></label>
                             </div>
                         </td>
-                       
                         <td class="v-align-middle text-center p-l-5 p-r-5">
                             <a href="{{url('categories/'.$category->id.'/edit')}}"><i class="fas fa-pen fa-sm"></i> <strong>Edit</strong></a>
                             </td> 
-                         <td class="v-align-middle text-center p-l-5 p-r-5">
+                        <td class="v-align-middle text-center p-l-5 p-r-5">
                         <a href="{{route('delete.category',['category'=>$category->id])}}" data-method="DELETE"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="text-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a></td>
-                     @endif  
+                    @endif  
                     <td class="v-align-middle picture">
                         <a href="{{url('categories/'.$category->id)}}"><img src="@if(isset($category->picture->path)) {{Storage::url($category->picture->path)}} @else {{asset('img/img_placeholder.png')}} @endif" alt="cat1"></a>
                     </td>
@@ -89,11 +88,11 @@
                     <td class="v-align-middle">@if(isset($category->category)) {{$category->category->categoryLang()->reference}}@else - @endif</td>
                     <td class="v-align-middle">{{count($category->products)}}</td>
                     <td class="v-align-middle">
-                         @foreach($category->categoryLangs as $categoryLang)
-                                @if($categoryLang->reference != "")
-                                     <a href="javascript:;" class="btn btn-tag">{{$categoryLang->lang->alpha_2_code}}</a>
-                                @endif
-                            @endforeach
+                        @foreach($category->categoryLangs as $categoryLang)
+                            @if($categoryLang->reference != "")
+                                <a href="javascript:;" class="btn btn-tag">{{$categoryLang->lang->alpha_2_code}}</a>
+                            @endif
+                        @endforeach
                     </td>
                 </tr>
             @endforeach                                        
@@ -119,12 +118,13 @@
             "destroy": true,  
             "scrollCollapse": true,
             "order": [
-                    [3, "desc"]
+                    [4, "desc"]
                 ],
                 "columnDefs": [
                     { "orderable": false, "targets": 0 },
                     { "orderable": false, "targets": 1 },
                     { "orderable": false, "targets": 2 },
+                    { "orderable": false, "targets": 3 },
             ],
             "iDisplayLength": 10
         };
@@ -144,7 +144,6 @@
             } else {
                 $(this).closest('tr').removeClass('selected');
             }
-
         });
     });
     </script>

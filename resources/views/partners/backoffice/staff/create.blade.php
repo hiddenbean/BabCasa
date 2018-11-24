@@ -64,7 +64,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group form-group-default required">
                                         <label>Username</label>
-                                        <input type="text" class="form-control" name="name" value="{{old('name')}}">
+                                        <input type="text" class="form-control" id="name" name="name" value="{{old('name')}}">
                                         <label class="error" for="name">
                                             {{ $errors->has('name') ? $errors->first('name') : "" }}
                                         </label> 
@@ -75,7 +75,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group form-group-default required">
                                         <label>Email</label>
-                                        <input type="email" class="form-control" name="email" value="{{old('email')}}">
+                                        <input type="email" class="form-control" id="email" name="email" value="{{old('email')}}">
                                     </div>
                                 </div>
                             </div>
@@ -98,7 +98,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group form-group-default required">
                                         <label>First Name</label>
-                                        <input type="text" class="form-control" name="first_name" value="{{old('first_name')}}">
+                                        <input type="text" class="form-control" id="first_name" name="first_name" value="{{old('first_name')}}">
                                         <label class="error" for="first_name">
                                             {{ $errors->has('first_name') ? $errors->first('first_name') : "" }}
                                         </label> 
@@ -107,7 +107,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group form-group-default required">
                                         <label>Last Name</label>
-                                        <input type="text" class="form-control" name="last_name" value="{{old('last_name')}}">
+                                        <input type="text" class="form-control" id="last_name" name="last_name" value="{{old('last_name')}}">
                                         <label class="error" for="last_name">
                                             {{ $errors->has('last_name') ? $errors->first('last_name') : "" }}
                                         </label> 
@@ -134,6 +134,9 @@
                                             <option value="{{$country->id}}" {{old('code_country.0') == $country->id ? 'selected' : ''}}>{{$country->name}} ({{$country->phone_code}})</option>
                                             @endforeach
                                         </select>
+                                        <label class="error p-l-15" for="country_code">
+                                            {{ $errors->has('country_code') ? $errors->first('country_code') : "" }}
+                                        </label>
                                     </div>
                                 </div>
                                 <div class="col-md-8">
@@ -214,13 +217,16 @@
                                     <input type="text" class="form-control" name="address" value="{{old('address')}}" />
                                 </div>
                                 <label class="error p-l-15" for="address">
-                                        {{ $errors->has('address') ? $errors->first('address') : "" }}
-                                    </label>
+                                    {{ $errors->has('address') ? $errors->first('address') : "" }}
+                                </label>
                             </div>
                             <div class="row">
                                 <div class="form-group form-group-default">
                                     <label>Line 2</label>
                                     <input type="text" class="form-control" name="address_two" value="{{old('address_two')}}" />
+                                    <label class="error p-l-15" for="address_two">
+                                        {{ $errors->has('address_two') ? $errors->first('address_two') : "" }}
+                                    </label>
                                 </div>
                             </div>
                             <div class="row">
@@ -261,6 +267,9 @@
                                             <option value="{{$country->id}}" {{old('code_country.1') == $country->id ? 'selected' : ''}}>{{$country->name}} ({{$country->phone_code}})</option>
                                             @endforeach
                                         </select>
+                                        <label class="error p-l-15" for="code_country">
+                                            {{ $errors->has('code_country.0') ? $errors->first('code_country') : "" }}
+                                        </label>
                                     </div>
                                 </div>
                                 <div class="col-md-8">
@@ -282,6 +291,9 @@
                                             <option value="{{$country->id}}" {{old('code_country.2') == $country->id ? 'selected' : ''}}>{{$country->name}} ({{$country->phone_code}})</option>
                                             @endforeach
                                         </select>
+                                        <label class="error p-l-15" for="code_country">
+                                            {{ $errors->has('code_country.1') ? $errors->first('code_country') : "" }}
+                                        </label>
                                     </div>
                                 </div>
                                 <div class="col-md-8">
@@ -303,6 +315,9 @@
                                             <option value="{{$country->id}}" {{old('code_country.3') == $country->id ? 'selected' : ''}}>{{$country->name}} ({{$country->phone_code}})</option>
                                             @endforeach
                                         </select>
+                                        <label class="error p-l-15" for="code_country">
+                                            {{ $errors->has('code_country.2') ? $errors->first('code_country') : "" }}
+                                        </label>
                                     </div>
                                 </div>
                                 <div class="col-md-8">
@@ -348,7 +363,7 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="checkbox check-success">
-                                                <input type="checkbox" id="checkbox2">
+                                                <input type="checkbox" name="is_approved" id="checkbox2" @if(old('is_approved')) checked @endif)>
                                                 <label for="checkbox2">Affiliate approval</label>
                                             </div>
                                         </div>
@@ -404,7 +419,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="checkbox check-success">
-                                    <input type="checkbox" id="checkbox" name="is_register_to_newsletter">
+                                    <input type="checkbox" name="is_register_to_newsletter"id="checkbox" @if(old('is_register_to_newsletter')) checked @endif>
                                     <label for="checkbox">Enable newsletter subscription for this affiliate</label>
                                 </div>
                             </div>

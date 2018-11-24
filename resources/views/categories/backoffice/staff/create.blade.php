@@ -15,7 +15,7 @@
                         <a href="{{ url('/') }}">DASHBOARD</a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="{{ url('/categories') }}">categories</a>
+                        <a href="{{ url('/categories') }}">Categories</a>
                     </li>
                     <li class="breadcrumb-item active">
                         Add
@@ -53,7 +53,7 @@
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="form-group form-group-default">
+                                    <div class="form-group form-group-default required">
                                         <label>Category name</label>
                                         <input type="text" class="form-control" name="reference">
                                         <label class='error' for='reference'>
