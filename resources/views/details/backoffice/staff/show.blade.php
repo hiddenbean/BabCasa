@@ -37,40 +37,24 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h5>
-                                Name
-                            </h5>
+                    <div class="row m-b-10">
+                        <div class="col-md-3 uppercase">
+                            Name
+                        </div>
+                        <div class="col-md-9">
+                            <strong>
+                                xx
+                            </strong>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12">
-                         @foreach($languages as $language)
-                                @if(isset($detail->detailLangs->where('lang_id',$language->id)->first()->value)&& !empty($detail->detailLangs->where('lang_id',$language->id)->first()->value))
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <span class="hint-text">{{$language->name}} : </span>
-                                        </div>
-                                        <div class="col-md-9">
-                                            {{$detail->detailLangs->where('lang_id',$language->id)->first()->value}}
-                                        </div>
-                                    </div>
-                                @endif
-                            @endforeach
+                        <div class="col-md-3 uppercase">
+                            Categories using this detail
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h5>
-                                Categories using this detail
-                            </h5>
-                            <p>
+                        <div class="col-md-9">
                             @foreach( $detail->categories as $category )
                                 <a href="{{url('categories/'.$category->id)}}" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">{{$category->categoryLang()->reference}}</a>
                             @endforeach
-                                
-                            </p>
                         </div>
                     </div>
                 </div>

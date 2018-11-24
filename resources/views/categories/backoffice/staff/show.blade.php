@@ -45,74 +45,92 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-4 b-r b-dashed b-grey p-b-15">
-                            <h5>
-                                Picture
-                            </h5>
-                            <img src="@if(isset($category->picture->path)) {{Storage::url($category->picture->path)}} @else {{asset('img/img_placeholder.png')}} @endif" alt="cat1" width="100%">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a data-toggle="tab" href="#slide1">
+                                <span>English</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#slide2">
+                                <span>Français</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <!-- silde 1 start -->
+                        <div class="tab-pane slide-left active" id="slide1">
+                            <div class="row">
+                                <div class="col-md-4 b-r b-dashed b-grey p-b-15">
+                                    <h5>
+                                        Picture
+                                    </h5>
+                                    <img src="@if(isset($category->picture->path)) {{Storage::url($category->picture->path)}} @else {{asset('img/img_placeholder.png')}} @endif" alt="cat1" width="100%">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="row m-b-10">
+                                        <div class="col-md-3 uppercase">
+                                            Name
+                                        </div>
+                                        <div class="col-md-9">
+                                            <strong>
+                                                {{ $category->categoryLang()->reference }}
+                                            </strong>
+                                        </div>
+                                    </div>
+                                    <div class="row m-b-10">
+                                        <div class="col-md-3 uppercase">
+                                            Description
+                                        </div>
+                                        <div class="col-md-8">
+                                            {!! $category->categoryLang()->description !!}
+                                        </div>
+                                    </div>
+                                    <div class="row m-b-10">
+                                        <div class="col-md-3 uppercase">
+                                            Parent
+                                        </div>
+                                        <div class="col-md-8">
+                                            <strong>
+                                                @if(isset($category->category)) <a href="{{url('categories/'.$category->category->id)}}"> {{$category->category->categoryLang()->reference}}</a>@else  -  @endif
+                                            </strong>
+                                        </div>
+                                    </div>
+                                    <div class="row m-b-10">
+                                        <div class="col-md-3 uppercase">
+                                            Details
+                                        </div>
+                                        <div class="col-md-8">
+                                            <strong>
+                                            @foreach($category->details as $detail)
+                                                <a href="{{url('details/'.$detail->id)}}" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">{{$detail->detailLang()->value}}</a>
+                                            @endforeach
+                                            </strong>
+                                        </div>
+                                    </div>
+                                    <div class="row m-b-10">
+                                        <div class="col-md-3 uppercase">
+                                            Attributes
+                                        </div>
+                                        <div class="col-md-8">
+                                            <strong>
+                                                @foreach($category->attributes as $attribute)
+                                                    <a href="{{url('attributes/'.$attribute->id)}}" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">{{$attribute->attributeLang()->reference}}</a>
+                                                @endforeach
+                                            </strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-8">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <h5>
-                                        Name In
-                                    </h5>
-                                    <p>
-                                        {{ $category->categoryLang()->reference }}
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <h5>
-                                        Description
-                                    </h5>
-                                    <p>
-                                        {!! $category->categoryLang()->description !!}
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <h5>
-                                        Parent
-                                    </h5>
-                                    <p>
-                                       @if(isset($category->category)) <a href="{{url('categories/'.$category->category->id)}}"> {{$category->category->categoryLang()->reference}}</a>@else  -  @endif
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <h5>
-                                        Details
-                                    </h5>
-                                    <p>
-                                        @foreach($category->details as $detail)
-                                            <a href="{{url('details/'.$detail->id)}}" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">{{$detail->detailLang()->value}}</a>
-                                        @endforeach
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <h5>
-                                        Attributes
-                                    </h5>
-                                    <p>
-                                        @foreach($category->attributes as $attribute)
-                                            <a href="{{url('attributes/'.$attribute->id)}}" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">{{$attribute->attributeLang()->reference}}</a>
-                                        @endforeach
-                                    </p>
-                                </div>
-                            </div>
+                        <!-- silde 1 end -->
+                        <!-- silde 2 start -->
+                        <div class="tab-pane slide-right" id="slide2">
+                            ...
                         </div>
+                        <!-- silde 2 end -->
                     </div>
                 </div>
             </div>
