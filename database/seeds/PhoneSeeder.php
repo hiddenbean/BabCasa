@@ -20,6 +20,9 @@ class PhoneSeeder extends Seeder
             'phoneable_id' => 1,
             'phoneable_type' => 'partner',
             'country_id' => 1,
+            'is_default' => true,
+            'verify' => true,
+            'tag' => 'admin'
         ]);
         DB::table('phones')->insert([
             'number' => '621365921',
@@ -27,6 +30,9 @@ class PhoneSeeder extends Seeder
             'phoneable_id' => 1,
             'phoneable_type' => 'staff',
             'country_id' => 1,
+            'is_default' => true,
+            'verify' => true,
+            'tag' => 'company'
         ]);
     }
 }
