@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use Auth;
+use Hash;
 use App\Guest;
 use App\Status;
 use App\Phone;
@@ -57,7 +58,6 @@ class PartnerController extends Controller
     public function index()
     {
         $data['partners'] = Partner::all();
-
         return view('partners.backoffice.staff.index',$data);
     }
     
@@ -145,14 +145,6 @@ class PartnerController extends Controller
                 'pictureable_id' => $partner->id,
             ]);
         }
-        
-        $phone = new Phone();
-        $phone->number = $request->admin_number;
-        $phone->type = "admin_phone";
-        $phone->country_id = $request->country_code;
-        $phone->phoneable_type = 'partner';
-        $phone->phoneable_id = $partner->id;
-        $phone->save();
 
         foreach($request->numbers as $key => $number)
         {
@@ -160,8 +152,8 @@ class PartnerController extends Controller
             {
                 $phone = new Phone();
                 $phone->number = $number;
-                $phone->type = $key==3 ? "fix" : "phone";
-                $phone->is_default =$key==1||$key==0 ? true: false;
+                $phone->type = $key==3 ? "fax" : "phone";
+                $phone->is_default =$key==0 ? true: false;
                 $phone->verify = false;
                 $phone->tag = $key==0 ? 'admin': 'company';
                 $phone->country_id = $request->code_country[$key];
@@ -180,11 +172,9 @@ class PartnerController extends Controller
      * 
      */
     public function storeWithRedirect(Request $request) {
-        $full_name= $request->first_name.' '.$request->last_name;
-        $request['full_name'] =$full_name;
-        // return $request->first_name;
+        $request['full_name'] =$request->first_name.' '.$request->last_name;;
         $partner = self::store($request);
-        return redirect('affiliates/'.$partner->id);
+        return redirect('affiliates/'.$partner->name);
     }
 
     /**
@@ -204,7 +194,7 @@ class PartnerController extends Controller
     public function show($partner)
     {
         $data['reasons'] = Reason::all();
-        $data['partner'] = Partner::where('name',$partner)->first();
+        $data['partner'] = Partner::withTrashed()->where('name',$partner)->first();
         return view('partners.backoffice.staff.show',$data);
     }
 
@@ -284,6 +274,8 @@ class PartnerController extends Controller
     {
         $data['countries'] = Country::all();
         $data['partner'] = Partner::where('name',$partner)->first();
+        $data['company_phones'] =  $data['partner']->phones()->where('tag','=','company')->get();
+        $data['company_fax'] =  $data['partner']->phones()->where('tag','=','fax')->first();
         return view('partners.backoffice.staff.edit',$data);
 
     }
@@ -297,15 +289,19 @@ class PartnerController extends Controller
      */
     public function update(Request $request, $partner)
     {
+        $partner = partner::where('name', $partner)->first();
         $request->validate([
-            'company_name' => 'required',
-            'email' => 'required|email',
+            'company_name' => 'required|unique:partners,company_name,'.$partner->id,
+            'name' => 'required|unique:partners,name,'.$partner->id,
+            'email' => 'required|email|unique:partners,email,'.$partner->id,
+            'admin_email' => 'required|email|unique:partners,admin_email,'.$partner->id ,
+            'first_name' => 'required',
+            'last_name' => 'required',
             'about' => 'required',
-            'trade_registry' => 'required|numeric|digits:6',
-            'ice' => 'required|numeric|digits:10',
             'taxe_id' => 'required|numeric|digits:10',
         ]);
         
+        $request['full_name'] =$request->first_name.' '.$request->last_name;;
         $AddressController = new AddressController();
         $AddressController->validateRequest($request);
         $request->validate([
@@ -317,13 +313,13 @@ class PartnerController extends Controller
         ]);   
         $is_register_to_newsletter = ($request->is_register_to_newsletter=='on') ? 1 : 0;
 
-        $partner = partner::where('name', $partner)->first();
         $partner->company_name = $request->company_name;
         $partner->about = $request->about;
         $partner->email = $request->email;
-        $partner->trade_registry = $request->trade_registry;
+        $partner->first_name =  $request->first_name;
+        $partner->last_name =  $request->last_name;
+        $partner->admin_email =  $request->admin_email;
         $partner->is_register_to_newsletter = $is_register_to_newsletter;
-        $partner->ice = $request->ice;
         $partner->taxe_id = $request->taxe_id;
         $partner->save();
         
@@ -346,45 +342,33 @@ class PartnerController extends Controller
             $picture->save();
         }
         
-
         foreach($request->numbers as $key => $number)
         {
             if($number != null)
             {
-                $phone = Phone::where('id', $request->phone_id[$key])
-                                                                ->whereIn('type', ['phone', 'fix'])
-                                                                ->where('phoneable_id', $partner->id)
-                                                                ->first();
-                if($phone == null)
+                if($number != null)
                 {
-                    $phone = new Phone();
-                    $phone->phoneable_id = $partner->id;
-                    $phone->phoneable_type = 'partner';
-                }
-                $phone->number = $number;
-                $phone->type = "phone";
-                $phone->country_id = $request->code_country[$key];
-                $phone->save();
-            }
-        }
+                    $phone = Phone::where('id', $request->phone_id[$key])
+                                                                    ->whereIn('type', ['phone', 'fix'])
+                                                                    ->where('phoneable_id', $partner->id)
+                                                                    ->first();
+                    if($phone == null)
+                    {
+                        $phone = new Phone();
+                        $phone->phoneable_id = $partner->id;
+                        $phone->phoneable_type = 'partner';
+                        $phone->tag = $key==0 ? 'admin':  $key==3 ? 'fax' : 'company';
+                        $phone->type = $key==3 ? "fax" : "phone";
+                        $phone->is_default =$key==1||$key==0 ? true: false;
+                        $phone->verify = false;
 
-        if($request->fax_number)
-        {
-            $fax = Phone::where('id', $request->fax_id)
-                                ->where('type', 'fax')
-                                ->where('phoneable_id', $partner->id)
-                                ->first();
-            if($fax == null)
-            {
-                $fax = new Phone();
-                $phone->phoneable_id = $partner->id;
-                $phone->phoneable_type = 'partner';
+                    }
+                $phone->number = $number;
+                $phone->country_id = $request->code_country[$key];
+            
+                $phone->save();
+                }
             }
-            $phone = Phone::find($request->fax_id);
-            $phone->number = $request->fax_number;
-            $phone->type = "fix";
-            $phone->country_id = $request->code_country[2];
-            $phone->save();
         }
 
             
@@ -398,7 +382,7 @@ class PartnerController extends Controller
      */
     public function destroy($Partner)
     {
-        $partner = Partner::where('name', $Partner)->first();
+        $partner = Partner::findOrFail($Partner);
         if(
             isset($partner->claims[0])
             || isset($partner->orders()->whereIn('status', ['in_progress', 'waiting'])->first()->id)
@@ -420,19 +404,19 @@ class PartnerController extends Controller
     public function multiDestroy(Request $request)
     {
         $request->validate([
-            'afiliates' => 'required',
+            'affiliates' => 'required',
             ]);
         $e=$s=0;
         $messages = [];
         
-        foreach($request->affiliates as $affiliate)
+        foreach($request->affiliates as $Affiliate)
         {
-            $affiliate = Partner::findOrFail($affiliate);
+            $affiliate = Partner::findOrFail($Affiliate);
     
             if(
-                !isset($partner->claims[0])
-                && !isset($partner->orders()->whereIn('status', ['in_progress', 'waiting'])->first()->id)
-                && !isset($partner->products[0])
+                !isset($affiliate->claims[0])
+                && !isset($affiliate->orders()->whereIn('status', ['in_progress', 'waiting'])->first()->id)
+                && !isset($affiliate->products[0])
             ) 
             {
                 $s++;
@@ -455,7 +439,7 @@ class PartnerController extends Controller
      */
     public function restore($Partner)
     {
-        $partner = Partner::onlyTrashed()->where('name', $Partner)->first();
+        $partner = Partner::onlyTrashed()->findOrFail($Partner);
         $partner->restore();
         $messages['success'] = 'partner has been restored successfuly !!';
         return redirect('affiliates')->with('messages',$messages);
@@ -466,7 +450,7 @@ class PartnerController extends Controller
     public function multiRestore(Request $request)
     {
         $request->validate([
-            'affiliate' => 'required',
+            'affiliates' => 'required',
         ]);
         $s=0;
         $messages = [];
@@ -529,6 +513,33 @@ class PartnerController extends Controller
     {
         DB::table('sessions')->where('id', $session_id)->delete();
         return redirect(str_before(url()->current(), '.com').'.com/security');
+    }
+
+    public function reset(Request $request, $partner)
+    {
+        $password_communicated = ($request->password_communicated=='on') ? 1 : 0;
+        if($password_communicated)
+        {
+            $password = Hash::make($request->password);
+            $partner =Partner::where('name', $partner)->first();
+            if($partner)
+            {
+                $partner->password = $password;
+                $partner->save();
+                $messages['success'] = 'Password reset has been done successfuly !!';
+            }
+            else
+            {
+                $messages['error'] = 'Staff member doesn\'t exist !!';
+            }
+        }
+        else
+        {
+            $messages['error'] = 'Please communicate the password !!';
+        }
+        return redirect()
+                        ->back()
+                        ->with('messages', $messages);
     }
 }
 

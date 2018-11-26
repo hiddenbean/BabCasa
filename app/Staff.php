@@ -45,6 +45,11 @@ class Staff extends Authenticatable
         'profile'
     ];
 
+    public function notifications()
+    {
+        return $this->morphMany('App\Notification', 'notifiable');
+    }
+    
     public function claimMessages()
     {
         return $this->hasMany('App\ClaimMessage');

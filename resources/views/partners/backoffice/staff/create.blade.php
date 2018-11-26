@@ -56,7 +56,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <h5>
-                                        Account informations {{$errors}}
+                                        Account informations 
                                     </h5>
                                 </div>
                             </div>
@@ -135,7 +135,7 @@
                                             @endforeach
                                         </select>
                                         <label class="error p-l-15" for="country_code">
-                                            {{ $errors->has('country_code') ? $errors->first('country_code') : "" }}
+                                            {{ $errors->has('country_code.0') ? $errors->first('country_code.0') : "" }}
                                         </label>
                                     </div>
                                 </div>
@@ -268,7 +268,7 @@
                                             @endforeach
                                         </select>
                                         <label class="error p-l-15" for="code_country">
-                                            {{ $errors->has('code_country.0') ? $errors->first('code_country') : "" }}
+                                            {{ $errors->has('code_country.1') ? $errors->first('code_country.1') : "" }}
                                         </label>
                                     </div>
                                 </div>
@@ -292,7 +292,7 @@
                                             @endforeach
                                         </select>
                                         <label class="error p-l-15" for="code_country">
-                                            {{ $errors->has('code_country.1') ? $errors->first('code_country') : "" }}
+                                            {{ $errors->has('code_country.2') ? $errors->first('code_country.2') : "" }}
                                         </label>
                                     </div>
                                 </div>
@@ -316,7 +316,7 @@
                                             @endforeach
                                         </select>
                                         <label class="error p-l-15" for="code_country">
-                                            {{ $errors->has('code_country.2') ? $errors->first('code_country') : "" }}
+                                            {{ $errors->has('code_country.3') ? $errors->first('code_country.3') : "" }}
                                         </label>
                                     </div>
                                 </div>

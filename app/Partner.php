@@ -98,7 +98,7 @@ class Partner extends Authenticatable
             $partner->address()->delete();
             $partner->picture()->delete();
             $partner->phones()->delete();
-            $partner->orders()->delete();
+            // $partner->orders()->delete();
             //$partner->markets()->delete();
             //$partner->products()->delete();
             //$partner->bundels()->delete();
