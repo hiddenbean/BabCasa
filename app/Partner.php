@@ -99,11 +99,6 @@ class Partner extends Authenticatable
             $partner->picture()->delete();
             $partner->phones()->delete();
             $partner->orders()->delete();
-            //$partner->markets()->delete();
-            //$partner->products()->delete();
-            //$partner->bundels()->delete();
-            //$partner->offers()->delete();
-            
         });
 
         static::restoring(function($partner)
@@ -111,8 +106,6 @@ class Partner extends Authenticatable
             $partner->address()->withTrashed()->restore();
             $partner->picture()->withTrashed()->restore();
             $partner->phones()->withTrashed()->restore();
-            //$partner->products()->delete();
-            //$partner->bundels()->delete();
         });
     }
 
