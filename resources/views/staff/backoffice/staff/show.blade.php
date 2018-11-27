@@ -251,7 +251,7 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="card-title">
-                                Rest password
+                                Reset password
                                 <a 
                                     href="javascript:;" 
                                     data-toggle="tooltip" 

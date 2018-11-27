@@ -217,7 +217,7 @@
                                 @if($partner->deleted_at == NULL)
                                     <a  href="{{route('delete.partner',['partner'=>$partner->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
                                 @else
-                                    <form action="{{url('affiliates/'.$partner->name.'/restore')}}" method="POST">
+                                    <form action="{{url('affiliates/'.$partner->id.'/restore')}}" method="POST">
                                         {{ csrf_field() }}
                                         <button class="btn btn-block btn-transparent-danger" type="submit"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></button>
                                         </form>
@@ -227,7 +227,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>  
+            @if($partner->deleted_at == NULL)
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
@@ -249,9 +250,9 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <form action="{{ url('passwords/email') }}" method="post">
+                                    <form action="{{url('partner/passwords/email')}}" method="post">
                                         @csrf
-                                        <input type="hidden" name="email" value="">
+                                        <input type="hidden" name="email" value="{{$partner->email}}">
                                         <button class="btn btn-block btn-transparent"><strong>send password rest link</strong></button>
                                     </form>
                                 </div>
@@ -265,10 +266,12 @@
                     </div>
                 </div>
             </div>
+            @endif
         </div>
     </div>
 
 
     @include('logs.backoffice.componments.table')
 </div>
+@include('partners.backoffice.staff.components.modal_password_gen')
 @endsection

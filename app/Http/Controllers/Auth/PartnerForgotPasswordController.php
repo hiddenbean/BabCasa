@@ -29,7 +29,7 @@ class PartnerForgotPasswordController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest:partner');
+         $this->middleware('guest:partner,staff');
     }
 
     /**

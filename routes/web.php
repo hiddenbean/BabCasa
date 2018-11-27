@@ -160,7 +160,7 @@ function()
 
         Route::prefix('affiliates')->middleware('CanRead:partner')->group(function() {
             Route::get('/', 'PartnerController@index');
-            Route::get('/trash', 'PartnerController@trashIndex');
+            Route::get('/trash', 'PartnerController@trash');
             Route::group(['middleware' => ['CanWrite:partner']], function(){
                     Route::get('create', 'PartnerController@create'); 
                     Route::get('{partner}/edit', 'PartnerController@edit');
@@ -204,7 +204,8 @@ function()
         Route::get('{subject}', 'SubjectController@show'); 
     });
 
-    // staff
+    // 
+    
     Route::get('/sign-in', 'Auth\StaffLoginController@showLoginForm');
     Route::get('/logout', 'Auth\StaffLoginController@logout');
     
@@ -384,6 +385,7 @@ Route::domain('staff.babcasa.com')->group(function (){
     // Reset password
     Route::post('sign-in', 'Auth\StaffLoginController@login')->name('staff.login.submit');
     Route::post('passwords/email', 'Auth\StaffForgotPasswordController@sendResetLinkEmail')->name('staff.password.link.send');
+    Route::post('partner/passwords/email', 'Auth\PartnerForgotPasswordController@sendResetLinkEmail');
     Route::post('password/reset', 'Auth\StaffResetPasswordController@reset')->name('staff.password.reset');
     
 
@@ -501,8 +503,9 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::delete('multi-destroy', 'PartnerController@multiDestroy')->name('multi_delete.affiliates');
         Route::delete('multi-restore', 'PartnerController@multiRestore');
         Route::prefix('{partner}')->group(function() {
-            Route::post('/restore', 'PartnerController@restore');
+            Route::post('password/reset', 'PartnerController@reset');
             Route::put('/', 'PartnerController@update'); 
+            Route::post('/restore', 'PartnerController@restore');
             Route::delete('/', 'PartnerController@destroy')->name('delete.partner');
             Route::post('/', 'PartnerController@restore')->name('delete.partner');
             Route::post('/reset/password', 'PinController@store')->name('reset.password.partner');

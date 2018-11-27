@@ -17,7 +17,7 @@
                             <a href="{{ url('/') }}">DASHBOARD</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{{ url('/staff') }}">Staff</a>
+                            <a href="{{ url('/affiliates') }}">affiliates</a>
                         </li>
                         <li class="breadcrumb-item active">
                             Trash
@@ -32,7 +32,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-title">
-                    Removed Staff members list 
+                    Removed affiliates members list 
                     <a 
                         href="javascript:;" 
                         data-toggle="tooltip" 
@@ -79,7 +79,7 @@
                                 <tr role="row" id="0">
                                     <td class="v-align-middle p-l-5 p-r-5">
                                         <div class="checkbox no-padding no-margin text-center">
-                                            <input type="checkbox" value="{{$partner->id}}" name="partners[]" id="checkbox{{$partner->id}}">
+                                            <input type="checkbox" value="{{$partner->id}}" name="affiliates[]" id="checkbox{{$partner->id}}">
                                             <label for="checkbox{{$partner->id}}" class="no-padding no-margin"></label>
                                         </div>
                                     </td>
@@ -87,10 +87,10 @@
                                             <a href="{{url('affiliates/'.$partner->id.'/restore')}}" data-method="POST"  data-token="{{csrf_token()}}" class="text-danger"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></a></td>
                                     </td> 
                                     <td class="v-align-middle picture">
-                                            <a href="{{url('affiliates/'.$partner->id)}}"><img src="@if(isset($partner->picture->path)) {{Storage::url($partner->picture->path)}} @else {{asset('img/img_placeholder.png')}} @endif" alt="cat1"></a>
+                                            <a href="{{url('affiliates/'.$partner->name)}}"><img src="@if(isset($partner->picture->path)) {{Storage::url($partner->picture->path)}} @else {{asset('img/img_placeholder.png')}} @endif" alt="cat1"></a>
                                         </td>
-                                    <td class="v-align-middle"><a href="{{url('partners/'.$partner->id)}}"><strong>{{$partner->company_name }}</strong></a></td>
-                                    <td class="v-align-middle"><a href="{{url('partners/'.$partner->id)}}"><strong>{{$partner->name }}</strong></a></td>
+                                    <td class="v-align-middle"><a href="{{url('affiliates/'.$partner->name)}}"><strong>{{$partner->company_name }}</strong></a></td>
+                                    <td class="v-align-middle"><a href="{{url('affiliates/'.$partner->name)}}"><strong>{{$partner->name }}</strong></a></td>
                                     <td class="v-align-middle">{{$partner->email }}</td>
                                     <td class="v-align-middle"><strong>{{$partner->first_name.' '.$partner->last_name }}</strong></td>
                                     <td class="v-align-middle">{{$partner->phones()->where('tag','admin')->first()->country->phone_code.' '.$partner->phones()->where('tag','admin')->first()->number}}</td>
