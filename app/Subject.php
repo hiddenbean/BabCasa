@@ -39,7 +39,9 @@ class Subject extends Model
     public function subjectLang()
     {
         $langId = Language::where('alpha_2_code',App::getLocale())->first()->id; 
-        return $this->subjectLangs()->where('lang_id',$langId);
+        $subject = self::subjectLangs()->where('lang_id',$langId)->first();
+
+        return !isset($subject->reference)||$subject->reference=='' ? self::subjectLangs()->where('reference','!=','')->first() : $subject;
 
     }
 

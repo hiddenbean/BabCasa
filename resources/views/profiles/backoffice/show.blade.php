@@ -193,7 +193,46 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    Profile translations
+                                    <a 
+                                        href="javascript:;" 
+                                        data-toggle="tooltip" 
+                                        data-placement="bottom" 
+                                        data-html="true" 
+                                        trigger="click" 
+                                        title= "<p class='tooltip-text'>You can use this form to create a new category if you have the right permissions.<br>
+                                                If you have any difficulties please <a href='#'>contact the support</a></p>"> 
+                                        <i class="fas fa-question-circle"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        Available in :
+                                        @foreach($profile->profileLangs as $profileLang)
+                                            @if($profileLang->reference != "")
+                                                <strong><a href="#">{{$profileLang->lang->name}}</a></strong>,
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                </div>
+                                <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
+                                    <div class="col-md-12">
+                                        <a href="{{url('profiles/'.$profile->id.'/translations')}}" class="btn btn-block btn-transparent"><strong><i class="fas fa-language p-r-10 fa-lg"></i>Add or Edit translations</strong></a>                                    
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
         </div>
+        
     </div>
 </div>
 @endsection

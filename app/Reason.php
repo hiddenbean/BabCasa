@@ -32,7 +32,9 @@ class Reason extends Model
     public function reasonLang()
     {
         $langId = Language::where('alpha_2_code',App::getLocale())->first()->id; 
-        return $this->reasonLangs()->where('lang_id',$langId);
+        $reason = self::reasonLangs()->where('lang_id',$langId)->first();
+
+        return !isset($reason->reference)||$reason->reference=='' ? self::reasonLangs()->where('reference','!=','')->first() : $reason;
 
     }
     public function statuses()

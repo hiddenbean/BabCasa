@@ -123,6 +123,7 @@ class CategoryLangController extends Controller
             $category_lang->save();
         }
         return redirect()->back();
+        return $request;
     }
 
     /**

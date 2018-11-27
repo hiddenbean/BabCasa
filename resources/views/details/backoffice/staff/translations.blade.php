@@ -54,30 +54,66 @@
                             <form action="{{url('details/'.$detail->id.'/translations')}}" method="POST">
                               {{ csrf_field() }}
                             <div class="card-body">
-                                <div class="row">
-                                @foreach($languages as $language)
-                                    <div class="col-md-6 b-r b-dashed b-grey">
-                                        <h5>
-                                            {{$language->name}}
-                                        </h5>
+                                    <!-- Nav tabs -->
+                                    <ul class="nav nav-tabs">
+                                            @foreach($languages as $key=>$language)
+                                            @if(isset($detail->detailLangs->where('lang_id',$language->id)->first()->value)&& !empty($detail->detailLangs->where('lang_id',$language->id)->first()->value))
+                                                <li>
+                                                <a data-toggle="tab" href="#{{$language->id}}">
+                                                    <span>{{$language->name}}</span>
+                                                    </a>
+                                                </li>
+                                            @else 
+                                            <li id="{{$language->id}}_slide" style="display:none;">
+                                                <a data-toggle="tab" href="#{{$language->id}}">
+                                                <span>{{$language->name}}</span>
+                                                </a>
+                                            </li>
+        
+                                            @endif
+                                            @endforeach
+                                        
+                                        <li>
+                                            <a id="add_lang" href="#">
+                                                <i class="fas fa-plus"></i> Add translation
+                                            </a>
+                                        </li>
+                                        <li id="langs_list" style="display:none">
+                                            <div class="btn-group">
+                                                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">Langues<span class="caret"></span> </a>
+                                                <ul class="dropdown-menu">
+                                                    @foreach($languages as $key=>$language)
+                                                    @if(!isset($detail->detailLangs->where('lang_id',$language->id)->first()->value)|| empty($detail->detailLangs->where('lang_id',$language->id)->first()->value))
+                                                        <li id="{{$language->id}}_slide_option">
+                                                            <a onclick="show_slide('{{$language->id}}_slide')" >{{$language->name}}</a>
+                                                        </li>
+                                                    @endif
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <!-- Tab panes -->
+                                    <div class="tab-content">
+                                        <input type="hidden" id="langsCount" value="{{ count($languages) }}">
+                                        @foreach($languages as $key=>$language)
+                                    <div class="tab-pane slide-left {{$language->id==$detail->detailLang()->lang_id? 'active' :''}}" id="{{$language->id}}">
+                                               
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group form-group-default">
-                                                    <label>Detail name</label>
-                                                    <input type="text" class="form-control" name="values[]" value="@if(isset($detail->detailLangs->where('lang_id',$language->id)->first()->value)){{$detail->detailLangs->where('lang_id',$language->id)->first()->value}}@endif">
-                                                    <input type="hidden" name="languages_id[]" value="{{$language->id}}">
-                                                    <label class='error' for='values.0'>
-                                                        @if ($errors->has('values.0'))
-                                                            {{ $errors->first('values.0') }}
-                                                        @endif
-                                                    </label> 
-                                                </div>
+                                                    <label>Name</label>
+                                                    <input type="text" class="form-control"  name="values[]"  value="@if(isset($detail->detailLangs->where('lang_id',$language->id)->first()->value)){{$detail->detailLangs->where('lang_id',$language->id)->first()->value}}@endif">
+                                                    <input type="hidden" name="languages_id[]" value="{{$language->id}}"></div>
                                             </div>
                                         </div>
+                                     </div>
+        
+                                        {{-- @endif --}}
+                                        @endforeach
+                                 
                                     </div>
-                                    @endforeach
                                 </div>
-                            </div>
                             
                         </div>
                     </div>
@@ -147,8 +183,17 @@
 @endsection
 
 @section('after_script')
-    <script type="text/javascript" src="{{ asset('plugins/summernote/js/summernote.min.js') }}"></script>
-    <script>
-        $('#summernote1, #summernote2').summernote({height: 250});
-    </script>
+<script>
+        function show_slide(slide) {
+            $('#'+slide).show();
+            $('#'+slide+"_option").hide();
+            $('#add_lang').show();
+            $('#langs_list').hide();
+        }
+
+        $('#add_lang').click( function () {
+            $(this).hide();
+            $('#langs_list').show(100);
+        });
+</script>
 @endsection

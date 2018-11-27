@@ -37,7 +37,7 @@ class Tag extends Model
     {
         $langId = Language::where('alpha_2_code',App::getLocale())->first()->id; 
         $tag = self::tagLangs()->where('lang_id',$langId)->withTrashed()->first();
-        return !$tag->tag ? self::tagLangs()->where('tag','!=','')->withTrashed()->first() : $tag;
+        return !isset($tag->tag) || $tag->tag=='' ? self::tagLangs()->where('tag','!=','')->withTrashed()->first() : $tag;
 
     }
 

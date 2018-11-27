@@ -55,16 +55,23 @@
                         <div class="card-body">
                             <!-- Nav tabs -->
                             <ul class="nav nav-tabs">
-                                <li>
-                                    <a data-toggle="tab" href="#en">
-                                        <span>English</span>
-                                    </a>
-                                </li>
-                                <li id="fr_slide" style="display:none;">
-                                    <a data-toggle="tab" href="#fr">
-                                        <span>Français</span>
-                                    </a>
-                                </li>
+                                    @foreach($languages as $key=>$language)
+                                    @if(isset($category->categoryLangs->where('lang_id',$language->id)->first()->reference)&& !empty($category->categoryLangs->where('lang_id',$language->id)->first()->reference))
+                                        <li>
+                                        <a data-toggle="tab" href="#{{$language->id}}" >
+                                            <span>{{$language->name}}</span>
+                                            </a>
+                                        </li>
+                                    @else 
+                                    <li id="{{$language->id}}_slide" style="display:none;">
+                                        <a data-toggle="tab" href="#{{$language->id}}">
+                                        <span>{{$language->name}}</span>
+                                        </a>
+                                    </li>
+
+                                    @endif
+                                    @endforeach
+                                
                                 <li>
                                     <a id="add_lang" href="#">
                                         <i class="fas fa-plus"></i> Add translation
@@ -74,99 +81,51 @@
                                     <div class="btn-group">
                                         <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">Langues<span class="caret"></span> </a>
                                         <ul class="dropdown-menu">
-                                            <li>
-                                                <a onclick="show_slide('fr_slide')">Français</a>
-                                            </li>
+                                            @foreach($languages as $key=>$language)
+                                            @if(!isset($category->categoryLangs->where('lang_id',$language->id)->first()->reference)|| empty($category->categoryLangs->where('lang_id',$language->id)->first()->reference))
+                                                <li id="{{$language->id}}_slide_option">
+                                                    <a onclick="show_slide('{{$language->id}}_slide')" >{{$language->name}}</a>
+                                                </li>
+                                            @endif
+                                            @endforeach
                                         </ul>
                                     </div>
                                 </li>
                             </ul>
                             <!-- Tab panes -->
                             <div class="tab-content">
-                                <div class="tab-pane slide-left active" id="en">
-                                    <form action="post" action="javascript:;">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group form-group-default">
-                                                    <label>Name</label>
-                                                    <input type="text" class="form-control"  name=""  value="">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-12 m-b-20">
-                                                <label for="summernote" class="upper-title p-t-5 p-b-5 p-l-15">Description</label>
-                                                <div class="summernote-wrapper bg-white">
-                                                    <div id="summernote1"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="tab-pane slide-left" id="fr">
-                                    ...
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-title">
-                                Category translations
-                                <a 
-                                    href="javascript:;" 
-                                    data-toggle="tooltip" 
-                                    data-placement="bottom" 
-                                    data-html="true" 
-                                    trigger="click" 
-                                    title= "<p class='tooltip-text'>You can use this form to create a new category if you have the right permissions.<br>
-                                            If you have any difficulties please <a href='#'>contact the support</a></p>"> 
-                                    <i class="fas fa-question-circle"></i>
-                                </a>    
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="row b-b b-dashed b-grey">
-                                <div class="col-md-12">
-                                    <h5>
-                                        Name in
-                                    </h5>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="row">
-                                        @foreach($languages as $key => $language)
-                                            <div class="col-md-6">
-                                                <div class="form-group form-group-default">
-                                                    <label> {{$language->name}}</label>
-                                                    <input type="text" class="form-control"  name="references[]"  value="@if(isset($category->categoryLangs->where('lang_id',$language->id)->first()->reference)){{$category->categoryLangs->where('lang_id',$language->id)->first()->reference}}@endif">
-                                                    <input type="hidden" name="languages_id[]" value="{{$language->id}}">
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <h5>
-                                        Description in
-                                    </h5>
-                                </div>
-                            </div>
-                            <div class="row">
                                 <input type="hidden" id="langsCount" value="{{ count($languages) }}">
-                                @foreach($languages as $key => $language)
-                                <div class="col-md-12 m-b-20">
-                                    <label for="summernote{{$key}}" class="upper-title p-t-5 p-b-5 p-l-15">{{$language->name}}</label>
-                                    <div class="summernote-wrapper bg-white">
-                                        <div id="summernote{{$key}}">@if(isset($category->categoryLangs->where('lang_id',$language->id)->first()->description)){!!$category->categoryLangs->where('lang_id',$language->id)->first()->description!!}@endif</div>
-                                            <input type="hidden" name="descriptions[]" id="description{{$key}}">
+                                @foreach($languages as $key=>$language)
+                            <div class="tab-pane slide-left {{$language->id==$category->categoryLang()->lang_id? 'active' :''}}" id="{{$language->id}}">
+                                       
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group form-group-default">
+                                            <label>Name</label>
+                                            <input type="text" class="form-control"  name="references[]"  value="@if(isset($category->categoryLangs->where('lang_id',$language->id)->first()->reference)){{$category->categoryLangs->where('lang_id',$language->id)->first()->reference}}@endif">
+                                            <input type="hidden" name="languages_id[]" value="{{$language->id}}"></div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-12 m-b-20">
+                                        <label for="summernote{{$key}}" class="upper-title p-t-5 p-b-5 p-l-15">Description</label>
+                                        <div class="summernote-wrapper bg-white">
+                                            <div id="summernote{{$key}}"> @if(isset($category->categoryLangs->where('lang_id',$language->id)->first()->description)){!!$category->categoryLangs->where('lang_id',$language->id)->first()->description!!}@endif</div>
+                                            <input type="hidden" name="descriptions[]" id="description{{$key}}">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                             </div>
+
+                                {{-- @endif --}}
                                 @endforeach
+                         
                             </div>
                         </div>
                     </div>
+                   
                 </div>
                 <div class="col-md-3">
                     <div class="row">
@@ -236,6 +195,7 @@
     <script>
             function show_slide(slide) {
                 $('#'+slide).show();
+                $('#'+slide+"_option").hide();
                 $('#add_lang').show();
                 $('#langs_list').hide();
             }
