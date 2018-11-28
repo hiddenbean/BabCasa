@@ -55,7 +55,7 @@
                             <!-- silde  {{$key}} start -->
                             <div class="tab-pane slide-left {{$language->id==$attribute->attributeLang()->lang_id ? 'active' : ''}}" id="{{$language->id}}">
                                 @if(isset($attribute->attributeLangs->where('lang_id',$language->id)->first()->reference)&& !empty($attribute->attributeLangs->where('lang_id',$language->id)->first()->reference))
-                            <div class="row">
+                                 <div class="row">
                             
                                     <div class="col-md-12">
                                     <div class="row m-b-10">
@@ -83,7 +83,7 @@
                                         <div class="col-md-8">
                                             <strong>
                                                 @foreach($attribute->categories as $Category)
-                                                    <a href="{{url('categories/'.$Category->id)}}" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">{{$Category->categoryLangs->where('lang_id',$language->id)->first()->reference ?$Category->categoryLangs->where('lang_id',$language->id)->first()->reference :$Category->categoryLang()->reference}}</a>
+                                                    <a href="{{url('categories/'.$Category->id)}}" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">{{isset($Category->categoryLangs->where('lang_id',$language->id)->first()->reference) ? $Category->categoryLangs->where('lang_id',$language->id)->first()->reference : $Category->categoryLang()->reference}}</a>
                                                 @endforeach
                                             </strong>
                                         </div>

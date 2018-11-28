@@ -167,10 +167,11 @@ class DetailController extends Controller
             $detail = Detail::find($detail);
             $detailLangId = $detail->detailLang()->id;
 
-        $detailLang = DetailLang::find($detailLangId);
-        $detailLang->value = $request->value; 
-        $detailLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
-        $detailLang->save(); 
+            $detailLang = DetailLang::find($detailLangId);
+            $detailLang->update([
+                'value' => $request->value,
+                'lang_id' => Language::where('alpha_2_code',App::getLocale())->first()->id,
+            ]);
         $detail->categories()->detach();
         foreach($request->categories as $category)
         {

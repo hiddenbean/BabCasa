@@ -41,6 +41,10 @@ class Partner extends Authenticatable
         return $this->morphOne('App\Address', 'addressable')->withTrashed();
     }
 
+    public function logs()
+    {
+        return $this->morphMany('App\ActivityLog', 'causer');
+    }
     public function picture()
     {
         return $this->morphOne('App\Picture', 'pictureable')->withTrashed();

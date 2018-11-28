@@ -3,12 +3,22 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Address extends Model
 {
-    use SoftDeletes;  
+    use SoftDeletes; 
+    use LogsActivity;
 
+    protected static $logFillable = true;
+
+    protected static $recordEvents = ['deleted', 'created', 'updated'];
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "This model has been ". $eventName;
+    }
     protected $fillable = ['address', 'address_two', 'full_name', 'country_id', 'city', 'zip_code', 'longitude', 'latitude', 'addressable_type', 'addressable_id'];
     
     public function addressable()

@@ -75,7 +75,7 @@
                                             <div class="col-md-8">
                                                 <strong>
                                                     @foreach($detail->categories as $Category)
-                                                        <a href="{{url('categories/'.$Category->id)}}" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">{{$Category->categoryLangs->where('lang_id',$language->id)->first()->reference ?$Category->categoryLangs->where('lang_id',$language->id)->first()->reference :$Category->categoryLang()->reference}}</a>
+                                                        <a href="{{url('categories/'.$Category->id)}}" class="btn btn-tag btn-tag-light btn-tag-rounded m-r-5">{{isset($Category->categoryLangs->where('lang_id',$language->id)->first()->reference) ?$Category->categoryLangs->where('lang_id',$language->id)->first()->reference :$Category->categoryLang()->reference}}</a>
                                                     @endforeach
                                                 </strong>
                                             </div>

@@ -47,6 +47,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        // return Auth::guard('staff')->user()->logs[0];
         $data['categories'] = Category::all();
         $data['children_categories'] = Category::where('category_id', null)->get();
         $array = [];
@@ -318,7 +319,7 @@ class CategoryController extends Controller
             'category_id' =>$category_parent,
         ]);
         
-        return $this->notify($category, ' has updated the category ');
+        // return $this->notify($category, ' has updated the category ');
         
         if($request->hasFile('path')) 
         {

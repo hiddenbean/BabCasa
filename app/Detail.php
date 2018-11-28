@@ -13,7 +13,6 @@ class Detail extends Model
     use SoftDeletes;
     use LogsActivity;
 
-    protected $fillable = [];
 
     protected static $recordEvents = ['deleted', 'created', 'updated'];
 
