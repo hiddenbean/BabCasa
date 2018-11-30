@@ -273,17 +273,17 @@
             </span>
             <ul class="sub-menu">
                 <li>
-                    <a href="javascript:;">Add Business Clients</a>
+                    <a href="{{ url('businesses/create') }}">Add Business Clients</a>
                     <span class="icon-thumbnail"><i class="fas fa-user-plus"></i></span>
                 </li>
                 <li>
-                    <a href="javascript:;">BCs Accounts</a>
+                    <a href="{{ url('businesses') }}">BCs Accounts</a>
                     <span class="icon-thumbnail"><i class="fas fa-list-alt"></i></span>
                 </li>
             </ul>
         </li>
         <li>
-            <a href="javascript:;">
+            <a href="{{ url('clients') }}">
                 <span class="title">Clients</span>
             </a>
             <span class="icon-thumbnail">

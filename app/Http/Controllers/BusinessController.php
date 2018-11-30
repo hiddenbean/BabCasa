@@ -28,8 +28,7 @@ class BusinessController extends Controller
      */
     public function index()
     {
-        $businesses = Business::all();
-        return view('business_clients.backoffice.staff.index', ['businesses' => $businesses]);
+        return view('businesses.backoffice.staff.index');
     }
 
     /**
@@ -37,10 +36,10 @@ class BusinessController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function trashIndex()
+    public function trash()
     {
         $businesses = Business::onlyTrashed()->get();
-        return view('business_clients.backoffice.staff.trash', ['businesses' => $businesses]);
+        return view('businesses.backoffice.staff.trash');
     }
 
     /**
@@ -51,7 +50,7 @@ class BusinessController extends Controller
     public function create()
     {
         $data['countries'] = Country::all();
-        return view('business_clients.backoffice.staff.create',$data);
+        return view('businesses.backoffice.staff.create', $data);
     }
 
     /**
@@ -181,7 +180,7 @@ class BusinessController extends Controller
         $data['countries'] = Country::all();
         $data['reasons'] = Reason::all();
         $data['business'] = Business::where('name',$business)->first();
-        return view('business_clients.backoffice.staff.show',$data);
+        return view('businesses.backoffice.staff.show');
     }
 
     /**
@@ -193,8 +192,7 @@ class BusinessController extends Controller
     public function edit($business)
     {
         $data['countries'] = Country::all();
-        $data['business'] = Business::where('name',$business)->first();
-        return view('business_clients.backoffice.staff.edit',$data);
+        return view('businesses.backoffice.staff.edit', $data);
     }
 
     /**

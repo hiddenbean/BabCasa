@@ -155,19 +155,17 @@ function()
                 }); 
                 Route::get('{staff}', 'StaffController@show'); 
         });
-    });
-    //Staff routes end
 
         Route::prefix('affiliates')->middleware('CanRead:partner')->group(function() {
             Route::get('/', 'PartnerController@index');
             Route::get('/trash', 'PartnerController@trash');
             Route::group(['middleware' => ['CanWrite:partner']], function(){
-                    Route::get('create', 'PartnerController@create'); 
-                    Route::get('{partner}/edit', 'PartnerController@edit');
-                }); 
-                Route::get('{partner}', 'PartnerController@show'); 
+                Route::get('create', 'PartnerController@create'); 
+                Route::get('{partner}/edit', 'PartnerController@edit');
+            }); 
+            Route::get('{partner}', 'PartnerController@show'); 
         }); 
-
+    
         // profiles
         Route::prefix('profiles')->middleware('CanRead:profile')->group(function() {
             Route::get('/', 'ProfileController@index');
@@ -181,6 +179,21 @@ function()
             }); 
             Route::get('{profile}', 'profileController@show'); 
         }); 
+
+        Route::prefix('businesses')->group(function () {
+            Route::get('/', 'BusinessController@index');
+            Route::get('trash', 'BusinessController@trash');
+            Route::get('create', 'BusinessController@create');
+            Route::prefix('{business}')->group(function () {
+                Route::get('/', 'BusinessController@show');
+                Route::get('edit', 'BusinessController@edit');
+                Route::get('pin/verification', 'PinController@checkPinForm');
+                Route::get('password/{password}', 'PinController@showPassword');
+            });
+        });
+    });
+    //Staff routes end
+
 
     Route::domain('partner.babcasa.com')->group(function (){
         Route::get('{product}/edit', 'ProductController@edit'); 
