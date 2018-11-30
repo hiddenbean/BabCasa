@@ -180,6 +180,7 @@ function()
             Route::get('{profile}', 'profileController@show'); 
         }); 
 
+        // Businesses UIs
         Route::prefix('businesses')->group(function () {
             Route::get('/', 'BusinessController@index');
             Route::get('trash', 'BusinessController@trash');
@@ -187,8 +188,15 @@ function()
             Route::prefix('{business}')->group(function () {
                 Route::get('/', 'BusinessController@show');
                 Route::get('edit', 'BusinessController@edit');
-                Route::get('pin/verification', 'PinController@checkPinForm');
-                Route::get('password/{password}', 'PinController@showPassword');
+            });
+        });
+
+        // Clients UIs
+        Route::prefix('clients')->group(function () {
+            Route::get('/', 'ParticularClientController@index');
+            Route::get('unactive', 'ParticularClientController@unactive');
+            Route::prefix('{client}')->group(function () {
+                Route::get('/', 'ParticularClientController@show');
             });
         });
     });

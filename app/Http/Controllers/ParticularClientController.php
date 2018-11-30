@@ -37,10 +37,9 @@ class ParticularClientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function trashIndex()
+    public function unactive()
     {
-        $particular_clients = ParticularClient::onlyTrashed()->get();
-        return view('clients_particular.backoffice.staff.trash', ['particular_clients' => $particular_clients]);
+        return view('clients.backoffice.staff.unactive');
     }
 
     /**
@@ -50,9 +49,7 @@ class ParticularClientController extends Controller
      */
     public function index()
     {
-        $data['particularClients'] = ParticularClient::all();
-        //return $data;
-        return view('particular_clients.backoffice.index',$data);
+        return view('clients.backoffice.staff.index');
     }
     
     public function dashboard()
@@ -171,11 +168,9 @@ class ParticularClientController extends Controller
      * @param  \App\particular_clients  $particular_clients
      * @return \Illuminate\Http\Response
      */
-    public function show($particular_clients)
+    public function show($client)
     {
-        $data['particularClient'] = ParticularClient::where('name',$particular_clients)->first();
-        // return $data['particular_clients']->phones[0]->country; 
-        return view('particular_clients.backoffice.show',$data);
+        return view('clients.backoffice.staff.show');
     }
 
     /**

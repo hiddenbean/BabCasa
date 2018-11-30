@@ -265,7 +265,7 @@
         </li>
         <li>
             <a href="javascript:;">
-                <span class="title">Business Clients</span>
+                <span class="title">Businesses</span>
                 <span class="arrow"></span>
             </a>
             <span class="icon-thumbnail">
@@ -273,22 +273,33 @@
             </span>
             <ul class="sub-menu">
                 <li>
-                    <a href="{{ url('businesses/create') }}">Add Business Clients</a>
+                    <a href="{{ url('businesses/create') }}">Add Business</a>
                     <span class="icon-thumbnail"><i class="fas fa-user-plus"></i></span>
                 </li>
                 <li>
-                    <a href="{{ url('businesses') }}">BCs Accounts</a>
+                    <a href="{{ url('businesses') }}">All Businesses</a>
                     <span class="icon-thumbnail"><i class="fas fa-list-alt"></i></span>
                 </li>
             </ul>
         </li>
         <li>
-            <a href="{{ url('clients') }}">
+            <a href="javascript:;">
                 <span class="title">Clients</span>
+                <span class="arrow"></span>
             </a>
             <span class="icon-thumbnail">
-                <i class="fa fa-users"></i>
+                <i class="fas fa-users"></i>
             </span>
+            <ul class="sub-menu">
+                <li>
+                    <a href="{{ url('clients') }}">Active Clients</a>
+                    <span class="icon-thumbnail"><i class="fas fa-list-alt"></i></span>
+                </li>
+                <li>
+                    <a href="{{ url('clients/unactive') }}">Unactive Clients</a>
+                    <span class="icon-thumbnail"><i class="fas fa-bed"></i></span>
+                </li>
+            </ul>
         </li>
         <li>
             <a href="javascript:;">
