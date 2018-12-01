@@ -199,6 +199,12 @@ function()
                 Route::get('/', 'ParticularClientController@show');
             });
         });
+
+        // Requests UIs
+        Route::prefix('requests')->group(function () {
+            Route::get('subscriptions', function () { return view('requests.backoffice.staff.subscriptions'); });
+            Route::get('updates', function () { return view('requests.backoffice.staff.updates'); });
+        });
     });
     //Staff routes end
 

@@ -169,6 +169,68 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="card-title">
+                                Update/Subscription Request
+                                <a 
+                                    href="javascript:;" 
+                                    data-toggle="tooltip" 
+                                    data-placement="bottom" 
+                                    data-html="true" 
+                                    trigger="click" 
+                                    title= "<p class='tooltip-text'>You can use this form to create a new staff if you have the right permissions.<br>
+                                            If you have any difficulties please <a href='#'>contact the support</a></p>"> 
+                                    <i class="fas fa-question-circle"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    This is a new subscription request
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    This business has made some changes
+                                </div>
+                            </div>
+                            <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
+                                <div class="col-md-12">
+                                    <form action="" method="post">
+                                        @csrf
+                                        <input type="hidden" name="email" value="">
+                                        <button class="btn btn-block"><i class="fas fa-check"></i> <strong>Approve</strong></button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="row m-t-10">
+                                <div class="col-md-12">
+                                    Or decline this request for :
+                                </div>
+                            </div>
+                            <div class="row m-t-10">
+                                <div class="col-md-12">
+                                    <div class="btn-group dropdown">
+                                        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" id="selected_reason"> Chose a reason <span class="caret"></span> </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">Not following terms and conditions</a>
+                                            </li>
+                                            <li><a href="#">use of offensive, discrimination or sexual references</a>
+                                            </li>
+                                            <li><a href="#">use of unvalid informations</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
                                 Publish
                                 <a 
                                     href="javascript:;" 
@@ -182,7 +244,7 @@
                                 </a>
                             </div>
                         </div>
-                         <div class="card-body">
+                        <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
                                     Status : <strong>@if($partner->deleted_at == NULL) Publish @else Removed @endif</strong>
