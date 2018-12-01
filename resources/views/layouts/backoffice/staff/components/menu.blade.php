@@ -311,13 +311,13 @@
             </span>
             <ul class="sub-menu">
                 <li>
-                    <a href="javascript:;">Subscription Requests</a>
+                    <a href="{{ url('requests/subscriptions') }}">Subscriptions</a>
                     <span class="icon-thumbnail">
                         <i class="fas fa-user-plus"></i>
                     </span>
                 </li>
                 <li>
-                    <a href="javascript:;">Update Requests</a>
+                    <a href="{{ url('requests/updates') }}">Updates</a>
                     <span class="icon-thumbnail">
                         <i class="fas fa-user-edit"></i>
                     </span>
