@@ -33,7 +33,7 @@
     <div class="card card-transparent">
         <div class="card-header">
             <div class="card-title">
-                Add a new Business
+                Add a new Business {{$errors}}
                 <a 
                     href="javascript:;" 
                     data-toggle="tooltip" 
@@ -46,7 +46,7 @@
                 </a>
             </div>
         </div>
-        <form action="{{url('affiliates')}}" method="POST" id="form" enctype="multipart/form-data">
+        <form action="{{url('businesses')}}" method="POST" id="form" enctype="multipart/form-data">
         {{ csrf_field() }}
         <div class="card-body">
             <div class="row">
@@ -462,13 +462,13 @@
             });
         $("#save").click( function () {
             $('#description').val($('#summernote').summernote().code());
-            $('#form').attr('action', '{{ url('affiliates') }}');
+            $('#form').attr('action', '{{ url('businesses') }}');
             $('#form').submit();
         });
 
         $("#save_new").click( function () {
             $('#description').val($('#summernote').summernote().code());
-            $('#form').attr('action', '{{ url('affiliates')."/create" }}');
+            $('#form').attr('action', '{{ url('businesses')."/create" }}');
             $('#form').submit();
         });
 

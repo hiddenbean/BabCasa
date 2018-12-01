@@ -49,7 +49,7 @@
             
         </div>
         <div class="card-body">
-            <form action="{{route('multi_delete.staff')}}" method="post">
+            <form action="{{route('multi_delete.businesses')}}" method="post">
                 {{ method_field('DELETE') }}
                 {{ csrf_field() }}
                 <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
@@ -68,6 +68,34 @@
                         <th style="width:100px">Account status</th>
                     </thead> 
                     <tbody>  
+                            @foreach($businesses as $business)
+                            <tr role="row" id="0">
+                                @if (auth()->guard('staff')->user()->can('write','partner'))
+                                <td class="v-align-middle p-l-5 p-r-5">
+                                    <div class="checkbox no-padding no-margin text-center">
+                                        <input type="checkbox" value="{{$business->id}}" name="businesses[]" id="checkbox{{$business->id}}">
+                                        <label for="checkbox{{$business->id}}" class="no-padding no-margin"></label>
+                                    </div>
+                                </td>
+                                
+                                <td class="v-align-middle text-center p-l-5 p-r-5">
+                                    <a href="{{url('businesses/'.$business->name.'/edit')}}"><i class="fas fa-pen fa-sm"></i> <strong>Edit</strong></a>
+                                    </td> 
+                                <td class="v-align-middle text-center p-l-5 p-r-5">
+                                    <a href="{{route('delete.business',['business'=>$business->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="text-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
+                                </td>
+                                @endif
+                                <td class="v-align-middle picture">
+                                        <a href="{{url('businesses/'.$business->name)}}"><img src="@if(isset($business->picture->path)) {{Storage::url($business->picture->path)}} @else {{asset('img/img_placeholder.png')}} @endif" alt="cat1"></a>
+                                    </td>
+                                <td class="v-align-middle"><a href="{{url('businesses/'.$business->name)}}"><strong>{{$business->company_name }}</strong></a></td>
+                                <td class="v-align-middle"><a href="{{url('businesses/'.$business->name)}}"><strong>{{$business->name }}</strong></a></td>
+                                <td class="v-align-middle">{{$business->email }}</td>
+                                <td class="v-align-middle"><strong>{{$business->first_name.' '.$business->last_name }}</strong></td>
+                                <td class="v-align-middle">{{$business->phones()->where('tag','admin')->first()->country->phone_code.' '.$business->phones()->where('tag','admin')->first()->number}}</td>
+                                <td class="v-align-middle"><strong> {{$business->status->first()->is_approved ? 'approves' : 'rejected'}}</strong></td>
+                            </tr>
+                            @endforeach
                         
                     </tbody>
                 </table>

@@ -5,11 +5,14 @@ namespace App;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
+
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 
 class Business extends Authenticatable
 {
 
+    use Notifiable;
     use SoftDeletes;
     use LogsActivity;
 
@@ -24,7 +27,7 @@ class Business extends Authenticatable
     
     protected $guard = 'business';
 
-    protected $fillable = ['name', 'company_name', 'email', 'password', 'about', 'trade_registry', 'ice', 'taxe_id', 'is_register_to_newsletter'];
+    protected $fillable = ['name', 'company_name', 'email', 'password', 'about','first_name', 'last_name', 'admin_email', 'trade_registry', 'ice', 'taxe_id', 'is_register_to_newsletter'];
 
     protected $hidden = ['password', 'remember_token'];
 
@@ -40,17 +43,17 @@ class Business extends Authenticatable
 
     public function picture()
     {
-        return $this->morphOne('App\Picture', 'pictureable');
+        return $this->morphOne('App\Picture', 'pictureable')->withTrashed();;
     }
 
-    public function Phones()
+    public function phones()
     {
-        return $this->morphMany('App\Phone', 'phoneable');
+        return $this->morphMany('App\Phone', 'phoneable')->withTrashed();;
     }
 
     public function address()
     {
-        return $this->morphOne('App\Address', 'addressable');
+        return $this->morphOne('App\Address', 'addressable')->withTrashed();;
     }
 
     public function pins()

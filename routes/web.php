@@ -547,12 +547,14 @@ Route::domain('staff.babcasa.com')->group(function (){
             Route::delete('delete/multiple', 'ProfileController@multiDestroy')->name('delete.profiles');
         });
     
-    Route::prefix('clients')->group(function(){
-        Route::prefix('business')->middleware('CanRead:profile')->group( function(){
-            Route::delete('multi-destroy', 'BusinessController@multiDestroy')->name('multi_delete.businesses');
-            Route::delete('{business}/destroy', 'BusinessController@destroy')->name('delete.business');
-            Route::post('multi-restore', 'BusinessController@multiRestore')->name('multi_restore.businesses');
-            Route::post('{business}/restore', 'BusinessController@restore')->name('restore.business');
-        });
+    Route::prefix('businesses')->group(function(){
+        Route::post('/', 'BusinessController@storeWithRedirect');
+        Route::post('/create', 'BusinessController@storeAndNew');
+        Route::put('{business}','BusinessController@update');
+        Route::post('{business}/password/reset', 'BusinessController@reset');
+        Route::delete('multi-destroy', 'BusinessController@multiDestroy')->name('multi_delete.businesses');
+        Route::delete('{business}/destroy', 'BusinessController@destroy')->name('delete.business');
+        Route::post('multi-restore', 'BusinessController@multiRestore')->name('multi_restore.businesses');
+        Route::post('{business}/restore', 'BusinessController@restore')->name('restore.business');
     });
 });

@@ -90,6 +90,7 @@ class PartnerController extends Controller
     {
         $this->validateRequest($request);
 
+        $request['full_name'] =$request->first_name.' '.$request->last_name;
         $AddressController = new AddressController();
         $AddressController->validateRequest($request);
         
@@ -172,7 +173,6 @@ class PartnerController extends Controller
      * 
      */
     public function storeWithRedirect(Request $request) {
-        $request['full_name'] =$request->first_name.' '.$request->last_name;;
         $partner = self::store($request);
         return redirect('affiliates/'.$partner->name);
     }
