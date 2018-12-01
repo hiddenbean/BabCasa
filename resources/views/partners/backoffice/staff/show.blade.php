@@ -195,11 +195,8 @@
                             </div>
                             <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
                                 <div class="col-md-12">
-                                    <form action="" method="post">
-                                        @csrf
-                                        <input type="hidden" name="email" value="">
-                                        <button class="btn btn-block"><i class="fas fa-check"></i> <strong>Approve</strong></button>
-                                    </form>
+                                        <a  href="{{url('affiliates/'.$partner->id.'/disapprove/0')}}" class="btn btn-block"  data-method="post"  data-token="{{csrf_token()}}"><i class="fas fa-check"></i> <strong>Approve</strong></a>
+
                                 </div>
                             </div>
                             <div class="row m-t-10">
@@ -212,12 +209,10 @@
                                     <div class="btn-group dropdown">
                                         <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" id="selected_reason"> Chose a reason <span class="caret"></span> </a>
                                         <ul class="dropdown-menu">
-                                            <li><a href="#">Not following terms and conditions</a>
-                                            </li>
-                                            <li><a href="#">use of offensive, discrimination or sexual references</a>
-                                            </li>
-                                            <li><a href="#">use of unvalid informations</a>
-                                            </li>
+                                                @foreach($reasons as $reason)
+                                                <li><a href="{{url('affiliates/'.$partner->id.'/disapprove/'.$reason->id)}}"  data-method="post"  data-token="{{csrf_token()}}">{{$reason->reasonLang()->reference}}</a></li>
+                                                @endforeach
+                                            
                                         </ul>
                                     </div>
                                 </div>

@@ -526,6 +526,7 @@ Route::domain('staff.babcasa.com')->group(function (){
     Route::prefix('affiliates')->middleware('CanWrite:partner')->group(function() {
         Route::post('/', 'PartnerController@storeWithRedirect');
         Route::post('/create', 'PartnerController@storeAndNew'); 
+        Route::post('{partner}/disapprove/{reason}', 'PartnerController@disapprove');
         Route::post('/multi-restore', 'PartnerController@multiRestore'); 
         Route::delete('multi-destroy', 'PartnerController@multiDestroy')->name('multi_delete.affiliates');
         Route::delete('multi-restore', 'PartnerController@multiRestore');
@@ -555,6 +556,7 @@ Route::domain('staff.babcasa.com')->group(function (){
     
     Route::prefix('businesses')->group(function(){
         Route::post('/', 'BusinessController@storeWithRedirect');
+        Route::post('{business}/disapprove/{reason}', 'BusinessController@disapprove');
         Route::post('/create', 'BusinessController@storeAndNew');
         Route::put('{business}','BusinessController@update');
         Route::post('{business}/password/reset', 'BusinessController@reset');

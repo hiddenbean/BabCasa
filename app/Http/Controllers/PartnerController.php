@@ -500,6 +500,27 @@ class PartnerController extends Controller
             'guests' => $guests,
         ]);
     }
+    public function disapprove($partner,$reason)
+    {
+        $status = new Status();
+        $status->user_id = $partner;
+        $status->user_type = 'partner';
+        $status->staff_id = auth()->guard('staff')->user()->id;
+        if($reason != 0)
+        {
+            $status->is_approved =false;
+            $status->save();
+            $Reason = Reason::findOrFail($reason);
+            $status->reasons()->attach($Reason->id);
+
+        }else
+        {
+            $status->is_approved =true;
+            $status->save();
+        }
+       
+        return redirect()->back();
+    }
 
     /**
      * Desable partners account.

@@ -297,6 +297,28 @@ class BusinessController extends Controller
             
         return redirect('businesses');
     }
+    
+    public function disapprove($business,$reason)
+    {
+        $status = new Status();
+        $status->user_id = $business;
+        $status->user_type = 'business';
+        $status->staff_id = auth()->guard('staff')->user()->id;
+        if($reason != 0)
+        {
+            $status->is_approved =false;
+            $status->save();
+            $Reason = Reason::findOrFail($reason);
+            $status->reasons()->attach($Reason->id);
+
+        }else
+        {
+            $status->is_approved =true;
+            $status->save();
+        }
+       
+        return redirect()->back();
+    }
 
     /**
      * Remove the specified resource from storage.
