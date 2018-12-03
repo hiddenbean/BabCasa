@@ -52,14 +52,14 @@
                                 </div>
                             </div>
                             <form action="{{url('details/'.$detail->id.'/translations')}}" method="POST">
-                              {{ csrf_field() }}
+                            {{ csrf_field() }}
                             <div class="card-body">
                                     <!-- Nav tabs -->
                                     <ul class="nav nav-tabs">
                                             @foreach($languages as $key=>$language)
                                             @if(isset($detail->detailLangs->where('lang_id',$language->id)->first()->value)&& !empty($detail->detailLangs->where('lang_id',$language->id)->first()->value))
                                                 <li>
-                                                <a data-toggle="tab" href="#{{$language->id}}">
+                                                <a data-toggle="tab" class="{{$language->id==$detail->detailLang()->lang_id ? 'active' : ''}}" href="#{{$language->id}}">
                                                     <span>{{$language->name}}</span>
                                                     </a>
                                                 </li>

@@ -99,11 +99,10 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                  @foreach($permissions as $permission)
-                                    <div class="col-md-6 m-t-10">
-                                        <div class="row">
+                                @foreach($permissions as $permission)
+                                    <div class="col-md-6 m-t-15">
+                                        <div class="row m-b-10">
                                             <div class="col-md-6">
-                                                <span class="uppercase">{{$permission->permissionLang()->reference}}</span> 
                                                 <a 
                                                     href="javascript:;" 
                                                     data-toggle="tooltip" 
@@ -114,10 +113,13 @@
                                                             If you have any difficulties please <a href='#'>contact the support</a></p>"> 
                                                     <i class="fas fa-question-circle"></i>
                                                 </a>
-                                                : <strong>
-                                                {{$profile->permissions()->where('permission_id',$permission->id)->where('can_read',0)->where('can_write',0)->first() ? 'none' :''}}
-                                                {{$profile->permissions()->where('permission_id',$permission->id)->where('can_read',1)->where('can_write',0)->first() ? 'read' :''}}
-                                                {{$profile->permissions()->where('permission_id',$permission->id)->where('can_read',1)->where('can_write',1)->first() ? 'read/write' :''}}
+                                                <span class="uppercase">{{$permission->permissionLang()->reference}}</span> :
+                                            </div>
+                                            <div class="col-md-6">
+                                                <strong>
+                                                    {{$profile->permissions()->where('permission_id',$permission->id)->where('can_read',0)->where('can_write',0)->first() ? 'none' :''}}
+                                                    {{$profile->permissions()->where('permission_id',$permission->id)->where('can_read',1)->where('can_write',0)->first() ? 'read' :''}}
+                                                    {{$profile->permissions()->where('permission_id',$permission->id)->where('can_read',1)->where('can_write',1)->first() ? 'read/write' :''}}
                                                 </strong>  
                                             </div>
                                         </div>

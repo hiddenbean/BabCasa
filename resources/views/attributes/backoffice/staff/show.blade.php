@@ -8,20 +8,22 @@
 @stop
 @section('content')
 <!-- breadcrumb start -->
-<div class="container-fluid container-fixed-lg ">
-    <div class="row">
-        <div class="col-md-12">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                    <a href="{{ url('/') }}">DASHBOARD</a>
-                </li>
-                <li class="breadcrumb-item">
-                    <a href="{{ url('/attributes') }}">attribute</a>
-                </li>
-                <li class="breadcrumb-item active">
-                    ID : {{$attribute->id}}
-                </li>
-            </ol>
+<div class="jumbotron">
+    <div class="container-fluid container-fixed-lg ">
+        <div class="row">
+            <div class="col-md-12">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{{ url('/') }}">DASHBOARD</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="{{ url('/attributes') }}">attribute</a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        ID : {{$attribute->id}}
+                    </li>
+                </ol>
+            </div>
         </div>
     </div>
 </div>
@@ -42,7 +44,7 @@
                         @foreach($languages as $key=>$language)
                         @if(isset($attribute->attributeLangs->where('lang_id',$language->id)->first()->reference)&& !empty($attribute->attributeLangs->where('lang_id',$language->id)->first()->reference))
                             <li >
-                                <a data-toggle="tab" href="#{{$language->id}}">
+                                <a data-toggle="tab" class="{{$language->id==$attribute->attributeLang()->lang_id ? 'active' : ''}}" href="#{{$language->id}}">
                                     <span>{{$language->name}}</span>
                                     </a>
                                 </li>

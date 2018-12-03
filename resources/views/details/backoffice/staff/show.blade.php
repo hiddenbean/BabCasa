@@ -8,20 +8,22 @@
 @stop
 @section('content')
 <!-- breadcrumb start -->
-<div class="container-fluid container-fixed-lg ">
-    <div class="row">
-        <div class="col-md-12">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                    <a href="{{ url('/') }}">DASHBOARD</a>
-                </li>
-                <li class="breadcrumb-item">
-                    <a href="{{ url('/details') }}">Detail</a>
-                </li>
-                <li class="breadcrumb-item active">
-                    ID : {{ $detail->id }}
-                </li>
-            </ol>
+<div class="jumbotron">
+    <div class="container-fluid container-fixed-lg ">
+        <div class="row">
+            <div class="col-md-12">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{{ url('/') }}">DASHBOARD</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="{{ url('/details') }}">Details</a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        ID : {{ $detail->id }}
+                    </li>
+                </ol>
+            </div>
         </div>
     </div>
 </div>
@@ -42,7 +44,7 @@
                             @foreach($languages as $key=>$language)
                             @if(isset($detail->detailLangs->where('lang_id',$language->id)->first()->value)&& !empty($detail->detailLangs->where('lang_id',$language->id)->first()->value))
                                 <li >
-                                    <a data-toggle="tab" href="#{{$language->id}}">
+                                    <a data-toggle="tab" class="{{$language->id==$detail->detailLang()->lang_id ? 'active' : ''}}" href="#{{$language->id}}">
                                         <span>{{$language->name}}</span>
                                         </a>
                                     </li>
@@ -51,13 +53,12 @@
                         </ul>
                         <!-- Tab panes -->
                         <div class="tab-content">
-                             @foreach($languages as $key=> $language)
-                             <!-- silde  {{$key}} start -->
-                             <div class="tab-pane slide-left {{$language->id==$detail->detailLang()->lang_id ? 'active' : ''}}" id="{{$language->id}}">
+                            @foreach($languages as $key=> $language)
+                            <!-- silde  {{$key}} start -->
+                            <div class="tab-pane slide-left {{$language->id==$detail->detailLang()->lang_id ? 'active' : ''}}" id="{{$language->id}}">
                                     @if(isset($detail->detailLangs->where('lang_id',$language->id)->first()->value)&& !empty($detail->detailLangs->where('lang_id',$language->id)->first()->value))
                                 <div class="row">
-                             
-                                     <div class="col-md-12">
+                                    <div class="col-md-12">
                                         <div class="row m-b-10">
                                             <div class="col-md-3 uppercase">
                                                 Name

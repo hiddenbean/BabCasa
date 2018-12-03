@@ -433,7 +433,17 @@ td.picture > a > img{
 
 .fa-google {
     color: #dd4b39;
-  }
+}
 .fa-facebook-f {
     color: #3b5998;
-  }
+}
+
+.nav li a.active {
+    color: white;
+    background: #ef1b24;
+}
+
+.nav-tabs > li > a:hover, .nav-tabs > li > a:active{
+    color: white;
+    background: #f55753;
+}

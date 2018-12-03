@@ -71,58 +71,56 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="card-body">
-                    <form action="{{route('delete.profiles')}}" method="post">
-                    {{ method_field('DELETE') }}
-                    {{ csrf_field() }}
-                    <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
-                        <thead>
+            <div class="card-body">
+                <form action="{{route('delete.profiles')}}" method="post">
+                {{ method_field('DELETE') }}
+                {{ csrf_field() }}
+                <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
+                    <thead>
+                    @if (auth()->guard('staff')->user()->can('write','profile'))
+                        <th class="text-center" style="width:35px"><button class="btn btn-link" type="submit"><i class="fas fa-trash-alt"></i></button></th>
+                    @endif
+                        <th style="width:62px"></th>
+                        <th style="width:62px"></th>
+                        <th style="width:150px">Profile</th>           
+                        <th style="width:100px">Description</th>
+                        <th style="width:100px">Accounts</th>
+                        <th style="width:100px">Languages</th>
+                    </thead> 
+                    <tbody>      
+                    @foreach($profiles as $profile) 
+                    <tr role="row" id="0">
                         @if (auth()->guard('staff')->user()->can('write','profile'))
-                            <th class="text-center" style="width:35px"><button class="btn btn-link" type="submit"><i class="fas fa-trash-alt"></i></button></th>
-                        @endif
+                            <td class="v-align-middle p-l-5 p-r-5">
+                                <div class="checkbox no-padding no-margin text-center">
+                                    <input type="checkbox" value="{{$profile->id}}" name="profiles[]" id="checkbox{{$profile->id}}">
+                                    <label for="checkbox{{$profile->id}}" class="no-padding no-margin"></label>
+                                </div>
+                            </td>
                         
-                            <th style="width:62px"></th>
-                            <th style="width:62px"></th>
-                            <th style="width:150px">Profile</th>           
-                            <th style="width:100px">Description</th>
-                            <th style="width:100px">Accounts</th>
-                            <th style="width:100px">Languages</th>
-                        </thead> 
-                        <tbody>      
-                        @foreach($profiles as $profile) 
-                         <tr role="row" id="0">
-                            @if (auth()->guard('staff')->user()->can('write','profile'))
-                                <td class="v-align-middle p-l-5 p-r-5">
-                                    <div class="checkbox no-padding no-margin text-center">
-                                        <input type="checkbox" value="{{$profile->id}}" name="profiles[]" id="checkbox{{$profile->id}}">
-                                        <label for="checkbox{{$profile->id}}" class="no-padding no-margin"></label>
-                                    </div>
-                                </td>
-                            
-                                <td class="v-align-middle text-center p-l-5 p-r-5">
-                                    <a href="{{url('profiles/'.$profile->id.'/edit')}}"><i class="fas fa-pen fa-sm"></i> <strong>Edit</strong></a>
-                                    </td> 
-                                <td class="v-align-middle text-center p-l-5 p-r-5">
-                                    <a href="{{route('delete.profile',['profile'=>$profile->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="text-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
-                                </td>
-                            @endif
-                                <td class="v-align-middle"><a href="{{url('profiles/'.$profile->id)}}"><strong>{{$profile->profileLang()->reference }}</strong></a></td>
-                                <td class="v-align-middle">{!!$profile->profileLang()->description!!}</td>
-                                <td class="v-align-middle">{{$profile->staff()->count() }}</td>
-                                <td class="v-align-middle">
-                                    @foreach($profile->profileLangs as $profileLang)
-                                        @if($profileLang->reference != "")
-                                            <a href="#" class="btn btn-tag">{{$profileLang->lang->alpha_2_code}}</a>
-                                        @endif
-                                    @endforeach
-                                </td>
-
+                            <td class="v-align-middle text-center p-l-5 p-r-5">
+                                <a href="{{url('profiles/'.$profile->id.'/edit')}}"><i class="fas fa-pen fa-sm"></i> <strong>Edit</strong></a>
+                            </td> 
+                            <td class="v-align-middle text-center p-l-5 p-r-5">
+                                <a href="{{route('delete.profile',['profile'=>$profile->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="text-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
+                            </td>
+                        @endif
+                            <td class="v-align-middle"><a href="{{url('profiles/'.$profile->id)}}"><strong>{{$profile->profileLang()->reference }}</strong></a></td>
+                            <td class="v-align-middle">{!!$profile->profileLang()->description!!}</td>
+                            <td class="v-align-middle">{{$profile->staff()->count() }}</td>
+                            <td class="v-align-middle">
+                                @foreach($profile->profileLangs as $profileLang)
+                                    @if($profileLang->reference != "")
+                                        <a href="#" class="btn btn-tag">{{$profileLang->lang->alpha_2_code}}</a>
+                                    @endif
+                                @endforeach
+                            </td>
                         </tr>
-                        @endforeach            
-                        </tbody>
-                    </table>
-                </div>
+                    @endforeach            
+                    </tbody>
+                </table>
             </div> 
         </div>
     </div>

@@ -60,7 +60,7 @@
                                                 @foreach($languages as $key=>$language)
                                                 @if(isset($attribute->attributeLangs->where('lang_id',$language->id)->first()->reference)&& !empty($attribute->attributeLangs->where('lang_id',$language->id)->first()->reference))
                                                     <li>
-                                                    <a data-toggle="tab" href="#{{$language->id}}">
+                                                    <a data-toggle="tab" class="{{$language->id==$attribute->attributeLang()->lang_id ? 'active' : ''}}" href="#{{$language->id}}">
                                                         <span>{{$language->name}}</span>
                                                         </a>
                                                     </li>

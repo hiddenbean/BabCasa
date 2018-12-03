@@ -12,7 +12,7 @@ class TagController extends Controller
 {
     public function __construct()
     {
-         $this->middleware('auth:staff');
+        $this->middleware('auth:staff');
     }
      /**
      * Get a validator for an incoming registration request.
@@ -69,15 +69,15 @@ class TagController extends Controller
         $tag = new Tag();
         $tag->save(); 
 
-         // Add LANGUAGES 
-         foreach(Language::all() as $lang)
-         {
-            $tagLang = new TagLang();
-            $tagLang->tag = ($lang->id == $request->language) ? $request->tag : ""; 
-            $tagLang->tag_id = $tag->id; 
-            $tagLang->lang_id = $lang->id;
-            $tagLang->save();
-         }
+        // Add LANGUAGES 
+        foreach(Language::all() as $lang)
+        {
+        $tagLang = new TagLang();
+        $tagLang->tag = ($lang->id == $request->language) ? $request->tag : ""; 
+        $tagLang->tag_id = $tag->id; 
+        $tagLang->lang_id = $lang->id;
+        $tagLang->save();
+        }
         
         return  $tag;
     }
@@ -108,7 +108,7 @@ class TagController extends Controller
         $data['tag'] = Tag::findOrFail($tag);
         $data['languages'] = Language::all();
         $data['products'] = $data['tag']->products;
-        return view('tags.backoffice.staff.show',$data);
+        return view('tags.backoffice.staff.show', $data);
     }
     
     /**

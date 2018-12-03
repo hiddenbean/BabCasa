@@ -8,20 +8,22 @@
 @stop
 @section('content')
 <!-- breadcrumb start -->
-<div class="container-fluid container-fixed-lg ">
-    <div class="row">
-        <div class="col-md-12">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                    <a href="{{ url('/') }}">DASHBOARD</a>
-                </li>
-                <li class="breadcrumb-item">
-                    <a href="{{ url('/countries') }}">Countries</a>
-                </li>
-                <li class="breadcrumb-item active">
-                    ID : {{$country->id}}
-                </li>
-            </ol>
+<div class="jumbotron">
+    <div class="container-fluid container-fixed-lg ">
+        <div class="row">
+            <div class="col-md-12">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{{ url('/') }}">DASHBOARD</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="{{ url('/countries') }}">Countries</a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        ID : {{$country->id}}
+                    </li>
+                </ol>
+            </div>
         </div>
     </div>
 </div>
@@ -38,63 +40,43 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-12">
-                            <h5>
-                                Name
-                            </h5>
+                        <div class="col-md-3 uppercase">
+                            Name
+                        </div>
+                        <div class="col-md-9">
+                            <strong>{{$country->name}}</strong>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12">
-                            {{$country->name}}
+                        <div class="col-md-3 uppercase">
+                            Alpha 2 Code
+                        </div>
+                        <div class="col-md-9">
+                            <strong>{{$country->alpha_2_code}}</strong>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12">
-                            <h5>
-                                Alpha 2 Code
-                            </h5>
+                        <div class="col-md-3 uppercase">
+                            Phone code
+                        </div>
+                        <div class="col-md-9">
+                            <strong>{{$country->phone_code}}</strong>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12">
-                            {{$country->alpha_2_code}}
+                        <div class="col-md-3 uppercase">
+                            Currency
+                        </div>
+                        <div class="col-md-9">
+                            <strong>{{$country->currency}}</strong>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12">
-                            <h5>
-                                Phone code
-                            </h5>
+                        <div class="col-md-3 uppercase">
+                            Currency Symbole
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            {{$country->phone_code}}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h5>
-                                Currency
-                            </h5>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            {{$country->currency}}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h5>
-                                Currency Symbole
-                            </h5>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            {{$country->currency_symbole}}
+                        <div class="col-md-9">
+                            <strong>{{$country->currency_symbole}}</strong>
                         </div>
                     </div>
                 </div>

@@ -23,20 +23,22 @@
 @endif
 
 <!-- breadcrumb start -->
-<div class="container-fluid container-fixed-lg ">
-    <div class="row">
-        <div class="col-md-12">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                    <a href="{{ url('/') }}">DASHBOARD</a>
-                </li>
-                <li class="breadcrumb-item">
-                    <a href="{{ url('/staff') }}">Staff</a>
-                </li>
-                <li class="breadcrumb-item active">
-                    ID : {{$staff->id}}
-                </li>
-            </ol>
+<div class="jumbotron">
+    <div class="container-fluid container-fixed-lg ">
+        <div class="row">
+            <div class="col-md-12">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{{ url('/') }}">DASHBOARD</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="{{ url('/staff') }}">Staff</a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        ID : {{$staff->id}}
+                    </li>
+                </ol>
+            </div>
         </div>
     </div>
 </div>
@@ -200,7 +202,7 @@
                                 </a>
                             </div>
                         </div>
-                         <div class="card-body">
+                        <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
                                     Status : <strong>@if($staff->deleted_at == NULL) Publish @else Removed @endif</strong>
@@ -285,28 +287,9 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                {{--  <div class="card-header">
-                    <div class="card-title">
-                        Activity Log
-                        <a 
-                            href="javascript:;" 
-                            data-toggle="tooltip" 
-                            data-placement="bottom" 
-                            data-html="true" 
-                            trigger="click" 
-                            title= "<p class='tooltip-text'>You can use this form to create a new staff if you have the right permissions.<br>
-                                    If you have any difficulties please <a href='#'>contact the support</a></p>"> 
-                            <i class="fas fa-question-circle"></i>
-                        </a>
-                    </div>
-                </div>  --}}
-                <div class="card-body">
 
     @include('logs.backoffice.componments.table')
-</div>
+
 
 @include('staff.backoffice.staff.componments.modal_password_gen')
 @endsection

@@ -41,7 +41,7 @@
                             <div class="card-title">
                                 Categoriy translations
                                 <a 
-                                    href="javascript:;" 
+                                    href="javascript:;"
                                     data-toggle="tooltip" 
                                     data-placement="bottom" 
                                     data-html="true" 
@@ -56,9 +56,9 @@
                             <!-- Nav tabs -->
                             <ul class="nav nav-tabs">
                                     @foreach($languages as $key=>$language)
-                                    @if(isset($category->categoryLangs->where('lang_id',$language->id)->first()->reference)&& !empty($category->categoryLangs->where('lang_id',$language->id)->first()->reference))
+                                    @if(isset($category->categoryLangs->where('lang_id',$language->id)->first()->reference) && !empty($category->categoryLangs->where('lang_id',$language->id)->first()->reference))
                                         <li>
-                                        <a data-toggle="tab" href="#{{$language->id}}" >
+                                        <a data-toggle="tab" class="{{$language->id==$category->categoryLang()->lang_id ? 'active' : ''}}" href="#{{$language->id}}" >
                                             <span>{{$language->name}}</span>
                                             </a>
                                         </li>

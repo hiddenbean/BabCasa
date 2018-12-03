@@ -16,20 +16,22 @@
 @endif
 
 <!-- breadcrumb start -->
-<div class="container-fluid container-fixed-lg ">
-    <div class="row">
-        <div class="col-md-12">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                    <a href="{{ url('/') }}">DASHBOARD</a>
-                </li>
-                <li class="breadcrumb-item">
-                    <a href="{{ url('/categories') }}">categories</a>
-                </li>
-                <li class="breadcrumb-item active">
-                    {{ $category->categoryLang()->reference}}
-                </li>
-            </ol>
+<div class="jumbotron">
+    <div class="container-fluid container-fixed-lg ">
+        <div class="row">
+            <div class="col-md-12">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{{ url('/') }}">DASHBOARD</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="{{ url('/categories') }}">categories</a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        {{ $category->categoryLang()->reference}}
+                    </li>
+                </ol>
+            </div>
         </div>
     </div>
 </div>
@@ -50,27 +52,27 @@
                         @foreach($languages as $key=>$language)
                         @if(isset($category->categoryLangs->where('lang_id',$language->id)->first()->reference)&& !empty($category->categoryLangs->where('lang_id',$language->id)->first()->reference))
                             <li>
-                                <a data-toggle="tab" href="#{{$language->id}}">
-                                    <span>{{$language->name}}</span>
-                                    </a>
-                                </li>
-                                @endif
-                        @endforeach
+                                <a data-toggle="tab" class="{{$language->id==$category->categoryLang()->lang_id ? 'active' : ''}}" href="#{{$language->id}}">
+                                <span>{{$language->name}}</span>
+                                </a>
+                            </li>
+                        @endif
+                    @endforeach
                     </ul>
                     <!-- Tab panes -->
                     <div class="tab-content">
-                         @foreach($languages as $key=> $language)
-                         <!-- silde  {{$key}} start -->
-                         <div class="tab-pane slide-left {{$language->id==$category->categoryLang()->lang_id ? 'active' : ''}}" id="{{$language->id}}">
+                        @foreach($languages as $key=> $language)
+                        <!-- silde  {{$key}} start -->
+                        <div class="tab-pane slide-left {{$language->id==$category->categoryLang()->lang_id ? 'active' : ''}}" id="{{$language->id}}">
                                 @if(isset($category->categoryLangs->where('lang_id',$language->id)->first()->reference)&& !empty($category->categoryLangs->where('lang_id',$language->id)->first()->reference))
                             <div class="row">
-                             <div class="col-md-4 b-r b-dashed b-grey p-b-15">
+                                <div class="col-md-4 b-r b-dashed b-grey p-b-15">
                                     <h5>
                                         Picture
                                     </h5>
                                     <img src="@if(isset($category->picture->path)) {{Storage::url($category->picture->path)}} @else {{asset('img/img_placeholder.png')}} @endif" alt="cat1" width="100%">
                                 </div>
-                                 <div class="col-md-8">
+                                <div class="col-md-8">
                                     <div class="row m-b-10">
                                         <div class="col-md-3 uppercase">
                                             Name
