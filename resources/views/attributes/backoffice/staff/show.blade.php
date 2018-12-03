@@ -208,7 +208,7 @@
         </div>
     </div>
     
-    @include('products.backoffice.staff.componments.table')
+    @include('products.backoffice.staff.components.table')
 </div>
 @endsection
 

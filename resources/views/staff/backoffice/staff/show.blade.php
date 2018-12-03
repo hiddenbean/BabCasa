@@ -288,8 +288,8 @@
         </div>
     </div>
 
-    @include('logs.backoffice.componments.table')
+    @include('logs.backoffice.components.table')
 
 
-@include('staff.backoffice.staff.componments.modal_password_gen')
+@include('staff.backoffice.staff.components.modal_password_gen')
 @endsection

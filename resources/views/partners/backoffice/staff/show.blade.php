@@ -329,7 +329,7 @@
     </div>
 
 
-    @include('logs.backoffice.componments.table')
+    @include('logs.backoffice.components.table')
 </div>
 @include('partners.backoffice.staff.components.modal_password_gen')
 @endsection

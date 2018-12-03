@@ -26,7 +26,7 @@
     </div>
     <!-- breadcrumb end -->
     <div class="container-fluid container-fixed-lg">
-        @include('staff.backoffice.staff.componments.table')
+        @include('staff.backoffice.staff.components.table')
     </div>
     
 @endsection

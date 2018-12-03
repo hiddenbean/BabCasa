@@ -340,7 +340,7 @@
     </div>
 </div>
 
-@include('staff.backoffice.staff.componments.modal_password_gen')
+@include('staff.backoffice.staff.components.modal_password_gen')
 @endsection
 
 @section('before_script')
