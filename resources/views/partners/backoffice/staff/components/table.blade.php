@@ -95,7 +95,7 @@
                                 <td class="v-align-middle">{{$partner->email }}</td>
                                 <td class="v-align-middle"><strong>{{$partner->first_name.' '.$partner->last_name }}</strong></td>
                                 <td class="v-align-middle">{{$partner->phones()->where('tag','admin')->first()->country->phone_code.' '.$partner->phones()->where('tag','admin')->first()->number}}</td>
-                                <td class="v-align-middle"><strong> {{$partner->status->first()->is_approved ? 'approves' : 'rejected'}}</strong></td>
+                                <td class="v-align-middle"><strong> {{$partner->status->first()->is_approved!=0 ? 'approves' : 'rejected'}}</strong></td>
                             </tr>
                             @endforeach
                         

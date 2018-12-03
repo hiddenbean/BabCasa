@@ -247,6 +247,13 @@ class BusinessController extends Controller
         $business->taxe_id = $request->taxe_id;
         $business->save();
         
+        $status = new Status();
+        $status->is_approved = 2;
+        $status->user_id = $business->id;
+        $status->user_type = 'business';
+        $status->staff_id = auth()->guard('staff')->user()->id;
+        $status->save();
+        
         $address = $business->address;
         $address->address = $request->address;
         $address->address_two = $request->address_two;
@@ -307,14 +314,14 @@ class BusinessController extends Controller
         $status->staff_id = auth()->guard('staff')->user()->id;
         if($reason != 0)
         {
-            $status->is_approved =false;
+            $status->is_approved =0;
             $status->save();
             $Reason = Reason::findOrFail($reason);
             $status->reasons()->attach($Reason->id);
 
         }else
         {
-            $status->is_approved =true;
+            $status->is_approved =1;
             $status->save();
         }
        

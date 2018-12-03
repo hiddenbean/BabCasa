@@ -203,8 +203,8 @@ function()
 
         // Requests UIs
         Route::prefix('requests')->group(function () {
-            Route::get('subscriptions', function () { return view('requests.backoffice.staff.subscriptions'); });
-            Route::get('updates', function () { return view('requests.backoffice.staff.updates'); });
+            Route::get('subscriptions', 'StatusController@subscriptions');
+            Route::get('updates','StatusController@updates');
         });
     });
     //Staff routes end

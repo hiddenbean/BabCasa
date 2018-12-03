@@ -323,6 +323,13 @@ class PartnerController extends Controller
         $partner->is_register_to_newsletter = $is_register_to_newsletter;
         $partner->taxe_id = $request->taxe_id;
         $partner->save();
+
+        $status = new Status();
+        $status->is_approved = 2;
+        $status->user_id = $partner->id;
+        $status->user_type = 'partner';
+        $status->staff_id = auth()->guard('staff')->user()->id;
+        $status->save();
         
         $address = $partner->address;
         $address->address = $request->address;
@@ -509,14 +516,14 @@ class PartnerController extends Controller
         $status->staff_id = auth()->guard('staff')->user()->id;
         if($reason != 0)
         {
-            $status->is_approved =false;
+            $status->is_approved =0;
             $status->save();
             $Reason = Reason::findOrFail($reason);
             $status->reasons()->attach($Reason->id);
 
         }else
         {
-            $status->is_approved =true;
+            $status->is_approved = 1;
             $status->save();
         }
        
