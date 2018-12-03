@@ -70,18 +70,35 @@
                             <th style="width:100px">Admin phone</th>
                             <th style="width:100px">Request date</th>
                         </thead>
-                        @foreach($subscriptions as $subscription)
+                        @foreach($partners as $partner)
+                        @if($partner->status->first()->is_approved==2)
                         <tr role="row" id="0">
                             <td class="v-align-middle">
-                                {{$subscription->user_type}}
+                                partner
                             </td>
-                            <td class="v-align-middle"><a href="{{url(($subscription->user_type=="partner" ? "affiliates" : "businesses").'/'.$subscription->user->name)}}"><strong>{{$subscription->user->company_name }}</strong></a></td>
-                            <td class="v-align-middle"><a href="{{url(($subscription->user_type=="partner" ? "affiliates" : "businesses") .'/'.$subscription->user->name)}}"><strong>{{$subscription->user->name }}</strong></a></td>
-                            <td class="v-align-middle">{{$subscription->user->email }}</td>
-                            <td class="v-align-middle"><strong>{{$subscription->user->first_name.' '.$subscription->user->last_name }}</strong></td>
-                            <td class="v-align-middle">{{$subscription->user->phones()->where('tag','admin')->first()->country->phone_code.' '.$subscription->user->phones()->where('tag','admin')->first()->number}}</td>
-                            <td class="v-align-middle"> {{$subscription->user->updated_at}}</td>
+                            <td class="v-align-middle"><a href="{{url('affiliates/'.$partner->name)}}"><strong>{{$partner->company_name }}</strong></a></td>
+                            <td class="v-align-middle"><a href="{{url('affiliates/'.$partner->name)}}"><strong>{{$partner->name }}</strong></a></td>
+                            <td class="v-align-middle">{{$partner->status->where('is_approved',0)->first()->email }}</td>
+                            <td class="v-align-middle"><strong>{{$partner->first_name.' '.$partner->last_name }}</strong></td>
+                            <td class="v-align-middle">{{$partner->phones()->where('tag','admin')->first()->country->phone_code.' '.$partner->phones()->where('tag','admin')->first()->number}}</td>
+                            <td class="v-align-middle"> {{$partner->updated_at}}</td>
                         </tr>
+                        @endif
+                        @endforeach
+                        @foreach($businesses as $business)
+                        @if($business->status->first()->is_approved==2)
+                        <tr role="row" id="0">
+                            <td class="v-align-middle">
+                                business
+                            </td>
+                            <td class="v-align-middle"><a href="{{url('businesses/'.$business->name)}}"><strong>{{$business->company_name }}</strong></a></td>
+                            <td class="v-align-middle"><a href="{{url('businesses/'.$business->name)}}"><strong>{{$business->name }}</strong></a></td>
+                            <td class="v-align-middle">{{$business->email }}</td>
+                            <td class="v-align-middle"><strong>{{$business->first_name.' '.$business->last_name }}</strong></td>
+                            <td class="v-align-middle">{{$business->phones()->where('tag','admin')->first()->country->phone_code.' '.$business->phones()->where('tag','admin')->first()->number}}</td>
+                            <td class="v-align-middle"> {{$business->updated_at}}</td>
+                        </tr>
+                        @endif
                         @endforeach
                         <tbody> 
                         </tbody>

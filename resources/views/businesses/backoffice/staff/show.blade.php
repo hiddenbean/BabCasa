@@ -231,13 +231,16 @@
                                 </div>
                             </div>
                             <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
+                                    @if($business->status->where('is_approved','!=',1)->first())
+
                                 <div class="col-md-12">
                                         <a  href="{{url('businesses/'.$business->id.'/disapprove/0')}}" class="btn btn-block"  data-method="post"  data-token="{{csrf_token()}}"><i class="fas fa-check"></i> <strong>Approve</strong></a>
                                 </div>
+                                @endif
                             </div>
                             <div class="row m-t-10">
                                 <div class="col-md-12">
-                                    Or decline this request for :
+                                        To disapprove decline this request for :
                                 </div>
                             </div>
                             <div class="row m-t-10">

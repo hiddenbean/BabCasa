@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Status;
 use App\Partner;
+use App\Business;
 use Illuminate\Http\Request;
 
 class StatusController extends Controller
@@ -44,13 +45,14 @@ class StatusController extends Controller
      */
     public function subscriptions()
     {
-        $data['subscriptions'] = Status::where('is_approved',0)->get();
-        // return $data['subscriptions'][2]->user;
+        $data['partners'] = Partner::all();
+        $data['businesses'] = Business::all();
         return view('requests.backoffice.staff.subscriptions',$data);
     }
     public function updates()
     {
-        $data['subscriptions'] = Status::where('is_approved',2)->get();
+        $data['partners'] = Partner::all();
+        $data['businesses'] = Business::all();
         return view('requests.backoffice.staff.updates',$data); 
     }
     public function create()
