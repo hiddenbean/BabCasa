@@ -2,14 +2,18 @@
 
 namespace App;
 
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
+use App\Notifications\ClientSendPasswordResetLink;
 
-class ParticularClient extends Model
+class ParticularClient extends Authenticatable
 {
     use SoftDeletes;
     use LogsActivity;
+    use Notifiable;
 
     protected $fillable = ['name', 'email', 'password', 'first_name', 'last_name', 'birthday', 'gender_id', 'is_register_to_newsletter'];
 
@@ -34,9 +38,13 @@ class ParticularClient extends Model
         return $this->morphOne('App\Picture', 'pictureable');
     }
 
-    public function phones()
+    public function phone()
     {
-        return $this->morphMany('App\Phone', 'phoneable');
+        return $this->morphOne('App\Phone', 'phoneable');
+    }
+    public function gender()
+    {
+        return $this->belongsTo('App\Gender');
     }
 
     public function orders()
@@ -65,5 +73,9 @@ class ParticularClient extends Model
             $particular_client->picture()->withTrashed()->restore();
             $particular_client->phones()->withTrashed()->restore();
         });
+    }
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ClientSendPasswordResetLink($token));
     }
 }

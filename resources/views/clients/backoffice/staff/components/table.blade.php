@@ -50,12 +50,23 @@
                         <th style="width:150px">Email</th>
                         <th style="width:100px">Phone</th>
                         <th style="width:100px">Full name</th>
-                        <th style="width:100px">Birtrhday</th>
+                        <th style="width:100px">Birthday</th>
                         <th style="width:100px">Social media</th>   
                         <th style="width:100px">Account status</th>
                     </thead> 
-                    <tbody>  
-                        
+                    <tbody> 
+                        @foreach($particulars as $particular)
+                        <tr role="row" id="0">
+                            <td class="v-align-middle"><a href="{{url('clients/'.$particular->name)}}"><strong>{{$particular->name}}</a></strong></td>
+                            <td class="v-align-middle"><a href="{{url('clients/'.$particular->name)}}"><strong>{{$particular->email}}</a></strong></td>
+                            <td class="v-align-middle">{{$particular->phone->country->phone_code.$particular->phone->number}}</td>
+                            <td class="v-align-middle"><a href="{{url('clients/'.$particular->name)}}"><strong>{{$particular->first_name.' '.$particular->last_name}}</a></strong></td>
+                            <td class="v-align-middle">{{$particular->birthday}}</td>
+                            <td class="v-align-middle"><a href="javascript:;" class="btn btn-tag"> <i class="fab fa-facebook-f"></i></a><a href="javascript:;" class="btn btn-tag"><i class="fab fa-google"></i></a></td>
+                            <td class="v-align-middle"><strong>{{$particular->status}}</strong></td>
+                              
+                        </tr>
+                        @endforeach                        
                     </tbody>
                 </table>
             </form>

@@ -37,6 +37,10 @@ class Gender extends Model
     {
         return $this->hasMany('App\Staff');
     }
+    public function clients()
+    {
+        return $this->hasMany('App\ParticularClient');
+    }
 
     public static function boot()
     {

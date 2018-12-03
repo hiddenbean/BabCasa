@@ -9,6 +9,8 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Notifications\BusinessSendPasswordResetLink;
+
 class Business extends Authenticatable
 {
 
@@ -93,5 +95,9 @@ class Business extends Authenticatable
             $business->picture()->withTrashed()->restore();
             $business->phones()->withTrashed()->restore();
         });
+    }
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new BusinessSendPasswordResetLink($token));
     }
 }

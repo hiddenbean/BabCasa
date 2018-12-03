@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use Auth;
 use Hash;
+use Password;
 use App\Guest;
 use App\Status;
 use App\Phone;
@@ -561,6 +562,17 @@ class PartnerController extends Controller
         return redirect()
                         ->back()
                         ->with('messages', $messages);
+    }
+
+    public function sendResetLinkEmail($partner) {
+        $partner = Partner::where('name', $partner)->first();
+        $token = Password::getRepository()->create($partner);
+
+        $partner->sendPasswordResetNotification($token);
+
+        $messages['success'] = 'Password reset has been sent successfuly !!';
+
+        return back()->with('messages', $messages);
     }
 }
 

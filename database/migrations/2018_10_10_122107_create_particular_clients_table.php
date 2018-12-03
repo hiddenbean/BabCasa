@@ -20,6 +20,7 @@ class CreateParticularClientsTable extends Migration
             $table->string('password');
             $table->string('first_name');
             $table->string('last_name');
+            $table->string('status');
             $table->date('birthday');
             $table->integer('gender_id');
             $table->boolean('is_register_to_newsletter');

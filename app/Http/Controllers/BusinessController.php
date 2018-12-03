@@ -6,6 +6,7 @@ use App\Business;
 use App\Country;
 use App\Phone;
 use Hash;
+use Password;
 use App\Address;
 use App\Picture;
 use App\Status;
@@ -442,5 +443,15 @@ class BusinessController extends Controller
         return redirect()
                         ->back()
                         ->with('messages', $messages);
+    }
+    public function sendResetLinkEmail($business) {
+        $business = Business::where('name', $business)->first();
+        $token = Password::getRepository()->create($business);
+
+        $business->sendPasswordResetNotification($token);
+
+        $messages['success'] = 'Password reset has been sent successfuly !!';
+
+        return back()->with('messages', $messages);
     }
 }

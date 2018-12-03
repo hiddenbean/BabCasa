@@ -268,6 +268,7 @@ class Guest
 	 */
 	public static function mapToGuest($sessions)
 	{
+		$arrays=[];
 		foreach($sessions as $guest)
         {
 			$arrays[] = new Guest($guest);

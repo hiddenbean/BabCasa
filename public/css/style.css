@@ -430,3 +430,10 @@ td.picture > a > img{
 .form-group-default-select2 {
     z-index: 5;
 }
+
+.fa-google {
+    color: #dd4b39;
+  }
+.fa-facebook-f {
+    color: #3b5998;
+  }

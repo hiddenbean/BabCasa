@@ -307,9 +307,8 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <form action="{{url('partner/passwords/email')}}" method="post">
+                                    <form action="{{url('affiliates/sendResetEmail/'.$partner->name)}}" method="post">
                                         @csrf
-                                        <input type="hidden" name="email" value="{{$partner->email}}">
                                         <button class="btn btn-block btn-transparent"><strong>send password rest link</strong></button>
                                     </form>
                                 </div>

@@ -342,7 +342,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <form action="{{url('business/passwords/email')}}" method="post">
+                                    <form action="{{url('businesses/sendResetEmail/'.$business->name)}}" method="post">
                                         @csrf
                                         <input type="hidden" name="email" value="{{$business->email}}">
                                         <button class="btn btn-block btn-transparent"><strong>send password rest link</strong></button>

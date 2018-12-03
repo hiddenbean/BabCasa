@@ -34,7 +34,7 @@
                         <a href="{{ url('/clients') }}">Clients</a>
                     </li>
                     <li class="breadcrumb-item active">
-                        ID : 
+                        ID : {{$client->id}}
                     </li>
                 </ol>
             </div>
@@ -49,7 +49,7 @@
             <div class="card ">
                 <div class="card-header">
                     <div class="card-title">
-                        Client id : 
+                        Client id :  {{$client->id}}
                     </div>
                 </div>
                 <div class="card-body">
@@ -69,6 +69,7 @@
                                 </div>
                                 <div class="col-md-9">
                                     <strong>
+                                         {{$client->name}}
                                     </strong>
                                 </div>
                             </div>
@@ -79,7 +80,9 @@
                                 </div>
                                 <div class="col-md-9">
                                     <strong>
-                                        <a href="mailto:"></a>
+                                        <a href="mailto:{{$client->email}}">
+                                             {{$client->email}}
+                                        </a>
                                     </strong>
                                 </div>
                             </div>
@@ -111,6 +114,7 @@
                                 </div>
                                 <div class="col-md-9">
                                     <strong>
+                                         {{$client->first_name.' '.$client->last_name}}
                                     </strong>
                                 </div>
                             </div>
@@ -121,7 +125,9 @@
                                 </div>
                                 <div class="col-md-9">
                                     <strong>
-                                        <a href="tel:"></a>
+                                        <a href="tel:{{$client->phone->country->phone_code.$client->phone->number}}">
+                                             {{$client->phone->country->phone_code.$client->phone->number}}
+                                        </a>
                                     </strong>
                                 </div>
                             </div>
@@ -132,7 +138,8 @@
                                 </div>
                                 <div class="col-md-9">
                                     <strong>
-                                        <a href="tel:"></a>
+                                            {{$client->address->address}} <br>{{$client->address->address_two}}<br>{{$client->address->city.' ,'.$client->address->zip_code}}
+
                                     </strong>
                                 </div>
                             </div>
@@ -143,6 +150,7 @@
                                 </div>
                                 <div class="col-md-9">
                                     <strong>
+                                         {{$client->birthday}}
                                     </strong>
                                 </div>
                             </div>
@@ -153,6 +161,7 @@
                                 </div>
                                 <div class="col-md-9">
                                     <strong>
+                                         {{$client->gender->genderLang()->reference}}
                                     </strong>
                                 </div>
                             </div>
@@ -171,6 +180,7 @@
                                 </div>
                                 <div class="col-md-9">
                                     <strong>
+                                         {{$client->is_register_to_newsletter ? 'Yes' : 'No' }}
                                     </strong>
                                 </div>
                             </div>
@@ -199,28 +209,32 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    Status : <strong></strong>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        Status : <strong>@if($client->deleted_at == NULL) Publish @else Removed @endif</strong>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    Creation date : <strong></strong>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        Creation date : <strong>{{$client->created_at}}</strong>
+                                    </div>
                                 </div>
-                            </div>
-                            
-                            <div class="row">
-                                <div class="col-md-12">
-                                    Last update : <strong></strong>
+                                @if($client->updated_at != NULL)
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        Last update : <strong>{{$client->updated_at}}</strong>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    Remove date : <strong></strong>
+                                @endif
+                                @if($client->deleted_at != NULL)
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        Remove date : <strong>{{$client->deleted_at}}</strong>
+                                    </div>
                                 </div>
+                                @endif
                             </div>
-                        </div>
+                
                     </div>
                 </div>
             </div>
@@ -245,9 +259,8 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <form action="{{url('businesses/passwords/email')}}" method="post">
+                                <form action="{{url('clients/sendResetEmail/'.$client->name)}}" method="post">
                                         @csrf
-                                        <input type="hidden" name="email" value="">
                                         <button class="btn btn-block btn-transparent"><strong>send password rest link</strong></button>
                                     </form>
                                 </div>
@@ -266,5 +279,5 @@
 
     @include('logs.backoffice.componments.table')
 </div>
-@include('businesses.backoffice.staff.components.modal_password_gen')
+@include('clients.backoffice.staff.components.modal_password_gen')
 @endsection
