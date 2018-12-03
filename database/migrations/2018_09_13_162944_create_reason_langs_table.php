@@ -16,7 +16,6 @@ class CreateReasonLangsTable extends Migration
         Schema::create('reason_langs', function (Blueprint $table) {
             $table->increments('id');
             $table->string('reference');
-            $table->text('short_description');
             $table->text('description');
             $table->integer('reason_id');
             $table->integer('lang_id');

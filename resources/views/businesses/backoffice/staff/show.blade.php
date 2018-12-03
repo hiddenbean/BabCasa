@@ -206,7 +206,9 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="card-title">
-                                Update/Subscription Request
+                                @if($business->status->first()->is_approved==0) Subscription Request @endif 
+                                @if($business->status->first()->is_approved==1) Approved @endif 
+                                @if($business->status->first()->is_approved==2 ) Update Request @endif
                                 <a 
                                     href="javascript:;" 
                                     data-toggle="tooltip" 
@@ -219,16 +221,21 @@
                                 </a>
                             </div>
                         </div>
+                        @if($business->status->first()->is_approved!=1)
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-12">
-                                    This is a new subscription request
-                                </div>
+                                    @if($business->status->first()->is_approved!=0)
+                                    <div class="col-md-12">
+                                        This is a new subscription request
+                                    </div>
+                                    @endif
                             </div>
                             <div class="row">
-                                <div class="col-md-12">
-                                    This business has made some changes
-                                </div>
+                                    @if($business->status->first()->is_approved!=2)
+                                    <div class="col-md-12">
+                                        This business has made some changes
+                                    </div>
+                                    @endif
                             </div>
                             <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
                                     @if($business->status->where('is_approved','!=',1)->first())
@@ -256,6 +263,7 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
                     </div>
                 </div>
             </div>

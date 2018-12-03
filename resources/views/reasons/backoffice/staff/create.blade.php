@@ -18,7 +18,7 @@
                         <a href="javascrript:;">Requests</a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="{{ url('requests/reasons') }}">Reasons</a>
+                        <a href="{{ url('reasons') }}">Reasons</a>
                     </li>
                     <li class="breadcrumb-item active">
                         Add
@@ -47,7 +47,7 @@
                 </a>
             </div>
         </div>
-        <form id="form-personal"  method="POST" action=""  enctype="multipart/form-data">
+    <form id="form"  method="POST" action="{{url('reasons')}}"  enctype="multipart/form-data">
             {{ csrf_field() }}
         <div class="card-body">
             <div class="row">
@@ -101,12 +101,12 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-md-6">
-                                            <button type="submit" id='onClick' class="btn btn-block"><i class="fas fa-check"></i> <strong>save</strong></button>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <button  type="button" class="btn btn-block"><strong>save & new</strong></button>
-                                        </div>
+                                            <div class="col-md-6">
+                                                    <a href="javascript:;" id="save" class="btn btn-block"><i class="fas fa-check"></i> <strong>save</strong></a>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <a href="javascript:;" id="save_new" class="btn btn-block"><strong>save & new</strong></a>
+                                                </div>
                                     </div>
                                     <div class="row justify-content-end b-t b-dashed b-grey m-t-20 p-t-20">
                                         <div class="col-md-6">
@@ -158,6 +158,18 @@
     <script type="text/javascript" src="{{ asset('plugins/summernote/js/summernote.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('plugins/multiselect/js/multiselect.min.js') }}"></script>
     <script>
-        $('#summernote').summernote({height: 250});
+        $("#save").click( function () {
+         $('#description').val($('#summernote').summernote().code());
+        $('#form').attr('action', '{{ url('reasons') }}');
+        $('#form').submit();
+    });
+
+    $("#save_new").click( function () {
+         $('#description').val($('#summernote').summernote().code());
+        $('#form').attr('action', '{{ url('reasons')."/create" }}');
+        $('#form').submit();
+    });
+
+    $('#summernote').summernote({height: 250});
     </script>
 @endsection

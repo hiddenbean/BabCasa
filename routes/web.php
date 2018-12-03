@@ -133,9 +133,11 @@ function()
         // Reasons
         Route::prefix('reasons')->middleware('CanRead:reason')->group(function() {
             Route::get('/', 'ReasonController@index'); 
+            Route::get('trash', 'ReasonController@trash');
             Route::group(['middleware' => ['CanWrite:reason']], function(){
                 Route::get('create', 'ReasonController@create'); 
                 Route::get('{reason}/edit', 'ReasonController@edit');
+                Route::get('{reason}/translations','ReasonController@translations');
             }); 
             Route::get('{reason}', 'ReasonController@show'); 
         });
@@ -486,8 +488,12 @@ Route::domain('staff.babcasa.com')->group(function (){
     //////////REASONS
     Route::prefix('reasons')->middleware('CanWrite:reason')->group(function() {
 
-        Route::post('/', 'ReasonController@store'); 
+        Route::post('/', 'ReasonController@storeWithRedirect');
+        Route::post('/create', 'ReasonController@storeAndNew'); 
+        Route::post('/multi-restore', 'ReasonController@multiRestore');  
         Route::post('{reason}', 'ReasonController@update'); 
+        Route::post('{reason}/translations','ReasonLangController@update');
+        Route::post('{reason}/restore', 'ReasonController@restore');
         Route::delete('{reason}', 'ReasonController@destroy')->name('delete.reason');
         Route::delete('delete/multiple', 'ReasonController@multiDestroy')->name('delete.reasons');
     }); 

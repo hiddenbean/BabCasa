@@ -23,9 +23,8 @@ class ReasonController extends Controller
     protected function validateRequest(Request $request)
     {
         $request->validate([
-            'reference' => 'required|unique:reasons,reference,null,id,deleted_at,null',
-            'short_description' => 'required|required|max:600',
-            'description' => 'required|required|max:3000',
+            'reference' => 'required|unique:reason_langs,reference,null,id,deleted_at,null',
+            'description' => 'max:3000',
         ]);
     }
     /**
@@ -36,7 +35,7 @@ class ReasonController extends Controller
     public function index()
     {
         $data['reasons'] = Reason::all();
-        return view('reasons.backoffice.staff.index');
+        return view('reasons.backoffice.staff.index',$data);
     }
     
     /**
@@ -58,35 +57,41 @@ class ReasonController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validateRequest($request);
-
-        $reason_trashed = Reason::withTrashed()->where('reference', $request->reference)->first();
-
-        if($reason_trashed)
+        
+        $trashedReasonLang = ReasonLang::onlyTrashed()->where('reference', $request->reference)->first();
+        if(isset($trashedReasonLang))
         {
-            $reason = $reason_trashed;
-            $reason->restore();
-            $reason_lang = $reason->reasonLang->first();
-        }
-        else
-        {
-            $reason = new Reason();
-            $reason->reference = $request->reference; 
+            return redirect('reasons/'.$trashedReasonLang->reason_id);
         }
         
+        $this->validateRequest($request);
+        $reason = new Reason();
         $reason->save();
-        if(!isset($reason_lang))
-        {
-            $reason_lang = new ReasonLang();
-        }
-
-        $reason_lang->short_description = $request->short_description;
-        $reason_lang->description = $request->description;
-        $reason_lang->reason_id = $reason->id;
-        $reason_lang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
-        $reason_lang->save();
+             // Add LANGUAGES 
+             foreach(Language::all() as $lang)
+             {
+                 $reasonLang = new ReasonLang();
+                 $reasonLang->reason_id = $reason->id;
+                 $reasonLang->lang_id = $lang->id;
+                 $reasonLang->reference = ($lang->id == $request->language) ? $request->reference : "";
+                 $reasonLang->description = ($lang->id == $request->language) ? $request->description : "";
+                 $reasonLang->save();
+             }
+     
         
         return redirect('reasons');
+    }
+    public function storeWithRedirect(Request $request) {
+        $reason = self::store($request);
+        return redirect('reasons/'.$reason->id);
+    }
+
+    /**
+     * 
+     */
+    public function storeAndNew(Request $request) {
+        $reason = self::store($request);
+        return redirect('reasons/create');
     }
 
     /**
@@ -97,7 +102,7 @@ class ReasonController extends Controller
      */
     public function show($reason)
     {
-        $data['reason'] = Reason::find($reason);
+        $data['reason'] = Reason::withTrashed()->findOrFail($reason);
         $data['languages'] = Language::all();
 
         return view('reasons.backoffice.staff.show', $data);
@@ -131,13 +136,11 @@ class ReasonController extends Controller
         ]);
         
         $reason = Reason::find($reason);
-        $reason->reference = $request->reference; 
         $reason->save();
 
-        $reasonLangId = $reason->reasonLang->first()->id;
+        $reasonLangId = $reason->reasonLang()->id;
 
         $reasonLang = ReasonLang::find($reasonLangId);
-        $reasonLang->short_description = $request->short_description; 
         $reasonLang->description = $request->description; 
         $reasonLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
         $reasonLang->save(); 

@@ -72,7 +72,26 @@
                         <th style="width:150px">Deleted at</th>             
                     </thead>
             
-                    <tbody>                                    
+                    <tbody> 
+                            @foreach($reasons as $reason)
+                            <tr role="row" id="0">
+                               <td class="v-align-middle p-l-5 p-r-5">
+                                <div class="checkbox no-padding no-margin text-center">
+                                    <input type="checkbox" value="{{$reason->id}}" name="reasons[]" id="checkbox{{$reason->id}}">
+                                    <label for="checkbox{{$reason->id}}" class="no-padding no-margin"></label>
+                                </div>
+                            </td>
+                                <td class="v-align-middle text-center p-l-5 p-r-5">
+                                    <a href="{{url('reasons/'.$reason->id.'/restore')}}" data-method="POST"  data-token="{{csrf_token()}}" class="text-danger"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></a></td>
+                                </td>
+                                <td class="v-align-middle"><a href="{{url('reasons/'.$reason->id)}}"><strong>{{$reason->reasonLang()->reference }}</strong></a></td>
+                               
+                                
+                                <td class="v-align-middle">{{$reason->deleted_at}}</td>
+                                <td class="v-align-middle">{!!$reason->reasonLang()->description!!}</td>
+
+                            </tr> 
+                        @endforeach                                                    
                     </tbody>
                 </table>
             </form>

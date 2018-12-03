@@ -4,11 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ReasonLang extends Model
 {
     use LogsActivity;
-
+    use SoftDeletes;
+    
     protected $fillable = ['reference', 'short_description', 'description', 'reason_id', 'lang_id'];
 
     protected static $recordEvents = ['deleted', 'created', 'updated'];
