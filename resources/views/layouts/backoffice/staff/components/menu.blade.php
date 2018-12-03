@@ -322,11 +322,26 @@
                         <i class="fas fa-user-edit"></i>
                     </span>
                 </li>
-                <li>
-                    <a href="javascript:;">Requests Reasons</a>
+                <li class="open active">
+                    <a href="javascript:;"><span class="title">Requests Reasons</span>
+                    <span class="arrow open active"></span></a>
                     <span class="icon-thumbnail">
                         <i class="fas fa-exclamation-circle"></i>
                     </span>
+                    <ul class="sub-menu" style="display: block;">
+                        <li>
+                            <a href="{{ url('requests/reasons/create') }}">Add reasons</a>
+                            <span class="icon-thumbnail">
+                                <i class="fas fa-plus"></i>
+                            </span>
+                        </li>
+                        <li>
+                            <a href="{{ url('requests/reasons/') }}">All reasons</a>
+                            <span class="icon-thumbnail">
+                                <i class="fas fa-list"></i>
+                            </span>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </li>
