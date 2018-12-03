@@ -10,7 +10,7 @@
                 <h5>Generated <span class="semi-bold">Password</span></h5>
                 <p class="p-b-10 hint-text">We recommend using the generated password, but feel free to change it to an easier one</p>
             </div>
-            <form action="" method="post">
+            <form action="{{url('clients/'.$client->name.'/password/reset')}}" method="post">
                 @csrf
                 <div class="modal-body">
                     <div class="row">

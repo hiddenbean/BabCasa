@@ -58,7 +58,7 @@
                 
             </div>
             <div class="card-body">
-                <form action="{{url('affiliates/multi-restore')}}" method="post">
+                <form action="{{url('businesses/multi-restore')}}" method="post">
                     {{ csrf_field() }}
                     <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
                         <thead>
@@ -73,7 +73,29 @@
                             <th style="width:100px">Account status</th>
                             <th style="width:150px">Deleted at</th>       
                         </thead>
-
+                        @foreach($businesses as $business)
+                        <tr role="row" id="0">
+                            <td class="v-align-middle p-l-5 p-r-5">
+                                <div class="checkbox no-padding no-margin text-center">
+                                    <input type="checkbox" value="{{$business->id}}" name="businesses[]" id="checkbox{{$business->id}}">
+                                    <label for="checkbox{{$business->id}}" class="no-padding no-margin"></label>
+                                </div>
+                            </td>
+                            <td class="v-align-middle text-center p-l-5 p-r-5">
+                                    <a href="{{url('businesses/'.$business->id.'/restore')}}" data-method="POST"  data-token="{{csrf_token()}}" class="text-danger"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></a></td>
+                            </td> 
+                            <td class="v-align-middle picture">
+                                    <a href="{{url('businesses/'.$business->name)}}"><img src="@if(isset($business->picture->path)) {{Storage::url($business->picture->path)}} @else {{asset('img/img_placeholder.png')}} @endif" alt="cat1"></a>
+                                </td>
+                            <td class="v-align-middle"><a href="{{url('businesses/'.$business->name)}}"><strong>{{$business->company_name }}</strong></a></td>
+                            <td class="v-align-middle"><a href="{{url('businesses/'.$business->name)}}"><strong>{{$business->name }}</strong></a></td>
+                            <td class="v-align-middle">{{$business->email }}</td>
+                            <td class="v-align-middle"><strong>{{$business->first_name.' '.$business->last_name }}</strong></td>
+                            <td class="v-align-middle">{{$business->phones()->where('tag','admin')->first()->country->phone_code.' '.$business->phones()->where('tag','admin')->first()->number}}</td>
+                            <td class="v-align-middle"><strong> {{$business->status->first()->is_approved ? 'approves' : 'rejected'}}</strong></td>
+                            <td class="v-align-middle"> {{$business->deleted_at}}</td>
+                        </tr>
+                        @endforeach    
                         <tbody>
                         </tbody>
                     </table>

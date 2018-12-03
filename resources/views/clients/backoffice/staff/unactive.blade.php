@@ -72,6 +72,18 @@
                         </thead>
 
                         <tbody>
+                                @foreach($particulars as $particular)
+                                <tr role="row" id="0">
+                                    <td class="v-align-middle"><a href="{{url('clients/'.$particular->name)}}"><strong>{{$particular->name}}</a></strong></td>
+                                    <td class="v-align-middle"><a href="{{url('clients/'.$particular->name)}}"><strong>{{$particular->email}}</a></strong></td>
+                                    <td class="v-align-middle">{{$particular->phone->country->phone_code.$particular->phone->number}}</td>
+                                    <td class="v-align-middle"><a href="{{url('clients/'.$particular->name)}}"><strong>{{$particular->first_name.' '.$particular->last_name}}</a></strong></td>
+                                    <td class="v-align-middle">{{$particular->birthday}}</td>
+                                    <td class="v-align-middle"><a href="javascript:;" class="btn btn-tag"> <i class="fab fa-facebook-f"></i></a><a href="javascript:;" class="btn btn-tag"><i class="fab fa-google"></i></a></td>
+                                    <td class="v-align-middle"><strong>{{$particular->status}}</strong></td>
+                                      
+                                </tr>
+                                @endforeach         
                         </tbody>
                     </table>
                 </form>

@@ -29,6 +29,7 @@ function()
     // Staff sub domaine GET routes (staff.babcasa.com)
     // Staff routes start 
     Route::domain('staff.babcasa.com')->middleware('LogActivity')->group(function (){
+
         // Staff home page
         Route::get('/', 'StaffController@dashboard');
         
@@ -203,8 +204,8 @@ function()
         // Requests UIs
         Route::prefix('requests')->group(function () {
             Route::get('/', function () { return view('requests.backoffice.staff.requests'); });
-            Route::get('subscriptions', function () { return view('requests.backoffice.staff.subscriptions'); });
-            Route::get('updates', function () { return view('requests.backoffice.staff.updates'); });
+            Route::get('subscriptions', 'StatusController@subscriptions');
+            Route::get('updates','StatusController@updates');
             Route::prefix('reasons')->group(function () {
                 Route::get('/', 'ReasonController@index');
                 Route::get('trash', 'ReasonController@trash');
@@ -251,27 +252,6 @@ function()
         Route::get('{staff}/pin/verification', 'PinController@checkPinForm');
         Route::get('{staff}/password/{password}', 'PinController@showPassword');
         
-    });
-
-    Route::prefix('clients')->group(function(){
-        Route::prefix('business')->middleware('CanRead:business_client')->group(function(){
-            Route::get('/', 'BusinessController@index');
-            Route::get('/trash', 'BusinessController@trashIndex');
-            Route::get('/create', 'BusinessController@create');
-            Route::get('/{business}', 'BusinessController@show');
-            Route::get('/{business}/edit', 'BusinessController@edit');
-            Route::get('{business}/pin/verification', 'PinController@checkPinForm');
-            Route::get('{business}/password/{password}', 'PinController@showPassword');
-        });
-        Route::prefix('particular')->middleware('CanRead:particular_client')->group(function() {
-            Route::get('/', 'ParticularClientController@index'); 
-            Route::get('/trash', 'ParticularClientController@trashIndex'); 
-            Route::group(['middleware' => ['CanWrite:staff']], function(){
-                Route::get('create', 'ParticularClientController@create'); 
-                Route::get('{particular}/edit', 'ParticularClientController@edit');
-            }); 
-            Route::get('{particular}', 'ParticularClientController@show'); 
-        }); 
     });
 
     //////////STATUS
@@ -411,7 +391,8 @@ Route::prefix('discounts')->group(function() {
 });
 
 Route::domain('staff.babcasa.com')->group(function (){
-
+    Route::post('clients/{client}/password/reset', 'ParticularClientController@reset');
+    Route::post('clients/sendResetEmail/{client}', 'ParticularClientController@sendResetLinkEmail');
     // Reset password
     Route::post('sign-in', 'Auth\StaffLoginController@login')->name('staff.login.submit');
     Route::post('passwords/email', 'Auth\StaffForgotPasswordController@sendResetLinkEmail')->name('staff.password.link.send');
@@ -529,6 +510,8 @@ Route::domain('staff.babcasa.com')->group(function (){
     Route::prefix('affiliates')->middleware('CanWrite:partner')->group(function() {
         Route::post('/', 'PartnerController@storeWithRedirect');
         Route::post('/create', 'PartnerController@storeAndNew'); 
+        Route::post('sendResetEmail/{partner}', 'PartnerController@sendResetLinkEmail');
+        Route::post('{partner}/disapprove/{reason}', 'PartnerController@disapprove');
         Route::post('/multi-restore', 'PartnerController@multiRestore'); 
         Route::delete('multi-destroy', 'PartnerController@multiDestroy')->name('multi_delete.affiliates');
         Route::delete('multi-restore', 'PartnerController@multiRestore');
@@ -556,12 +539,17 @@ Route::domain('staff.babcasa.com')->group(function (){
             Route::delete('delete/multiple', 'ProfileController@multiDestroy')->name('delete.profiles');
         });
     
-    Route::prefix('clients')->group(function(){
-        Route::prefix('business')->middleware('CanRead:profile')->group( function(){
-            Route::delete('multi-destroy', 'BusinessController@multiDestroy')->name('multi_delete.businesses');
-            Route::delete('{business}/destroy', 'BusinessController@destroy')->name('delete.business');
-            Route::post('multi-restore', 'BusinessController@multiRestore')->name('multi_restore.businesses');
-            Route::post('{business}/restore', 'BusinessController@restore')->name('restore.business');
-        });
+    Route::prefix('businesses')->group(function(){
+        Route::post('/', 'BusinessController@storeWithRedirect');
+        Route::post('sendResetEmail/{business}', 'BusinessController@sendResetLinkEmail');
+
+        Route::post('{business}/disapprove/{reason}', 'BusinessController@disapprove');
+        Route::post('/create', 'BusinessController@storeAndNew');
+        Route::put('{business}','BusinessController@update');
+        Route::post('{business}/password/reset', 'BusinessController@reset');
+        Route::delete('multi-destroy', 'BusinessController@multiDestroy')->name('multi_delete.businesses');
+        Route::delete('{business}/destroy', 'BusinessController@destroy')->name('delete.business');
+        Route::post('multi-restore', 'BusinessController@multiRestore')->name('multi_restore.businesses');
+        Route::post('{business}/restore', 'BusinessController@restore')->name('restore.business');
     });
 });

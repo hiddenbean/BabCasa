@@ -17,7 +17,7 @@
                             <a href="{{ url('/') }}">DASHBOARD</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{{ url('/Requests') }}">Requests</a>
+                            <a href="#">Requests</a>
                         </li>
                         <li class="breadcrumb-item active">
                             Subscriptions
@@ -70,6 +70,19 @@
                             <th style="width:100px">Admin phone</th>
                             <th style="width:100px">Request date</th>
                         </thead>
+                        @foreach($subscriptions as $subscription)
+                        <tr role="row" id="0">
+                            <td class="v-align-middle">
+                                {{$subscription->user_type}}
+                            </td>
+                            <td class="v-align-middle"><a href="{{url(($subscription->user_type=="partner" ? "affiliates" : "businesses").'/'.$subscription->user->name)}}"><strong>{{$subscription->user->company_name }}</strong></a></td>
+                            <td class="v-align-middle"><a href="{{url(($subscription->user_type=="partner" ? "affiliates" : "businesses" ).'/'.$subscription->user->name)}}"><strong>{{$subscription->user->name }}</strong></a></td>
+                            <td class="v-align-middle">{{$subscription->user->email }}</td>
+                            <td class="v-align-middle"><strong>{{$subscription->user->first_name.' '.$subscription->user->last_name }}</strong></td>
+                            <td class="v-align-middle">{{$subscription->user->phones()->where('tag','admin')->first()->country->phone_code.' '.$subscription->user->phones()->where('tag','admin')->first()->number}}</td>
+                            <td class="v-align-middle"> {{$subscription->user->created_at}}</td>
+                        </tr>
+                        @endforeach
 
                         <tbody> 
                         </tbody>

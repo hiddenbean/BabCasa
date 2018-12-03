@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Hash;
+use Password;
 use App\ParticularClient;
 use App\Country;
 use App\Picture;
@@ -39,7 +41,8 @@ class ParticularClientController extends Controller
      */
     public function unactive()
     {
-        return view('clients.backoffice.staff.unactive');
+        $data['particulars'] = ParticularClient::onlyTrashed()->get();
+        return view('clients.backoffice.staff.unactive',$data);
     }
 
     /**
@@ -49,7 +52,9 @@ class ParticularClientController extends Controller
      */
     public function index()
     {
-        return view('clients.backoffice.staff.index');
+        $data['particulars'] = ParticularClient::all();
+        // return $data['particulars'][0]->phone;
+        return view('clients.backoffice.staff.index',$data);
     }
     
     public function dashboard()
@@ -170,7 +175,8 @@ class ParticularClientController extends Controller
      */
     public function show($client)
     {
-        return view('clients.backoffice.staff.show');
+        $data['client'] = ParticularClient::withTrashed()->where('name',$client)->first();
+        return view('clients.backoffice.staff.show',$data);
     }
 
     /**
@@ -331,7 +337,7 @@ class ParticularClientController extends Controller
     public function stuckParticularClient($particularClient)
     {
         $orderStatus = $particularClient->orders()->whereIn('status', ['in_progress', 'finished'])->get();
-        //$marketStatus = $business->markets()->whereIn('status', ['in_progress', 'finished'])->get();
+        //$marketStatus = $client->markets()->whereIn('status', ['in_progress', 'finished'])->get();
         isset($orderStatus[0]) ? $stuck = true : $stuck = false;
         return $stuck;
     }
@@ -415,5 +421,43 @@ class ParticularClientController extends Controller
             }
         }
         return redirect('clients/particular')->with('messages',$messages);
+    }
+
+    public function reset(Request $request, $client)
+    {
+        $password_communicated = ($request->password_communicated=='on') ? 1 : 0;
+        if($password_communicated)
+        {
+            $password = Hash::make($request->password);
+            $client =ParticularClient::where('name', $client)->first();
+            if($client)
+            {
+                $client->password = $password;
+                $client->save();
+                $messages['success'] = 'Password reset has been done successfuly !!';
+            }
+            else
+            {
+                $messages['error'] = 'Client member doesn\'t exist !!';
+            }
+        }
+        else
+        {
+            $messages['error'] = 'Please communicate the password !!';
+        }
+        return redirect()
+                        ->back()
+                        ->with('messages', $messages);
+    }
+    public function sendResetLinkEmail($client) {
+        $client = ParticularClient::where('name', $client)->first();
+        $token = Password::getRepository()->create($client);
+        return 1;
+
+        $client->sendPasswordResetNotification($token);
+
+        $messages['success'] = 'Password reset has been sent successfuly !!';
+
+        return back()->with('messages', $messages);
     }
 }

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Business;
 use App\Country;
 use App\Phone;
+use Hash;
+use Password;
 use App\Address;
 use App\Picture;
 use App\Status;
@@ -13,6 +15,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\PictureController;
 use App\Http\Controllers\PhoneController;
+
+use App\Notifications\NewBusiness;
 
 class BusinessController extends Controller
 {
@@ -28,7 +32,8 @@ class BusinessController extends Controller
      */
     public function index()
     {
-        return view('businesses.backoffice.staff.index');
+        $data['businesses'] = Business::all();
+        return view('businesses.backoffice.staff.index',$data);
     }
 
     /**
@@ -38,8 +43,8 @@ class BusinessController extends Controller
      */
     public function trash()
     {
-        $businesses = Business::onlyTrashed()->get();
-        return view('businesses.backoffice.staff.trash');
+        $data['businesses'] = Business::onlyTrashed()->get();
+        return view('businesses.backoffice.staff.trash',$data);
     }
 
     /**
@@ -62,7 +67,8 @@ class BusinessController extends Controller
     public function store(Request $request)
     {
         $this->validateRequest($request);
-        
+
+        $request['full_name'] =$request->first_name.' '.$request->last_name;
         $AddressController = new AddressController();
         $AddressController->validateRequest($request);
         
@@ -71,26 +77,20 @@ class BusinessController extends Controller
         
         $phone = new PhoneController();
         $phone->validateRequest($request);
-        
-        $password = bcrypt($request->password);
-        $name = $request->company_name;
-        while(Business::where('name', $request->company_name)->first()){
-            $name = $name.'_'.rand(0,9);
-        }
 
         $is_register_to_newsletter = ($request->is_register_to_newsletter=='on') ? 1 : 0;
-
         $business = Business::create([
+            'first_name' =>  $request->first_name,
+            'last_name' =>  $request->last_name,
             'company_name' => $request->company_name,
-            'name' => $name,
+            'name' => $request->name,
+            'password' => bcrypt(str_random(8)),
             'email' =>  $request->email,
-            'password' => $password,
+            'admin_email' =>  $request->admin_email,
             'about' => $request->about,
-            'trade_registry' => $request->trade_registry,
             'is_register_to_newsletter' => $is_register_to_newsletter,
-            'ice' => $request->ice,
             'taxe_id' => $request->taxe_id,
-            ]);
+        ]);
 
         $approve = ($request->approve =='on') ? 1 : 0;
 
@@ -104,13 +104,14 @@ class BusinessController extends Controller
         $address = new  Address();
         $address->address = $request->address;
         $address->address_two = $request->address_two;
-        $address->full_name = $request->full_name;
+        $address->full_name = $request->first_name.' '.$request->last_name;
         $address->zip_code = $request->zip_code;
         $address->country_id = $request->country_id;
         $address->city = $request->city;
         $address->addressable_type = 'business';
         $address->addressable_id = $business->id;
         $address->save();
+            
 
         if($request->hasFile('path')) 
         {
@@ -130,42 +131,47 @@ class BusinessController extends Controller
             {
                 $phone = new Phone();
                 $phone->number = $number;
-                $phone->type = "phone";
+                $phone->type = $key==3 ? "fax" : "phone";
+                $phone->is_default =$key==0 ? true: false;
+                $phone->verify = false;
+                $phone->tag = $key==0 ? 'admin': 'company';
                 $phone->country_id = $request->code_country[$key];
                 $phone->phoneable_type = 'business';
                 $phone->phoneable_id = $business->id;
                 $phone->save();
             }
         }
+        
+        $business->notify(new NewBusiness());
+            
+            return $business;
+    }
 
-        if($request->fax_number)
-        {
+    public function storeWithRedirect(Request $request) {
+        // return $request;
+        $business = self::store($request);
+        return redirect('businesses/'.$business->name);
+    }
 
-            $phone = new Phone();
-            $phone->number = $request->fax_number;
-            $phone->type = "fix";
-            $phone->country_id = $request->code_country[2];
-            $phone->phoneable_type = 'business';
-            $phone->phoneable_id = $business->id;
-            $phone->save();
-        } 
-        return redirect('clients/business');
-
+    /**
+     * 
+     */
+    public function storeAndNew(Request $request) {
+        $business = self::store($request);
+        return redirect('businesses/create');
     }
 
     public function validateRequest(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:businesses,name',
             'company_name' => 'required',
-            'email' => 'required|unique:businesses,email',
-            'password' => 'required',
+            'name' => 'required|unique:businesses,name',
+            'email' => 'required|email|unique:businesses,email',
+            'admin_email' => 'required|email|unique:businesses,admin_email',
+            'first_name' => 'required',
+            'last_name' => 'required',
             'about' => 'required',
-            'trade_registry' => 'required|numeric|digits:6',
-            'ice' => 'required|numeric|digits:10',
             'taxe_id' => 'required|numeric|digits:10',
-            'register_to_newsletter' => 'required',
-            'approve' => 'required',
         ]);
     }
 
@@ -179,8 +185,8 @@ class BusinessController extends Controller
     {
         $data['countries'] = Country::all();
         $data['reasons'] = Reason::all();
-        $data['business'] = Business::where('name',$business)->first();
-        return view('businesses.backoffice.staff.show');
+        $data['business'] = Business::withTrashed()->where('name',$business)->first();
+        return view('businesses.backoffice.staff.show',$data);
     }
 
     /**
@@ -192,6 +198,9 @@ class BusinessController extends Controller
     public function edit($business)
     {
         $data['countries'] = Country::all();
+         $data['business'] = Business::where('name',$business)->first();
+        $data['company_phones'] =  $data['business']->phones()->where('tag','=','company')->get();
+        $data['company_fax'] =  $data['business']->phones()->where('tag','=','fax')->first();
         return view('businesses.backoffice.staff.edit', $data);
     }
 
@@ -202,58 +211,49 @@ class BusinessController extends Controller
      * @param  \App\Business  $business
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $business)
+    public function update(Request $request, $Business)
     {
+        $business = Business::where('name', $Business)->first();
         $request->validate([
-            'company_name' => 'required',
-            'email' => 'required',
+            'company_name' => 'required|unique:businesses,company_name,'.$business->id,
+            'name' => 'required|unique:businesses,name,'.$business->id,
+            'email' => 'required|email|unique:businesses,email,'.$business->id,
+            'admin_email' => 'required|email|unique:businesses,admin_email,'.$business->id ,
+            'first_name' => 'required',
+            'last_name' => 'required',
             'about' => 'required',
-            'trade_registry' => 'required|numeric|digits:6',
-            'ice' => 'required|numeric|digits:10',
             'taxe_id' => 'required|numeric|digits:10',
         ]);
         
-        
+        $request['full_name'] =$request->first_name.' '.$request->last_name;
         $AddressController = new AddressController();
         $AddressController->validateRequest($request);
-        
         $request->validate([
-            'numbers.0' => 'required|numeric|digits:9',
-            'numbers.1' => 'nullable|numeric|digits:9',
-            'fax_number' => 'nullable|numeric|digits:9',
-            'code_country.0' => 'sometimes',
-            'code_country.1' => 'sometimes',
-            'code_country.2' => 'sometimes',
-        ]);
+            'numbers.0' => 'required|numeric|unique:phones,number,'.$request->phone_id[0],
+            'numbers.1' => 'nullable|numeric|unique:phones,number,'.$request->phone_id[1],
+            'code_country.0' => 'required',
+            'code_country.1' => 'nullable',
+            'code_country.2' => 'nullable',
+        ]);   
         $is_register_to_newsletter = ($request->is_register_to_newsletter=='on') ? 1 : 0;
-        $business = Business::where('name', $business)->first();
+
         $business->company_name = $request->company_name;
         $business->about = $request->about;
         $business->email = $request->email;
-        $business->trade_registry = $request->trade_registry;
+        $business->first_name =  $request->first_name;
+        $business->last_name =  $request->last_name;
+        $business->admin_email =  $request->admin_email;
         $business->is_register_to_newsletter = $is_register_to_newsletter;
-        $business->ice = $request->ice;
         $business->taxe_id = $request->taxe_id;
-        if($request->email != $business->email)
-        {
-            $request->validate([
-                'email' => 'unique:business,name',
-            ]);
-            $business->email = $request->email;
-        }
         $business->save();
-        $status = $business->status->first()->is_approved;
-        $approve = ($request->approve=='on') ? 1 : 0;
-        if($status != $approve)
-        {
-            $status = new Status();
-            $status->is_approved = $approve;
-            $status->user_id = $business->id;
-            $status->user_type = 'business';
-            $status->staff_id = auth()->guard('staff')->user()->id;
-            $status->save();
-        }
-
+        
+        $status = new Status();
+        $status->is_approved = 2;
+        $status->user_id = $business->id;
+        $status->user_type = 'business';
+        $status->staff_id = auth()->guard('staff')->user()->id;
+        $status->save();
+        
         $address = $business->address;
         $address->address = $request->address;
         $address->address_two = $request->address_two;
@@ -262,7 +262,7 @@ class BusinessController extends Controller
         $address->country_id = $request->country_id;
         $address->city = $request->city;
         $address->save();
-
+             
         if($request->hasFile('path')) 
         {
             $picture = $business->picture;
@@ -277,43 +277,55 @@ class BusinessController extends Controller
         {
             if($number != null)
             {
-                $phone = Phone::where('id', $request->phone_id[$key])
-                                                                ->whereIn('type', ['phone', 'fix'])
-                                                                ->where('phoneable_id', $business->id)
-                                                                ->first();
-                if($phone == null)
+                if($number != null)
                 {
-                    $phone = new Phone();
-                    $phone->phoneable_id = $business->id;
-                    $phone->phoneable_type = 'business';
-                }
+                    $phone = Phone::where('id', $request->phone_id[$key])
+                                                                    ->whereIn('type', ['phone', 'fix'])
+                                                                    ->where('phoneable_id', $business->id)
+                                                                    ->first();
+                    if($phone == null)
+                    {
+                        $phone = new Phone();
+                        $phone->phoneable_id = $business->id;
+                        $phone->phoneable_type = 'business';
+                        $phone->tag = $key==0 ? 'admin':  $key==3 ? 'fax' : 'company';
+                        $phone->type = $key==3 ? "fax" : "phone";
+                        $phone->is_default =$key==1||$key==0 ? true: false;
+                        $phone->verify = false;
+
+                    }
                 $phone->number = $number;
-                $phone->type = "phone";
                 $phone->country_id = $request->code_country[$key];
+            
                 $phone->save();
+                }
             }
         }
 
-        if($request->fax_number)
+            
+        return redirect('businesses');
+    }
+    
+    public function disapprove($business,$reason)
+    {
+        $status = new Status();
+        $status->user_id = $business;
+        $status->user_type = 'business';
+        $status->staff_id = auth()->guard('staff')->user()->id;
+        if($reason != 0)
         {
-            $fax = Phone::where('id', $request->fax_id)
-                                ->where('type', 'fax')
-                                ->where('phoneable_id', $business->id)
-                                ->first();
-            if($fax == null)
-            {
-                $fax = new Phone();
-                $phone->phoneable_id = $business->id;
-                $phone->phoneable_type = 'business';
-            }
-            $phone = Phone::find($request->fax_id);
-            $phone->number = $request->fax_number;
-            $phone->type = "fix";
-            $phone->country_id = $request->code_country[2];
-            $phone->save();
-        }
+            $status->is_approved =0;
+            $status->save();
+            $Reason = Reason::findOrFail($reason);
+            $status->reasons()->attach($Reason->id);
 
-        return redirect('/clients/business');
+        }else
+        {
+            $status->is_approved =1;
+            $status->save();
+        }
+       
+        return redirect()->back();
     }
 
     /**
@@ -322,45 +334,23 @@ class BusinessController extends Controller
      * @param  \App\Business  $business
      * @return \Illuminate\Http\Response
      */
-    public function destroy($business_name)
+    
+    public function destroy($Business)
     {
-        $business = Business::where('name', $business_name)->first();
-        if(!isset($business))
+        $business = Business::findOrFail($Business);
+        if(
+            isset($business->claims[0])
+            || isset($business->orders()->whereIn('status', ['in_progress', 'waiting'])->first()->id)
+            || isset($business->products[0])
+        )
         {
-            
-            return redirect()
-                            ->back()
-                            ->with(
-                                'error',
-                                'Delete can\'t be performed !!'
-                            );
-        }
-       
-        if($this->stuckBusiness($business))
-        {
-            return redirect()
-                            ->back()
-                            ->with(
-                                'error',
-                                'Business can\'t be deleted it has unsolved orders/markets !!'
-                            );
+            $messages['error'] = 'business can\'t be deleted he is in an association with product/claim/order !!';
+            return redirect('businesses')->with('messages',$messages);
         }
         $business->delete();
-        return redirect(
-                        $this->redirectURL(url()->current(), $business_name)
-                        )
-                        ->with(
-                            'success',
-                            'Business has been deleted successfuly !!'
-                        );
-    }
+        $messages['success'] = 'business has been deleted successfuly !!';
+        return redirect('businesses')->with('messages',$messages);
 
-    public function stuckBusiness($business)
-    {
-        $orderStatus = $business->orders()->whereIn('status', ['in_progress', 'finished'])->get();
-        //$marketStatus = $business->markets()->whereIn('status', ['in_progress', 'finished'])->get();
-        isset($orderStatus[0]) ? $stuck = true : $stuck = false;
-        return $stuck;
     }
 
     public function redirectURL($url, $business)
@@ -375,25 +365,50 @@ class BusinessController extends Controller
 
     public function multiDestroy(Request $request)
     {
-        foreach($request->businesses as $business)
+        $request->validate([
+            'businesses' => 'required',
+            ]);
+        $e=$s=0;
+        $messages = [];
+        
+        foreach($request->businesses as $Business)
         {
-            $business = Business::where('name', $business)->first();
-            if(!$this->stuckBusiness($business))
+            $business = Business::findOrFail($Business);
+    
+            if(
+                !isset($business->claims[0])
+                && !isset($business->orders()->whereIn('status', ['in_progress', 'waiting'])->first()->id)
+                && !isset($business->products[0])
+            ) 
             {
-                $this->destroy($business->name);
+                $s++;
+                $business->delete();
+                $messages['success'] = $s. ($s == 1 ? ' business' :' businesses') .' has been deleted successfuly';
+            }
+    
+            else 
+            {
+                $e++;
+                $messages['error'] = $e . ($e == 1 ? ' business' : ' businesses') . ' can\'t be deleted he has product/claim/order';
             }
         }
-        return redirect('clients/business');
+        return redirect('businesses')->with('messages', $messages);
     }
 
+     /**
+     * 
+     * 
+     */
     public function restore($business)
     {
-        $business = Business::onlyTrashed()->where('name', $business)->first();
+        $business = business::onlyTrashed()->findOrFail($business);
         $business->restore();
-        $messages['success'] = 'Business has been restored successfuly !!';
-        return redirect('clients/business')->with('messages',$messages);
+        $messages['success'] = 'business has been restored successfuly !!';
+        return redirect('businesses')->with('messages',$messages);
     }
-
+    /**
+     * 
+     */
     public function multiRestore(Request $request)
     {
         $request->validate([
@@ -403,14 +418,47 @@ class BusinessController extends Controller
         $messages = [];
         foreach ($request->businesses as  $business)
         {
-            if($business != null)
+            $business = business::onlyTrashed()->where('id', $business)->first();
+            $business->restore();
+            $s++;
+            $messages['success'] = $s. ($s == 1 ? ' business' :' businesses') .' has been restored successfuly';
+        }
+        return redirect('businesses')->with('messages',$messages);
+    }
+    public function reset(Request $request, $business)
+    {
+        $password_communicated = ($request->password_communicated=='on') ? 1 : 0;
+        if($password_communicated)
+        {
+            $password = Hash::make($request->password);
+            $business =Business::where('name', $business)->first();
+            if($business)
             {
-                $business = Business::onlyTrashed()->where('name', $business)->first();
-                $business->restore();
-                $s++;
-                $messages['success'] = $s. ($s == 1 ? ' business' :' businesses') .' has been restored successfuly';
+                $business->password = $password;
+                $business->save();
+                $messages['success'] = 'Password reset has been done successfuly !!';
+            }
+            else
+            {
+                $messages['error'] = 'Staff member doesn\'t exist !!';
             }
         }
-        return redirect('clients/business')->with('messages',$messages);
+        else
+        {
+            $messages['error'] = 'Please communicate the password !!';
+        }
+        return redirect()
+                        ->back()
+                        ->with('messages', $messages);
+    }
+    public function sendResetLinkEmail($business) {
+        $business = Business::where('name', $business)->first();
+        $token = Password::getRepository()->create($business);
+
+        $business->sendPasswordResetNotification($token);
+
+        $messages['success'] = 'Password reset has been sent successfuly !!';
+
+        return back()->with('messages', $messages);
     }
 }

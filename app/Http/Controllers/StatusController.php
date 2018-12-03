@@ -42,6 +42,17 @@ class StatusController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function subscriptions()
+    {
+        $data['subscriptions'] = Status::where('is_approved',0)->get();
+        // return $data['subscriptions'][2]->user;
+        return view('requests.backoffice.staff.subscriptions',$data);
+    }
+    public function updates()
+    {
+        $data['subscriptions'] = Status::where('is_approved',2)->get();
+        return view('requests.backoffice.staff.updates',$data); 
+    }
     public function create()
     {
         //

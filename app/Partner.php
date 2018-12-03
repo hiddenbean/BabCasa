@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 //use this notification to sen an email to a specific user
 use App\Notifications\ResetPasswordNotification;
+use App\Notifications\PartnerSendPasswordResetLink;
 
 class Partner extends Authenticatable
 {
@@ -126,6 +127,7 @@ class Partner extends Authenticatable
      */
     public function sendPasswordResetNotification($token)
     {
-        $this->notify(new ResetPasswordNotification($token, 'partner'));
+        $this->notify(new PartnerSendPasswordResetLink($token));
     }
+ 
 }

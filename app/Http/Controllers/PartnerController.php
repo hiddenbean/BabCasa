@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use Auth;
 use Hash;
+use Password;
 use App\Guest;
 use App\Status;
 use App\Phone;
@@ -90,6 +91,7 @@ class PartnerController extends Controller
     {
         $this->validateRequest($request);
 
+        $request['full_name'] =$request->first_name.' '.$request->last_name;
         $AddressController = new AddressController();
         $AddressController->validateRequest($request);
         
@@ -172,7 +174,6 @@ class PartnerController extends Controller
      * 
      */
     public function storeWithRedirect(Request $request) {
-        $request['full_name'] =$request->first_name.' '.$request->last_name;;
         $partner = self::store($request);
         return redirect('affiliates/'.$partner->name);
     }
@@ -322,6 +323,13 @@ class PartnerController extends Controller
         $partner->is_register_to_newsletter = $is_register_to_newsletter;
         $partner->taxe_id = $request->taxe_id;
         $partner->save();
+
+        $status = new Status();
+        $status->is_approved = 2;
+        $status->user_id = $partner->id;
+        $status->user_type = 'partner';
+        $status->staff_id = auth()->guard('staff')->user()->id;
+        $status->save();
         
         $address = $partner->address;
         $address->address = $request->address;
@@ -500,6 +508,27 @@ class PartnerController extends Controller
             'guests' => $guests,
         ]);
     }
+    public function disapprove($partner,$reason)
+    {
+        $status = new Status();
+        $status->user_id = $partner;
+        $status->user_type = 'partner';
+        $status->staff_id = auth()->guard('staff')->user()->id;
+        if($reason != 0)
+        {
+            $status->is_approved =0;
+            $status->save();
+            $Reason = Reason::findOrFail($reason);
+            $status->reasons()->attach($Reason->id);
+
+        }else
+        {
+            $status->is_approved = 1;
+            $status->save();
+        }
+       
+        return redirect()->back();
+    }
 
     /**
      * Desable partners account.
@@ -540,6 +569,17 @@ class PartnerController extends Controller
         return redirect()
                         ->back()
                         ->with('messages', $messages);
+    }
+
+    public function sendResetLinkEmail($partner) {
+        $partner = Partner::where('name', $partner)->first();
+        $token = Password::getRepository()->create($partner);
+
+        $partner->sendPasswordResetNotification($token);
+
+        $messages['success'] = 'Password reset has been sent successfuly !!';
+
+        return back()->with('messages', $messages);
     }
 }
 

@@ -18,11 +18,12 @@ class CreateBusinessesTable extends Migration
             $table->string('name')->unique();
             $table->string('email')->unique();
             $table->string('password');
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->string('admin_email')->unique();
             $table->string('company_name');
             $table->text('about');
             $table->string('taxe_id');
-            $table->string('ice');
-            $table->string('trade_registry');
             $table->boolean('is_register_to_newsletter');
             $table->integer('staff_id')->nullable();
             $table->softDeletes();
