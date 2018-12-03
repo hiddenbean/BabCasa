@@ -12,7 +12,7 @@ class ReasonController extends Controller
 {
     public function __construct()
     {
-         $this->middleware('auth:staff');
+        $this->middleware('auth:staff');
     }
     /**
      * Get a validator for an incoming registration request.
@@ -36,7 +36,7 @@ class ReasonController extends Controller
     public function index()
     {
         $data['reasons'] = Reason::all();
-        return view('reasons.backoffice.staff.index',$data);
+        return view('reasons.backoffice.staff.index');
     }
     
     /**
@@ -46,8 +46,8 @@ class ReasonController extends Controller
      */
     public function create()
     {
-
-        return view('reasons.backoffice.staff.create');
+        $data['languages'] = Language::all();
+        return view('reasons.backoffice.staff.create', $data);
     }
     
     /**
@@ -97,9 +97,10 @@ class ReasonController extends Controller
      */
     public function show($reason)
     {
-        
         $data['reason'] = Reason::find($reason);
-        return view('reasons.backoffice.staff.show',$data);
+        $data['languages'] = Language::all();
+
+        return view('reasons.backoffice.staff.show', $data);
     }
     
     /**
@@ -111,7 +112,7 @@ class ReasonController extends Controller
     public function edit($reason)
     {
         $data['reason'] = reason::find($reason);
-        return view('reasons.backoffice.staff.edit',$data);
+        return view('reasons.backoffice.staff.edit');
     }
 
     /**
@@ -202,7 +203,7 @@ class ReasonController extends Controller
             return redirect('reasons')->with(
                             'success',
                             'Reason has been deleted successfuly !!'
-             );
+            );
 
         }
         else 
@@ -212,6 +213,19 @@ class ReasonController extends Controller
                 'Reason can\'t be deleted it has a relation with products '
             );
         }
+    }
+    /**
+     * 
+     */
+    public function trash () {
+        return view('reasons.backoffice.staff.trash');
+    }
 
+    /**
+     * 
+     */
+    public function translations () {
+        $data["languages"] =  Language::all();
+        return view('reasons.backoffice.staff.translations', $data);
     }
 }

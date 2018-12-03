@@ -203,8 +203,19 @@ function()
 
         // Requests UIs
         Route::prefix('requests')->group(function () {
+            Route::get('/', function () { return view('requests.backoffice.staff.requests'); });
             Route::get('subscriptions', 'StatusController@subscriptions');
             Route::get('updates','StatusController@updates');
+            Route::prefix('reasons')->group(function () {
+                Route::get('/', 'ReasonController@index');
+                Route::get('trash', 'ReasonController@trash');
+                Route::get('create', 'ReasonController@create');
+                Route::prefix('{reason}')->group(function () {
+                    Route::get('/', 'ReasonController@show');
+                    Route::get('edit', 'ReasonController@edit');
+                    Route::get('translations', 'ReasonController@translations');
+                });
+            });
         });
     });
     //Staff routes end
@@ -213,15 +224,7 @@ function()
     Route::domain('partner.babcasa.com')->group(function (){
         Route::get('{product}/edit', 'ProductController@edit'); 
     });
-    // reasons
-    Route::prefix('reasons')->middleware('CanRead:reason')->group(function() {
-        Route::get('/', 'ReasonController@index'); 
-        Route::group(['middleware' => ['CanWrite:reason']], function(){
-            Route::get('create', 'ReasonController@create'); 
-            Route::get('{reason}/edit', 'ReasonController@edit');
-        }); 
-        Route::get('{reason}', 'ReasonController@show'); 
-    });
+    
     // subjects
     Route::prefix('subjects')->middleware('CanRead:reason')->group(function() {
         Route::get('/', 'SubjectController@index'); 
