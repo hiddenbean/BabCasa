@@ -20,7 +20,7 @@ class Category extends Model
 
     public function getDescriptionForEvent(string $eventName): string
     {
-        return "This model has been ". $eventName;
+        return "has {$eventName} the categorie ID : <u><a href=".url('categories/'.$this->id).">{$this->id}</u></a>";
     }
 
     public function categoryLangs()
