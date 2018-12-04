@@ -19,7 +19,8 @@ class Language extends Model
 
     public function getDescriptionForEvent(string $eventName): string
     {
-        return "This model has been ". $eventName;
+        
+        return "has {$eventName} the language ID : <u>{$this->id}</u>";
     }
 
     public function attributeLangs()

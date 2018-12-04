@@ -17,7 +17,7 @@ class Address extends Model
 
     public function getDescriptionForEvent(string $eventName): string
     {
-        return "This model has been ". $eventName;
+        return "has {$eventName} the address ID : <u>{$this->id}</a>";
     }
     protected $fillable = ['address', 'address_two', 'full_name', 'country_id', 'city', 'zip_code', 'longitude', 'latitude', 'addressable_type', 'addressable_id'];
     

@@ -25,7 +25,7 @@ class ParticularClient extends Authenticatable
 
     public function getDescriptionForEvent(string $eventName): string
     {
-        return "This model has been ". $eventName;
+        return "has {$eventName} the client ID : <u><a href=".url('clients/'.$this->id).">{$this->id}</a></u>";
     }
 
     public function address()

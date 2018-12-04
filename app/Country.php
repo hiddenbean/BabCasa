@@ -19,7 +19,7 @@ class country extends Model
 
     public function getDescriptionForEvent(string $eventName): string
     {
-        return "This model has been ". $eventName;
+        return "has {$eventName} the country ID : <u><a href=".url('countries/'.$this->id).">{$this->id}</a></u>";
     }
 
     public function currency()

@@ -20,7 +20,7 @@ class Product extends Model
 
 	public function getDescriptionForEvent(string $eventName): string
 	{
-			return "This model has been ". $eventName;
+		return "has {$eventName} the product ID : <u><a href=".url('products/'.$this->id).">{$this->id}</a></u>";
 	}
 
 	// Relationship with discount table

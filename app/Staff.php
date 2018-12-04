@@ -24,7 +24,7 @@ class Staff extends Authenticatable
 
     public function getDescriptionForEvent(string $eventName): string
     {
-        return "This model has been ". $eventName;
+        return "has {$eventName} the staff ID : <u><a href=".url('staff/'.$this->id).">{$this->id}</a></u>";
     }
     protected $guard = 'staff';
 

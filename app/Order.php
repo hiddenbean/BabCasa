@@ -16,7 +16,8 @@ class Order extends Model
 
     public function getDescriptionForEvent(string $eventName): string
     {
-        return "This model has been ". $eventName;
+        
+        return "has {$eventName} the order ID : <u><a href=".url('orders/'.$this->id).">{$this->id}</a></u>";
     }
 
     protected $fillable = ['costumer_id', 'costumer_type', 'status', 'paiement_id', 'address_id', 'partner_id'];
