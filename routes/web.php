@@ -141,6 +141,17 @@ function()
             }); 
             Route::get('{reason}', 'ReasonController@show'); 
         });
+        // subjects
+        Route::prefix('subjects')->middleware('CanRead:subject')->group(function() {
+            Route::get('/', 'SubjectController@index'); 
+            Route::get('trash', 'SubjectController@trash');
+            Route::group(['middleware' => ['CanWrite:subject']], function(){
+                Route::get('create', 'SubjectController@create'); 
+                Route::get('{subject}/edit', 'SubjectController@edit');
+                Route::get('{subject}/translations','SubjectController@translations');
+            }); 
+            Route::get('{subject}', 'SubjectController@show'); 
+        });
 
         // Staff login page
         Route::get('/sign-in', 'Auth\StaffLoginController@showLoginForm');
@@ -208,16 +219,6 @@ function()
             Route::get('/', function () { return view('requests.backoffice.staff.requests'); });
             Route::get('subscriptions', 'StatusController@subscriptions');
             Route::get('updates','StatusController@updates');
-            Route::prefix('reasons')->group(function () {
-                Route::get('/', 'ReasonController@index');
-                Route::get('trash', 'ReasonController@trash');
-                Route::get('create', 'ReasonController@create');
-                Route::prefix('{reason}')->group(function () {
-                    Route::get('/', 'ReasonController@show');
-                    Route::get('edit', 'ReasonController@edit');
-                    Route::get('translations', 'ReasonController@translations');
-                });
-            });
         });
 
         Route::prefix('support')->group(function () {
@@ -501,14 +502,20 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::delete('{reason}', 'ReasonController@destroy')->name('delete.reason');
         Route::delete('delete/multiple', 'ReasonController@multiDestroy')->name('delete.reasons');
     }); 
-    //////////subjects
+  
+    //////////subjectS
     Route::prefix('subjects')->middleware('CanWrite:subject')->group(function() {
 
-        Route::post('/', 'SubjectController@store'); 
+        Route::post('/', 'SubjectController@storeWithRedirect');
+        Route::post('/create', 'SubjectController@storeAndNew'); 
+        Route::post('/multi-restore', 'SubjectController@multiRestore');  
         Route::post('{subject}', 'SubjectController@update'); 
+        Route::post('{subject}/translations','SubjectLangController@update');
+        Route::post('{subject}/restore', 'SubjectController@restore');
         Route::delete('{subject}', 'SubjectController@destroy')->name('delete.subject');
         Route::delete('delete/multiple', 'SubjectController@multiDestroy')->name('delete.subjects');
     }); 
+  
 
     //////////STATUS
     Route::prefix('statuses')->group(function() {

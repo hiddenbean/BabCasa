@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\SubjectLang;
+use App\subject;
 use Illuminate\Http\Request;
 
 class SubjectLangController extends Controller
@@ -73,10 +74,38 @@ class SubjectLangController extends Controller
      * @param  \App\SubjectLang  $subjectLang
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, SubjectLang $subjectLang)
+    public function update(Request $request, $subject)
     {
-        //
+           // return $request;
+           $subject = subject::find($subject);
+           foreach($request->references as $key => $reference)
+           {
+               $subjectLang = $subject->subjectLangs->where('lang_id',$request->languages_id[$key])->first();
+               if(!isset($subjectLang))
+               {
+                   $subjectLang = new subjectLang();
+                   $subjectLang->subject_id = $subject->id;
+                   $subjectLang->lang_id = $request->languages_id[$key];
+               }
+   
+               if($reference != '')
+               {
+                   $subjectLang->reference = $reference;
+                   $subjectLang->description = $request->descriptions[$key];
+                   }
+                   else
+                   {
+                   $subjectLang->reference = '';
+                   $subjectLang->description = '';
+       
+                   }
+                   $subjectLang->save();
+               
+               
+           }
+           return redirect()->back();
     }
+
 
     /**
      * Remove the specified resource from storage.

@@ -12,9 +12,7 @@ class SubjectController extends Controller
     public function __construct()
     {
         $this->middleware('auth:staff');
-        
     }
-    
     /**
      * Get a validator for an incoming registration request.
      *
@@ -24,8 +22,8 @@ class SubjectController extends Controller
     protected function validateRequest(Request $request)
     {
         $request->validate([
-            'reference' => 'required|unique:subject_langs,reference,null,id,deleted_at,null',
-            'description' => 'required|required|max:3000',
+            'reference' => 'required|unique:subject_langs,reference',
+            'description' => 'max:3000',
         ]);
     }
     /**
@@ -35,12 +33,10 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        
-        $data['subjects'] =Subject::all();
-
+        $data['subjects'] = Subject::all();
         return view('subjects.backoffice.staff.index',$data);
     }
-
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -48,10 +44,10 @@ class SubjectController extends Controller
      */
     public function create()
     {
-        // pour afficher un formulair
-        return view('subjects.backoffice.staff.create');
+        $data['languages'] = Language::all();
+        return view('subjects.backoffice.staff.create', $data);
     }
-
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -60,54 +56,61 @@ class SubjectController extends Controller
      */
     public function store(Request $request)
     {
-       
+        
+        $trashedsubjectLang = subjectLang::onlyTrashed()->where('reference', $request->reference)->first();
+        if(isset($trashedsubjectLang))
+        {
+            return redirect('subjects/'.$trashedsubjectLang->subject_id);
+        }
+        
         $this->validateRequest($request);
-
-        $subjectLangTrashed = SubjectLang::withTrashed()->where('reference', $request->reference)->first();
-
-        if($subjectLangTrashed)
-        {
-            $subject = $subjectLangTrashed->subject;
-            $subject->restore();
-            $subjectLang = $subjectLangTrashed;
-        }
-        else
-        {
-            $subject = new Subject();
-        }
-        
+        $subject = new subject();
         $subject->save();
-        if(!isset($subjectLang))
-        {
-            $subjectLang = new SubjectLang();
-        }
-
-        $subjectLang->reference = $request->reference;
-        $subjectLang->description = $request->description;
-        $subjectLang->subject_id = $subject->id;
-        $subjectLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
-        $subjectLang->save();
+             // Add LANGUAGES 
+             foreach(Language::all() as $lang)
+             {
+                 $subjectLang = new subjectLang();
+                 $subjectLang->subject_id = $subject->id;
+                 $subjectLang->lang_id = $lang->id;
+                 $subjectLang->reference = ($lang->id == $request->language) ? $request->reference : "";
+                 $subjectLang->description = ($lang->id == $request->language) ? $request->description : "";
+                 $subjectLang->save();
+             }
+     
         
-        return redirect('subjects');
+        return  $subject;
+    }
+    public function storeWithRedirect(Request $request) {
+        $subject = self::store($request);
+        return redirect('subjects/'.$subject->id);
+    }
+
+    /**
+     * 
+     */
+    public function storeAndNew(Request $request) {
+        $subject = self::store($request);
+        return redirect('subjects/create');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Subject  $subject
+     * @param  \App\subject  $subject
      * @return \Illuminate\Http\Response
      */
     public function show($subject)
     {
-        // Récupérer un sujet
-        $data['subject'] = Subject::findOrFail($subject);
-        return view('subjects.backoffice.staff.show',$data);
+        $data['subject'] = Subject::withTrashed()->findOrFail($subject);
+        $data['languages'] = Language::all();
+
+        return view('subjects.backoffice.staff.show', $data);
     }
     
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Subject  $subject
+     * @param  \App\subject  $subject
      * @return \Illuminate\Http\Response
      */
     public function edit($subject)
@@ -120,46 +123,137 @@ class SubjectController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Subject  $subject
+     * @param  \App\subject  $subject
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,$subject)
+    public function update(Request $request, $subject)
     {
-        $this->validateRequest($request);
-        // Récupérer un sujet
-        $subject = Subject::findOrFail($subject);
+        // return $request;
+        $request->validate([
+            'reference' => 'required|unique:subject_langs,subject_id,'.$subject,
+            'description' => 'required|max:3000',
+        ]);
+        $subject = Subject::find($subject);
+        $subject->save();
 
-        $subjectLangId = $subject->subjectLang->first()->id;
+        $subjectLangId = $subject->subjectLang()->id;
 
-        $subjectLang = SubjectLang::find($subjectLangId);
+        $subjectLang = subjectLang::find($subjectLangId);
         $subjectLang->reference = $request->reference; 
         $subjectLang->description = $request->description; 
         $subjectLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
         $subjectLang->save(); 
+        
         return redirect('subjects');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Subject  $subject
+     * @param  \App\subject  $subject
      * @return \Illuminate\Http\Response
      */
     public function destroy($subject)
     {
-        // Récupérer un sujet
-        $subject =Subject::findOrFail($subject);
-        if(isset($subject->claims[0]))
+        $subject = Subject::findOrFail($subject);
+        if(isset($subject->statuses[0]))
         {
-            return  redirect()
-            ->back()
-            ->with(
-                'error',
-                'subject can\'t be deleted it has claim(s) !!' 
-            );
+            return redirect('subjects')
+                                ->with(
+                                    'error',
+                                    'subject can\'t be deleted it is in an association with statuses !!'
+                                    );
         }
         $subject->delete();
-        return redirect('subjects');
+        return redirect('/subjects')
+                            ->with(
+                                'success',
+                                'subject deleted successfuly !!'
+                                );
 
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\subjects  $subjects
+     * @return \Illuminate\Http\Response
+     */
+    public function multiDestroy(Request $request)
+    {
+        
+
+        $request->validate([
+            'subjects' => 'required',
+        ]);
+        $error = false;
+        
+        foreach($request->subjects as $subject)
+        {
+            $cantDelete = false;
+
+            $subject = Subject::findOrFail($subject);
+    
+            if(isset($subject->statuses[0])) {$cantDelete = true;$error = true;}
+    
+            if(!$cantDelete) 
+                $subject->delete();
+
+        }
+        if(!$error) 
+        {
+            return redirect('subjects')->with(
+                            'success',
+                            'subject has been deleted successfuly !!'
+            );
+
+        }
+        else 
+        {
+            return redirect('subjects')->with(
+                'error',
+                'subject can\'t be deleted it has a relation with products '
+            );
+        }
+    }
+    public function restore($subject)
+    {
+        $subject = subject::onlyTrashed()->where('id', $subject)->first();
+        $subject->restore();
+        $messages['success'] = 'subject has been restored successfuly !!';
+        return redirect('subjects')->with('messages',$messages);
+    }
+
+    public function multiRestore(Request $request)
+    {
+        $request->validate([
+            'subjects' => 'required',
+        ]);
+        $s=0;
+        $messages = [];
+        foreach ($request->subjects as  $subject)
+        {
+            $subject = subject::onlyTrashed()->where('id', $subject)->first();
+            $subject->restore();
+            $s++;
+            $messages['success'] = $s. ($s == 1 ? ' subject' :' subjects') .' has been restored successfuly';
+        }
+        return redirect('subjects')->with('messages',$messages);
+    }
+    /**
+     * 
+     */
+    public function trash () {
+        $data['subjects'] = Subject::onlyTrashed()->get();
+        return view('subjects.backoffice.staff.trash',$data);
+    }
+
+    /**
+     * 
+     */
+    public function translations ($subject) {
+        $data["languages"] =  Language::all();
+        $data["subject"] = Subject::findOrFail($subject);
+        return view('subjects.backoffice.staff.translations', $data);
     }
 }
