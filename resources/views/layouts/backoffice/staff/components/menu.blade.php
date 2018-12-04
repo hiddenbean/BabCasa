@@ -347,6 +347,14 @@
         </li>
         <li>
             <a href="javascript:;">
+                <span class="title">Support</span>
+            </a>
+            <span class="icon-thumbnail">
+                <i class="fas fa-life-ring"></i>
+            </span>
+        </li>
+        <li>
+            <a href="javascript:;">
                 <span class="title">Settings</span>
                 <span class="arrow"></span>
             </a>
