@@ -24,13 +24,13 @@ class ClaimController extends Controller
      *
      * @return void
      */
-   
+
     public function __construct()
     {
-         $this->middleware('auth:partner,staff');
+        $this->middleware('auth:partner,staff');
     }
 
-      public function validateClaim(Request $request)
+    public function validateClaim(Request $request)
     {
         $request->validate([
             'title' => 'required',
@@ -44,22 +44,19 @@ class ClaimController extends Controller
      */
     public function index()
     {
-         
         $type = $this->userType();
-         switch ($type) {
-             case 'partner':
-                 $data['claims'] = Auth::guard('partner')->user()->claims;
-                 $view = 'claims.backoffice.partner.index';
-                 break;
+        switch ($type) {
+            case 'partner':
+                $data['claims'] = Auth::guard('partner')->user()->claims;
+                $view = 'claims.backoffice.partner.index';
+                break;
 
-             case 'staff':
-                $data['orders'] = Claim::all();
-                $view = 'orders.backoffice.staff.index';
-                 break;
-         }
-         return view($view,$data);
-        
-
+            case 'staff':
+            $data['orders'] = Claim::all();
+            $view = 'orders.backoffice.staff.index';
+                break;
+        }
+        return view('claims.backoffice.staff.index');
     }
     /**
      * Display a list of all claims.
@@ -89,8 +86,8 @@ class ClaimController extends Controller
                 break;
 
             case 'staff':
-               $data['orders'] = Claim::where('status',true);
-               $view = 'claims.backoffice.staff.index';
+                $data['orders'] = Claim::where('status',true);
+                $view = 'claims.backoffice.staff.index';
                 break;
         }
         return view($view,$data);
@@ -111,8 +108,8 @@ class ClaimController extends Controller
                 break;
 
             case 'staff':
-               $data['orders'] = Claim::where('status',false);
-               $view = 'claims.backoffice.staff.index';
+                $data['orders'] = Claim::where('status',false);
+                $view = 'claims.backoffice.staff.index';
                 break;
         }
         return view($view,$data);
@@ -184,7 +181,6 @@ class ClaimController extends Controller
 
         $message->save();
         return redirect('support');
-         
     }
 
 

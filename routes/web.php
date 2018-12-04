@@ -219,6 +219,10 @@ function()
                 });
             });
         });
+
+        Route::prefix('support')->group(function () {
+            Route::get('/', 'ClaimController@index');
+        });
     });
     //Staff routes end
 

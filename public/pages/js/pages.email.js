@@ -44,64 +44,6 @@
         $('.item .checkbox').toggle();
     });
 
-    // Load list of emails
-    emailList.length && $.ajax({
-        dataType: "json",
-        url: "http://pages.revox.io/json/emails.json",
-        success: function(data) {
-
-
-            $.each(data.emails, function(i) {
-                var obj = data.emails[i];
-                var group = obj.group;
-                var list = obj.list;
-
-                var listViewGroupCont = $('<div/>', {
-                    "class": "list-view-group-container"
-                });
-                listViewGroupCont.append('<div class="list-view-group-header"><span>' + group + '</span></div>');
-                var ul = $('<ul/>', {
-                    "class": "no-padding"
-                });
-
-                $.each(list, function(j) {
-                    var $this = list[j];
-                    var id = $this.id;
-                    var dp = $this.dp;
-                    var dpRetina = $this.dpRetina;
-                    var to = $this.to.join();
-                    var subject = $this.subject;
-                    var body = $this.body.replace(/<(?:.|\n)*?>/gm, '');
-                    var time = $this.time;
-                    var li = '<li class="item padding-15" data-email-id="' + id + '"> \
-                                <div class="thumbnail-wrapper d32 circular"> \
-                                    <img width="40" height="40" alt="" data-src-retina="' + dpRetina + '" data-src="' + dp + '" src="' + dpRetina + '"> \
-                                </div> \
-                                <div class="checkbox  no-margin p-l-10"> \
-                                    <input type="checkbox" value="1" id="emailcheckbox-' + i + "-" + j + '"> \
-                                    <label for="emailcheckbox-' + i + "-" + j + '"></label> \
-                                </div> \
-                                <div class="inline m-l-15"> \
-                                    <p class="recipients no-margin hint-text small">' + to + '</p> \
-                                    <p class="subject no-margin">' + subject + '</p> \
-                                    <p class="body no-margin"> \
-                                     ' + body + ' \
-                                    </p> \
-                                </div> \
-                                <div class="datetime">' + time + '</div> \
-                                <div class="clearfix"></div> \
-                            </li>';
-                    ul.append(li);
-                });
-
-                listViewGroupCont.append(ul);
-                emailList.append(listViewGroupCont);
-            });
-            emailList.ioslist();
-
-        }
-    });
-
     $('body').on('click', '.item .checkbox', function(e) {
         e.stopPropagation();
     });
@@ -112,28 +54,12 @@
         var id = $(this).attr('data-email-id');
         var email = null;
         var thumbnailWrapper = $(this).find('.thumbnail-wrapper');
-        $.ajax({
-            dataType: "json",
-            url: "http://pages.revox.io/json/emails.json",
-            success: function(data) {
-                $.each(data.emails, function(i) {
-                    var obj = data.emails[i];
-                    var list = obj.list;
-                    $.each(list, function(j) {
-                        if (list[j].id == id) {
-                            email = list[j];
 
-                            return;
-                        }
-                    });
 
-                    if (email != null) return;
-                });
-
-                emailOpened.find('.sender .name').text(email.from);
-                emailOpened.find('.sender .datetime').text(email.datetime);
-                emailOpened.find('.subject').text(email.subject);
-                emailOpened.find('.email-content-body').html(email.body);
+                emailOpened.find('.sender .name').text($(this).find('.name').html());
+                emailOpened.find('.sender .datetime').text($(this).find('.datetime').html());
+                emailOpened.find('.subject').text($(this).find('.subject').html());
+                emailOpened.find('.email-content-body').html($(this).find('.body').html());
 
                 var thumbnailClasses = thumbnailWrapper.attr('class').replace('d32', 'd48');
                 emailOpened.find('.thumbnail-wrapper').html(thumbnailWrapper.html()).attr('class', thumbnailClasses);
@@ -151,10 +77,7 @@
 
                 // Initialize email action menu 
                 $('.menuclipper').menuclipper({
-                    bufferWidth: 50
-                });
-            }
-        });
+                    bufferWidth: 50});
 
         $('.item').removeClass('active');
         $(this).addClass('active');
