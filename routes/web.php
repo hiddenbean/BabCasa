@@ -220,6 +220,10 @@ function()
             Route::get('subscriptions', 'StatusController@subscriptions');
             Route::get('updates','StatusController@updates');
         });
+
+        Route::prefix('support')->group(function () {
+            Route::get('/', 'ClaimController@index');
+        });
     });
     //Staff routes end
 

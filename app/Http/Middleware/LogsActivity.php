@@ -11,7 +11,7 @@ class LogsActivity
         if (auth()->check()) {
             activity()
                 ->causedBy(auth()->user())
-                ->log("User has visited {$request->fullUrl()}");
+                ->log("has visited <u><a href='{$request->fullUrl()}'>{$request->fullUrl()}</a></u>");
         }
 
         return $next($request);
