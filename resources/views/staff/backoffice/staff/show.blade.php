@@ -287,8 +287,8 @@
             </div>
         </div>
     </div>
-
     @include('logs.backoffice.components.table')
+</div>
 
 
 @include('staff.backoffice.staff.components.modal_password_gen')
