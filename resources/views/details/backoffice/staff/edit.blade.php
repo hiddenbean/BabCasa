@@ -196,10 +196,10 @@
                                         <div class="col-md-12">
                                             Available in : 
                                              @foreach($detail->detailLangs as $detailLang)
-                                        @if($detailLang->value != " ")
-                                            <strong><a href="#">{{$detailLang->lang->name}}</a></strong>
-                                        @endif
-                                    @endforeach
+                                                @if($detailLang->value != "")
+                                                    <strong><a href="#">{{$detailLang->lang->name}}</a></strong>
+                                                @endif
+                                            @endforeach
                                         </div>
                                     </div>
                                     <div class="row b-t b-dashed b-grey m-t-20 p-t-20">

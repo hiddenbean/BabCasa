@@ -137,6 +137,8 @@ class StaffController extends Controller
     public function show($staff)
     {
         $data['staff'] = Staff::findOrFail($staff);
+        $data['activities'] = $data['staff']->logs;
+        // return $data['activities'][0]->causer;
         return view('staff.backoffice.staff.show',$data);
     }
 

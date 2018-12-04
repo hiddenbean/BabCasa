@@ -27,10 +27,10 @@
                     <a href="javascript:;">Requests</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a href="{{ url('requests/reasons') }}">Reasons</a>
+                    <a href="{{ url('reasons') }}">Reasons</a>
                 </li>
                 <li class="breadcrumb-item active">
-                    ID : 
+                    ID :  {{$reason->id}}
                 </li>
             </ol>
         </div>
@@ -44,47 +44,57 @@
             <div class="card ">
                 <div class="card-header">
                     <div class="card-title">
-                        Reason id : 
+                        Reason id : {{$reason->id}}
                     </div>
                 </div>
                 <div class="card-body">
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs">
                         @foreach($languages as $key=>$language)
-                            <li>
-                                <a data-toggle="tab" href="#{{$language->id}}">
+                        @if(isset($reason->reasonLangs->where('lang_id',$language->id)->first()->reference)&& !empty($reason->reasonLangs->where('lang_id',$language->id)->first()->reference))
+                            <li >
+                                <a data-toggle="tab" class="{{$language->id==$reason->reasonLang()->lang_id ? 'active' : ''}}" href="#{{$language->id}}">
                                     <span>{{$language->name}}</span>
-                                </a>
-                            </li>
+                                    </a>
+                                </li>
+                                @endif
                         @endforeach
                     </ul>
                     <!-- Tab panes -->
                     <div class="tab-content">
                         @foreach($languages as $key=> $language)
                         <!-- silde  {{$key}} start -->
-                        <div class="tab-pane slide-left" id="{{$language->id}}">                        
-                            <div class="row">
-                                <div class="col-md-3 uppercase">
-                                    Reason
+                        <div class="tab-pane slide-left {{$language->id==$reason->reasonLang()->lang_id ? 'active' : ''}}" id="{{$language->id}}">
+                            @if(isset($reason->reasonLangs->where('lang_id',$language->id)->first()->reference)&& !empty($reason->reasonLangs->where('lang_id',$language->id)->first()->reference))
+                             <div class="row">
+                        
+                                <div class="col-md-12">
+                                <div class="row m-b-10">
+                                    <div class="col-md-3 uppercase">
+                                        Name
+                                    </div>
+                                    <div class="col-md-9">
+                                        <strong>
+                                            {{ $reason->reasonLangs->where('lang_id',$language->id)->first()->reference}}
+                                        </strong>
+                                    </div>
                                 </div>
-                                <div class="col-md-9">
-                                    <strong>
-                                        ...
-                                    </strong>
+                                <div class="row m-b-10">
+                                    <div class="col-md-3 uppercase">
+                                        Description
+                                    </div>
+                                    <div class="col-md-8">
+                                        {!! $reason->reasonLangs->where('lang_id',$language->id)->first()->description !!}
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3 uppercase">
-                                    Description
-                                </div>
-                                <div class="col-md-9">
-                                    ...
-                                </div>
-                            </div>
+                              
+                            </div> 
                         </div>
-                        <!-- silde {{$key}} end -->
-                        @endforeach
+                        @endif
                     </div>
+                    <!-- silde {{$key}} end -->
+                    @endforeach
+                </div>
                 </div>
             </div>
         </div>
@@ -101,7 +111,7 @@
                                     data-placement="bottom" 
                                     data-html="true" 
                                     trigger="click" 
-                                    title= "<p class='tooltip-text'>You can use this form to create a new detail if you have the right permissions.<br>
+                                    title= "<p class='tooltip-text'>You can use this form to create a new reason if you have the right permissions.<br>
                                             If you have any difficulties please <a href='#'>contact the support</a></p>"> 
                                     <i class="fas fa-question-circle"></i>
                                 </a>
@@ -110,34 +120,44 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    Status : <strong></strong>
+                                    Status : <strong>@if($reason->deleted_at == NULL) Publish @else Removed @endif</strong>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    Creation date : <strong></strong>
+                                    Creation date : <strong>{{$reason->created_at}}</strong>
                                 </div>
                             </div>
+                            @if($reason->updated_at != NULL)
                             <div class="row">
                                 <div class="col-md-12">
-                                    Last update : <strong></strong>
+                                    Last update : <strong>{{$reason->updated_at}}</strong>
                                 </div>
                             </div>
+                            @endif
+                            @if($reason->deleted_at != NULL)
                             <div class="row">
                                 <div class="col-md-12">
-                                    Remove date : <strong></strong>
+                                    Remove date : <strong>{{$reason->deleted_at}}</strong>
                                 </div>
                             </div>
+                            @endif
                             <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
+                                @if($reason->deleted_at == NULL) 
                                 <div class="col-md-6">
-                                    <a href="" class="btn btn-block "><i class="fas fa-pen"></i> <strong>Edit</strong></a>                                    
+                                    <a href="{{url('reasons/'.$reason->id.'/edit')}}" class="btn btn-block "><i class="fas fa-pen"></i> <strong>Edit</strong></a>                                    
                                 </div>
+                                @endif
+
                                 <div class="col-md-6">
-                                    <a  href="" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
-                                    <form action="" method="POST">
+                                @if($reason->deleted_at == NULL)
+                                    <a  href="{{route('delete.reason',['reason'=>$reason->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
+                                @else
+                                    <form action="{{url('reasons/'.$reason->id.'/restore')}}" method="POST">
                                         {{ csrf_field() }}
                                         <button class="btn btn-block btn-transparent-danger" type="submit"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></button>
-                                    </form>
+                                        </form>
+                                @endif
                                 </div>
                             </div>
                         </div>
@@ -166,12 +186,17 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    Available in :
+                                    Available in : 
+                                    @foreach($reason->reasonLangs as $reasonLang)
+                                        @if($reasonLang->reference != "")
+                                            <strong><a href="#">{{$reasonLang->lang->name}}</a></strong> ,
+                                        @endif
+                                    @endforeach
                                 </div>
                             </div>
                             <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
                                 <div class="col-md-12">
-                                    <a href="" class="btn btn-transparent"><strong><i class="fas fa-language p-r-10 fa-lg"></i>Add or Edit translations</strong></a>                                    
+                                    <a href="{{url('reasons/'.$reason->id.'/translations')}}" class="btn btn-block btn-transparent"><strong><i class="fas fa-language p-r-10 fa-lg"></i>Add or Edit translations</strong></a>                                    
                                 </div>
                             </div>
                         </div>

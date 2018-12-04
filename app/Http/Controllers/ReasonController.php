@@ -79,7 +79,7 @@ class ReasonController extends Controller
              }
      
         
-        return redirect('reasons');
+        return  $reason;
     }
     public function storeWithRedirect(Request $request) {
         $reason = self::store($request);
@@ -116,8 +116,8 @@ class ReasonController extends Controller
      */
     public function edit($reason)
     {
-        $data['reason'] = reason::find($reason);
-        return view('reasons.backoffice.staff.edit');
+        $data['reason'] = reason::findOrFail($reason);
+        return view('reasons.backoffice.staff.edit',$data);
     }
 
     /**
@@ -129,18 +129,18 @@ class ReasonController extends Controller
      */
     public function update(Request $request, $reason)
     {
+        // return $request;
         $request->validate([
-            'reference' => 'required|unique:reasons,reference,'.$reason,
-            'short_description' => 'required|required|max:600',
-            'description' => 'required|required|max:3000',
+            'reference' => 'required|unique:reason_langs,reason_id,'.$reason,
+            'description' => 'required|max:3000',
         ]);
-        
         $reason = Reason::find($reason);
         $reason->save();
 
         $reasonLangId = $reason->reasonLang()->id;
 
         $reasonLang = ReasonLang::find($reasonLangId);
+        $reasonLang->reference = $request->reference; 
         $reasonLang->description = $request->description; 
         $reasonLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
         $reasonLang->save(); 
@@ -227,8 +227,9 @@ class ReasonController extends Controller
     /**
      * 
      */
-    public function translations () {
+    public function translations ($Reason) {
         $data["languages"] =  Language::all();
+        $data["reason"] = Reason::findOrFail($Reason);
         return view('reasons.backoffice.staff.translations', $data);
     }
 }

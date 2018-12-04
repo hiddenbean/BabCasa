@@ -18,10 +18,10 @@
                             <a href="javascript:;">Requests</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{{ url('requests/reasons') }}">Reasons</a>
+                            <a href="{{ url('reasons') }}">reasons</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="">ID : </a>
+                            <a href="{{ url('reasons/'.$reason->id) }}">ID : {{$reason->id}}</a>
                         </li>
                         <li class="breadcrumb-item active">
                             Tanslations
@@ -34,7 +34,7 @@
     <!-- breadcrumb end -->
 
     <div class="container-fluid container-fixed-lg">
-    <form action="" method="POST">
+    <form action="{{url('reasons/'.$reason->id.'/translations')}}" method="POST">
         {{ csrf_field() }}
         <div class="card-body">
             <div class="row">
@@ -59,11 +59,20 @@
                             <!-- Nav tabs -->
                             <ul class="nav nav-tabs">
                                     @foreach($languages as $key=>$language)
+                                    @if(isset($reason->reasonLangs->where('lang_id',$language->id)->first()->reference)&& !empty($reason->reasonLangs->where('lang_id',$language->id)->first()->reference))
                                         <li>
-                                        <a data-toggle="tab" href="#{{$language->id}}" >
+                                        <a data-toggle="tab" class="{{$language->id==$reason->reasonLang()->lang_id ? 'active' : ''}}" href="#{{$language->id}}">
                                             <span>{{$language->name}}</span>
                                             </a>
                                         </li>
+                                    @else 
+                                    <li id="{{$language->id}}_slide" style="display:none;">
+                                        <a data-toggle="tab" href="#{{$language->id}}">
+                                        <span>{{$language->name}}</span>
+                                        </a>
+                                    </li>
+
+                                    @endif
                                     @endforeach
                                 
                                 <li>
@@ -76,9 +85,11 @@
                                         <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">Langues<span class="caret"></span> </a>
                                         <ul class="dropdown-menu">
                                             @foreach($languages as $key=>$language)
+                                            @if(!isset($reason->reasonLangs->where('lang_id',$language->id)->first()->reference)|| empty($reason->reasonLangs->where('lang_id',$language->id)->first()->reference))
                                                 <li id="{{$language->id}}_slide_option">
                                                     <a onclick="show_slide('{{$language->id}}_slide')" >{{$language->name}}</a>
                                                 </li>
+                                            @endif
                                             @endforeach
                                         </ul>
                                     </div>
@@ -88,36 +99,32 @@
                             <div class="tab-content">
                                 <input type="hidden" id="langsCount" value="{{ count($languages) }}">
                                 @foreach($languages as $key=>$language)
-                                <div class="tab-pane slide-left" id="{{$language->id}}">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group form-group-default required">
-                                                        <label>Reason</label>
-                                                        <input type="text" class="form-control" name="reference">
-                                                        <label class='error' for='reference'>
-                                                            @if ($errors->has('reference'))
-                                                                {{ $errors->first('reference') }}
-                                                            @endif
-                                                        </label> 
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                            <div class="tab-pane slide-left {{$language->id==$reason->reasonLang()->lang_id ? 'active' :''}}" id="{{$language->id}}">
+                                       
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group form-group-default">
+                                            <label>Name</label>
+                                            <input type="text" class="form-control"  name="references[]"  value="@if(isset($reason->reasonLangs->where('lang_id',$language->id)->first()->reference)){{$reason->reasonLangs->where('lang_id',$language->id)->first()->reference}}@endif">
+                                            <input type="hidden" name="languages_id[]" value="{{$language->id}}"></div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <label for="summernote" class="upper-title p-t-5 p-b-5 p-l-10">description</label>
-                                            <div class="summernote-wrapper bg-white">
-                                                <div id="summernote"></div>
-                                                <input type="hidden" name="description" id="description">
-                                            </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 m-b-20">
+                                        <label for="summernote{{$key}}" class="upper-title p-t-5 p-b-5 p-l-15">Description</label>
+                                        <div class="summernote-wrapper bg-white">
+                                            <div id="summernote{{$key}}"> @if(isset($reason->reasonLangs->where('lang_id',$language->id)->first()->description)){!!$reason->reasonLangs->where('lang_id',$language->id)->first()->description!!}@endif</div>
+                                            <input type="hidden" name="descriptions[]" id="description{{$key}}">
                                         </div>
                                     </div>
                                 </div>
+
+
+                             </div>
+
                                 {{-- @endif --}}
                                 @endforeach
+                         
                             </div>
                         </div>
                     </div>
@@ -143,34 +150,38 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-md-12">
-                                            Status : <strong></strong>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            Creation date : <strong></strong>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            Last update : <strong></strong>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            Remove date : <strong></strong>
-                                        </div>
-                                    </div>
-                                    <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
-                                        <div class="col-md-6">
-                                            <button id="onClick" type="button" class="btn btn-block"><i class="fas fa-check"></i> <strong>save</strong></button>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a href="{{ url(url()->current()) }}" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>cancel</strong></a>
-                                        </div>
-                                    </div>
-                                </div>
+                                       <div class="col-md-12">
+                                           Status : <strong>@if($reason->deleted_at == NULL) Publish @else Removed @endif</strong>
+                                       </div>
+                                   </div>
+                                   <div class="row">
+                                       <div class="col-md-12">
+                                           Creation date : <strong>{{$reason->created_at}}</strong>
+                                       </div>
+                                   </div>
+                                   @if($reason->updated_at != NULL)
+                                   <div class="row">
+                                       <div class="col-md-12">
+                                           Last update : <strong>{{$reason->updated_at}}</strong>
+                                       </div>
+                                   </div>
+                                   @endif
+                                   @if($reason->deleted_at != NULL)
+                                   <div class="row">
+                                       <div class="col-md-12">
+                                           Remove date : <strong>{{$reason->deleted_at}}</strong>
+                                       </div>
+                                   </div>
+                                   @endif
+                                   <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
+                                       <div class="col-md-6">
+                                           <button id="onClick" type="button" class="btn btn-block"><i class="fas fa-check"></i> <strong>save</strong></button>
+                                       </div>
+                                       <div class="col-md-6">
+                                           <button type="reset" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>cancel</strong></button>
+                                       </div>
+                                   </div>
+                               </div>
                             </div>
                         </div>
                     </div>

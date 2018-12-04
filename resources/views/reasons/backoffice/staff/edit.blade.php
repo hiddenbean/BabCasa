@@ -18,10 +18,10 @@
                         <a href="javasacript:;">Requests</a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="{{ url('requests/reasons/') }}">Reasons</a>
+                        <a href="{{ url('reasons/') }}">Reasons</a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="{{ url('reasons/1') }}">ID : </a>
+                    <a href="{{ url('reasons/'.$reason->id) }}">ID : {{$reason->id}}</a>
                     </li>
                     <li class="breadcrumb-item active">
                         Edit
@@ -37,7 +37,7 @@
     <div class="card card-transparent">
         <div class="card-header">
             <div class="card-title">
-                Edit reason id :
+                Edit reason id :  {{$reason->id}}
                 <a 
                     href="javascript:;" 
                     data-toggle="tooltip" 
@@ -50,7 +50,7 @@
                 </a>
             </div>
         </div>
-        <form id="form-personal"  method="POST" action=""  enctype="multipart/form-data">
+    <form id="form-personal"  method="POST" action="{{ url('reasons/'.$reason->id)}}"  enctype="multipart/form-data">
                         {{ csrf_field() }}
         <div class="card-body">
             <div class="row">
@@ -61,7 +61,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group form-group-default required">
                                         <label>Reason</label>
-                                        <input type="text" class="form-control" name="reference">
+                                        <input type="text" class="form-control" name="reference" value="{{$reason->reasonLang()->reference}}">
                                         <label class='error' for='reference'>
                                             @if ($errors->has('reference'))
                                                 {{ $errors->first('reference') }}
@@ -76,7 +76,7 @@
                         <div class="col-md-12">
                             <label for="summernote" class="upper-title p-t-5 p-b-5 p-l-10">description</label>
                             <div class="summernote-wrapper bg-white">
-                                <div id="summernote"></div>
+                            <div id="summernote">{!!$reason->reasonLang()->description!!}</div>
                                 <input type="hidden" name="description" id="description">
                             </div>
                         </div>
@@ -136,12 +136,17 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            Available in : 
+                                            Available in :  
+                                            @foreach($reason->reasonLangs as $reasonLang)
+                                                @if($reasonLang->reference != "")
+                                                    <strong><a href="#">{{$reasonLang->lang->name}}</a></strong>
+                                                @endif
+                                            @endforeach
                                         </div>
                                     </div>
                                     <div class="row b-t b-dashed b-grey m-t-20 p-t-20">
                                         <div class="col-md-12">
-                                            <a href="" class="btn btn-transparent"><strong><i class="fas fa-language p-r-10 fa-lg"></i>Add or Edit translations</strong></a>                                    
+                                            <a href="{{url('reasons/'.$reason->id.'/translations')}}" class="btn btn-transparent"><strong><i class="fas fa-language p-r-10 fa-lg"></i>Add or Edit translations</strong></a>                                    
                                         </div>
                                     </div>
                                 </div>
@@ -162,5 +167,9 @@
     <script type="text/javascript" src="{{ asset('plugins/multiselect/js/multiselect.min.js') }}"></script>
     <script>
         $('#summernote').summernote({height: 250});
+        $("#onClick").click( function () {
+         $('#description').val($('#summernote').summernote().code());
+        $('#form').submit();
+    });
     </script>
 @endsection

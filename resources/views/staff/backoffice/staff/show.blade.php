@@ -287,7 +287,7 @@
             </div>
         </div>
     </div>
-
+    {{count($activities)}}
     @include('logs.backoffice.components.table')
 
 

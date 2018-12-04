@@ -33,7 +33,7 @@
     <div class="card card-transparent">
         <div class="card-header">
             <div class="card-title">
-                Add a new Business {{$errors}}
+                Add a new Business
                 <a 
                     href="javascript:;" 
                     data-toggle="tooltip" 
@@ -394,6 +394,9 @@
                                 <label for="path_staff" class="choose_photo">
                                     <span>
                                         <i class="fa fa-image"></i> Click here to uploade picture</span>
+                                </label>
+                                <label class="error p-l-15" for="path">
+                                    {{ $errors->has('path') ? $errors->first('path') : "" }}
                                 </label>
                                 <input type="file" id="path_staff" name="path" class="form-control hide">
                             </div>

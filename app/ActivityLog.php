@@ -8,7 +8,7 @@ class ActivityLog extends Model
 {
     protected $table = 'activity_log';
 
-    public function logable()
+    public function causer()
     {
         return $this->morphTo();
     }
