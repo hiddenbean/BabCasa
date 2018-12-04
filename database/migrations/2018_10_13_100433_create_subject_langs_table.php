@@ -15,7 +15,7 @@ class CreateSubjectLangsTable extends Migration
     {
         Schema::create('subject_langs', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('reference')->unique();
+            $table->string('reference');
             $table->text('description');
             $table->integer('subject_id')->nullable();
             $table->integer('lang_id');

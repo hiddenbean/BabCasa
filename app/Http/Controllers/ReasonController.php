@@ -116,7 +116,7 @@ class ReasonController extends Controller
      */
     public function edit($reason)
     {
-        $data['reason'] = reason::findOrFail($reason);
+        $data['reason'] = Reason::findOrFail($reason);
         return view('reasons.backoffice.staff.edit',$data);
     }
 
@@ -217,11 +217,36 @@ class ReasonController extends Controller
             );
         }
     }
+    public function restore($reason)
+    {
+        $reason = reason::onlyTrashed()->where('id', $reason)->first();
+        $reason->restore();
+        $messages['success'] = 'reason has been restored successfuly !!';
+        return redirect('reasons')->with('messages',$messages);
+    }
+
+    public function multiRestore(Request $request)
+    {
+        $request->validate([
+            'reasons' => 'required',
+        ]);
+        $s=0;
+        $messages = [];
+        foreach ($request->reasons as  $reason)
+        {
+            $reason = reason::onlyTrashed()->where('id', $reason)->first();
+            $reason->restore();
+            $s++;
+            $messages['success'] = $s. ($s == 1 ? ' reason' :' reasons') .' has been restored successfuly';
+        }
+        return redirect('reasons')->with('messages',$messages);
+    }
     /**
      * 
      */
     public function trash () {
-        return view('reasons.backoffice.staff.trash');
+        $data['reasons'] = Reason::onlyTrashed()->get();
+        return view('reasons.backoffice.staff.trash',$data);
     }
 
     /**

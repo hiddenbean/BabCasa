@@ -27,7 +27,7 @@ class Reason extends Model
 
     function reasonLangs()
     {
-        return $this->hasMany('App\ReasonLang');
+        return $this->hasMany('App\ReasonLang')->withTrashed();
     }
     public function reasonLang()
     {

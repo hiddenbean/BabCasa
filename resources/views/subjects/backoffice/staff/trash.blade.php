@@ -17,10 +17,7 @@
                             <a href="{{ url('/') }}">DASHBOARD</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="javascript:;">Requests</a>
-                        </li>
-                        <li class="breadcrumb-item">
-                            <a href="{{ url('requests/reasons') }}">Reasons</a>
+                            <a href="{{ url('subjects') }}">subjects</a>
                         </li>
                         <li class="breadcrumb-item active">
                             Trash
@@ -35,7 +32,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-title">
-                    Removed reasons list 
+                    Removed subjects list 
                     <a 
                         href="javascript:;" 
                         data-toggle="tooltip" 
@@ -61,34 +58,34 @@
                 
             </div>
             <div class="card-body">
-            <form action="{{url('reasons/multi-restore')}}" method="post">
+            <form action="{{url('subjects/multi-restore')}}" method="post">
                 {{ csrf_field() }}
                 <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
                     <thead>
                         <th class="text-center" style="width:35px"><button class="btn btn-link" type="submit"><i class="fas fa-undo-alt fa-lg"></i></button></th>
                         <th style="width:62px"></th>
-                        <th style="width:100px">Reason</th>
+                        <th style="width:100px">subject</th>
                         <th style="width:250px">Description</th>             
                         <th style="width:150px">Deleted at</th>             
                     </thead>
             
                     <tbody> 
-                            @foreach($reasons as $reason)
+                            @foreach($subjects as $subject)
                             <tr role="row" id="0">
                                <td class="v-align-middle p-l-5 p-r-5">
                                 <div class="checkbox no-padding no-margin text-center">
-                                    <input type="checkbox" value="{{$reason->id}}" name="reasons[]" id="checkbox{{$reason->id}}">
-                                    <label for="checkbox{{$reason->id}}" class="no-padding no-margin"></label>
+                                    <input type="checkbox" value="{{$subject->id}}" name="subjects[]" id="checkbox{{$subject->id}}">
+                                    <label for="checkbox{{$subject->id}}" class="no-padding no-margin"></label>
                                 </div>
                             </td>
                                 <td class="v-align-middle text-center p-l-5 p-r-5">
-                                    <a href="{{url('reasons/'.$reason->id.'/restore')}}" data-method="POST"  data-token="{{csrf_token()}}" class="text-danger"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></a></td>
+                                    <a href="{{url('subjects/'.$subject->id.'/restore')}}" data-method="POST"  data-token="{{csrf_token()}}" class="text-danger"><i class="fas fa-undo-alt"></i> <strong>Restore</strong></a></td>
                                 </td>
-                                <td class="v-align-middle"><a href="{{url('reasons/'.$reason->id)}}"><strong>{{$reason->reasonLang()->reference }}</strong></a></td>
+                                <td class="v-align-middle"><a href="{{url('subjects/'.$subject->id)}}"><strong>{{$subject->subjectLang()->reference }}</strong></a></td>
                                
                                 
-                                <td class="v-align-middle">{{$reason->deleted_at}}</td>
-                                <td class="v-align-middle">{!!$reason->reasonLang()->description!!}</td>
+                                <td class="v-align-middle">{!!$subject->subjectLang()->description!!}</td>
+                                <td class="v-align-middle">{{$subject->deleted_at}}</td>
 
                             </tr> 
                         @endforeach                                                    

@@ -34,7 +34,7 @@ class Subject extends Model
     }
     function subjectLangs()
     {
-        return $this->hasMany('App\SubjectLang');
+        return $this->hasMany('App\SubjectLang')->withTrashed();
     }
     public function subjectLang()
     {
