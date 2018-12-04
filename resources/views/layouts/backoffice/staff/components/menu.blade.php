@@ -330,13 +330,13 @@
                     </span>
                     <ul class="sub-menu" style="display: block;">
                         <li>
-                            <a href="{{ url('requests/reasons/create') }}">Add reasons</a>
+                            <a href="{{ url('reasons/create') }}">Add reasons</a>
                             <span class="icon-thumbnail">
                                 <i class="fas fa-plus"></i>
                             </span>
                         </li>
                         <li>
-                            <a href="{{ url('requests/reasons/') }}">All reasons</a>
+                            <a href="{{ url('reasons/') }}">All reasons</a>
                             <span class="icon-thumbnail">
                                 <i class="fas fa-list"></i>
                             </span>
