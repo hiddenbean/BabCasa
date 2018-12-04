@@ -186,6 +186,9 @@ class BusinessController extends Controller
         $data['countries'] = Country::all();
         $data['reasons'] = Reason::all();
         $data['business'] = Business::withTrashed()->where('name',$business)->first();
+        $data['activities'] = $data['business']->logs
+                                            ->where('created_at','>=' ,date('Y-m-d h:i:s',strtotime("-1 week") ))
+                                            ->groupBy(function($item){return $item->created_at->format('d-M-y');});
         return view('businesses.backoffice.staff.show',$data);
     }
 

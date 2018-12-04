@@ -53,7 +53,7 @@ class ParticularClientController extends Controller
     public function index()
     {
         $data['particulars'] = ParticularClient::all();
-        // return $data['particulars'][0]->phone;
+        //  return $data['particulars'][0];
         return view('clients.backoffice.staff.index',$data);
     }
     
@@ -176,6 +176,9 @@ class ParticularClientController extends Controller
     public function show($client)
     {
         $data['client'] = ParticularClient::withTrashed()->where('name',$client)->first();
+        $data['activities'] = $data['client']->logs
+                                            ->where('created_at','>=' ,date('Y-m-d h:i:s',strtotime("-1 week") ))
+                                            ->groupBy(function($item){return $item->created_at->format('d-M-y');});
         return view('clients.backoffice.staff.show',$data);
     }
 

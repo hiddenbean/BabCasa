@@ -136,9 +136,11 @@ class StaffController extends Controller
      */
     public function show($staff)
     {
+        // return date('Y-m-d',strtotime("-1 week"));
         $data['staff'] = Staff::findOrFail($staff);
-        $data['activities'] = $data['staff']->logs;
-        // return $data['activities'][0]->causer;
+        $data['activities'] = $data['staff']->logs
+                                            ->where('created_at','>=' ,date('Y-m-d h:i:s',strtotime("-1 week") ))
+                                            ->groupBy(function($item){return $item->created_at->format('d-M-y');});
         return view('staff.backoffice.staff.show',$data);
     }
 

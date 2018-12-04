@@ -104,7 +104,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <strong>
-                                                {{$business->firs_name}}
+                                                {{$business->first_name}}
                                         </strong>
                                     </div>
                                 </div>

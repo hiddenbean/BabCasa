@@ -37,6 +37,10 @@ class ParticularClient extends Authenticatable
     {
         return $this->morphOne('App\Picture', 'pictureable');
     }
+    public function logs()
+    {
+        return $this->morphMany('App\ActivityLog', 'causer');
+    }
 
     public function phone()
     {

@@ -42,6 +42,11 @@ class Business extends Authenticatable
     {
         return $this->statuses()->orderBy('id', 'desc');
     }
+    public function logs()
+    {
+        return $this->morphMany('App\ActivityLog', 'causer');
+    }
+    
 
     public function picture()
     {

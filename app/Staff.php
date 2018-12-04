@@ -55,6 +55,7 @@ class Staff extends Authenticatable
         return $this->morphMany('App\ActivityLog', 'causer');
     }
     
+    
     public function claimMessages()
     {
         return $this->hasMany('App\ClaimMessage');
