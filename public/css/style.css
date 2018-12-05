@@ -447,3 +447,7 @@ td.picture > a > img{
     color: white;
     background: #f55753;
 }
+
+.secondary-sidebar {
+    background: #2a303c;
+}

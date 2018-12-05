@@ -140,7 +140,7 @@ class ClaimController extends Controller
             case 'partner': $view = 'claims.backoffice.partner.create';break;
             case 'staff':$view = 'claims.backoffice.staff.create';break;
         }
-        return view($view,$data);
+        return view('claims.backoffice.staff.create',$data);
     }
 
     /**

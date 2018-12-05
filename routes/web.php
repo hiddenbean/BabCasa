@@ -223,6 +223,7 @@ function()
 
         Route::prefix('support')->group(function () {
             Route::get('/', 'ClaimController@index');
+            Route::get('create', 'ClaimController@create');
         });
     });
     //Staff routes end

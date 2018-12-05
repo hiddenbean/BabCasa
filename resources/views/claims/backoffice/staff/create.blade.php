@@ -1,142 +1,128 @@
-@extends('layouts.backoffice.staff.app')
-@section('css_before')
-<link href="{{ asset('plugins/bootstrap-datepicker/css/datepicker3.css') }}" rel="stylesheet" type="text/css" media="screen">
-<link href="{{ asset('plugins/switchery/css/switchery.min.css') }}" rel="stylesheet" type="text/css" media="screen" />
-<link href="{{ asset('plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" media="screen" />
-<link media="screen" type="text/css" rel="stylesheet" href="{{ asset('plugins/summernote/css/summernote.css') }}"/>    
-@stop
+@extends('layouts.backoffice.staff.full_hight')
+
+@section('before_css')
+<link href="{{ asset('plugins/bootstrap3-wysihtml5/bootstrap3-wysihtml5.min.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('plugins/jquery-menuclipper/jquery.menuclipper.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('plugins/bootstrap-tag/bootstrap-tagsinput.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('pages/css/editor.css')}}" rel="stylesheet" type="text/css"/>
+<link href="{{ asset('plugins/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css"/>
+
+@endsection
+
 @section('content')
-<!-- breadcrumb start -->
-<div class="container-fluid container-fixed-lg ">
-    <div class="row">
-        <div class="col-md-12">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                    <a href="{{ url('/') }}">DASHBOARD</a>
-                </li>
-                <li class="breadcrumb-item">
-                    <a href="{{ url('/support') }}">Claims</a>
-                </li>
-                <li class="breadcrumb-item active">
-                    Create
-                </li>
-            </ol>
-        </div>
-    </div>
-</div>
-<!-- breadcrumb end -->
+    <!-- START APP -->
+          <!-- START SECONDARY SIDEBAR MENU-->
+          <nav class="secondary-sidebar">
+            <div class=" m-b-30 m-l-30 m-r-30 d-sm-none d-md-block d-lg-block d-xl-block">
+              <a href="email_compose.html" class="btn btn-primary btn-block uppercase">New ticket</a>
+            </div>
+            <p class="menu-title">BROWSE</p>
+            <ul class="main-menu">
+              <li class="active">
+                <a href="#">
+                  <span class="title"><i class="pg-inbox"></i>All tickets</span>
+                  <span class="badge pull-right">5</span>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <span class="title"><i class="fas fa-folder-open"></i>Open tickets</span>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                    <span class="title"><i class="fas fa-folder-minus"></i>Closed tickets</span>
+                </a>
+              </li>
+            </ul>
+            <p class="menu-title m-t-20 all-caps">Subjects</p>
+            <ul class="sub-menu no-padding">
+              <li>
+                <a href="#">
+                  <span class="title">Subjects1</span>
+                  <span class="badge pull-right">5</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+          <!-- END SECONDARY SIDEBAR MENU -->
 
-<div class="container-fluid container-fixed-lg">
-    <div class="card ">
-        <div class="card-header">
-            <h4 class="m-t-0 m-b-0"> <strong>Create new Claim</strong> </h4>
-             <label class='error' >
-             @if($errors->count()>0)
-                You have {{$errors->count()}} ERROR(S) !!
-            @endif
-             </label>
-        </div>
-        <div class="card-body">
+          <!-- app -->
+<!-- END SECONDARY SIDEBAR MENU -->
+<div class="inner-content full-height">
+        <!-- START COMPOSE EMAIL -->
+        <div class="email-composer container-fluid">
             <div class="row">
-                <div class="col-xl-12">
-                        <div class="card card-transparent">
-                           
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-10"> 
-                                        <form action="{{url('support')}}" method="POST"
-                                            id="form-work" class="form-horizontal" role="form" autocomplete="on"
-                                            novalidate="novalidate">
-                                            {{ csrf_field() }}
-
-                                            <div class="form-group row">
-                                                <label for="object" class="col-md-3 control-label">Title</label>
-                                                
-                                                <div class="col-md-9">
-                                                    <input type="text" name="title" class="form-control" name="title" aria-required="true" /> 
-                                                    <label class='error' for='title'>
-                                                            @if ($errors->has('title'))
-                                                                {{ $errors->first('title') }}
-                                                            @endif
-                                                    </label> 
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row">
-                                                <label for="subject" class="col-md-3 control-label">Subject</label>
-                                                <div class="col-md-9"> 
-                                                    <div class="form-group form-group-default"> 
-                                                            <label class="">Subject</label>
-                                                            <select class="form-control attr" name="subject_id" >
-                                                            @foreach ($subjects as $subject)
-                                                                
-                                                                <option value="{{$subject->id}}">{{$subject->subjectLang->first()->reference}}</option> 
-                                                            @endforeach
-                                                            
-                                                            </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row">
-                                                <label for="summernote" class="col-md-12 control-label">Message</label>
-                                                <div class="col-md-12 p-l-0">
-                                                    <br>
-                                                    <!-- content start -->
-                                                    <div class="summernote-wrapper bg-white ">
-                                                        <div id="summernote" class="form-control"></div>
-                                                        <input type="hidden" value="" id="message" name="message">
-                                                    </div>
-                                                        <label class='error' for='message' id="error">
-                                                        </label> 
-                                                    <!-- content end -->
-                                                </div>
-                                            </div>
-                                            <br>
-                                            <div class="row"> 
-                                                <div class="col-md-9">
-                                                    <button class="btn btn-primary" type="button" id="onClick">Save</button> 
-                                                </div>
-                                            </div>
-                                        </form>
+                <div class="col-sm-12 no-padding">
+                    <div class="wysiwyg5-wrapper email-toolbar-wrapper">
+                    </div>
+                    <form id="form-project" role="form" autocomplete="off">
+                        <div class="form-group-attached">
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <div class="form-group form-group-default form-group-default-select2">
+                                            <label>To</label>
+                                            <select class=" full-width" data-init-plugin="select2">
+                                                <optgroup label="Clients">
+                                                    <option value="Jim">Jim</option>
+                                                    <option value="John">John</option>
+                                                    <option value="Lucy">Lucy</option>
+                                                </optgroup>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <div class="form-group form-group-default form-group-default-select2">
+                                            <label>Subject</label>
+                                            <select class=" full-width" data-init-plugin="select2">
+                                                <option value="Jim">Jim</option>
+                                                <option value="John">John</option>
+                                                <option value="Lucy">Lucy</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group form-group-default required">
+                                        <label>Title</label>
+                                        <input type="text" class="form-control" required="">
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </form>
+                    <div class="wysiwyg5-wrapper email-body-wrapper">
+                        <textarea class="wysiwyg email-body" style="height:350px"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row p-b-20">
+                <div class="col-sm-11">
+                    <button class="btn btn-white btn-cons">Cancel</button>
+                    <button class="btn btn-primary btn-cons">Send</button>
                 </div>
             </div>
         </div>
+        <!-- END COMPOSE EMAIL -->
     </div>
-</div>
+    <!-- app end -->
+
+@endsection
+@section('before_script')
+<script src="{{ asset('plugins/select2/js/select2.full.min.js')}}" type="text/javascript"></script>    
 @endsection
 
-@section('script')
-<script type="text/javascript" src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('plugins/summernote/js/summernote.min.js') }}"></script>
-<script src="{{ asset('plugins/switchery/js/switchery.min.js') }}" type="text/javascript"></script>
-<script type="text/javascript" src="{{ asset('plugins/classie/classie.js') }}"></script>
-<script src="{{ asset('plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
-<script>
-    $(document).ready(function () {
-        $('#birthday').datepicker();
+@section('after_script')
+<script src="{{ asset('plugins/bootstrap3-wysihtml5/bootstrap3-wysihtml5.all.min.js')}}"></script>
+<script src="{{ asset('plugins/jquery-menuclipper/jquery.menuclipper.js')}}"></script>
+<script src="{{ asset('plugins/bootstrap-tag/bootstrap-tagsinput.min.js')}}" type="text/javascript"></script>
+<script src="{{ asset('pages/js/pages.email.js')}}" type="text/javascript"></script>
+@endsection
 
-         $('#summernote').summernote();
-            $('#onClick').on('click', function(){ 
-                var chaine = ''+$('#summernote').summernote().code().replace(/<\/?[^>]+(>|$)/g, "");
-                if(chaine=='')
-                {
-                    $('#error').html('the message field is required .');
-                } else
-                {
-                    ($('#message').val($('#summernote').summernote().code()));
-                    this.form.submit();
-
-                }
-    
-            });
-            $('#onReste').on('click', function(){ 
-                $('#summernote').summernote().code('');  
-            }); 
-    });
-</script> 
-@stop
