@@ -48,7 +48,7 @@
 
           <!-- app -->
           <div class="inner-content full-height">
-            @include('claims.backoffice.staff.body')*
+            @include('claims.backoffice.staff.body')
           </div>
           <!-- app end -->
 
