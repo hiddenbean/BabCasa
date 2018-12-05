@@ -195,18 +195,20 @@ function()
         }); 
 
         // Businesses UIs
-        Route::prefix('businesses')->group(function () {
+        Route::prefix('businesses')->middleware('CanRead:business')->group(function () {
             Route::get('/', 'BusinessController@index');
             Route::get('trash', 'BusinessController@trash');
-            Route::get('create', 'BusinessController@create');
-            Route::prefix('{business}')->group(function () {
-                Route::get('/', 'BusinessController@show');
-                Route::get('edit', 'BusinessController@edit');
+            Route::group(['middleware' => ['CanWrite:business']], function(){
+                Route::get('create', 'BusinessController@create');
+                Route::prefix('{business}')->group(function () {
+                    Route::get('edit', 'BusinessController@edit');
+                });
             });
+            Route::get('/', 'BusinessController@show');
         });
 
         // Clients UIs
-        Route::prefix('clients')->group(function () {
+        Route::prefix('clients')->middleware('CanRead:client')->group(function () {
             Route::get('/', 'ParticularClientController@index');
             Route::get('unactive', 'ParticularClientController@unactive');
             Route::prefix('{client}')->group(function () {
@@ -215,13 +217,12 @@ function()
         });
 
         // Requests UIs
-        Route::prefix('requests')->group(function () {
-            Route::get('/', function () { return view('requests.backoffice.staff.requests'); });
+        Route::prefix('requests')->middleware('CanRead:request')->group(function () {
             Route::get('subscriptions', 'StatusController@subscriptions');
             Route::get('updates','StatusController@updates');
         });
 
-        Route::prefix('support')->group(function () {
+        Route::prefix('support')->middleware('CanRead:claim')->group(function () {
             Route::get('/', 'ClaimController@index');
         });
     });
@@ -556,7 +557,7 @@ Route::domain('staff.babcasa.com')->group(function (){
             Route::delete('delete/multiple', 'ProfileController@multiDestroy')->name('delete.profiles');
         });
     
-    Route::prefix('businesses')->group(function(){
+    Route::prefix('businesses')->middleware('CanWrite:business')->group(function(){
         Route::post('/', 'BusinessController@storeWithRedirect');
         Route::post('sendResetEmail/{business}', 'BusinessController@sendResetLinkEmail');
 
