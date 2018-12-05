@@ -45,10 +45,10 @@ class PermissionSeeder extends Seeder
             'type' => 'staff',
         ]);
         DB::table('permissions')->insert([
-            'type' => 'particular_client',
+            'type' => 'client',
         ]);
         DB::table('permissions')->insert([
-            'type' => 'business_client',
+            'type' => 'business',
         ]);
         DB::table('permissions')->insert([
             'type' => 'dashboard',
@@ -61,6 +61,21 @@ class PermissionSeeder extends Seeder
         ]);
         DB::table('permissions')->insert([
             'type' => 'language',
+        ]);
+        DB::table('permissions')->insert([
+            'type' => 'order',
+        ]);
+        DB::table('permissions')->insert([
+            'type' => 'businesOrder',
+        ]);
+        DB::table('permissions')->insert([
+            'type' => 'market',
+        ]);
+        DB::table('permissions')->insert([
+            'type' => 'bill',
+        ]);
+        DB::table('permissions')->insert([
+            'type' => 'request',
         ]);
 
 

@@ -21,7 +21,7 @@ class Tag extends Model
 
     public function getDescriptionForEvent(string $eventName): string
     {
-        return "This model has been ". $eventName;
+        return "has {$eventName} the tag ID : <u><a href=".url('tags/'.$this->id).">{$this->id}</a></u>";
     }
 
     public function products()

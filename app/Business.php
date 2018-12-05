@@ -24,7 +24,8 @@ class Business extends Authenticatable
 
     public function getDescriptionForEvent(string $eventName): string
     {
-        return "This model has been ". $eventName;
+    
+        return "has {$eventName} the business ID : <u><a href=".url('businesses/'.$this->id).">{$this->id}</a></u>";
     }
     
     protected $guard = 'business';

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 Use Auth;
 use App\Claim;
+use App\Staff;
 use App\Subject;
 use App\Partner;
 use App\ClaimMessage;
@@ -45,30 +46,11 @@ class ClaimController extends Controller
     public function index()
     {
         $type = $this->userType();
-        switch ($type) {
-            case 'partner':
-                $data['claims'] = Auth::guard('partner')->user()->claims;
-                $view = 'claims.backoffice.partner.index';
-                break;
-
-            case 'staff':
-            $data['orders'] = Claim::all();
-            $view = 'orders.backoffice.staff.index';
-                break;
-        }
-        return view('claims.backoffice.staff.index');
+        $data['subjects']=Subject::all();
+        $data['claims'] = Auth::guard($type)->user()->claims->groupBy(function($item){return $item->created_at->format('d-M-y');});;
+        return view('claims.backoffice.'.$type.'.index',$data);
     }
-    /**
-     * Display a list of all claims.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function all()
-    {
-        
-        $data['claims']=Claim::all();
-        return view('claims.backoffice.staff.index',$data);  
-    }
+    
     /**
      * Display a list of open claims.
      *
@@ -77,20 +59,10 @@ class ClaimController extends Controller
 
     public function open()
     {
-        
         $type = $this->userType();
-        switch ($type) {
-            case 'partner':
-                $data['claims'] = Auth::guard('partner')->user()->claims->where('status',true);
-                $view = 'claims.backoffice.partner.index';
-                break;
-
-            case 'staff':
-                $data['orders'] = Claim::where('status',true);
-                $view = 'claims.backoffice.staff.index';
-                break;
-        }
-        return view($view,$data);
+        $data['subjects']=Subject::all();
+        $data['claims'] = Auth::guard($type)->user()->claims->where('status',true)->groupBy(function($item){return $item->created_at->format('d-M-y');});;
+        return view('claims.backoffice.'.$type.'.index',$data);
     }
 
     /**
@@ -101,30 +73,11 @@ class ClaimController extends Controller
     public function closed()
     {       
         $type = $this->userType();
-        switch ($type) {
-            case 'partner':
-                $data['claims'] = Auth::guard('partner')->user()->claims->where('status',false);
-                $view = 'claims.backoffice.partner.index';
-                break;
+        $data['subjects']=Subject::all();
+        $data['claims'] = Auth::guard($type)->user()->claims->where('status',false)->groupBy(function($item){return $item->created_at->format('d-M-y');});;
+        return view('claims.backoffice.'.$type.'.index',$data);
+    }
 
-            case 'staff':
-                $data['orders'] = Claim::where('status',false);
-                $view = 'claims.backoffice.staff.index';
-                break;
-        }
-        return view($view,$data);
-    }
-    /**
-     * Display a list of related claims.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function related()
-    {
-        
-        $data['claims']=Auth::guard('staff')->user()->claims;
-        return view('claims.backoffice.staff.index',$data);  
-    }
 
     /**
      * Show the form for creating a new claim for the authenticated partner.
@@ -183,6 +136,21 @@ class ClaimController extends Controller
         return redirect('support');
     }
 
+    public function staffTarget()
+    {
+        $min = Staff::first()->claim->count();
+        $id = Staff::first()->id;
+        foreach(Staff::all() as $staff)
+        {
+            if($staff->claim->count() < $min)
+            {
+                $min = $staff->claim->count();
+                $id = $staff->id;
+            } 
+
+        }
+        return $id;
+    }  
 
     public function userType()
     {

@@ -22,7 +22,7 @@ class Subject extends Model
 
     public function getDescriptionForEvent(string $eventName): string
     {
-        return "This model has been ". $eventName;
+        return "has {$eventName} the subject ID : <u><a href=".url('subjects/'.$this->id).">{$this->id}</a></u>";
     }
 
     protected $dates = ['deleted_at'];

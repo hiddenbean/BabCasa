@@ -17,7 +17,8 @@ class Bundle extends Model
 
     public function getDescriptionForEvent(string $eventName): string
     {
-        return "you have ". $eventName." a new attribute : <a href='attributes/".$this->id."'>Attribute</a>";
+        return "has {$eventName} the bandle ID : <u>{$this->id}</u>";
+        
     }
 
     // Relationship with discount table

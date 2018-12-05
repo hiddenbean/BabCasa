@@ -22,7 +22,7 @@ class Reason extends Model
 
     public function getDescriptionForEvent(string $eventName): string
     {
-        return "This model has been ". $eventName;
+        return "has {$eventName} the reason ID : <u><a href=".url('reasons/'.$this->id).">{$this->id}</a></u>";
     }
 
     function reasonLangs()

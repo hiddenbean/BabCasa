@@ -20,7 +20,7 @@ class Attribute extends Model
 
     public function getDescriptionForEvent(string $eventName): string
     {
-        return "you have ". $eventName." a new attribute : <a href='attributes/".$this->id."'>Attribute</a>";
+        return "has {$eventName} the attribute ID : <u><a href=".url('attributes/'.$this->id).">{$this->id}</a></u>";
     }
 
 

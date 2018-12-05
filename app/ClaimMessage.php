@@ -15,7 +15,7 @@ class ClaimMessage extends Model
 
     public function getDescriptionForEvent(string $eventName): string
     {
-        return "This model has been ". $eventName;
+        return "has {$eventName} the message ID : <u><a href=".url('claims/'.$this->claim_id)."><{$this->id}</a></u>";
     }
 
     protected $fillable=[

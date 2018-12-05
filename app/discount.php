@@ -17,7 +17,7 @@ class Discount extends Model
 
     public function getDescriptionForEvent(string $eventName): string
     {
-        return "This model has been ". $eventName;
+        return "has {$eventName} the discount ID : <u><a href=".url('discounts/'.$this->id).">{$this->id}</a></u>";
     }
 
     // Relationship with discount langs table

@@ -19,7 +19,7 @@ class Gender extends Model
 
     public function getDescriptionForEvent(string $eventName): string
     {
-        return "This model has been ". $eventName;
+        return "has {$eventName} the gender ID : <u>{$this->id}</u>";
     }
 
     public function genderLangs()

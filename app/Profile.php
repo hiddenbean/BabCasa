@@ -21,7 +21,7 @@ class Profile extends Model
 
 	public function getDescriptionForEvent(string $eventName): string
 	{
-		return "This model has been ". $eventName;
+		return "has {$eventName} the profile ID : <u><a href=".url('profiles/'.$this->id).">{$this->id}</a></u>";
 	}
 	
     public function profileLangs()

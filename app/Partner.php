@@ -28,7 +28,7 @@ class Partner extends Authenticatable
 
     public function getDescriptionForEvent(string $eventName): string
     {
-        return "This model has been ". $eventName;
+        return "has {$eventName} the partner ID : <u><a href=".url('affiliates/'.$this->id).">{$this->id}</a></u>";
     }  
 
     protected $fillable = ['company_name', 'email','password', 'name', 'about', 'first_name', 'last_name', 'admin_email', 'taxe_id', 'is_register_to_newsletter'];

@@ -10,6 +10,7 @@
             <span class="bg-primary icon-thumbnail"><i class="pg-home"></i></span>
         </li>
         @endif
+        @if (auth()->guard('staff')->user()->can('read','category'))
         <li>
             <a href="javascript:;">
                 <span class="title">Categories</span>
@@ -33,6 +34,8 @@
                 </li>
             </ul>
         </li>
+        @endif
+        @if (auth()->guard('staff')->user()->can('read','detail'))
         <li>
             <a href="javascript:;">
                 <span class="title">Details</span>
@@ -56,6 +59,8 @@
                 </li>
             </ul>
         </li>
+        @endif
+        @if (auth()->guard('staff')->user()->can('read','dashboard'))
         <li>
             <a href="javascript:;">
                 <span class="title">Attributes</span>
@@ -79,6 +84,8 @@
                 </li>
             </ul>
         </li>
+        @endif
+        @if (auth()->guard('staff')->user()->can('read','tag'))
         <li>
             <a href="javascript:;">
                 <span class="title">Tags</span>
@@ -102,6 +109,7 @@
                 </li>
             </ul>
         </li>
+        @endif
         <li>
             <a href="javascript:;">
                 <span class="title">Geolocations</span>
@@ -111,16 +119,22 @@
                 <i class="fas fa-map-marked-alt"></i>
             </span>
             <ul class="sub-menu">
+                @if (auth()->guard('staff')->user()->can('read','country'))
                 <li>
                     <a href="{{url('countries')}}">Countries</a>
                     <span class="icon-thumbnail"><i class="fa fa-flag"></i></span>
                 </li>
+                 @endif
+                 @if (auth()->guard('staff')->user()->can('read','language'))
                 <li>
                     <a href="{{url('languages')}}">Languages</a>
                     <span class="icon-thumbnail"><i class="fas fa-language"></i></span>
                 </li>
+                @endif
             </ul>
         </li>
+       
+        @if (auth()->guard('staff')->user()->can('read','order'))
         <li>
             <a href="javascript:;">
                 <span class="title">Clients Orders</span>
@@ -148,9 +162,11 @@
                 </li>
             </ul>
         </li>
+        @endif
+        @if (auth()->guard('staff')->user()->can('read','businesOrder'))
         <li>
             <a href="javascript:;">
-                <span class="title">Pro Orders</span>
+                <span class="title">Businesses Orders</span>
                 <span class="arrow"></span>
             </a>
             <span class="icon-thumbnail">
@@ -175,6 +191,8 @@
                 </li>
             </ul>
         </li>
+        @endif
+        @if (auth()->guard('staff')->user()->can('read','market'))
         <li>
             <a href="javascript:;">
                 <span class="title">Markets</span>
@@ -202,6 +220,8 @@
                 </li>
             </ul>
         </li>
+        @endif
+        @if (auth()->guard('staff')->user()->can('read','bill'))
         <li>
             <a href="javascript:;">
                 <span class="title">Financials</span>
@@ -221,6 +241,8 @@
                 </li>
             </ul>
         </li>
+        @endif
+        @if (auth()->guard('staff')->user()->can('read','staff'))
         <li>
             <a href="javascript:;">
                 <span class="title">Staff</span>
@@ -244,6 +266,8 @@
                 </li>
             </ul>
         </li>
+        @endif
+        @if (auth()->guard('staff')->user()->can('read','partner'))
         <li>
             <a href="javascript:;">
                 <span class="title">Affiliates</span>
@@ -263,6 +287,8 @@
                 </li>
             </ul>
         </li>
+        @endif
+        @if (auth()->guard('staff')->user()->can('read','business'))
         <li>
             <a href="javascript:;">
                 <span class="title">Businesses</span>
@@ -282,6 +308,8 @@
                 </li>
             </ul>
         </li>
+        @endif
+        @if (auth()->guard('staff')->user()->can('read','client'))
         <li>
             <a href="javascript:;">
                 <span class="title">Clients</span>
@@ -301,6 +329,8 @@
                 </li>
             </ul>
         </li>
+        @endif
+        @if (auth()->guard('staff')->user()->can('read','request'))
         <li>
             <a href="javascript:;">
                 <span class="title">Requests</span>
@@ -322,6 +352,7 @@
                         <i class="fas fa-user-edit"></i>
                     </span>
                 </li>
+                @if (auth()->guard('staff')->user()->can('read','reason'))
                 <li class="open active">
                     <a href="javascript:;"><span class="title">Requests Reasons</span>
                     <span class="arrow open active"></span></a>
@@ -343,8 +374,11 @@
                         </li>
                     </ul>
                 </li>
+                @endif
             </ul>
         </li>
+        @endif
+        @if (auth()->guard('staff')->user()->can('read','claim'))
         <li>
             <a href="javascript:;">
                 <span class="title">Support</span>
@@ -353,6 +387,7 @@
                 <i class="fas fa-life-ring"></i>
             </span>
         </li>
+        @endif
         <li>
             <a href="javascript:;">
                 <span class="title">Settings</span>
