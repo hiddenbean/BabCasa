@@ -65,6 +65,18 @@ class StaffRegisterController extends Controller
             'birthday' => 'required',
             'gender_id' => 'required',
             'profile_id' => 'required',
+            'address' => 'required',
+            'address_two' => 'sometimes',
+            'full_name' => 'sometimes',
+            'country_id' => 'required',
+            'city' => 'required',
+            'zip_code' => 'required|numeric',
+            'longitude' => 'sometimes',
+            'latitude' => 'sometimes', 
+            'path' => 'required',
+            'number' => 'required|numeric|unique:phones,number|digits:9',
+            'code_country' => 'sometimes',
+
         ]);
     }
 
@@ -81,14 +93,15 @@ class StaffRegisterController extends Controller
      */
     protected function store(Request $request)
     { 
-      
+        $request->validate([
+            'email' => 'required',
+        ]);
         $request['email'] .= '@babcasa.com';
         $this->validateRequest($request);
-        $full_name= $request->first_name.' '.$request->last_name;
-        $request['full_name'] =$full_name;
-
         $AddressController = new AddressController();
         $AddressController->validateRequest($request);
+        $full_name= $request->first_name.' '.$request->last_name;
+        $request['full_name'] =$full_name;
         
         $PictureController = new PictureController();
         $PictureController->validateRequest($request);
@@ -120,7 +133,6 @@ class StaffRegisterController extends Controller
             $adress->addressable_type = 'staff';
             $adress->addressable_id = $staff->id;
             $adress->save();
-             
 
         if($request->hasFile('path')) 
         {
@@ -134,12 +146,7 @@ class StaffRegisterController extends Controller
             ]);
         }
 
-        $request->validate([
-            'number' => 'required|numeric|unique:phones,number|digits:9',
-            'code_country' => 'sometimes',
-        ]);
     
-          
         $phone = new Phone();
         $phone->number = $request->number;
         $phone->type = "phone";

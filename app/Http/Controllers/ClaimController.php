@@ -38,6 +38,7 @@ class ClaimController extends Controller
         $request->validate([
             'title' => 'required',
             'message' => 'required',
+            'subject_id' => 'required',
         ]);
     }
     /**
