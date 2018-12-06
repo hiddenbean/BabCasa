@@ -70,7 +70,7 @@
                                     <h5>
                                         Picture
                                     </h5>
-                                    <img src="@if(isset($category->picture->path)) {{Storage::url($category->picture->path)}} @else {{asset('img/img_placeholder.png')}} @endif" alt="cat1" width="100%">
+                                    <img class="full-width" src="@if(isset($category->picture->path)) {{Storage::url($category->picture->path)}} @else {{asset('img class="full-width"/img class="full-width"_placeholder.png')}} @endif" alt="cat1" width="100%">
                                 </div>
                                 <div class="col-md-8">
                                     <div class="row m-b-10">
