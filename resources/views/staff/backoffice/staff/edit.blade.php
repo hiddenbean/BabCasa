@@ -79,7 +79,8 @@
                                     <div class="form-group form-group-default input-group no-margin required">
                                         <div class="form-input-group">
                                             <label>Email</label>
-                                            <input type="text" class="form-control" name="email" value="{{$staff->email}}">
+                                            
+                                            <input type="text" class="form-control" name="email" value="{{explode("@", $staff->email)[0]}}">
                                         </div>
                                         <div class="input-group-append ">
                                             <span class="input-group-text">@babcasa.com</span>
@@ -127,7 +128,7 @@
                                     <div class="form-group form-group-default input-group required">
                                         <div class="form-input-group">
                                             <label>Birthday</label>
-                                            <input type="date" class="form-control" name="birthday" placeholder="Pick a date" id="myDatepicker" value="{{$staff->irthday}}">
+                                            <input type="date" class="form-control" name="birthday" placeholder="Pick a date" id="myDatepicker" value="{{$staff->birthday}}">
                                         </div>
                                         <div class="input-group-append ">
                                             <span class="input-group-text"><i class="fa fa-calendar"></i></span>

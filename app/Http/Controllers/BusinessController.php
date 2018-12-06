@@ -210,7 +210,7 @@ class BusinessController extends Controller
     public function edit($business)
     {
         $data['countries'] = Country::all();
-         $data['business'] = Business::where('name',$business)->first();
+        $data['business'] = Business::where('name',$business)->first();
         $data['company_phones'] =  $data['business']->phones()->where('tag','=','company')->get();
         $data['company_fax'] =  $data['business']->phones()->where('tag','=','fax')->first();
         return view('businesses.backoffice.staff.edit', $data);

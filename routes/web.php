@@ -204,7 +204,7 @@ function()
                     Route::get('edit', 'BusinessController@edit');
                 });
             });
-            Route::get('/', 'BusinessController@show');
+            Route::get('{business}', 'BusinessController@show');
         });
 
         // Clients UIs

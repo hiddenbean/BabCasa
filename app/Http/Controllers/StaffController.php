@@ -113,7 +113,7 @@ class StaffController extends Controller
                 'pictureable_id' => $staff->id,
                 ]);
                 
-            }
+        }
         if($request->address)
         {
             $adress = new Adress();
@@ -181,7 +181,6 @@ class StaffController extends Controller
         $data['genders'] = Gender::all();
         $data['staff'] = Staff::findOrFail($staff);
         return view('staff.backoffice.staff.edit',$data);
-      
     }
 
     /**
@@ -236,6 +235,7 @@ class StaffController extends Controller
 
             if($request->hasFile('path')) 
             {
+
                 $picture = $staff->picture;
                 if(!$staff->picture)
                 {   
@@ -270,8 +270,8 @@ class StaffController extends Controller
                 $phone->save();
             
         }
-        $page = Auth::guard('staff')->id() == $staff->id ? 'account' : 'staff';  
-        return redirect($page);
+        // $page = Auth::guard('staff')->id() == $staff->id ? 'account' : 'staff';  
+        return redirect('staff');
     }
 
 
