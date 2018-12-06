@@ -79,7 +79,7 @@
                                     <div class="form-group form-group-default input-group no-margin required">
                                         <div class="form-input-group">
                                             <label>Email</label>
-                                            <input type="text" class="form-control" name="email" value="{{$staff->email}}">
+                                            <input type="text" class="form-control" name="email" value="{{explode("@", $staff->email)[0]}}">
                                         </div>
                                         <div class="input-group-append ">
                                             <span class="input-group-text">@babcasa.com</span>
@@ -127,7 +127,7 @@
                                     <div class="form-group form-group-default input-group required">
                                         <div class="form-input-group">
                                             <label>Birthday</label>
-                                            <input type="date" class="form-control" name="birthday" placeholder="Pick a date" id="myDatepicker" value="{{$staff->irthday}}">
+                                            <input type="date" class="form-control" name="birthday" placeholder="Pick a date" id="myDatepicker" value="{{$staff->birthday}}">
                                         </div>
                                         <div class="input-group-append ">
                                             <span class="input-group-text"><i class="fa fa-calendar"></i></span>
@@ -275,50 +275,7 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                            <div class="col-md-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <div class="card-title">
-                                            Staff Profile 
-                                            <a 
-                                                href="javascript:;" 
-                                                data-toggle="tooltip" 
-                                                data-placement="bottom" 
-                                                data-html="true" 
-                                                trigger="click" 
-                                                title= "<p class='tooltip-text'>You can use this form to create a new category if you have the right permissions.<br>
-                                                        If you have any difficulties please <a href='#'>contact the support</a></p>"> 
-                                                <i class="fas fa-question-circle"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-12 scroll b-t b-b b-dashed b-grey p-b-5">
-                                                <div class="list-group list-group-root well list-categories">
-                                                @foreach($profiles as $Profile)
-                                                    <a href="javascript:;" data-category-id="{{$Profile->id}}" class="list-group-item list-group-item-action {{$staff->profile_id == $Profile->id ? 'active' : ''}}">{{$Profile->profileLang()->reference}}</a>
-                                                @endforeach
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row m-t-15">
-                                            <div class="col-md-8 m-t-5">
-                                                Profile : <span id="selected-parent-name">{{$staff->profile->profileLang()->reference}}<span>
-                                                <label class="error p-l-15" for="profile_id">
-                                                    {{ $errors->has('profile_id') ? $errors->first('profile_id') : "" }}
-                                                </label>
-                                            </div>
-                                            <div class="col-md-4 text-right">
-                                                <button type="button" id="list-categories-clear" class="btn btn-transparent-danger"><i class="fas fa-times"></i> <strong>clear</strong></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <input type="hidden" name="profile_id" id="profile_id" value="{{$staff->profile_id}}" />
-                                </div>
-                            </div>
-                        </div>
+                    <input type="hidden" name="profile_id" id="profile_id" value="{{$staff->profile_id}}" />
 
                     <div class="row">
                         <div class="col-md-12">

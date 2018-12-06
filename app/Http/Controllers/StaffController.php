@@ -158,16 +158,15 @@ class StaffController extends Controller
      * @param  \App\Staff  $staff
      * @return \Illuminate\Http\Response
      */
-    public function profile()
+    public function account()
     {
         $data['profiles'] = Profile::all();
-        $data['countries'] = staff::all();
+        $data['countries'] = Country::all();
+        $data['genders'] = Gender::all();
         $data['staff'] =  Auth::guard('staff')->user();
         //$data['staff'] = Staff::find(Auth::guard('staff')->user()->id);
-        return view('system.backoffice.staff.profile',$data);
-       
+        return view('system.backoffice.staff.account',$data);
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -270,8 +269,8 @@ class StaffController extends Controller
                 $phone->save();
             
         }
-        // $page = Auth::guard('staff')->id() == $staff->id ? 'account' : 'staff';  
-        return redirect('staff');
+        $page = Auth::guard('staff')->id() == $staff->id ? 'account' : 'staff';  
+        return redirect($page);
     }
 
 
@@ -477,7 +476,4 @@ class StaffController extends Controller
         return 'hkji';
     }
 
-    public function account() {
-        return view('system.backoffice.staff.account');
-    }
 }

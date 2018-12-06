@@ -118,7 +118,7 @@
             "destroy": true,  
             "scrollCollapse": true,
             "order": [
-                    [4, "desc"]
+                    [0, "desc"]
                 ],
                 "columnDefs": [
                     { "orderable": false, "targets": 0 },

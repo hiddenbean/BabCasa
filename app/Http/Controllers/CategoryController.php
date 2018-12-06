@@ -165,10 +165,21 @@ class CategoryController extends Controller
             }
         }
         
-        return redirect('categories')->with(
-            'success',
-            'Category has been added successfuly !!'
-        );
+        return $category;
+    }
+
+    public function storeWithRedirect(Request $request) {
+        // return $request;
+        $category = self::store($request);
+        return redirect('categories/'.$category->name);
+    }
+
+    /**
+     * 
+     */
+    public function storeAndNew(Request $request) {
+        $category = self::store($request);
+        return redirect('categories/create');
     }
 
     public function notify($category, $data)

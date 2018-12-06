@@ -437,8 +437,9 @@ Route::domain('staff.babcasa.com')->group(function (){
     }); 
     //////////Categories
     Route::prefix('categories')->middleware('CanWrite:category')->group(function() {
-
-        Route::post('/','CategoryController@store'); 
+        
+        Route::post('/', 'CategoryController@storeWithRedirect');
+        Route::post('/create', 'CategoryController@storeAndNew');
         Route::post('/multi-restore', 'CategoryController@multiRestore'); 
         Route::post('{category}', 'CategoryController@update'); 
         Route::post('{category}/translations','CategoryLangController@update');
@@ -516,7 +517,6 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::delete('{reason}', 'ReasonController@destroy')->name('delete.reason');
         Route::delete('delete/multiple', 'ReasonController@multiDestroy')->name('delete.reasons');
     }); 
-  
     //////////subjectS
     Route::prefix('subjects')->middleware('CanWrite:subject')->group(function() {
 
@@ -529,7 +529,6 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::delete('{subject}', 'SubjectController@destroy')->name('delete.subject');
         Route::delete('delete/multiple', 'SubjectController@multiDestroy')->name('delete.subjects');
     }); 
-  
 
     //////////STATUS
     Route::prefix('statuses')->group(function() {

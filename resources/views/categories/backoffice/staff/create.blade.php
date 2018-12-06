@@ -44,7 +44,7 @@
                 </a>
             </div>
         </div>
-        <form id="form-personal"  method="POST" action="{{url('categories')}}"  enctype="multipart/form-data">
+        <form method="POST" action="{{url('categories')}}" id="form" enctype="multipart/form-data">
             {{ csrf_field() }}
         <div class="card-body">
             <div class="row">
@@ -186,10 +186,10 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <button type="submit" id='onClick' class="btn btn-block"><i class="fas fa-check"></i> <strong>save</strong></button>
+                                            <button type="button" id="save" class="btn btn-block"><i class="fas fa-check"></i> <strong>save</strong></button>
                                         </div>
                                         <div class="col-md-6">
-                                            <button  type="button" class="btn btn-block"><strong>save & new</strong></button>
+                                            <button  type="button"  id="save_new" class="btn btn-block"><strong>save & new</strong></button>
                                         </div>
                                     </div>
                                     <div class="row justify-content-end b-t b-dashed b-grey m-t-20 p-t-20">
@@ -333,9 +333,18 @@
         $('#category_parent').val('');
         $('#selected-parent-name').html('none');
     });
-    
-    $('#onClick').on('click', function(){       
+    $("#save").click( function () {
         $('#description').val($('#summernote').summernote().code());
+        $('#form').attr('action', '{{ url('categories') }}');
+        $('#form').submit();
     });
+
+    $("#save_new").click( function () {
+        $('#description').val($('#summernote').summernote().code());
+        $('#form').attr('action', '{{ url('categories')."/create" }}');
+        $('#form').submit();
+    });
+    
+
     </script>
 @endsection
