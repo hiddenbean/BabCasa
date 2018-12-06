@@ -59,7 +59,7 @@
                             <h5>
                                 Picture
                             </h5>
-                            <img src="@if(isset($staff->picture->path)) {{Storage::url($staff->picture->path)}} @else {{asset('img/img_placeholder.png')}} @endif" alt="cat1">
+                            <img class="full-width" src="@if(isset($staff->picture->path)) {{Storage::url($staff->picture->path)}} @else {{asset('img/img_placeholder.png')}} @endif" alt="cat1">
                         </div>
                         <div class="col-md-8">
                             <div class="row">

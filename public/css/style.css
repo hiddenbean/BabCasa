@@ -178,11 +178,13 @@ fieldset[disabled] .btn-warning.active {
 }
 
 .btn-transparent {
-    border: none
+    border: none;
+    background: none;
 }
 
 .btn-transparent:hover {
-    border: none
+    border: none;
+    background: none;
 }
 
 .bg-primary {
@@ -450,4 +452,14 @@ td.picture > a > img{
 
 .secondary-sidebar {
     background: #2a303c;
+}
+
+.split-view .split-list .item {
+    max-height: 111px;
+    height: auto;
+}
+
+.split-view .split-list .item .subject {
+    max-height: 38px;
+    height: auto;
 }

@@ -465,7 +465,8 @@ class StaffController extends Controller
     }
 
     public function notification()
-    {   $array = [Staff::find(2), Partner::find(1)];
+    {   
+        $array = [Staff::find(2), Partner::find(1)];
         $staff = Staff::find(2);
         $partner = Partner::find(1);
         // $test = $staff->merge($partner);
@@ -474,5 +475,9 @@ class StaffController extends Controller
         Notification::send($staff, new ClaimNotification($partner, " has added a new claim ", $claim));
         // Notification::send($array, new ClaimNotification($partner, " has added a new claim ", $claim));
         return 'hkji';
+    }
+
+    public function account() {
+        return view('system.backoffice.staff.account');
     }
 }

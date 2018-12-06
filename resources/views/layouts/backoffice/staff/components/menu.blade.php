@@ -389,13 +389,13 @@
             </span>
             <ul class="sub-menu">
                 <li>
-                    <a href="{{ url('support') }}">Create ticket</a>
+                    <a href="{{ url('support/create') }}">Create ticket</a>
                     <span class="icon-thumbnail">
                         <i class="fas fa-user-plus"></i>
                     </span>
                 </li>
                 <li>
-                    <a href="{{ url('support/create') }}">All tickets</a>
+                    <a href="{{ url('support') }}">All tickets</a>
                     <span class="icon-thumbnail">
                         <i class="fas fa-user-edit"></i>
                     </span>
@@ -436,7 +436,7 @@
             </span>
             <ul class="sub-menu">
                 <li>
-                    <a href="{{ url('security') }}">Account</a>
+                    <a href="{{ url('account') }}">Account</a>
                     <span class="icon-thumbnail">
                         <i class="fas fa-user-circle"></i>
                     </span>

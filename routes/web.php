@@ -229,6 +229,8 @@ function()
             Route::get('subject/{subject}', 'ClaimController@subject');
             Route::get('create', 'ClaimController@create');
         });
+
+        Route::get('account', 'StaffController@account');
     });
     //Staff routes end
 

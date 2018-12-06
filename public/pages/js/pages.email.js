@@ -59,9 +59,14 @@
                 emailOpened.find('.sender .datetime').text($(this).find('.datetime').html());
                 emailOpened.find('.subject').text($(this).find('.subject').html());
                 emailOpened.find('.email-content-body').html($(this).find('.body').html());
+                $('#reply_form').attr('action', $(this).find('#reply_form_link').val());
+                $('#close_ticket').attr('href', $(this).find('#close_ticket_link').val());
+                var status = $(this).find('#ticket_status_value').val();
+                (status == '1') ? $('li.controls , .controls.wysiwyg5-wrapper').hide(): $('li.controls , .controls.wysiwyg5-wrapper').show() ;
+
 
                 var thumbnailClasses = thumbnailWrapper.attr('class').replace('d32', 'd48');
-                emailOpened.find('.thumbnail-wrapper').html(thumbnailWrapper.html()).attr('class', thumbnailClasses);
+                emailOpened.find('.thumbnail-wrapper').attr('class', thumbnailClasses);
 
                 $('.no-result').hide();
                 $('.actions-dropdown').toggle();
