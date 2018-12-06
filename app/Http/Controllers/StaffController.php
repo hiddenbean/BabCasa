@@ -138,9 +138,17 @@ class StaffController extends Controller
     {
         // return date('Y-m-d',strtotime("-1 week"));
         $data['staff'] = Staff::findOrFail($staff);
-        $data['activities'] = $data['staff']->logs
+        $activities = $data['staff']->logs
                                             ->where('created_at','>=' ,date('Y-m-d h:i:s',strtotime("-1 week") ))
                                             ->groupBy(function($item){return $item->created_at->format('d-M-y');});
+       
+        $data['activities'] = [];
+        foreach($activities as $key => $activitys)
+        {
+            $data['activities'][$key]= $activitys->sortByDesc('created_at');
+        }
+
+        krsort($data['activities']);
         return view('staff.backoffice.staff.show',$data);
     }
 
@@ -253,6 +261,9 @@ class StaffController extends Controller
                     $phone = new Phone();
                     $phone->phoneable_id = $staff->id;
                     $phone->phoneable_type = 'staff';
+                    $phone->is_default = true;
+                    $phone->verify = false;
+                    $phone->tag =  'admin';
                 }
                 $phone->number = $request->number;
                 $phone->type = "phone";

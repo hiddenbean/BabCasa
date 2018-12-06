@@ -28,7 +28,7 @@
                                 </h5>
                             </div>
                         </div>
-                        @foreach($activitys->sortByDesc('created_at') as $activity)
+                        @foreach($activitys as $activity)
                         <!-- log row -->
                         <div class="row b-t b-grey">
                             <div class="col-md-12 p-t-5 p-b-10">

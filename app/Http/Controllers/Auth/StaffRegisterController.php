@@ -146,6 +146,9 @@ class StaffRegisterController extends Controller
         $phone->country_id = $request->code_country;
         $phone->phoneable_type = 'staff';
         $phone->phoneable_id = $staff->id;
+        $phone->is_default = true;
+        $phone->verify = false;
+        $phone->tag =  'admin';
         $phone->save();
         $staff->notify(new NewStaff());
         return $staff;

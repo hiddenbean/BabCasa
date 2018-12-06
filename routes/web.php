@@ -224,6 +224,9 @@ function()
 
         Route::prefix('support')->middleware('CanRead:claim')->group(function () {
             Route::get('/', 'ClaimController@index');
+            Route::get('open', 'ClaimController@open');
+            Route::get('closed', 'ClaimController@closed');
+            Route::get('subject/{subject}', 'ClaimController@subject');
             Route::get('create', 'ClaimController@create');
         });
     });
@@ -423,6 +426,13 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::post('{staff}/pin/verification', 'PinController@checkPin');
     });
 
+    //////////Categories
+    Route::prefix('support')->group(function() {
+
+        Route::post('/','ClaimController@store'); 
+        Route::post('{claim}/close','ClaimController@close'); 
+        Route::post('{claim}/message','ClaimMessageController@store'); 
+    }); 
     //////////Categories
     Route::prefix('categories')->middleware('CanWrite:category')->group(function() {
 

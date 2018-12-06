@@ -131,6 +131,7 @@ class PartnerRegisterController extends Controller
         $address->zip_code = $request->zip_code;
         $address->country_id = $request->country_id;
         $address->city = $request->city;
+        $address->is_default = true;
         $address->addressable_type = 'partner';
         $address->addressable_id = $partner->id;
         $address->save();

@@ -36,26 +36,30 @@ class ClaimMessageController extends Controller
     }
 
 
-    public function store(Request $request,$claim)
+    public function store(Request $request,$Claim)
     {
-        $user = $this->userType();
-        $message_writer=auth()->guard($user)->user();
+        if($request->message)
+        {
+            $claim = Claim::findOrFail($Claim);
+            $user = $this->userType();
+            $message_writer=auth()->guard($user)->user();
+    
+            $claim_message=ClaimMessage::create([
+                'message' => $request->message,
+                'status' => true,
+                'claim_messageable_type' => $user,
+                'claim_messageable_id' => $message_writer->id,
+                'claim_id' => $claim->id,
+            ]);
 
-        $claim_message=ClaimMessage::create([
-            'message' => $request->message,
-            'status' => true,
-            'claim_messageable_type' => $user,
-            'claim_messageable_id' => $message_writer->id,
-            'claim_id' => $claim,
-        ]);
-       
-        return redirect('support/'.$claim);
+        }
+        return redirect('support');
     }
 
     public function userType()
     {
-        $profiles= [ 'partner', 'staff'];
-        for($i=0; $i<2; $i++)
+        $profiles= [ 'partner', 'staff','business'];
+        for($i=0; $i<3; $i++)
         {
             if(auth()->guard($profiles[$i])->check())
             {
