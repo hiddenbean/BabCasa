@@ -129,13 +129,14 @@ class PartnerController extends Controller
         $address->address_two = $request->address_two;
         $address->full_name = $request->first_name.' '.$request->last_name;
         $address->zip_code = $request->zip_code;
+        $address->is_default = true;
         $address->country_id = $request->country_id;
         $address->city = $request->city;
+        $address->is_default = true;
         $address->addressable_type = 'partner';
         $address->addressable_id = $partner->id;
         $address->save();
             
-
         if($request->hasFile('path')) 
         {
             $picture = Picture::create([
@@ -196,10 +197,16 @@ class PartnerController extends Controller
     {
         $data['reasons'] = Reason::all();
         $data['partner'] = Partner::withTrashed()->where('name',$partner)->first();
-        $data['activities'] = $data['partner']->logs
+        $activities = $data['partner']->logs
         ->where('created_at','>=' ,date('Y-m-d h:i:s',strtotime("-1 week") ))
         ->groupBy(function($item){return $item->created_at->format('d-M-y');});
-        
+        $data['activities'] = [];
+        foreach($activities as $key => $activitys)
+        {
+            $data['activities'][$key]= $activitys->sortByDesc('created_at');
+        }
+
+        krsort($data['activities']);
         return view('partners.backoffice.staff.show',$data);
     }
 

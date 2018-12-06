@@ -11,65 +11,79 @@
 
 @section('content')
     <!-- START APP -->
-          <!-- START SECONDARY SIDEBAR MENU-->
-          <nav class="secondary-sidebar">
-            <div class=" m-b-30 m-l-30 m-r-30 d-sm-none d-md-block d-lg-block d-xl-block">
-              <a href="email_compose.html" class="btn btn-primary btn-block uppercase">New ticket</a>
-            </div>
-            <p class="menu-title">BROWSE</p>
-            <ul class="main-menu">
-              <li class="active">
-                <a href="#">
-                  <span class="title"><i class="pg-inbox"></i>All tickets</span>
-                  <span class="badge pull-right">5</span>
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <span class="title"><i class="fas fa-folder-open"></i>Open tickets</span>
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                    <span class="title"><i class="fas fa-folder-minus"></i>Closed tickets</span>
-                </a>
-              </li>
-            </ul>
-            <p class="menu-title m-t-20 all-caps">Subjects</p>
-            <ul class="sub-menu no-padding">
-              <li>
-                <a href="#">
-                  <span class="title">Subjects1</span>
-                  <span class="badge pull-right">5</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <!-- END SECONDARY SIDEBAR MENU -->
+           <!-- START SECONDARY SIDEBAR MENU-->
+           <nav class="secondary-sidebar">
+                <div class=" m-b-30 m-l-30 m-r-30 d-sm-none d-md-block d-lg-block d-xl-block">
+                  <a href="{{url('support/create')}}" class="btn btn-primary btn-block uppercase">New ticket</a>
+                </div>
+                <p class="menu-title">BROWSE</p>
+                <ul class="main-menu">
+                  <li class="active">
+                    <a href="{{url('support')}}">
+                      <span class="title"><i class="pg-inbox"></i>All tickets</span>
+                      <span class="badge pull-right">5</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="{{url('support/open')}}">
+                      <span class="title"><i class="fas fa-folder-open"></i>Open tickets</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="{{url('support/closed')}}">
+                        <span class="title"><i class="fas fa-folder-minus"></i>Closed tickets</span>
+                    </a>
+                  </li>
+                </ul>
+                <p class="menu-title m-t-20 all-caps">Subjects</p>
+                <ul class="sub-menu no-padding">
+                  @foreach($subjects as $subject)
+                  <li>
+                    <a href="{{url('support/subject/'.$subject->id)}}">
+                      <span class="title">{{$subject->subjectLang()->reference}}</span>
+                      <span class="badge pull-right">{{$subject->claims->count()}}</span>
+                    </a>
+                  </li>
+                  @endforeach
+                </ul>
+              </nav>
+              <!-- END SECONDARY SIDEBAR MENU -->
 
           <!-- app -->
 <!-- END SECONDARY SIDEBAR MENU -->
 <div class="inner-content full-height">
+<form id="form-project" method="POST" action="{{url('support')}}" role="form" autocomplete="off">
+        @csrf
         <!-- START COMPOSE EMAIL -->
         <div class="email-composer container-fluid">
             <div class="row">
                 <div class="col-sm-12 no-padding">
                     <div class="wysiwyg5-wrapper email-toolbar-wrapper">
                     </div>
-                    <form id="form-project" role="form" autocomplete="off">
                         <div class="form-group-attached">
                             <div class="row clearfix">
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <div class="form-group form-group-default form-group-default-select2">
                                             <label>To</label>
-                                            <select class=" full-width" data-init-plugin="select2">
+                                            <select class=" full-width" data-init-plugin="select2" name="user_id" id="user">
+                                                <optgroup label="Partners">
+                                                        @foreach($partners as $partner)
+                                                        <option value="{{$partner->id}}" data-type="partner" >{{$partner->first_name.' '.$partner->last_name}}</option>
+                                                    @endforeach
+                                                </optgroup>
+                                                <optgroup label="Businesses">
+                                                        @foreach($businesses as $business)
+                                                        <option value="{{$business->id}}" data-type="business" >{{$business->first_name.' '.$business->last_name}}</option>
+                                                    @endforeach
+                                                </optgroup>
                                                 <optgroup label="Clients">
-                                                    <option value="Jim">Jim</option>
-                                                    <option value="John">John</option>
-                                                    <option value="Lucy">Lucy</option>
+                                                        @foreach($clients as $client)
+                                                        <option value="{{$client->id}}" data-type="client" >{{$client->first_name.' '.$client->last_name}}</option>
+                                                    @endforeach
                                                 </optgroup>
                                             </select>
+                                            <input type="hidden" name="user_type" id="user_type">
                                         </div>
                                     </div>
                                 </div>
@@ -79,10 +93,10 @@
                                     <div class="form-group">
                                         <div class="form-group form-group-default form-group-default-select2">
                                             <label>Subject</label>
-                                            <select class=" full-width" data-init-plugin="select2">
-                                                <option value="Jim">Jim</option>
-                                                <option value="John">John</option>
-                                                <option value="Lucy">Lucy</option>
+                                            <select class=" full-width" data-init-plugin="select2" name="subject_id">
+                                                @foreach($subjects as $subject)
+                                                    <option value="{{$subject->id}}">{{$subject->subjectLang()->reference}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -92,14 +106,20 @@
                                 <div class="col-md-12">
                                     <div class="form-group form-group-default required">
                                         <label>Title</label>
-                                        <input type="text" class="form-control" required="">
+                                    <input type="text" class="form-control" name="title" value="{{old('title')}}">
+                                        <label class="error" for="title">
+                                                {{ $errors->has('title') ? $errors->first('title') : "" }}
+                                            </label> 
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </form>
                     <div class="wysiwyg5-wrapper email-body-wrapper">
-                        <textarea class="wysiwyg email-body" style="height:350px"></textarea>
+                        <textarea class="wysiwyg email-body" style="height:350px" name="message">{{old('message')}}</textarea>
+                        <label class="error" for="title">
+                                {{ $errors->has('message') ? $errors->first('message') : "" }}
+                            </label> 
                     </div>
                 </div>
             </div>
@@ -111,6 +131,7 @@
             </div>
         </div>
         <!-- END COMPOSE EMAIL -->
+    </form>
     </div>
     <!-- app end -->
 
@@ -124,5 +145,16 @@
 <script src="{{ asset('plugins/jquery-menuclipper/jquery.menuclipper.js')}}"></script>
 <script src="{{ asset('plugins/bootstrap-tag/bootstrap-tagsinput.min.js')}}" type="text/javascript"></script>
 <script src="{{ asset('pages/js/pages.email.js')}}" type="text/javascript"></script>
+<script>
+$(document).ready(function () {
+    $("#user_type").val($('#user option:selected').attr('data-type'));
+    $('#user').on('change',function(){
+                var type =$('option:selected', this).attr('data-type');
+                $("#user_type").val(type);
+                        
+            });
+        
+    });
+</script>
 @endsection
 

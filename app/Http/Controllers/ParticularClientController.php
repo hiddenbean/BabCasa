@@ -145,6 +145,7 @@ class ParticularClientController extends Controller
             $address->zip_code = $request->zip_code;
             $address->country_id = $request->country_id;
             $address->city = $request->city;
+            $address->is_default = true;
             $address->addressable_type = 'particular_client';
             $address->addressable_id = $particularClient->id;
             $address->save();
@@ -176,9 +177,18 @@ class ParticularClientController extends Controller
     public function show($client)
     {
         $data['client'] = ParticularClient::withTrashed()->where('name',$client)->first();
-        $data['activities'] = $data['client']->logs
+        $activities = $data['client']->logs
                                             ->where('created_at','>=' ,date('Y-m-d h:i:s',strtotime("-1 week") ))
                                             ->groupBy(function($item){return $item->created_at->format('d-M-y');});
+
+        
+        $data['activities'] = [];
+        foreach($activities as $key => $activitys)
+        {
+            $data['activities'][$key]= $activitys->sortByDesc('created_at');
+        }
+
+        krsort($data['activities']);
         return view('clients.backoffice.staff.show',$data);
     }
 

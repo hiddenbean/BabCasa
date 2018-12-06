@@ -108,6 +108,7 @@ class BusinessController extends Controller
         $address->zip_code = $request->zip_code;
         $address->country_id = $request->country_id;
         $address->city = $request->city;
+        $address->is_default = true;
         $address->addressable_type = 'business';
         $address->addressable_id = $business->id;
         $address->save();
@@ -186,9 +187,17 @@ class BusinessController extends Controller
         $data['countries'] = Country::all();
         $data['reasons'] = Reason::all();
         $data['business'] = Business::withTrashed()->where('name',$business)->first();
-        $data['activities'] = $data['business']->logs
+        $activities = $data['business']->logs
                                             ->where('created_at','>=' ,date('Y-m-d h:i:s',strtotime("-1 week") ))
                                             ->groupBy(function($item){return $item->created_at->format('d-M-y');});
+
+        $data['activities'] = [];
+        foreach($activities as $key => $activitys)
+        {
+            $data['activities'][$key]= $activitys->sortByDesc('created_at');
+        }
+
+        krsort($data['activities']);
         return view('businesses.backoffice.staff.show',$data);
     }
 

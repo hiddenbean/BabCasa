@@ -3,52 +3,54 @@
                   <div class="split-list">
                     <a class="list-refresh" href="#"><i class="fa fa-refresh"></i></a>
                     <div data-email="list" class=" boreded no-top-border">
-                      <!-- START EMAIL LIST SORTED BY DATE -->
-                      <div data-email="list" class="boreded no-top-border list-view"><h2 class="list-view-fake-header">Today April 23</h2>
                         <!-- START EMAIL LIST SORTED BY DATE -->
-                        <!-- END EMAIL LIST SORTED BY DATE -->
-                        <div class="list-view-wrapper" data-ios="false">
+                        <div data-email="list" class="boreded no-top-border list-view">
+                            <!-- START EMAIL LIST SORTED BY DATE -->
+                            <!-- END EMAIL LIST SORTED BY DATE -->
+                            <div class="list-view-wrapper" data-ios="false">
+                                    {{-- foreach --}}
+                            @foreach($claims as $date => $items)
                             <div class="list-view-group-container">
-                                <div class="list-view-group-header"><span>Today April 23</span></div>
+                                <div class="list-view-group-header"><span>{{$date}}</span></div>
                                 <ul class="no-padding">
-                                    <li class="item padding-15" data-email-id="1">
-                                        <div class="avatar thumbnail-wrapper d32 circular"> <img width="40" height="40" alt="" data-src-retina="assets/img/profiles/avatar2x.jpg"
-                                                data-src="assets/img/profiles/avatar.jpg" src="assets/img/profiles/avatar2x.jpg"> </div>
-                                        <div class="checkbox  no-margin p-l-10"> <input type="checkbox" value="1" id="emailcheckbox-0-0">
-                                            <label for="emailcheckbox-0-0"></label> </div>
-                                        <div class="inline m-l-15">
-                                            <p class="name recipients no-margin hint-text small">David Nester,Jane Smith</p>
-                                            <p class="subject no-margin">Pages - Multi-Purpose Admin Template Revolution Begins here!</p>
-                                            <p class="object no-margin">Technical</p>
-                                            <div class="body no-margin" style="display:none;">
-                                                <div class="thumbnail-wrapper d48 circular bordered">
-                                                    <img width="40" height="40" alt="" data-src-retina="assets/img/profiles/avatar2x.jpg" data-src="assets/img/profiles/avatar.jpg" src="assets/img/profiles/avatar2x.jpg">
+                                    @foreach($items as $claim)
+                                    <input type="hidden" name="close_tecket" value="{{url('support/'.$claim->id.'/close')}}">
+                                    <input type="hidden" name="replay" value="{{url('support/'.$claim->id.'/message')}}">
+                                        <li class="item padding-15" data-email-id="{{$claim->id}}">
+                                            <div class="avatar thumbnail-wrapper d32 circular"> <img width="40" height="40" alt="" data-src-retina="@if(isset($claim->claimable->picture->path)){{Storage::url($claim->claimable->picture->path)}} @else {{asset('img/img_placeholder.png')}} @endif"
+                                                    data-src="@if(isset($claim->claimable->picture->path)) {{Storage::url($claim->claimable->picture->path)}} @else {{asset('img/img_placeholder.png')}} @endif" src="@if(isset($claim->claimable->picture->path)) {{Storage::url($claim->claimable->picture->path)}} @else {{asset('img/img_placeholder.png')}} @endif"> </div>
+                                            <div class="checkbox  no-margin p-l-10"> <input type="checkbox" value="1" id="emailcheckbox-0-0">
+                                                <label for="emailcheckbox-0-0"></label> </div>
+                                            <div class="inline m-l-15">
+                                                <p class="name recipients no-margin hint-text small">{{$claim->claimable->name}}</p>
+                                                <p class="subject no-margin">{{$claim->title}}</p>
+                                                <p class="object no-margin">{{$claim->subject->subjectLang()->reference}}</p>
+                                                <div class="body no-margin" style="display:none;">
+                                                        @foreach($claim->claimMessages as $message)
+                                                    <div class="thumbnail-wrapper d48 circular bordered">
+                                                        <img width="40" height="40" data-src-retina="@if(isset($message->claimMessageable->picture->path)){{Storage::url($message->claimMessageable->picture->path)}} @else {{asset('img/img_placeholder.png')}} @endif" data-src="@if(isset($message->claimMessageable->picture->path)) {{Storage::url($message->claimMessageable->picture->path)}} @else {{asset('img/img_placeholder.png')}} @endif" src="@if(isset($message->claimMessageable->picture->path)) {{Storage::url($message->claimMessageable->picture->path)}} @else {{asset('img/img_placeholder.png')}} @endif">
+                                                    </div>
+                                                    <div class="sender inline m-l-10 m-b-20">
+                                                        <p class="name no-margin bold">
+                                                            {{$message->claimMessageable->name}}
+                                                        </p>
+                                                        <p class="datetime no-margin">{{ date_format($message->created_at, 'H:i') }}</p>
+                                                    </div>
+                                                    <br>
+                                                    <p>
+                                                            {!!$message->message!!}</p>
+                                                            @endforeach
                                                 </div>
-                                                <div class="sender inline m-l-10 m-b-20">
-                                                    <p class="name no-margin bold">
-                                                        David Nester,Jane Smith
-                                                    </p>
-                                                    <p class="datetime no-margin">5 Mins ago</p>
-                                                </div>
-                                                <br>
-                                                <p>
-                                                Dear Sir or Madam:I have recently ordered a new pair of soccer cleats
-                                                (item #6542951) from your website on June 21. I received the order on June 26. Unfortunately,
-                                                when I opened it, I saw that the cleats were used. The cleats had dirt all over it and there
-                                                was a small tear in front of the part where the left toe would go. My order number is
-                                                AF26168156.To resolve the problem, I would like you to credit my account for the amount charged
-                                                for my cleats; I have already went out and bought a new pair of cleats at my local sporting
-                                                goods store so sending another would result in me having two pairs of the same cleats.Than you
-                                                for taking the time to read this letter. I have been a satisfied customer of your company for
-                                                many years and this is the first time I have encountered a problem. If you need to contact me,
-                                                you can reach me at (555) 555-5555.Sincerely,Signature</p>
                                             </div>
-                                        </div>
-                                        <div class="datetime">5 Mins ago</div>
-                                        <div class="clearfix"></div>
-                                    </li>
-                                </ul>
-                            </div>
+                                            <div class="datetime"> {{ date_format($claim->created_at, 'H:i') }}</div>
+                                            <div class="clearfix"></div>
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endforeach
+                           
+                            {{-- endforeach --}}
                         </div>
                         </div><!-- END EMAIL LIST SORTED BY DATE -->
                     </div>
@@ -60,14 +62,16 @@
                         <h1>No ticket has been selected</h1>
                     </div>
                     <div class="email-content-wrapper" style="display:none">
+                        <form action="{{url('support/1/message')}}" method="post">
+                            @csrf
                         <div class="actions-wrapper menuclipper bg-master-lightest">
                             <ul class="actions menuclipper-menu no-margin p-l-20 ">
                                 <li class="visible-sm-inline-block visible-xs-inline-block">
-                                    <a href="#" class="email-list-toggle"><i class="fa fa-angle-left"></i> All tickets</a>
+                                    <a href="{{url('support')}}" class="email-list-toggle"><i class="fa fa-angle-left"></i> All tickets</a>
                                 </li>
-                                <li class="no-padding "><a href="#" class="text-info">Reply</a>
+                                <li class="no-padding "><button type="submit" class="text-info">Reply</button>
                                 </li>
-                                <li class="no-padding "><a href="#" class="text-danger">Close this ticket</a>
+                                <li class="no-padding "><a href="{{url('support/1/close')}}" data-method="post"  data-token="{{csrf_token()}}" data-confirm="Are you sure?"  class="text-danger">Close this ticket</a>
                                 </li>
                             </ul>
                             <div class="clearfix"></div>
@@ -80,14 +84,15 @@
                             <div class="clearfix"></div>
                             <div class="email-content-body m-t-20 p-b-20 b-b b-dashed b-grey"></div>
                             <div class="wysiwyg5-wrapper b-a b-grey m-t-30">
-                                <textarea class="email-reply" placeholder="Reply"></textarea>
+                                <textarea class="email-reply" placeholder="Reply" name="message"></textarea>
                             </div>
                         </div>
+                        </form>
                     </div>
                     <!-- END SPLIT DETAILS -->
                     <!-- START COMPOSE BUTTON FOR TABS -->
                     <div class="compose-wrapper d-md-none" id="body">
-                        <a class="compose-email text-info pull-right m-r-10 m-t-10" href="email_compose.html"><i class="fa fa-pencil-square-o"></i></a>
+                        <a class="compose-email text-info pull-right m-r-10 m-t-10" href="#"><i class="fa fa-pencil-square-o"></i></a>
                     </div>
                     <!-- END COMPOSE BUTTON -->
                 </div>

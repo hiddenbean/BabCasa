@@ -6,7 +6,9 @@ Use Auth;
 use App\Claim;
 use App\Staff;
 use App\Subject;
-use App\Partner;
+use App\Partner;     
+use App\Business;     
+use App\ParticularClient;
 use App\ClaimMessage;
 use Illuminate\Http\Request;
 use App\Notifications\ClaimNotification;
@@ -47,7 +49,13 @@ class ClaimController extends Controller
     {
         $type = $this->userType();
         $data['subjects']=Subject::all();
-        $data['claims'] = Auth::guard($type)->user()->claims->groupBy(function($item){return $item->created_at->format('d-M-y');});;
+        $claims = Auth::guard($type)->user()->claims->groupBy(function($item){return $item->created_at->format('d-M-y');});
+        $data['claims'] =[];
+        foreach($claims as $key => $claim)
+        {
+            $data['claims'][$key]= $claim->sortByDesc('created_at');
+        }
+        krsort($data['claims']);
         return view('claims.backoffice.'.$type.'.index',$data);
     }
     
@@ -61,7 +69,13 @@ class ClaimController extends Controller
     {
         $type = $this->userType();
         $data['subjects']=Subject::all();
-        $data['claims'] = Auth::guard($type)->user()->claims->where('status',true)->groupBy(function($item){return $item->created_at->format('d-M-y');});;
+        $claims = Auth::guard($type)->user()->claims->where('status',true)->groupBy(function($item){return $item->created_at->format('d-M-y');});
+        $data['claims'] =[];
+        foreach($claims as $key => $claim)
+        {
+            $data['claims'][$key]= $claim->sortByDesc('created_at');
+        }
+        krsort($data['claims']);
         return view('claims.backoffice.'.$type.'.index',$data);
     }
 
@@ -74,7 +88,26 @@ class ClaimController extends Controller
     {       
         $type = $this->userType();
         $data['subjects']=Subject::all();
-        $data['claims'] = Auth::guard($type)->user()->claims->where('status',false)->groupBy(function($item){return $item->created_at->format('d-M-y');});;
+        $claims = Auth::guard($type)->user()->claims->where('status',false)->groupBy(function($item){return $item->created_at->format('d-M-y');});
+        $data['claims'] =[];
+        foreach($claims as $key => $claim)
+        {
+            $data['claims'][$key]= $claim->sortByDesc('created_at');
+        }
+        return view('claims.backoffice.'.$type.'.index',$data);
+    }
+
+    public function subject($subject)
+    {       
+        $type = $this->userType();
+        $data['subjects']=Subject::all();
+        $claims = Auth::guard($type)->user()->claims->where('subject_id',$subject)->groupBy(function($item){return $item->created_at->format('d-M-y');});
+        $data['claims'] =[]; 
+        foreach($claims as $key => $claim)
+        {
+            $data['claims'][$key]= $claim->sortByDesc('created_at');
+        }
+        krsort($data['claims']);
         return view('claims.backoffice.'.$type.'.index',$data);
     }
 
@@ -87,13 +120,13 @@ class ClaimController extends Controller
     public function create()
     {
         $data['subjects']=Subject::all();
+        $data['partners']=Partner::all();
+        $data['businesses']=Business::all();
+        $data['clients']=ParticularClient::all();
 
         $user_type = $this->userType();
-        switch ($user_type) {
-            case 'partner': $view = 'claims.backoffice.partner.create';break;
-            case 'staff':$view = 'claims.backoffice.staff.create';break;
-        }
-        return view('claims.backoffice.staff.create',$data);
+       
+        return view('claims.backoffice.'.$user_type.'.create',$data);
     }
 
     /**
@@ -107,42 +140,48 @@ class ClaimController extends Controller
         
         $this->validateClaim($request);
         
-
         $userType = $this->userType();
         $user=auth()->guard($userType)->user();
-        
         $claim = new Claim();
         
-        $claim->title = $request->title;
         $claim->status = true;
+        $claim->title = $request->title;
         $claim->subject_id = $request->subject_id;
-        $claim->staff_id = 2;
+        $claim->staff_id = $this->staffTarget();
         $claim->claimable_type = $userType;
         $claim->claimable_id = $user->id;
+        if($userType == 'staff')
+        {
+            $claim->staff_id = $user->id;
+            $claim->claimable_type = $request->user_type;
+            $claim->claimable_id = $request->user_id;
+        }
+        
+        
         $claim->save();
-
-        $array = [Staff::find(2), $user];
-        Notification::send($array, new ClaimNotification($user, " has added a new claim ", $claim));
-
+        
+        // $array = [Staff::find(2), $user];
+        // Notification::send($array, new ClaimNotification($user, " has added a new claim ", $claim));
+        
         $message = new ClaimMessage();
         
         $message->message = $request->message;
         $message->status = true;
         $message->claim_id = $claim->id;
-        $message->claim_messageable_type = $user;
-        $message->claim_messageable_id = $complainer->id;
-
+        $message->claim_messageable_type = $userType;
+        $message->claim_messageable_id = $user->id;
+        
         $message->save();
         return redirect('support');
     }
 
     public function staffTarget()
     {
-        $min = Staff::first()->claim->count();
+        $min = Staff::first()->claims->count();
         $id = Staff::first()->id;
         foreach(Staff::all() as $staff)
         {
-            if($staff->claim->count() < $min)
+            if($staff->claims->count() < $min)
             {
                 $min = $staff->claim->count();
                 $id = $staff->id;
@@ -154,8 +193,8 @@ class ClaimController extends Controller
 
     public function userType()
     {
-        $profiles= [ 'partner', 'staff'];
-        for($i=0; $i<2; $i++)
+        $profiles= [ 'partner', 'staff','business'];
+        for($i=0; $i<3; $i++)
         {
             if(auth()->guard($profiles[$i])->check())
             {
@@ -195,8 +234,8 @@ class ClaimController extends Controller
         $claim=Claim::where('id', $id)->first();
         $claim->status = 0;
         $claim->save();
-        $array = [$claim->staff, $claim->claimable];
-        Notification::send($array, new ClaimNotification($user, " has closed claim ", $claim));
+        // $array = [$claim->staff, $claim->claimable];
+        // Notification::send($array, new ClaimNotification($user, " has closed claim ", $claim));
         return redirect()->back();
     }
 
