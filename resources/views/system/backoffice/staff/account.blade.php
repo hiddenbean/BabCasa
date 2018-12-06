@@ -15,14 +15,8 @@
                     <li class="breadcrumb-item">
                         <a href="{{ url('/') }}">DASHBOARD</a>
                     </li>
-                    <li class="breadcrumb-item">
-                        <a href="{{ url('staff') }}">Staff</a>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <a href="{{ url('staff/') }}">ID : {{$staff->id}}</a>
-                    </li>
                     <li class="breadcrumb-item active">
-                        edit 
+                        Account 
                     </li>
                 </ol>
             </div>
@@ -35,7 +29,7 @@
     <div class="card card-transparent">
         <div class="card-header">
             <div class="card-title">
-                Create a new staff member
+                Your account
                 <a 
                     href="javascript:;" 
                     data-toggle="tooltip" 
