@@ -31,7 +31,7 @@ class StaffController extends Controller
 {use Queueable;
     public function __construct()
     {
-         $this->middleware('auth:staff');
+        $this->middleware('auth:staff');
     }
 
     protected function validateRequest(Request $request)
@@ -450,8 +450,18 @@ class StaffController extends Controller
 
     public function log()
     {
-        $activities = Activity::where('causer_id', auth()->guard('staff')->user()->id)->where('causer_type', 'staff')->latest()->limit(100)->get();
-        return view('system.backoffice.staff.log', ['activities' => $activities]);
+        $activities = Auth::guard('staff')->user()->logs
+                                        ->where('created_at','>=' ,date('Y-m-d h:i:s',strtotime("-1 week") ))
+                                        ->groupBy(function($item){return $item->created_at->format('d-M-y');});
+
+
+        foreach($activities as $key => $activitys)
+        {
+            $data['activities'][$key]= $activitys->sortByDesc('created_at');
+        }
+
+        krsort($data['activities']);
+        return view('logs.backoffice.index', $data);
     }
 
     public function notification()

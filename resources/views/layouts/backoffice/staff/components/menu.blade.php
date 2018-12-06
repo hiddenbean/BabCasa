@@ -353,13 +353,13 @@
                     </span>
                 </li>
                 @if (auth()->guard('staff')->user()->can('read','reason'))
-                <li class="open active">
+                <li>
                     <a href="javascript:;"><span class="title">Requests Reasons</span>
-                    <span class="arrow open active"></span></a>
+                    <span class="arrow"></span></a>
                     <span class="icon-thumbnail">
                         <i class="fas fa-exclamation-circle"></i>
                     </span>
-                    <ul class="sub-menu" style="display: block;">
+                    <ul class="sub-menu">
                         <li>
                             <a href="{{ url('reasons/create') }}">Add reasons</a>
                             <span class="icon-thumbnail">
@@ -382,10 +382,48 @@
         <li>
             <a href="javascript:;">
                 <span class="title">Support</span>
+                <span class="arrow"></span></a>
             </a>
             <span class="icon-thumbnail">
                 <i class="fas fa-life-ring"></i>
             </span>
+            <ul class="sub-menu">
+                <li>
+                    <a href="{{ url('support') }}">Create ticket</a>
+                    <span class="icon-thumbnail">
+                        <i class="fas fa-user-plus"></i>
+                    </span>
+                </li>
+                <li>
+                    <a href="{{ url('support/create') }}">All tickets</a>
+                    <span class="icon-thumbnail">
+                        <i class="fas fa-user-edit"></i>
+                    </span>
+                </li>
+                @if (auth()->guard('staff')->user()->can('read','reason'))
+                <li>
+                    <a href="javascript:;"><span class="title">Support subjects</span>
+                    <span class="arrow"></span></a>
+                    <span class="icon-thumbnail">
+                        <i class="fas fa-exclamation-circle"></i>
+                    </span>
+                    <ul class="sub-menu">
+                        <li>
+                            <a href="{{ url('subjects/create') }}">Add subjet</a>
+                            <span class="icon-thumbnail">
+                                <i class="fas fa-plus"></i>
+                            </span>
+                        </li>
+                        <li>
+                            <a href="{{ url('subjects/') }}">All subjets</a>
+                            <span class="icon-thumbnail">
+                                <i class="fas fa-list"></i>
+                            </span>
+                        </li>
+                    </ul>
+                </li>
+                @endif
+            </ul>
         </li>
         @endif
         <li>
@@ -398,13 +436,19 @@
             </span>
             <ul class="sub-menu">
                 <li>
+                    <a href="{{ url('security') }}">Account</a>
+                    <span class="icon-thumbnail">
+                        <i class="fas fa-user-circle"></i>
+                    </span>
+                </li>
+                <li>
                 <a href="{{ url('security') }}">Security</a>
                     <span class="icon-thumbnail">
                         <i class="fas fa-lock"></i>
                     </span>
                 </li>
                 <li>
-                    <a href="javascript:;">Activity log</a>
+                    <a href="{{ url('logs') }}">Activity log</a>
                     <span class="icon-thumbnail">
                         <i class="fas fa-file-alt"></i>
                     </span>

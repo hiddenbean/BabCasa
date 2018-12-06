@@ -30,7 +30,7 @@
              <label class='error' >
              @if($errors->count()>0)
                 You have {{$errors->count()}} ERROR(S) !!
-            @endif
+                @endif
              </label> 
         </div>
         <div class="card-body">
