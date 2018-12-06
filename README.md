@@ -27,3 +27,11 @@ www.babcasa.com
 cd ./BabCasa
 php artisan storage:link
 ```
+5 - variables in .env file
+```sh
+MAIL_USERNAME=6954d680c54c19
+MAIL_PASSWORD=dee27c742a9439
+```
+```sh
+LOG_SLACK_WEBHOOK_URL=https://hooks.slack.com/services/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
+```
