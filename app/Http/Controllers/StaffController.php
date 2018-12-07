@@ -141,7 +141,6 @@ class StaffController extends Controller
         $activities = $data['staff']->logs
                                             ->where('created_at','>=' ,date('Y-m-d h:i:s',strtotime("-1 week") ))
                                             ->groupBy(function($item){return $item->created_at->format('d-M-y');});
-       
         $data['activities'] = [];
         foreach($activities as $key => $activitys)
         {

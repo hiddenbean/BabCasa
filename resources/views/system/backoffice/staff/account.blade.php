@@ -187,7 +187,7 @@
                                         <label>City</label>
                                         <input type="text" class="form-control" name="city" value="{{$staff->address->city}}" />
                                     </div>
-                                     <label class="error p-l-15" for="city">
+                                    <label class="error p-l-15" for="city">
                                         {{ $errors->has('city') ? $errors->first('city') : "" }}
                                     </label>
                                 </div>
@@ -196,7 +196,7 @@
                                         <label>ZIP code</label>
                                         <input type="text" class="form-control" name="zip_code" value="{{$staff->address->zip_code}}" />
                                     </div>
-                                     <label class="error p-l-15" for="zip_code">
+                                    <label class="error p-l-15" for="zip_code">
                                         {{ $errors->has('zip_code') ? $errors->first('zip_code') : "" }}
                                     </label>
                                 </div>
@@ -215,7 +215,7 @@
                                     <div class="form-group form-group-default form-group-default-select2 required">
                                         <label class="">Code country</label>
                                         <select class="full-width" data-placeholder="Select Country" name="code_country" data-init-plugin="select2">
-                                             @foreach($countries as $country)
+                                            @foreach($countries as $country)
                                             <option value="{{$country->id}}" {{$staff->code_country == $country->id ? 'selected' : ''}}>{{$country->name}} ({{$country->phone_code}})</option>
                                             @endforeach
                                         </select>
@@ -225,7 +225,7 @@
                                     <div class="form-group form-group-default required">
                                         <label>Phone number</label>
                                         <input type="text" class="form-control" name="number" value="{{$staff->phones[0]->number}}" />
-                                         <input type="hidden" name="phone_id" value="{{$staff->phones[0]->id}}">
+                                        <input type="hidden" name="phone_id" value="{{$staff->phones[0]->id}}">
                                         <label class="error p-l-15" for="number">
                                         {{ $errors->has('number') ? $errors->first('number') : "" }}
                                     </label>
@@ -260,7 +260,7 @@
                                         <div class="col-md-6">
                                             <button type="submit" class="btn btn-block"><i class="fas fa-check"></i> <strong>save</strong></button>
                                         </div>
-                                         <div class="col-md-6">
+                                        <div class="col-md-6">
                                             <a href="{{ url()->current() }}" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>clear all</strong></a>
                                         </div>
                                     </div>

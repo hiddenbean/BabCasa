@@ -272,7 +272,7 @@ class PartnerController extends Controller
     {
         $data['partner'] = Partner::where('name',$partner)->first();
 
-         $data['statuses'] = $data['partner']->statuses;
+        $data['statuses'] = $data['partner']->statuses;
         return view('partners.backoffice.staff.statuses',$data);
     }
 
@@ -291,6 +291,15 @@ class PartnerController extends Controller
         return view('partners.backoffice.staff.edit',$data);
 
     }
+    public function account()
+    {
+        $data['countries'] = Country::all();
+        $data['partner'] = Auth::guard('partner')->user();
+        $data['company_phones'] =  $data['partner']->phones()->where('tag','=','company')->get();
+        $data['company_fax'] =  $data['partner']->phones()->where('tag','=','fax')->first();
+        return view('system.backoffice.partner.account',$data);
+
+    }
 
     /**
      * Update the specified resource in storage.
@@ -301,7 +310,9 @@ class PartnerController extends Controller
      */
     public function update(Request $request, $partner)
     {
-        $partner = partner::where('name', $partner)->first();
+        // return $request->numbers;
+        $name = auth()->guard('partner')->check() ?  Auth::guard('partner')->user()->name : $partner;
+        $partner = partner::where('name', $name)->first();
         $request->validate([
             'company_name' => 'required|unique:partners,company_name,'.$partner->id,
             'name' => 'required|unique:partners,name,'.$partner->id,
@@ -318,80 +329,82 @@ class PartnerController extends Controller
         $AddressController->validateRequest($request);
         $request->validate([
             'numbers.0' => 'required|numeric|unique:phones,number,'.$request->phone_id[0],
-            'numbers.1' => 'nullable|numeric|unique:phones,number,'.$request->phone_id[1],
+            'numbers.1' => 'required|numeric|unique:phones,number,'.$request->phone_id[1],
+            'numbers.2' => 'nullable|numeric|unique:phones,number,'.$request->phone_id[2],
+            'numbers.3' => 'nullable|numeric|unique:phones,number,'.$request->phone_id[3],
             'code_country.0' => 'required',
             'code_country.1' => 'nullable',
             'code_country.2' => 'nullable',
-        ]);   
-        $is_register_to_newsletter = ($request->is_register_to_newsletter=='on') ? 1 : 0;
-
-        $partner->company_name = $request->company_name;
-        $partner->about = $request->about;
-        $partner->email = $request->email;
-        $partner->first_name =  $request->first_name;
-        $partner->last_name =  $request->last_name;
-        $partner->admin_email =  $request->admin_email;
-        $partner->is_register_to_newsletter = $is_register_to_newsletter;
-        $partner->taxe_id = $request->taxe_id;
-        $partner->save();
-
-        $status = new Status();
-        $status->is_approved = 2;
-        $status->user_id = $partner->id;
-        $status->user_type = 'partner';
-        $status->staff_id = auth()->guard('staff')->user()->id;
-        $status->save();
-        
-        $address = $partner->address;
-        $address->address = $request->address;
-        $address->address_two = $request->address_two;
-        $address->full_name = $request->full_name;
-        $address->zip_code = $request->zip_code;
-        $address->country_id = $request->country_id;
-        $address->city = $request->city;
-        $address->save();
-             
-        if($request->hasFile('path')) 
-        {
-            $picture = $partner->picture;
-            $picture->name = time().'.'.$request->file('path')->extension();
-            $picture->tag = "partner_avatar";
-            $picture->path = $request->path->store('images/partners', 'public');
-            $picture->extension = $request->path->extension();
-            $picture->save();
-        }
-        
+            'code_country.3' => 'nullable',
+            ]);   
+            $is_register_to_newsletter = ($request->is_register_to_newsletter=='on') ? 1 : 0;
+            
+            $partner->name = $request->name;
+            $partner->company_name = $request->company_name;
+            $partner->about = $request->about;
+            $partner->email = $request->email;
+            $partner->first_name =  $request->first_name;
+            $partner->last_name =  $request->last_name;
+            $partner->admin_email =  $request->admin_email;
+            $partner->is_register_to_newsletter = $is_register_to_newsletter;
+            $partner->taxe_id = $request->taxe_id;
+            $partner->save();
+            
+            $status = new Status();
+            $status->is_approved = 2;
+            $status->user_id = $partner->id;
+            $status->user_type = 'partner';
+            $status->staff_id = 1;
+            $status->save();
+            
+            $address = $partner->address;
+            $address->address = $request->address;
+            $address->address_two = $request->address_two;
+            $address->full_name = $request->full_name;
+            $address->zip_code = $request->zip_code;
+            $address->country_id = $request->country_id;
+            $address->city = $request->city;
+            $address->save();
+            
+            if($request->hasFile('path')) 
+            {
+                $picture = $partner->picture;
+                $picture->name = time().'.'.$request->file('path')->extension();
+                $picture->tag = "partner_avatar";
+                $picture->path = $request->path->store('images/partners', 'public');
+                $picture->extension = $request->path->extension();
+                $picture->save();
+            }
+            
         foreach($request->numbers as $key => $number)
         {
             if($number != null)
             {
-                if($number != null)
+                $phone = Phone::where('id', $request->phone_id[$key])
+                                                                ->whereIn('type', ['phone', 'fix'])
+                                                                ->where('phoneable_id', $partner->id)
+                                                                ->first();
+                if($phone == null)
                 {
-                    $phone = Phone::where('id', $request->phone_id[$key])
-                                                                    ->whereIn('type', ['phone', 'fix'])
-                                                                    ->where('phoneable_id', $partner->id)
-                                                                    ->first();
-                    if($phone == null)
-                    {
-                        $phone = new Phone();
-                        $phone->phoneable_id = $partner->id;
-                        $phone->phoneable_type = 'partner';
-                        $phone->tag = $key==0 ? 'admin':  $key==3 ? 'fax' : 'company';
-                        $phone->type = $key==3 ? "fax" : "phone";
-                        $phone->is_default =$key==1||$key==0 ? true: false;
-                        $phone->verify = false;
+                    $phone = new Phone();
+                    $phone->phoneable_id = $partner->id;
+                    $phone->phoneable_type = 'partner';
+                    $phone->tag = $key==0 ? 'admin':  $key==3 ? 'fax' : 'company';
+                    $phone->type = $key==3 ? "fax" : "phone";
+                    $phone->is_default =$key==1||$key==0 ? true: false;
+                    $phone->verify = false;
 
-                    }
-                $phone->number = $number;
-                $phone->country_id = $request->code_country[$key];
-            
-                $phone->save();
                 }
+            $phone->number = $number;
+            $phone->country_id = $request->code_country[$key];
+        
+            $phone->save();
             }
-        }
-
             
-        return redirect('affiliates');
+        }
+        return $request->numbers;
+        $page = Auth::guard('partner')->id() == $partner->id ? 'account' : 'affiliates';  
+        return redirect($page);
     }
      /**
      * Remove the specified resource from storage.

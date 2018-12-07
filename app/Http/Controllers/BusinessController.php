@@ -263,7 +263,7 @@ class BusinessController extends Controller
         $status->is_approved = 2;
         $status->user_id = $business->id;
         $status->user_type = 'business';
-        $status->staff_id = auth()->guard('staff')->user()->id;
+        $status->staff_id = 1;
         $status->save();
         
         $address = $business->address;
@@ -274,7 +274,7 @@ class BusinessController extends Controller
         $address->country_id = $request->country_id;
         $address->city = $request->city;
         $address->save();
-             
+
         if($request->hasFile('path')) 
         {
             $picture = $business->picture;
@@ -287,8 +287,6 @@ class BusinessController extends Controller
         
         foreach($request->numbers as $key => $number)
         {
-            if($number != null)
-            {
                 if($number != null)
                 {
                     $phone = Phone::where('id', $request->phone_id[$key])
@@ -311,7 +309,6 @@ class BusinessController extends Controller
             
                 $phone->save();
                 }
-            }
         }
 
             

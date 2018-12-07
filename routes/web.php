@@ -25,7 +25,6 @@ function()
             return view('welcome');
         });
     });
-
     // Staff sub domaine GET routes (staff.babcasa.com)
     // Staff routes start 
     Route::domain('staff.babcasa.com')->middleware('LogActivity')->group(function (){
@@ -152,12 +151,6 @@ function()
             }); 
             Route::get('{subject}', 'SubjectController@show'); 
         });
-
-        // Staff login page
-        Route::get('/sign-in', 'Auth\StaffLoginController@showLoginForm');
-
-        // Staff logout link 
-        Route::get('/logout', 'Auth\StaffLoginController@logout');
         
         // Staff managment pages
         Route::prefix('staff')->middleware('CanRead:staff')->group(function() {
@@ -231,177 +224,140 @@ function()
         });
 
         Route::get('account', 'StaffController@account');
+        // subjects
+        Route::prefix('subjects')->middleware('CanRead:reason')->group(function() {
+            Route::get('/', 'SubjectController@index'); 
+            Route::group(['middleware' => ['CanWrite:reason']], function(){
+                Route::get('create', 'SubjectController@create'); 
+                Route::get('{subject}/edit', 'SubjectController@edit');
+            }); 
+            Route::get('{subject}', 'SubjectController@show'); 
+        });
+    
+        // 
+        
+        Route::prefix('staff')->middleware('CanRead:staff')->group(function() {
+            Route::get('/', 'StaffController@index'); 
+            Route::group(['middleware' => ['CanWrite:staff']], function(){
+                Route::get('create', 'StaffController@create'); 
+                Route::get('{staff}/edit', 'StaffController@edit');
+                Route::get('{staff}', 'StaffController@show');
+            }); 
+            Route::get('password', 'StaffController@resetPasswordForm');
+            Route::get('{staff}/reset/password', 'StaffController@resetPassword');
+            Route::get('{staff}/pin/verification', 'PinController@checkPinForm');
+            Route::get('{staff}/password/{password}', 'PinController@showPassword');
+            
+        });
     });
     //Staff routes end
-
-
-    Route::domain('partner.babcasa.com')->group(function (){
-        Route::get('{product}/edit', 'ProductController@edit'); 
-    });
     
-    // subjects
-    Route::prefix('subjects')->middleware('CanRead:reason')->group(function() {
-        Route::get('/', 'SubjectController@index'); 
-        Route::group(['middleware' => ['CanWrite:reason']], function(){
-            Route::get('create', 'SubjectController@create'); 
-            Route::get('{subject}/edit', 'SubjectController@edit');
-        }); 
-        Route::get('{subject}', 'SubjectController@show'); 
-    });
-
-    // 
-    
-    Route::get('/sign-in', 'Auth\StaffLoginController@showLoginForm');
-    Route::get('/logout', 'Auth\StaffLoginController@logout');
-    
-    Route::prefix('staff')->middleware('CanRead:staff')->group(function() {
-        Route::get('/', 'StaffController@index'); 
-        Route::group(['middleware' => ['CanWrite:staff']], function(){
-            Route::get('create', 'StaffController@create'); 
-            Route::get('{staff}/edit', 'StaffController@edit');
-            Route::get('{staff}', 'StaffController@show');
-        }); 
-        Route::get('password', 'StaffController@resetPasswordForm');
-        Route::get('{staff}/reset/password', 'StaffController@resetPassword');
-        Route::get('{staff}/pin/verification', 'PinController@checkPinForm');
-        Route::get('{staff}/password/{password}', 'PinController@showPassword');
-        
-    });
 
     //////////STATUS
     Route::prefix('statuses')->group(function() {
         Route::get('{type}/{user}','StatusController@index');
     }); 
     
-});
-
-Route::domain('partner.babcasa.com')->group(function (){
-    Route::get('/test', 'ProductController@create'); 
-
-    Route::get('/register', 'Auth\PartnerRegisterController@showRegisterForm'); 
-    Route::get('/sign-in', 'Auth\PartnerLoginController@showLoginForm');
-    Route::get('/', 'PartnerController@dashboard');
-    Route::get('/logout', 'Auth\PartnerLoginController@logout');
-    Route::get('/password/email', 'Auth\PartnerForgotPasswordController@showLinkRequestForm');
-    Route::get('{partner}/password/reset/{token}', 'Auth\PartnerResetPasswordController@showResetForm');
-    Route::get('security', 'PartnerController@security');
-    Route::get('settings', 'PartnerController@edit');
-    Route::get('discount/create', function(){return view('discounts.backoffice.create');});
-
-// PRODUCTS ROUTES
-Route::prefix('products')->group(function() {
-    Route::get('/', 'ProductController@index'); 
-    Route::get('create', 'ProductController@create'); 
-    Route::get('{product}/edit', 'ProductController@edit');
-    Route::get('{product}', 'ProductController@show'); 
-});
-
-// ORDERS ROUTES
-Route::prefix('orders')->group(function() {
-    Route::get('/', 'OrderController@index'); 
-    Route::get('waiting', 'OrderController@waiting'); 
-    Route::get('in-progress', 'OrderController@inProgress'); 
-    Route::get('complated', 'OrderController@complated'); 
-    Route::get('canceled', 'OrderController@canceled'); 
-    Route::get('{orders}', 'OrderController@show'); 
-});
-// discounts ROUTES
-Route::prefix('discounts')->group(function() {
-    Route::get('/', 'DiscountController@index'); 
-    Route::get('create', 'DiscountController@create'); 
-    Route::get('current', 'DiscountController@current'); 
-    Route::get('next', 'DiscountController@next'); 
-    Route::get('expired', 'DiscountController@expired'); 
-    Route::get('create', 'DiscountController@create'); 
-    Route::get('{discount}/edit', 'DiscountController@edit');
-    Route::get('{discount}', 'DiscountController@show'); 
-});
-
-    //client finale gestion support routes start 
-    Route::prefix('support')->group(function() {
-        Route::get('/','ClaimController@index');
-        Route::get('open','ClaimController@open');
-        Route::get('closed','ClaimController@closed');
-        Route::get('create','ClaimController@create');
-        Route::get('{id}','ClaimController@show');
-        Route::prefix('message')->group(function() {
-            Route::get('{claim}/create','ClaimMessageController@create');
-        });
-
-        // Route::get('/','SubjectController@index');
-        Route::prefix('{subject}')->group(function() {
-            Route::prefix('ticket')->group(function() {
-            });
-
-            Route::domain('partner.babcasa.com')->group(function (){
-                Route::get('{product}/edit', 'ProductController@edit'); 
-                Route::get('/register', 'auth\StaffRegisterController@showRegisterForm');
-            });
-
-            Route::domain('partner.babcasa.com')->group(function (){
-                Route::get('/test', 'ProductController@create'); 
-
-                Route::get('/register', 'auth\PartnerRegisterController@showRegisterForm'); 
-                Route::get('/sign-in', 'Auth\PartnerLoginController@showLoginForm');
-                Route::get('/', 'PartnerController@dashboard');
-                Route::get('/logout', 'Auth\PartnerLoginController@logout');
-                Route::get('/password', 'Auth\PartnerForgotPasswordController@showLinkRequestForm');
-                Route::get('{partner}/password/reset/{token}', 'auth\PartnerResetPasswordController@showResetForm');
-                Route::get('security', 'PartnerController@security');
-                Route::get('settings', 'PartnerController@edit');
-                Route::get('discount/create', function(){return view('discounts.backoffice.create');});
-
-                //client finale gestion support routes start 
-                Route::prefix('support')->group(function() {
-                    Route::prefix('ticket')->group(function() {
-                        Route::get('/','ClaimController@index');
-                        Route::get('{id}','ClaimController@show');
-                    });
-                });
-                
-            });
-        }
-    );
-
-    // Partner register route
-    Route::post('register', 'Auth\PartnerRegisterController@store')->name('partner.register.submit');
-    // Partner auth route, sign in    
-    Route::post('/sign-in', 'Auth\PartnerLoginController@login');
-
-        Route::post('/store', 'ProductController@store');
-
-        // Partner register route
-        Route::post('register', 'Auth\PartnerRegisterController@store')->name('partner.register.submit'); 
-        // Partner auth route, sign in    
-        Route::post('/sign-in', 'Auth\PartnerLoginController@login');
-
-        // Partner change password start
-        Route::prefix('password')->group(function() {
-            Route::post('email', 'Auth\PartnerForgotPasswordController@sendResetLinkEmail');
-            Route::post('reset', 'Auth\PartnerResetPasswordController@reset');
-        });
-        // Partner change password end
-
-        // Partner update
-        Route::post('settings/update', 'PartnerController@update');
+    
+    Route::domain('partner.babcasa.com')->group(function (){
+        Route::get('/test', 'ProductController@create'); 
+    
+        Route::get('/register', 'Auth\PartnerRegisterController@showRegisterForm'); 
+        Route::get('/sign-in', 'Auth\PartnerLoginController@showLoginForm');
+        Route::get('/', 'PartnerController@dashboard');
+        Route::get('/logout', 'Auth\PartnerLoginController@logout');
+        Route::get('/password/email', 'Auth\PartnerForgotPasswordController@showLinkRequestForm');
+        Route::get('{partner}/password/reset/{token}', 'Auth\PartnerResetPasswordController@showResetForm');
+        Route::get('security', 'PartnerController@security');
+        Route::get('account', 'PartnerController@account');
+        Route::get('discount/create', function(){return view('discounts.backoffice.create');});
+    
+    // PRODUCTS ROUTES
+    Route::prefix('products')->group(function() {
+        Route::get('/', 'ProductController@index'); 
+        Route::get('create', 'ProductController@create'); 
+        Route::get('{product}/edit', 'ProductController@edit');
+        Route::get('{product}', 'ProductController@show'); 
     });
     
-    Route::prefix('products')->group(function() {
-
+    // ORDERS ROUTES
+    Route::prefix('orders')->group(function() {
+        Route::get('/', 'OrderController@index'); 
+        Route::get('waiting', 'OrderController@waiting'); 
+        Route::get('in-progress', 'OrderController@inProgress'); 
+        Route::get('complated', 'OrderController@complated'); 
+        Route::get('canceled', 'OrderController@canceled'); 
+        Route::get('{orders}', 'OrderController@show'); 
     });
+    // discounts ROUTES
+    Route::prefix('discounts')->group(function() {
+        Route::get('/', 'DiscountController@index'); 
+        Route::get('create', 'DiscountController@create'); 
+        Route::get('current', 'DiscountController@current'); 
+        Route::get('next', 'DiscountController@next'); 
+        Route::get('expired', 'DiscountController@expired'); 
+        Route::get('create', 'DiscountController@create'); 
+        Route::get('{discount}/edit', 'DiscountController@edit');
+        Route::get('{discount}', 'DiscountController@show'); 
+    });
+    
+        //client finale gestion support routes start 
+        Route::prefix('support')->group(function() {
+            Route::get('/','ClaimController@index');
+            Route::get('open','ClaimController@open');
+            Route::get('closed','ClaimController@closed');
+            Route::get('create','ClaimController@create');
+            Route::get('{id}','ClaimController@show');
+            Route::prefix('message')->group(function() {
+                Route::get('{claim}/create','ClaimMessageController@create');
+            });
+    
+            // Route::get('/','SubjectController@index');
+            Route::prefix('{subject}')->group(function() {
+                Route::prefix('ticket')->group(function() {
+                });
+            Route::get('/test', 'ProductController@create'); 
 
-            // Desactivate partner account
-            Route::delete('/desactivate', 'PartnerController@destroy');
+            Route::get('/register', 'auth\PartnerRegisterController@showRegisterForm'); 
+            Route::get('/sign-in', 'Auth\PartnerLoginController@showLoginForm');
+            Route::get('/', 'PartnerController@dashboard');
+            Route::get('/logout', 'Auth\PartnerLoginController@logout');
+            Route::get('/password', 'Auth\PartnerForgotPasswordController@showLinkRequestForm');
+            Route::get('{partner}/password/reset/{token}', 'auth\PartnerResetPasswordController@showResetForm');
+            Route::get('security', 'PartnerController@security');
+            Route::get('settings', 'PartnerController@edit');
+            Route::get('discount/create', function(){return view('discounts.backoffice.create');});
 
-            //////////CLAIMs
+            //client finale gestion support routes start 
             Route::prefix('support')->group(function() {
-                Route::post('','ClaimController@store');
-                Route::prefix('message')->group(function() {
-                    Route::post('{claim}','ClaimMessageController@store');
+                Route::prefix('ticket')->group(function() {
+                    Route::get('/','ClaimController@index');
+                    Route::get('{id}','ClaimController@show');
                 });
             });
-
-
+                    
+            }
+        );
+    
+        });
+        
+        Route::prefix('products')->group(function() {
+    
+        });
+    
+                // Desactivate partner account
+                Route::delete('/desactivate', 'PartnerController@destroy');
+    
+                //////////CLAIMs
+                Route::prefix('support')->group(function() {
+                    Route::post('','ClaimController@store');
+                    Route::prefix('message')->group(function() {
+                        Route::post('{claim}','ClaimMessageController@store');
+                    });
+                });
+    
+    
+    });
 });
 
 Route::domain('staff.babcasa.com')->group(function (){
@@ -583,3 +539,28 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::post('{business}/restore', 'BusinessController@restore')->name('restore.business');
     });
 });
+
+Route::domain('partner.babcasa.com')->group(function (){
+    // Partner register route
+    Route::post('register', 'Auth\PartnerRegisterController@store')->name('partner.register.submit');
+    // Partner auth route, sign in    
+    Route::post('/sign-in', 'Auth\PartnerLoginController@login');
+
+    Route::post('/store', 'ProductController@store');
+
+    // Partner register route
+    Route::post('register', 'Auth\PartnerRegisterController@store')->name('partner.register.submit'); 
+    // Partner auth route, sign in    
+    Route::post('/sign-in', 'Auth\PartnerLoginController@login');
+
+    // Partner change password start
+    Route::prefix('password')->group(function() {
+        Route::post('email', 'Auth\PartnerForgotPasswordController@sendResetLinkEmail');
+        Route::post('reset', 'Auth\PartnerResetPasswordController@reset');
+    });
+    // Partner change password end
+
+    // Partner update
+    Route::put('account/{partner}', 'PartnerController@update');
+
+    });
