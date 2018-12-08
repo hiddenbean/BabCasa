@@ -3,10 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class DiscountLang extends Model
 {
-    
+    use SoftDeletes;
     // Relationship with discount table
     public function discount()
     {

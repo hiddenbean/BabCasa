@@ -15,10 +15,11 @@ class CreateDiscountsTable extends Migration
     {
         Schema::create('discounts', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('redaction_percentage');
+            $table->integer('percentage');
             $table->dateTime('start_at');
             $table->dateTime('end_at');
             $table->integer('partner_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

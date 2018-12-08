@@ -139,7 +139,7 @@
                                             <option value="{{$gender->id}}" {{old('gender_id') == $gender->id ? 'selected' : ''}}>{{$gender->genderLang()->reference}}</option>
                                             @endforeach
                                         </select>
-                                         <label class="error" for="gender_id">
+                                        <label class="error" for="gender_id">
                                             {{ $errors->has('gender_id') ? $errors->first('gender_id') : "" }}
                                         </label> 
                                     </div>

@@ -292,6 +292,7 @@ function()
     // discounts ROUTES
     Route::prefix('discounts')->group(function() {
         Route::get('/', 'DiscountController@index'); 
+        Route::get('trash', 'DiscountController@trash');
         Route::get('create', 'DiscountController@create'); 
         Route::get('current', 'DiscountController@current'); 
         Route::get('next', 'DiscountController@next'); 
@@ -299,6 +300,9 @@ function()
         Route::get('create', 'DiscountController@create'); 
         Route::get('{discount}/edit', 'DiscountController@edit');
         Route::get('{discount}', 'DiscountController@show'); 
+        Route::get('{discount}/translations','DiscountController@translations');
+        Route::get('{discount}', 'DiscountController@show'); 
+
     });
     
         //client finale gestion support routes start 
@@ -547,6 +551,19 @@ Route::domain('partner.babcasa.com')->group(function (){
     Route::post('/sign-in', 'Auth\PartnerLoginController@login');
 
     Route::post('/store', 'ProductController@store');
+
+     //////////subjectS
+     Route::prefix('discounts')->group(function() {
+
+        Route::post('/', 'DiscountController@storeWithRedirect');
+        Route::post('/create', 'DiscountController@storeAndNew'); 
+        Route::post('/multi-restore', 'DiscountController@multiRestore');  
+        Route::post('{discount}', 'DiscountController@update'); 
+        Route::post('{discount}/translations','DiscountLangController@update');
+        Route::post('{discount}/restore', 'DiscountController@restore');
+        Route::delete('{discount}', 'DiscountController@destroy')->name('delete.discount');
+        Route::delete('delete/multiple', 'DiscountController@multiDestroy')->name('delete.discounts');
+    }); 
 
     // Partner register route
     Route::post('register', 'Auth\PartnerRegisterController@store')->name('partner.register.submit'); 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DiscountLang;
+use App\Discount;
 use Illuminate\Http\Request;
 
 class DiscountLangController extends Controller
@@ -72,32 +73,38 @@ class DiscountLangController extends Controller
      * @param  \App\discount_lang  $discount_lang
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $Discount)
+    public function update(Request $request, $discount)
     {
-        $discount = Discount::find($Discount);
-       foreach($request->values as $key => $value)
-       {
-        $discountLang = $discount->discountLangs->where('lang_id',$request->languages_id[$key])->first();
-        if(!isset($discountLang))
+        // return $request;
+        $discount = Discount::find($discount);
+        foreach($request->references as $key => $reference)
+        {
+            $discountLang = $discount->discountLangs->where('lang_id',$request->languages_id[$key])->first();
+            if(!isset($discountLang))
             {
-                $discountLang = new discountLang();
+                $discountLang = new DiscountLang();
                 $discountLang->discount_id = $discount->id;
                 $discountLang->lang_id = $request->languages_id[$key];
             }
-           if($reference != '')
-           {
-                $discountLang->reference = $reference;
-                $discountLang->description = $description;
-            }
-            else
+
+            if($reference != '')
             {
+                $discountLang->reference = $reference;
+                $discountLang->description = $request->descriptions[$key];
+                }
+                else
+                {
                 $discountLang->reference = '';
                 $discountLang->description = '';
-            }
-            $discountLang->save();
-       }
-       return redirect()->back();
+    
+                }
+                $discountLang->save();
+            
+            
+        }
+        return redirect()->back();
     }
+
 
     /**
      * Remove the specified resource from storage.

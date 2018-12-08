@@ -76,34 +76,34 @@ class SubjectLangController extends Controller
      */
     public function update(Request $request, $subject)
     {
-           // return $request;
-           $subject = subject::find($subject);
-           foreach($request->references as $key => $reference)
-           {
-               $subjectLang = $subject->subjectLangs->where('lang_id',$request->languages_id[$key])->first();
-               if(!isset($subjectLang))
-               {
-                   $subjectLang = new subjectLang();
-                   $subjectLang->subject_id = $subject->id;
-                   $subjectLang->lang_id = $request->languages_id[$key];
-               }
-   
-               if($reference != '')
-               {
-                   $subjectLang->reference = $reference;
-                   $subjectLang->description = $request->descriptions[$key];
-                   }
-                   else
-                   {
-                   $subjectLang->reference = '';
-                   $subjectLang->description = '';
-       
-                   }
-                   $subjectLang->save();
-               
-               
-           }
-           return redirect()->back();
+        // return $request;
+        $subject = subject::find($subject);
+        foreach($request->references as $key => $reference)
+        {
+            $subjectLang = $subject->subjectLangs->where('lang_id',$request->languages_id[$key])->first();
+            if(!isset($subjectLang))
+            {
+                $subjectLang = new subjectLang();
+                $subjectLang->subject_id = $subject->id;
+                $subjectLang->lang_id = $request->languages_id[$key];
+            }
+
+            if($reference != '')
+            {
+                $subjectLang->reference = $reference;
+                $subjectLang->description = $request->descriptions[$key];
+                }
+                else
+                {
+                $subjectLang->reference = '';
+                $subjectLang->description = '';
+    
+                }
+                $subjectLang->save();
+            
+            
+        }
+        return redirect()->back();
     }
 
 

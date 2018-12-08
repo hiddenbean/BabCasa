@@ -166,9 +166,11 @@ class PartnerController extends Controller
             }
         }
         
+        $token = Password::getRepository()->create($partner);
+        $partner->sendPasswordResetNotification($token);
         $partner->notify(new NewPartner());
             
-            return $partner;
+        return $partner;
     }
 
         /**
@@ -310,7 +312,6 @@ class PartnerController extends Controller
      */
     public function update(Request $request, $partner)
     {
-        // return $request->numbers;
         $name = auth()->guard('partner')->check() ?  Auth::guard('partner')->user()->name : $partner;
         $partner = partner::where('name', $name)->first();
         $request->validate([
@@ -402,7 +403,6 @@ class PartnerController extends Controller
             }
             
         }
-        return $request->numbers;
         $page = Auth::guard('partner')->id() == $partner->id ? 'account' : 'affiliates';  
         return redirect($page);
     }

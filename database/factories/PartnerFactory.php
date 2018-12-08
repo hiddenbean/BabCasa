@@ -9,7 +9,7 @@ $factory->define(App\Partner::class, function (Faker $faker) {
         'name' => str_random(10),
         'company_name' => str_random(10),
         'about' => str_random(50),
-        'taxe_id' => str_random(10),
+        'taxe_id' => 1234567890,
         'first_name' => $faker->name,
         'last_name' => $faker->name,
         'admin_email' => $faker->unique()->safeEmail,

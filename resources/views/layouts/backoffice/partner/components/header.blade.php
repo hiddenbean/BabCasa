@@ -99,7 +99,7 @@
           </span>
         </button>
         <div class="dropdown-menu dropdown-menu-right profile-dropdown" role="menu">
-            <a href="{{ url('/profile')}}" class="dropdown-item">
+            <a href="{{ url('/account')}}" class="dropdown-item">
               <i class="pg-settings_small"></i> Settings</a>  
             <a href="{{ url('/logout')}}" class="clearfix bg-master-lighter dropdown-item">
               <span class="pull-left">Logout</span>

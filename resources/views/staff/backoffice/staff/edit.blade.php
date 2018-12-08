@@ -382,6 +382,5 @@
             $('#category_parent').val('');
             $('#selected-parent-name').html('none');
         });
-              
         </script>
 @endsection
