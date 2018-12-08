@@ -42,6 +42,21 @@ class DiscountController extends Controller
         $data['discounts'] = discount::all();
         return view('discounts.backoffice.partner.index',$data);
     }
+    public function current()
+    {
+        $data['discounts'] = Discount::where('start_at','<',date('Y-m-d h:s:00'))->where('end_at','>',date('Y-m-d h:s:00'))->get();
+        return view('discounts.backoffice.partner.index',$data);
+    }
+    public function next()
+    {
+        $data['discounts'] = Discount::where('start_at','>',date('Y-m-d h:s:00'))->get();
+        return view('discounts.backoffice.partner.index',$data);
+    }
+    public function expired()
+    {
+        $data['discounts'] = Discount::where('end_at','<',date('Y-m-d h:s:00'))->get();
+        return view('discounts.backoffice.partner.index',$data);
+    }
     
     /**
      * Show the form for creating a new resource.
@@ -51,6 +66,7 @@ class DiscountController extends Controller
     public function create()
     {
         $data['languages'] = Language::all();
+        $data['products'] = auth()->guard('partner')->user()->products;
         return view('discounts.backoffice.partner.create', $data);
     }
     
@@ -86,6 +102,14 @@ class DiscountController extends Controller
                 $discountLang->save();
             }
         
+            if(isset($request->products)){
+
+                foreach($request->products as $Product)
+                {
+                    $discount->products()->attach($Product,['quantity'=> 1]);
+        
+                }
+            }
 
         return  $discount;
     }
@@ -125,6 +149,8 @@ class DiscountController extends Controller
     public function edit($discount)
     {
         $data['discount'] = discount::findOrFail($discount);
+        
+        $data['products'] = auth()->guard('partner')->user()->products;
         if($data['discount']->start_at<date('Y-m-d h:s:00') && $data['discount']->end_at > date('Y-m-d h:s:00')) {
             $messages['error'] = 'discount can\'t be deleted it\'s current !!';
             return  redirect('discounts')
@@ -163,7 +189,14 @@ class DiscountController extends Controller
         $discountLang->description = $request->description; 
         $discountLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
         $discountLang->save(); 
-        
+        if(isset($request->products)){
+            $discount->products()->detach();
+            foreach($request->products as $Product)
+            {
+                $discount->products()->attach($Product,['quantity'=> 1]);
+    
+            }
+        }
         return redirect('discounts');
     }
 

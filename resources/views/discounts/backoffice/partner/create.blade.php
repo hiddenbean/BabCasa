@@ -122,6 +122,34 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="card">
+        
+                                <div class="card-body">
+                                        <table class="table table-striped projects">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width: 10%"></th>
+                                                        <th style="width: 20%">Id</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach($products as $product)
+                                                    <tr> 
+                                                        <td> <input type="checkbox"name="products[]" value="{{$product->id}}"></td>
+                                                        </td>
+                                                        <td> {{$product->id}}</td>
+                                    
+                                                    </tr>
+                                                    @endforeach
+        
+                                                </tbody>
+                                        </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="col-md-3">
