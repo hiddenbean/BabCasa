@@ -14,7 +14,7 @@
 <div class="card">
     <div class="card-header">
         <div class="card-title">
-            Rreasons list 
+            Reasons list 
             <a 
                 href="javascript:;" 
                 data-toggle="tooltip" 
