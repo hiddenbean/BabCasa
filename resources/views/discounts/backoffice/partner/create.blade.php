@@ -231,13 +231,13 @@
     <script type="text/javascript" src="{{ asset('plugins/multiselect/js/multiselect.min.js') }}"></script>
     <script>
         $("#save").click( function () {
-         $('#description').val($('#summernote').summernote().code());
+        $('#description').val($('#summernote').summernote().code());
         $('#form').attr('action', '{{ url('discounts') }}');
         $('#form').submit();
     });
 
     $("#save_new").click( function () {
-         $('#description').val($('#summernote').summernote().code());
+        $('#description').val($('#summernote').summernote().code());
         $('#form').attr('action', '{{ url('discounts')."/create" }}');
         $('#form').submit();
     });

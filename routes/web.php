@@ -388,7 +388,7 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::post('{staff}/pin/verification', 'PinController@checkPin');
     });
 
-    //////////Categories
+    //////////Claims
     Route::prefix('support')->group(function() {
 
         Route::post('/','ClaimController@store'); 
@@ -545,15 +545,13 @@ Route::domain('staff.babcasa.com')->group(function (){
 });
 
 Route::domain('partner.babcasa.com')->group(function (){
-    // Partner register route
-    Route::post('register', 'Auth\PartnerRegisterController@store')->name('partner.register.submit');
     // Partner auth route, sign in    
     Route::post('/sign-in', 'Auth\PartnerLoginController@login');
 
     Route::post('/store', 'ProductController@store');
 
-     //////////subjectS
-     Route::prefix('discounts')->group(function() {
+    //////////subjectS
+    Route::prefix('discounts')->group(function() {
 
         Route::post('/', 'DiscountController@storeWithRedirect');
         Route::post('/create', 'DiscountController@storeAndNew'); 
@@ -563,6 +561,14 @@ Route::domain('partner.babcasa.com')->group(function (){
         Route::post('{discount}/restore', 'DiscountController@restore');
         Route::delete('{discount}', 'DiscountController@destroy')->name('delete.discount');
         Route::delete('delete/multiple', 'DiscountController@multiDestroy')->name('delete.discounts');
+    }); 
+
+    //////////Claims
+    Route::prefix('support')->group(function() {
+
+        Route::post('/','ClaimController@store'); 
+        Route::post('{claim}/close','ClaimController@close'); 
+        Route::post('{claim}/message','ClaimMessageController@store'); 
     }); 
 
     // Partner register route

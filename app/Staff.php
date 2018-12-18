@@ -98,6 +98,10 @@ class Staff extends Authenticatable
     {
         return $this->hasMany('App\Business');
     }
+    public function statuses()
+    {
+        return $this->hasMany('App\Status');
+    }
 
     public static function boot()
     {

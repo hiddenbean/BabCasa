@@ -98,6 +98,9 @@
                                                     <option value="{{$subject->id}}">{{$subject->subjectLang()->reference}}</option>
                                                 @endforeach
                                             </select>
+                                            <label class="error" for="subject_id">
+                                                {{ $errors->has('subject_id') ? $errors->first('subject_id') : "" }}
+                                            </label> 
                                         </div>
                                     </div>
                                 </div>

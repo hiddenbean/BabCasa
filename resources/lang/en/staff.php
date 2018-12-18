@@ -130,9 +130,22 @@ return [
     'reason' => 'reason',
     'reason_langue' => 'reason langue',
     'reasons_list' => 'reasons list',
-
-
-
-
+    'your_account' => 'your account',
+    'sessions_list' => 'sessions list',
+    'update_password' => 'Update password',
+    'password_advice' => 'We advise you to use a password you do not use anywhere else.',
+    'deactivate_your_account' => 'Deactivate your account',
+    'deactivate_account_p' => 'By deactivating your account, you deactivate your profile and delete your name and photo from most of the content you have shared on Babcasa.',
+    'deactivate' => 'Deactivate',
+    'activity_log' => 'Activity log',
+    'title' => 'Title',
+    'to' => 'To',
+    'busnisses' => 'Busnisses',
+    'partners' => 'Partners',
+    'cancel' => 'Cancel',
+    'send' => 'Send',
+    'browse' => 'browse',
+    'subjects' => 'subjects',
+    'reason' => 'reason',
 
 ];

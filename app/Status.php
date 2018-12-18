@@ -29,4 +29,9 @@ class Status extends Model
     {
         return $this->belongsToMany('App\Reason')->withTimestamps();
     }
+    
+    public function staff()
+    {
+        return $this->belongsTo('App\Staff');
+    }
 }

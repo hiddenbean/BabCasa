@@ -1,6 +1,6 @@
                 <div class="split-view">
-                    <!-- START SPLIT LIST VIEW -->
-                    <div class="split-list">
+                <!-- START SPLIT LIST VIEW -->
+                <div class="split-list">
                     <a class="list-refresh" href="#"><i class="fa fa-refresh"></i></a>
                     <div data-email="list" class="boreded no-top-border">
                         <!-- START EMAIL LIST SORTED BY DATE -->

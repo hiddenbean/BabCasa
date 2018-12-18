@@ -29,9 +29,10 @@
     <div class="login-container bg-white">
         <div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-50 m-t-30 sm-p-l-15 sm-p-r-15 sm-p-t-40">
             <div class="logo_text"><img src="{{ asset('img/logo.png') }}" alt="{{ config('app.name', 'BAB Casa') }}" height="60">  </div>
-            <p>Connectez-vous à votre espace
+            <p>Connect to your space
                 <strong> babcasa.com</strong>
             </p>
+        <a href="{{url('register')}}">Join babcasa</a>
             <!-- START Login Form -->
             <form class="p-t-15" role="form" action="{{ url('/sign-in') }}" method="POST">
                 <!--  Generate hidden input for token -->
@@ -54,7 +55,7 @@
 
                 <!-- START Form Control-->
                 <div class="form-group form-group-default">
-                    <label> Mot de passe </label>
+                    <label> Password </label>
                     <div class="controls">
                         <input type="password" class="form-control" name="password" placeholder="Saisissez votre mot de passe">
                     </div>
@@ -70,17 +71,17 @@
                     <div class="col-md-6 no-padding sm-p-l-10">
                         <div class="checkbox ">
                             <input type="checkbox" value="1" id="checkbox1" name="remember">
-                            <label for="checkbox1">Me tenir connecté</label>
+                            <label for="checkbox1">Keep me connected</label>
                         </div>
                     </div>
                     <div class="col-md-6 text-right">
-                        <a href="{{ url('/password/email') }}" class="small float-right">Mot de passe oublié?</a>
+                        <a href="{{ url('/password/email') }}" class="small float-right">Forgot your password ?</a>
                         <br>
-                        <a href="#" class="small">Contacter l&apos;assistance</a>
+                        <a href="#" class="small">Contact support</a>
                     </div>
                 </div>
                 <!-- END Form Control-->
-                <button class="btn btn-primary btn-cons m-t-10" type="submit">Se connecter</button>
+                <button class="btn btn-primary btn-cons m-t-10" type="submit">Login</button>
             </form>
             <!--END Login Form-->
 
@@ -89,16 +90,16 @@
                 <div class="m-b-30 p-r-80 sm-m-t-20 sm-p-r-15 sm-p-b-20 clearfix"> 
                         <p>
                             <small class=" text-primary">
-                                © Hiddenbean 2018.  
+                                Copyright © 2018 BABCasa. All rights reserved
                             </small>
                             <small class="">
-                                <a href="#">Confidentialité.</a>
+                                <a href="#">confidentiality.</a>
                             </small>
                             <small class="">
-                                <a href="#">Conditions générales.</a>
+                                <a href="#">Terms and conditions.</a>
                             </small>
                             <small class="">
-                                <a href="#">Aidez-moi?</a>
+                                <a href="#">Help me?</a>
                             </small> 
                         </p> 
                 </div>

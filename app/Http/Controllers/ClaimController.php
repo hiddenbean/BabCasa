@@ -126,7 +126,6 @@ class ClaimController extends Controller
         $data['clients']=ParticularClient::all();
 
         $user_type = $this->userType();
-       
         return view('claims.backoffice.'.$user_type.'.create',$data);
     }
 
@@ -184,7 +183,7 @@ class ClaimController extends Controller
         {
             if($staff->claims->count() < $min)
             {
-                $min = $staff->claim->count();
+                $min = $staff->claims->count();
                 $id = $staff->id;
             } 
 
