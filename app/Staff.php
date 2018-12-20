@@ -89,6 +89,11 @@ class Staff extends Authenticatable
         return $this->belongsTo('App\Profile');
     }
 
+    public function permission($permission)
+    {
+        return  $this->profile()->first()->permissions()->where('type',$permission)->first()->pivot->can_write;
+
+    }
     public function pins()
     {
         return $this->morphMany('App\Pin', 'Pinable');

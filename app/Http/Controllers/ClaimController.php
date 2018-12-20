@@ -177,13 +177,13 @@ class ClaimController extends Controller
 
     public function staffTarget()
     {
-        $min = Staff::first()->claims->count();
+        $min = Staff::first()->claims->where('status',true)->count();
         $id = Staff::first()->id;
         foreach(Staff::all() as $staff)
         {
-            if($staff->claims->count() < $min)
+            if($staff->permission('claim') && $staff->claims->where('status',true)->count() < $min)
             {
-                $min = $staff->claims->count();
+                $min = $staff->claims->where('status',true)->count();
                 $id = $staff->id;
             } 
 

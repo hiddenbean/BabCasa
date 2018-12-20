@@ -174,13 +174,13 @@ class PartnerRegisterController extends Controller
     
     public function staffTarget()
     {
-        $min = Staff::first()->statuses->count();
+        $min = Staff::first()->statuses->where('is_approved',false)->count();
         $id = Staff::first()->id;
         foreach(Staff::all() as $staff)
         {
-            if($staff->statuses->count() < $min)
+            if($staff->permission('claim') && $staff->statuses->where('is_approved',false)->count() < $min)
             {
-                $min = $staff->statuses->count();
+                $min = $staff->statuses->where('is_approved',false)->count();
                 $id = $staff->id;
             } 
 
