@@ -1,16 +1,14 @@
 @extends('layouts.backoffice.app') 
 
 @section('body')
-<div class="register-container sm-p-t-30 register-staff-width" >
-    <div class="d-flex justify-content-center flex-column full-height ">
+<div class="register-container sm-p-t-30 register-staff-width">
+    <div class="d-flex justify-content-center flex-column full-height">
         <div class="logo_text">  
             <div class="logo_text">
                 <img src="{{ asset('img/logo.png') }}" alt="{{ config('app.name', 'BAB Casa') }}" height="60"/>
             </div>
         </div>
-        
         @yield('content')
-
     </div>
 </div>
 
@@ -37,6 +35,7 @@
     </div>
 </div>
 @stop 
+
 
 @section('after_script')
     <script>

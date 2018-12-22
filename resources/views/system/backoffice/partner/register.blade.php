@@ -1,32 +1,28 @@
-@extends('layouts.backoffice.app') 
+@extends('layouts.backoffice.app')
 
 @section('before_css')
+<link media="screen" type="text/css" rel="stylesheet" href="{{ asset('plugins/bootstrap-datepicker/css/datepicker3.css') }}">
+<link media="screen" type="text/css" rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
 <link type="text/css" rel="stylesheet" href="{{ asset('plugins/summernote/css/summernote.css') }}">
 @endsection
 
 @section('body')
-<div class="container-fluid container-fixed-lg">
-    <div class="card card-transparent">
-        <div class="card-header">
-            <div class="card-title">
-                Add a new affiliate
-                <a 
-                    href="javascript:;" 
-                    data-toggle="tooltip" 
-                    data-placement="bottom" 
-                    data-html="true" 
-                    trigger="click" 
-                    title= "<p class='tooltip-text'>You can use this form to create a new category if you have the right permissions.<br>
-                            If you have any difficulties please <a href='#'>contact the support</a></p>"> 
-                    <i class="fas fa-question-circle"></i>
-                </a>
+<div class="register-container p-t-30 register-staff-width" style="height:auto">
+    <div class="d-flex justify-content-center flex-column">
+        <div class="logo_text">  
+            <div class="logo_text">
+                <img src="{{ asset('img/logo.png') }}" alt="{{ config('app.name', 'BAB Casa') }}" height="60"/>
             </div>
         </div>
-        <form action="{{route('partner.register.submit')}}" method="POST" id="form" enctype="multipart/form-data">
-        {{ csrf_field() }}
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-9">
+        <h3>Become an affiliate</h3>
+        <p>
+            To join the affiliate programe of BABCasa you have to fill the forms below.<br>
+        </p>
+        <p class="small uppercase b-b b-dashed b-grey p-b-15">
+            note : Fields marked with <span class="text-danger">*</span> are required
+        </p>
+            <form action="{{url('affiliates')}}" method="POST" id="form" enctype="multipart/form-data">
+                {{ csrf_field() }}
                     <div class="row">
                         <div class="col-md-12">
                             <div class="row">
@@ -37,59 +33,56 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group form-group-default required">
-                                        <label>Username</label>
-                                        <input type="text" class="form-control" id="name" name="name" value="{{old('name')}}">
-                                        <label class="error" for="name">
-                                            {{ $errors->has('name') ? $errors->first('name') : "" }}
-                                        </label> 
+                                <div class="col-md-7">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group form-group-default required">
+                                                <label>Username</label>
+                                                <input type="text" class="form-control" id="name" name="name" value="{{old('name')}}">
+                                                <label class="error" for="name">
+                                                    {{ $errors->has('name') ? $errors->first('name') : "" }}
+                                                </label> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group form-group-default required">
+                                                <label>Email</label>
+                                                <input type="email" class="form-control" id="email" name="email" value="{{old('email')}}">
+                                                <label class="error p-l-15" for="email">
+                                                    {{ $errors->has('email') ? $errors->first('email') : "" }}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group form-group-default required">
+                                                <label>Password</label>
+                                                <input type="email" class="form-control" id="email" name="email" value="{{old('email')}}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group form-group-default required">
+                                                <label>Confirm Password</label>
+                                                <input type="email" class="form-control" id="email" name="email" value="{{old('email')}}">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group form-group-default required">
-                                        <label>Email</label>
-                                        <input type="email" class="form-control" id="email" name="email" value="{{old('email')}}">
+                                <div class="col-md-5">
+                                    <div class="form-group form-group-default">
+                                        <img src="{{ asset('img/img_placeholder.png') }}" id="image_preview_staff"
+                                            alt="" srcset="" width="200" style="margin-left: calc(50% - 105px);" class="m-t-15 m-b-20">
+                                        <label for="path_staff" class="choose_photo">
+                                            <span>
+                                                <i class="fa fa-image"></i> Click here to uploade picture</span>
+                                        </label>
+                                        <input type="file" id="path_staff" name="path" class="form-control hide">
                                     </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label class="error p-l-15" for="email">
-                                        {{ $errors->has('email') ? $errors->first('email') : "" }}
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group form-group-default required">
-                                        <label>Password</label>
-                                        <input type="password" class="form-control" id="password" name="password">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label class="error p-l-15" for="password">
-                                        {{ $errors->has('password') ? $errors->first('password') : "" }}
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group form-group-default required">
-                                        <label>password confirmation</label>
-                                        <input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label class="error p-l-15" for="password_confirmation">
-                                        {{ $errors->has('password_confirmation') ? $errors->first('password_confirmation') : "" }}
-                                    </label>
                                 </div>
                             </div>
 
@@ -336,91 +329,68 @@
                                     </div>
                                 </div>
                             </div>
-                            
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-md-3">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <div class="card-title">
-                                        Publish
-                                        <a 
-                                            href="javascript:;" 
-                                            data-toggle="tooltip" 
-                                            data-placement="bottom" 
-                                            data-html="true" 
-                                            trigger="click" 
-                                            title= "<p class='tooltip-text'>You can use this form to create a new category if you have the right permissions.<br>
-                                                    If you have any difficulties please <a href='#'>contact the support</a></p>"> 
-                                            <i class="fas fa-question-circle"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="card-body">
 
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <a href="javascript:;" id="save" class="btn btn-block"><i class="fas fa-check"></i> <strong>save</strong></a>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a href="{{ url()->current() }}" class="btn btn-block btn-transparent-danger"><i class="fas fa-times"></i> <strong>clear all</strong></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group form-group-default">
-                                <img src="{{ asset('img/img_placeholder.png') }}" id="image_preview_staff"
-                                    alt="" srcset="" width="200" style="margin-left: calc(50% - 105px);">
-                                <label for="path_staff" class="choose_photo">
-                                    <span>
-                                        <i class="fa fa-image"></i> Click here to uploade picture</span>
-                                </label>
-                                <input type="file" id="path_staff" name="path" class="form-control hide">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="card-title">
-                                    Newsletter
-                                    <a 
-                                    href="javascript:;" 
-                                    data-toggle="tooltip" 
-                                    data-placement="bottom" 
-                                    data-html="true" 
-                                    trigger="click" 
-                                    title= "<p class='tooltip-text'>You can use this form to create a new category if you have the right permissions.<br>
-                                            If you have any difficulties please <a href='#'>contact the support</a></p>"> 
-                                    <i class="fas fa-question-circle"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="card-body">
+                        <div class="row">
+                            <div class="row col-md-12">
                                 <div class="checkbox check-success">
-                                    <input type="checkbox" name="is_register_to_newsletter"id="checkbox" @if(old('is_register_to_newsletter')) checked @endif>
-                                    <label for="checkbox">Enable newsletter subscription for this affiliate</label>
+                                    <input type="checkbox" name="is_register_to_newsletter"id="approval" @if(old('is_register_to_newsletter')) checked @endif>
+                                    <label for="approval">I have read and approve approve <a hre="#">the terms and conditions of babcasa.com</a></label>
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="row col-md-12">
+                                <div class="checkbox check-success">
+                                    <input type="checkbox" name="is_register_to_newsletter"id="newsletter" @if(old('is_register_to_newsletter')) checked @endif>
+                                    <label for="newsletter">I want to recieve the lastest offers and updates</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-b-10 p-t-10 b-t b-dashed b-grey">
+                            <div class="col-lg-6">
+                                <a href="#" class="small">Help? Contact Support</a>
+                            </div>
+                            <div class="col-lg-6 text-right">
+                                <a href="{{ url('http://partner.babcasa.com') }}" class="small">Cancel</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button class="btn btn-primary btn-cons m-t-10" type="submit"> 
+                                    Sign-up 
+                                </button>
+                            </div>
+                        </div>
+                        <br>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
-        </form>
+    </div>
+
+<div class=" container-fluid  container-fixed-lg footer">
+    <div class="copyright sm-text-center">
+        <p class="small no-margin pull-left sm-pull-reset">
+            <span class="hint-text">Copyright © 2018 </span>
+            <span class="font-montserrat">BABCasa</span>.
+            <span class="hint-text">All rights reserved. </span>
+            <span class="sm-block"><a href="#" class="m-l-10 m-r-10">Terms of use</a> <span class="muted">|</span> <a href="#" class="m-l-10">Privacy Policy</a></span>
+        </p>
+        
+        <p class="small no-margin pull-right sm-pull-reset">
+            <a id="langs" href="javascript:;">{{ LaravelLocalization::getCurrentLocaleName() }} ({{ LaravelLocalization::getCurrentLocaleRegional() }})</a>
+            <div class="dropup-content">
+                @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                    <a class="small" rel="alternate" hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
+                        {{ $properties['native'] }} ({{ $properties['regional'] }})
+                    </a>
+                @endforeach
+            </div>
+        </p>
+        <div class="clearfix"></div>
     </div>
 </div>
-@endsection
+@stop
 
 @section('before_script')
     <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}" type="text/javascript"></script>    
@@ -451,6 +421,13 @@
             });
         $("#save").click( function () {
             $('#description').val($('#summernote').summernote().code());
+            $('#form').attr('action', '{{ url('affiliates') }}');
+            $('#form').submit();
+        });
+
+        $("#save_new").click( function () {
+            $('#description').val($('#summernote').summernote().code());
+            $('#form').attr('action', '{{ url('affiliates')."/create" }}');
             $('#form').submit();
         });
 
@@ -458,3 +435,26 @@
 
         </script>
 @endsection
+
+
+@section('after_script')
+    <script>
+    $('#langs').click(function() {
+        $('.dropup-content').show();
+    });
+
+    $('.dropup-content a').click(function() {
+        $('.dropup-content').hide();
+    });
+
+    $(document).mouseup(function(e) 
+    {
+        var container = $(".dropup-content");
+        // if the target of the click isn't the container nor a descendant of the container
+        if (!container.is(e.target) && container.has(e.target).length === 0) 
+        {
+            container.hide();
+        }
+    });
+    </script>
+@stop

@@ -463,3 +463,28 @@ td.picture > a > img{
     max-height: 38px;
     height: auto;
 }
+
+.notification-item {
+    margin: 0px !important;
+    padding: 7px 10px !important;
+    min-height: 62px;
+}
+
+.notification-content {
+    max-width: calc(100% -  26px);
+}
+
+.notification-panel .notification-body .notification-item .option {
+    top : 0;
+    line-height: 61px;
+}
+
+.notification-text {
+    margin-left: 55px;
+    font-size: 13px;
+}
+
+.notification-desc {
+    height: 10px;
+    text-overflow: ellipsis;
+}
