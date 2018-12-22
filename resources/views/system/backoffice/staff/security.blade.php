@@ -43,10 +43,10 @@
         </div>
     <div class="card-body">
         <div class="row">
-        @foreach($guests as $guest)
-            <div class="col-md-8 b-r b-dashed b-grey">
+            <div class="col-md-8">
+                @foreach($guests as $guest)
                     <div class="row">
-                        <div class="col-md-11">
+                        <div class="col-md-12">
                             <div class="card">
                                 <div class="card-body">
                                     <div class="row">
@@ -113,28 +113,73 @@
                             </div>
                         </div>
                     </div> 
-                        
+                    @endforeach
                 </div>
-                @endforeach
                 <div class="col-md-4">
                     <div class="row">
                         <div class="col-md-12">
-                            <h3>Update password</h3>
-                            We advise you to use a password you do not use anywhere else.<br>
-                            <a href="{{ url('staff/password') }}"><strong>Update password</strong></a>
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-title">
+                                        Update password
+                                        <a href="javascript:;" data-toggle="tooltip" data-placement="bottom" data-html="true" trigger="click" title="" data-original-title="<p class='tooltip-text'>You can use this form to create a new category if you have the right permissions.<br>
+                                            If you have any difficulties please <a href='#'>contact the support</a></p>"> 
+                                            <i class="fas fa-question-circle"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            It's a good idea to use a strong password that you're not using elsewhere.
+                                        </div>
+                                    </div>
+                                    <div class="row m-t-20">
+                                        <div class="col-md-12">
+                                            <a href="javascript:;" data-toggle="modal" data-target="#modalSlideUp" class="btn btn-block text-danger"><strong>Update my password</strong></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <br>
                     <div class="row">
                         <div class="col-md-12">
-                            <h3>Deactivate your account</h3>
-                            By deactivating your account, you deactivate your profile and delete your name and photo from most of the content you have shared on Babcasa.
-    
-                        <form action="{{ url($staff->name.'/desactivate') }}" method="POST" class="m-t-5">
-                                    {{ csrf_field() }}
-                                    {{ method_field('DELETE') }}
-                                    <input type="submit" class="btn btn-danger" value="Desactiver">
-                                </form>  
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-title">
+                                        Account desactivation
+                                        <a  
+                                            href="javascript:;" 
+                                            data-toggle="tooltip" 
+                                            data-placement="bottom" 
+                                            data-html="true" 
+                                            trigger="click" 
+                                            title="" 
+                                            data-original-title="<p class='tooltip-text'>You can use this 
+                                                form to create a new category if you have the right permissions.<br>
+                                                If you have any difficulties please <a href='#'>contact the support</a></p>"> 
+                                            <i class="fas fa-question-circle"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            By deactivating your account, you are disabling your profile, your name and photo from most of the content you have shared on Babcasa.
+                                        </div>
+                                    </div>
+                                    <div class="row m-t-20">
+                                        <div class="col-md-12">
+                                            <form action="{{ url($staff->name.'/desactivate') }}" method="POST" class="m-t-5">
+                                                {{ csrf_field() }}
+                                                {{ method_field('DELETE') }}
+                                                <input type="submit" class="btn btn-danger btn-block" value="Desactiver">
+                                            </form> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -142,6 +187,8 @@
         </div>
     </div>
 </div>
+
+@include('system.backoffice.partner.password.modal_password_gen')
 @endsection
 
 @section('script')

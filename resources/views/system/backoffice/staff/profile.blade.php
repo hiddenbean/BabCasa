@@ -29,7 +29,7 @@
                 <div class="col-xl-12">
                     <form id="form-personal"  method="POST" action="{{url('staff/'.$staff->name)}}" enctype="multipart/form-data">
                         {{ csrf_field() }}
-                         {{ method_field('put') }}
+                        {{ method_field('put') }}
                         <ul class="nav nav-tabs nav-tabs-simple nav-tabs-left bg-white" id="tab-3">
                             <li class="nav-item">
                                 <a href="#" class="active show" data-toggle="tab" data-target="#general">General

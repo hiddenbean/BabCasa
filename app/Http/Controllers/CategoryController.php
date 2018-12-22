@@ -428,7 +428,10 @@ class CategoryController extends Controller
         ]);
 
         $e=$s=0;
-        $messages = [];
+        $sessionSuccesses = [];
+        $sessionErrors = [];
+        $sessionWarnings = [];
+        $sessionInfos = [];
         foreach($request->categories as $category_id)
         {
             $category = Category::findOrFail($category_id);
@@ -436,18 +439,19 @@ class CategoryController extends Controller
                 $s++;
                 $category->delete();
                 $this->notify($category, ' has deleted the category ');
-                $messages['success'] = $s. ($s == 1 ? ' category' :' categories') .' has been deleted successfuly';
+                array_push($sessionSuccesses, $s.($s == 1 ? ' category' :' categories') .' has been deleted successfuly') ;
             }
             else 
             {
                 $e++;
-                $messages['error'] = $e . ($e == 1 ? ' category' : ' categories') . ' can\'t be deleted it has a relation with products';
+                array_push($sessionErrors, $e.($e == 1 ? ' category' : ' categories') . ' can\'t be deleted it has a relation with products');
             }
-            
         }
         
+        array_push($sessionErrors, "test");
         return redirect('categories')
-                        ->with('messages', $messages);
+                        ->with('session_successes', $sessionSuccesses)
+                        ->with('sessionErrors', $sessionErrors);
     }
 
     public function restore($category)
@@ -458,7 +462,6 @@ class CategoryController extends Controller
         $messages['success'] = 'Category has been restored successfuly';
         return redirect('categories')
                         ->with('messages', $messages);
-       
     }
 
     public function multiRestore(Request $request)
@@ -468,7 +471,7 @@ class CategoryController extends Controller
         ]);
         $iteration = 0;
         foreach ($request->categories as  $attr)
-         {
+        {
             $category = Category::onlyTrashed()->where('id', $attr)->first();
             $category->restore();
             $this->notify($category, ' has restored the category ');

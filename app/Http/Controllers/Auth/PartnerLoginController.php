@@ -67,7 +67,9 @@ class PartnerLoginController extends Controller
                     ->log("logged in");
             return redirect()->intended('/');
         }
-        return redirect()->back();
+        return redirect()->back()->withInput()->withErrors([
+            "faild" => "Your username or password is incorrect",
+        ]);
     }
 
     /**

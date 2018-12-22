@@ -6,7 +6,7 @@
     <link href="{{asset('plugins/datatables-responsive/css/datatables.responsive.css') }}" rel="stylesheet" type="text/css" media="screen" /> 
 @endsection
 
-@section('content')
+@section('breadcrumb')
     <!-- breadcrumb start -->
     <div class="jumbotron">
         <div class="container-fluid container-fixed-lg ">
@@ -25,6 +25,9 @@
         </div>
     </div>
     <!-- breadcrumb end -->
+@endsection
+
+@section('content')
     <div class="container-fluid container-fixed-lg">
         @include('categories.backoffice.staff.components.table')
     </div>

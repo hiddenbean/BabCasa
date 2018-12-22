@@ -45,6 +45,8 @@
         <script src="{{ asset('plugins/jquery-ios-list/jquery.ioslist.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('plugins/jquery-actual/jquery.actual.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('plugins/jquery-scrollbar/jquery.scrollbar.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('plugins/bootstrap-form-wizard/js/jquery.bootstrap.wizard.min.js') }}"></script>    
+
         @yield('before_script')
         
         <!-- END VENDOR JS -->
@@ -80,6 +82,12 @@
             {
             container.hide();
             }
+
+            $('.notification-item').hover(function () {
+                $(this).css('background-color', '#daeffd');
+            }, function () {
+                $(this).css('background-color', 'white');                
+            })
         });
         </script>
     </body>

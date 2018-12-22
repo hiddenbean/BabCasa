@@ -249,6 +249,14 @@ function()
             Route::get('{staff}/password/{password}', 'PinController@showPassword');
             
         });
+
+        Route::get('terms_of_use', function () {
+            return view('system.backoffice.staff.terms_of_use');
+        });
+
+        Route::get('privacy_policy', function () {
+            return view('system.backoffice.staff.privacy_policy');
+        });
     });
     //Staff routes end
     
