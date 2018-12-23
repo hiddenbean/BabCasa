@@ -12,6 +12,7 @@ use App\ParticularClient;
 use App\ClaimMessage;
 use Illuminate\Http\Request;
 use App\Notifications\ClaimNotification;
+    use App\Notifications\NewClaim;
 use Illuminate\Support\Facades\Notification;
 use App\Http\Controllers\ClaimMessageController;
 
@@ -147,7 +148,7 @@ class ClaimController extends Controller
         $claim->status = true;
         $claim->title = $request->title;
         $claim->subject_id = $request->subject_id;
-        $claim->staff_id = $this->staffTarget();
+        $claim->staff_id = $this->staffTarget()->id;
         $claim->claimable_type = $userType;
         $claim->claimable_id = $user->id;
         if($userType == 'staff')
@@ -155,6 +156,13 @@ class ClaimController extends Controller
             $claim->staff_id = $user->id;
             $claim->claimable_type = $request->user_type;
             $claim->claimable_id = $request->user_id;
+            $this->userNotify($request->user_id,$request->user_type);
+        }else
+        {
+            $data['causer']=['id'=> $user->id, 'type'=>$userType];
+            $data['link'] = 'http://staff.babcasa.com/fr/support';
+            $this->staffTarget()->notify(new NewClaim($data));
+
         }
         
         
@@ -175,20 +183,35 @@ class ClaimController extends Controller
         return redirect('support');
     }
 
+    public function userNotify($id,$type)
+    {
+        $data['causer']=['id'=> $this->staffTarget()->id, 'type'=>'staff'];
+        $data['link'] = 'http://'.$type.'.babcasa.com/fr/support';
+        switch ($type) {
+            case 'partner':
+                return Partner::findOrFail($id)->notify(new NewClaim($data)); 
+            break;
+            case 'business':
+                return Business::findOrFail($id)->notify(new NewClaim($data)); 
+            break;
+        }
+
+    }
+
     public function staffTarget()
     {
-        $min = Staff::first()->claims->where('status',true)->count();
-        $id = Staff::first()->id;
+        $minStaff=Staff::first();
+        $min =  $minStaff->claims->where('status',true)->count();
         foreach(Staff::all() as $staff)
         {
             if($staff->permission('claim') && $staff->claims->where('status',true)->count() < $min)
             {
                 $min = $staff->claims->where('status',true)->count();
-                $id = $staff->id;
+                $minStaff = $staff;
             } 
 
         }
-        return $id;
+        return  $minStaff;
     }  
 
     public function userType()

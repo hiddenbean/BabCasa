@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Partner;
+use App\Business;
 use App\ClaimMessage;
 use App\Subject;
 use Auth;
 use DateTime;
 use App\Claim;
+use App\Notifications\NewClaim;
+
 use Illuminate\Http\Request;
 
 
@@ -51,9 +54,37 @@ class ClaimMessageController extends Controller
                 'claim_messageable_id' => $message_writer->id,
                 'claim_id' => $claim->id,
             ]);
+            $staff= $claim->staff;
 
+            if($user == 'staff')
+            {
+                $this->userNotify($claim->claimable_id,$claim->claimable_type,$staff->id);
+            }else
+            {
+                $data['causer']=['id'=> $staff->id, 'type'=>'staff'];
+                $data['link'] = 'http://staff.babcasa.com/fr/support';
+                $staff->notify(new NewClaim($data));
+    
+            }
+            
         }
         return redirect('support');
+    }
+
+    
+    public function userNotify($id,$type,$staffId)
+    {
+        $data['causer']=['id'=> $staffId, 'type'=>'staff'];
+        $data['link'] = 'http://'.$type.'.babcasa.com/fr/support';
+        switch ($type) {
+            case 'partner':
+                return Partner::findOrFail($id)->notify(new NewClaim($data)); 
+            break;
+            case 'business':
+                return Business::findOrFail($id)->notify(new NewClaim($data)); 
+            break;
+        }
+
     }
 
     public function userType()

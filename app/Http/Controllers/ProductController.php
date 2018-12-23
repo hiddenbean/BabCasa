@@ -56,7 +56,7 @@ class ProductController extends Controller
     public function index()
     {
         $data['products'] = Auth::guard('partner')->user()->products;
-        return $data;
+        //  return $data;
         return view('products.backoffice.index');
     }
 
@@ -180,7 +180,6 @@ class ProductController extends Controller
                 // dd($attribute);
                 $result[$currGeneration][$k] = $attribute;
                     $this->getGenerations($v->children,$productId, $variantPictures, $currGeneration, $result,$attributeValue->id);
-                  
             //     return;
             }
             else 
@@ -228,7 +227,7 @@ class ProductController extends Controller
                 $attributeVarcharValueLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
                 $attributeVarcharValueLang->save();
                 
-                 break;
+                break;
             case 'double':
 
                 $attributeDoubleValue = new AttributeDoubleValue();

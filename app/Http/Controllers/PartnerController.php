@@ -7,6 +7,7 @@ use Auth;
 use Hash;
 use Password;
 use App\Guest;
+use App\Staff;
 use App\Status;
 use App\Phone;
 use App\Reason;
@@ -20,6 +21,7 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\PictureController;
 use App\Http\Controllers\PhoneController;
 use App\Notifications\NewPartner;
+use App\Notifications\NewStatus;
 use Illuminate\Http\Request;
 
 class PartnerController extends Controller
@@ -48,6 +50,7 @@ class PartnerController extends Controller
 
     public function dashboard()
     {
+        // return auth()->guard('partner')->user()->unreadNotifications[0]->link();
         return view('system.backoffice.partner.dashboard');
     }
 
@@ -350,14 +353,7 @@ class PartnerController extends Controller
             $partner->is_register_to_newsletter = $is_register_to_newsletter;
             $partner->taxe_id = $request->taxe_id;
             $partner->save();
-            
-            $status = new Status();
-            $status->is_approved = 2;
-            $status->user_id = $partner->id;
-            $status->user_type = 'partner';
-            $status->staff_id = 1;
-            $status->save();
-            
+
             $address = $partner->address;
             $address->address = $request->address;
             $address->address_two = $request->address_two;
@@ -403,8 +399,43 @@ class PartnerController extends Controller
             }
             
         }
-        $page = Auth::guard('partner')->id() == $partner->id ? 'account' : 'affiliates';  
+        if(Auth::guard('partner')->id() == $partner->id)
+        {
+            $status = new Status();
+            $status->is_approved = 2;
+            $status->user_id = $partner->id;
+            $status->user_type = 'partner';
+            $status->staff_id = $this->staffTarget()->id;
+            $status->save();
+
+            $data['causer']=['id'=>$partner->id, 'type'=>'partner'];
+            $data['link'] = 'http://staff.babcasa.com/fr/affiliates/'.$partner->id;
+            $this->staffTarget()->notify(new NewStatus($data));
+
+            $page = 'account';  
+        }
+        else 
+        {
+
+            $page ='affiliates';  
+        }
         return redirect($page);
+    }
+    
+    public function staffTarget()
+    {
+        $minStaff=Staff::first();
+        $min =  $minStaff->statuses->where('is_approved',2)->count();
+        foreach(Staff::all() as $staff)
+        {
+            if($staff->permission('request') && $staff->statuses->where('is_approved',2)->count() < $min)
+            {
+                $min = $staff->statuses->where('is_approved',2)->count();
+                $minStaff = $staff;
+            } 
+
+        }
+        return $minStaff;
     }
      /**
      * Remove the specified resource from storage.
@@ -550,7 +581,6 @@ class PartnerController extends Controller
             $status->is_approved = 1;
             $status->save();
         }
-       
         return redirect()->back();
     }
 

@@ -65,33 +65,6 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <div class="form-group form-group-default form-group-default-select2">
-                                            <label>To</label>
-                                            <select class=" full-width" data-init-plugin="select2" name="user_id" id="user">
-                                                <optgroup label="Partners">
-                                                        @foreach($partners as $partner)
-                                                        <option value="{{$partner->id}}" data-type="partner" >{{$partner->first_name.' '.$partner->last_name}}</option>
-                                                    @endforeach
-                                                </optgroup>
-                                                <optgroup label="Businesses">
-                                                        @foreach($businesses as $business)
-                                                        <option value="{{$business->id}}" data-type="business" >{{$business->first_name.' '.$business->last_name}}</option>
-                                                    @endforeach
-                                                </optgroup>
-                                                <optgroup label="Clients">
-                                                        @foreach($clients as $client)
-                                                        <option value="{{$client->id}}" data-type="client" >{{$client->first_name.' '.$client->last_name}}</option>
-                                                    @endforeach
-                                                </optgroup>
-                                            </select>
-                                            <input type="hidden" name="user_type" id="user_type">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row clearfix">
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <div class="form-group form-group-default form-group-default-select2">
                                             <label>Subject</label>
                                             <select class=" full-width" data-init-plugin="select2" name="subject_id">
                                                 @foreach($subjects as $subject)

@@ -31,6 +31,8 @@ function()
 
         // Staff home page
         Route::get('/', 'StaffController@dashboard');
+        Route::get('notifications','NotificationController@index');
+        Route::get('notifications/{notification}','NotificationController@read');
         
         // Staff passwordrest pages
         Route::get('passwords/reset', 'Auth\StaffForgotPasswordController@showLinkRequestForm')->name('staff.passwords.reset');
@@ -269,6 +271,9 @@ function()
     
     Route::domain('partner.babcasa.com')->group(function (){
         Route::get('/test', 'ProductController@create'); 
+        
+        Route::get('notifications','NotificationController@index');
+        Route::get('notifications/{notification}','NotificationController@read');
     
         Route::get('/register', 'Auth\PartnerRegisterController@showRegisterForm'); 
         Route::get('/sign-in', 'Auth\PartnerLoginController@showLoginForm');

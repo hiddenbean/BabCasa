@@ -86,6 +86,11 @@ class Partner extends Authenticatable
     {
         return $this->hasMany('App\Discount');
     }
+    public function notifications()
+    {
+        return $this->morphMany('App\Notification', 'notifiable');
+    }
+    
 
 
     public function pins()

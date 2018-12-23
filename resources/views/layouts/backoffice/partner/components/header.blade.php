@@ -11,61 +11,18 @@
       <ul class="d-lg-inline-block d-none notification-list no-margin d-lg-inline-block b-grey b-l b-r no-style p-l-30 p-r-20">
         <li class="p-r-10 inline">
           <div class="dropdown">
-            <a href="javascript:;" id="notification-center" class="header-icon pg pg-world" data-toggle="dropdown">
-              <span class="bubble"></span>
+            <a  href="{{ url('notifications') }}" id="notification-center" class="ajax header-icon pg pg-world" data-toggle="dropdown">
+              @if(auth()->guard('partner')->user()->unreadNotifications->count())<span class="bubble"></span>@endif
             </a>
             <!-- START Notification Dropdown -->
             <div class="dropdown-menu notification-toggle" role="menu" aria-labelledby="notification-center">
               <!-- START Notification -->
               <div class="notification-panel">
                 <!-- START Notification Body-->
-                <div class="notification-body scrollable">
+                <div class="notification-body scrollable" id="notif">
                   <!-- START Notification Item-->
-                  <div class="notification-item unread clearfix"> 
-                    <!-- START Notification Item Right Side-->
-                    <div class="option" data-toggle="tooltip" data-placement="left" title="mark as read">
-                      <a href="#" class="mark"></a>
-                    </div>
-                    <!-- END Notification Item Right Side-->
-                  </div>
-                  <!-- START Notification Body--> 
-                  <!-- START Notification Item-->
-                  <div class="notification-item  clearfix">
-                    <div class="heading">
-                      <a href="#" class="text-warning-dark pull-left">
-                        <i class="fa fa-exclamation-triangle m-r-10"></i>
-                        <span class="bold">Warning Notification</span>
-                        <span class="fs-12 m-l-10">Buy Now</span>
-                      </a>
-                      <span class="pull-right time">yesterday</span>
-                    </div>
-                    <!-- START Notification Item Right Side-->
-                    <div class="option">
-                      <a href="#" class="mark"></a>
-                    </div>
-                    <!-- END Notification Item Right Side-->
-                  </div>
-                  <!-- END Notification Item-->
-                  <!-- START Notification Item-->
-                  <div class="notification-item unread clearfix">
-                    <div class="heading">
-                      <div class="thumbnail-wrapper d24 circular b-white m-r-5 b-a b-white m-t-10 m-r-10">
-                        <img width="30" height="30" data-src-retina="{{ asset('img/profiles/2x.jpg') }}" data-src="{{ asset('img/profiles/2x.jpg') }}"
-                          alt="" src="{{ asset('img/profiles/2.jpg') }}">
-                      </div>
-                      <a href="#" class="text-complete pull-left">
-                        <span class="bold">Abde Rahman Quraishi</span>
-                        <span class="fs-12 m-l-10">Owners</span>
-                      </a>
-                      <span class="pull-right time">11:00pm</span>
-                    </div>
-                    <!-- START Notification Item Right Side-->
-                    <div class="option" data-toggle="tooltip" data-placement="left" title="mark as read">
-                      <a href="#" class="mark"></a>
-                    </div>
-                    <!-- END Notification Item Right Side-->
-                  </div>
-                  <!-- END Notification Item-->
+                  {{-- @include('notifications.backoffice.index') --}}
+                  <!-- END Notification Item -->
                 </div>
                 <!-- END Notification Body-->
                 <!-- START Notification Footer-->

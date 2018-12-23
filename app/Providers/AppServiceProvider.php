@@ -17,9 +17,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-         //Fixing "SQLSTATE[42000] - key was too long"
-         Schema::defaultStringLength(191);
-         Relation::morphMap([
+        //Fixing "SQLSTATE[42000] - key was too long"
+        Schema::defaultStringLength(191);
+        Relation::morphMap([
             'address' => 'App\Address',
             'attribute' => 'App\Attribute',
             'attribute_date_value' => 'App\AttributeDateValue',
@@ -64,7 +64,7 @@ class AppServiceProvider extends ServiceProvider
             'tag' => 'App\Tag',
             'tag_lang' => 'App\TagLang',
             'ClaimNotification' => 'App\Notifications\ClaimNotification',
-         ]);
+        ]);
     }
 
     /**

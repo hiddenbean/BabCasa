@@ -66,6 +66,7 @@ class StaffController extends Controller
     
     public function dashboard()
     {
+        // return auth()->guard('staff')->user()->unreadNotifications[0]->causer()->picture;
         return view('system.backoffice.staff.dashboard');
     }
     /**
