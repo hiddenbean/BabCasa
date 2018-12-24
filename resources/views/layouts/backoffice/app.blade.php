@@ -84,11 +84,19 @@
             }
         });
 
-        $('.notification-item').hover(function () {
+        
+
+        function afterAjax() {
+            $('.notification-item').hover(function () {
             $(this).css('background-color', '#daeffd');
-        }, function () {
-            $(this).css('background-color', 'white');                
-        });
+            }, function () {
+                $(this).css('background-color', 'white');                
+            });
+
+            $('button.mark').click(function () {
+                $(this).closest(".notification-item").removeClass('unread');
+            });
+        }
         </script>
     </body>
 </html>

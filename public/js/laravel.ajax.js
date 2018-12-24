@@ -131,6 +131,8 @@ var factory = function () {
         if (payload.runJavascript) {
             eval(payload.runJavascript);
         }
+
+        afterAjax();
     };
     laravel.ajax.errorHandler = function (event) {
         var sender = this.sender;

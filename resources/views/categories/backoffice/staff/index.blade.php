@@ -31,7 +31,6 @@
     <div class="container-fluid container-fixed-lg">
         @include('categories.backoffice.staff.components.table')
     </div>
-    
 @endsection
 
 @section('after_script')

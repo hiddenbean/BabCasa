@@ -28,17 +28,10 @@
         </div>
     </a>
         <div class="option" data-toggle="tooltip" data-placement="left" data-original-title="mark as read">
-            <a href="{{$notification->read_at ? '#': url('notifications/'.$notification->id.'/mark-as-read')}}" class="ajax mark"></a>
+            <form action="{{$notification->read_at ? '#': url('notifications/'.$notification->id.'/mark-as-read')}}" class="ajax">
+                @csrf
+                <button type="submit" class="btn btn-transparent no-padding mark"></button>
+            </form>	
         </div>
     </div>
 @endforeach
-
-@section('script')
-
-<script>
-    $('.mark').on('click',function(){
-        console.log(1);
-    })
-</script>
-    
-@endsection

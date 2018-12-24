@@ -24,7 +24,7 @@
 						<div class="notification-panel">
 							<!-- START Notification Body-->
 							<div class="notification-body scrollable" id="notif">
-									<i class="fas fa-circle-notch fa-spin fa-3x d-flex justify-content-center" style="margin:15px;color:#f69727;" ></i>
+									<i class="fas fa-circle-notch fa-spin d-flex justify-content-center m-t-15 m-b-15 text-grey"></i>
 								<!-- START Notification Item-->
 								{{-- @include('notifications.backoffice.index') --}}
 								<!-- END Notification Item -->
