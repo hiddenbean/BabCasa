@@ -10,7 +10,8 @@ class NotificationController extends Controller
     function index()
     {
         $type = $this->userType();
-        $data['notifications'] = auth()->guard($type)->user()->unreadNotifications;
+        $data['notifications'] = auth()->guard($type)->user()->notifications()->orderBy('created_at', 'desc')->get();
+        // $data['unread'] = auth()->guard($type)->user()->unreadNotifications->count() ? true : false ;
         Ajax::redrawView('notif'); 
         return Ajax::view('notifications.backoffice.index',$data);
     } 
@@ -27,6 +28,14 @@ class NotificationController extends Controller
         $notification = Notification::findOrFail($id);
         $notification->markAsRead();
         return redirect($notification->data['link']);
+    }
+    public function markAsRead($id)
+    {
+        $notification = Notification::findOrFail($id);
+        $notification->markAsRead();
+        
+        // return $notification;
+        return Ajax::jsonResponse();
     }
 
 

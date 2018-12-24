@@ -82,12 +82,12 @@
             {
             container.hide();
             }
+        });
 
-            $('.notification-item').hover(function () {
-                $(this).css('background-color', '#daeffd');
-            }, function () {
-                $(this).css('background-color', 'white');                
-            })
+        $('.notification-item').hover(function () {
+            $(this).css('background-color', '#daeffd');
+        }, function () {
+            $(this).css('background-color', 'white');                
         });
         </script>
     </body>

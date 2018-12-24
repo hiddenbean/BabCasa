@@ -21,7 +21,7 @@
         <p class="small uppercase b-b b-dashed b-grey p-b-15">
             note : Fields marked with <span class="text-danger">*</span> are required
         </p>
-            <form action="{{url('affiliates')}}" method="POST" id="form" enctype="multipart/form-data">
+            <form action="{{url('register')}}" method="POST" id="form" enctype="multipart/form-data">
                 {{ csrf_field() }}
                     <div class="row">
                         <div class="col-md-12">
@@ -356,7 +356,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <button class="btn btn-primary btn-cons m-t-10" type="submit"> 
+                                <button class="btn btn-primary btn-cons m-t-10" type="submit" id="click"> 
                                     Sign-up 
                                 </button>
                             </div>
@@ -419,15 +419,8 @@
                     }
                 } 
             });
-        $("#save").click( function () {
+        $("#click").click( function () {
             $('#description').val($('#summernote').summernote().code());
-            $('#form').attr('action', '{{ url('affiliates') }}');
-            $('#form').submit();
-        });
-
-        $("#save_new").click( function () {
-            $('#description').val($('#summernote').summernote().code());
-            $('#form').attr('action', '{{ url('affiliates')."/create" }}');
             $('#form').submit();
         });
 

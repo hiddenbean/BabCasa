@@ -33,6 +33,7 @@ function()
         Route::get('/', 'StaffController@dashboard');
         Route::get('notifications','NotificationController@index');
         Route::get('notifications/{notification}','NotificationController@read');
+        Route::get('notifications/{notification}/mark-as-read','NotificationController@markAsRead');
         
         // Staff passwordrest pages
         Route::get('passwords/reset', 'Auth\StaffForgotPasswordController@showLinkRequestForm')->name('staff.passwords.reset');
