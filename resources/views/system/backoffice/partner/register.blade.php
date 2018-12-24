@@ -14,7 +14,7 @@
                 <img src="{{ asset('img/logo.png') }}" alt="{{ config('app.name', 'BAB Casa') }}" height="60"/>
             </div>
         </div>
-        <h3>Become an affiliate</h3>
+    <h3>Become an affiliate</h3>
         <p>
             To join the affiliate programe of BABCasa you have to fill the forms below.<br>
         </p>
@@ -49,7 +49,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group form-group-default required">
                                                 <label>Email</label>
-                                                <input type="email" class="form-control" id="email" name="email" value="{{old('email')}}">
+                                                <input type="text" class="form-control" id="email" name="email" value="{{old('email')}}">
                                                 <label class="error p-l-15" for="email">
                                                     {{ $errors->has('email') ? $errors->first('email') : "" }}
                                                 </label>
@@ -60,7 +60,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group form-group-default required">
                                                 <label>Password</label>
-                                                <input type="email" class="form-control" id="email" name="email" value="{{old('email')}}">
+                                                <input type="password" class="form-control" id="password" name="password" value="{{old('password')}}">
                                             </div>
                                         </div>
                                     </div>
@@ -68,7 +68,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group form-group-default required">
                                                 <label>Confirm Password</label>
-                                                <input type="email" class="form-control" id="email" name="email" value="{{old('email')}}">
+                                                <input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
                                             </div>
                                         </div>
                                     </div>
@@ -172,6 +172,9 @@
                                     <label for="summernote" class="upper-title p-t-5 p-b-5 p-l-10">About company activities</label>
                                     <div class="summernote-wrapper bg-white">
                                         <div id="summernote">{!!old('about')!!} </div>
+                                        <label class="error" for="about">
+                                                {{ $errors->has('about') ? $errors->first('about') : "" }}
+                                            </label> 
                                         <input type="hidden" name="about" id="description"  value="{{old('about')}}">
                                     </div>
                                 </div>
@@ -332,10 +335,13 @@
 
                         <div class="row">
                             <div class="row col-md-12">
-                                <div class="checkbox check-success">
-                                    <input type="checkbox" name="is_register_to_newsletter"id="approval" @if(old('is_register_to_newsletter')) checked @endif>
+                                <div class="checkbox check-success"> 
+                                    <input type="checkbox" name="approval" id="approval" @if(old('approval')) checked @endif>
                                     <label for="approval">I have read and approve approve <a hre="#">the terms and conditions of babcasa.com</a></label>
                                 </div>
+                                        <label class="error" for="approval">
+                                                {{ $errors->has('approval') ? $errors->first('approval') : "" }}
+                                            </label> 
                             </div>
                         </div>
                         <div class="row">

@@ -17,6 +17,7 @@ use App\Http\Controllers\PictureController;
 use App\Http\Controllers\PhoneController;
 use App\Http\Controllers\Controller;
 use App\Notifications\NewPartner;
+use App\Notifications\NewStatus;
 // use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -72,6 +73,7 @@ class PartnerRegisterController extends Controller
             'taxe_id' => 'required|numeric|digits:10',
             'email' => 'required|unique:partners,email',
             'password' => 'required|min:6|confirmed',
+            'approval' => 'accepted',
         ]);
     }
 
@@ -116,11 +118,15 @@ class PartnerRegisterController extends Controller
 
 
         $status = new Status();
-        $status->is_approved = false;
+        $status->is_approved = 0;
         $status->user_id = $partner->id;
         $status->user_type = 'partner';
-        $status->staff_id = $this->staffTarget();
+        $status->staff_id = $this->staffTarget()->id;
         $status->save();
+
+        $data['causer']=['id'=>$partner->id, 'type'=>'partner'];
+        $data['link'] = 'http://staff.babcasa.com/fr/affiliates/'.$partner->name;
+        $this->staffTarget()->notify(new NewStatus($data));
 
         $address = new  Address();
         $address->address = $request->address;
@@ -174,18 +180,18 @@ class PartnerRegisterController extends Controller
     
     public function staffTarget()
     {
-        $min = Staff::first()->statuses->where('is_approved',0)->count();
-        $id = Staff::first()->id;
+        $minStaff=Staff::first();
+        $min =  $minStaff->statuses->where('is_approved',0)->count();
         foreach(Staff::all() as $staff)
         {
             if($staff->permission('request') && $staff->statuses->where('is_approved',0)->count() < $min)
             {
-                $min = $staff->statuses->where('is_approved',0)->count();
-                $id = $staff->id;
+                $min = $staff->statuses->where('is_approved',2)->count();
+                $minStaff = $staff;
             } 
 
         }
-        return $id;
+        return $minStaff;
     }
 
      /**

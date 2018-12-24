@@ -13,7 +13,12 @@
                         {{$notification->causer()->first_name.' '.$notification->causer()->last_name}} 
                     </span>
                     <span class="notification-desc">
-                        {{ __('notification.'.snake_case(basename($notification->type)))}}
+                        @php
+                            $path = parse_url($notification->type, PHP_URL_PATH);
+                            $pathFragments = explode('\\', $path);
+                            $end = end($pathFragments);
+                        @endphp
+                        {{ __('notification.'.snake_case($end))}}
                     </span>
                 </p>
                 <div class="small time">

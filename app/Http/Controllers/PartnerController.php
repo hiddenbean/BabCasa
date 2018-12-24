@@ -409,7 +409,7 @@ class PartnerController extends Controller
             $status->save();
 
             $data['causer']=['id'=>$partner->id, 'type'=>'partner'];
-            $data['link'] = 'http://staff.babcasa.com/fr/affiliates/'.$partner->id;
+            $data['link'] = 'http://staff.babcasa.com/fr/affiliates/'.$partner->name;
             $this->staffTarget()->notify(new NewStatus($data));
 
             $page = 'account';  
