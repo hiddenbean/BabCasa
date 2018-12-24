@@ -83,6 +83,10 @@
                                         </div>
                                         <div class="col-md-8">
                                             {{ $guest->browser }}
+                                            <div class="float-right">
+
+                                                {{$guest->id==session()->getId() ? 'current' : ''}}
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="row">
