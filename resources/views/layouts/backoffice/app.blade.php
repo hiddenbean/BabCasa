@@ -101,6 +101,11 @@
         $('#drawer_btn').click(function () {
             $('#drawer-form').submit();
         });
+
+        $('.menu-items a').click(function () {
+            $('span.icon-thumbnail').removeClass('bg-primary');
+            $(this).next('span.icon-thumbnail').addClass('bg-primary');
+        });
         </script>
     </body>
 </html>

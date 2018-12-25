@@ -7,7 +7,7 @@
                 <span class="title">Dashboard</span>
                 <span class="details">15 New Updates</span>
             </a>
-            <span class="bg-primary icon-thumbnail"><i class="pg-home"></i></span>
+            <span class="icon-thumbnail"><i class="pg-home"></i></span>
         </li>
         @endif
         @if (auth()->guard('staff')->user()->can('read','category'))
@@ -124,8 +124,8 @@
                     <a href="{{url('countries')}}">Countries</a>
                     <span class="icon-thumbnail"><i class="fa fa-flag"></i></span>
                 </li>
-                 @endif
-                 @if (auth()->guard('staff')->user()->can('read','language'))
+                @endif
+                @if (auth()->guard('staff')->user()->can('read','language'))
                 <li>
                     <a href="{{url('languages')}}">Languages</a>
                     <span class="icon-thumbnail"><i class="fas fa-language"></i></span>
@@ -133,7 +133,7 @@
                 @endif
             </ul>
         </li>
-       
+        
         @if (auth()->guard('staff')->user()->can('read','order'))
         <li>
             <a href="javascript:;">

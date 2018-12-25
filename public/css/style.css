@@ -303,10 +303,10 @@ fieldset[disabled] .btn-warning.active {
     background-color: #e47f0d;
 }
 .table-hover tbody tr:hover{
-    background-color: rgba(247, 247, 247, 0.2) !important;
+    background-color: #daeffd !important;
 }
 .table.table-hover tbody tr:hover td{
-    background-color: rgba(247, 247, 247, 0.2) !important;
+    background-color: #daeffd !important;
 }
 @media (min-width: 768px) {
     .tree-right{
