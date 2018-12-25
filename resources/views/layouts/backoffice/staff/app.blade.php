@@ -11,11 +11,14 @@
 			</span>
 		</a>
 		<div class="sidebar-header-controls">
-			<button type="button" 
+			<button type="button"
 				class="btn btn-link d-lg-inline-block d-xlg-inline-block d-md-inline-block d-sm-none d-none"
-				data-toggle-pin="sidebar">
+				data-toggle-pin="sidebar" id="drawer_btn">
 				<i class="fa fs-12"></i>
 			</button>
+			<form action="{{ url('drawer') }}" method="post" id="drawer-form" class="ajax">
+				@csrf
+			</form>
 		</div>
 	</div>
 	<!-- END SIDEBAR MENU HEADER-->
@@ -32,13 +35,10 @@
 	<!-- END HEADER -->
 	<!-- START PAGE CONTENT WRAPPER -->
 	<div class="page-content-wrapper ">
-
 		<!-- START PAGE CONTENT -->
 		<div class="content">
 			@yield('breadcrumb')
-
 			@include('layouts.backoffice.staff.components.session_messages')
-
 			@yield('content')
 		</div>
 		<!-- END PAGE CONTENT -->
@@ -46,7 +46,6 @@
 		<!-- START FOOTER -->
 		@include('layouts.backoffice.staff.components.footer')
 		<!-- END FOOTER -->
-
 	</div>
 	<!-- END PAGE CONTENT WRAPPER -->
 </div>

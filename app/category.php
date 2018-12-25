@@ -26,7 +26,7 @@ class Category extends Model
 
     public function categoryLangs()
     {
-            return $this->hasMany('App\CategoryLang')->withTrashed();
+        return $this->hasMany('App\CategoryLang')->withTrashed();
     }
 
     public function categoryLang()
