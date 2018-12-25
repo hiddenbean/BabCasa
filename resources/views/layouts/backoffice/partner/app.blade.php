@@ -39,7 +39,11 @@
 
     <!-- START PAGE CONTENT -->
     <div class="content">
-      @yield('content')
+      @yield('breadcrumb')
+      <div class="container-fluid container-fixed-lg">
+        @include('layouts.backoffice.partner.components.session_messages')
+        @yield('content')
+      </div>
     </div>
     <!-- END PAGE CONTENT -->
 

@@ -49,9 +49,8 @@ class PartnerController extends Controller
         ]);
     }
 
-    public function dashboard()
+    public function dashboard(Request $request)
     {
-        // return auth()->guard('partner')->user()->unreadNotifications[0]->link();
         return view('system.backoffice.partner.dashboard');
     }
 

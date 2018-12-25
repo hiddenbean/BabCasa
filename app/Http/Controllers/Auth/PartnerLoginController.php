@@ -65,6 +65,7 @@ class PartnerLoginController extends Controller
             activity()
                     ->causedBy(auth()->guard('partner')->user())
                     ->log("logged in");
+            $request->session()->put('session_warnings', ['This account is still unappoved, your content will not show up']);
             return redirect()->intended('/');
         }
         return redirect()->back()->withInput()->withErrors([
