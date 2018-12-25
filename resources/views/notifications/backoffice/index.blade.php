@@ -28,7 +28,7 @@
         </div>
     </a>
         <div class="option" data-toggle="tooltip" data-placement="left" data-original-title="mark as read">
-            <form action="{{$notification->read_at ? '#': url('notifications/'.$notification->id.'/mark-as-read')}}" class="ajax">
+            <form action="{{$notification->read_at ? 'javascript:;': url('notifications/'.$notification->id.'/mark-as-read')}}" class="ajax">
                 @csrf
                 <button type="submit" class="btn btn-transparent no-padding mark"></button>
             </form>	
