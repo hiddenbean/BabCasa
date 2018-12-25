@@ -95,6 +95,12 @@
 
             $('button.mark').click(function () {
                 $(this).closest(".notification-item").removeClass('unread');
+                var numItems = $('.unread').length;
+                if(numItems == 0 && $( "#notification-center" ).is( ':has(span)')){
+                    $('#notification-center').find('span').remove();
+                    $(this).closest("form").attr('action', 'javascript:;');
+                }
+
             });
         }
 

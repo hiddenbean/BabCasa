@@ -21,9 +21,11 @@ class Notification extends DatabaseNotification
     public function causer()
     {
         switch ($this->data['causer']['type']) {
-            case 'partner': return Partner::findOrFail($this->data['causer']['id']);  break;
-            case 'staff': return Staff::findOrFail($this->data['causer']['id']);  break; 
+            case 'partner': $causer = Partner::withTrashed()->findOrFail($this->data['causer']['id']);  break;
+            case 'staff': $causer = Staff::withTrashed()->findOrFail($this->data['causer']['id']);  break; 
         }
+
+        return $causer;
     }
     public function link()
     {

@@ -13,6 +13,7 @@ return [
     */
 
     'new_status' => 'Noveaux statut',
+    'update_status' => 'Staut modifier',
     'new_partner'     => 'Noveaux partenaire',
     'new_order'     => 'Noveaux Commande',
     'new_business'     => 'Noveaux Business',

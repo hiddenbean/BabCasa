@@ -22,6 +22,7 @@ use App\Http\Controllers\PictureController;
 use App\Http\Controllers\PhoneController;
 use App\Notifications\NewPartner;
 use App\Notifications\NewStatus;
+use App\Notifications\UpdateStatus;
 use Illuminate\Http\Request;
 
 class PartnerController extends Controller
@@ -410,7 +411,7 @@ class PartnerController extends Controller
 
             $data['causer']=['id'=>$partner->id, 'type'=>'partner'];
             $data['link'] = 'http://staff.babcasa.com/fr/affiliates/'.$partner->name;
-            $this->staffTarget()->notify(new NewStatus($data));
+            $this->staffTarget()->notify(new UpdateStatus($data));
 
             $page = 'account';  
         }
@@ -563,10 +564,12 @@ class PartnerController extends Controller
             'guests' => $guests,
         ]);
     }
-    public function disapprove($partner,$reason)
+    public function disapprove($Partner,$reason)
     {
+        $partner = Partner::findOrFail($Partner);
+
         $status = new Status();
-        $status->user_id = $partner;
+        $status->user_id = $partner->id;
         $status->user_type = 'partner';
         $status->staff_id = auth()->guard('staff')->user()->id;
         if($reason != 0)
@@ -581,6 +584,10 @@ class PartnerController extends Controller
             $status->is_approved = 1;
             $status->save();
         }
+
+        $data['causer']=['id'=>auth()->guard('staff')->user()->id, 'type'=>'staff'];
+        $data['link'] = 'http://partner.babcasa.com/account';
+        $partner->notify(new UpdateStatus($data));
         return redirect()->back();
     }
 
