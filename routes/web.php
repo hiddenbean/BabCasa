@@ -570,7 +570,6 @@ Route::domain('partner.babcasa.com')->group(function (){
 
     //////////subjectS
     Route::prefix('discounts')->group(function() {
-
         Route::post('/', 'DiscountController@storeWithRedirect');
         Route::post('/create', 'DiscountController@storeAndNew'); 
         Route::post('/multi-restore', 'DiscountController@multiRestore');  
@@ -603,5 +602,6 @@ Route::domain('partner.babcasa.com')->group(function (){
 
     // Partner update
     Route::put('account/{partner}', 'PartnerController@update');
+    Route::post('drawer', 'BackofficeContoller@drawer');
 
-    });
+});
