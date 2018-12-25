@@ -275,6 +275,8 @@ function()
         
         Route::get('notifications','NotificationController@index');
         Route::get('notifications/{notification}','NotificationController@read');
+        Route::get('notifications/{notification}/mark-as-read','NotificationController@markAsRead');
+
     
         Route::get('/register', 'Auth\PartnerRegisterController@showRegisterForm'); 
         Route::get('/sign-in', 'Auth\PartnerLoginController@showLoginForm');
