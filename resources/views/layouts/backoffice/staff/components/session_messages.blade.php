@@ -12,20 +12,23 @@
     @foreach ($session_errors as $error)
     <div class="alert alert-danger" role="alert">
         <button class="close" data-dismiss="alert"></button>
-        <strong>Success: </strong>{{ $error }}
+        <strong>Error: </strong>{{ $error }}
     </div>
     @endforeach
-    
-    @if (isset(Session::get('messages')['success']))
-        <div class="alert alert-success" role="alert">
-            <button class="close" data-dismiss="alert"></button>
-            <strong>Success: </strong>{{ Session::get('messages')['success'] }}
-        </div>
-    @endif
-    @if (isset(Session::get('messages')['error']))
-        <div class="alert alert-danger" role="alert">
-            <button class="close" data-dismiss="alert"></button>
-            <strong>Error: </strong>{{ Session::get('messages')['error'] }}
-        </div>
-    @endif
+
+    <?php $session_warnings = (Session::has('session_warnings'))? Session::get('session_warnings') : [];?>
+    @foreach ($session_warnings as $warning)
+    <div class="alert alert-warning" role="alert">
+        <button class="close" data-dismiss="alert"></button>
+        <strong>Warning: </strong>{{ $warning }}
+    </div>
+    @endforeach
+
+    <?php $session_infos = (Session::has('session_infos'))? Session::get('session_infos') : [];?>
+    @foreach ($session_infos as $info)
+    <div class="alert alert-info" role="alert">
+        <button class="close" data-dismiss="alert"></button>
+        <strong>Info: </strong>{{ $info }}
+    </div>
+    @endforeach
 </div>

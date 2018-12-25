@@ -558,6 +558,8 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::post('multi-restore', 'BusinessController@multiRestore')->name('multi_restore.businesses');
         Route::post('{business}/restore', 'BusinessController@restore')->name('restore.business');
     });
+
+    Route::post('drawer', 'BackofficeContoller@drawer');
 });
 
 Route::domain('partner.babcasa.com')->group(function (){

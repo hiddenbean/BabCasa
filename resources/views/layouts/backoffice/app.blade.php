@@ -29,7 +29,7 @@
         <link rel="stylesheet" href="{{ asset('css/style.css') }}"> 
         @yield('after_css') 
     </head>
-    <body class="fixed-header">
+    <body class="fixed-header @if(Session::get('drawer') === true) sidebar-visible menu-pin @endif">
 
         @yield('body')
 
@@ -84,10 +84,22 @@
             }
         });
 
-        $('.notification-item').hover(function () {
+        
+
+        function afterAjax() {
+            $('.notification-item').hover(function () {
             $(this).css('background-color', '#daeffd');
-        }, function () {
-            $(this).css('background-color', 'white');                
+            }, function () {
+                $(this).css('background-color', 'white');                
+            });
+
+            $('button.mark').click(function () {
+                $(this).closest(".notification-item").removeClass('unread');
+            });
+        }
+
+        $('#drawer_btn').click(function () {
+            $('#drawer-form').submit();
         });
         </script>
     </body>

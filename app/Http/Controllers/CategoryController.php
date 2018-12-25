@@ -96,10 +96,14 @@ class CategoryController extends Controller
         $reference_check = $this->checkReference($request);
         if($reference_check)
         {
-            $messages['error'] = $request->reference.' already exists on the same level.';
-            return redirect('categories/'.$reference_check)
-                                    ->with('messages', $messages);
+            $sessionErrors = [];
+            $errorMessage = $request->reference.' already exists on the same level.';
+            
+            if(isset($errorMessage)) array_push($sessionErrors, $errorMessage);
+            return redirect('categories/create')
+                        ->with('session_errors', $sessionErrors);                                    
         }
+        
         $category = new Category();
         $request->category_parent ? $category->category_id = $request->category_parent : null ;
         $category->save();
@@ -168,6 +172,9 @@ class CategoryController extends Controller
         return $category;
     }
 
+    /**
+     * 
+     */
     public function storeWithRedirect(Request $request) {
         // return $request;
         $category = self::store($request);
@@ -184,7 +191,7 @@ class CategoryController extends Controller
 
     public function notify($category, $data)
     {
-         $partners = Partner::whereIn('id', function($query) use ($category) {
+        $partners = Partner::whereIn('id', function($query) use ($category) {
             $query->select('partner_id')->from('products')->whereIn('id', function($query) use ($category) {
                 $query->select('product_id')->from('category_product')->whereIn('category_id', [$category->id, $category->category_id]);
             })->get();  
@@ -244,7 +251,6 @@ class CategoryController extends Controller
         return $category->id;
     }
 
-  
     /**
      * Display the specified resource.
      *
@@ -380,7 +386,6 @@ class CategoryController extends Controller
                     $category->details()->attach($detail);
                 }
             }
-
         }
 
         $category->attributes()->detach();
@@ -426,12 +431,12 @@ class CategoryController extends Controller
         $request->validate([
             'categories' => 'required',
         ]);
+        
+        $e = $s = 0;
 
-        $e=$s=0;
         $sessionSuccesses = [];
         $sessionErrors = [];
-        $sessionWarnings = [];
-        $sessionInfos = [];
+        
         foreach($request->categories as $category_id)
         {
             $category = Category::findOrFail($category_id);
@@ -439,19 +444,21 @@ class CategoryController extends Controller
                 $s++;
                 $category->delete();
                 $this->notify($category, ' has deleted the category ');
-                array_push($sessionSuccesses, $s.($s == 1 ? ' category' :' categories') .' has been deleted successfuly') ;
+                $successMessage = ($s.($s == 1 ? ' category' :' categories') .' has been deleted successfuly') ;
             }
             else 
             {
                 $e++;
-                array_push($sessionErrors, $e.($e == 1 ? ' category' : ' categories') . ' can\'t be deleted it has a relation with products');
+                $errorMessage = ($e.($e == 1 ? ' category' : ' categories') . ' can\'t be deleted it has a relation with products');
             }
         }
-        
-        array_push($sessionErrors, "test");
+
+        if(isset($successMessage)) array_push($sessionSuccesses, $successMessage);
+        if(isset($errorMessage)) array_push($sessionErrors, $errorMessage);
+
         return redirect('categories')
                         ->with('session_successes', $sessionSuccesses)
-                        ->with('sessionErrors', $sessionErrors);
+                        ->with('session_errors', $sessionErrors);
     }
 
     public function restore($category)
@@ -480,9 +487,9 @@ class CategoryController extends Controller
         $messages['success'] = $iteration. ($iteration > 1 ? ' categories' : ' category'). ' has been restored successfuly';
         return redirect('categories')
                         ->with('messages', $messages);
-       
     }
-      /**
+
+    /**
      * Displaying the Trash page
      * 
      * 
@@ -494,7 +501,7 @@ class CategoryController extends Controller
         return view('categories.backoffice.staff.trash', $data);
     }
 
-     /**
+    /**
      * Displaying the translations page
      * 
      * 

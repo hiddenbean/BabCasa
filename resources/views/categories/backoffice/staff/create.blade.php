@@ -4,28 +4,31 @@
 <link type="text/css" rel="stylesheet" href="{{ asset('plugins/summernote/css/summernote.css') }}">
 @endsection
 
-@section('content')
-<!-- breadcrumb start -->
-<div class="jumbotron no-margin">
-    <div class="container-fluid container-fixed-lg ">
-        <div class="row">
-            <div class="col-md-12">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href="{{ url('/') }}">DASHBOARD</a>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <a href="{{ url('/categories') }}">Categories</a>
-                    </li>
-                    <li class="breadcrumb-item active">
-                        Add
-                    </li>
-                </ol>
+@section('breadcrumb')
+    <!-- breadcrumb start -->
+    <div class="jumbotron no-margin">
+        <div class="container-fluid container-fixed-lg ">
+            <div class="row">
+                <div class="col-md-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="{{ url('/') }}">DASHBOARD</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="{{ url('/categories') }}">Categories</a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            Add
+                        </li>
+                    </ol>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<!-- breadcrumb end -->
+    <!-- breadcrumb end -->
+@endsection
+
+@section('content')
 
 <div class="container-fluid container-fixed-lg">
     <div class="card card-transparent">

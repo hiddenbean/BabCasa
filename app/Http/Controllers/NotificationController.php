@@ -29,7 +29,7 @@ class NotificationController extends Controller
         $notification->markAsRead();
         return redirect($notification->data['link']);
     }
-    public function markAsRead($id)
+    public function markAsRead(Ajax $ajax, $id)
     {
         $notification = Notification::findOrFail($id);
         $notification->markAsRead();
