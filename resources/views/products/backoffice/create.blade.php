@@ -2,7 +2,7 @@
 @section('css_before')
 <link href="{{ asset('plugins/bootstrap-datepicker/css/datepicker3.css') }}" rel="stylesheet" type="text/css" media="screen">
 <link href="{{ asset('plugins/jquery-dynatree/skin/ui.dynatree.css') }}" rel="stylesheet" type="text/css" media="screen" /> 
-      <link href="{{ asset('plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" media="screen" />
+    <link href="{{ asset('plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" media="screen" />
 @stop
 @section('content')
 <!-- breadcrumb start -->
@@ -29,11 +29,11 @@
     <div class="card ">
         <div class="card-header">
             <h4 class="m-t-0 m-b-0"> <strong>Create new product</strong> </h4>
-             <label class='error' >
-             @if($errors->count()>0)
+            <label class='error' >
+            @if($errors->count()>0)
                 You have {{$errors->count()}} ERROR(S) !!
             @endif
-             </label>
+            </label>
         </div>
         <div class="card-body">
             <div class="row"> 

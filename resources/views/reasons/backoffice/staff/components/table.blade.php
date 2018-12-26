@@ -63,23 +63,23 @@
             <tbody>   
                     @foreach($reasons as $reason)
                     <tr role="row" id="0">
-                     @if (auth()->guard('staff')->user()->can('write','reason'))
-                        <td class="v-align-middle p-l-5 p-r-5">
-                            <div class="checkbox no-padding no-margin text-center">
-                                <input type="checkbox" value="{{$reason->id}}" name="reasons[]" id="checkbox{{$reason->id}}">
-                                <label for="checkbox{{$reason->id}}" class="no-padding no-margin"></label>
-                            </div>
-                        </td>
-                       
-                        <td class="v-align-middle text-center p-l-5 p-r-5">
-                            <a href="{{url('reasons/'.$reason->id.'/edit')}}"><i class="fas fa-pen fa-sm"></i> <strong>Edit</strong></a>
-                            </td> 
-                        <td class="v-align-middle text-center p-l-5 p-r-5">
-                            <a href="{{route('delete.reason',['reason'=>$reason->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="text-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
-                        </td>
-                     @endif   
-                     <td class="v-align-middle"><a href="{{url('reasons/'.$reason->id)}}"><strong>{{$reason->reasonLang()->reference }}</strong></a></td>
-                     <td class="v-align-middle">{!!$reason->reasonLang()->description!!}</td>
+                    @if (auth()->guard('staff')->user()->can('write','reason'))
+                    <td class="v-align-middle p-l-5 p-r-5">
+                        <div class="checkbox no-padding no-margin text-center">
+                            <input type="checkbox" value="{{$reason->id}}" name="reasons[]" id="checkbox{{$reason->id}}">
+                            <label for="checkbox{{$reason->id}}" class="no-padding no-margin"></label>
+                        </div>
+                    </td>
+                    
+                    <td class="v-align-middle text-center p-l-5 p-r-5">
+                        <a href="{{url('reasons/'.$reason->id.'/edit')}}"><i class="fas fa-pen fa-sm"></i> <strong>Edit</strong></a>
+                    </td>
+                    <td class="v-align-middle text-center p-l-5 p-r-5">
+                        <a href="{{route('delete.reason',['reason'=>$reason->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="text-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
+                    </td>
+                    @endif   
+                    <td class="v-align-middle"><a href="{{url('reasons/'.$reason->id)}}"><strong>{{$reason->reasonLang()->reference }}</strong></a></td>
+                    <td class="v-align-middle">{!!$reason->reasonLang()->description!!}</td>
 
                     </tr>
                     @endforeach

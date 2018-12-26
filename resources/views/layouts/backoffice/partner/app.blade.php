@@ -39,7 +39,9 @@
 
     <!-- START PAGE CONTENT -->
     <div class="content">
-      @yield('breadcrumb')
+      <div class="jumbotron m-b-15">      
+        @yield('breadcrumb')
+      </div>
       <div class="container-fluid container-fixed-lg">
         @include('layouts.backoffice.partner.components.session_messages')
         @yield('content')

@@ -1,21 +1,19 @@
 @extends('layouts.backoffice.partner.app') 
 
 @section('breadcrumb')
-<div class="jumbotron">
-    <!-- breadcrumb start -->
-    <div class="container-fluid container-fixed-lg ">
-        <div class="row">
-            <div class="col-md-12">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item active">
-                        DASHBOARD
-                    </li> 
-                </ol>
-            </div>
+<!-- breadcrumb start -->
+<div class="container-fluid container-fixed-lg ">
+    <div class="row">
+        <div class="col-md-12">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active">
+                    DASHBOARD
+                </li> 
+            </ol>
         </div>
     </div>
-    <!-- breadcrumb end -->
 </div>
+<!-- breadcrumb end -->
 @endsection
 
 @section('content')

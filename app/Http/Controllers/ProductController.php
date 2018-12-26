@@ -57,7 +57,7 @@ class ProductController extends Controller
     {
         $data['products'] = Auth::guard('partner')->user()->products;
         //  return $data;
-        return view('products.backoffice.index');
+        return view('products.backoffice.partner.index');
     }
 
     /**
