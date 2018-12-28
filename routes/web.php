@@ -143,6 +143,17 @@ function()
             }); 
             Route::get('{reason}', 'ReasonController@show'); 
         });
+        // conditions
+        Route::prefix('conditions')->middleware('CanRead:condition')->group(function() {
+            Route::get('/', 'ConditionController@index'); 
+            Route::get('trash', 'ConditionController@trash');
+            Route::group(['middleware' => ['CanWrite:condition']], function(){
+                Route::get('create', 'ConditionController@create'); 
+                Route::get('{condition}/edit', 'ConditionController@edit');
+                Route::get('{condition}/translations','ConditionController@translations');
+            }); 
+            Route::get('{condition}', 'ConditionController@show'); 
+        });
         // subjects
         Route::prefix('subjects')->middleware('CanRead:subject')->group(function() {
             Route::get('/', 'SubjectController@index'); 
@@ -220,6 +231,7 @@ function()
 
         Route::prefix('support')->middleware('CanRead:claim')->group(function () {
             Route::get('/', 'ClaimController@index');
+            Route::get('all','ClaimController@all');
             Route::get('open', 'ClaimController@open');
             Route::get('closed', 'ClaimController@closed');
             Route::get('subject/{subject}', 'ClaimController@subject');
@@ -324,6 +336,7 @@ function()
         //client finale gestion support routes start 
         Route::prefix('support')->group(function() {
             Route::get('/','ClaimController@index');
+            Route::get('all','ClaimController@all');
             Route::get('open','ClaimController@open');
             Route::get('closed','ClaimController@closed');
             Route::get('create','ClaimController@create');
@@ -492,6 +505,18 @@ Route::domain('staff.babcasa.com')->group(function (){
         Route::post('{reason}/restore', 'ReasonController@restore');
         Route::delete('{reason}', 'ReasonController@destroy')->name('delete.reason');
         Route::delete('delete/multiple', 'ReasonController@multiDestroy')->name('delete.reasons');
+    }); 
+    //////////conditionS
+    Route::prefix('conditions')->middleware('CanWrite:condition')->group(function() {
+
+        Route::post('/', 'ConditionController@storeWithRedirect');
+        Route::post('/create', 'ConditionController@storeAndNew'); 
+        Route::post('/multi-restore', 'ConditionController@multiRestore');  
+        Route::post('{condition}', 'ConditionController@update'); 
+        Route::post('{condition}/translations','ConditionLangController@update');
+        Route::post('{condition}/restore', 'ConditionController@restore');
+        Route::delete('{condition}', 'ConditionController@destroy')->name('delete.condition');
+        Route::delete('delete/multiple', 'ConditionController@multiDestroy')->name('delete.conditions');
     }); 
     //////////subjectS
     Route::prefix('subjects')->middleware('CanWrite:subject')->group(function() {

@@ -69,7 +69,7 @@
                         <div class="actions-wrapper menuclipper bg-master-lightest">
                             <ul class="actions menuclipper-menu no-margin p-l-20 ">
                                 <li class="visible-sm-inline-block visible-xs-inline-block">
-                                    <a href="{{url('support')}}" class="email-list-toggle"><i class="fa fa-angle-left"></i> All tickets</a>
+                                    <a href="{{url('support/all')}}" class="ajax email-list-toggle"><i class="fa fa-angle-left"></i> All tickets</a>
                                 </li>
                                 <li class="no-padding controls"><button type="submit" id="reply_submit" class="btn btn-transparent">Reply</button>
                                 </li>

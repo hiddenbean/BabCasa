@@ -2,18 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\ReasonLang;
-use App\Reason;
+use App\Condition;
+use App\ConditionLang;
 use Illuminate\Http\Request;
 
-class ReasonLangController extends Controller
+class ConditionLangController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:staff');
-        
-    }
-    
     /**
      * Display a listing of the resource.
      *
@@ -48,10 +42,10 @@ class ReasonLangController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\ReasonLang  $reasonLang
+     * @param  \App\ConditionLang  $conditionLang
      * @return \Illuminate\Http\Response
      */
-    public function show(ReasonLang $reasonLang)
+    public function show(ConditionLang $conditionLang)
     {
         //
     }
@@ -59,10 +53,10 @@ class ReasonLangController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\ReasonLang  $reasonLang
+     * @param  \App\ConditionLang  $conditionLang
      * @return \Illuminate\Http\Response
      */
-    public function edit(ReasonLang $reasonLang)
+    public function edit(ConditionLang $conditionLang)
     {
         //
     }
@@ -71,35 +65,35 @@ class ReasonLangController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\ReasonLang  $reasonLang
+     * @param  \App\ConditionLang  $conditionLang
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $reason)
+    public function update(Request $request, $condition)
     {
         // return $request;
-        $reason = Reason::find($reason);
+        $condition = condition::find($condition);
         foreach($request->references as $key => $reference)
         {
-            $reasonLang = $reason->reasonLangs->where('lang_id',$request->languages_id[$key])->first();
-            if(!isset($reasonLang))
+            $conditionLang = $condition->conditionLangs->where('lang_id',$request->languages_id[$key])->first();
+            if(!isset($conditionLang))
             {
-                $reasonLang = new reasonLang();
-                $reasonLang->reason_id = $reason->id;
-                $reasonLang->lang_id = $request->languages_id[$key];
+                $conditionLang = new conditionLang();
+                $conditionLang->condition_id = $condition->id;
+                $conditionLang->lang_id = $request->languages_id[$key];
             }
 
             if($reference != '')
             {
-                $reasonLang->reference = $reference;
-                $reasonLang->description = $request->descriptions[$key];
+                $conditionLang->reference = $reference;
+                $conditionLang->description = $request->descriptions[$key];
                 }
                 else
                 {
-                $reasonLang->reference = '';
-                $reasonLang->description = '';
+                $conditionLang->reference = '';
+                $conditionLang->description = '';
     
                 }
-                $reasonLang->save();
+                $conditionLang->save();
             
             
         }
@@ -109,10 +103,10 @@ class ReasonLangController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\ReasonLang  $reasonLang
+     * @param  \App\ConditionLang  $conditionLang
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ReasonLang $reasonLang)
+    public function destroy(ConditionLang $conditionLang)
     {
         //
     }

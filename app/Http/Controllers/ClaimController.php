@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 Use Auth;
+Use Ajax;
 use App\Claim;
 use App\Staff;
 use App\Subject;
@@ -60,6 +61,22 @@ class ClaimController extends Controller
         krsort($data['claims']);
         return view('claims.backoffice.'.$type.'.index',$data);
     }
+    public function all()
+    {
+        $type = $this->userType();
+        $data['subjects']=Subject::all();
+        $claims = Auth::guard($type)->user()->claims->groupBy(function($item){return $item->created_at->format('d-M-y');});
+        $data['claims'] =[];
+        foreach($claims as $key => $claim)
+        {
+            $data['claims'][$key]= $claim->sortByDesc('created_at');
+        }
+        krsort($data['claims']);
+        Ajax::redrawView('claimBody'); 
+        // return $data['claims'];
+        return Ajax::view('claims.backoffice.staff.body',$data);
+        // return view('claims.backoffice.'.$type.'.index',$data);
+    }
     
     /**
      * Display a list of open claims.
@@ -78,7 +95,9 @@ class ClaimController extends Controller
             $data['claims'][$key]= $claim->sortByDesc('created_at');
         }
         krsort($data['claims']);
-        return view('claims.backoffice.'.$type.'.index',$data);
+        Ajax::redrawView('claimBody'); 
+        return Ajax::view('claims.backoffice.staff.body',$data);
+        // return view('claims.backoffice.'.$type.'.index',$data);
     }
 
     /**
@@ -96,7 +115,9 @@ class ClaimController extends Controller
         {
             $data['claims'][$key]= $claim->sortByDesc('created_at');
         }
-        return view('claims.backoffice.'.$type.'.index',$data);
+        Ajax::redrawView('claimBody'); 
+        return Ajax::view('claims.backoffice.staff.body',$data);
+        // return view('claims.backoffice.'.$type.'.index',$data);
     }
 
     public function subject($subject)
@@ -110,7 +131,9 @@ class ClaimController extends Controller
             $data['claims'][$key]= $claim->sortByDesc('created_at');
         }
         krsort($data['claims']);
-        return view('claims.backoffice.'.$type.'.index',$data);
+        Ajax::redrawView('claimBody'); 
+        return Ajax::view('claims.backoffice.staff.body',$data);
+        // return view('claims.backoffice.'.$type.'.index',$data);
     }
 
 

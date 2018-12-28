@@ -35,6 +35,31 @@
             </ul>
         </li>
         @endif
+        @if (auth()->guard('staff')->user()->can('read','condition'))
+        <li>
+            <a href="javascript:;">
+                <span class="title">Conditions</span>
+                <span class="arrow"></span>
+            </a>
+            <span class="icon-thumbnail">
+                <i class="fas fa-boxes"></i>
+            </span>
+            <ul class="sub-menu">
+                <li>
+                    <a href="{{ url('conditions/create') }}">Add Condition</a>
+                    <span class="icon-thumbnail"><i class="fas fa-plus"></i></span>
+                </li>
+                <li>
+                    <a href="{{ url('conditions') }}">All Conditions</a>
+                    <span class="icon-thumbnail"><i class="fa fa-list"></i></span>
+                </li>
+                <li>
+                    <a href="{{ url('conditions/trash') }}">Trash</a>
+                    <span class="icon-thumbnail"><i class="fas fa-trash"></i></span>
+                </li>
+            </ul>
+        </li>
+        @endif
         @if (auth()->guard('staff')->user()->can('read','detail'))
         <li>
             <a href="javascript:;">

@@ -77,6 +77,9 @@ class PermissionSeeder extends Seeder
         DB::table('permissions')->insert([
             'type' => 'request',
         ]);
+        DB::table('permissions')->insert([
+            'type' => 'condition',
+        ]);
 
 
     }

@@ -10,49 +10,53 @@
 
 @section('content')
     <!-- START APP -->
-          <!-- START SECONDARY SIDEBAR MENU-->
-          <nav class="secondary-sidebar">
-            <div class=" m-b-30 m-l-30 m-r-30 d-sm-none d-md-block d-lg-block d-xl-block">
-              <a href="{{url('support/create')}}" class="btn btn-primary btn-block uppercase">New ticket</a>
-            </div>
-            <p class="menu-title">BROWSE</p>
-            <ul class="main-menu">
-              <li class="active">
-                <a href="{{url('support')}}">
-                  <span class="title"><i class="pg-inbox"></i>All tickets</span>
-                  <span class="badge pull-right">5</span>
-                </a>
-              </li>
-              <li>
-                <a href="{{url('support/open')}}">
-                  <span class="title"><i class="fas fa-folder-open"></i>Open tickets</span>
-                </a>
-              </li>
-              <li>
-                <a href="{{url('support/closed')}}">
-                    <span class="title"><i class="fas fa-folder-minus"></i>Closed tickets</span>
-                </a>
-              </li>
-            </ul>
-            <p class="menu-title m-t-20 all-caps">Subjects</p>
-            <ul class="sub-menu no-padding">
-              @foreach($subjects as $subject)
-              <li>
-                <a href="{{url('support/subject/'.$subject->id)}}">
-                  <span class="title">{{$subject->subjectLang()->reference}}</span>
-                  <span class="badge pull-right">{{$subject->claims->count()}}</span>
-                </a>
-              </li>
-              @endforeach
-            </ul>
-          </nav>
-          <!-- END SECONDARY SIDEBAR MENU -->
+        <!-- START SECONDARY SIDEBAR MENU-->
+        <nav class="secondary-sidebar">
+        <div class=" m-b-30 m-l-30 m-r-30 d-sm-none d-md-block d-lg-block d-xl-block">
+            <a href="{{url('support/create')}}" class="btn btn-primary btn-block uppercase">New ticket</a>
+        </div>
+        <p class="menu-title">BROWSE</p>
+        <ul class="main-menu">
+            <li class="active">
+                <form action="{{url('support/all')}}" class="ajax btn btn-link title">
+                    @csrf
+                    <span class="title"> <button type="submit" class=" btn btn-link"><i class="fas fa-folder-open"></i> All tickets</button></span>
+                </form>	
+            </li>
+            <li>
+                <form action="{{url('support/open')}}" class="ajax btn btn-link title">
+                    @csrf
+                    <span class="title"> <button type="submit" class=" btn btn-link"><i class="fas fa-folder-open"></i> Open tickets</button></span>
+                </form>	
+            </li>
+            <li>
+            <form action="{{url('support/closed')}}" class="ajax btn btn-link title">
+                @csrf
+                <span class="title"> <button type="submit" class=" btn btn-link"><i class="fas fa-folder-minus"></i>Closed tickets</button></span>
+            </form>	
+            </li>
+        </ul>
+        <p class="menu-title m-t-20 all-caps">Subjects</p>
+        <ul class="sub-menu no-padding">
+            @foreach($subjects as $subject)
+            <li>
+                <form action="{{url('support/subject/'.$subject->id)}}" class="ajax">
+                    @csrf
+                    <span class="title"> <button type="submit" class=" btn btn-link">{{$subject->subjectLang()->reference}}</button></span>
+                <span class="badge pull-right">{{$subject->claims->count()}}</span>
+                </form>	
 
-          <!-- app -->
-          <div class="inner-content full-height">
-            @include('claims.backoffice.staff.body')
-          </div>
-          <!-- app end -->
+            </li>
+            @endforeach
+        </ul>
+        </nav>
+        <!-- END SECONDARY SIDEBAR MENU -->
+
+        <!-- app -->
+        <div class="inner-content full-height" id="claimBody">
+        @include('claims.backoffice.staff.body')
+        </div>
+        <!-- app end -->
 
 @endsection
 
