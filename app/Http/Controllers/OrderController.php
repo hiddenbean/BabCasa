@@ -33,17 +33,15 @@ class OrderController extends Controller
 
              case 'staff':
                 $data['orders'] = Order::all();
-                $view = 'orders.backoffice.staff.index';
+                $view = 'orders.backoffice.staff.all';
                  break;
          }
-         return $data;
+        //  return $data;
          return view($view,$data);
         
     }
     public function waiting()
     {
-        
-        
         $type = $this->userType();
          switch ($type) {
              case 'partner':
@@ -53,10 +51,9 @@ class OrderController extends Controller
 
              case 'staff':
                 $data['orders'] = Order::where('status','waiting');
-                $view = 'orders.backoffice.staff.index';
+                $view = 'orders.backoffice.staff.all';
                  break;
          }
-         return $data;
          return view($view,$data);
         
     }
@@ -76,7 +73,6 @@ class OrderController extends Controller
                 $view = 'orders.backoffice.staff.index';
                  break;
          }
-         return $data;
          return view($view,$data);
         
     }
@@ -96,7 +92,6 @@ class OrderController extends Controller
                 $view = 'orders.backoffice.staff.index';
                  break;
          }
-         return $data;
          return view($view,$data);
         
     }
@@ -116,7 +111,6 @@ class OrderController extends Controller
                 $view = 'orders.backoffice.staff.index';
                  break;
          }
-         return $data;
          return view($view,$data);
         
     }

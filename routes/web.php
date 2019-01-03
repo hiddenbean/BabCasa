@@ -154,6 +154,15 @@ function()
             }); 
             Route::get('{condition}', 'ConditionController@show'); 
         });
+        // orders
+        Route::prefix('orders')->middleware('CanRead:condition')->group(function() {
+            Route::get('/', 'OrderController@index'); 
+            Route::get('waiting', 'OrderController@waiting'); 
+            Route::get('inProgress', 'OrderController@inProgress'); 
+            Route::get('complated', 'OrderController@complated'); 
+            Route::get('canceled', 'OrderController@canceled'); 
+            Route::get('{order}', 'OrderController@show'); 
+        });
         // subjects
         Route::prefix('subjects')->middleware('CanRead:subject')->group(function() {
             Route::get('/', 'SubjectController@index'); 
