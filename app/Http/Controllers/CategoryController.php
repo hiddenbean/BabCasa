@@ -197,10 +197,7 @@ class CategoryController extends Controller
             })->get();  
         })->get();
 
-        $staff = Auth::guard('staff')->user();
-        
-        Notification::send($partners, new CategoryNotification($staff, $data, $category));
-        $staff->notify(new CategoryNotification($staff, $data, $category));
+		$staff = Auth::guard('staff')->user();
     }
 
     /**

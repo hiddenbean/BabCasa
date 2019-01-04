@@ -373,7 +373,7 @@
         $(".list-categories a").click( function () {
             $(".list-categories a").removeClass('active');
             $(this).addClass('active');
-            $('#category_parent').val($(this).data('category-id'));
+			$('#profile_id').val($(this).data('category-id'));
             $('#selected-parent-name').html($(this).text());
         });
     
