@@ -26,7 +26,7 @@
 @endsection
 
 @section('content')
-    @include('products.backoffice.partner.components.table')
+    @include('products.backoffice.partners.components.table')
 @endsection
 
 @section('after_script')

@@ -15,6 +15,23 @@
                         <i class="fas fa-question-circle"></i>
                     </a>
                 </div>
+
+                <div class="pull-right">
+                    <div class="col-xs-12">
+                        <div class="row">
+                            <div class="col-md-3 text-right no-padding">
+                                <a href="{{url('/products/create')}}" class="btn btn-transparent"><i class="fas fa-plus fa-sm"></i> <strong>Add</strong></a>
+                            </div>
+                            <div class="col-md-3 text-right no-padding">
+                                <a href="{{url('/products/trash')}}" class="btn btn-transparent-danger"><i class="fas fa-trash-alt fa-sm"></i> <strong>Trash</strong></a>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
             </div>
             <div class="card-body">
                 <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">

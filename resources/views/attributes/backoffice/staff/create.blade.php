@@ -81,7 +81,7 @@
                             <label for="summernote" class="upper-title p-t-5 p-b-5 p-l-10">description</label>
                             <div class="summernote-wrapper bg-white">
                                 <div id="summernote"></div>
-                                 <input type="hidden" name="description" id="description">
+                                <input type="hidden" name="description" id="description">
                             </div>
                         </div>
                     </div>
@@ -108,9 +108,9 @@
                                     <div class="row">
                                         <div class="col-md-5">
                                             <select id="lstview" class="form-control" size="13" multiple="multiple">
-                                                @foreach($categories as $category)
+                                            @foreach($categories as $category)
                                                 <option value="{{$category->id}}">{{$category->categoryLang()->reference}}</option>
-                                               @endforeach
+                                            @endforeach
                                             </select>
                                         </div>
                                         <div class="col-md-2">
@@ -209,7 +209,7 @@
     <script type="text/javascript" src="{{ asset('plugins/summernote/js/summernote.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('plugins/multiselect/js/multiselect.min.js') }}"></script>
     <script>
-      $("#save").click( function () {
+    $("#save").click( function () {
         $('#form').attr('action', '{{ url('attributes') }}');
         $('#form').submit();
     });
@@ -232,8 +232,8 @@
         $('#selected-parent-name').html('none');
     });
 
-     $('#form').on('click', function(){ 
+    $('#form').on('click', function(){ 
         $('#description').val($('#summernote').summernote().code());
-     });
+    });
     </script>
 @endsection

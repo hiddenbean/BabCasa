@@ -57,7 +57,7 @@ class ProductController extends Controller
     {
         $data['products'] = Auth::guard('partner')->user()->products;
         //  return $data;
-        return view('products.backoffice.partner.index');
+        return view('products.backoffice.partners.index');
     }
 
     /**
@@ -72,7 +72,7 @@ class ProductController extends Controller
         $data['tags'] = Tag::all();
         // return $data['tags']->first()->tagLang->first()->tag; 
         $data['languages'] = Language::all();
-        return view('products.backoffice.create',$data);
+        return view('products.backoffice.partners.create',$data);
     }
     
     /**
@@ -303,5 +303,13 @@ class ProductController extends Controller
     public function destroy(product $product)
     {
         //
+    }
+
+    /**
+     * 
+     * 
+     */
+    public function trash() {
+        return view('products.backoffice.partners.trash');
     }
 }

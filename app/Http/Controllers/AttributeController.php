@@ -9,14 +9,14 @@ use App\Language;
 use App\Staff;
 use App;
 use Illuminate\Http\Request;
+use Ajax;
 
 class AttributeController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware('auth:staff');
-        
+        $this->middleware('auth:staff,partner');
     }
 
      /**
@@ -88,11 +88,9 @@ class AttributeController extends Controller
             else
             {
                 $attributeLang->reference = '';
-                 $attributeLang->description = '';
-               
+                $attributeLang->description = '';
             }
             $attributeLang->save();
-       
         } 
         if($request->categories)
         {
@@ -202,7 +200,7 @@ class AttributeController extends Controller
         {
             $messages['error'] = 'attribute can\'t be deleted it has products !!';
             return redirect('attributes')
-                             ->with('messages',$messages);
+                            ->with('messages',$messages);
         }
         $attribute->delete();
         $messages['success'] = 'Detail has been deleted successfuly !!';
@@ -222,7 +220,7 @@ class AttributeController extends Controller
             $attribute = Attribute::findOrFail($attr);
             
             if(!isset($attribute->attributeValue[0]))
-             {
+            {
                 $s++;
                 $attribute->delete();
                 $messages['success'] = $s. ($s == 1 ? ' Attribute' :' Attributes') .' has been deleted successfuly';
@@ -241,11 +239,10 @@ class AttributeController extends Controller
 
     public function restore($attribute)
     {
-         $attribute = Attribute::onlyTrashed()->where('id', $attribute)->first();
+        $attribute = Attribute::onlyTrashed()->where('id', $attribute)->first();
         $attribute->restore();
         $messages['success'] = 'Attribute has been restored successfuly !!';
         return redirect('attributes')->with('messages',$messages);
-       
     }
 
     public function multiRestore(Request $request)
@@ -256,14 +253,13 @@ class AttributeController extends Controller
         $s=0;
         $messages = [];
         foreach ($request->attribute as  $attr)
-         {
+        {
             $attribute = attribute::onlyTrashed()->where('id', $attr)->first();
-           $attribute->restore();
-           $s++;
-           $messages['success'] = $s. ($s == 1 ? ' attributes' :' attributess') .' has been restored successfuly';
+            $attribute->restore();
+            $s++;
+            $messages['success'] = $s. ($s == 1 ? ' attributes' :' attributess') .' has been restored successfuly';
         }
-         return redirect('attributes')->with('messages',$messages);
-       
+        return redirect('attributes')->with('messages',$messages);
     }
 
     public function trash()
@@ -286,4 +282,27 @@ class AttributeController extends Controller
         return view('attributes.backoffice.staff.translations', $data);
     }
 
+    /**
+     * 
+     * 
+     */
+    public function attributesList(Request $request) {
+        $target_container = 'variations_container_ajax';
+        $is_child = false;
+        $attribute = null;
+
+        if(isset($request->attribute)) $attribute = $request->attribute;
+        if(isset($request->target_container)) {
+            $target_container = $request->target_container;
+            $is_child = true;
+        } 
+
+        Ajax::redrawView($target_container);
+        return Ajax::view('attributes.backoffice.partners.components.list', [
+                'attribute' => null,
+                'is_child' => $is_child,
+                'name_container' => str_random(40),
+                'target_container' => $target_container,
+            ]);
+    }
 }

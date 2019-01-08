@@ -54,10 +54,6 @@
     min-width: 100%;
 }
 
-.form-group-default textarea.form-control {
-    height: 100%;
-}
-
 .sidebar-logo-black {
     color: #252525;
     font-size: 1.15rem;
@@ -486,5 +482,23 @@ td.picture > a > img{
 
 .notification-desc {
     height: 10px;
+    text-overflow: ellipsis;
+}
+
+.jumbotron-light {
+    background-color: #fafafa;
+}
+
+.grey-text {
+    color: #929292;
+}
+
+.black-text {
+    color: black;
+}
+
+.line-text {
+    white-space: nowrap;
+    overflow: hidden;
     text-overflow: ellipsis;
 }
