@@ -19,7 +19,7 @@
                         <a href="{{ url('staff') }}">Staff</a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="{{ url('staff/') }}">ID : {{$staff->id}}</a>
+                        <a href="{{ url('staff/'.$staff->id) }}">ID : {{$staff->id}}</a>
                     </li>
                     <li class="breadcrumb-item active">
                         edit 
