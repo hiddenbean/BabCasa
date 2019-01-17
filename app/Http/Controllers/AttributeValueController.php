@@ -46,7 +46,8 @@ class AttributeValueController extends Controller
         Ajax::appendView($name_container);
         return Ajax::view('attributes.backoffice.partners.components.value', [
                 'attribute' => $attribute,
-                'name_container' => str_random(40),
+				'name_container' => str_random(40),
+				'attributes' => Attribute::all(),
             ]);
     }
 

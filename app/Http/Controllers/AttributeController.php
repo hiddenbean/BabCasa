@@ -302,7 +302,8 @@ class AttributeController extends Controller
                 'attribute' => null,
                 'is_child' => $is_child,
                 'name_container' => str_random(40),
-                'target_container' => $target_container,
+				'target_container' => $target_container,
+				'attributes' => Attribute::all(),
             ]);
     }
 }
