@@ -511,18 +511,6 @@ Route::domain('affiliate.babcasa.com')->group(function (){
     // Partner auth route, sign in    
     Route::post('/sign-in', 'Auth\PartnerLoginController@login');
     Route::post('/store', 'ProductController@store');
-	Route::post('products/picture', 'ProductController@pic');
-	// PRODUCTS ROUTES
-	Route::prefix('products')->group(function() {
-		Route::post('/', 'ProductController@storeWithRedirect');
-        Route::post('/create', 'ProductController@storeAndNew'); 
-        Route::post('/multi-restore', 'ProductController@multiRestore');  
-        Route::post('{product}', 'ProductController@update'); 
-        Route::post('{product}/translations','ProductLangController@update');
-        Route::post('{product}/restore', 'ProductController@restore');
-        Route::delete('{product}', 'ProductController@destroy')->name('delete.product');
-        Route::delete('delete/multiple', 'ProductController@multiDestroy')->name('delete.products');
-	});
 
     // Subjects
     Route::prefix('discounts')->group(function() {

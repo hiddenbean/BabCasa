@@ -4,26 +4,25 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App;
-use Ajax;
-
 use App\Tag;
 use App\Product;
 use App\Picture;
 use App\Partner;
 use App\Language;
+use App\Attribute;
 use App\Category;
 use App\DetailValue;
 use App\Productlang;
-use App\productValue;
+use App\AttributeValue;
 use App\DetailValueLang;
-use App\productDateValue;
-use App\productDoubleValue;
-use App\productVarcharValue;
-use App\productVarcharValueLang;
+use App\AttributeDateValue;
+use App\AttributeDoubleValue;
+use App\AttributeVarcharValue;
+use App\AttributeVarcharValueLang;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\ProductLangController;
-use App\Http\Controllers\productValueController;
+use App\Http\Controllers\AttributeValueController;
 
 class ProductController extends Controller
 {
@@ -69,47 +68,11 @@ class ProductController extends Controller
     public function create()
     {
         
-		$data['children_categories'] = Category::where('category_id', null)->get();
-        $array = [];
-        foreach($data['children_categories'] as $category)
-        {
-            $category['level'] = '';
-            array_push($array, $category);
-            $array = $this->toArray($array,$category); 
-        }
-		$data['categories'] = $array;
-		
+        $data['categories'] = Category::all();
         $data['tags'] = Tag::all();
         // return $data['tags']->first()->tagLang->first()->tag; 
         $data['languages'] = Language::all();
-        $data['products'] = product::all();
         return view('products.backoffice.partners.create',$data);
-    }
-    
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function pic(Request $request)
-    {
-		return dd(1);
-		// Ajax::redrawView('pics'); 
-        // return Ajax::view('products.backoffice.partners.create',$data);
-	}
-	
-	public function storeWithRedirect(Request $request) {
-		return $request;
-        $product = self::store($request);
-        return redirect('products/'.$product->id);
-    }
-
-    /**
-     * 
-     */
-    public function storeAndNew(Request $request) {
-        $product = self::store($request);
-        return redirect('products/create');
     }
     
     /**
@@ -123,8 +86,8 @@ class ProductController extends Controller
 
         
         return $request->detail_val;
-        $products = [];
-        $products = json_decode($request->attribures);
+        $attributes = [];
+        $attributes = json_decode($request->attribures);
 
         $this->validateRequest($request);
 
@@ -162,7 +125,7 @@ class ProductController extends Controller
             
             $picture = Picture::create([
                 'name' => time().'.'.$product_picture->getClientOriginalExtension(),
-                'tag' => "products_value",
+                'tag' => "attributes_value",
                 'path' => $product_picture->store('images/products', 'public'),
                 'extension' => $product_picture->extension(),
                 'pictureable_type' => 'Product',
@@ -193,49 +156,49 @@ class ProductController extends Controller
         }
         $variantPictures = $request->variant_pictures;
 
-        $this->getGenerations($products, $product->id, $variantPictures);
+        $this->getGenerations($attributes, $product->id, $variantPictures);
     }
 
     
-    public function getGenerations($products, $productId, $variantPictures, $currGeneration = 0, $result = array(), $parentId = null)
+    public function getGenerations($attributes, $productId, $variantPictures, $currGeneration = 0, $result = array(), $parentId = null)
     {
         $currGeneration++;
-        //    dd($products[0]->picture);
-            foreach($products as $k => $v) {
-                $product = $v;
-                if(isset($product->children))
+        //    dd($attributes[0]->picture);
+            foreach($attributes as $k => $v) {
+                $attribute = $v;
+                if(isset($attribute->children))
             {
-                $productValue = new productValue();
-                $productValue->product_id = $productId;
-                $productValue->product_id = $product->attr;
-                $productValue->product_value_id = $parentId;
-                $productValue->save();
-                // echo $product->attr.'<br>';
-                $this->productValueContent($productValue->id,$product->value , $product->attr );
+                $attributeValue = new AttributeValue();
+                $attributeValue->product_id = $productId;
+                $attributeValue->attribute_id = $attribute->attr;
+                $attributeValue->attribute_value_id = $parentId;
+                $attributeValue->save();
+                // echo $attribute->attr.'<br>';
+                $this->attributeValueContent($attributeValue->id,$attribute->value , $attribute->attr );
                 
-                // unset($product->children);
-                // dd($product);
-                $result[$currGeneration][$k] = $product;
-                    $this->getGenerations($v->children,$productId, $variantPictures, $currGeneration, $result,$productValue->id);
+                // unset($attribute->children);
+                // dd($attribute);
+                $result[$currGeneration][$k] = $attribute;
+                    $this->getGenerations($v->children,$productId, $variantPictures, $currGeneration, $result,$attributeValue->id);
             //     return;
             }
             else 
             {
                 // dd($k);
-                $productValue = new productValue();
-                $productValue->product_id = $productId;
-                $productValue->product_id = $product->attr;
-                $productValue->currency_id =  $product->currency_id;
-                $productValue->price =  $product->price;
-                $productValue->quantity =  $product->quantity;
-                $productValue->product_value_id = $parentId;
-                $productValue->save();
-                if(isset($product->picture))
+                $attributeValue = new AttributeValue();
+                $attributeValue->product_id = $productId;
+                $attributeValue->attribute_id = $attribute->attr;
+                $attributeValue->currency_id =  $attribute->currency_id;
+                $attributeValue->price =  $attribute->price;
+                $attributeValue->quantity =  $attribute->quantity;
+                $attributeValue->attribute_value_id = $parentId;
+                $attributeValue->save();
+                if(isset($attribute->picture))
                 {
-                    $this->picture($variantPictures[$product->picture],$productValue->id);
+                    $this->picture($variantPictures[$attribute->picture],$attributeValue->id);
                 }
-                // echo $product->attr.'<br>';
-                $this->productValueContent($productValue->id,$product->value , $product->attr );
+                // echo $attribute->attr.'<br>';
+                $this->attributeValueContent($attributeValue->id,$attribute->value , $attribute->attr );
             }
         }
              return $result;
@@ -247,52 +210,52 @@ class ProductController extends Controller
      * @param  \App\product  $product
      * @return \Illuminate\Http\Response
      */
-    public function productValueContent($productValueId,$value,$productId)
+    public function attributeValueContent($attributeValueId,$value,$attributeId)
     {
-        $type = product::find($productId)->type;
+        $type = Attribute::find($attributeId)->type;
         $value = str_replace("- ","",$value);
         switch ($type) {
             case 'varchar':
                 
-                $productVarcharValue = new productVarcharValue();
-                $productVarcharValue->product_value_id = $productValueId;
-                $productVarcharValue->save();
+                $attributeVarcharValue = new AttributeVarcharValue();
+                $attributeVarcharValue->attribute_value_id = $attributeValueId;
+                $attributeVarcharValue->save();
 
-                $productVarcharValueLang = new productVarcharValueLang();
-                $productVarcharValueLang->value = $value;
-                $productVarcharValueLang->product_varchar_value_id = $productVarcharValue->id;
-                $productVarcharValueLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
-                $productVarcharValueLang->save();
+                $attributeVarcharValueLang = new AttributeVarcharValueLang();
+                $attributeVarcharValueLang->value = $value;
+                $attributeVarcharValueLang->attribute_varchar_value_id = $attributeVarcharValue->id;
+                $attributeVarcharValueLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
+                $attributeVarcharValueLang->save();
                 
                 break;
             case 'double':
 
-                $productDoubleValue = new productDoubleValue();
-                $productDoubleValue->value = (double)$value;
-                $productDoubleValue->product_value_id = $productValueId;
-                $productDoubleValue->save();
+                $attributeDoubleValue = new AttributeDoubleValue();
+                $attributeDoubleValue->value = (double)$value;
+                $attributeDoubleValue->attribute_value_id = $attributeValueId;
+                $attributeDoubleValue->save();
                 break;
             case 'date':
 
-                $productDateValue = new productDateValue();
-                $productDateValue->value = strtotime($value);
-                $productDateValue->product_value_id = $productValueId;
-                $productDateValue->save();
+                $attributeDateValue = new AttributeDateValue();
+                $attributeDateValue->value = strtotime($value);
+                $attributeDateValue->attribute_value_id = $attributeValueId;
+                $attributeDateValue->save();
                 break;
         }
     }
 
-    public function picture($picture,$productValueId)
+    public function picture($picture,$attributeValueId)
     {
         if($picture) 
         {
             $picture = Picture::create([
                 'name' => time().'.'.$picture->getClientOriginalExtension(),
-                'tag' => "products_value",
+                'tag' => "attributes_value",
                 'path' => $picture->store('images/products', 'public'),
                 'extension' => $picture->extension(),
-                'pictureable_type' => 'productValue',
-                'pictureable_id' => $productValueId,
+                'pictureable_type' => 'AttributeValue',
+                'pictureable_id' => $attributeValueId,
             ]);
         }
         
@@ -348,17 +311,5 @@ class ProductController extends Controller
      */
     public function trash() {
         return view('products.backoffice.partners.trash');
-	}
-	
-	public function toArray($array, $category, $level = '')
-    {
-        $level = $level.'– ';
-        foreach($category->subCategories()->get() as $subCategory)
-        {
-            $subCategory['level'] = $level;
-            array_push($array, $subCategory);
-            $array = $this->toArray($array,$subCategory, $level);
-        }
-        return $array;
     }
 }

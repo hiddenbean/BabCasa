@@ -45,16 +45,7 @@
             </div>
         </div>
         <form action="{{url('tags')}}" method="POST" id="form">
-		{{ csrf_field() }}
-		{{-- <input type="text" name="vatiants[0][attribute]" value="1">
-		<input type="text" name="vatiants[0][value][0]" value="red">
-		<input type="text" name="vatiants[0][value][1]" value="blue">
-		<input type="text" name="vatiants[1][attribute]" value="2">
-		<input type="text" name="vatiants[1][value][0][value]" value="12">
-		<input type="text" name="vatiants[1][value][0][price]" value="40">
-		<input type="text" name="vatiants[1][value][0][stock]" value="100">
-		<input type="text" name="vatiants[1][value][1][value][value]" value="16">
-		<input type="text" name="vatiants[1][value][1][value][0][attribute]" value="3"> --}}
+        {{ csrf_field() }}
         <div class="card-body">
             <div class="row">
                 <div class="col-md-9">

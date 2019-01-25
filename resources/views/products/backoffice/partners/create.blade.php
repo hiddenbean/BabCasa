@@ -46,9 +46,7 @@
                             <i class="fas fa-question-circle"></i>
                         </a>
                     </div>
-				</div>
-				 <form method="POST" action="{{url('categories')}}" id="form" enctype="multipart/form-data">
-            {{ csrf_field() }}
+                </div>
                 <div class="card-body p-l-0 p-r-0">
                     <div class="row">
                         <div class="col-md-12">
@@ -69,7 +67,7 @@
                         <div class="col-md-12">
                             <div class="form-group form-group-default">
                                 <label>SKU</label>
-                                <input type="text" class="form-control" name="SKU">
+                                <input type="text" class="form-control" name="reference">
                             </div>
                         </div>
                     </div>
@@ -91,9 +89,8 @@
                                 </select>
                             </div>
                         </div>
-					</div>
-					<button type="button" id="save">submit</button>
-                    {{-- <div class="row">
+                    </div>
+                    <div class="row">
                         <div class="col-md-12">
                             <div class="card card-default">
                                 <div class="card-header">
@@ -102,15 +99,15 @@
                                     </div>
                                 </div>
                                 <div class="card-body no-padding no-scoll">
-                                    <form action="{{url('products/picture')}}" id="form_upload" class="ajax dropzone no-margin" enctype="multipart/form-data">
+                                    <form action="/file-upload" class="dropzone no-margin">
                                         <div class="fallback">
-                                            <input name="file" type="file" multiple id="upload"/>
+                                            <input name="file" type="file" multiple />
                                         </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
-                    </div> --}}
+                    </div>
                     <div class="row">
                         <div class="col-md-12">
                             <h3>Stock and Variations</h3>
@@ -161,10 +158,10 @@
                         <div class="col-md-12">
                             <div class="form-group form-group-default form-group-default-select2">
                                 <label>categorie(s)</label>
-                                <select class=" full-width" data-init-plugin="select2" multiple name="categories">
-								@foreach($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->level }}{{ $category->categoryLang()->reference }}</option>
-								@endforeach
+                                <select class=" full-width" data-init-plugin="select2" multiple>
+                                    <option value="Jim">Jim</option>
+                                    <option value="John">John</option>
+                                    <option value="Lucy">Lucy</option>
                                 </select>
                             </div>
                         </div>
@@ -173,10 +170,10 @@
                         <div class="col-md-12">
                             <div class="form-group form-group-default form-group-default-select2">
                                 <label>Tag(s)</label>
-                                <select class=" full-width" data-init-plugin="select2" multiple name="tags">
-                                    @foreach($tags as $tag)
-                                    <option value="{{ $tag->id }}">{{ $tag->tagLang()->tag }}</option>
-								@endforeach
+                                <select class=" full-width" data-init-plugin="select2" multiple>
+                                    <option value="Jim">Jim</option>
+                                    <option value="John">John</option>
+                                    <option value="Lucy">Lucy</option>
                                 </select>
                             </div>
                         </div>
@@ -199,9 +196,7 @@
                     </div>
                 </div>
             </div>
-		</div>
-		
-		</form>
+        </div>
         <div class="col-md-6">
             @include('products.backoffice.partners.components.product_preview')
         </div>
@@ -219,18 +214,5 @@
 @section('after_script')
     <script>
         $('#summernote').summernote({height: 250});
-		$("#save").click( function () {
-            $('#form').attr('action', '{{ url('products') }}');
-            $('#form').submit();
-		});
-
-    $("#save_new").click( function () {
-        $('#form').attr('action', '{{ url('products')."/create" }}');
-        $('#form').submit();
-    });
-		$("#upload").click( function () {
-            $('#form_upload').attr('action', '{{ url('products/picture') }}');
-            $('#form').submit();
-        });
     </script>
 @endsection

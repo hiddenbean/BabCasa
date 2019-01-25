@@ -5,10 +5,7 @@
                 <label>Attribute</label>
                 <select class="full-width attributes-ajax" name="attribute[]" data-init-plugin="select2">
                     <option value="colors">Colors</option>
-					<option value="sizes">Sizes</option>
-					{{-- @foreach($categories as $category)
-					<option value="{{ $category->id }}">{{ $category->categoryLang()->reference }}</option>
-				@endforeach --}}
+                    <option value="sizes">Sizes</option>
                 </select>
             </div>
         </div>
