@@ -59,7 +59,7 @@
                         <div class="col-md-12">
                             <div class="form-group form-group-default">
                                 <label>Product name</label>
-                                <input type="text" class="form-control" name="reference">
+                                <input type="text" class="form-control" name="product_name">
                             </div>
                         </div>
                     </div>
@@ -67,7 +67,7 @@
                         <div class="col-md-12">
                             <div class="form-group form-group-default">
                                 <label>SKU</label>
-                                <input type="text" class="form-control" name="reference">
+                                <input type="text" class="form-control" name="product_sku">
                             </div>
                         </div>
                     </div>
@@ -75,17 +75,17 @@
                         <div class="col-md-12">
                             <div class="form-group form-group-default form-group-default-select2">
                                 <label>Product condition</label>
-                                <select class=" full-width" data-init-plugin="select2">
-                                    <option value="">New</option>
-                                    <option value="">OEM</option>
-                                    <option value="">New Open Box</option>
-                                    <option value="">Generic - 3rd Party</option>
-                                    <option value="">Refurbished & Factory Refurbished</option>
-                                    <option value="">Used - Like New</option>
-                                    <option value="">Used - Very Good</option>
-                                    <option value="">Used - Good</option>
-                                    <option value="">Used - Acceptable</option>
-                                    <option value="">"As Is"</option>
+                                <select class="full-width" data-init-plugin="select2" name="product_condition">
+                                    <option value="new">New</option>
+                                    <option value="oem">OEM</option>
+                                    <option value="nob">New Open Box</option>
+                                    <option value="g3p">Generic - 3rd Party</option>
+                                    <option value="refurbished">Refurbished & Factory Refurbished</option>
+                                    <option value="used_ln">Used - Like New</option>
+                                    <option value="used_vg">Used - Very Good</option>
+                                    <option value="used_g">Used - Good</option>
+                                    <option value="used">Used - Acceptable</option>
+                                    <option value="as_is">"As Is"</option>
                                 </select>
                             </div>
                         </div>
@@ -101,7 +101,7 @@
                                 <div class="card-body no-padding no-scoll">
                                     <form action="/file-upload" class="dropzone no-margin">
                                         <div class="fallback">
-                                            <input name="file" type="file" multiple />
+                                            <input name="product_main_pictures[]" type="file" multiple />
                                         </div>
                                     </form>
                                 </div>
@@ -197,7 +197,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 product-preview-container">
             @include('products.backoffice.partners.components.product_preview')
         </div>
     </div>
@@ -214,5 +214,49 @@
 @section('after_script')
     <script>
         $('#summernote').summernote({height: 250});
+
+        function productPreviewWidth () {
+            x = $(".product-preview-container").width()
+            $(".product-preview").css('width', x)
+        }
+
+        $(window).resize(function() {
+            productPreviewWidth()
+        });
+
+        $(window).scroll(function() {
+            if($(window).scrollTop() >= 58) {
+                productPreviewWidth();
+                $(".product-preview").css({
+                    'position':'fixed',
+                    'top' : '74px'
+                });
+            }
+            else {
+                productPreviewWidth();
+                $(".product-preview").css({
+                    'position':'relative',
+                    'top' : '0'
+                });
+            }
+        });
+
+
+
+        /** live preview js **/
+        // product name
+        $('input[name=product_name]').on('change', function() {
+            $('#product_name_preview').html($('input[name=product_name]').val());
+        });
+
+        // product sku
+        $('input[name=product_sku').on('change', function() {
+            $('#product_sku_preview').html($('input[name=product_sku]').val());
+        });
+
+        // product condition
+        $('select[name=product_condition]').on('change', function() {
+            $('#product_condition_preview').html($('select[name=product_condition] option:selected').text());
+        });
     </script>
 @endsection

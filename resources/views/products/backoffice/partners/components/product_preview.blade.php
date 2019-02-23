@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card product-preview">
         <div class="card-header">
             <div class="card-title">
                 Product live preview
@@ -26,9 +26,19 @@
                     </div>
                 </div>
                 <div class="col-md-7">
-                    <h3 class="semi-bold"> 
+                    <h3 class="semi-bold m-b-0" id="product_name_preview"> 
                         Product full name
                     </h3>
+                    <div class="row">
+                        <div class="col-md-4 uppercase small">
+                            SKU
+                        </div>
+                        <div class="col-md-8">
+                            <strong id="product_sku_preview">
+                                12 - 20
+                            </strong>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-4 uppercase small">
                             Price
@@ -47,7 +57,7 @@
                                     Condition
                                 </div>
                                 <div class="col-md-8">
-                                    <strong>New</strong>
+                                    <strong id="product_condition_preview">New</strong>
                                 </div>
                             </div>
                             
@@ -96,6 +106,14 @@
                         </div>
                         <div class="col-md-8">
                             <strong>New, Placeholder</strong>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 uppercase small">
+                            Tags
+                        </div>
+                        <div class="col-md-8">
+                            <strong>Cool, Product</strong>
                         </div>
                     </div>
                 </div>

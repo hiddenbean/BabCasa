@@ -502,3 +502,7 @@ td.picture > a > img{
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.form-group-costume-select2 span.select2-selection.select2-selection--single {
+    border: 0 !important;
+}
