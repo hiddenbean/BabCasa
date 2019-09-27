@@ -25,7 +25,7 @@
             <ul class="navbar-nav nav-menu">
                 <li><a href="#">Aide</a></li>
                 <li><a href="#">C'est quoi BABCasa™</a></li>
-                <li><a href="#">Partenaire beta</a></li>
+                <li><a href="https://affiliate.babcasa.com">Partenaire beta</a></li>
                 <li><a href="#">Pro beta</a></li>
             </ul>
         </nav>
