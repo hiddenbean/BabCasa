@@ -9,11 +9,15 @@ use App\Country;
 use App\Address;
 use App\Picture;
 use App\Status;
+use App\Staff;
 use Illuminate\Http\Request;
+use App\Notifications\PartnerNotification;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\PictureController;
 use App\Http\Controllers\PhoneController;
 use App\Http\Controllers\Controller;
+use App\Notifications\NewPartner;
+use App\Notifications\NewStatus;
 // use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -59,15 +63,17 @@ class PartnerRegisterController extends Controller
     protected function validateRequest(Request $request)
     {
         $request->validate([
+            'company_name' => 'required',
             'name' => 'required|unique:partners,name',
+            'email' => 'required|email|unique:partners,email',
+            'admin_email' => 'required|email|unique:partners,admin_email',
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'about' => 'required',
+            'taxe_id' => 'required|numeric|digits:10',
             'email' => 'required|unique:partners,email',
             'password' => 'required|min:6|confirmed',
-            'company_name' => 'required',
-            'trade_registry' => 'required',
-            'ice' => 'required',
-            'taxe_id' => 'required',
-            'about' => 'required',
-            'agreement' => 'required',
+            'approval' => 'accepted',
         ]);
     }
 
@@ -83,54 +89,58 @@ class PartnerRegisterController extends Controller
      * @return \Illuminate\Http\Response.
      */
     protected function store(Request $request)
-    {
+    { 
         $this->validateRequest($request);
-        
+
+        $request['full_name'] =$request->first_name.' '.$request->last_name;
         $AddressController = new AddressController();
         $AddressController->validateRequest($request);
         
         $PictureController = new PictureController();
         $PictureController->validateRequest($request);
-
+        
         $phone = new PhoneController();
         $phone->validateRequest($request);
-               
-        
-        $password = bcrypt($request->password);
-        $name = $request->company_name;
-        while(Partner::where('name', $request->company_name)->first()){
-            $name = $name.'_'.rand(0,9);
-        }
+
         $is_register_to_newsletter = ($request->is_register_to_newsletter=='on') ? 1 : 0;
         $partner = Partner::create([
+            'first_name' =>  $request->first_name,
+            'last_name' =>  $request->last_name,
             'company_name' => $request->company_name,
-            'name' => $name,
+            'name' => $request->name,
+            'password' => bcrypt($request->password),
             'email' =>  $request->email,
-            'password' => $password,
+            'admin_email' =>  $request->admin_email,
             'about' => $request->about,
-            'trade_registry' => $request->trade_registry,
             'is_register_to_newsletter' => $is_register_to_newsletter,
-            'ice' => $request->ice,
-            'taxe_id' => $request->tax_id,
-            ]);
-            $status = new Status();
-            $status->is_approved = 0;
-            $status->partner_id = $partner->id;
-            $status->staff_id = 1;//auth()->guard('staff')->user()->id;
-            $status->save();
+            'taxe_id' => $request->taxe_id,
+        ]);
 
-            $address = new  Address();
-            $address->address = $request->address;
-            $address->address_tow = $request->address_tow;
-            $address->full_name = $request->full_name;
-            $address->zip_code = $request->zip_code;
-            $address->country_id = $request->country_id;
-            $address->city = $request->city;
-            $address->addressable_type = 'partner';
-            $address->addressable_id = $partner->id;
-            $address->save();
+
+        $status = new Status();
+        $status->is_approved = 0;
+        $status->user_id = $partner->id;
+        $status->user_type = 'partner';
+        $status->staff_id = $this->staffTarget()->id;
+        $status->save();
+
+        $data['causer']=['id'=>$partner->id, 'type'=>'partner'];
+        $data['link'] = 'http://staff.babcasa.com/fr/affiliates/'.$partner->name;
+        $this->staffTarget()->notify(new NewStatus($data));
+
+        $address = new  Address();
+        $address->address = $request->address;
+        $address->address_two = $request->address_two;
+        $address->full_name = $request->first_name.' '.$request->last_name;
+        $address->zip_code = $request->zip_code;
+        $address->is_default = true;
+        $address->country_id = $request->country_id;
+        $address->city = $request->city;
+        $address->is_default = true;
+        $address->addressable_type = 'partner';
+        $address->addressable_id = $partner->id;
+        $address->save();
             
-
         if($request->hasFile('path')) 
         {
             $picture = Picture::create([
@@ -142,7 +152,6 @@ class PartnerRegisterController extends Controller
                 'pictureable_id' => $partner->id,
             ]);
         }
-        
 
         foreach($request->numbers as $key => $number)
         {
@@ -150,29 +159,39 @@ class PartnerRegisterController extends Controller
             {
                 $phone = new Phone();
                 $phone->number = $number;
-                $phone->type = "phone";
+                $phone->type = $key==3 ? "fax" : "phone";
+                $phone->is_default =$key==0 ? true: false;
+                $phone->verify = false;
+                $phone->tag = $key==0 ? 'admin': 'company';
                 $phone->country_id = $request->code_country[$key];
                 $phone->phoneable_type = 'partner';
                 $phone->phoneable_id = $partner->id;
                 $phone->save();
             }
         }
-
-        if($request->fax_number)
-            {
-
-                $phone = new Phone();
-                $phone->number = $request->fax_number;
-                $phone->type = "fix";
-                $phone->country_id = $request->code_country[2];
-                $phone->phoneable_type = 'partner';
-                $phone->phoneable_id = $partner->id;
-                $phone->save();
-            }  
+        
+        $partner->notify(new NewPartner());
             
         $this->guardsLogout();
         auth()->guard('partner')->login($partner);
         return redirect('/');
+    }
+
+    
+    public function staffTarget()
+    {
+        $minStaff=Staff::first();
+        $min =  $minStaff->statuses->where('is_approved',0)->count();
+        foreach(Staff::all() as $staff)
+        {
+            if($staff->permission('request') && $staff->statuses->where('is_approved',0)->count() < $min)
+            {
+                $min = $staff->statuses->where('is_approved',2)->count();
+                $minStaff = $staff;
+            } 
+
+        }
+        return $minStaff;
     }
 
      /**

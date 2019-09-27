@@ -26,12 +26,12 @@
     <div class="container-fluid container-fixed-lg bg-white">
         <div class="card card-transparent">
             <div class="card-header">
-            <div class="card-title">List of statuses for <a href="{{url('partners/'.$partner->name)}}"><strong> {{$partner->company_name}}  </strong></a></div>
+                <!-- {{ str_after(str_before(url()->current(), '/'.$user->name), 'statuses/') == 'partner' ? $url_part = 'partners' : $url_part = 'clients/business' }} -->
+            <div class="card-title">List of statuses for <a href="{{url($url_part.'/'.$user->name)}}"><strong> {{$user->company_name}}  </strong></a></div>
                 <div class="pull-right">
                     <div class="col-xs-12">
                         <div class="row">
                             <div class="col-md-6 text-right no-padding">
-                            <a href="{{url('partners')}}" class="btn btn-primary btn-cons">New Status</a>
                             </div>
                             <div class="col-md-6">
                                 <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
@@ -56,7 +56,7 @@
                         <tr class="order-progress"  >
                             <td class="v-align-middle">{{$status->id}}</a></td>            
                             <td class="v-align-middle"><strong> @if($status->is_approved) Approved @else Not approve @endif</strong></a></td>            
-                            <td class="v-align-middle">{{date('M d, Y',strtotime($partner->created_at))}}</td>            
+                            <td class="v-align-middle">{{date('M d, Y',strtotime($user->created_at))}}</td>            
                             <td class="v-align-middle">
                                     @foreach($status->reasons as $key =>$reason)
                                      {{$reason->reference}}

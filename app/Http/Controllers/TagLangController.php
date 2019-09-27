@@ -3,10 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\TagLang;
+use App\Tag;
 use Illuminate\Http\Request;
 
 class TagLangController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:staff');
+        
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -67,9 +74,30 @@ class TagLangController extends Controller
      * @param  \App\tag_lang  $tag_lang
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, tag_lang $tag_lang)
+    public function update(Request $request, $Tag)
     {
-        //
+        $tag = Tag::findOrFail($Tag);
+       foreach($request->tags as $key => $tagValue)
+       {
+        $tagLang = $tag->tagLangs->where('lang_id',$request->languages_id[$key])->first();
+        if(!isset($tagLang))
+            {
+                $tagLang = new TagLang();
+                $tagLang->tag_id = $tag->id;
+                $tagLang->lang_id = $request->languages_id[$key];
+            }
+           if($tagValue != '')
+           {
+                $tagLang->tag = $tagValue;
+            }
+            else
+            {
+                $tagLang->tag = '';
+
+            }
+            $tagLang->save();
+       }
+       return redirect()->back();
     }
 
     /**

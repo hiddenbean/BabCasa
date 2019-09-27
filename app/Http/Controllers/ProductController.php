@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App;
 use App\Tag;
 use App\Product;
 use App\Picture;
+use App\Partner;
 use App\Language;
 use App\Attribute;
-use App\Currencie;
 use App\Category;
 use App\DetailValue;
 use App\Productlang;
@@ -26,7 +27,12 @@ use App\Http\Controllers\AttributeValueController;
 class ProductController extends Controller
 {
 
-    
+    public function __construct()
+    {
+        $this->middleware('auth:staff,partner,business');
+        
+    }
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -39,7 +45,7 @@ class ProductController extends Controller
             'reference' => 'required|unique:product_langs,reference',
             'short_description' => 'required|required|max:306',
             'description' => 'required|required|max:3000',
-            'lang_id' => 'required',
+            'categories' => 'required',
         ]);
     }
     /**
@@ -49,7 +55,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-       
+        $data['products'] = Auth::guard('partner')->user()->products;
+        //  return $data;
+        return view('products.backoffice.partners.index');
     }
 
     /**
@@ -60,12 +68,11 @@ class ProductController extends Controller
     public function create()
     {
         
-        $data['Categories'] = Category::all();
+        $data['categories'] = Category::all();
         $data['tags'] = Tag::all();
         // return $data['tags']->first()->tagLang->first()->tag; 
         $data['languages'] = Language::all();
-        $data['currencies'] = Currencie::all();
-        return view('add_product',$data);
+        return view('products.backoffice.partners.create',$data);
     }
     
     /**
@@ -92,7 +99,15 @@ class ProductController extends Controller
         $product->for_business = ($request->for_business=='on') ? 1 : 0;
         $product->save();
 
-        $product->Categories()->attach($request->Category_id);
+        if($request->categories)
+        {
+            foreach($categories as $category)
+            {
+                $product->Categories()->attach($category);
+
+            }
+
+        }
         
         $productlang = new Productlang();
         $productlang->reference = $request->reference;
@@ -139,18 +154,19 @@ class ProductController extends Controller
             $product->tags()->attach($tag);
 
         }
-      $variantPictures = $request->variant_pictures;
+        $variantPictures = $request->variant_pictures;
 
-      
-       $this->getGenerations($attributes, $product->id, $variantPictures);
+        $this->getGenerations($attributes, $product->id, $variantPictures);
     }
-   public function getGenerations($attributes, $productId, $variantPictures, $currGeneration = 0, $result = array(), $parentId = null)
+
+    
+    public function getGenerations($attributes, $productId, $variantPictures, $currGeneration = 0, $result = array(), $parentId = null)
     {
         $currGeneration++;
         //    dd($attributes[0]->picture);
-           foreach($attributes as $k => $v) {
-               $attribute = $v;
-               if(isset($attribute->children))
+            foreach($attributes as $k => $v) {
+                $attribute = $v;
+                if(isset($attribute->children))
             {
                 $attributeValue = new AttributeValue();
                 $attributeValue->product_id = $productId;
@@ -164,7 +180,6 @@ class ProductController extends Controller
                 // dd($attribute);
                 $result[$currGeneration][$k] = $attribute;
                     $this->getGenerations($v->children,$productId, $variantPictures, $currGeneration, $result,$attributeValue->id);
-                  
             //     return;
             }
             else 
@@ -212,7 +227,7 @@ class ProductController extends Controller
                 $attributeVarcharValueLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
                 $attributeVarcharValueLang->save();
                 
-                 break;
+                break;
             case 'double':
 
                 $attributeDoubleValue = new AttributeDoubleValue();
@@ -245,9 +260,9 @@ class ProductController extends Controller
         }
         
     }
-    public function show(product $product)
+    public function show($product)
     {
-        //
+        return view('products.backoffice.show');
     }
 
     /**
@@ -264,7 +279,6 @@ class ProductController extends Controller
         $data['tags'] = $data['product']->tags;
         $data['detail_values'] = $data['product']->detailValues;
 
-        // return $data['Categorys']->first()->details->first()->detailLang->first()->value;
         return view('edit_product',$data);
     }
 
@@ -289,5 +303,13 @@ class ProductController extends Controller
     public function destroy(product $product)
     {
         //
+    }
+
+    /**
+     * 
+     * 
+     */
+    public function trash() {
+        return view('products.backoffice.partners.trash');
     }
 }

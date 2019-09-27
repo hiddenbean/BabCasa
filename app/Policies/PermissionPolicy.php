@@ -21,7 +21,7 @@ class PermissionPolicy
     // Staff $staff,$type
     function read(Staff $staff,$type)
     {
-       
+
         return $staff->profile->permissions->where('type',$type)->first()->pivot->can_read;
       
     }

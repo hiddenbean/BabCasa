@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Phone extends Model
 {
-    use SoftDeletes;  
+    use SoftDeletes;
 
-    protected $fillable = ['number', 'type', 'phone_code_id', 'phoneable_type', 'phoneable_id'];
+    protected $fillable = ['number','tag','is_default','verify', 'type', 'country_id', 'phoneable_type', 'phoneable_id'];
     //
     public function phoneable()
     {

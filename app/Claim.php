@@ -3,13 +3,28 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Claim extends Model
 {
+
+    use LogsActivity;
+
+    protected static $recordEvents = ['deleted', 'created', 'updated'];
+
+    protected static $logFillable = true;
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+      
+        return "has {$eventName} the claim ID : <u><a href=".url('claims/'.$this->id).">{$this->id}</a></u>";
+    }
+
     protected $fillable=[
         'title',
         'status',
         'subject_id',
+        'staff_id',
         'claimable_type',
         'claimable_id',
     ];
@@ -21,7 +36,7 @@ class Claim extends Model
 
     public function claimable()
     {
-        return $this->morphTo();
+        return $this->morphTo()->withTrashed();
     }
 
     public function claimMessages()

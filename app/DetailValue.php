@@ -8,23 +8,28 @@ use Illuminate\Database\Eloquent\Model;
 
 class DetailValue extends Model
 {
-    public function detailValueLangs()
-    {
-            return $this->hasMany('App\DetailValueLang');
-    }
-    public function detailValueLang()
-    {
-        $langId = Language::where('alpha_2_code',App::getLocale())->first()->id; 
-        return $this->detailValueLangs()->where('lang_id',$langId);
 
-    }
+    protected $fillable = ['product_id', 'detail_id'];
 
-    public function prodcut()
-    {
-            return $this->belongsTo('App\Products');
-    }
-    public function detail()
-    {
-            return $this->belongsTo('App\Detail');
-    }
+	
+	public function detailValueLangs()
+	{
+		return $this->hasMany('App\DetailValueLang');
+	}
+	public function detailValueLang()
+	{
+		$langId = Language::where('alpha_2_code',App::getLocale())->first()->id; 
+		return $this->detailValueLangs()->where('lang_id',$langId);
+
+	}
+
+	public function product()
+	{
+		return $this->belongsTo('App\Product');
+	}
+
+	public function detail()
+	{
+		return $this->belongsTo('App\Detail');
+	}
 }

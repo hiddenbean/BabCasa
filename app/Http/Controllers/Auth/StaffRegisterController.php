@@ -11,8 +11,8 @@ use App\Phone;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\PictureController;
-use App\Http\Controllers\PhoneController;
 use App\Http\Controllers\Controller;
+use App\Notifications\NewStaff;
 // use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -46,7 +46,7 @@ class StaffRegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest:staff');
+        $this->middleware('auth:staff');
     }
 
     /**
@@ -60,12 +60,23 @@ class StaffRegisterController extends Controller
         $request->validate([
             'name' => 'required|unique:staff,name',
             'email' => 'required|unique:staff,email',
-            'password' => 'required|min:6',
             'first_name' => 'required',
             'last_name' => 'required',
             'birthday' => 'required',
-            'gender' => 'required',
+            'gender_id' => 'required',
             'profile_id' => 'required',
+            'address' => 'required',
+            'address_two' => 'sometimes',
+            'full_name' => 'sometimes',
+            'country_id' => 'required',
+            'city' => 'required',
+            'zip_code' => 'required|numeric',
+            'longitude' => 'sometimes',
+            'latitude' => 'sometimes', 
+            'path' => 'required',
+            'number' => 'required|numeric|unique:phones,number|digits:9',
+            'code_country' => 'sometimes',
+
         ]);
     }
 
@@ -81,19 +92,20 @@ class StaffRegisterController extends Controller
      * @return \Illuminate\Http\Response.
      */
     protected function store(Request $request)
-    {
-        
-        
+    { 
+        $request->validate([
+            'email' => 'required',
+        ]);
+        $request['email'] .= '@babcasa.com';
         $this->validateRequest($request);
-        
         $AddressController = new AddressController();
         $AddressController->validateRequest($request);
+        $full_name= $request->first_name.' '.$request->last_name;
+        $request['full_name'] =$full_name;
         
         $PictureController = new PictureController();
         $PictureController->validateRequest($request);
         
-        $PhoneController = new PhoneController();
-        $PhoneController->validateRequest($request);        
 
         $password = bcrypt($request->password);
         $name = $request->name;
@@ -107,13 +119,13 @@ class StaffRegisterController extends Controller
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'birthday' => date('Y-m-d H:i:s',strtotime($request->birthday)),
-            'gender' => $request->gender,
+            'gender_id' => $request->gender_id,
             'profile_id' => $request->profile_id,
             ]);
 
             $adress = new Address();
             $adress->address = $request->address;
-            $adress->address_tow = $request->address_tow;
+            $adress->address_two = $request->address_two;
             $adress->full_name = $request->full_name;
             $adress->zip_code = $request->zip_code;
             $adress->country_id = $request->country_id;
@@ -121,48 +133,48 @@ class StaffRegisterController extends Controller
             $adress->addressable_type = 'staff';
             $adress->addressable_id = $staff->id;
             $adress->save();
-             
 
         if($request->hasFile('path')) 
         {
             $picture = Picture::create([
                 'name' =>  time().'.'.$request->file('path')->extension(),
                 'tag' => "staff_avatar",
-                'path' => $request->file('path')->store('images/staffs', 'public'),
+                'path' => $request->file('path')->store('images/staff', 'public'),
                 'extension' => $request->file('path')->extension(),
                 'pictureable_type' => 'staff',
                 'pictureable_id' => $staff->id,
             ]);
         }
-        
 
-        foreach($request->numbers as $key => $number)
-        {
-            if($number != null)
-            {
-                
-                $phone = new Phone();
-                $phone->number = $number;
-                $phone->type = "phone";
-                $phone->country_id = $request->code_country[$key];
-                $phone->phoneable_type = 'staff';
-                $phone->phoneable_id = $staff->id;
-                $phone->save();
-            }
-        }
+    
+        $phone = new Phone();
+        $phone->number = $request->number;
+        $phone->type = "phone";
+        $phone->country_id = $request->code_country;
+        $phone->phoneable_type = 'staff';
+        $phone->phoneable_id = $staff->id;
+        $phone->is_default = true;
+        $phone->verify = false;
+        $phone->tag =  'admin';
+        $phone->save();
+        $staff->notify(new NewStaff());
+        return $staff;
+    }
 
-        if($request->fax_number)
-            {
-                $phone = new Phone();
-                $phone->number = $request->fax_number;
-                $phone->type = "fax";
-                $phone->country_id = $request->code_country[2];
-                $phone->phoneable_type = 'staff';
-                $phone->phoneable_id = $staff->id;
-                $phone->save();
-            }
-            
-        return redirect('staff');
+         /**
+     * 
+     */
+    public function storeWithRedirect(Request $request) {
+        $staff = self::store($request);
+        return redirect('staff/'.$staff->id);
+    }
+
+    /**
+     * 
+     */
+    public function storeAndNew(Request $request) {
+        $staff = self::store($request);
+        return redirect('staff/create');
     }
 
      /**

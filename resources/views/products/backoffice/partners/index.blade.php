@@ -1,0 +1,35 @@
+@extends('layouts.backoffice.partner.app')
+
+@section('before_css')
+    <link href="{{asset('plugins/jquery-datatable/media/css/dataTables.bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('plugins/jquery-datatable/extensions/FixedColumns/css/dataTables.fixedColumns.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('plugins/datatables-responsive/css/datatables.responsive.css') }}" rel="stylesheet" type="text/css" media="screen" /> 
+@endsection
+
+@section('breadcrumb')
+    <!-- breadcrumb start -->
+    <div class="container-fluid container-fixed-lg ">
+        <div class="row">
+            <div class="col-md-12">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{{ url('/') }}">DASHBOARD</a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        Products
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumb end -->
+@endsection
+
+@section('content')
+    @include('products.backoffice.partners.components.table')
+@endsection
+
+@section('after_script')
+    <script type="text/javascript" src="{{asset('plugins/datatables-responsive/js/lodash.min.js')}}"></script>
+    @yield('inner_script')
+@endsection

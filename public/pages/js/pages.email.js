@@ -19,7 +19,7 @@
             return '<li>' + '<div class="btn-group">' + '<a tabindex="-1" title="Unordered list" data-wysihtml5-command="insertUnorderedList" class="btn  btn-default" href="javascript:;" unselectable="on"><i class="editor-icon editor-icon-ul"></i></a>' + '<a tabindex="-1" title="Ordered list" data-wysihtml5-command="insertOrderedList" class="btn  btn-default" href="javascript:;" unselectable="on"><i class="editor-icon editor-icon-ol"></i></a>' + '<a tabindex="-1" title="Outdent" data-wysihtml5-command="Outdent" class="btn  btn-default" href="javascript:;" unselectable="on"><i class="editor-icon editor-icon-outdent"></i></a>' + '<a tabindex="-1" title="Indent" data-wysihtml5-command="Indent" class="btn  btn-default" href="javascript:;" unselectable="on"><i class="editor-icon editor-icon-indent"></i></a>' + '</div>' + '</li>'
         },
         image: function(locale) {
-            return '<li>' + '<div class="bootstrap-wysihtml5-insert-image-modal modal fade">' + '<div class="modal-dialog ">' + '<div class="modal-content">' + '<div class="modal-header">' + '<a data-dismiss="modal" class="close">×</a>' + '<h3>Insert image</h3>' + '</div>' + '<div class="modal-body">' + '<input class="bootstrap-wysihtml5-insert-image-url form-control" value="http://">' + '</div>' + '<div class="modal-footer">' + '<a data-dismiss="modal" class="btn btn-default">Cancel</a>' + '<a data-dismiss="modal" class="btn btn-primary">Insert image</a>' + '</div>' + '</div>' + '</div>' + '</div>' + '<a tabindex="-1" title="Insert image" data-wysihtml5-command="insertImage" class="btn  btn-default" href="javascript:;" unselectable="on">' + '<i class="editor-icon editor-icon-image"></i>' + '</a>' + '</li>'
+            return '<li style="display:none">' + '<div class="bootstrap-wysihtml5-insert-image-modal modal fade">' + '<div class="modal-dialog ">' + '<div class="modal-content">' + '<div class="modal-header">' + '<a data-dismiss="modal" class="close">×</a>' + '<h3>Insert image</h3>' + '</div>' + '<div class="modal-body">' + '<input class="bootstrap-wysihtml5-insert-image-url form-control" value="http://">' + '</div>' + '<div class="modal-footer">' + '<a data-dismiss="modal" class="btn btn-default">Cancel</a>' + '<a data-dismiss="modal" class="btn btn-primary">Insert image</a>' + '</div>' + '</div>' + '</div>' + '</div>' + '<a tabindex="-1" title="Insert image" data-wysihtml5-command="insertImage" class="btn  btn-default" href="javascript:;" unselectable="on">' + '<i class="editor-icon editor-icon-image"></i>' + '</a>' + '</li>'
         },
         link: function(locale) {
             return '<li>' + '<div class="bootstrap-wysihtml5-insert-link-modal modal fade">' + '<div class="modal-dialog ">' + '<div class="modal-content">' + '<div class="modal-header">' + '<a data-dismiss="modal" class="close">×</a>' + '<h3>Insert link</h3>' + '</div>' + '<div class="modal-body">' + '<input class="bootstrap-wysihtml5-insert-link-url form-control" value="http://">' + '<div class="checkbox check-success"> <input type="checkbox" class="bootstrap-wysihtml5-insert-link-target" checked="checked" value="1" id="link-checkbox"> <label for="link-checkbox">Open link in new window</label></div>' + '</div>' + '<div class="modal-footer">' + '<a data-dismiss="modal" class="btn btn-default">Cancel</a>' + '<a data-dismiss="modal" class="btn btn-primary" href="#">Insert link</a>' + '</div>' + '</div>' + '</div>' + '</div>' + '<a tabindex="-1" title="Insert link" data-wysihtml5-command="createLink" class="btn  btn-default" href="javascript:;" unselectable="on">' + '<i class="editor-icon editor-icon-link"></i>' + '</a>' + '</li>'
@@ -35,71 +35,12 @@
         "image": true, //Button to insert an image. Default true,
         "color": false, //Button to change color of font  
         "blockquote": true, //Blockquote  
-        stylesheets: ["pages/css/editor.css"],
         customTemplates: editorTemplate
     };
 
 
     $('#mark-email').click(function() {
         $('.item .checkbox').toggle();
-    });
-
-    // Load list of emails
-    emailList.length && $.ajax({
-        dataType: "json",
-        url: "http://pages.revox.io/json/emails.json",
-        success: function(data) {
-
-
-            $.each(data.emails, function(i) {
-                var obj = data.emails[i];
-                var group = obj.group;
-                var list = obj.list;
-
-                var listViewGroupCont = $('<div/>', {
-                    "class": "list-view-group-container"
-                });
-                listViewGroupCont.append('<div class="list-view-group-header"><span>' + group + '</span></div>');
-                var ul = $('<ul/>', {
-                    "class": "no-padding"
-                });
-
-                $.each(list, function(j) {
-                    var $this = list[j];
-                    var id = $this.id;
-                    var dp = $this.dp;
-                    var dpRetina = $this.dpRetina;
-                    var to = $this.to.join();
-                    var subject = $this.subject;
-                    var body = $this.body.replace(/<(?:.|\n)*?>/gm, '');
-                    var time = $this.time;
-                    var li = '<li class="item padding-15" data-email-id="' + id + '"> \
-                                <div class="thumbnail-wrapper d32 circular"> \
-                                    <img width="40" height="40" alt="" data-src-retina="' + dpRetina + '" data-src="' + dp + '" src="' + dpRetina + '"> \
-                                </div> \
-                                <div class="checkbox  no-margin p-l-10"> \
-                                    <input type="checkbox" value="1" id="emailcheckbox-' + i + "-" + j + '"> \
-                                    <label for="emailcheckbox-' + i + "-" + j + '"></label> \
-                                </div> \
-                                <div class="inline m-l-15"> \
-                                    <p class="recipients no-margin hint-text small">' + to + '</p> \
-                                    <p class="subject no-margin">' + subject + '</p> \
-                                    <p class="body no-margin"> \
-                                     ' + body + ' \
-                                    </p> \
-                                </div> \
-                                <div class="datetime">' + time + '</div> \
-                                <div class="clearfix"></div> \
-                            </li>';
-                    ul.append(li);
-                });
-
-                listViewGroupCont.append(ul);
-                emailList.append(listViewGroupCont);
-            });
-            emailList.ioslist();
-
-        }
     });
 
     $('body').on('click', '.item .checkbox', function(e) {
@@ -112,31 +53,20 @@
         var id = $(this).attr('data-email-id');
         var email = null;
         var thumbnailWrapper = $(this).find('.thumbnail-wrapper');
-        $.ajax({
-            dataType: "json",
-            url: "http://pages.revox.io/json/emails.json",
-            success: function(data) {
-                $.each(data.emails, function(i) {
-                    var obj = data.emails[i];
-                    var list = obj.list;
-                    $.each(list, function(j) {
-                        if (list[j].id == id) {
-                            email = list[j];
 
-                            return;
-                        }
-                    });
 
-                    if (email != null) return;
-                });
+                emailOpened.find('.sender .name').text($(this).find('.name').html());
+                emailOpened.find('.sender .datetime').text($(this).find('.datetime').html());
+                emailOpened.find('.subject').text($(this).find('.subject').html());
+                emailOpened.find('.email-content-body').html($(this).find('.body').html());
+                $('#reply_form').attr('action', $(this).find('#reply_form_link').val());
+                $('#close_ticket').attr('href', $(this).find('#close_ticket_link').val());
+                var status = $(this).find('#ticket_status_value').val();
+                (status != '1') ? $('li.controls , .controls.wysiwyg5-wrapper').hide(): $('li.controls , .controls.wysiwyg5-wrapper').show() ;
 
-                emailOpened.find('.sender .name').text(email.from);
-                emailOpened.find('.sender .datetime').text(email.datetime);
-                emailOpened.find('.subject').text(email.subject);
-                emailOpened.find('.email-content-body').html(email.body);
 
                 var thumbnailClasses = thumbnailWrapper.attr('class').replace('d32', 'd48');
-                emailOpened.find('.thumbnail-wrapper').html(thumbnailWrapper.html()).attr('class', thumbnailClasses);
+                emailOpened.find('.thumbnail-wrapper').attr('class', thumbnailClasses);
 
                 $('.no-result').hide();
                 $('.actions-dropdown').toggle();
@@ -151,10 +81,7 @@
 
                 // Initialize email action menu 
                 $('.menuclipper').menuclipper({
-                    bufferWidth: 50
-                });
-            }
-        });
+                    bufferWidth: 50});
 
         $('.item').removeClass('active');
         $(this).addClass('active');
@@ -202,7 +129,7 @@
             return '<li>' + '<div class="btn-group">' + '<a tabindex="-1" title="Unordered list" data-wysihtml5-command="insertUnorderedList" class="btn  btn-default" href="javascript:;" unselectable="on"><i class="editor-icon editor-icon-ul"></i></a>' + '<a tabindex="-1" title="Ordered list" data-wysihtml5-command="insertOrderedList" class="btn  btn-default" href="javascript:;" unselectable="on"><i class="editor-icon editor-icon-ol"></i></a>' + '<a tabindex="-1" title="Outdent" data-wysihtml5-command="Outdent" class="btn  btn-default" href="javascript:;" unselectable="on"><i class="editor-icon editor-icon-outdent"></i></a>' + '<a tabindex="-1" title="Indent" data-wysihtml5-command="Indent" class="btn  btn-default" href="javascript:;" unselectable="on"><i class="editor-icon editor-icon-indent"></i></a>' + '</div>' + '</li>'
         },
         image: function(locale) {
-            return '<li>' + '<div class="bootstrap-wysihtml5-insert-image-modal modal fade">' + '<div class="modal-dialog ">' + '<div class="modal-content">' + '<div class="modal-header">' + '<a data-dismiss="modal" class="close">×</a>' + '<h3>Insert image</h3>' + '</div>' + '<div class="modal-body">' + '<input class="bootstrap-wysihtml5-insert-image-url form-control" value="http://">' + '</div>' + '<div class="modal-footer">' + '<a data-dismiss="modal" class="btn btn-default">Cancel</a>' + '<a data-dismiss="modal" class="btn btn-primary">Insert image</a>' + '</div>' + '</div>' + '</div>' + '</div>' + '<a tabindex="-1" title="Insert image" data-wysihtml5-command="insertImage" class="btn  btn-default" href="javascript:;" unselectable="on">' + '<i class="editor-icon editor-icon-image"></i>' + '</a>' + '</li>'
+            return '<li style="display:none">' + '<div class="bootstrap-wysihtml5-insert-image-modal modal fade">' + '<div class="modal-dialog ">' + '<div class="modal-content">' + '<div class="modal-header">' + '<a data-dismiss="modal" class="close">×</a>' + '<h3>Insert image</h3>' + '</div>' + '<div class="modal-body">' + '<input class="bootstrap-wysihtml5-insert-image-url form-control" value="http://">' + '</div>' + '<div class="modal-footer">' + '<a data-dismiss="modal" class="btn btn-default">Cancel</a>' + '<a data-dismiss="modal" class="btn btn-primary">Insert image</a>' + '</div>' + '</div>' + '</div>' + '</div>' + '<a tabindex="-1" title="Insert image" data-wysihtml5-command="insertImage" class="btn  btn-default" href="javascript:;" unselectable="on">' + '<i class="editor-icon editor-icon-image"></i>' + '</a>' + '</li>'
         },
         link: function(locale) {
             return '<li>' + '<div class="bootstrap-wysihtml5-insert-link-modal modal fade">' + '<div class="modal-dialog ">' + '<div class="modal-content">' + '<div class="modal-header">' + '<a data-dismiss="modal" class="close">×</a>' + '<h3>Insert link</h3>' + '</div>' + '<div class="modal-body">' + '<input class="bootstrap-wysihtml5-insert-link-url form-control" value="http://">' + '<label class="checkbox"> <input type="checkbox" checked="" class="bootstrap-wysihtml5-insert-link-target">Open link in new window</label>' + '</div>' + '<div class="modal-footer">' + '<a data-dismiss="modal" class="btn btn-default">Cancel</a>' + '<a data-dismiss="modal" class="btn btn-primary" href="#">Insert link</a>' + '</div>' + '</div>' + '</div>' + '</div>' + '<a tabindex="-1" title="Insert link" data-wysihtml5-command="createLink" class="btn  btn-default" href="javascript:;" unselectable="on">' + '<i class="editor-icon editor-icon-link"></i>' + '</a>' + '</li>'
@@ -215,12 +142,11 @@
     setTimeout(function() {
         $('.email-body').length && $('.email-body').wysihtml5({
             html: true,
-            stylesheets: ["pages/css/editor.css"],
             customTemplates: emailComposerToolbarTemplate
         });
 
         $('.email-composer .wysihtml5-toolbar').appendTo('.email-toolbar-wrapper');
-    }, 500);
+    }, 1000);
 
 
 })(window.jQuery);

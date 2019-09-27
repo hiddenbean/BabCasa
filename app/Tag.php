@@ -4,12 +4,25 @@ namespace App;
 use App;
 use App\Language;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
 class Tag extends Model
 {
     use SoftDeletes;
+    use LogsActivity;
+
+    protected $fillable = [];
+
+    protected static $recordEvents = ['deleted', 'created', 'updated'];
+
+    protected static $logFillable = true;
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "has {$eventName} the tag ID : <u><a href=".url('tags/'.$this->id).">{$this->id}</a></u>";
+    }
 
     public function products()
     {
@@ -17,13 +30,14 @@ class Tag extends Model
     }
     public function tagLangs()
     {
-        return $this->hasMany('App\TagLang');
+        return $this->hasMany('App\TagLang')->withTrashed();
     } 
     
     public function tagLang()
     {
         $langId = Language::where('alpha_2_code',App::getLocale())->first()->id; 
-        return $this->tagLangs()->where('lang_id',$langId);
+        $tag = self::tagLangs()->where('lang_id',$langId)->withTrashed()->first();
+        return !isset($tag->tag) || $tag->tag=='' ? self::tagLangs()->where('tag','!=','')->withTrashed()->first() : $tag;
 
     }
 

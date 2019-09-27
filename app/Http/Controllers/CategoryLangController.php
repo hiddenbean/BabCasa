@@ -2,11 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\CategorieLang;
+use App\CategoryLang;
+use App\Category;
+use App\Language;
 use Illuminate\Http\Request;
 
 class CategoryLangController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:staff');
+        
+    }
+    
     /**
      * Get a validator for an incoming registration request.
      *
@@ -99,17 +107,23 @@ class CategoryLangController extends Controller
      */
     public function update(Request $request, $Category)
     {
-        $this->validateRequest($request);
-        
-        $Category = Category::find($Category);
-        $CategoryLangId = $Category->CategoryLang->first()->id;
-
-        $CategoryLang = CategoryLang::find($CategoryLangId);
-        $CategoryLang->Category = $request->Category; 
-        $CategoryLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
-        $CategoryLang->save(); 
-        
-        return redirect('categories');
+        $category = Category::withTrashed()->findOrFail($Category);
+        $languages = Language::all();
+        foreach($request->references as $key => $reference)
+        {
+            $category_lang = $category->categoryLangs()->where('lang_id',$languages[$key]->id)->first();
+            if(!isset($category_lang))
+            {
+                $category_lang = new CategoryLang();
+                $category_lang->category_id = $category->id;
+                $category_lang->lang_id = $request->languages_id[$key];
+            }
+            $category_lang->reference = $reference;
+            $category_lang->description = $request->descriptions[$key];
+            $category_lang->save();
+        }
+        return redirect()->back();
+        return $request;
     }
 
     /**

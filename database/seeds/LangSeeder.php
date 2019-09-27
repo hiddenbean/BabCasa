@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class LangSeeder extends Seeder
 {
@@ -11,6 +12,17 @@ class LangSeeder extends Seeder
      */
     public function run()
     {
-        factory('App\Language', 1)->create();
+        DB::table('languages')->insert([
+            'name' => 'english',
+            'alpha_2_code' => 'EN',
+        ]);
+        DB::table('languages')->insert([
+            'name' => 'arabic',
+            'alpha_2_code' => 'AR',
+        ]);
+        DB::table('languages')->insert([
+            'name' => 'franch',
+            'alpha_2_code' => 'FR',
+        ]);
     }
 }

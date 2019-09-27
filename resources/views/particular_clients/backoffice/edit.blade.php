@@ -13,7 +13,7 @@
                     <a href="{{ url('/') }}">DASHBOARD</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a href="{{ url('/particular-clients') }}">particular Clients</a>
+                    <a href="{{ url('clients/particular') }}">Particular clients</a>
                 </li>
                 <li class="breadcrumb-item active">
                     Update
@@ -26,12 +26,17 @@
 <div class="container-fluid container-fixed-lg">
     <div class="card ">
         <div class="card-header">
-            <h4 class="m-t-0 m-b-0"> <strong>Create new particularClient</strong> </h4>
+            <h4 class="m-t-0 m-b-0"> <strong>Create new particular client</strong> </h4>
+             <label class='error' >
+             @if($errors->count()>0)
+                You have {{$errors->count()}} ERROR(S) !!
+            @endif
+             </label> 
         </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-xl-12">
-                    <form id="form-personal"  method="POST" action="{{url('particular-clients/'.$particularClient->id)}}" enctype="multipart/form-data">
+                    <form id="form-personal"  method="POST" action="{{url('clients/particular/'.$particularClient->id)}}" enctype="multipart/form-data">
                         {{ csrf_field() }}
                         {{method_field('PUT')}}
 
@@ -139,9 +144,9 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="radio radio-success">
-                                            <input type="radio" value="1" @if($particularClient->gender_id == 1) checked @endif name="gender" id="male">
+                                            <input type="radio" value="1" @if($particularClient->gender_id_id == 1) checked @endif name="gender_id" id="male">
                                             <label for="male">Male</label>
-                                            <input type="radio"  value="0" @if($particularClient->gender_id == 0) checked @endif name="gender" name="gender" id="female">
+                                            <input type="radio"  value="0" @if($particularClient->gender_id_id == 0) checked @endif name="gender_id" name="gender_id" id="female">
                                             <label for="female">Female</label>
                                         </div>
                                     </div>
@@ -184,11 +189,11 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Address tow</label>
-                                            <input type="text" class="form-control" name="address_tow" value="{{$particularClient->address->address_tow}}"  placeholder="Name">
+                                            <input type="text" class="form-control" name="address_two" value="{{$particularClient->address->address_two}}"  placeholder="Name">
                                         </div>
-                                        <label class='error' for='address_tow'>
-                                                @if ($errors->has('address_tow'))
-                                                    {{ $errors->first('address_tow') }}
+                                        <label class='error' for='address_two'>
+                                                @if ($errors->has('address_two'))
+                                                    {{ $errors->first('address_two') }}
                                                 @endif
                                         </label> 
                                     </div>
@@ -245,62 +250,95 @@
                                 </div> 
                                 <div class="row clearfix">
                                     <div class="col-md-4">
-                                            <div class="form-group form-group-default input-group">
-                                                    <div class="cs-input-group-addon input-group-addon d-flex">
-                                                        <select class="cs-select cs-skin-slide cs-transparent" name="code_country[]"  data-init-plugin="cs-select">
-                                                                @foreach($countries as $country)
-                                                                <option value="{{$country->id}}"  @if($particularClient->phones[0]->country->country_id == $country->id) selected @endif >{{$country->code}}</option>
-                                                                    @endforeach 
-                                                        </select>
-                                                    </div>
-                                                <input type="hidden" name="phone_id[]" value="{{$particularClient->phones[0]->id}}">
-                                                    <div class="form-input-group flex-1">
-                                                        <label>Phone one</label>
-                                                        <input type="text" id="phone" name="numbers[]" value="{{$particularClient->phones[0]->number}}" class="form-control">
-                                                        @if ($errors->has('numbers.0'))
-                                                        <label class='error' for='phone'>{{ $errors->first('numbers.0') }}</label>
-                                                        @endif
-                                                    </div>
-                                                </div>
+                                        <div class="form-group form-group-default input-group">
+                                            @if(count($particularClient->phones) > 0 && isset($particularClient->phones()->whereIn('type', ['fix', 'phone'])->get()[0]->number))
+                                                <!--{{ $number0 = $particularClient->phones()->whereIn('type', ['phone', 'fix'])->get()[0]->number }}-->
+                                                <!--{{ $number0_id = $particularClient->phones()->whereIn('type', ['phone', 'fix'])->get()[0]->id }}-->
+                                                <!--{{ $country0_id = $particularClient->phones()->whereIn('type', ['phone', 'fix'])->get()[0]->country->country_id }}-->
+                                                <!--{{ $country0_code = $particularClient->phones()->whereIn('type', ['phone', 'fix'])->get()[0]->country->code }}-->
+                                            @else
+                                                <!--{{ $number0 = null }}-->
+                                                <!--{{ $number0_id = null }}-->
+                                                <!--{{ $country0_id = null }}-->
+                                                <!--{{ $country0_code = null }}-->
+                                            @endif
+                                            <div class="cs-input-group-addon input-group-addon d-flex">
+                                                <select class="cs-select cs-skin-slide cs-transparent" name="code_country[]"  data-init-plugin="cs-select">
+                                                        @foreach($countries as $country)
+                                                        <option value="{{ $country->id }}"  @if($country0_id == $country->id) selected @endif >{{ $country0_code }}</option>
+                                                            @endforeach 
+                                                </select>
+                                            </div>
+                                        <input type="hidden" name="phone_id[]" value="{{ $number0_id }}">
+                                            <div class="form-input-group flex-1">
+                                                <label>Phone one</label>
+                                                <input type="text" id="phone" name="numbers[]" value="{{ $number0 }}" class="form-control">
+                                            </div>
+                                        </div>
+                                                @if ($errors->has('numbers.0'))
+                                                <label class='error' for='phone'>{{ $errors->first('numbers.0') }}</label>
+                                                @endif
                                        
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group form-group-default input-group">
-                                                    <div class="cs-input-group-addon input-group-addon d-flex">
-                                                        <select class="cs-select cs-skin-slide cs-transparent" name="code_country[]" data-init-plugin="cs-select">
-                                                                @foreach($countries as $country)
-                                                                <option value="{{$country->id}}"  @if($particularClient->phones[1]->country->country_id == $country->id) selected @endif >{{$country->code}}</option>
-                                                                    @endforeach 
-                                                        </select>
-                                                    </div>
-                                                    <input type="hidden" name="phone_id[]" value="{{$particularClient->phones[1]->id}}">
-                                                    <div class="form-input-group flex-1">
-                                                        <label>Phone tow</label>
-                                                        <input type="text" id="phone" name="numbers[]" value="{{$particularClient->phones[1]->number}}" class="form-control">
-                                                        @if ($errors->has('numbers.1'))
-                                                        <label class='error' for='phone'>{{ $errors->first('numbers .1') }}</label>
-                                                        @endif
-                                                    </div>
-                                                </div>
+                                            @if(count($particularClient->phones) > 1 && isset($particularClient->phones()->whereIn('type', ['fix', 'phone'])->get()[1]->number))
+                                                <!--{{ $number1 = $particularClient->phones()->whereIn('type', ['phone', 'fix'])->get()[1]->number }}-->
+                                                <!--{{ $number1_id = $particularClient->phones()->whereIn('type', ['phone', 'fix'])->get()[1]->id }}-->
+                                                <!--{{ $country1_id = $particularClient->phones()->whereIn('type', ['phone', 'fix'])->get()[1]->country->country_id }}-->
+                                                <!--{{ $country1_code = $particularClient->phones()->whereIn('type', ['phone', 'fix'])->get()[1]->country->code }}-->
+                                            @else
+                                                <!--{{ $number1 = null }}-->
+                                                <!--{{ $number1_id = null }}-->
+                                                <!--{{ $country1_id = null }}-->
+                                                <!--{{ $country1_code = null }}-->
+                                            @endif
+                                            <div class="cs-input-group-addon input-group-addon d-flex">
+                                                <select class="cs-select cs-skin-slide cs-transparent" name="code_country[]" data-init-plugin="cs-select">
+                                                        @foreach($countries as $country)
+                                                        <option value="{{$country->id}}"  @if($country1_id == $country->id) selected @endif >{{$country->code}}</option>
+                                                            @endforeach 
+                                                </select>
+                                            </div>
+                                            <input type="hidden" name="phone_id[]" value="{{$number1_id}}">
+                                            <div class="form-input-group flex-1">
+                                                <label>Phone tow</label>
+                                                <input type="text" id="phone" name="numbers[]" value="{{$number1}}" class="form-control">
+                                            </div>
+                                        </div>
+                                                @if ($errors->has('numbers.1'))
+                                                <label class='error' for='phone'>{{ $errors->first('numbers.1') }}</label>
+                                                @endif
                                     </div>
                                     <div class="col-md-4">
-                                            <div class="form-group form-group-default input-group">
-                                                    <div class="cs-input-group-addon input-group-addon d-flex">
-                                                        <select class="cs-select cs-skin-slide cs-transparent" name="code_country[]" data-init-plugin="cs-select">
-                                                                @foreach($countries as $country)
-                                                                <option value="{{$country->id}}"  @if($particularClient->phones[2]->country->country_id == $country->id) selected @endif >{{$country->code}}</option>
-                                                                    @endforeach 
-                                                        </select>
-                                                    </div>
-                                                    <input type="hidden" name="fax_id" value="{{$particularClient->phones[2]->id}}">
-                                                    <div class="form-input-group flex-1">
-                                                        <label>Fax</label>
-                                                        <input type="text" id="phone" name="fax_number" value="{{$particularClient->phones[2]->number}}" class="form-control">
-                                                        @if ($errors->has('fax_number'))
-                                                        <label class='error' for='phone'>{{ $errors->first('fax_number') }}</label>
-                                                        @endif
-                                                    </div>
-                                                </div> 
+                                        <div class="form-group form-group-default input-group">
+                                            @if(isset($particularClient->phones->where('type', 'fax')->first()->number))
+                                                <!--{{ $fax = $particularClient->phones->where('type', 'fax')->first()->number }}-->
+                                                <!--{{ $fax_id = $particularClient->phones->where('type', 'fax')->first()->id }}-->
+                                                <!--{{ $country3_id = $particularClient->phones->where('type', 'fax')->first()->country->country_id }}-->
+                                                <!--{{ $country3_code = $particularClient->phones->where('type', 'fax')->first()->country->code }}-->
+                                            @else
+                                                <!--{{ $fax = null }}-->
+                                                <!--{{ $fax_id = null }}-->
+                                                <!--{{ $country3_id = null }}-->
+                                                <!--{{ $country3_code = null }}-->
+                                            @endif
+                                            <div class="cs-input-group-addon input-group-addon d-flex">
+                                                <select class="cs-select cs-skin-slide cs-transparent" name="code_country[]" data-init-plugin="cs-select">
+                                                        @foreach($countries as $country)
+                                                        <option value="{{ $country->id }}"  @if($country3_id == $country->id) selected @endif >{{ $country->code }}</option>
+                                                            @endforeach 
+                                                </select>
+                                            </div>
+                                            <input type="hidden" name="fax_id" value="{{ $fax_id }}">
+                                            <div class="form-input-group flex-1">
+                                                <label>Fax</label>
+                                                <input type="text" id="phone" name="fax_number" value="{{ $fax }}" class="form-control">
+                                                @if ($errors->has('fax_number'))
+                                                <label class='error' for='phone'>{{ $errors->first('fax_number') }}</label>
+                                                @endif
+                                            </div>
+                                        </div> 
                                     </div>
                                 </div>
                             </div> <!-- END FIRST TAB CONTENT ADDRESS -->

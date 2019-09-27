@@ -3,10 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\DetailLang;
+use App\Detail;
+use App\Language;
 use Illuminate\Http\Request;
 
 class DetailLangController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:staff');
+        
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -22,9 +30,9 @@ class DetailLangController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($detail)
     {
-        //
+        $data['languages'] = Language::all();
     }
 
     /**
@@ -67,9 +75,30 @@ class DetailLangController extends Controller
      * @param  \App\detail_lang  $detail_lang
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, detail_lang $detail_lang)
+    public function update(Request $request, $Detail)
     {
-        //
+        $detail = Detail::find($Detail);
+       foreach($request->values as $key => $value)
+       {
+        $detailLang = $detail->detailLangs->where('lang_id',$request->languages_id[$key])->first();
+        if(!isset($detailLang))
+            {
+                $detailLang = new DetailLang();
+                $detailLang->detail_id = $detail->id;
+                $detailLang->lang_id = $request->languages_id[$key];
+            }
+           if($value != '')
+           {
+                $detailLang->value = $value;
+            }
+            else
+            {
+                $detailLang->value = '';
+
+            }
+            $detailLang->save();
+       }
+       return redirect()->back();
     }
 
     /**

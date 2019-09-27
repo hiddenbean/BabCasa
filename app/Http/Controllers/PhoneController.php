@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class PhoneController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:staff,partner,business');
+        
+    }
 
       /**
      * Get a validator for an incoming registration request.
@@ -17,10 +22,14 @@ class PhoneController extends Controller
     public function validateRequest(Request $request)
     {
         $request->validate([
-            'numbers.0' => 'sometimes|numeric|unique:phones,number',
-            'numbers.1' => 'sometimes|numeric|unique:phones,number',
-            'code_country.0' => 'sometimes',
-            'code_country.1' => 'sometimes',
+            'numbers.0' => 'required|numeric|unique:phones,number|digits:9',
+            'numbers.1' => 'required|numeric|unique:phones,number|digits:9',
+            'numbers.2' => 'nullable|numeric|unique:phones,number|digits:9',
+            'numbers.3' => 'nullable|numeric|unique:phones,number|digits:9',
+            'code_country.0' => 'required',
+            'code_country.1' => 'required',
+            'code_country.2' => 'sometimes',
+            'code_country.3' => 'sometimes',
         ]);
     }
     /**
@@ -49,9 +58,15 @@ class PhoneController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $type, $country_id, $owner, $owner_id)
     {
-        //
+        $phone = new Phone();
+        $phone->number = $request->admin_number;
+        $phone->type = $type;
+        $phone->country_id = $country_id;
+        $phone->phoneable_type = $owner;
+        $phone->phoneable_id = $ownerid;
+        $phone->save();
     }
 
     /**

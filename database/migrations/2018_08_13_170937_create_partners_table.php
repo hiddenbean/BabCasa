@@ -19,9 +19,10 @@ class CreatePartnersTable extends Migration
             $table->string('password');
             $table->string('name')->unique();
             $table->string('company_name')->nullable();
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->string('admin_email')->unique();
             $table->text('about')->nullable();
-            $table->string('trade_registry')->nullable(); 
-            $table->string('ice')->nullable();
             $table->string('taxe_id')->nullable();
             $table->boolean('is_register_to_newsletter')->nullable();
             $table->softDeletes();

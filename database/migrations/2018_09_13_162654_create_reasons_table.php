@@ -15,7 +15,6 @@ class CreateReasonsTable extends Migration
     {
         Schema::create('reasons', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('reference');
             $table->softDeletes();
             $table->timestamps();
         });

@@ -62,9 +62,16 @@ class PartnerLoginController extends Controller
         
         if(Auth::guard('partner')->attempt($request->only('email', 'password'), $request->remember))
         {
+            activity()
+                    ->causedBy(auth()->guard('partner')->user())
+                    ->log("logged in");
+            if(auth()->guard('partner')->user()->status->first()->is_approved!=1)
+            $request->session()->put('session_warnings', ['This account is still unappoved, your content will not show up']);
             return redirect()->intended('/');
         }
-        return redirect()->back();
+        return redirect()->back()->withInput()->withErrors([
+            "faild" => "Your username or password is incorrect",
+        ]);
     }
 
     /**
@@ -89,6 +96,10 @@ class PartnerLoginController extends Controller
      */
    public function logout(Request $request)
    {
+       $partner = auth()->guard('partner')->user();
+        activity()
+                ->causedBy($partner)
+                ->log("logged out");
        Auth::guard('partner')->logout();
        $request->session()->invalidate();
        return redirect('/sign-in');

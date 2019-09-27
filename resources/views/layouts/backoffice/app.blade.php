@@ -20,8 +20,8 @@
 
         <link href="{{ asset('plugins/pace/pace-theme-flash.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
-        <link href="{{ asset('plugins/font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+        <link href="{{ asset('plugins/font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('plugins/jquery-scrollbar/jquery.scrollbar.css') }}" rel="stylesheet" type="text/css" media="screen"/>
         <link href="{{ asset('pages/css/pages-icons.css') }}" rel="stylesheet" type="text/css">
         @yield('before_css')
@@ -29,11 +29,10 @@
         <link rel="stylesheet" href="{{ asset('css/style.css') }}"> 
         @yield('after_css') 
     </head>
-    <body class="fixed-header">
+    <body class="fixed-header @if(Session::get('drawer') === true) sidebar-visible menu-pin @endif">
 
         @yield('body')
 
-        @yield('before_script')
         <!-- BEGIN VENDOR JS -->
         <script src="{{ asset('plugins/pace/pace.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('plugins/jquery/jquery-3.2.1.min.js') }}" type="text/javascript"></script>
@@ -46,6 +45,10 @@
         <script src="{{ asset('plugins/jquery-ios-list/jquery.ioslist.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('plugins/jquery-actual/jquery.actual.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('plugins/jquery-scrollbar/jquery.scrollbar.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('plugins/bootstrap-form-wizard/js/jquery.bootstrap.wizard.min.js') }}"></script>    
+
+        @yield('before_script')
+        
         <!-- END VENDOR JS -->
         <script src="{{ asset('js/laravel.ajax.js') }}"></script>
         <script src="{{ asset('js/laravel.js') }}"></script>
@@ -79,6 +82,34 @@
             {
             container.hide();
             }
+        });
+
+        
+
+        function afterAjax() {
+            $('.notification-item').hover(function () {
+            $(this).css('background-color', '#daeffd');
+            }, function () {
+                $(this).css('background-color', 'white');                
+            });
+
+            $('button.mark').click(function () {
+                $(this).closest(".notification-item").removeClass('unread');
+                var numItems = $('.unread').length;
+                if(numItems == 0 && $( "#notification-center" ).is( ':has(span)')){
+                    $('#notification-center').find('span').remove();
+                    $(this).closest("form").attr('action', 'javascript:;');
+                }
+            });
+        }
+
+        $('#drawer_btn').click(function () {
+            $('#drawer-form').submit();
+        });
+
+        $('.menu-items a').click(function () {
+            $('span.icon-thumbnail').removeClass('bg-primary');
+            $(this).next('span.icon-thumbnail').addClass('bg-primary');
         });
         </script>
     </body>

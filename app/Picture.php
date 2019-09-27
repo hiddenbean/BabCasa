@@ -7,10 +7,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Picture extends Model
 {
-    use SoftDeletes;  
+    use SoftDeletes;
 
     protected $fillable = ['name', 'tag', 'extension', 'path', 'pictureable_type', 'pictureable_id'];
     
+    /**
+     * 
+     */
     public function pictureable()
     {
         return $this->morphTo();

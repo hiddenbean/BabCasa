@@ -15,8 +15,9 @@ class CreateStatusesTable extends Migration
     {
         Schema::create('statuses', function (Blueprint $table) {
             $table->increments('id');
-            $table->boolean('is_approved');
-            $table->integer('partner_id');
+            $table->integer('is_approved');
+            $table->integer('user_id');
+            $table->string('user_type');
             $table->integer('staff_id');
             $table->timestamps();
         });

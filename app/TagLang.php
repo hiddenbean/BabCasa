@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class TagLang extends Model
 {
     use SoftDeletes;
+
+
     public function tag()
     {
         return $this->belongsTo('App\Tag');

@@ -3,10 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\DiscountLang;
+use App\Discount;
 use Illuminate\Http\Request;
 
 class DiscountLangController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:staff,partner');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -67,10 +73,38 @@ class DiscountLangController extends Controller
      * @param  \App\discount_lang  $discount_lang
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, discount_lang $discount_lang)
+    public function update(Request $request, $discount)
     {
-        //
+        // return $request;
+        $discount = Discount::find($discount);
+        foreach($request->references as $key => $reference)
+        {
+            $discountLang = $discount->discountLangs->where('lang_id',$request->languages_id[$key])->first();
+            if(!isset($discountLang))
+            {
+                $discountLang = new DiscountLang();
+                $discountLang->discount_id = $discount->id;
+                $discountLang->lang_id = $request->languages_id[$key];
+            }
+
+            if($reference != '')
+            {
+                $discountLang->reference = $reference;
+                $discountLang->description = $request->descriptions[$key];
+                }
+                else
+                {
+                $discountLang->reference = '';
+                $discountLang->description = '';
+    
+                }
+                $discountLang->save();
+            
+            
+        }
+        return redirect()->back();
     }
+
 
     /**
      * Remove the specified resource from storage.

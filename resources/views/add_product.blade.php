@@ -18,7 +18,7 @@
                     <label for="staticEmail2">Category :</label>
                     <select class="form-control" name="category_id" id="staticEmail2">
                         @foreach($categories as $category)
-                        <option value="{{$category->id}}">{{$category->categoryLang->first()->reference}}</option>
+                        <option value="{{$category->id}}">{{$category->categoryLang()->reference}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -60,12 +60,7 @@
               <a  class="btn btn-secondary btn-lg"  data-idpere="0" id="more_options">Add Options</a><br> OR <br> 
               <div class="form-inline">
                   <div class="form-group mx-sm-3 mb-2">
-                      <select class="form-control" name="currency_id" id="staticEmail2">
-                           
-                          <option value="1">erue</option>
-                          <option value="2">dolar</option>
-                      
-                      </select>
+                     
                       <label for="staticEmail2" class="sr-only">Email</label>
                       <input type="text" name="price" id="price" class="form-control" placeholder="price" >
                   </div>

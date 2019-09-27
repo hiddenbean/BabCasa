@@ -19,6 +19,7 @@ class CreateDiscountLangsTable extends Migration
             $table->text('description');
             $table->integer('discount_id');
             $table->integer('lang_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

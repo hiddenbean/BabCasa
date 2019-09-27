@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 class AttributeVarcharValueLang extends Model
-{
+{ 
     public function attributeVarcharValue()
     {
         return $this->belongsTo('App\AttributeVarcharValue');

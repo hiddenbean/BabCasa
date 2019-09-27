@@ -1,103 +1,65 @@
-@extends('layouts.backoffice.partner.app')
+@extends('layouts.backoffice.partner.full_hight')
 
-@section('css_before')
-    <link href="{{asset('plugins/jquery-datatable/media/css/dataTables.bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('plugins/jquery-datatable/extensions/FixedColumns/css/dataTables.fixedColumns.min.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('plugins/datatables-responsive/css/datatables.responsive.css') }}" rel="stylesheet" type="text/css" media="screen" /> 
+@section('before_css')
+<link href="{{ asset('plugins/bootstrap3-wysihtml5/bootstrap3-wysihtml5.min.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('plugins/jquery-menuclipper/jquery.menuclipper.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('plugins/bootstrap-tag/bootstrap-tagsinput.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('pages/css/editor.css')}}" rel="stylesheet" type="text/css" />
+
 @endsection
 
 @section('content')
-    <!-- breadcrumb start -->
-    <div class="container-fluid container-fixed-lg ">
-        <div class="row">
-            <div class="col-md-12">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href="{{ url('/') }}">DASHBOARD</a>
-                    </li>
-                    <li class="breadcrumb-item active">
-                        claims
-                    </li>
-                </ol>
+    <!-- START APP -->
+          <!-- START SECONDARY SIDEBAR MENU-->
+          <nav class="secondary-sidebar">
+            <div class=" m-b-30 m-l-30 m-r-30 d-sm-none d-md-block d-lg-block d-xl-block">
+              <a href="{{url('support/create')}}" class="btn btn-primary btn-block uppercase">New ticket</a>
             </div>
-        </div>
-    </div>
-    <!-- breadcrumb end -->
-    <div class="container-fluid container-fixed-lg bg-white">
-        <div class="card card-transparent">
-            <div class="card-header">
-                <div class="card-title">List of Claims</div>
-                <div class="pull-right">
-                    <div class="col-xs-12">
-                        <div class="row">
-                            <div class="col-md-6 text-right no-padding">
-                            <a href="{{url('claims/create')}}" class="btn btn-primary btn-cons">New claim</a>
-                            </div>
-                            <div class="col-md-6">
-                                <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="clearfix"></div>
-                
-            </div>
-            <div class="card-body">
-                <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
-                        <thead>
-                            <th style="width:20%" class="text-center">Titre</th>
-                            <th style="width:10%" class="text-center">Sujet</th>
-                            <th style="width:10%" class="text-center">Date de création</th>
-                            <th style="width:10%" class="text-center">Nombre messages</th>
-                            <th style="width:10%" class="text-center">Etat</th>                
-                        </thead>
-                
-                        <tbody>   
-                            <tr class="order-progress"  >
-                                <td class="v-align-middle"><a href="{{ url('claims/show') }}"><strong> Order delay  </strong></a></td>
-                                <td class="v-align-middle text-center"><strong>  Order   </strong></td>                
-                                <td class="v-align-middle text-center"> 01/05/2018 </td>              
-                                <td class="v-align-middle text-center"> 5 </td> 
-                                <td class="v-align-middle text-center"><strong> Close </strong></td> 
-                            </tr>     
-                        </tbody>
-                </table>
-            </div>
-        </div> 
-    </div>
-    
+            <p class="menu-title">BROWSE</p>
+            <ul class="main-menu">
+              <li class="active">
+                <a href="{{url('support')}}">
+                  <span class="title"><i class="pg-inbox"></i>All tickets</span>
+                  <span class="badge pull-right">5</span>
+                </a>
+              </li>
+              <li>
+                <a href="{{url('support/open')}}">
+                  <span class="title"><i class="fas fa-folder-open"></i>Open tickets</span>
+                </a>
+              </li>
+              <li>
+                <a href="{{url('support/closed')}}">
+                    <span class="title"><i class="fas fa-folder-minus"></i>Closed tickets</span>
+                </a>
+              </li>
+            </ul>
+            <p class="menu-title m-t-20 all-caps">Subjects</p>
+            <ul class="sub-menu no-padding">
+              @foreach($subjects as $subject)
+              <li>
+                <a href="{{url('support/subject/'.$subject->id)}}">
+                  <span class="title">{{$subject->subjectLang()->reference}}</span>
+                  <span class="badge pull-right">{{$subject->claims->count()}}</span>
+                </a>
+              </li>
+              @endforeach
+            </ul>
+          </nav>
+          <!-- END SECONDARY SIDEBAR MENU -->
+
+          <!-- app -->
+          <div class="inner-content full-height">
+            @include('claims.backoffice.staff.body')
+          </div>
+          <!-- app end -->
+
 @endsection
 
-@section('script')
-        <script src="{{asset('plugins/jquery-datatable/media/js/jquery.dataTables.min.js')}}" type="text/javascript"></script>
-        <script src="{{asset('plugins/jquery-datatable/extensions/TableTools/js/dataTables.tableTools.min.js')}}" type="text/javascript"></script>
-        <script src="{{asset('plugins/jquery-datatable/media/js/dataTables.bootstrap.js')}}" type="text/javascript"></script>
-        <script src="{{asset('plugins/jquery-datatable/extensions/Bootstrap/jquery-datatable-bootstrap.js')}}" type="text/javascript"></script>
-        <script type="text/javascript" src="{{asset('plugins/datatables-responsive/js/datatables.responsive.js')}}"></script>
-        <script type="text/javascript" src="{{asset('plugins/datatables-responsive/js/lodash.min.js')}}"></script>
-
-        <script>
-    $(document).ready(function () { 
-
-            var table = $('#tableWithSearch');
-
-            var settings = {
-                "sDom": "<t><'row'<p i>>",
-                "destroy": true,  
-                "scrollCollapse": true,
-                "order": [
-                    [0, "desc"]
-                ],
-                "iDisplayLength": 10
-            };
-
-            table.dataTable(settings);
-
-            // search box for table
-            $('#search-table').keyup(function() {
-                table.fnFilter($(this).val());
-            });
-        });
-    </script>
+@section('after_script')
+<script src="{{ asset('plugins/bootstrap3-wysihtml5/bootstrap3-wysihtml5.all.min.js')}}"></script>
+<script src="{{ asset('plugins/jquery-menuclipper/jquery.menuclipper.js')}}"></script>
+<script src="{{ asset('plugins/bootstrap-tag/bootstrap-tagsinput.min.js')}}" type="text/javascript"></script>
+<script src="{{ asset('pages/js/pages.email.js')}}" type="text/javascript"></script>
 
 @endsection

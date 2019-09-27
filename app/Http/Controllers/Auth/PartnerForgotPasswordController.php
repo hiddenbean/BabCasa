@@ -22,14 +22,14 @@ class PartnerForgotPasswordController extends Controller
     use SendsPasswordResetEmails;
 
     /**
-     * Create a new partner login controller instance.
+     * Create a new partner forgot password controller instance.
      * Call te auth middleware and specify the partner guard.
      *
      * @return void
      */
     public function __construct()
     {
-        $this->middleware('guest:partner');
+         $this->middleware('guest:partner,staff');
     }
 
     /**

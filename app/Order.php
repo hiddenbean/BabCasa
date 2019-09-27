@@ -3,15 +3,37 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 class Order extends Model
 {
     use SoftDeletes;
+    use LogsActivity;
 
-    protected $fillable = ['reference', 'costumer_type', 'costumer_id', 'paiement_id', 'address_id'];
+    protected static $recordEvents = ['deleted', 'created', 'updated'];
+
+    protected static $logFillable = true;
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        
+        return "has {$eventName} the order ID : <u><a href=".url('orders/'.$this->id).">{$this->id}</a></u>";
+    }
+
+    protected $fillable = ['costumer_id', 'costumer_type', 'status', 'paiement_id', 'address_id', 'partner_id'];
     
     public function products()
     {
         return $this->morphedByMany('App\Product', 'orderable');
+    }
+
+    public function partner()
+    {
+        return $this->belongsTo('App\Partner');
+    }
+
+    public function costumer()
+    {
+        return $this->morphTo();
     }
 }

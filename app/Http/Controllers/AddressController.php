@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class AddressController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:staff,partner,business');
+        
+    }
+
       /**
      * Get a validator for an incoming registration request.
      *
@@ -18,7 +24,7 @@ class AddressController extends Controller
         $request->validate([
             'address' => 'required',
             'address_two' => 'sometimes',
-            'full_name' => 'required',
+            'full_name' => 'sometimes',
             'country_id' => 'required',
             'city' => 'required',
             'zip_code' => 'required|numeric',

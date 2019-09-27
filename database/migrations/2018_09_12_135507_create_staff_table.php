@@ -21,7 +21,7 @@ class CreateStaffTable extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->date('birthday');
-            $table->integer('gender');
+            $table->integer('gender_id');
             $table->integer('profile_id');
             $table->rememberToken();
             $table->softDeletes();

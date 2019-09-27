@@ -25,14 +25,14 @@ class StaffForgotPasswordController extends Controller
     use SendsPasswordResetEmails;
 
     /**
-     * Create a new partner login controller instance.
-     * Call te auth middleware and specify the partner guard.
+     * Create a new staff forgot password controller instance.
+     * Call the auth middleware and specify the partner guard.
      *
      * @return void
      */
     public function __construct()
     {
-        $this->middleware('guest:staff');
+        $this->middleware('guest:staff')->only('showLinkRequestForm');
     }
 
     /**

@@ -75,13 +75,13 @@ class PermissionLangSeeder extends Seeder
             'lang_id' => 1,
         ]);
         DB::table('permission_langs')->insert([
-            'reference' => 'particularCostumer',
+            'reference' => 'client',
             'description' => 'particularCostumer permision',
             'permission_id' => 11,
             'lang_id' => 1,
         ]);
         DB::table('permission_langs')->insert([
-            'reference' => 'businessCostumer',
+            'reference' => 'business',
             'description' => 'businessCostumer permision',
             'permission_id' => 12,
             'lang_id' => 1,
@@ -90,6 +90,54 @@ class PermissionLangSeeder extends Seeder
             'reference' => 'dashboard',
             'description' => 'dashboard permision',
             'permission_id' => 13,
+            'lang_id' => 1,
+        ]);
+        DB::table('permission_langs')->insert([
+            'reference' => 'subject',
+            'description' => 'subject permision',
+            'permission_id' => 14,
+            'lang_id' => 1,
+        ]);
+        DB::table('permission_langs')->insert([
+            'reference' => 'attribute',
+            'description' => 'attribute permision',
+            'permission_id' => 15,
+            'lang_id' => 1,
+        ]);
+        DB::table('permission_langs')->insert([
+            'reference' => 'language',
+            'description' => 'language permision',
+            'permission_id' => 16,
+            'lang_id' => 1,
+        ]);
+        DB::table('permission_langs')->insert([
+            'reference' => 'order',
+            'description' => 'order permision',
+            'permission_id' => 17,
+            'lang_id' => 1,
+        ]);
+        DB::table('permission_langs')->insert([
+            'reference' => 'businesOrder',
+            'description' => 'busines order permision',
+            'permission_id' => 18,
+            'lang_id' => 1,
+        ]);
+        DB::table('permission_langs')->insert([
+            'reference' => 'market',
+            'description' => 'market permision',
+            'permission_id' => 19,
+            'lang_id' => 1,
+        ]);
+        DB::table('permission_langs')->insert([
+            'reference' => 'bill',
+            'description' => 'bill permision',
+            'permission_id' => 20,
+            'lang_id' => 1,
+        ]);
+        DB::table('permission_langs')->insert([
+            'reference' => 'request',
+            'description' => 'request permision',
+            'permission_id' => 21,
             'lang_id' => 1,
         ]);
     }

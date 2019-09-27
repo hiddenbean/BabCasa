@@ -13,9 +13,9 @@ class DetailController extends Controller
 {
     public function __construct()
     {
-         $this->middleware('auth:staff');
-         $this->middleware('CanRead:detail'); //->except('index','create');
+        $this->middleware('auth:staff');
     }
+
      /**
      * Get a validator for an incoming registration request.
      *
@@ -38,8 +38,18 @@ class DetailController extends Controller
     public function index()
     {
         $data['details'] = Detail::all();
-
         return view('details.backoffice.staff.index',$data);
+    }
+    /**
+     * Displaying the Trash page
+     * 
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function trash()
+    {
+        $data['details'] = Detail::onlyTrashed()->get();
+        return view('details.backoffice.staff.trash', $data);
     }
     
     /**
@@ -50,6 +60,7 @@ class DetailController extends Controller
     public function create()
     {
         $data['categories'] = Category::all();
+        $data['languages'] = Language::all();
         return view('details.backoffice.staff.create',$data);
     }
     
@@ -61,21 +72,50 @@ class DetailController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validateRequest($request);
-        $detail = new Detail();
-        $detail->save(); 
+        $trashedDetailLang = DetailLang::onlyTrashed()->where('value', $request->value)->first();
+        if(isset($trashedDetailLang))
+        {
+            return redirect('details/'.$trashedDetailLang->detail_id);
+        }
 
-        $detailLang = new DetailLang();
-        $detailLang->value = $request->value; 
-        $detailLang->detail_id = $detail->id; 
-        $detailLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
-        $detailLang->save();
-        foreach($request->categories as $category)
+        $this->validateRequest($request);
+        
+        $detail = new Detail();
+        $detail->save();
+
+        // Add LANGUAGES 
+        foreach(Language::all() as $lang)
+        {
+            $detailLang = new DetailLang();
+            $detailLang->detail_id = $detail->id;
+            $detailLang->lang_id = $lang->id;
+            $detailLang->value = ($lang->id == $request->language) ? $request->value : "";
+            $detailLang->save();
+        }
+
+        $categories[] = $request->categories;
+
+        foreach($categories as $category)
         {
             $detail->categories()->attach($category);
-        } 
-        
-        return redirect('details');
+        }
+        return $detail;
+    }
+
+    /**
+     * 
+     */
+    public function storeWithRedirect(Request $request) {
+        $detail = self::store($request);
+        return redirect('details/'.$detail->id);
+    }
+
+    /**
+     * 
+     */
+    public function storeAndNew(Request $request) {
+        $detail = self::store($request);
+        return redirect('details/create');
     }
 
     /**
@@ -86,14 +126,20 @@ class DetailController extends Controller
      */
     public function show($detail)
     {
-        
-        $data['detail'] = Detail::find($detail);
-        return 1;
+        $data['detail'] = Detail::withTrashed()->find($detail);
+        $data['products']=[];
+        foreach($data['detail']->detailValues()->distinct()->get(['product_id']) as $detailValue)
+        {
+            array_push($data['products'], $detailValue->product);
+        }
+        // return $data['products'][0]->attributeValues()->distinct()->get();
+        $data['languages'] = Language::all();
+        return view('details.backoffice.staff.show', $data);
     }
     
     /**
      * Show the form for editing the specified resource.
-     *
+     *  
      * @param  \App\Detail  $detail
      * @return \Illuminate\Http\Response
      */
@@ -117,14 +163,14 @@ class DetailController extends Controller
     {
         $request->validate([
             'value' => 'required|unique:detail_langs,value,'.$detail.',detail_id',
-        ]);
-        $detail = Detail::find($detail);
-        $detailLangId = $detail->detailLang->first()->id;
-
-        $detailLang = DetailLang::find($detailLangId);
-        $detailLang->value = $request->value; 
-        $detailLang->lang_id = Language::where('alpha_2_code',App::getLocale())->first()->id;
-        $detailLang->save(); 
+            ]);
+            $detail = Detail::find($detail);
+            $detailLangId = $detail->detailLang()->id;
+            
+            $detailLang = DetailLang::find($detailLangId);
+            $detailLang->value = $request->value;
+            $detailLang->lang_id =Language::where('alpha_2_code',App::getLocale())->first()->id;
+            $detailLang->save();
         $detail->categories()->detach();
         foreach($request->categories as $category)
         {
@@ -144,8 +190,87 @@ class DetailController extends Controller
     {
         // récupérer photo
         $detail = Detail::findOrFail($detail);
-       $detail->delete();
-       return redirect('details');
+        if(isset($detail->detailValue))
+        {
+            $messages['error'] = 'Detail can\'t be deleted it has products !!';
+            return  redirect('details')
+                        ->with('messages',$messages);
+        }
+        $detail->delete();
+        $messages['success'] = 'Detail has been deleted successfuly !!';
+        return redirect('details')
+                    ->with('messages', $messages);
 
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Detail  $detail
+     * @return \Illuminate\Http\Response
+     */
+    public function multiDestroy(Request $request)
+    {
+        $request->validate([
+            'details' => 'required',
+        ]);
+        $e=$s=0;
+        $messages = [];
+        foreach($request->details as $Detail)
+        {
+            $detail = Detail::findOrFail($Detail);
+            if(!isset($detail->detailValues[0])) {
+                $s++;
+                $detail->delete();
+                $messages['success'] = $s. ($s == 1 ? ' detail' :' details') .' has been deleted successfuly';
+            }
+            else 
+            {
+                $e++;
+                $messages['error'] = $e . ($e == 1 ? ' detail' : ' details') . ' can\'t be deleted it has a relation with products';
+            }
+        }
+
+        return redirect('details')
+                        ->with('messages', $messages);
+    }
+
+    public function restore($detail)
+    {
+        $detail = Detail::onlyTrashed()->where('id', $detail)->first();
+        $detail->restore();
+        $messages['success'] = 'Detail has been restored successfuly !!';
+        return redirect('details')->with('messages',$messages);
+    }
+
+    public function multiRestore(Request $request)
+    {
+        $request->validate([
+            'details' => 'required',
+        ]);
+        $s=0;
+        $messages = [];
+        foreach ($request->details as  $Detail)
+        {
+            $detail = Detail::onlyTrashed()->where('id', $Detail)->first();
+            $detail->restore();
+            $s++;
+            $messages['success'] = $s. ($s == 1 ? ' detail' :' details') .' has been restored successfuly';
+        }
+        return redirect('details')->with('messages',$messages);
+    }
+
+    /**
+     * Displaying the translation page
+     * 
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function translations($detail)
+    {
+        $data['detail'] = Detail::findOrFail($detail);
+        $data['languages'] = Language::all();
+
+        return view('details.backoffice.staff.translations', $data);
     }
 }

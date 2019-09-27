@@ -4,15 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Status;
 use App\Partner;
+use App\Business;
 use Illuminate\Http\Request;
 
 class StatusController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:staff');
+    }
+
     protected function validateRequest(Request $request)
     {
         $request->validate([
            
             'reasons' => 'required',
+            'user_name' => 'required',
+            'user_type' => 'required',
         ]);
     }
     /**
@@ -20,12 +28,12 @@ class StatusController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($partner)
+    public function index($type, $partner)
     {
-        
-        $data['partner'] = Partner::where('name',$partner)->first();
+        $type = 'App\\'.ucfirst($type);
+        $data['user'] = $type::where('name',$partner)->first();
    
-        $data['statuses'] = $data['partner']->statuses()->orderBy('id', 'desc')->get();
+        $data['statuses'] = $data['user']->statuses()->orderBy('id', 'desc')->get();
         // return $data['statuses'];
         return view('statuses.backoffice.staff.index',$data);
     }
@@ -35,6 +43,18 @@ class StatusController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function subscriptions()
+    {
+        $data['partners'] = Partner::all();
+        $data['businesses'] = Business::all();
+        return view('requests.backoffice.staff.subscriptions',$data);
+    }
+    public function updates()
+    {
+        $data['partners'] = Partner::all();
+        $data['businesses'] = Business::all();
+        return view('requests.backoffice.staff.updates',$data); 
+    }
     public function create()
     {
         //
@@ -49,10 +69,13 @@ class StatusController extends Controller
     public function store(Request $request)
     {
         $this->validateRequest($request);
+        $type = 'App\\'.ucfirst($request->user_type);
+        $user = $type::where('name', $request->user_name)->first();
         $is_approved = ($request->is_approved =='on') ? 1 : 0;
         $status = new Status();
         $status->is_approved = $is_approved;
-        $status->partner_id = $request['partner_id'];
+        $status->user_id = $user->id;
+        $status->user_type = $request->user_type;
         $status->staff_id = 1;//auth()->guard('staff')->user()->id;
         $status->save();
         foreach($request->reasons as $reason)

@@ -1,6 +1,6 @@
 @extends('layouts.backoffice.staff.app')
 
-@section('css_before')
+@section('before_css')
     <link href="{{asset('plugins/jquery-datatable/media/css/dataTables.bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{asset('plugins/jquery-datatable/extensions/FixedColumns/css/dataTables.fixedColumns.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{asset('plugins/datatables-responsive/css/datatables.responsive.css') }}" rel="stylesheet" type="text/css" media="screen" /> 
@@ -8,101 +8,170 @@
 
 @section('content')
     <!-- breadcrumb start -->
-    <div class="container-fluid container-fixed-lg ">
-        <div class="row">
-            <div class="col-md-12">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href="{{ url('/') }}">DASHBOARD</a>
-                    </li>
-                    <li class="breadcrumb-item active">
-                        profiles
-                    </li>
-                </ol>
+    <div class="jumbotron">
+        <div class="container-fluid container-fixed-lg ">
+            <div class="row">
+                <div class="col-md-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="{{ url('/') }}">DASHBOARD</a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            Staff Profiles
+                        </li>
+                    </ol>
+                </div>
             </div>
         </div>
     </div>
-    <!-- breadcrumb end -->
-    <div class="container-fluid container-fixed-lg bg-white">
-        <div class="card card-transparent">
+        <!-- breadcrumb end -->
+        <div class="container-fluid container-fixed-lg">
+        @if (isset(Session::get('messages')['success']))
+        <div class="alert alert-success" role="alert">
+            <button class="close" data-dismiss="alert"></button>
+            <strong>Success: </strong>{{ Session::get('messages')['success'] }}
+        </div>
+        @endif
+        @if (isset(Session::get('messages')['error']))
+        <div class="alert alert-danger" role="alert">
+            <button class="close" data-dismiss="alert"></button>
+            <strong>Error: </strong>{{ Session::get('messages')['error'] }}
+        </div>
+        @endif
+        <div class="card">
             <div class="card-header">
-                <div class="card-title">List of profiles</div>
+                <div class="card-title">
+                    Profiles list 
+                    <a 
+                        href="javascript:;" 
+                        data-toggle="tooltip" 
+                        data-placement="bottom" 
+                        data-html="true" 
+                        trigger="click" 
+                        title= "<p class='tooltip-text'>This table is containing all the categories in the BABCasa platforme.
+                                <br> You can (add, edit or remove) a category if you have the right permissions.
+                                If you have any difficulties please <a href='#'>contact the support</a></p>"> 
+                        <i class="fas fa-question-circle"></i>
+                    </a>
+                </div>
                 <div class="pull-right">
                     <div class="col-xs-12">
                         <div class="row">
-                            <div class="col-md-6 text-right no-padding">
                             @if (auth()->guard('staff')->user()->can('write','profile'))
-                            <a href="{{url('profiles/create')}}" class="btn btn-primary btn-cons">New profile</a>
+                                <div class="col-md-3 text-right no-padding">
+                                    <a href="{{url('profiles/create')}}" class="btn btn-transparent"><i class="fas fa-plus fa-sm"></i> <strong>Add</strong></a>
+                                </div>
+                                <div class="col-md-3 text-right no-padding">
+                                    <a href="{{url('profiles/trash')}}" class="btn btn-transparent-danger"><i class="fas fa-trash-alt fa-sm"></i> <strong>Trash</strong></a>
+                                </div> 
                             @endif
-                            </div>
                             <div class="col-md-6">
                                 <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="clearfix"></div>
-                
             </div>
+
             <div class="card-body">
+                <form action="{{route('delete.profiles')}}" method="post">
+                {{ method_field('DELETE') }}
+                {{ csrf_field() }}
                 <table id="tableWithSearch" class="table table-hover no-footer table-responsive-block" cellspacing="0" width="100%">
                     <thead>
-                        <th style="width:90%" class="text-center"> Nom de profiles</th>  
-                        @if (auth()->guard('staff')->user()->can('write','profile'))               
-                        <th style="width:10%" class="text-center"></th>           
-                        @endif                     
-                    </thead>
-            
-                    <tbody>
-                        @foreach($profiles as $profile)  
-                            <tr class="order-progress"  >
-                                <td class="v-align-middle"><a href="{{url('profiles/'.$profile->id)}}"><strong> {{$profile->profileLang->first()->reference}} </strong></a></td>            
-                                @if (auth()->guard('staff')->user()->can('write','profile'))               
-                                <td class="v-align-middle text-center">
-                                    <a href="{{url('profiles/'.$profile->id.'/edit')}}" class="btn btn-transparent"><i class="fa fa-pencil"></i></a>
-                                     <a href="{{route('delete.profile',['profile'=>$profile->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="btn btn-transparent text-danger"><i class="fa fa-trash"></i></a>
-                                </td> 
-                            </tr> 
-                        @endif   
-                        @endforeach
+                    @if (auth()->guard('staff')->user()->can('write','profile'))
+                        <th class="text-center" style="width:35px"><button class="btn btn-link" type="submit"><i class="fas fa-trash-alt"></i></button></th>
+                    @endif
+                        <th style="width:62px"></th>
+                        <th style="width:62px"></th>
+                        <th style="width:150px">Profile</th>           
+                        <th style="width:100px">Description</th>
+                        <th style="width:100px">Accounts</th>
+                        <th style="width:100px">Languages</th>
+                    </thead> 
+                    <tbody>      
+                    @foreach($profiles as $profile) 
+                    <tr role="row" id="0">
+                        @if (auth()->guard('staff')->user()->can('write','profile'))
+                            <td class="v-align-middle p-l-5 p-r-5">
+                                <div class="checkbox no-padding no-margin text-center">
+                                    <input type="checkbox" value="{{$profile->id}}" name="profiles[]" id="checkbox{{$profile->id}}">
+                                    <label for="checkbox{{$profile->id}}" class="no-padding no-margin"></label>
+                                </div>
+                            </td>
+                        
+                            <td class="v-align-middle text-center p-l-5 p-r-5">
+                                <a href="{{url('profiles/'.$profile->id.'/edit')}}"><i class="fas fa-pen fa-sm"></i> <strong>Edit</strong></a>
+                            </td> 
+                            <td class="v-align-middle text-center p-l-5 p-r-5">
+                                <a href="{{route('delete.profile',['profile'=>$profile->id])}}" data-method="delete"  data-token="{{csrf_token()}}" data-confirm="Are you sure?" class="text-danger"><i class="fas fa-times"></i> <strong>Remove</strong></a>
+                            </td>
+                        @endif
+                            <td class="v-align-middle"><a href="{{url('profiles/'.$profile->id)}}"><strong>{{$profile->profileLang()->reference }}</strong></a></td>
+                            <td class="v-align-middle">{!!$profile->profileLang()->description!!}</td>
+                            <td class="v-align-middle">{{$profile->staff()->count() }}</td>
+                            <td class="v-align-middle">
+                                @foreach($profile->profileLangs as $profileLang)
+                                    @if($profileLang->reference != "")
+                                        <a href="#" class="btn btn-tag">{{$profileLang->lang->alpha_2_code}}</a>
+                                    @endif
+                                @endforeach
+                            </td>
+                        </tr>
+                    @endforeach            
                     </tbody>
                 </table>
-            </div>
-        </div> 
+            </div> 
+        </div>
     </div>
     
 @endsection
 
-@section('script')
-        <script src="{{asset('plugins/jquery-datatable/media/js/jquery.dataTables.min.js')}}" type="text/javascript"></script>
-        <script src="{{asset('plugins/jquery-datatable/extensions/TableTools/js/dataTables.tableTools.min.js')}}" type="text/javascript"></script>
-        <script src="{{asset('plugins/jquery-datatable/media/js/dataTables.bootstrap.js')}}" type="text/javascript"></script>
-        <script src="{{asset('plugins/jquery-datatable/extensions/Bootstrap/jquery-datatable-bootstrap.js')}}" type="text/javascript"></script>
-        <script type="text/javascript" src="{{asset('plugins/datatables-responsive/js/datatables.responsive.js')}}"></script>
-        <script type="text/javascript" src="{{asset('plugins/datatables-responsive/js/lodash.min.js')}}"></script>
+@section('after_script')
+    <script type="text/javascript" src="{{asset('plugins/datatables-responsive/js/lodash.min.js')}}"></script>
+    <script src="{{asset('plugins/jquery-datatable/media/js/jquery.dataTables.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('plugins/jquery-datatable/extensions/TableTools/js/dataTables.tableTools.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('plugins/jquery-datatable/media/js/dataTables.bootstrap.js')}}" type="text/javascript"></script>
+    <script src="{{asset('plugins/jquery-datatable/extensions/Bootstrap/jquery-datatable-bootstrap.js')}}" type="text/javascript"></script>
+    <script type="text/javascript" src="{{asset('plugins/datatables-responsive/js/datatables.responsive.js')}}"></script>
+    <script>
+    $(document).ready(function () {
+        
 
-        <script>
-    $(document).ready(function () { 
+        var table = $('#tableWithSearch');
 
-            var table = $('#tableWithSearch');
-
-            var settings = {
-                "sDom": "<t><'row'<p i>>",
-                "destroy": true,  
-                "scrollCollapse": true,
-                "order": [
-                    [0, "desc"]
+        var settings = {
+            "sDom": "<t><'row'<p i>>",
+            "destroy": true,  
+            "scrollCollapse": true,
+            "order": [
+                    [3, "desc"]
                 ],
-                "iDisplayLength": 10
-            };
+                "columnDefs": [
+                    { "orderable": false, "targets": 0 },
+                    { "orderable": false, "targets": 1 },
+                    { "orderable": false, "targets": 2 },
+            ],
+            "iDisplayLength": 10
+        };
 
-            table.dataTable(settings);
+        table.dataTable(settings);
 
-            // search box for table
-            $('#search-table').keyup(function() {
-                table.fnFilter($(this).val());
-            });
+        // search box for table
+        $('#search-table').keyup(function() {
+            table.fnFilter($(this).val());
         });
-    </script>
 
+            $('#tableWithSearch input[type=checkbox]').click(function() {
+            if ($(this).is(':checked')) {
+                $(this).closest('tr').addClass('selected');
+                console.log($(this).closest('tr').html());
+
+            } else {
+                $(this).closest('tr').removeClass('selected');
+            }
+
+        });
+    });
+    </script>
 @endsection

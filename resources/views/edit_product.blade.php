@@ -17,7 +17,7 @@
                     <label for="staticEmail2">Categorie :</label>
                     <select class="form-control" name="category_id" id="staticEmail2">
                         @foreach($categories as $category)
-                        <option value="{{$category->id}}">{{$category->categoryLang->first()->reference}}</option>
+                        <option value="{{$category->id}}">{{$category->categoryLang()->reference}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -255,7 +255,7 @@ console.log(tree);
                                 <label for="staticEmail2" class="sr-only">Email</label>
                                 <select class="form-control" id="attribute_id">
                                         @foreach($categories->first()->attributes as $attribute)
-                                        <option value="{{$attribute->id}}">{{$attribute->attributeLang->first()->reference}}</option>
+                                        <option value="{{$attribute->id}}">{{$attribute->attributeLang()->reference}}</option>
                                         @endforeach
                                 </select>
                             </div>

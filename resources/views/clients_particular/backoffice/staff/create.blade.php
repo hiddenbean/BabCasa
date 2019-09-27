@@ -28,6 +28,11 @@
     <div class="card ">
         <div class="card-header">
             <h4 class="m-t-0 m-b-0"> <strong>Create new clients particular</strong> </h4>
+             <label class='error' >
+             @if($errors->count()>0)
+                You have {{$errors->count()}} ERROR(S) !!
+            @endif
+             </label>
         </div>
         <div class="card-body">
             <div class="row">
@@ -131,7 +136,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-default">
                                             <label>Address tow</label>
-                                            <input type="text" class="form-control" name="address_tow" placeholder="Name">
+                                            <input type="text" class="form-control" name="address_two" placeholder="Name">
                                         </div>
                                     </div>
                                 </div>

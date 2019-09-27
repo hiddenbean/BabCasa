@@ -16,10 +16,11 @@ class CreateAttributeLangsTable extends Migration
         Schema::create('attribute_langs', function (Blueprint $table) {
             $table->increments('id');
             $table->string('reference');
-            $table->text('description');
-            $table->integer('category_id');
+            $table->text('description')->nullable();
             $table->integer('attribute_id');
             $table->integer('lang_id');
+            $table->softDeletes();
+
             $table->timestamps();
         });
     }

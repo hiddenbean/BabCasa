@@ -1,7 +1,6 @@
 @extends('layouts.backoffice.partner.app') 
 
-@section('content')
-
+@section('breadcrumb')
 <!-- breadcrumb start -->
 <div class="container-fluid container-fixed-lg ">
     <div class="row">
@@ -15,9 +14,11 @@
     </div>
 </div>
 <!-- breadcrumb end -->
+@endsection
 
+@section('content')
 <!-- content start --> 
-<div class=" container-fluid  container-fixed-lg bg-white">
-
+<div class="container-fluid  container-fixed-lg bg-white">
+    
 </div>
 @endsection

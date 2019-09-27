@@ -6,7 +6,7 @@
     <link href="{{asset('plugins/datatables-responsive/css/datatables.responsive.css') }}" rel="stylesheet" type="text/css" media="screen" /> 
 @endsection
 
-@section('content')
+@section('breadcrumb')
     <!-- breadcrumb start -->
     <div class="container-fluid container-fixed-lg ">
         <div class="row">
@@ -23,6 +23,9 @@
         </div>
     </div>
     <!-- breadcrumb end -->
+@endsection
+
+@section('content')
     <div class="container-fluid container-fixed-lg bg-white">
         <div class="card card-transparent">
             <div class="card-header">

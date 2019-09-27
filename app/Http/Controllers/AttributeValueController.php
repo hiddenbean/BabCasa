@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\AttributeValue;
 use Illuminate\Http\Request;
+use Ajax;
 
 class AttributeValueController extends Controller
 {
@@ -35,9 +36,18 @@ class AttributeValueController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $attribute = null;
+        $name_container = 'values_container';
+        if(isset($request->attribute)) $attribute = $request->attribute;
+        if(isset($request->name_container)) $name_container = $request->name_container;
+        
+        Ajax::appendView($name_container);
+        return Ajax::view('attributes.backoffice.partners.components.value', [
+                'attribute' => $attribute,
+                'name_container' => str_random(40),
+            ]);
     }
 
     /**

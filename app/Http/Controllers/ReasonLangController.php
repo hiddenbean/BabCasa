@@ -3,10 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\ReasonLang;
+use App\Reason;
 use Illuminate\Http\Request;
 
 class ReasonLangController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:staff');
+        
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -67,9 +74,36 @@ class ReasonLangController extends Controller
      * @param  \App\ReasonLang  $reasonLang
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ReasonLang $reasonLang)
+    public function update(Request $request, $reason)
     {
-        //
+           // return $request;
+           $reason = Reason::find($reason);
+           foreach($request->references as $key => $reference)
+           {
+               $reasonLang = $reason->reasonLangs->where('lang_id',$request->languages_id[$key])->first();
+               if(!isset($reasonLang))
+               {
+                   $reasonLang = new reasonLang();
+                   $reasonLang->reason_id = $reason->id;
+                   $reasonLang->lang_id = $request->languages_id[$key];
+               }
+   
+               if($reference != '')
+               {
+                   $reasonLang->reference = $reference;
+                   $reasonLang->description = $request->descriptions[$key];
+                   }
+                   else
+                   {
+                   $reasonLang->reference = '';
+                   $reasonLang->description = '';
+       
+                   }
+                   $reasonLang->save();
+               
+               
+           }
+           return redirect()->back();
     }
 
     /**
