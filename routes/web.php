@@ -21,7 +21,7 @@ function()
 {
     Route::domain('www.babcasa.com')->group(function (){
         Route::get('/', function () {
-            return view('system.frontoffice.www.index');
+            return view('layouts.frontoffice.demo_app');
         });
     });
     // Staff sub domaine GET routes (staff.babcasa.com)
