@@ -57,9 +57,9 @@ class ParticularClientController extends Controller
         return view('clients.backoffice.staff.index',$data);
     }
     
-    public function dashboard()
+    public function home()
     {
-        return view('system.backoffice.particular_clients.dashboard');
+        return view('system.frontend.www.index');
     }
     /**
      * Show the form for creating a new resource.
@@ -206,7 +206,6 @@ class ParticularClientController extends Controller
         //$data['particular_clients'] = ParticularClient::find(Auth::guard('particular_clients')->user()->id);
 
         return view('system.backoffice.particular_clients.profile',$data);
-       
     }
 
     /**
@@ -221,7 +220,6 @@ class ParticularClientController extends Controller
         $data['particularClient'] = ParticularClient::where('name',$particular_clients)->first();
         return view('particular_clients.backoffice.edit',$data);
         return $data;
-      
     }
 
     /**
@@ -266,7 +264,6 @@ class ParticularClientController extends Controller
         $address->country_id = $request->country_id;
         $address->city = $request->city;
         $address->save();
-             
         if($request->hasFile('path')) 
         {
             $picture = $particularClient->picture;
@@ -398,7 +395,7 @@ class ParticularClientController extends Controller
      * Desable particular_clientss account.
      *
      * @param  \Iluminate\Http\Request $request
-     * @param  \App\particular_clients  $particular_clients
+     * @param  \App\ParticularClient  $particularClient
      * @param  \App\Guest  $session_id
      * @return \Illuminate\Http\Response
      */

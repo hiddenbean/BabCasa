@@ -71,6 +71,26 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row clearfix">
+                        <div class="col-md-6 p-r-0">
+                            <div class="form-group form-group-default input-group">
+                                <div class="form-input-group">
+                                    <label>Unity Price</label>
+                                    <input type="number" class="form-control" name="unity_price">
+                                </div>
+                                <div class="input-group-append ">
+                                    <span class="input-group-text">Currency
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group form-group-default">
+                                <label>Stock</label>
+                                <input type="number" class="form-control" name="product_sku">
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group form-group-default form-group-default-select2">
@@ -108,6 +128,7 @@
                             </div>
                         </div>
                     </div>
+                    <!--
                     <div class="row">
                         <div class="col-md-12">
                             <h3>Stock and Variations</h3>
@@ -149,6 +170,7 @@
                             </div>
                         </div>
                     </div>
+                    -->
                     <div class="row">
                         <div class="col-md-12">
                             <h3>Product details</h3>
@@ -194,6 +216,28 @@
                             </div>
                         </div>
                     </div>
+                    <!-- dilevary options -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3>
+                                Delivary options
+                            </h3>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group form-group-default form-group-default-select2">
+                                <label>Tag(s)</label>
+                                <select class=" full-width" data-init-plugin="select2" multiple>
+                                    <option value="Jim">Jim</option>
+                                    <option value="John">John</option>
+                                    <option value="Lucy">Lucy</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end delivary block -->
                 </div>
             </div>
         </div>

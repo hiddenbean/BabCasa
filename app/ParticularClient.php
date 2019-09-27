@@ -55,7 +55,6 @@ class ParticularClient extends Authenticatable
     {
         return $this->morphMany('App\Order', 'costumer');
     }
-   
 
     public static function boot()
     {
@@ -78,6 +77,7 @@ class ParticularClient extends Authenticatable
             $particular_client->phones()->withTrashed()->restore();
         });
     }
+    
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new ClientSendPasswordResetLink($token));
