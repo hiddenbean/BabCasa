@@ -23,10 +23,10 @@
         <nav class="navbar">
             <a href="{{ url('/')}}"><img src="{{ asset('img/logos/logo_black_400px.png') }}" alt="BABCASA logo" width="220px"></a>
             <ul class="navbar-nav nav-menu">
-                <li><a href="#">Aide</a></li>
-                <li><a href="#">C'est quoi BABCasa™</a></li>
-                <li><a href="https://affiliate.babcasa.com">Partenaire beta</a></li>
-                <li><a href="#">Pro beta</a></li>
+                <li><a href="#">{{ __('frontend.demo_app.navbar.link_1') }}</a></li>
+                <li><a href="#">{{ __('frontend.demo_app.navbar.link_2') }}</a></li>
+                <li><a href="https://affiliate.babcasa.com">{{ __('frontend.demo_app.navbar.link_3') }}</a></li>
+                <li><a href="#">{{ __('frontend.demo_app.navbar.link_4') }}</a></li>
             </ul>
         </nav>
     </div>
@@ -35,7 +35,7 @@
         <div class="row">
             <div class="col-md-12">
                 <h1>
-                    Qui sommes-nous ?
+                    {{ __('frontend.demo_app.article_1.title') }}
                 </h1>
             </div>
         </div>
@@ -43,67 +43,65 @@
             <div class="col-md-8">
                 <article>
                     <p>
-                        BABCasa™ cible a devenir le plus grande marché digitale au Maroc et en nord d'afrique, grace a son eco-system informatique, communication digitale et logistique.
-                        BABCasa™ vous invite a devenir notre partenaire.
+                        {{ __('frontend.demo_app.article_1.phrase_1') }}
                     </P>
                     <p>
-                        BABCasa™ compte tous les produits dont vous aurez besion dans votre vie quotidienne, professionnel et tout autre loisir.
+                        {{ __('frontend.demo_app.article_1.phrase_2') }}
                     </p>
                     <p>
-                        Vous pouvez aussi découvrir les nouveaux produits et promotions, et rendre facile de prendre le choix correct.
+                        {{ __('frontend.demo_app.article_1.phrase_3') }}
                     </p>
                     <p>
-                        Mettez votre vie facile avec BABCasa™, créez votre compte maintenant gratuitement.
+                        {{ __('frontend.demo_app.article_1.phrase_4') }}
                     </p>
                 </article>
 
                 <article>
                     <h1>
-                        Support client
+                    {{ __('frontend.demo_app.article_2.title') }}
                     </h1>
                     <ol>
-                        <li><a href="#" class="secondary">Site d'aide.</a> Consultez notre site d’aide pour trouver des réponses à vos questions et découvrir comment profiter au maximum de BABCasa™</li>
-                        <li><a href="#" class="secondary">Communauté.</a> Obtenez rapidement l’aide des utilisateurs experts de BABCasa™. Si vous ne trouvez pas de réponse à votre question, postez-la et un utilisateur y répondra sans tarder. Vous pouvez aussi proposer de nouvelles idées pour l’application.<br>
-                        Voter pour les idées des innovante.</li>
-                        <li><a href="#" class="secondary">Formulaire de contact.</a> Si vous ne trouvez pas de solution dans les sections Aide et Communauté et que vous voulez contacter le support client BABCasa™, posez une question via le formulaire de contact.</li>
+                        <li><a href="#" class="secondary">{{ __('frontend.demo_app.article_2.link_1') }}</a> {{ __('frontend.demo_app.article_2.phrase_1') }}</li>
+                        <li><a href="#" class="secondary">{{ __('frontend.demo_app.article_2.link_2') }}</a> {{ __('frontend.demo_app.article_2.phrase_2') }}</li>
+                        <li><a href="#" class="secondary">{{ __('frontend.demo_app.article_2.link_3') }}</a> {{ __('frontend.demo_app.article_2.phrase_3') }}</li>
                     </ol>
                 </article>
 
                 <article>
                     <h1>
-                        Ou sélectionnez un thème :
+                        {{ __('frontend.demo_app.article_3.title') }}
                     </h1>
                     <ul>
-                        <li>Vous souhaitez diffuser votre publicité sur BABCasa™ ? <a href="#" class="secondary">Page Annonceurs</a></li>
-                        <li>Vous avez une question Presse ? <a href="#" class="secondary">Page Presse</a></li>
-                        <li>Vous souhaitez poser votre candidature à une offre d’emploi ? <a href="#" class="secondary">Page Offres d’emploi</a></li>
+                        <li>{{ __('frontend.demo_app.article_3.phrase_1') }} <a href="#" class="secondary">{{ __('frontend.demo_app.article_3.link_1') }}</a></li>
+                        <li>{{ __('frontend.demo_app.article_3.phrase_2') }} <a href="#" class="secondary">{{ __('frontend.demo_app.article_3.link_2') }}</a></li>
+                        <li>{{ __('frontend.demo_app.article_3.phrase_3') }}<a href="#" class="secondary">{{ __('frontend.demo_app.article_3.link_3') }}</a></li>
                     </ul>
                     <p>
-                        Hidden Bean, SARL. fournit le service BABCasa™ aux utilisateurs localisés aux Maroc et tous les autres marchés.
+                        {{ __('frontend.demo_app.article_3.paragraphe_1') }}
                     </p>
                 </article>
             </div>
             <div class="col-md-4">
                 <article>
-                    <h1>Siège de BABCasa™</h1>
+                    <h1>{{ __('frontend.demo_app.aside.article_1.title') }}</h1>
                     <p>
-                        Hidden Bean SARL<br>
-                        Garden city 1 ,Immeuble A,Magasin 4, Harhora<br>
-                        Maroc<br>
-                        ICE no : 00211882000054<br>
-                        office@babcasa.com<br>
+                        {{ __('frontend.demo_app.aside.article_1.text_1') }}<br>
+                        {{ __('frontend.demo_app.aside.article_1.text_2') }}<br>
+                        {{ __('frontend.demo_app.aside.article_1.text_3') }}<br>
+                        {{ __('frontend.demo_app.aside.article_1.text_4') }}<br>
+                        {{ __('frontend.demo_app.aside.article_1.text_5') }}<br>
                     </p>
                 </article>
 
                 <article>
-                    <h1>BABCasa™ autour du mande</h1>
+                    <h1>{{ __('frontend.demo_app.aside.article_2.title') }}</h1>
                     <p>
-                        Hidden Bean SARL<br>
-                        Garden city 1 ,Immeuble A,<br>
-                        Magasin 4, Harhora<br>
-                        Maroc<br>
-                        ICE no : 00211882000054<br>
-                        office@babcasa.com<br>
+                        {{ __('frontend.demo_app.aside.article_2.text_1') }}<br>
+                        {{ __('frontend.demo_app.aside.article_2.text_2') }}<br>
+                        {{ __('frontend.demo_app.aside.article_2.text_3') }}<br>
+                        {{ __('frontend.demo_app.aside.article_2.text_4') }}<br>
+                        {{ __('frontend.demo_app.aside.article_2.text_5') }}<br>
+                        {{ __('frontend.demo_app.aside.article_2.text_6') }}<br>
                     </p>
                 </article>
             </div>
@@ -118,26 +116,26 @@
                 </div>
                 <div class="col-md-2">
                     <ul class="footer">
-                        <li class="title">La société</li>
-                        <li><a href="#">A propos</a></li>
-                        <li><a href="#">Presse</a></li>
+                        <li class="title">{{ __('frontend.demo_app.footer.row_1.column_1.title') }}</li>
+                        <li><a href="#">{{ __('frontend.demo_app.footer.row_1.column_1.link_1') }}</a></li>
+                        <li><a href="#">{{ __('frontend.demo_app.footer.row_1.column_1.link_2') }}</a></li>
                     </ul>
                 </div>
                 <div class="col-md-2">
                     <ul class="footer">
-                        <li class="title">Communautés</a></li>
-                        <li><a href="#">Développeurs</a></li>
-                        <li><a href="#">Marques</a></li>
-                        <li><a href="#">Investisseurs</a></li>
-                        <li><a href="#">Fournisseurs</a></li>                        
+                        <li class="title">{{ __('frontend.demo_app.footer.row_1.column_2.title') }}</a></li>
+                        <li><a href="#">{{ __('frontend.demo_app.footer.row_1.column_2.link_1') }}</a></li>
+                        <li><a href="#">{{ __('frontend.demo_app.footer.row_1.column_2.link_2') }}</a></li>
+                        <li><a href="#">{{ __('frontend.demo_app.footer.row_1.column_2.link_3') }}</a></li>
+                        <li><a href="#">{{ __('frontend.demo_app.footer.row_1.column_2.link_4') }}</a></li>                        
                     </ul>
                 </div>
                 <div class="col-md-2">
                     <ul class="footer">
-                        <li class="title">Liens utiles</a></li>
-                        <li><a href="#">Aide</a></li>
-                        <li><a href="#">Partenaire beta</a></li>
-                        <li><a href="#">Pro beta</a></li>
+                        <li class="title">{{ __('frontend.demo_app.footer.row_1.column_3.title') }}</a></li>
+                        <li><a href="#">{{ __('frontend.demo_app.footer.row_1.column_3.link_1') }}</a></li>
+                        <li><a href="#">{{ __('frontend.demo_app.footer.row_1.column_3.link_2') }}</a></li>
+                        <li><a href="#">{{ __('frontend.demo_app.footer.row_1.column_3.link_3') }}</a></li>
                     </ul>
                 </div>
                 <div class="col-md-4 text-right">
@@ -150,17 +148,17 @@
             <div class="row m-t-65">
                 <div class="col-md-9">
                     <ul class="copyrights">
-                        <li><a href="#">Légal</a></li>
-                        <li><a href="#">Centre de confidentialité </a></li>
-                        <li><a href="#">Politique de confidentialité</a></li>
-                        <li><a href="#">Cookies</a></li>
-                        <li><a href="#">A propos des pubs</a></li>
+                        <li><a href="#">{{ __('frontend.demo_app.footer.row_2.column_1.link_1') }}</a></li>
+                        <li><a href="#">{{ __('frontend.demo_app.footer.row_2.column_1.link_2') }}</a></li>
+                        <li><a href="#">{{ __('frontend.demo_app.footer.row_2.column_1.link_3') }}</a></li>
+                        <li><a href="#">{{ __('frontend.demo_app.footer.row_2.column_1.link_4') }}</a></li>
+                        <li><a href="#">{{ __('frontend.demo_app.footer.row_2.column_1.link_5') }}</a></li>
                     </ul>
                 </div>
                 <div class="col-md-3 text-right copyrights">
-                    <a href="#">Français (France)</a>
+                    <a href="#">{{ __('frontend.demo_app.footer.row_2.column_2.link_1') }}</a>
                     <br>
-                    © 2019 Hidden Bean 
+                    {{ __('frontend.demo_app.footer.row_2.column_2.text_1') }}
                 </div>
             </div>
         </div>
